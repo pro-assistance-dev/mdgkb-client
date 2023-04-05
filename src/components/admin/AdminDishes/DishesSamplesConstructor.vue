@@ -78,7 +78,6 @@ import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Edit from '@/assets/svg/Buffet/Edit.svg';
 import Save from '@/assets/svg/Buffet/Save.svg';
-import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import AddForm from '@/components/admin/AdminDishes/AddForm.vue';
@@ -87,7 +86,6 @@ import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorI
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IComment from '@/interfaces/comments/IComment';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import StringsService from '@/services/Strings';

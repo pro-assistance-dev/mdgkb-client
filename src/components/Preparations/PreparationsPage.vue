@@ -63,8 +63,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import Preparation from '@/classes/Preparation';
 import Hooks from '@/services/Hooks/Hooks';

@@ -1,5 +1,4 @@
 import EducationalAcademic from '@/classes/EducationalAcademic';
-import Employee from '@/classes/Employee';
 import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';

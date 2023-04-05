@@ -1,6 +1,5 @@
 import { Module } from 'vuex';
 
-import Employee from '@/classes/Employee';
 import Chat from '@/services/classes/Chat';
 import WebSocketClient from '@/services/WebSocketClient';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';

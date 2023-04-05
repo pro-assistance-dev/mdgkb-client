@@ -67,29 +67,21 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox, MessageHandle } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { computed, defineComponent, Ref } from 'vue';
 import draggable from 'vuedraggable';
 
-import Active from '@/assets/svg/Buffet/Active.svg';
 import Add from '@/assets/svg/Buffet/Add.svg';
 import Close from '@/assets/svg/Buffet/Close.svg';
-import Copy from '@/assets/svg/Buffet/Copy.svg';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Excel from '@/assets/svg/Buffet/Excel.svg';
-import Eye from '@/assets/svg/Buffet/Eye.svg';
-import EyeClosed from '@/assets/svg/Buffet/EyeClosed.svg';
-import Food from '@/assets/svg/Buffet/Food.svg';
 import NonActive from '@/assets/svg/Buffet/NonActive.svg';
 import Print from '@/assets/svg/Buffet/Print.svg';
-import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
-import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import CopyWindow from '@/components/admin/AdminDishes/CopyWindow.vue';
 import PasteWindow from '@/components/admin/AdminDishes/PasteWindow.vue';
 import Calendar from '@/services/classes/calendar/Calendar';
-import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import Strings from '@/services/Strings';

@@ -73,10 +73,9 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import SortList from '@/components/SortList/SortList.vue';
@@ -84,9 +83,7 @@ import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISortModel from '@/services/interfaces/ISortModel';
-import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';

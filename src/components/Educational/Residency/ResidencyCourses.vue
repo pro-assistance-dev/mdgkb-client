@@ -5,15 +5,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent, onBeforeMount } from 'vue';
 
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IOption from '@/interfaces/schema/IOption';
-import PageSection from '@/services/classes/page/PageSection';
 import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';

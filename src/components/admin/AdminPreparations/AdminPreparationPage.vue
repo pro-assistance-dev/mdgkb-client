@@ -38,8 +38,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Preparation from '@/classes/Preparation';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';

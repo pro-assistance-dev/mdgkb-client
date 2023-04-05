@@ -32,7 +32,6 @@ import User from '@/classes/User';
 import DatePicker from '@/components/DatePicker.vue';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
-import IUser from '@/services/interfaces/IUser';
 import validate from '@/services/validate';
 
 export default defineComponent({

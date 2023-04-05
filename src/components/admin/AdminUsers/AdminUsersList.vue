@@ -44,7 +44,6 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import IUser from '@/services/interfaces/IUser';

@@ -132,12 +132,10 @@
 </template>
 
 <script lang="ts">
-import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+import { ElMessageBox } from 'element-plus';
+import { computed, defineComponent, Ref } from 'vue';
 
 import Employee from '@/classes/Employee';
-import Head from '@/classes/Head';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import DatePicker from '@/components/DatePicker.vue';

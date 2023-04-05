@@ -17,6 +17,7 @@
               :emit-crop="true"
               :file-info="user.human.photo"
               :height="273"
+              :default-ratio="1"
               @crop="saveAvatar"
               @ratio="(e) => (element.ratio = e)"
             />
@@ -672,6 +673,20 @@ ul.parent-info-list li:last-child {
     background: #ffffff;
   }
   margin: 0;
+}
+
+:deep(.el-upload--picture-card) {
+  font-size: 50px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 110px;
+}
+
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
+  margin: 0px;
 }
 
 @media screen and (max-width: 980px) {

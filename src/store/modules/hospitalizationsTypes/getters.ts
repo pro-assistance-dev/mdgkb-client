@@ -1,6 +1,5 @@
 import { GetterTree } from 'vuex';
 
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

@@ -13,7 +13,6 @@
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableComputedRef } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
-import Pagination from '@/services/classes/filters/Pagination';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

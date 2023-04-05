@@ -1,16 +1,16 @@
 <template>
   <div v-if="full" class="contact-container">
     <el-form-item label="Описание">
-      <el-input v-model="contactInfo.description" />
+      <el-input :model-value="contactInfo.description" @input="(e) => contactInfo.updateDescription(e)" />
     </el-form-item>
     <el-form-item label="Время работы">
-      <el-input v-model="contactInfo.time" />
+      <el-input :model-value="contactInfo.time" @input="(e) => contactInfo.updateTime(e)" />
     </el-form-item>
     <el-form-item label="Широта (для карты)">
-      <el-input v-model="contactInfo.latitude" />
+      <el-input :model-value="contactInfo.latitude" @input="(e) => contactInfo.updateLatitude(e)" />
     </el-form-item>
     <el-form-item label="Долгота (для карты)">
-      <el-input v-model="contactInfo.longitude" />
+      <el-input :model-value="contactInfo.longitude" @input="(e) => contactInfo.updateLongitutde(e)" />
     </el-form-item>
   </div>
 

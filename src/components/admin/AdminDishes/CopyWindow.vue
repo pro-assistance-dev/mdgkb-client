@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import Copy from '@/assets/svg/Buffet/Copy.svg';
 import DailyMenu from '@/classes/DailyMenu';

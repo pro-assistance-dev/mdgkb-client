@@ -134,7 +134,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, onMounted, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Form from '@/classes/Form';

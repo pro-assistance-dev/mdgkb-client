@@ -67,19 +67,16 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Attach from '@/assets/svg/Chat/Attach.svg';
 import Send from '@/assets/svg/Chat/Send.svg';
 import Smile from '@/assets/svg/Chat/Smile.svg';
 import Close from '@/assets/svg/Main/Close.svg';
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import User from '@/classes/User';
 import BaseModal from '@/components/Base/BaseModal.vue';
 import Chat from '@/services/classes/Chat';
 import ChatMessage from '@/services/classes/ChatMessage';
 import Provider from '@/services/Provider/Provider';
-import user from '@/services/User';
 import WebSocketClient from '@/services/WebSocketClient';
 
 export default defineComponent({

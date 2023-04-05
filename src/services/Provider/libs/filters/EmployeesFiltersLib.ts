@@ -1,5 +1,3 @@
-import { head } from 'lodash';
-
 import Doctor from '@/classes/Doctor';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
@@ -7,10 +5,7 @@ import Head from '@/classes/Head';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 
 const EmployeesFiltersLib = (() => {

@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'DishSearchBar',

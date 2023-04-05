@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';

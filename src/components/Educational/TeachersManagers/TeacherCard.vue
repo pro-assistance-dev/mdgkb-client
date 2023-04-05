@@ -35,7 +35,6 @@ import { defineComponent, PropType } from 'vue';
 
 import Teacher from '@/classes/Teacher';
 import AvatarWithFavourite from '@/components/AvatarWithFavourite.vue';
-import Rating from '@/components/Rating.vue';
 
 export default defineComponent({
   name: 'TeacherCard',

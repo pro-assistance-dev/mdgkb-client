@@ -207,7 +207,7 @@ ul.application-card li {
 
 @media screen and (max-width: 560px) {
   .size {
-    margin-top: 20px;
+    margin-top: 0px;
   }
   .hidden {
     display: none;

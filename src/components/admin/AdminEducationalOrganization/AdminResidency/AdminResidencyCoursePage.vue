@@ -125,7 +125,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 
 import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';

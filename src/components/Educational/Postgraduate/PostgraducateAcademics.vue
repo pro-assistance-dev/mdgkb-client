@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import AcademicCard from '@/components/Educational/AcademicCard.vue';

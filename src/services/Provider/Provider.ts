@@ -1,5 +1,5 @@
-import { computed, ComputedRef, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, RouteLocationNormalizedLoaded } from 'vue-router';
+import { computed, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext } from 'vue-router';
 
 import ISchema from '@/interfaces/schema/ISchema';
 import router from '@/router';

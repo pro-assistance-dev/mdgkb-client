@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import CustomSection from '@/classes/CustomSection';
 import CandidatesMinimum from '@/components/Educational/Postgraduate/CandidatesMinimum.vue';

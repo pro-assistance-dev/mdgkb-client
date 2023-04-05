@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { ElLoading, ElNotification } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import DailyMenuOrder from '@/classes/DailyMenuOrder';

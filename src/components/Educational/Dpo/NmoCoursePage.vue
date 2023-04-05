@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import NmoCourse from '@/classes/NmoCourse';
 import NmoCourseInfo from '@/components/Educational/Dpo/NmoCourseInfo.vue';

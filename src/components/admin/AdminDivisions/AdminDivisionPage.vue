@@ -151,7 +151,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import Building from '@/classes/Building';
 import DivisioinRules from '@/classes/DivisioinRules';

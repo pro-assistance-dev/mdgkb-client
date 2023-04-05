@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';

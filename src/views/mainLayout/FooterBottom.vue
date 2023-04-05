@@ -78,8 +78,6 @@
 </template>
 
 <script>
-import { onMounted } from 'vue';
-
 import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 export default {
   name: 'FooterBottom',

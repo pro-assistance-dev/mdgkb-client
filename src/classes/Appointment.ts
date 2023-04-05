@@ -1,7 +1,5 @@
-import AppointmentType from '@/classes/AppointmentType';
 import Doctor from '@/classes/Doctor';
 import Form from '@/classes/Form';
-import Specialization from '@/classes/Specialization';
 import IAppointment from '@/interfaces/IAppointment';
 import IAppointmentType from '@/interfaces/IAppointmentType';
 import ISpecialization from '@/interfaces/ISpecialization';

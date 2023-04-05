@@ -3,7 +3,6 @@ import { LocationQuery } from 'vue-router';
 import SortModel from '@/services/classes/SortModel';
 import IFilterModel from '@/services/interfaces/IFilterModel';
 import IPagination from '@/services/interfaces/IPagination';
-import ISortModel from '@/services/interfaces/ISortModel';
 
 export default interface IFilterQuery {
   id?: string;

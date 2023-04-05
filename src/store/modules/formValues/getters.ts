@@ -1,6 +1,5 @@
 import { GetterTree } from 'vuex';
 
-import IForm from '@/interfaces/IForm';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

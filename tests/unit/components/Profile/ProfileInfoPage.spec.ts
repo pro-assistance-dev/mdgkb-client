@@ -1,14 +1,4 @@
-import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
-import { ElForm } from 'element-plus';
-import { ComponentPublicInstance } from 'vue';
-import { createStore } from 'vuex';
-
-import User from '@/classes/User';
-import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
 import DateTimeFormatter from '@/services/DateFormat';
-import IUser from '@/services/interfaces/IUser';
-
-import ComponentStub from '../../../__mocks__/ComponentStub';
 
 const dateTimeFormatter = new DateTimeFormatter('ru-RU');
 

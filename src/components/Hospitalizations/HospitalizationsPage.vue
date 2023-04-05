@@ -60,7 +60,6 @@ import HospitalizationsTable from '@/components/Hospitalizations/Hospitalization
 import PageWrapper from '@/components/PageWrapper.vue';
 import IHospitalization from '@/interfaces/IHospitalization';
 import Hooks from '@/services/Hooks/Hooks';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 

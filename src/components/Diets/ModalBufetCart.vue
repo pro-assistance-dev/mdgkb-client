@@ -62,7 +62,7 @@
 
 <script lang="ts">
 import { watch } from '@vue/runtime-core';
-import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
+import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';

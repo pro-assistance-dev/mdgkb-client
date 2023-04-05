@@ -45,7 +45,6 @@ import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import EducationOrganizationAcademicsSortsLib from '@/services/Provider/libs/sorts/EducationOrganizationAcademicsSortsLib';
 import Provider from '@/services/Provider/Provider';

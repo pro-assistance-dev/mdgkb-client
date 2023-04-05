@@ -56,4 +56,20 @@ export default class ContactInfo {
     contactInfo.postAddresses[0] = address;
     return contactInfo;
   }
+
+  updateDescription(e: string): void {
+    this.description = e;
+  }
+
+  updateTime(e: string): void {
+    this.time = e;
+  }
+
+  updateLatitude(e: string): void {
+    this.latitude = e;
+  }
+
+  updateLongitutde(e: string): void {
+    this.longitude = e;
+  }
 }

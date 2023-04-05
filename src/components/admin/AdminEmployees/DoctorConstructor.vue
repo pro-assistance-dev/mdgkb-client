@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';

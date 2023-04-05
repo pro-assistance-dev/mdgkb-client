@@ -6,7 +6,6 @@ import SortModel from '@/services/classes/SortModel';
 import { Constructable } from '@/services/ClassHelper';
 import { FilterModelBuilder } from '@/services/interfaces/Filter';
 import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import EducationanlManagersSortsLib from '@/services/Provider/libs/sorts/EducationanlManagersSortsLib';
 import EducationAcademicsSortsLib from '@/services/Provider/libs/sorts/EducationOrganizationAcademicsSortsLib';
 import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
 

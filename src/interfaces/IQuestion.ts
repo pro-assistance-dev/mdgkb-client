@@ -1,5 +1,4 @@
 import User from '@/classes/User';
-import IUser from '@/services/interfaces/IUser';
 
 import IFileInfo from './files/IFileInfo';
 

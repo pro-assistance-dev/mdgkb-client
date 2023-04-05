@@ -16,12 +16,9 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref, watch, WritableComputedRef } from 'vue';
+import { computed, defineComponent, PropType, Ref, watch } from 'vue';
 
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Pagination from '@/services/classes/filters/Pagination';
 import SortModel from '@/services/classes/SortModel';
-import ISortModel from '@/services/interfaces/ISortModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

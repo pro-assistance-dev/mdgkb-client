@@ -2,7 +2,6 @@ import { Module } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import DoctorComment from '@/classes/DoctorComment';
-import DpoApplication from '@/classes/DpoApplication';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';

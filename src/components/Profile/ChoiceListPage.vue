@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 
 import Button from '@/components/Base/Button.vue';
 import { authGuard } from '@/router';

@@ -147,7 +147,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 
 import Employee from '@/classes/Employee';
 import NmoCourse from '@/classes/NmoCourse';

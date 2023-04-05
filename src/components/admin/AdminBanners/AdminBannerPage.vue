@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import Banner from '@/classes/Banner';
 import BannerRules from '@/classes/BannerRules';

@@ -67,7 +67,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Head from '@/classes/Head';

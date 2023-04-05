@@ -1,5 +1,4 @@
 import { Ref } from 'vue';
-import { LocationQuery } from 'vue-router';
 
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';

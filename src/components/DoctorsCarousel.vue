@@ -31,9 +31,7 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Doctor from '@/classes/Doctor';
-import Teacher from '@/classes/Teacher';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
-import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import makeCarousel from '@/services/MakeCarousel';

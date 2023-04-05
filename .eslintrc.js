@@ -20,6 +20,7 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/no-unused-vars': 'warn',
+    'unused-imports/no-unused-imports': 'error',
     'vue/no-v-html': 0,
   },
   overrides: [

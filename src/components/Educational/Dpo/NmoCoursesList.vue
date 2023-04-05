@@ -111,7 +111,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref } from 'vue';
 
 import NmoCourse from '@/classes/NmoCourse';
 import Provider from '@/services/Provider/Provider';
