@@ -45,15 +45,22 @@
                       font-size="14px"
                       @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)"
                     />
-                    <Button text="Чат(в разработке)" width="120px" height="36px" font-size="12px" />
-                    <el-dialog v-model="dailyMenuOrder.chatIsOpen">
+                    <Button
+                      text="Чат(в разработке)"
+                      width="120px"
+                      height="36px"
+                      font-size="12px"
+                      @click="dailyMenuOrder.chatIsOpen = true"
+                    />
+                    <div v-if="dailyMenuOrder.chatIsOpen" class="menu-shadow">
                       <Chat
                         v-if="dailyMenuOrder.chatIsOpen"
                         :chat-id="dailyMenuOrder.formValue.chatId"
                         :user-name="user.human.getFullName()"
                         :user-id="user.id"
+                        @close="dailyMenuOrder.chatIsOpen = false"
                       />
-                    </el-dialog>
+                    </div>
                   </div>
                 </div>
               </template>
@@ -172,6 +179,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.main-component {
+  position: relative;
+}
+
 .line-title {
   width: 100%;
   margin-top: 16px;
@@ -324,6 +335,19 @@ export default defineComponent({
   font-size: 14px;
   width: auto;
   font-weight: bold;
+}
+
+.menu-shadow {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 960px) {

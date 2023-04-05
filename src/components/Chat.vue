@@ -1,52 +1,79 @@
 <template>
-  <div class="chat">
-    <div id="chat-body" ref="chat-body" class="chat-body">
-      <div
-        v-for="message of chat.chatMessages"
-        :key="message.id"
-        class="chat-body-message-container"
-        :class="[{ incoming: !user || message.user.id !== user.id }, { outgoing: user && message.user.id === user.id }]"
-      >
-        <div class="chat-body-avatar-container">
-          <el-avatar class="chat-body-avatar" :src="'https://avatars.dicebear.com/v2/jdenticon/${message.user.firstName}.svg'"></el-avatar>
-        </div>
-        <div class="chat-body-message">
-          <div class="chat-body-message-header">
-            <div>
-              <!--              <span class="chat-body-message-header-name"> {{ message.usjhhygtttttter.lastName }}&nbsp; </span>-->
-              <span class="chat-body-message-header-name">
-                {{ message.userName ?? message.user.human.getFullName() }}
-              </span>
+  <BaseModal width="600px" background="#449D7C" border="none">
+    <template #icon>
+      <svg class="icon-close" @click="$emit('close')">
+        <use xlink:href="#close"></use>
+      </svg>
+    </template>
+
+    <template #title>Чат</template>
+    <template #info>
+      <div class="chat">
+        <div id="chat-body" ref="chat-body" class="chat-body">
+          <div
+            v-for="message of chat.chatMessages"
+            :key="message.id"
+            class="chat-body-message-container"
+            :class="[{ incoming: !user || message.user.id !== user.id }, { outgoing: user && message.user.id === user.id }]"
+          >
+            <div class="chat-body-avatar-container">
+              <el-avatar
+                class="chat-body-avatar"
+                :src="'https://avatars.dicebear.com/v2/jdenticon/${message.user.firstName}.svg'"
+              ></el-avatar>
             </div>
-            <!--                      <span class="msg_time">{{ $moment(message.created_on).format('DD.MM.YYYY HH:mm:ss') }}</span>-->
-            <span class="chat-body-message-header-time">
-              <!--              {{ moment.utc(message.createdOn).format('HH:mm') }}-->
-            </span>
+            <div class="chat-body-message">
+              <div class="chat-body-message-header">
+                <div>
+                  <span class="chat-body-message-header-name">
+                    {{ message.userName ?? message.user.human.getFullName() }}
+                  </span>
+                </div>
+                <span class="chat-body-message-header-time"> </span>
+              </div>
+              <div class="chat-body-message-body">
+                {{ message.message }}
+              </div>
+            </div>
           </div>
-          <div class="chat-body-message-body">
-            {{ message.message }}
+        </div>
+        <div class="chat-footer">
+          <div class="chat-footer-message">
+            <svg class="icon-smile">
+              <use xlink:href="#smile"></use>
+            </svg>
+            <svg class="icon-attach">
+              <use xlink:href="#attach"></use>
+            </svg>
+            <input
+              v-model="newMessage"
+              type="text"
+              placeholder="Введите сообщение"
+              class="chat-footer-message-input"
+              @keyup.enter="sendMessage"
+            />
+            <svg class="icon-send" @click.prevent="sendMessage">
+              <use xlink:href="#send"></use>
+            </svg>
           </div>
         </div>
       </div>
-    </div>
-    <div class="chat-footer">
-      <div class="chat-footer-message">
-        <input
-          v-model="newMessage"
-          type="text"
-          placeholder="Введите сообщение"
-          class="chat-footer-message-input"
-          @keyup.enter="sendMessage"
-        />
-        <button class="chat-footer-message-button" @click.prevent="sendMessage">Отправить</button>
-      </div>
-    </div>
-  </div>
+    </template>
+  </BaseModal>
+  <Close />
+  <Send />
+  <Smile />
+  <Attach />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Attach from '@/assets/svg/Chat/Attach.svg';
+import Send from '@/assets/svg/Chat/Send.svg';
+import Smile from '@/assets/svg/Chat/Smile.svg';
+import Close from '@/assets/svg/Main/Close.svg';
+import BaseModal from '@/components/Base/BaseModal.vue';
 import Chat from '@/services/classes/Chat';
 import ChatMessage from '@/services/classes/ChatMessage';
 import Provider from '@/services/Provider/Provider';
@@ -54,6 +81,13 @@ import WebSocketClient from '@/services/WebSocketClient';
 
 export default defineComponent({
   name: 'Chat',
+  components: {
+    BaseModal,
+    Close,
+    Send,
+    Smile,
+    Attach,
+  },
   props: {
     chatId: {
       type: String as PropType<string>,
@@ -106,40 +140,51 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
 .incoming {
+  display: flex;
+  justify-content: right;
   .chat-body-message {
-    background-color: lighten(#c9f76f, 15%);
+    background: #ceffd1;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   }
   .chat-body-message::after {
-    border-bottom: 10px solid lighten(#c9f76f, 15%);
+    border-bottom: 10px solid #ceffd1;
   }
 }
 .outgoing {
+  display: flex;
+  justify-content: left;
   .chat-body-message {
-    background-color: lighten(#ffff73, 15%);
+    background: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
   }
   .chat-body-message::after {
-    border-bottom: 10px solid lighten(#ffff73, 15%);
+    border-bottom: 10px solid #ffffff;
   }
 }
 .chat {
-  height: 100%;
+  height: 60vh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: white;
-  opacity: 0.9;
-  min-width: 350px;
-  max-width: 350px;
-  padding: 10px 0 0 10px;
+  opacity: 1;
   font-size: 14px;
+  // background: #449D7C;
+  z-index: 1;
   &-body {
     width: 100%;
-    overflow-y: scroll;
-    height: 100%;
+    overflow-y: auto;
+    height: calc(100% - 10px);
+    padding: 0px;
+    background: #f3f1ed;
+    z-index: 0;
 
     &-message-container {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
       display: flex;
+      padding: 0 20px;
     }
 
     &-avatar-container {
@@ -155,7 +200,7 @@ export default defineComponent({
     }
 
     &-message {
-      margin: auto 5px auto 10px;
+      margin: 10px;
       border-radius: 10px 10px 10px 0;
       padding: 10px;
       position: relative;
@@ -179,6 +224,8 @@ export default defineComponent({
           vertical-align: middle;
           line-height: normal;
           font-weight: bold;
+          font-size: 12px;
+          color: #ff3f4b;
         }
 
         &-time {
@@ -197,26 +244,30 @@ export default defineComponent({
   }
 
   &-footer {
-    width: 100%;
-    margin: 5px 0;
+    height: 60px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 
     &-message {
       z-index: 0;
-      height: 30px;
+      width: 100%;
       font-size: 0;
       font-weight: 500;
       display: flex;
+      align-items: center;
       flex-wrap: nowrap;
       &-input {
-        // height: 30px;
-        width: 100%;
-        border-color: #e3e9ef;
+        height: 36px;
+        width: calc(100% - 10px);
+        margin-right: 10px;
+        border: $normal-border;
         font-size: 14px;
         font-family: 'Montserrat', sans-serif;
-        border-right: none;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-        padding: 10px;
+        border-radius: 20px;
+        padding-left: 20px;
 
         &:focus {
           outline: none;
@@ -226,51 +277,61 @@ export default defineComponent({
           color: #aca6cc;
         }
       }
-      &-button {
-        font-size: 14px;
-        font-family: 'Montserrat', sans-serif;
-        font-weight: 500;
-        color: white;
-        height: 30px;
-        border: none;
-        background-color: #224af2;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-        margin-right: 10px;
+    }
+  }
+}
 
-        &:hover {
-          filter: brightness(130%);
-          cursor: pointer;
-        }
-      }
-    }
-  }
+.icon-close {
+  width: 16px;
+  height: 16px;
+  fill: #c3ecdd;
+  cursor: pointer;
+  transition: 0.3s;
 }
-@media screen and (max-width: 1230px) {
-  .chat {
-    max-width: 100%;
-    height: 600px;
-  }
+
+.icon-close:hover {
+  fill: #ffffff;
 }
-@media screen and (max-width: 768px) {
-  .chat {
-    font-size: 12px;
-    height: 500px;
-  }
+
+.icon-send {
+  width: 42px;
+  height: 42px;
+  fill: #449d7c;
+  cursor: pointer;
+  transition: 0.3s;
 }
-@media screen and (max-width: 480px) {
-  .chat {
-    height: 500px;
-    &-footer-message-input {
-      height: 25px;
-      font-size: 12px;
-    }
-    &-footer-message-button {
-      height: 25px;
-      font-size: 12px;
-    }
-  }
+
+.icon-send:hover {
+  transform: scale(1.1, 1.1);
 }
+
+.icon-smile {
+  width: 30px;
+  height: 30px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 3px;
+  margin-right: 10px;
+}
+
+.icon-smile:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.icon-attach {
+  width: 34px;
+  height: 34px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 10px;
+}
+
+.icon-attach:hover {
+  transform: scale(1.1, 1.1);
+}
+
 ::-webkit-scrollbar {
   display: block;
   width: 8px;
@@ -289,11 +350,4 @@ export default defineComponent({
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: rgba(85, 85, 85, 0.25);
 }
-
-//input.chat-footer-message-input,
-//textarea {
-//  background-color: rgba(0, 0, 0, 1);
-//  opacity: 0.5;
-//  background-color: white;
-//}
 </style>

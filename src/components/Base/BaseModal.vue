@@ -1,31 +1,115 @@
 <template>
-  <div class="fixed inset-0 z-10 bg-black bg-opacity-80 focus:outline-none" tabindex="-1" @click.self="close" @keydown.esc="close">
-    <div class="bg-white max-w-sm mx-auto my-8">
-      <div class="p-2 text-right">
-        <BaseModalButtonClose @click="close" />
-      </div>
-      <div class="p-6">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi sunt sed dolores minus dicta praesentium ab ipsa, necessitatibus
-        deserunt aperiam exercitationem nostrum maiores odio tempore eaque rerum? Distinctio maxime veniam optio quos quo facere molestias
-        totam! Veritatis saepe aliquid id suscipit! Officia laudantium nesciunt expedita libero, facere modi. Rerum, laudantium!
-      </div>
+  <div
+    class="body"
+    :style="{
+      maxWidth: width,
+      background: background,
+      margin: margin,
+      border: border,
+    }"
+  >
+    <div class="icon-close">
+      <slot name="icon" />
+    </div>
+    <div
+      class="title"
+      :style="{
+        background: background,
+      }"
+    >
+      <slot name="title" />
+    </div>
+
+    <div class="info">
+      <slot name="info" />
     </div>
   </div>
 </template>
-<script>
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-export default {
-  components: {
-    BaseModalButtonClose,
-  },
-  emits: ['close'],
-  mounted() {
-    this.$el.focus();
-  },
-  methods: {
-    close() {
-      this.$emit('close');
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
+  name: 'BaseModal',
+  props: {
+    width: {
+      type: String as PropType<string>,
+      required: false,
+      default: '970px',
+    },
+    background: {
+      type: String as PropType<string>,
+      required: false,
+      default: '#ffffff',
+    },
+
+    border: {
+      type: String as PropType<string>,
+      required: false,
+      default: '1px solid #c3c3c3',
     },
   },
-};
+});
 </script>
+
+<style scoped lang="scss">
+@import '@/assets/styles/elements/base-style.scss';
+
+.body {
+  width: 100%;
+  position: relative;
+  min-height: 0px;
+  max-height: 100vh;
+  border-radius: $normal-border-radius;
+  padding: 0;
+  margin: 10px;
+  overflow: hidden;
+}
+
+.icon-close {
+  width: auto;
+  height: auto;
+  position: absolute;
+  top: 17px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 40px);
+  z-index: 1;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #343e5c;
+  color: #ffffff;
+  padding: 0 30px 0 10px;
+  // box-shadow: $normal-shadow;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 400px) {
+  // .body {
+  //   margin: 5px;
+  //   padding: 10px 0;
+  // }
+  .title {
+    margin: 0 20px 0 0;
+  }
+}
+</style>
