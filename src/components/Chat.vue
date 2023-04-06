@@ -1,5 +1,5 @@
 <template>
-  <BaseModal width="600px" background="#449D7C" border="none">
+  <BaseModal width="600px" background="#449D7C" border="none" :margin="margin">
     <template #icon>
       <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
@@ -24,18 +24,28 @@
             </div>
             <div class="chat-body-message">
               <div class="chat-body-message-header">
-                <div>
-                  <span class="chat-body-message-header-name">
-                    {{ message.userName ?? message.user.human.getFullName() }}
-                  </span>
+                <div class="chat-body-message-header-name">
+                  {{ message.userName ?? message.user.human.getFullName() }}
                 </div>
-                <span class="chat-body-message-header-time"> </span>
               </div>
               <div class="chat-body-message-body">
                 {{ message.message }}
               </div>
+              <div class="tm-st">
+                <div class="chat-body-message-header-time">hh:mm</div>
+                <svg class="icon-readmsg">
+                  <use xlink:href="#readMsg"></use>
+                </svg>
+                <svg class="icon-sendmsg">
+                  <use xlink:href="#sendMsg"></use>
+                </svg>
+              </div>
             </div>
           </div>
+
+          <div class="date">сегодня</div>
+          <div class="status">Андрей присоединился к чату</div>
+          <div class="status">Андрей печатает сообщение...</div>
         </div>
         <div class="chat-footer">
           <div class="chat-footer-message">
@@ -64,13 +74,17 @@
   <Send />
   <Smile />
   <Attach />
+  <SendMsg />
+  <ReadMsg />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Attach from '@/assets/svg/Chat/Attach.svg';
+import ReadMsg from '@/assets/svg/Chat/ReadMsg.svg';
 import Send from '@/assets/svg/Chat/Send.svg';
+import SendMsg from '@/assets/svg/Chat/SendMsg.svg';
 import Smile from '@/assets/svg/Chat/Smile.svg';
 import Close from '@/assets/svg/Main/Close.svg';
 import BaseModal from '@/components/Base/BaseModal.vue';
@@ -87,6 +101,8 @@ export default defineComponent({
     Send,
     Smile,
     Attach,
+    ReadMsg,
+    SendMsg,
   },
   props: {
     chatId: {
@@ -101,6 +117,11 @@ export default defineComponent({
     userName: {
       type: String as PropType<string>,
       default: undefined,
+    },
+    margin: {
+      type: String as PropType<string>,
+      reguired: false,
+      default: '10px',
     },
   },
   setup(props) {
@@ -171,7 +192,6 @@ export default defineComponent({
   background-color: white;
   opacity: 1;
   font-size: 14px;
-  // background: #449D7C;
   z-index: 1;
   &-body {
     width: 100%;
@@ -200,6 +220,7 @@ export default defineComponent({
     }
 
     &-message {
+      max-width: 70%;
       margin: 10px;
       border-radius: 10px 10px 10px 0;
       padding: 10px;
@@ -225,15 +246,18 @@ export default defineComponent({
           line-height: normal;
           font-weight: bold;
           font-size: 12px;
-          color: #ff3f4b;
+          color: $main_green;
         }
 
         &-time {
-          color: rgba(0, 0, 0, 0.5);
+          height: 16px;
+          margin-bottom: -10px;
+          display: flex;
+          justify-content: right;
+          align-items: end;
+          font-size: 10px;
+          color: $main_green;
           margin-left: 10px;
-          display: inline-block;
-          vertical-align: middle;
-          line-height: normal;
         }
       }
 
@@ -349,5 +373,56 @@ export default defineComponent({
   border-radius: 10px;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: rgba(85, 85, 85, 0.25);
+}
+
+.status {
+  display: flex;
+  justify-content: center;
+  color: $main_gray;
+  font-size: 12px;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  color: $site_blue;
+  font-size: 12px;
+  padding: 3px;
+  margin: 10px;
+}
+
+.msg_time {
+  font-size: 10px;
+}
+
+.icon-readmsg {
+  height: 16px;
+  margin-bottom: -10px;
+  display: flex;
+  justify-content: right;
+  align-items: end;
+  width: 16px;
+  height: 16px;
+  stroke: $main_green;
+  margin-left: 5px;
+}
+
+.icon-sendmsg {
+  height: 16px;
+  margin-bottom: -10px;
+  display: flex;
+  justify-content: right;
+  align-items: end;
+  width: 16px;
+  height: 16px;
+  stroke: $main_green;
+  margin-left: 5px;
+}
+
+.tm-st {
+  display: flex;
+  justify-content: right;
+  align-items: end;
 }
 </style>

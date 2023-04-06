@@ -48,6 +48,12 @@ export default defineComponent({
       required: false,
       default: '1px solid #c3c3c3',
     },
+
+    margin: {
+      type: String as PropType<string>,
+      reguired: false,
+      default: '10px',
+    },
   },
 });
 </script>
@@ -62,7 +68,6 @@ export default defineComponent({
   max-height: 100vh;
   border-radius: $normal-border-radius;
   padding: 0;
-  margin: 10px;
   overflow: hidden;
 }
 
