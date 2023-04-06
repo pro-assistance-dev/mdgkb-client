@@ -95,7 +95,7 @@
     </template>
 
     <template #buttons>
-      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
+      <button v-if="doctor.hasAppointment" @click="$router.push('/appointments/oms')">Запись на прием</button>
       <a v-if="doctor.onlineDoctorId" data-test="online-consult-button" :href="doctor.getOnlineDoctorLink()" target="_blank">
         <button class="consult">Онлайн консультация</button>
       </a>
