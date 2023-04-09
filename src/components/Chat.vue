@@ -19,7 +19,9 @@
               justifyContent: message.isMessage() ? '' : 'center',
             }"
           >
+            {{ message.id }}
             <div
+              :id="message.id"
               class="chat-body-message"
               :style="{
                 background: message.isMessage() ? '' : 'none',
@@ -156,12 +158,16 @@ export default defineComponent({
       client.value.send(JSON.stringify(message));
       chat.value.chatMessages.push(message);
       newMessage.value = '';
-      // document.getElementById('chat-body')?.scrollTo({ top: 999999999999 });
+      let index = chat.value.chatMessages.length - 2;
+      if (index) {
+        document.getElementById(`${chat.value.chatMessages[index].id}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
     };
 
     onBeforeMount(async () => {
       await Provider.store.dispatch('chats/get', props.chatId);
       await Provider.store.dispatch('chats/connect', { chatId: props.chatId, userId: props.userId });
+      document.getElementById(`${chat.value.chatMessages[chat.value.chatMessages.length - 2].id}`)?.scrollIntoView();
     });
 
     // const sendWriteStatus = async () => {};
@@ -213,6 +219,7 @@ export default defineComponent({
     padding: 0px;
     background: #f3f1ed;
     z-index: 0;
+    padding-bottom: 100px;
 
     &-message-container {
       margin-bottom: 10px;

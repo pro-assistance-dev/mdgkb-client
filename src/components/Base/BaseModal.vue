@@ -11,7 +11,7 @@
     <div
       class="icon-close"
       :style="{
-        display: iconClose ? 'block' : 'none',
+        display: iconClose ? 'flex' : 'none',
       }"
     >
       <slot name="icon" />
