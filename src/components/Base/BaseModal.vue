@@ -8,7 +8,12 @@
       border: border,
     }"
   >
-    <div class="icon-close">
+    <div
+      class="icon-close"
+      :style="{
+        display: iconClose ? 'block' : 'none',
+      }"
+    >
       <slot name="icon" />
     </div>
     <div
@@ -53,6 +58,12 @@ export default defineComponent({
       type: String as PropType<string>,
       reguired: false,
       default: '10px',
+    },
+
+    iconClose: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true,
     },
   },
 });
