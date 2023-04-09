@@ -1,5 +1,5 @@
 <template>
-  <BaseModal width="600px" background="#449D7C" border="none" :margin="margin">
+  <BaseModal width="600px" background="#449D7C" border="none" :margin="margin" :icon-close="iconClose">
     <template #icon>
       <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
@@ -133,6 +133,12 @@ export default defineComponent({
       type: String as PropType<string>,
       reguired: false,
       default: '10px',
+    },
+
+    iconClose: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true,
     },
   },
   setup(props) {

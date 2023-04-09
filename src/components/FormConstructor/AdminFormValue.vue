@@ -92,7 +92,7 @@
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
     </el-card>
-    <Chat :user-id="user.id" user-name="Администратор" :chat-id="formValue.chatId" margin="0px" />
+    <Chat :user-id="user.id" user-name="Администратор" :chat-id="formValue.chatId" margin="0px" :icon-close="false" />
   </div>
 </template>
 
