@@ -8,6 +8,7 @@ export enum ChateMessageTypes {
   Exit = 'exit',
   Message = 'message',
   Write = 'write',
+  Empty = '',
 }
 
 export default class ChatMessage {
@@ -39,5 +40,9 @@ export default class ChatMessage {
     item.type = ChateMessageTypes.Ping;
     item.id = uuidv4();
     return item;
+  }
+
+  isMessage(): boolean {
+    return this.type === ChateMessageTypes.Message || this.type === ChateMessageTypes.Empty;
   }
 }

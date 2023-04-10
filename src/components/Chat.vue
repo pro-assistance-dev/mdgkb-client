@@ -1,5 +1,5 @@
 <template>
-  <BaseModal width="600px" background="#449D7C" border="none">
+  <BaseModal width="600px" background="#449D7C" border="none" :margin="margin" :icon-close="iconClose">
     <template #icon>
       <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
@@ -14,28 +14,51 @@
             v-for="message of chat.chatMessages"
             :key="message.id"
             class="chat-body-message-container"
-            :class="[{ incoming: !user || message.user.id !== user.id }, { outgoing: user && message.user.id === user.id }]"
+            :class="[message.userId !== userId ? 'outgoing' : 'incoming']"
+            :style="{
+              justifyContent: message.isMessage() ? '' : 'center',
+            }"
           >
-            <div class="chat-body-avatar-container">
-              <el-avatar
-                class="chat-body-avatar"
-                :src="'https://avatars.dicebear.com/v2/jdenticon/${message.user.firstName}.svg'"
-              ></el-avatar>
-            </div>
-            <div class="chat-body-message">
+            {{ message.id }}
+            <div
+              :id="message.id"
+              class="chat-body-message"
+              :style="{
+                background: message.isMessage() ? '' : 'none',
+                boxShadow: message.isMessage() ? '0 1px 3px 0 rgba(0, 0, 0, 0.23)' : 'none',
+                color: message.isMessage() ? '' : '#646666',
+                fontSize: message.isMessage() ? '14px' : '12px',
+                margin: message.isMessage() ? '10px' : '0',
+                padding: message.isMessage() ? '5px 15px 10px 15px' : '0',
+              }"
+            >
               <div class="chat-body-message-header">
-                <div>
-                  <span class="chat-body-message-header-name">
-                    {{ message.userName ?? message.user.human.getFullName() }}
-                  </span>
+                <div class="chat-body-message-header-name">
+                  {{ message.userName ?? message.user.human.getFullName() }}
                 </div>
-                <span class="chat-body-message-header-time"> </span>
               </div>
+
               <div class="chat-body-message-body">
                 {{ message.message }}
               </div>
+              <div
+                class="tm-st"
+                :style="{
+                  display: message.isMessage() ? 'flex' : 'none',
+                }"
+              >
+                <div class="chat-body-message-header-time">hh:mm</div>
+                <svg class="icon-readmsg">
+                  <use xlink:href="#readMsg"></use>
+                </svg>
+                <svg class="icon-sendmsg">
+                  <use xlink:href="#sendMsg"></use>
+                </svg>
+              </div>
             </div>
           </div>
+
+          <!-- <div class="date">сегодня</div> -->
         </div>
         <div class="chat-footer">
           <div class="chat-footer-message">
@@ -64,13 +87,17 @@
   <Send />
   <Smile />
   <Attach />
+  <SendMsg />
+  <ReadMsg />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Attach from '@/assets/svg/Chat/Attach.svg';
+import ReadMsg from '@/assets/svg/Chat/ReadMsg.svg';
 import Send from '@/assets/svg/Chat/Send.svg';
+import SendMsg from '@/assets/svg/Chat/SendMsg.svg';
 import Smile from '@/assets/svg/Chat/Smile.svg';
 import Close from '@/assets/svg/Main/Close.svg';
 import BaseModal from '@/components/Base/BaseModal.vue';
@@ -87,6 +114,8 @@ export default defineComponent({
     Send,
     Smile,
     Attach,
+    ReadMsg,
+    SendMsg,
   },
   props: {
     chatId: {
@@ -101,6 +130,17 @@ export default defineComponent({
     userName: {
       type: String as PropType<string>,
       default: undefined,
+    },
+    margin: {
+      type: String as PropType<string>,
+      reguired: false,
+      default: '10px',
+    },
+
+    iconClose: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true,
     },
   },
   setup(props) {
@@ -118,12 +158,16 @@ export default defineComponent({
       client.value.send(JSON.stringify(message));
       chat.value.chatMessages.push(message);
       newMessage.value = '';
-      // document.getElementById('chat-body')?.scrollTo({ top: 999999999999 });
+      let index = chat.value.chatMessages.length - 2;
+      if (index) {
+        document.getElementById(`${chat.value.chatMessages[index].id}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
     };
 
     onBeforeMount(async () => {
       await Provider.store.dispatch('chats/get', props.chatId);
       await Provider.store.dispatch('chats/connect', { chatId: props.chatId, userId: props.userId });
+      document.getElementById(`${chat.value.chatMessages[chat.value.chatMessages.length - 2].id}`)?.scrollIntoView();
     });
 
     // const sendWriteStatus = async () => {};
@@ -147,9 +191,7 @@ export default defineComponent({
   .chat-body-message {
     background: #ceffd1;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  }
-  .chat-body-message::after {
-    border-bottom: 10px solid #ceffd1;
+    border-radius: 5px 5px 0 5px;
   }
 }
 .outgoing {
@@ -158,9 +200,7 @@ export default defineComponent({
   .chat-body-message {
     background: #ffffff;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.23);
-  }
-  .chat-body-message::after {
-    border-bottom: 10px solid #ffffff;
+    border-radius: 5px 5px 5px 0;
   }
 }
 .chat {
@@ -171,7 +211,6 @@ export default defineComponent({
   background-color: white;
   opacity: 1;
   font-size: 14px;
-  // background: #449D7C;
   z-index: 1;
   &-body {
     width: 100%;
@@ -180,6 +219,7 @@ export default defineComponent({
     padding: 0px;
     background: #f3f1ed;
     z-index: 0;
+    padding-bottom: 100px;
 
     &-message-container {
       margin-bottom: 10px;
@@ -200,9 +240,7 @@ export default defineComponent({
     }
 
     &-message {
-      margin: 10px;
-      border-radius: 10px 10px 10px 0;
-      padding: 10px;
+      max-width: 70%;
       position: relative;
       min-width: 100px;
       font-family: Montserrat, sans-serif;
@@ -225,15 +263,18 @@ export default defineComponent({
           line-height: normal;
           font-weight: bold;
           font-size: 12px;
-          color: #ff3f4b;
+          color: $main_green;
         }
 
         &-time {
-          color: rgba(0, 0, 0, 0.5);
+          height: 16px;
+          margin-bottom: -10px;
+          display: flex;
+          justify-content: right;
+          align-items: end;
+          font-size: 10px;
+          color: $main_green;
           margin-left: 10px;
-          display: inline-block;
-          vertical-align: middle;
-          line-height: normal;
         }
       }
 
@@ -349,5 +390,49 @@ export default defineComponent({
   border-radius: 10px;
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: rgba(85, 85, 85, 0.25);
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  color: $site_blue;
+  font-size: 12px;
+  padding: 3px;
+  margin: 10px;
+}
+
+.msg_time {
+  font-size: 10px;
+}
+
+.icon-readmsg {
+  height: 16px;
+  margin-bottom: -10px;
+  display: flex;
+  justify-content: right;
+  align-items: end;
+  width: 16px;
+  height: 16px;
+  stroke: $main_green;
+  margin-left: 5px;
+}
+
+.icon-sendmsg {
+  height: 16px;
+  margin-bottom: -10px;
+  display: flex;
+  justify-content: right;
+  align-items: end;
+  width: 16px;
+  height: 16px;
+  stroke: $main_green;
+  margin-left: 5px;
+}
+
+.tm-st {
+  display: flex;
+  justify-content: right;
+  align-items: end;
 }
 </style>
