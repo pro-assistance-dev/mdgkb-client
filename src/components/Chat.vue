@@ -47,13 +47,15 @@
                   display: message.isMessage() ? 'flex' : 'none',
                 }"
               >
-                <div class="chat-body-message-header-time">hh:mm</div>
-                <svg class="icon-readmsg">
-                  <use xlink:href="#readMsg"></use>
-                </svg>
-                <svg class="icon-sendmsg">
-                  <use xlink:href="#sendMsg"></use>
-                </svg>
+                <div class="chat-body-message-header-time">
+                  {{ $dateTimeFormatter.format(message.createdOn, { day: undefined, hour: 'numeric', minute: 'numeric' }) }}
+                </div>
+                <!--                <svg class="icon-readmsg">-->
+                <!--                  <use xlink:href="#readMsg"></use>-->
+                <!--                </svg>-->
+                <!--                <svg class="icon-sendmsg">-->
+                <!--                  <use xlink:href="#sendMsg"></use>-->
+                <!--                </svg>-->
               </div>
             </div>
           </div>
