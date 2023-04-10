@@ -12,8 +12,8 @@ import { onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
-import AdminLayout from '@/views/admin/AdminLayout.vue';
-import MainLayout from '@/views/main/MainLayout.vue';
+import AdminLayout from '@/views/adminLayout/AdminLayout.vue';
+import MainLayout from '@/views/mainLayout/MainLayout.vue';
 
 export default defineComponent({
   name: 'App',

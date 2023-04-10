@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex';
 
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
+import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';

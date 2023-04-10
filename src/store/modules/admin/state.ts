@@ -2,8 +2,8 @@ import { ILoadingInstance } from 'element-plus';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
-import ISearchQuery from '@/interfaces/ISearchQuery';
 import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
+import ISearchQuery from '@/services/interfaces/ISearchQuery';
 
 export interface State {
   headerParams: AdminHeaderParams;

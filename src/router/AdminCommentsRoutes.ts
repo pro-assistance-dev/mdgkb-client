@@ -1,8 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AdminCommentList from '@/components/admin/AdminComments/AdminCommentList.vue';
-import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import { authGuard, isAuthorized } from '@/router/index';
+import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 export default [
   {
