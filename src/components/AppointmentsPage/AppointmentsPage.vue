@@ -65,7 +65,6 @@ import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCale
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IChild from '@/interfaces/IChild';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
@@ -118,14 +117,14 @@ export default defineComponent({
       createChildMode.value = true;
     };
 
-    const createChild = async (child: IChild) => {
-      Provider.store.commit('auth/addChild', child);
-      await Provider.store.dispatch('children/create', child);
-      // if (appointment.value.user) {
-      //   appointment.value.user.children.push(child);
-      // }
-      createChildMode.value = false;
-    };
+    // const createChild = async (child: IChild) => {
+    //   Provider.store.commit('auth/addChild', child);
+    //   await Provider.store.dispatch('children/create', child);
+    //   // if (appointment.value.user) {
+    //   //   appointment.value.user.children.push(child);
+    //   // }
+    //   createChildMode.value = false;
+    // };
 
     const submit = async () => {
       if (!validate(form)) return;
@@ -152,7 +151,7 @@ export default defineComponent({
 
     return {
       selectType,
-      createChild,
+      // createChild,
       createChildMode,
       changeCreateChildMode,
       chooseSlot,

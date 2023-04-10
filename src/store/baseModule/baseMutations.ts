@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import ItemsWithCount from '@/interfaces/ItemsWithCount';
 import { Constructable } from '@/services/ClassHelper';
+import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';

@@ -2,8 +2,8 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AdminVisitsApplicationPage from '@/components/admin/AdminVisitsApplication/AdminVisitsApplicationPage.vue';
 import AdminVisitsApplicationList from '@/components/admin/AdminVisitsApplication/AdminVisitsApplicationsList.vue';
-import { AdminLayout } from '@/interfaces/admin/AdminLayout';
 import { authGuard, isAuthorized } from '@/router/index';
+import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 export default [
   {

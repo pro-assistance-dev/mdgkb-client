@@ -30,7 +30,7 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import { AdminLayout } from '@/interfaces/admin/AdminLayout';
+import { AdminLayout } from '@/services/interfaces/AdminLayout';
 import AdminHeaderBottom from '@/views/adminLayout/AdminHeaderBottom.vue';
 import AdminHeaderTop from '@/views/adminLayout/AdminHeaderTop.vue';
 import AdminMenuDrawer from '@/views/adminLayout/AdminMenuDrawer.vue';

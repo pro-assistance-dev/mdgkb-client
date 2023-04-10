@@ -16,7 +16,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import ISearchQuery from '@/interfaces/ISearchQuery';
+import ISearchQuery from '@/services/interfaces/ISearchQuery';
 import StringsService from '@/services/Strings';
 export default defineComponent({
   name: 'AdminSearchMenu',

@@ -2,8 +2,8 @@ import { GetterTree } from 'vuex';
 
 import IAdminMenu from '@/interfaces/IAdminMenu';
 import IApplicationsCount from '@/interfaces/IApplicationsCount';
-import ISearchQuery from '@/interfaces/ISearchQuery';
 import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
+import ISearchQuery from '@/services/interfaces/ISearchQuery';
 import UserService from '@/services/User';
 import RootState from '@/store/types';
 
