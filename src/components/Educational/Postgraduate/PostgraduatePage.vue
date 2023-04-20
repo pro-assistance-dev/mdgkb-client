@@ -33,7 +33,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(() => {
       customSections.value.push(
-        CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
+        // CustomSection.Create('info', 'Основные сведения', 'InfoPage', 0),
         // CustomSection.Create('programs', 'Программы', 'PostgraduateCoursesList', 1),
         // CustomSection.Create('candidate', 'Кандидатский минимум', 'CandidatesMinimum', 2),
         CustomSection.Create('academics', 'Учёный совет', 'PostgraducateAcademics', 3)
