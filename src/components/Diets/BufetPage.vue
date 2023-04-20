@@ -147,6 +147,10 @@ export default defineComponent({
     watch(isAuth, () => {
       Provider.store.commit('dailyMenuOrders/resetItem');
       Provider.router.push('/bufet');
+      if (isAuth.value === true) {
+        console.log(isAuth);
+        initForm();
+      }
     });
 
     const initForm = () => {

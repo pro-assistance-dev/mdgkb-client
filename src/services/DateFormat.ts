@@ -6,7 +6,7 @@ interface CustomDateTimeFormatOptions {
   era?: string;
   year?: 'numeric' | '2-digit' | undefined;
   month?: 'numeric' | '2-digit' | 'narrow' | 'short' | 'long';
-  day?: 'numeric' | '2-digit';
+  day?: 'numeric' | '2-digit' | undefined;
   hour?: 'numeric' | '2-digit';
   minute?: 'numeric' | '2-digit';
   second?: string;
@@ -29,9 +29,9 @@ export default class DateTimeFormat {
     }
     const opt: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit', hour: undefined, minute: undefined };
     if (options) {
-      opt.year = options.year || options.year == undefined ? options.year : opt.year;
-      opt.month = options.month || options.month == undefined ? options.month : opt.month;
-      opt.day = options.day ?? opt.day;
+      opt.year = options.year || options.year === undefined ? options.year : opt.year;
+      opt.month = options.month || options.month === undefined ? options.month : opt.month;
+      opt.day = options.day || options.day === undefined ? options.day : opt.day;
       opt.hour = options.hour ?? opt.hour;
       opt.minute = options.minute ?? opt.minute;
     }
