@@ -4,7 +4,7 @@ import ClassHelper from '@/services/ClassHelper';
 
 export default class PageSideMenu {
   id?: string;
-  name = '';
+  name = 'Новое меню';
   order = 0;
   description = '';
   routeAnchor = '';
@@ -29,6 +29,9 @@ export default class PageSideMenu {
   }
 
   addPageSection(): void {
-    this.pageSections.push(new PageSection());
+    const section = new PageSection();
+    section.order = this.pageSections.length + 1;
+    section.name = `Новой раздел ${section.order}`;
+    this.pageSections.push(section);
   }
 }

@@ -71,7 +71,8 @@ export default class Page {
 
   addSideMenu(): void {
     const menu = new PageSideMenu();
-    menu.order = this.pageSideMenus.length - 1;
+    menu.order = this.pageSideMenus.length + 1;
+    menu.name = `Новое меню ${menu.order}`;
     this.pageSideMenus.push(menu);
   }
 

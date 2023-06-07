@@ -50,6 +50,7 @@ export default class ClassHelper {
   }
 
   static RemoveFromClassByIndex(index: number, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
+    console.log('index: ', index);
     const idForDelete = arrayFromDelete[index].id;
     if (idForDelete) {
       arrayForDelete.push(idForDelete);
