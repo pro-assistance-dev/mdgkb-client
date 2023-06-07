@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted">
-    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
-      <template v-if="page.id && !page.pageSideMenus.length" #main>
+    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'768px'">
+      <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #menu>

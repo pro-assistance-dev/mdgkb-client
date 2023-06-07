@@ -7,7 +7,7 @@
       <use xlink:href="#bxs_down-arrow"></use>
     </svg>
     <div class="v-item">
-      <h3>ЗАМЕСТИТЕЛЬ ГЛАВНОГО ВРАЧА ПО ОРГАНИЗАЦИОННО-МЕТОДИЧЕСКОЙ РАБОТЕ</h3>
+      <h3>ЗАМЕСТИТЕЛЬ ГЛАВНОГО ВРАЧА ПО МЕДИЦИНСКОЙ ЧАСТИ И НАУЧНО-ОБРАЗОВАТЕЛЬНОЙ РАБОТЕ</h3>
     </div>
     <svg class="icon-arrow">
       <use xlink:href="#bxs_down-arrow"></use>
