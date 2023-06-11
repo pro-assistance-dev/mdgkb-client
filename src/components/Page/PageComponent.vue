@@ -1,6 +1,6 @@
 <template>
   <div v-if="mounted">
-    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'1330px'">
+    <AdaptiveContainer :menu-width="'300px'" :mobile-width="'768px'">
       <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
