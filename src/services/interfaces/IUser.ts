@@ -2,6 +2,7 @@ import DoctorUser from '@/classes/DoctorUser';
 import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
@@ -9,6 +10,7 @@ import IDonorRule from '@/interfaces/IDonorRule';
 import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
 import IQuestion from '@/interfaces/IQuestion';
 import Human from '@/services/classes/Human';
+import Role from '@/services/classes/Role';
 
 import ICandidateApplication from '../../interfaces/ICandidateApplication';
 import IOption from '../../interfaces/schema/IOption';
@@ -29,6 +31,7 @@ export default interface IUser {
   postgraduateApplications: PostgraduateApplication[];
   postgraduateApplicationsForDelete: string[];
   candidateApplications: ICandidateApplication[];
+  residencyApplications: ResidencyApplication[];
   candidateApplicationsForDelete: string[];
   formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];

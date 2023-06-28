@@ -104,7 +104,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     meta: { protected: true, profile: 'settings' },
   },
   {
-    path: '/profile/education/applications/:id',
+    path: '/profile/residency-applications',
     name: 'EditApplicationPage',
     component: EditApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

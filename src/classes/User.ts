@@ -8,6 +8,7 @@ import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
@@ -58,6 +59,9 @@ export default class User implements IUser {
   createdAt?: Date;
   @ClassHelper.GetClassConstructor(DailyMenuOrder)
   dailyMenuOrders: DailyMenuOrder[] = [];
+
+  @ClassHelper.GetClassConstructor(ResidencyApplication)
+  residencyApplications: ResidencyApplication[] = [];
 
   constructor(i?: User) {
     ClassHelper.BuildClass(this, i);
@@ -166,6 +170,13 @@ export default class User implements IUser {
       el.answerIsRead = true;
     });
   }
+
+  setResidencyApplicationsViewed(): void {
+    this.residencyApplications.forEach((el) => {
+      el.formValue.viewedByUser = true;
+    });
+  }
+
   hasComments(): boolean {
     return this.comments.length > 0;
   }

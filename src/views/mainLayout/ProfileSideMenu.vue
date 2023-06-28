@@ -30,6 +30,7 @@ import Home from '@/assets/profile/icons/Home.svg';
 import Question from '@/assets/profile/icons/Question.svg';
 import Settings from '@/assets/profile/icons/Settings.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
@@ -77,6 +78,15 @@ export default defineComponent({
         liCondition: () => user.value.dailyMenuOrders.length,
         notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
         notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
+      },
+      {
+        name: 'Заявки ординатура',
+        icon: 'Education',
+        to: '/profile/residency-applications',
+        route: 'daily-menu-orders',
+        liCondition: () => user.value.residencyApplications.length,
+        notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
+        notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
       },
       // {
       //   name: 'Вопросы-ответы',
