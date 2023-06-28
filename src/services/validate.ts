@@ -6,7 +6,9 @@ import MessageError from '@/services/classes/messages/MessageError';
 
 export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fieldsList?: string[]): boolean {
   let validationResult = true;
+  console.log('form.value ===>', form.value);
   form.value.validate((valid: boolean, errorFields: Record<string, unknown>) => {
+    console.log('errorFields ===>', errorFields);
     if (!valid) {
       if (!ElNotification.error) {
         return;

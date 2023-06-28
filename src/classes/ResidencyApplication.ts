@@ -5,12 +5,13 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import ClassHelper from '@/services/ClassHelper';
 
+import Diploma from './Diploma';
 import Form from './Form';
 // import ResidencyCourse from './ResidencyCourse';
 
 export default class ResidencyApplication {
   id?: string;
-  residencyCourse?: ResidencyCourse;
+  residencyCourse = new ResidencyCourse();
   residencyCourseId?: string;
   applicationNum = '';
   formValue = new Form();
@@ -30,6 +31,9 @@ export default class ResidencyApplication {
   primaryAccreditation?: boolean;
   primaryAccreditationPoints = 0;
   primaryAccreditationPlace = '';
+  agreedWithRules = false;
+  agreedWithPrivacy = false;
+  diploma = new Diploma();
 
   constructor(i?: ResidencyApplication) {
     ClassHelper.BuildClass(this, i);
