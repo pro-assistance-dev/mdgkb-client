@@ -46,7 +46,7 @@ export default class ResidencyCourse {
 
   endYear: IEducationYear = new EducationYear();
   endYearId?: string;
-  @ClassHelper.GetClassConstructor(ResidencyApplication)
+  // @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
   @ClassHelper.GetClassConstructor(ResidencyCoursePracticePlaceGroup)
   residencyCoursePracticePlaceGroups: ResidencyCoursePracticePlaceGroup[] = [];

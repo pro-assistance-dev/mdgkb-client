@@ -1,5 +1,8 @@
+import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
+
 import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
 import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
+import AdmissionFormV2 from '@/components/Educational/AdmissionCommittee/AdmissionFormV2.vue';
 import DpoPage from '@/components/Educational/Dpo/DpoPage.vue';
 import NmoCoursePage from '@/components/Educational/Dpo/NmoCoursePage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
@@ -9,6 +12,8 @@ import EducationalOrganizationAcademics from '@/components/Educational/Postgradu
 import ResidencyCoursePage from '@/components/Educational/Residency/ResidencyCoursePage.vue';
 import ResidencyPage from '@/components/Educational/Residency/ResidencyPage.vue';
 import TeachersManagers from '@/components/Educational/TeachersManagers/TeachersManagers.vue';
+
+import { authGuard } from '.';
 
 export default [
   {
@@ -58,6 +63,15 @@ export default [
     name: 'AdmissionCoursePage',
     meta: { title: 'Ординатура - курс' },
     component: AdmissionCoursePage,
+  },
+  {
+    path: '/admission-form',
+    name: 'AdmissionFormV2',
+    meta: { title: 'Форма' },
+    component: AdmissionFormV2,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard(next);
+    },
   },
   {
     path: '/candidates-minimum',
