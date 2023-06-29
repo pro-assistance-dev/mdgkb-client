@@ -35,34 +35,71 @@
           </el-form-item>
         </div>
         <el-descriptions v-else :column="1" border>
-          <el-descriptions-item label="Наименование программы:">
+          <el-descriptions-item label="Наименование программы">
             {{ application.residencyCourse?.getFullName() }}
           </el-descriptions-item>
-          <el-descriptions-item label="Платно/бесплатно:">
+          <el-descriptions-item label="Платно/бесплатно">
             {{ application.paid ? 'Платно' : 'Бесплатно' }}
           </el-descriptions-item>
-          <el-descriptions-item label="Основная/дополнительная специальности:">
+          <el-descriptions-item label="Основная/дополнительная специальности">
             {{ application.main ? 'Основная' : 'Дополнительная' }}
           </el-descriptions-item>
-          <el-descriptions-item label="Первичная аккредитация:">
+          <el-descriptions-item label="Первичная аккредитация">
             {{ application.getPrimaryAccreditationInfo() }}
           </el-descriptions-item>
-          <el-descriptions-item label="Номер заявления:">
+          <el-descriptions-item label="Номер заявления">
             <span v-if="application.applicationNum">{{ application.applicationNum }}</span>
             <span v-else>Не назначен</span>
           </el-descriptions-item>
           <div v-if="application.admissionCommittee">
-            <el-descriptions-item label="Баллы вступительных испытаний:">
+            <el-descriptions-item label="Баллы вступительных испытаний">
               {{ application.pointsEntrance }}
             </el-descriptions-item>
-            <el-descriptions-item label="Баллы индивидуальных достижений:">
+            <el-descriptions-item label="Баллы индивидуальных достижений">
               {{ application.calculateAchievementsPoints(true) }}
             </el-descriptions-item>
-            <el-descriptions-item label="Всего баллов:">
+            <el-descriptions-item label="Всего баллов">
               {{ application.pointsSum() }}
             </el-descriptions-item>
           </div>
         </el-descriptions>
+      </el-card>
+
+      <el-card header="Данные о дипломе">
+        <el-descriptions v-if="!isEditMode" :column="1" border>
+          <el-descriptions-item label="ВУЗ">
+            {{ application.diploma.universityName }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Дата окончания">
+            {{ $dateTimeFormatter.format(application.diploma.universityEndDate) }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template #label>
+              <span>Серия</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать серию и номер">
+                <template #reference>
+                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy" @click="clickCopyHandler"></el-button>
+                </template>
+              </el-popover>
+            </template>
+            {{ application.diploma.series }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Номер">
+            {{ application.diploma.number }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Дата выдачи">
+            {{ $dateTimeFormatter.format(application.diploma.date) }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Код специальности">
+            {{ application.diploma.specialityCode }}
+          </el-descriptions-item>
+          <el-descriptions-item label="Расшифровка специальности">
+            {{ application.diploma.speciality }}
+          </el-descriptions-item>
+        </el-descriptions>
+        <div v-else>
+          <DiplomaForm />
+        </div>
       </el-card>
 
       <div v-if="application.residencyCourse?.id">
@@ -90,7 +127,7 @@
 </template>
 
 <script lang="ts">
-import { ElLoading } from 'element-plus';
+import { ElLoading, ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -99,6 +136,7 @@ import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminResidencyApplicationAchievementsPoints from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationAchievementsPoints.vue';
+import DiplomaForm from '@/components/Educational/AdmissionCommittee/DiplomaForm.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -106,7 +144,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationPage',
-  components: { AdminFormValue, AdminResidencyApplicationAchievementsPoints },
+  components: { AdminFormValue, AdminResidencyApplicationAchievementsPoints, DiplomaForm },
 
   setup() {
     const store = useStore();
@@ -160,7 +198,7 @@ export default defineComponent({
         return;
       }
       application.value.formValue.isNew = false;
-      await store.dispatch('residencyApplications/update', application.value);
+      await store.dispatch('residencyApplications/updateWithoutReset', application.value);
     };
 
     let initialStatus: IFormStatus;
@@ -222,6 +260,14 @@ export default defineComponent({
       // application.value.residencyCourse.formPattern.initFieldsValues();
     };
 
+    const clickCopyHandler = async () => {
+      await navigator.clipboard.writeText(application.value.diploma.getSeriesAndNumber());
+      ElMessage({
+        message: 'Серия и номер скопированы в буфер обмена',
+        type: 'success',
+      });
+    };
+
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);
     });
@@ -236,6 +282,7 @@ export default defineComponent({
       findEmail,
       emailExists,
       UserFormFields,
+      clickCopyHandler,
     };
   },
 });

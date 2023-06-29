@@ -81,6 +81,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       await httpClient.post<T, T>(opts);
     },
     update: async ({ commit, state }, item: T): Promise<void> => {
+      console.log('update');
       if (!item) {
         item = state.item;
       }
