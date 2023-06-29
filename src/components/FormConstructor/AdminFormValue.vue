@@ -92,7 +92,8 @@
         <WysiwygEditor v-model="formValue.modComment" />
       </el-form-item>
     </el-card>
-    <Chat :user-id="user.id" user-name="Администратор" :chat-id="formValue.chatId" margin="0px" :icon-close="false" />
+    <!-- TODO: ошибка на бэке -->
+    <!-- <Chat :user-id="user.id" user-name="Администратор" :chat-id="formValue.chatId" margin="0px" :icon-close="false" /> -->
   </div>
 </template>
 
@@ -103,7 +104,6 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
-import Chat from '@/components/Chat.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
@@ -122,7 +122,7 @@ export default defineComponent({
     AdminUserInfo,
     WysiwygEditor,
     DatePicker,
-    Chat,
+    // Chat,
   },
   props: {
     form: {

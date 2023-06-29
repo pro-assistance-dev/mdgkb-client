@@ -229,7 +229,6 @@ export default class Form implements IForm {
   }
 
   findFieldValue(fieldId: string): IFieldValue | undefined {
-    console.log(this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId));
     return this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId);
   }
 

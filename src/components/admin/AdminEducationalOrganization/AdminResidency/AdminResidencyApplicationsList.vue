@@ -1,6 +1,7 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
+      <!-- TODO: пофиксить ошибку на бэке -->
       <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
       <FilterSelectV2 :filter-models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
       <FilterSelectV2 :filter-models="createFilterPaidModels()" placeholder="Основа обучения" @load="loadApplications" />
@@ -53,7 +54,14 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{
+            $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+              month: '2-digit',
+              day: '2-digit',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -171,6 +179,7 @@ export default defineComponent({
     const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
 
     const load = async () => {
+      // TODO: Пофиксить ошибку на бэке
       // Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
       // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
