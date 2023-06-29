@@ -1,4 +1,7 @@
 <template>
+  <div class="button-block">
+    <button @click="$router.push('/admission-form')">Подать заявление</button>
+  </div>
   <PageComponent :custom-sections="customSections">
     <template v-for="section in customSections" :key="section" #[section.id]>
       <component :is="section.component"></component>
@@ -20,9 +23,7 @@
   <!--              </template>-->
   <!--            </el-table-column>-->
   <!--          </el-table>-->
-  <!--          <div class="button-block">-->
-  <!--            <button @click="showForm = !showForm">Подать заявление</button>-->
-  <!--          </div>-->
+
   <!--        </div>-->
   <!--      </div>-->
   <!--    </div>-->
