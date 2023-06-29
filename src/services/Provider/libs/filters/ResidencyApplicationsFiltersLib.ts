@@ -5,9 +5,10 @@ import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
 
 const ResidencyApplicationsFiltersLib = (() => {
+  const model = 'residencyApplication';
   function onlyAdmissionCommittee(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyApplication.tableName,
+    const filterModel = FilterModel.CreateFilterModelV2(
+      model,
       Provider.schema.value.residencyApplication.admissionCommittee,
       DataTypes.Boolean
     );
@@ -17,11 +18,7 @@ const ResidencyApplicationsFiltersLib = (() => {
   }
 
   function onlyMain(value: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyApplication.tableName,
-      Provider.schema.value.residencyApplication.main,
-      DataTypes.Boolean
-    );
+    const filterModel = FilterModel.CreateFilterModelV2(model, Provider.schema.value.residencyApplication.main, DataTypes.Boolean);
     filterModel.operator = Operators.Eq;
     filterModel.boolean = value;
     filterModel.label = value ? 'Основная' : 'Дополнительная';
@@ -29,11 +26,7 @@ const ResidencyApplicationsFiltersLib = (() => {
   }
 
   function onlyPaid(value: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyApplication.tableName,
-      Provider.schema.value.residencyApplication.paid,
-      DataTypes.Boolean
-    );
+    const filterModel = FilterModel.CreateFilterModelV2(model, Provider.schema.value.residencyApplication.paid, DataTypes.Boolean);
     filterModel.operator = Operators.Eq;
     filterModel.boolean = value;
     filterModel.label = value ? 'Контракт' : 'Бюджет';
@@ -41,11 +34,7 @@ const ResidencyApplicationsFiltersLib = (() => {
   }
 
   function byStatus(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyApplication.tableName,
-      Provider.schema.value.residencyApplication.formStatusId,
-      DataTypes.Set
-    );
+    const filterModel = FilterModel.CreateFilterModelV2(model, 'formStatusId', DataTypes.Set);
     filterModel.operator = Operators.In;
     return filterModel;
   }
