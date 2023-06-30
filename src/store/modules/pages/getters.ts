@@ -15,10 +15,13 @@ const getters: GetterTree<State, RootState> = {
     return state.isPageSectionDialogActive;
   },
   sideMenu(state) {
-    return state.item.pageSideMenus[state.index];
+    return state.item.pageSideMenus.find((el) => el.id === state.activeMenuId);
   },
   pageSection(state) {
     return state.item.pageSideMenus[state.index].pageSections[state.pageSectionIndex];
+  },
+  activeMenuId(state) {
+    return state.activeMenuId;
   },
 };
 

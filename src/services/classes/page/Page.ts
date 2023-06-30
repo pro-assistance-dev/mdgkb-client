@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import CustomSection from '@/classes/CustomSection';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IPageImage from '@/interfaces/page/IPageImage';
@@ -69,11 +71,13 @@ export default class Page {
     return fileInfos;
   }
 
-  addSideMenu(): void {
+  addSideMenu(): string {
     const menu = new PageSideMenu();
     menu.order = this.pageSideMenus.length + 1;
     menu.name = `Новое меню ${menu.order}`;
+    menu.id = uuidv4();
     this.pageSideMenus.push(menu);
+    return menu.id;
   }
 
   selectSideMenu(id: string): void {

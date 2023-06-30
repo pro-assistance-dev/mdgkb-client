@@ -5,6 +5,7 @@
         <CustomPage />
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #menu>
+        <slot name="bottom" />
         <PageSideMenuComponent :page="page" @select-menu="selectMenu" @close="(e) => (close = e)" />
       </template>
 

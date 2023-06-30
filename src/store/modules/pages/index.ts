@@ -14,6 +14,7 @@ export interface State extends IBasicState<Page> {
   isPageSectionDialogActive: boolean;
   index: number;
   pageSectionIndex: number;
+  activeMenuId: string;
 }
 
 export const getDefaultState = (): State => {
@@ -23,6 +24,7 @@ export const getDefaultState = (): State => {
     isPageSectionDialogActive: false,
     index: 0,
     pageSectionIndex: 0,
+    activeMenuId: '999',
   };
 };
 

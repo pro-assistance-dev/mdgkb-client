@@ -7,7 +7,7 @@
           <draggable :list="page.pageSideMenus" item-key="id" handle=".handle" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
-                <div :class="{ 'side-menu': true, 'side-menu-active': index === activeMenu }" @click="selectSideMenu(index)">
+                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }" @click="selectSideMenu(element.id)">
                   <div>{{ element?.name }}</div>
                   <el-popconfirm
                     confirm-button-text="Да"
@@ -32,7 +32,7 @@
           </div>
         </el-card>
       </div>
-      <div style="width: 1000px; flex: 1; box-sizing: border-box">
+      <div style="min-width: 1000px; flex: 1; box-sizing: border-box">
         <div v-if="showMainSettings">
           <el-card>
             <template #header> Заголовок </template>
@@ -123,7 +123,7 @@
 <script lang="ts">
 import { Close, Grid, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
@@ -161,7 +161,8 @@ export default defineComponent({
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
     const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
     const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
-    const activeMenu: Ref<number> = ref(999);
+    const activeMenuId: ComputedRef<string> = computed(() => Provider.store.getters['pages/activeMenuId']);
+    // const activeMenu: Ref<number> = ref(999);
 
     const openPage = () => {
       const route = Provider.router.resolve(page.value.getLink());
@@ -221,22 +222,20 @@ export default defineComponent({
       next ? next() : await Provider.router.push('/admin/pages');
     };
 
-    const selectSideMenu = async (index?: number) => {
+    const selectSideMenu = async (id?: string) => {
       showMainSettings.value = false;
-      if (index === undefined) {
-        await page.value.addSideMenu();
-        Provider.store.commit('pages/setIndex', page.value.pageSideMenus.length - 1);
-        activeMenu.value = page.value.pageSideMenus.length - 1;
+      if (id === undefined) {
+        const id = await page.value.addSideMenu();
+        Provider.store.commit('pages/setActiveMenuId', id);
       } else {
-        Provider.store.commit('pages/setIndex', index);
-        activeMenu.value = index;
+        Provider.store.commit('pages/setActiveMenuId', id);
       }
     };
 
     const showMainSettings: Ref<boolean> = ref(true);
     const selectMainSettings = () => {
       showMainSettings.value = true;
-      activeMenu.value = 999;
+      Provider.store.commit('pages/setActiveMenuId', '999999');
     };
 
     const addPageSection = async () => {
@@ -249,8 +248,13 @@ export default defineComponent({
 
     const removePageSideMenu = (index: number) => {
       ClassHelper.RemoveFromClassByIndex(index, page.value.pageSideMenus, page.value.pageSideMenusForDelete);
+      Provider.store.commit('pages/setActiveMenuId', '999999');
       showMainSettings.value = true;
     };
+
+    onBeforeUnmount(() => {
+      Provider.store.commit('pages/setActiveMenuId', '999999');
+    });
 
     return {
       sort,
@@ -264,9 +268,9 @@ export default defineComponent({
       pageSideMenu,
       selectMainSettings,
       showMainSettings,
-      activeMenu,
       addPageSection,
       removePageSideMenu,
+      activeMenuId,
     };
   },
 });
