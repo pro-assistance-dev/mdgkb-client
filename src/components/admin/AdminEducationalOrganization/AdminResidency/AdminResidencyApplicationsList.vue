@@ -127,10 +127,13 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import IFilterModel from '@/services/interfaces/IFilterModel';
+import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
+import ResidencyApplicationsSortsLib from '@/services/Provider/libs/sorts/ResidencyApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
@@ -180,8 +183,8 @@ export default defineComponent({
 
     const load = async () => {
       // TODO: Пофиксить ошибку на бэке
-      // Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-      // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
+      Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
+      Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
       await loadApplications();
       await loadFilters();
       onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();

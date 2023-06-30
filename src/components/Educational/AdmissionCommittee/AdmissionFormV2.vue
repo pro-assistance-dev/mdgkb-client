@@ -175,7 +175,9 @@ import ResidencyApplicationAchievements from '@/components/Educational/Residency
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IUser from '@/services/interfaces/IUser';
+import residencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -267,7 +269,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('residencyCourses/getAll');
+      const thisYearFilter = new FilterQuery();
+      thisYearFilter.filterModels.push(residencyCoursesFiltersLib.onlyThisYear());
+      await Provider.store.dispatch('residencyCourses/getAll', thisYearFilter);
       // Инициализация шаблона формы после выбора программы
       // Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       // residencyApplication.value.formValue.initFieldsValues();
