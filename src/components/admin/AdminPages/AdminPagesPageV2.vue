@@ -4,7 +4,7 @@
       <div style="min-width: 300px">
         <el-card style="margin-right: 20px; padding-right: 20px">
           <div :class="{ 'side-menu': true, 'side-menu-active': showMainSettings }" @click="selectMainSettings">Основные настройки</div>
-          <draggable :list="page.pageSideMenus" item-key="id" handle=".handle" @end="sort(page.pageSideMenus)">
+          <draggable :list="page.pageSideMenus" item-key="id" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
                 <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }" @click="selectSideMenu(element.id)">
@@ -23,11 +23,10 @@
                     </template>
                   </el-popconfirm>
                 </div>
-                <el-icon class="handle"><Grid /></el-icon>
               </div>
             </template>
           </draggable>
-          <div class="side-menu side-menu-new" @click="() => selectSideMenu()">
+          <div class="side-menu side-menu-new" @click="addSideMenu">
             <el-icon><Plus /> </el-icon>
           </div>
         </el-card>
@@ -222,14 +221,15 @@ export default defineComponent({
       next ? next() : await Provider.router.push('/admin/pages');
     };
 
-    const selectSideMenu = async (id?: string) => {
+    const addSideMenu = () => {
       showMainSettings.value = false;
-      if (id === undefined) {
-        const id = await page.value.addSideMenu();
-        Provider.store.commit('pages/setActiveMenuId', id);
-      } else {
-        Provider.store.commit('pages/setActiveMenuId', id);
-      }
+      const id = page.value.addSideMenu();
+      selectSideMenu(id);
+    };
+
+    const selectSideMenu = (id: string) => {
+      showMainSettings.value = false;
+      Provider.store.commit('pages/setActiveMenuId', id);
     };
 
     const showMainSettings: Ref<boolean> = ref(true);
@@ -257,6 +257,7 @@ export default defineComponent({
     });
 
     return {
+      addSideMenu,
       sort,
       mounted: Provider.mounted,
       submit,
