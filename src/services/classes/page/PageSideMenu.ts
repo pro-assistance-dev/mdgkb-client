@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
@@ -32,6 +34,7 @@ export default class PageSideMenu {
     const section = new PageSection();
     section.order = this.pageSections.length + 1;
     section.name = `Новой раздел ${section.order}`;
+    section.id = uuidv4();
     this.pageSections.push(section);
   }
 }

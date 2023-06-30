@@ -20,6 +20,9 @@ const mutations: MutationTree<State> = {
   setIndex(state, value: number) {
     state.index = value;
   },
+  setActiveMenuId(state, value: string) {
+    state.activeMenuId = value;
+  },
   setPageSectionIndex(state, value: number) {
     state.pageSectionIndex = value;
   },

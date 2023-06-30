@@ -6,6 +6,11 @@
     <template v-for="section in customSections" :key="section" #[section.id]>
       <component :is="section.component"></component>
     </template>
+    <template #bottom>
+      <div class="button-container">
+        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>
+      </div>
+    </template>
   </PageComponent>
 
   <!--  <div class="ordinatura-page-container">-->
@@ -69,8 +74,8 @@
   <!--        :years="false"-->
   <!--      />-->
 
-  <!--      <el-dialog v-model="showForm" width="30%">-->
-  <!--        <SelectResidencyCourseForm />-->
+  <!-- <el-dialog v-model="showForm" width="30%"> -->
+  <!-- <SelectResidencyCourseForm /> -->
   <!--      </el-dialog>-->
   <!--      <CompetitionComponent v-if="mode === 'competition'" />-->
   <!--    </div>-->
@@ -127,3 +132,10 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.button-container {
+  background: #f6f6f6;
+  text-align: center;
+}
+</style>
