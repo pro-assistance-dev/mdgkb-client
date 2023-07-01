@@ -1,7 +1,4 @@
 <template>
-  <div class="button-block">
-    <button @click="$router.push('/admission-form')">Подать заявление</button>
-  </div>
   <PageComponent :custom-sections="customSections">
     <template v-for="section in customSections" :key="section" #[section.id]>
       <component :is="section.component"></component>
@@ -12,74 +9,6 @@
       </div>
     </template>
   </PageComponent>
-
-  <!--  <div class="ordinatura-page-container">-->
-  <!--    <div class="side-container">-->
-  <!--      <div class="side-item">-->
-  <!--        <div class="card-item">-->
-  <!--          <h4>Приёмная кампания</h4>-->
-  <!--          <el-divider />-->
-  <!--          <el-table :data="modes" cell-class-name="cell-row" :show-header="false">-->
-  <!--            <el-table-column>-->
-  <!--              <template #default="scope" @click="changeTab(scope.row.value)">-->
-  <!--                <div class="menu-item" :class="isActive(scope.row.value)" @click="changeTab(scope.row.value)">-->
-  <!--                  {{ scope.row.label }}-->
-  <!--                </div>-->
-  <!--              </template>-->
-  <!--            </el-table-column>-->
-  <!--          </el-table>-->
-
-  <!--        </div>-->
-  <!--      </div>-->
-  <!--    </div>-->
-
-  <!--    <div style="width: 100%">-->
-  <!--      <div v-if="mode === 'freePrograms'">-->
-  <!--        <p>-->
-  <!--          <a-->
-  <!--            target="_blank"-->
-  <!--            rel="noopener noreferrer nofollow"-->
-  <!--            href="https://mosgorzdrav.ru/ru-RU/professional/teaching/target-residency.html"-->
-  <!--            >Сайт ДЗМ-->
-  <!--          </a>-->
-  <!--        </p>-->
-  <!--        <p>-->
-  <!--          <a target="_blank" rel="noopener noreferrer nofollow" href="http://rf.niioz.ru/reestr/cel1">-->
-  <!--            Личный Кабинет для приёма документов в ДЗМ-->
-  <!--          </a>-->
-  <!--        </p>-->
-  <!--        <p><strong>Основание для зачисления:</strong></p>-->
-  <!--        <ol>-->
-  <!--          <li>Заявление</li>-->
-  <!--          <li>Договор с Департаметом здравоохранения г. Москвы</li>-->
-  <!--          <li>Аккредитационный бал тестирования от 70</li>-->
-  <!--          <li>Полный пакет документов - <em> Оригинал документа об образовании предоставляется до 01.09.2022</em></li>-->
-  <!--        </ol>-->
-  <!--      </div>-->
-  <!--      <div v-if="mode === 'paidPrograms'">-->
-  <!--        <p><strong>Основание для зачисления:</strong></p>-->
-  <!--        <ol>-->
-  <!--          <li>Заявление</li>-->
-  <!--          <li>Договор об оказании платных образовательных услуга</li>-->
-  <!--          <li>Рекомендация к зачислению приемной комисии Морозовской ДГКБ на основе конкурса индивидуальных баллов</li>-->
-  <!--          <li>Оплата обучения</li>-->
-  <!--          <li>Аккредитационный балл от 70</li>-->
-  <!--          <li>Полный пакет документов - <em> Оригинал документа об образовании предоставляется до 01.09.2022</em></li>-->
-  <!--        </ol>-->
-  <!--      </div>-->
-  <!--      <ResidencyCoursesList-->
-  <!--        :paid-programs="false"-->
-  <!--        :free-programs="false"-->
-  <!--        :cost="mode === 'paidPrograms'"-->
-  <!--        :years="false"-->
-  <!--      />-->
-
-  <!-- <el-dialog v-model="showForm" width="30%"> -->
-  <!-- <SelectResidencyCourseForm /> -->
-  <!--      </el-dialog>-->
-  <!--      <CompetitionComponent v-if="mode === 'competition'" />-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script lang="ts">

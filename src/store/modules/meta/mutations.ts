@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex';
 
+import Address from '@/classes/Address';
 import SocialMedia from '@/classes/SocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 
@@ -14,6 +15,12 @@ const mutations: MutationTree<State> = {
   },
   setSocialMedia(state, items: SocialMedia[]) {
     state.socialMedia = items.map((i: SocialMedia) => new SocialMedia(i));
+  },
+  setAddresses(state, items?: Address[]) {
+    if (!items) {
+      return;
+    }
+    state.addresses = items.map((i: Address) => new Address(i));
   },
 };
 

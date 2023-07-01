@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 
+import KladrApi from '@/classes/KladrApi';
 import RootState from '@/store/types';
 
 import actions from './actions';
@@ -10,6 +11,8 @@ import { State } from './state';
 export const state: State = {
   count: 0,
   socialMedia: [],
+  addresses: [],
+  kladrAPI: new KladrApi(),
   // schema: new Schema
 };
 

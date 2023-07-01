@@ -1,5 +1,7 @@
 import { GetterTree } from 'vuex';
 
+import Address from '@/classes/Address';
+import KladrApi from '@/classes/KladrApi';
 import SocialMedia from '@/classes/SocialMedia';
 import ISchema from '@/interfaces/schema/ISchema';
 import RootState from '@/store/types';
@@ -15,6 +17,12 @@ const getters: GetterTree<State, RootState> = {
   },
   socialMedia(state): SocialMedia[] {
     return state.socialMedia;
+  },
+  addresses(state): Address[] {
+    return state.addresses;
+  },
+  kladrAPI(state): KladrApi {
+    return state.kladrAPI;
   },
 };
 

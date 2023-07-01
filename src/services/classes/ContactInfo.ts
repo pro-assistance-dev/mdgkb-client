@@ -1,3 +1,4 @@
+import AddressInfo from '@/classes/AddressInfo';
 import Email from '@/services/classes/Email';
 import PostAddress from '@/services/classes/PostAddress';
 import TelephoneNumber from '@/services/classes/TelephoneNumber';
@@ -22,6 +23,9 @@ export default class ContactInfo {
   postAddressesForDelete: string[] = [];
   telephoneNumbersForDelete: string[] = [];
   websitesForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(AddressInfo)
+  addressInfo: AddressInfo = new AddressInfo();
+
   constructor(i?: ContactInfo) {
     ClassHelper.BuildClass(this, i);
   }

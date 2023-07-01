@@ -19,17 +19,18 @@
   <el-form-item v-if="activeFields.userPatronymic" :rules="rules.userPatronymic" label="Отчество" prop="formValue.user.human.patronymic">
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
-  <el-form-item
-    v-if="activeFields.userPostIndex"
-    label="Почтовый индекс"
-    :rules="rules.userPostIndex"
-    prop="formValue.user.human.postIndex"
-  >
-    <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>
-  </el-form-item>
-  <el-form-item v-if="activeFields.userAddress" label="Адрес" prop="formValue.user.human.address" :rules="rules.userAddress">
-    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>
-  </el-form-item>
+  <!--  <el-form-item-->
+  <!--    v-if="activeFields.userPostIndex"-->
+  <!--    label="Почтовый индекс"-->
+  <!--    :rules="rules.userPostIndex"-->
+  <!--    prop="formValue.user.human.postIndex"-->
+  <!--  >-->
+  <!--    <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>-->
+  <!--  </el-form-item>-->
+  <!--  <el-form-item v-if="activeFields.userAddress" label="Адрес" prop="formValue.user.human.address" :rules="rules.userAddress">-->
+  <!--    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>-->
+  <!--  </el-form-item>-->
+  <AddressInfoForm :address-info="formValue.user.human.contactInfo.addressInfo" />
   <el-form-item v-if="activeFields.userSnils" :rules="rules.userSnils" label="СНИЛС" prop="formValue.user.human.snils">
     <el-input
       v-model="formValue.user.human.snils"
@@ -115,13 +116,14 @@ import Form from '@/classes/Form';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
+import AddressInfoForm from '@/components/FormConstructor/AddressInfoForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 import PhoneService from '@/services/PhoneService';
 
 export default defineComponent({
   name: 'UserForm',
-  components: { DatePicker },
+  components: { AddressInfoForm, DatePicker },
   props: {
     form: {
       type: Object as PropType<Form>,
@@ -191,7 +193,7 @@ export default defineComponent({
       userAddress: [{ required: true, message: 'Пожалуйста, укажите свой адрес', trigger: 'change' }],
       //
       childSurname: [{ required: true, message: 'Пожалуйста, укажите фамилию пациента', trigger: 'blur' }],
-      childName: [{ required: true, message: 'Пожалуйста, укажите имя пациента', trigger: 'blur' }],
+      childName: [{ rсequired: true, message: 'Пожалуйста, укажите имя пациента', trigger: 'blur' }],
       childPatronymic: [{ required: true, message: 'Пожалуйста, укажите отчество пациента', trigger: 'blur' }],
       childIsMale: [{ required: true, message: 'Пожалуйста, выберите пол пациента', trigger: 'change' }],
       childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],

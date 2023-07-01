@@ -1,5 +1,7 @@
 import { ActionTree } from 'vuex';
 
+import Address from '@/classes/Address';
+import KladrApi from '@/classes/KladrApi';
 import SocialMedia from '@/classes/SocialMedia';
 import IOption from '@/interfaces/schema/IOption';
 import ISchemaWithOptions from '@/interfaces/schema/ISchemaWithOptions';
@@ -34,6 +36,9 @@ const actions: ActionTree<State, RootState> = {
   },
   getSocialMedia: async ({ commit }): Promise<void> => {
     commit('setSocialMedia', await httpClient.get<number>({ query: `social` }));
+  },
+  getAddress: async ({ commit, state }, query: string): Promise<void> => {
+    commit('setAddresses', await httpClient.post<KladrApi, Address[]>({ query: `address`, payload: state.kladrAPI, isFormData: true }));
   },
 };
 
