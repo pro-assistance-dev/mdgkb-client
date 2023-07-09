@@ -194,4 +194,10 @@ export default class User implements IUser {
     });
     return result;
   }
+
+  getResidencyApplicationsFormValues(): Form[] {
+    return this.residencyApplications.map((el) => {
+      return el.formValue;
+    });
+  }
 }

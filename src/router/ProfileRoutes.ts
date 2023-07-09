@@ -1,13 +1,14 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
 import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
-import EditApplicationPage from '@/components/Profile/ProfileDailyMenuOrders/EditApplicationPage.vue';
 import ProfileDailyMenuOrders from '@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrders.vue';
 import ProfileSettingsPage from '@/components/Profile/ProfileDailyMenuOrders/ProfileSettingsPage.vue';
 import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
 import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
 import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
+import EditResidencyApplication from '@/components/Profile/ProfileResidencyApplications/EditResidencyApplication.vue';
+import ProfileResidencyApplications from '@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue';
 import QuestionAnswerPage from '@/components/Profile/QuestionAnswerPage.vue';
 import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
 import { authGuard, isAuthorized } from '@/router/index';
@@ -105,8 +106,18 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
   },
   {
     path: '/profile/residency-applications',
-    name: 'EditApplicationPage',
-    component: EditApplicationPage,
+    name: 'ProfileResidencyApplications',
+    component: ProfileResidencyApplications,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'education' },
+  },
+  {
+    path: '/profile/residency-applications/:id',
+    name: 'EditResidencyApplication',
+    component: EditResidencyApplication,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard();
       isAuthorized(next);

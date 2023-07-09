@@ -10,6 +10,14 @@
       <el-radio :label="false" size="large">На места, финансируемые за счет средств бюджета города Москвы (по договорам с ДЗМ)</el-radio>
       <el-radio :label="true" size="large">По договорам о платных образовательных услугах</el-radio>
     </el-radio-group>
+    <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
+      <div v-if="residencyApplicationValue.formValue.findFieldValue(field.id)?.file?.fileSystemPath">
+        <div style="margin-top: 10px">
+          <span><b> Загрузите договор: </b></span
+          ><span><FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" /> </span>
+        </div>
+      </div>
+    </div>
   </el-form-item>
   <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
     <el-radio-group v-model="residencyApplicationValue.primaryAccreditation">
@@ -236,5 +244,11 @@ export default defineComponent({
 
 .margin-top-1 {
   margin-top: 1rem;
+}
+.el-form-item {
+  background-color: #f9fafb;
+  border: 1px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 16px;
 }
 </style>

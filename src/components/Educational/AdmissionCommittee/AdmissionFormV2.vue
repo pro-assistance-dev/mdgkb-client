@@ -56,12 +56,10 @@
         <el-checkbox v-model="residencyApplication.agreedWithPrivacy" label="ПОДТВЕРЖДАЮ:" />
         <div class="text">
           <p>
-            <!-- TODO: Добавить согласие для скачки -->
-            <!-- TODO: Ошибка no file при скачке  -->
-            <!-- <a target="_blank" href="/files/privacy.pdf" download="Согласие на обработку своих персональных данных МДГКБ" class="info-text">
-              Согласие на обработку своих персональных данных
-            </a> -->
-            Согласие на обработку своих персональных данных, в том числе: фамилии, имени, отчества, паспортных данных, даты и места
+            <a target="_blank" href="/files/privacy.pdf" download="Согласие на обработку своих персональных данных МДГКБ" class="info-text">
+              Согласие на обработку своих персональных данных,
+            </a>
+            <!-- Согласие на обработку своих персональных данных -->в том числе: фамилии, имени, отчества, паспортных данных, даты и места
             рождения, данных о прописке и фактическом месте проживания, телефонных номеров, адресов электронной почты, фотографии, образца
             личной подписи, профессиональной подготовке и образовании, в информационных системах, базах и банках данных в порядке,
             установленном Федеральным законом от 27 июля 2006 г. N152-ФЗ «О персональных данных» (Собрание законодательства Российской
@@ -190,7 +188,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(2);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );

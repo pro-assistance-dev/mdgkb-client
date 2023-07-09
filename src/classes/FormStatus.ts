@@ -71,6 +71,7 @@ export default class FormStatus implements IFormStatus {
   }
 
   isNew(): boolean {
+    console.log(this.name);
     return this.name === FormStatusNames.New;
   }
 
