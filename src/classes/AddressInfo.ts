@@ -15,15 +15,18 @@ export default class AddressInfo {
 
   setRegion(item: string): void {
     this.region = item;
+    this.dropCity();
   }
 
   setCity(item: string, zip?: number): void {
     this.city = item;
     this.zip = zip ?? 0;
+    this.dropStreet();
   }
 
   setStreet(item: string): void {
     this.street = item;
+    this.dropBuilding();
   }
 
   setBuilding(item: string): void {
@@ -51,5 +54,9 @@ export default class AddressInfo {
 
   dropBuilding(): void {
     this.building = '';
+  }
+
+  getFullAddress(): string {
+    return `${this.zip}, ${this.region}, ${this.city}, ${this.street}, ${this.building}`;
   }
 }

@@ -2,7 +2,7 @@
   <el-form-item v-for="input in inputs.filter((i) => i.condition())" :key="input.name" :label="input.label">
     <el-autocomplete
       v-model="input.model"
-      autocomplete="off"
+      autocomplete="nope"
       filterable
       remote
       reserve-keyword
