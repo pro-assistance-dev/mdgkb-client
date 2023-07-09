@@ -34,19 +34,19 @@
       <template #header>
         <span>{{ infoHeader }}</span>
       </template>
-      <!--      UserForm крэшится в продакшне!-->
-      <!--      <div v-if="isEditMode">-->
-      <!--        <UserForm-->
-      <!--          :form="formValue"-->
-      <!--          :show-error-message="false"-->
-      <!--          :from-admin="true"-->
-      <!--          :email-exists="emailExists"-->
-      <!--          :validate-email="validateEmail"-->
-      <!--          :active-fields="activeFields"-->
-      <!--          @findEmail="findEmail"-->
-      <!--        />-->
-      <!--      </div>-->
-      <AdminUserInfo :form="formValue" :active-fields="activeFields" />
+      <!--      UserForm крашилось раньше в проде -->
+      <div v-if="isEditMode">
+        <UserForm
+          :form="formValue"
+          :show-error-message="false"
+          :from-admin="true"
+          :email-exists="emailExists"
+          :validate-email="validateEmail"
+          :active-fields="activeFields"
+          @findEmail="findEmail"
+        />
+      </div>
+      <AdminUserInfo v-else :form="formValue" :active-fields="activeFields" />
     </el-card>
     <el-card v-if="isEditMode">
       <template v-if="formHeader" #header>
@@ -109,16 +109,18 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
+import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IUserFormFields from '@/interfaces/IUserFormFields';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
+
 export default defineComponent({
   name: 'AdminFormValue',
   components: {
     FieldValuesFormResult,
     FieldValuesForm,
-    // UserForm,
+    UserForm,
     AdminUserInfo,
     WysiwygEditor,
     DatePicker,
