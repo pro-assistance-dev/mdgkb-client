@@ -518,6 +518,14 @@ export default class Form implements IForm {
     return this.fieldValues.find((fv: IFieldValue) => fv.field?.code === code);
   }
 
+  getFieldValuesByCodes(codes: string[]): IFieldValue[] {
+    return this.fieldValues.filter((fv: IFieldValue) => {
+      if (fv.field?.code) {
+        return codes.includes(fv.field?.code);
+      }
+    });
+  }
+
   setValue(code: string, value: unknown): void {
     const fieldValue = this.getFieldValueByCode(code);
     if (!fieldValue) {

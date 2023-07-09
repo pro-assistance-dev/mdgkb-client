@@ -219,4 +219,10 @@ export default defineComponent({
 .red {
   color: red;
 }
+.el-form-item {
+  background-color: #f9fafb;
+  border: 1px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 16px;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="profile-menu">
     <UserInfoMini />
     <ul>
-      <tempalte v-for="item in menuList" :key="item.name">
+      <template v-for="item in menuList" :key="item.name">
         <li v-if="item.liCondition()">
           <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
             <component :is="require(`@/assets/profile/icons/${item.icon}.svg`).default" class="icon-profile" />
@@ -15,7 +15,7 @@
             <Arrow class="icon-arrow" />
           </router-link>
         </li>
-      </tempalte>
+      </template>
     </ul>
   </div>
 </template>

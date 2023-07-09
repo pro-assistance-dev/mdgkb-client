@@ -93,5 +93,6 @@ export default defineComponent({
   transition: 0.3s;
   margin-left: auto;
   margin-right: auto;
+  cursor: pointer;
 }
 </style>
