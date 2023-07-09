@@ -4,6 +4,7 @@ export default class Address {
   id = '';
   name = '';
   type = '';
+  typeShort = '';
   zip = '';
 
   constructor(i?: Address) {
@@ -11,6 +12,6 @@ export default class Address {
   }
 
   getFullName(): string {
-    return `${this.name} ${this.type}`;
+    return `${this.typeShort}. ${this.name}`;
   }
 }
