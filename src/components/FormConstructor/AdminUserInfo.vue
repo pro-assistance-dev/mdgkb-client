@@ -20,7 +20,7 @@
       {{ formValue.user.phone }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userPostIndex" label="Почтовый индекс">
-      {{ formValue.user.human.postIndex }}
+      {{ formValue.user.human.contactInfo.addressInfo.zip }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userAddress" label="Адрес">
       {{ formValue.user.human.contactInfo.addressInfo.getFullAddress() }}
