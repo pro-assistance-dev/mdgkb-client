@@ -23,7 +23,7 @@
       {{ formValue.user.human.postIndex }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userAddress" label="Адрес">
-      {{ formValue.user.human.address }}
+      {{ formValue.user.human.contactInfo.addressInfo.getFullAddress() }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userCitizenship" label="Гражданство">
       {{ formValue.user.human.citizenship }}
