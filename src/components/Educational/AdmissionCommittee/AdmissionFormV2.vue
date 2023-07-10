@@ -26,7 +26,7 @@
           style="width: 100%"
           @change="courseChangeHandler"
         >
-          <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization().name" :value="item"> </el-option>
+          <el-option v-for="item in filteredCourses" :key="item.id" :label="item.getMainSpecialization().name" :value="item"> </el-option>
         </el-select>
       </el-form-item>
       <!-- TODO: Добавить ссылки на правила и уставы -->
@@ -175,7 +175,9 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import IUser from '@/services/interfaces/IUser';
+import { Orders } from '@/services/interfaces/Orders';
 import residencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
+import residencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -231,6 +233,9 @@ export default defineComponent({
 
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const residencyCourses: ComputedRef<ResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
+    const filteredCourses: Ref<ResidencyCourse[]> = computed(() =>
+      residencyCourses.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
+    );
     const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
@@ -269,7 +274,9 @@ export default defineComponent({
     onBeforeMount(async () => {
       const thisYearFilter = new FilterQuery();
       thisYearFilter.filterModels.push(residencyCoursesFiltersLib.onlyThisYear());
+      thisYearFilter.sortModels.push(residencyCoursesSortsLib.byName(Orders.Asc));
       await Provider.store.dispatch('residencyCourses/getAll', thisYearFilter);
+
       // Инициализация шаблона формы после выбора программы
       // Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
       // residencyApplication.value.formValue.initFieldsValues();
@@ -380,6 +387,7 @@ export default defineComponent({
     };
 
     return {
+      filteredCourses,
       textFieldsAndDocuments,
       buttonOff,
       getButtonName,
