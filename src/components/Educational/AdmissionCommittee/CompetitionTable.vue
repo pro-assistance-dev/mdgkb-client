@@ -63,39 +63,28 @@ export default defineComponent({
     };
 
     const filteredCourses = (): ResidencyCourse[] => {
+      console.log(props.residencyCourses);
       return props.residencyCourses.filter((c) => c.paidAcceptedApplicationsExists());
     };
 
     const leaveOnlyNeededApplications = (course: ResidencyCourse): ResidencyApplication[] => {
       return course.getPaidApplicationsByPoint().filter((a: ResidencyApplication, appPlace: number) => {
-        if (a.formValue.user.human.snils === '180-933-880-93') {
-          console.log(a.formValue.user.human.snils);
-        }
         if (a.main && course.applicationPassCompetition(appPlace + 1)) {
           return true;
         }
         let finded = false;
         props.residencyCourses.forEach((c: ResidencyCourse) => {
           const sameUserApplicationIndex = c.getPaidApplicationsByPoint().findIndex((application: ResidencyApplication) => {
-            if (a.formValue.user.human.snils === '180-933-880-93' && c.getFullName() === '31.08.19 Педиатрия') {
-              console.log(application.id !== a.id);
-              console.log(application.formValue.user.human.snils, a.formValue.user.human.snils);
-            }
             return (
               application.id !== a.id &&
               application.formValue.user.human.snils.replace(/\D/g, '') === a.formValue.user.human.snils.replace(/\D/g, '')
             );
           });
-          if (a.formValue.user.human.snils === '180-933-880-93') {
-            console.log(sameUserApplicationIndex);
-          }
+
           if (sameUserApplicationIndex < 0) {
             return;
           }
           const sameUserApplication = c.getPaidApplicationsByPoint()[sameUserApplicationIndex];
-          if (sameUserApplication.formValue.user.human.snils === '180-933-880-93') {
-            console.log(sameUserApplication.formValue.user.human.snils);
-          }
 
           if (sameUserApplication && sameUserApplication.main && c.applicationPassCompetition(sameUserApplicationIndex + 1)) {
             finded = true;

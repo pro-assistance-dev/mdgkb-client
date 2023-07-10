@@ -1,19 +1,19 @@
 <template>
   <div v-if="mounted">
-    <div class="info">
-      <span class="info-text"
-        >Для получения информации о конкурсе нажмите
-        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span
-      >
-      <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
-    </div>
+    <!--    <div class="info">-->
+    <!--      <span class="info-text"-->
+    <!--        >Для получения информации о конкурсе нажмите-->
+    <!--        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span-->
+    <!--      >-->
+    <!--      &lt;!&ndash; <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> &ndash;&gt;-->
+    <!--    </div>-->
     <el-collapse v-model="activeName" accordion @change="collapseChange">
-      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
-        <template #title>
-          <h2>КОНКУРС</h2>
-        </template>
-        <CompetitionTable :residency-courses="residencyCourses" />
-      </el-collapse-item>
+      <!--      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">-->
+      <!--        <template #title>-->
+      <!--          <h2>КОНКУРС</h2>-->
+      <!--        </template>-->
+      <!--        <CompetitionTable :residency-courses="residencyCourses" />-->
+      <!--      </el-collapse-item>-->
       <el-collapse-item id="Конкурс на место" class="card-item" name="Конкурс">
         <template #title>
           <h2>КОНКУРС ЧЕЛОВЕК НА МЕСТО</h2>
@@ -45,7 +45,6 @@ import ResidencyCourse from '@/classes/ResidencyCourse';
 import CompetitionApplicationsTable from '@/components/Educational/AdmissionCommittee/CompetitionApplicationsTable.vue';
 import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/CompetitionPlacesTable.vue';
 import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
-import CompetitionTable from '@/components/Educational/AdmissionCommittee/CompetitionTable.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
@@ -60,13 +59,17 @@ export default defineComponent({
     CompetitionPlacesTable,
     CompetitionApplicationsTable,
     CompetitionRating,
-    CompetitionTable,
+    // CompetitionTable,
   },
   setup() {
     const mounted: Ref<boolean> = ref(false);
-    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const residencyCoursesSource: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(
+      () => Provider.store.getters['residencyCourses/items']
+    );
     const activeName = ref('Конкурс');
-
+    const residencyCourses: Ref<ResidencyCourse[]> = computed(() =>
+      residencyCoursesSource.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
+    );
     const loadPrograms = async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());

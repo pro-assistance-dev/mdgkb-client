@@ -57,6 +57,12 @@ export default class ResidencyCourse {
 
   constructor(i?: ResidencyCourse) {
     ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    if (i.residencyApplications && i.residencyApplications.length > 0) {
+      this.residencyApplications = i.residencyApplications.map((r: ResidencyApplication) => new ResidencyApplication(r));
+    }
   }
 
   setMainTeacher(teacher: Employee): void {

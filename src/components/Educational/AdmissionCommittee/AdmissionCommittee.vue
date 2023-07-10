@@ -42,13 +42,10 @@ export default defineComponent({
     const showForm: Ref<boolean> = ref(false);
 
     const initLoad = async () => {
-      customSections.value
-        .push
-        // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
-        // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
-        // CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', 'CompetitionComponent')
-        // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
-        ();
+      customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', 'CompetitionComponent', 0));
+      // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
+      // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
+      // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
       await loadPrograms();
     };
 
