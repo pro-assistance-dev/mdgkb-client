@@ -15,7 +15,10 @@
         </svg>
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #title>
-        <div class="title-in">{{ page.title ? page.title : title }}</div>
+        <div class="title-in">
+          {{ page.title ? page.title : title }}
+          <slot name="title" />
+        </div>
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #body>
         <div class="body-in">
@@ -151,6 +154,7 @@ $card-margin-size: 30px;
 .title-in {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
   width: calc(100% - 50px);
   height: calc(100% - 50px);
