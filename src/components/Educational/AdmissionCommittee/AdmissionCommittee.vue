@@ -8,6 +8,11 @@
         <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>
       </div>
     </template>
+    <template #title>
+      <div class="title-button-container">
+        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>
+      </div>
+    </template>
   </PageComponent>
 </template>
 
@@ -66,5 +71,15 @@ export default defineComponent({
 .button-container {
   background: #f6f6f6;
   text-align: center;
+}
+.title-button-container {
+  position: absolute;
+  right: 0;
+  margin-left: 10px;
+}
+@media screen and (max-width: 1024px) {
+  .title-button-container {
+    position: unset;
+  }
 }
 </style>
