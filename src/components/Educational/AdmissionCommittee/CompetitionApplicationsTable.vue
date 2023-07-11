@@ -25,7 +25,7 @@
           {{ $dateTimeFormatter.format(application.formValue.approvingDate) }}
         </td>
         <td>{{ application.main ? 'Приоритетное' : 'Дополнительное' }}</td>
-        <td style="text-align: center">{{ application.pointsSum() }}</td>
+        <td style="text-align: center">{{ application.getPointsSum() }}</td>
         <td style="text-align: center">{{ application.pointsEntrance }}</td>
         <td style="text-align: center">{{ application.calculateAchievementsPoints(true) }}</td>
         <td style="text-align: center">

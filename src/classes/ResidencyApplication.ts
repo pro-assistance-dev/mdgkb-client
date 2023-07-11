@@ -46,7 +46,7 @@ export default class ResidencyApplication {
     return fileInfos;
   }
 
-  pointsSum(): number {
+  getPointsSum(): number {
     const pointsAchievements = this.calculateAchievementsPoints(true) ?? 0;
     const pointsEntrance = this.pointsEntrance ?? 0;
     return pointsAchievements + pointsEntrance;

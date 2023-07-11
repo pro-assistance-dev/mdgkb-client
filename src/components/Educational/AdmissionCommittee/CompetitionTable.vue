@@ -24,7 +24,7 @@
             {{ j + 1 }}
           </td>
           <td :class="getPassClass(course, j + 1)">{{ application.formValue.user.human.snils }}</td>
-          <td :class="getPassClass(course, j + 1)">{{ application.pointsSum() }}</td>
+          <td :class="getPassClass(course, j + 1)">{{ application.getPointsSum() }}</td>
           <td :class="getPassClass(course, j + 1)">{{ application.pointsEntrance }}</td>
           <td :class="getPassClass(course, j + 1)">{{ application.calculateAchievementsPoints(true) }}</td>
           <td :class="getPassClass(course, j + 1)">

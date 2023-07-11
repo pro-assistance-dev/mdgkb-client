@@ -99,7 +99,7 @@
       <el-table-column label="Сумма баллов" align="center" width="150">
         <template #default="scope">
           <div>
-            {{ scope.row.pointsSum() }}
+            {{ scope.row.getPointsSum() }}
           </div>
         </template>
       </el-table-column>
@@ -122,7 +122,7 @@ import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
+import SortList from '@/components/SortList/SortListV2.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';

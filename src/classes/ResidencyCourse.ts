@@ -142,7 +142,7 @@ export default class ResidencyCourse {
 
   getApplicationsByPoint(): ResidencyApplication[] {
     return this.getAcceptedApplications().sort((a: ResidencyApplication, b: ResidencyApplication) => {
-      return b.pointsSum() - a.pointsSum();
+      return b.getPointsSum() - a.getPointsSum();
     });
   }
 

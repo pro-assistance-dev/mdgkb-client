@@ -59,7 +59,7 @@
               {{ application.calculateAchievementsPoints(true) }}
             </el-descriptions-item>
             <el-descriptions-item label="Всего баллов">
-              {{ application.pointsSum() }}
+              {{ application.getPointsSum() }}
             </el-descriptions-item>
           </div>
         </el-descriptions>
