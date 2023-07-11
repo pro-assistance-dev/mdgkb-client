@@ -28,7 +28,9 @@
         <td style="text-align: center">{{ application.pointsSum() }}</td>
         <td style="text-align: center">{{ application.pointsEntrance }}</td>
         <td style="text-align: center">{{ application.calculateAchievementsPoints(true) }}</td>
-        <td style="text-align: center">-</td>
+        <td style="text-align: center">
+          {{ application.consentApplicationExists() ? '✓' : '-' }}
+        </td>
         <td style="text-align: center">
           <TableFormStatus :form="application.formValue" />
           <!--          {{ application.formValue.formStatus.name }}-->

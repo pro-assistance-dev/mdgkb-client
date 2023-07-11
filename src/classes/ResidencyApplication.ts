@@ -167,4 +167,12 @@ export default class ResidencyApplication {
       });
     }
   }
+
+  consentApplicationExists(): boolean {
+    const fieldValue = this.formValue.getFieldValueByCode('ConsentApplication');
+    if (!fieldValue) {
+      return false;
+    }
+    return !!fieldValue.file?.fileSystemPath;
+  }
 }
