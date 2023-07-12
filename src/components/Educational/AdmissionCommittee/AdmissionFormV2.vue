@@ -265,6 +265,7 @@ export default defineComponent({
       //   return;
       // }
       residencyApplication.value.formValue.clearIds();
+      residencyApplication.value.formValue.createdAt = new Date();
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');
       emit('close');
