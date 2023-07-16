@@ -6,6 +6,13 @@ export default class AddressInfo {
   street = '';
   building = '';
   flat = '';
+
+  regionId = '';
+  districtId = '';
+  cityId = '';
+  streetId = '';
+  buildingId = '';
+
   zip = 0;
   contactInfoId?: string;
 
@@ -13,47 +20,55 @@ export default class AddressInfo {
     ClassHelper.BuildClass(this, i);
   }
 
-  setRegion(item: string): void {
+  setRegion(item: string, id: string): void {
     this.region = item;
+    this.regionId = id;
     this.dropCity();
   }
 
-  setCity(item: string, zip?: number): void {
+  setCity(item: string, id: string, zip?: number): void {
     this.city = item;
+    this.cityId = id;
     this.zip = zip ?? 0;
     this.dropStreet();
   }
 
-  setStreet(item: string): void {
+  setStreet(item: string, id: string): void {
     this.street = item;
+    this.streetId = id;
     this.dropBuilding();
   }
 
-  setBuilding(item: string): void {
+  setBuilding(item: string, id: string): void {
+    this.buildingId = id;
     this.building = item;
   }
 
-  setFlat(item: string): void {
+  setFlat(item: string, id: string): void {
     this.flat = item;
   }
 
   dropRegion(): void {
     this.region = '';
+    this.regionId = '';
     this.dropCity();
   }
 
   dropCity(): void {
     this.city = '';
+    this.cityId = '';
     this.dropStreet();
   }
 
   dropStreet(): void {
     this.street = '';
+    this.streetId = '';
     this.dropBuilding();
   }
 
   dropBuilding(): void {
     this.building = '';
+    this.buildingId = '';
   }
 
   getFullAddress(): string {

@@ -46,7 +46,7 @@ export default defineComponent({
     const inputs = ref([
       {
         name: 'region',
-        model: '',
+        model: props.addressInfo.region,
         condition: () => true,
         label: 'Регион',
         setAddressFunc: props.addressInfo.setRegion.bind(props.addressInfo),
@@ -56,8 +56,8 @@ export default defineComponent({
       },
       {
         name: 'city',
-        model: '',
-        condition: () => kladrAPI.value.regionId !== '',
+        model: props.addressInfo.city,
+        condition: () => props.addressInfo.regionId !== '',
         label: 'Населённый пункт',
         setAddressFunc: props.addressInfo.setCity.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropCity.bind(props.addressInfo),
@@ -66,8 +66,8 @@ export default defineComponent({
       },
       {
         name: 'street',
-        model: '',
-        condition: () => kladrAPI.value.cityId !== '',
+        model: props.addressInfo.street,
+        condition: () => props.addressInfo.cityId !== '',
         label: 'Улица',
         setAddressFunc: props.addressInfo.setStreet.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropStreet.bind(props.addressInfo),
@@ -76,8 +76,8 @@ export default defineComponent({
       },
       {
         name: 'building',
-        model: '',
-        condition: () => kladrAPI.value.streetId !== '',
+        model: props.addressInfo.building,
+        condition: () => props.addressInfo.streetId !== '',
         label: 'Дом',
         setAddressFunc: props.addressInfo.setBuilding.bind(props.addressInfo),
         dropAddressFunc: () => undefined,
@@ -91,7 +91,7 @@ export default defineComponent({
     };
 
     const setAddress = async (e: { value: string; label: Address }, input: any) => {
-      input.setAddressFunc(e.label.getFullName(), e.label.zip);
+      input.setAddressFunc(e.label.getFullName(), e.label.id, e.label.zip);
       input.apiFunc(e.label.id);
       dropAddresses();
     };
