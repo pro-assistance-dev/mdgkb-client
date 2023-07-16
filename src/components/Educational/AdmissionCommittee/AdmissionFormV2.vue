@@ -269,7 +269,6 @@ export default defineComponent({
       await Provider.store.dispatch('residencyApplications/create');
       ElNotification.success('Заявка успешно отправлена');
       emit('close');
-      await Provider.router.push('/admission-committee');
     };
 
     onBeforeMount(async () => {
@@ -371,6 +370,7 @@ export default defineComponent({
         await submit();
         buttonOff.value = false;
         loading.close();
+        await Provider.router.push('/admission-committee');
         return;
       }
     };
