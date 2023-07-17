@@ -368,7 +368,7 @@ export default class Form implements IForm {
   setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
     const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
-    if (this.formStatus.isAccepted()) {
+    if (this.formStatus.isAccepted() && !this.approvingDate) {
       this.approvingDate = new Date();
     }
     // this.emailNotify = true;
