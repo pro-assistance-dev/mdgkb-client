@@ -19,7 +19,9 @@
         <td v-if="achievement.points > 0" style="text-align: center">
           <div v-if="residencyApplication.achievementExists(achievement.id)">
             <FileUploader :file-info="residencyApplication.getAchievementResultByAchievementId(achievement.id).fileInfo" />
-            <el-button @click="residencyApplication.removeAchievementByAchievementId(achievement.id)"> Удалить достижение </el-button>
+            <el-button style="margin-top: 5px" size="small" @click="residencyApplication.removeAchievementByAchievementId(achievement.id)">
+              Удалить достижение
+            </el-button>
             <div
               v-if="
                 residencyApplication.getAchievementResultByAchievementId(achievement.id).showError &&
@@ -31,7 +33,7 @@
               Необходимо добавить файл
             </div>
           </div>
-          <el-button v-else @click="addAchievement(achievement)"> Добавить </el-button>
+          <el-button v-else size="small" @click="addAchievement(achievement)"> Добавить </el-button>
         </td>
       </tr>
     </tbody>

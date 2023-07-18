@@ -1,5 +1,5 @@
 <template>
-  <el-card>
+  <el-card v-if="residencyApplication.residencyApplicationPointsAchievements.length || isEditMode">
     <template #header>
       <div class="card-header">
         <h2 class="title article-title">Индивидуальные достижения</h2>
@@ -7,7 +7,9 @@
       <span>Всего баллов: {{ residencyApplication.calculateAchievementsPoints(true) }}</span>
     </template>
 
-    <el-table :data="residencyApplication.residencyApplicationPointsAchievements">
+    <ResidencyApplicationAchievements v-if="isEditMode" :residency-application="residencyApplication" />
+
+    <el-table v-else :data="residencyApplication.residencyApplicationPointsAchievements">
       <el-table-column label="№" min-width="300">
         <template #default="scope">
           {{ scope.row.pointsAchievement.code }}
@@ -25,7 +27,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Образец" min-width="200">
+      <el-table-column label="Прикрепленный файл" min-width="200">
         <template #default="scope">
           <template v-if="!isEditMode">
             <a
@@ -55,11 +57,12 @@
 import { defineComponent, PropType } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FileUploader from '@/components/FileUploader.vue';
 
 export default defineComponent({
   name: 'AdminResidencyApplicationAchievementsPoints',
-  components: { FileUploader },
+  components: { FileUploader, ResidencyApplicationAchievements },
   props: {
     residencyApplication: {
       type: Object as PropType<ResidencyApplication>,

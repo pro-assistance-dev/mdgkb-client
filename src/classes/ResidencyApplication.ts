@@ -161,10 +161,19 @@ export default class ResidencyApplication {
   changeUserEdit(value: boolean): void {
     this.userEdit = value;
     if (value) {
-      this.formValue.getFieldValuesByCodes(['ContractDzm', 'Application']).forEach((el) => {
-        el.modChecked = false;
-        el.modComment = ' ';
-      });
+      this.formValue
+        .getFieldValuesByCodes([
+          'ContractDzm',
+          'Application',
+          'PrimaryAccreditationApplication',
+          'MdgkbExamPointsApplication',
+          'MdgkbExamApplication',
+          'ExamPlaceApplication',
+        ])
+        .forEach((el) => {
+          el.modChecked = false;
+          el.modComment = ' ';
+        });
     }
   }
 
