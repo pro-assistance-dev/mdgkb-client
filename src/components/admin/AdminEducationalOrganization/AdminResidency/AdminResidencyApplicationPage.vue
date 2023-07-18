@@ -69,32 +69,108 @@
         <el-descriptions v-if="!isEditMode" :column="1" border>
           <el-descriptions-item label="ВУЗ">
             {{ application.diploma.universityName }}
+            <template #label>
+              <span>ВУЗ</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать ВУЗ">
+                <template #reference>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.universityName, 'ВУЗ')"
+                  ></el-button>
+                </template>
+              </el-popover>
+            </template>
           </el-descriptions-item>
+
           <el-descriptions-item label="Дата окончания">
             {{ $dateTimeFormatter.format(application.diploma.universityEndDate) }}
+            <template #label>
+              <span>Дата окончания</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать дату окончания">
+                <template #reference>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.universityEndDate), 'Дата окончания')"
+                  ></el-button>
+                </template>
+              </el-popover>
+            </template>
           </el-descriptions-item>
+
           <el-descriptions-item>
             <template #label>
               <span>Серия</span>
               <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать серию и номер">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy" @click="clickCopyHandler"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.getSeriesAndNumber(), 'Серия и номер')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
             {{ application.diploma.series }}
           </el-descriptions-item>
+
           <el-descriptions-item label="Номер">
             {{ application.diploma.number }}
           </el-descriptions-item>
+
           <el-descriptions-item label="Дата выдачи">
             {{ $dateTimeFormatter.format(application.diploma.date) }}
+            <template #label>
+              <span>Дата выдачи</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать дату выдачи">
+                <template #reference>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.date), 'Дата выдачи')"
+                  ></el-button>
+                </template>
+              </el-popover>
+            </template>
           </el-descriptions-item>
+
           <el-descriptions-item label="Код специальности">
             {{ application.diploma.specialityCode }}
+            <template #label>
+              <span>Код специальности</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать код специальности">
+                <template #reference>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.specialityCode, 'Код специальности')"
+                  ></el-button>
+                </template>
+              </el-popover>
+            </template>
           </el-descriptions-item>
+
           <el-descriptions-item label="Расшифровка специальности">
             {{ application.diploma.speciality }}
+            <template #label>
+              <span>Расшифровка специальности</span>
+              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать расшифровку специальности">
+                <template #reference>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.speciality, 'Расшифровка специальности')"
+                  ></el-button>
+                </template>
+              </el-popover>
+            </template>
           </el-descriptions-item>
         </el-descriptions>
         <div v-else>
@@ -116,7 +192,7 @@
           @findEmail="findEmail"
         />
         <AdminResidencyApplicationAchievementsPoints
-          v-if="application.residencyApplicationPointsAchievements.length && application.admissionCommittee"
+          v-if="application.admissionCommittee"
           :is-edit-mode="isEditMode"
           :residency-application="application"
         />
@@ -127,7 +203,7 @@
 </template>
 
 <script lang="ts">
-import { ElLoading, ElMessage } from 'element-plus';
+import { ElLoading, ElMessage, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -224,18 +300,22 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
+      application.value.formValue.validate();
+      saveButtonClick.value = true;
+      if (!validate(form, true) || !application.value.formValue.validated) {
+        ElNotification.error({
+          dangerouslyUseHTMLString: true,
+          message: application.value.formValue.getErrorMessage(),
+        });
+        saveButtonClick.value = false;
+        return;
+      }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)',
       });
-      application.value.formValue.validate();
-      saveButtonClick.value = true;
-      if (!validate(form, true) || !application.value.formValue.validated) {
-        saveButtonClick.value = false;
-        return;
-      }
       if (route.params['id']) {
         application.value.formValue.updateViewedByUser(initialStatus);
         await store.dispatch('residencyApplications/update');
@@ -260,10 +340,10 @@ export default defineComponent({
       // application.value.residencyCourse.formPattern.initFieldsValues();
     };
 
-    const clickCopyHandler = async () => {
-      await navigator.clipboard.writeText(application.value.diploma.getSeriesAndNumber());
+    const clickCopyHandler = async (copyValue: string, fieldName: string) => {
+      await navigator.clipboard.writeText(copyValue);
       ElMessage({
-        message: 'Серия и номер скопированы в буфер обмена',
+        message: `${fieldName} скопирован в буфер обмена`,
         type: 'success',
       });
     };
@@ -320,5 +400,13 @@ th:last-child {
 .flex {
   display: flex;
   align-items: center;
+}
+:deep(.el-descriptions__cell) {
+  position: relative;
+  .el-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
 }
 </style>

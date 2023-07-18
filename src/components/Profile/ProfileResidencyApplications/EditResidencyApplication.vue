@@ -1,6 +1,11 @@
 <template>
   <div v-if="mounted">
-    <h3>Редактирования заявки на обучение по программе {{ application.residencyCourse.getFullName() }}</h3>
+    <div class="header">
+      <h3>Редактирования заявки на обучение по программе {{ application.residencyCourse.getFullName() }}</h3>
+      <div style="margin-left: 10px">
+        <el-button type="success" size="small" :disabled="buttonOff" @click="submit">Сохранить</el-button>
+      </div>
+    </div>
     <div v-if="application.formValue.modComment" class="card-item">
       <h3>Общий комментарий по замечаниям</h3>
       <div v-html="application.formValue.modComment"></div>
@@ -37,13 +42,13 @@
         <ResidencyApplicationAchievements :residency-application="application" />
       </el-form>
     </div>
-    <el-button type="success" @click="submit">Сохранить</el-button>
+    <el-button type="success" :disabled="buttonOff" @click="submit">Сохранить</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
+import { ElLoading, ElMessageBox } from 'element-plus';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import AdmissionQuestionsFormV2 from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsFormV2.vue';
@@ -69,6 +74,7 @@ export default defineComponent({
     const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
+    const buttonOff: Ref<boolean> = ref(false);
 
     const submit = async () => {
       await loadFilters();
@@ -81,10 +87,20 @@ export default defineComponent({
       ) {
         return;
       }
+      buttonOff.value = true;
+      const loading = ElLoading.service({
+        lock: true,
+        text: 'Загрузка',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)',
+      });
       application.value.formValue.isNew = true;
       application.value.formValue.setCpecifyStatus(formStatuses.value);
       application.value.changeUserEdit(false);
       await Provider.store.dispatch('residencyApplications/update', application.value);
+      console.log(123);
+      buttonOff.value = false;
+      loading.close();
       Provider.router.push('/profile/residency-applications');
     };
 
@@ -126,6 +142,7 @@ export default defineComponent({
       filledApplicationDownload,
       application,
       achievementsForm,
+      buttonOff,
     };
   },
 });
@@ -137,5 +154,12 @@ export default defineComponent({
 }
 .card-item:empty {
   display: none;
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 10px;
 }
 </style>

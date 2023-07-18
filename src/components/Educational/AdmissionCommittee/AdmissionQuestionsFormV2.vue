@@ -1,11 +1,11 @@
 <template>
-  <el-form-item label="Выберите специальность для подачи заявления" prop="main" :rules="rules.main">
+  <el-form-item class="form-item" label="Выберите специальность для подачи заявления" prop="main" :rules="rules.main">
     <el-radio-group v-model="residencyApplicationValue.main" @change="checkTypeExists">
       <el-radio :label="true" size="large">Основная</el-radio>
       <el-radio :label="false" size="large">Дополнительная</el-radio>
     </el-radio-group>
   </el-form-item>
-  <el-form-item label="Выберите основу финансирования" prop="paid" :rules="rules.paid">
+  <el-form-item class="form-item" label="Выберите основу финансирования" prop="paid" :rules="rules.paid">
     <el-radio-group :model-value="residencyApplicationValue.paid" @change="selectPaid">
       <el-radio :label="false" size="large">На места, финансируемые за счет средств бюджета города Москвы (по договорам с ДЗМ)</el-radio>
       <el-radio :label="true" size="large">По договорам о платных образовательных услугах</el-radio>
@@ -19,7 +19,12 @@
       </div>
     </div>
   </el-form-item>
-  <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+  <el-form-item
+    class="form-item"
+    label="Вы проходили первичную аккредитацию?"
+    prop="primaryAccreditation"
+    :rules="rules.primaryAccreditation"
+  >
     <el-radio-group v-model="residencyApplicationValue.primaryAccreditation">
       <el-radio :label="true" size="large">Да</el-radio>
       <el-radio :label="false" size="large">Нет</el-radio>
@@ -27,15 +32,33 @@
   </el-form-item>
   <template v-if="residencyApplicationValue.primaryAccreditation === undefined"></template>
   <template v-else-if="residencyApplicationValue.primaryAccreditation">
-    <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
+    <el-form-item
+      class="form-item"
+      label="Первичная аккредитация пройдена в: "
+      prop="primaryAccreditationPlace"
+      :rules="rules.primaryAccreditationPlace"
+    >
       <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
     </el-form-item>
-    <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
+    <el-form-item class="form-item" label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
       <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number>
+      <div v-if="residencyApplicationValue.formValue.getFieldValueByCode('PrimaryAccreditationApplication')" style="margin-top: 10px">
+        <span>
+          <b> {{ residencyApplicationValue.formValue.getFieldValueByCode('PrimaryAccreditationApplication')?.field?.name }}: </b>
+        </span>
+        <span>
+          <FileUploader :file-info="residencyApplicationValue.formValue.getFieldValueByCode('PrimaryAccreditationApplication')?.file" />
+        </span>
+      </div>
     </el-form-item>
   </template>
   <template v-else>
-    <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+    <el-form-item
+      class="form-item"
+      label="Вступительные испытания прохожу в:"
+      prop="primaryAccreditation"
+      :rules="rules.primaryAccreditation"
+    >
       <el-radio-group v-model="residencyApplicationValue.mdgkbExam">
         <el-radio :label="true" size="large">Морозовской больнице</el-radio>
         <el-radio :label="false" size="large">В другом месте (указать)</el-radio>
@@ -43,19 +66,53 @@
     </el-form-item>
     <template v-if="residencyApplicationValue.mdgkbExam">
       <el-form-item
+        class="form-item"
         label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
         prop="entranceExamSpecialisation"
         :rules="rules.entranceExamSpecialisation"
       >
         <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
+        <div v-if="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamApplication')" style="margin-top: 10px">
+          <span>
+            <b> {{ residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamApplication')?.field?.name }}: </b>
+          </span>
+          <span>
+            <FileUploader :file-info="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamApplication')?.file" />
+          </span>
+        </div>
       </el-form-item>
     </template>
     <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
-      <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
+      <el-form-item
+        class="form-item"
+        label="Вступительные испытания прохожу в: "
+        prop="primaryAccreditationPlace"
+        :rules="rules.primaryAccreditationPlace"
+      >
         <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
+        <div v-if="residencyApplicationValue.formValue.getFieldValueByCode('ExamPlaceApplication')" style="margin-top: 10px">
+          <span>
+            <b> {{ residencyApplicationValue.formValue.getFieldValueByCode('ExamPlaceApplication')?.field?.name }}: </b>
+          </span>
+          <span>
+            <FileUploader :file-info="residencyApplicationValue.formValue.getFieldValueByCode('ExamPlaceApplication')?.file" />
+          </span>
+        </div>
       </el-form-item>
-      <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
+      <el-form-item
+        class="form-item"
+        label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)"
+        prop="primaryAccreditationPoints"
+      >
         <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
+        <div v-if="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamPointsApplication')" style="margin-top: 10px">
+          <span>
+            <b> {{ residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamPointsApplication')?.field?.name }}: </b>
+          </span>
+          <span>
+            <FileUploader :file-info="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamPointsApplication')?.file" />
+          </span>
+        </div>
       </el-form-item>
     </template>
   </template>
@@ -245,7 +302,7 @@ export default defineComponent({
 .margin-top-1 {
   margin-top: 1rem;
 }
-.el-form-item {
+.form-item {
   background-color: #f9fafb;
   border: 1px solid #e9e9e9;
   border-radius: 5px;

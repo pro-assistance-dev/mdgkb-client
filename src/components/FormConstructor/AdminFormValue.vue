@@ -80,11 +80,20 @@
           </div>
         </template>
         <FieldValuesFormResult :form="formValue" :check-fields="checkFields" />
-        <div v-for="file in formValue.formValueFiles" :key="file">
+        <el-table v-if="formValue.formValueFiles.length" style="margin-top: 20px" :data="formValue.formValueFiles">
+          <el-table-column label="Дополнительные документы" sortable>
+            <template #default="scope">
+              <a v-if="scope.row.file.fileSystemPath" :href="scope.row.file.getFileUrl()" target="_blank">
+                {{ scope.row.file.originalName }}
+              </a>
+            </template>
+          </el-table-column>
+        </el-table>
+        <!-- <div v-for="file in formValue.formValueFiles" :key="file">
           <a v-if="file.file.fileSystemPath" :href="file.file.getFileUrl()" target="_blank">
             {{ file.file.originalName }}
           </a>
-        </div>
+        </div> -->
       </el-card>
     </div>
     <el-card v-if="formValue.fieldValues.length && checkFields" id="form-comment" header="Общий комментарий">
