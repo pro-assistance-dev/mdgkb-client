@@ -57,6 +57,7 @@ export default interface IForm {
   addField: (field?: IField) => void;
   removeField: (index: number) => void;
   getFileInfos: () => IFileInfo[];
+  getFieldsFileInfos: () => IFileInfo[];
   initFieldsValues: () => void;
   getFieldValue: (field: IField) => string | number | Date | IFileInfo | boolean | undefined;
   findFieldValue: (fieldId: string) => IFieldValue | undefined;

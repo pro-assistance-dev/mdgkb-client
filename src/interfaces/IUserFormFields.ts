@@ -20,4 +20,6 @@ export default interface IUserFormFields {
   childDateBirth?: boolean;
   childIsMale?: boolean;
   childCitizenship?: boolean;
+
+  setUserEmail(value: boolean): IUserFormFields;
 }

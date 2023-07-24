@@ -3,7 +3,7 @@
     <template v-if="showLabel" #label>
       <div style="margin-left: 10px">
         <div style="margin-bottom: 5px">
-          <span v-if="field.required" class="red">*</span>
+          <span v-if="field.required" class="red">*&nbsp;</span>
           {{ field.name }}
         </div>
         <div v-if="field.comment" style="margin-bottom: 5px">

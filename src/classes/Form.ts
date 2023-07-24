@@ -183,6 +183,7 @@ export default class Form implements IForm {
     }
     this.fields.splice(index, 1);
   }
+  // For formValue fileinfos
   getFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
     this.fieldValues.forEach((i: IFieldValue) => {
@@ -205,22 +206,10 @@ export default class Form implements IForm {
     });
     return fileInfos;
   }
-  getFieldValuesFileInfos(): IFileInfo[] {
+  // For form fileinfos
+  getFieldsFileInfos(): IFileInfo[] {
     const fileInfos: IFileInfo[] = [];
-    this.fieldValues.forEach((i: IFieldValue) => {
-      if (i.file) {
-        fileInfos.push(i.file);
-      }
-      if (i.fieldValuesFiles.length > 0) {
-        i.fieldValuesFiles.forEach((fvf: IFieldValueFile) => fileInfos.push(fvf.fileInfo));
-      }
-    });
-    if (this.residencyApplication) {
-      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: ResidencyApplicationPointsAchievement) => {
-        fileInfos.push(r.fileInfo);
-      });
-    }
-    this.formValueFiles.forEach((i: IFormValueFile) => {
+    this.fields.forEach((i: IField) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
@@ -519,6 +508,17 @@ export default class Form implements IForm {
 
   getFieldValueByCode(code: string): IFieldValue | undefined {
     return this.fieldValues.find((fv: IFieldValue) => fv.field?.code === code);
+  }
+
+  getFieldValueIndexByCode(code: string): number | undefined {
+    let index;
+    this.fieldValues.forEach((fv: IFieldValue, i: number) => {
+      if (fv.field?.code === code) {
+        index = i;
+        return;
+      }
+    });
+    return index;
   }
 
   getFieldValuesByCodes(codes: string[]): IFieldValue[] {

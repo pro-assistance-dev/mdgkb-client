@@ -20,31 +20,51 @@ export default class AddressInfo {
     ClassHelper.BuildClass(this, i);
   }
 
-  setRegion(item: string, id: string): void {
+  selectRegion(item: string, id: string): void {
     this.region = item;
     this.regionId = id;
     this.dropCity();
   }
 
-  setCity(item: string, id: string, zip?: number): void {
+  setRegion(value: string): void {
+    this.region = value;
+  }
+
+  setCity(value: string): void {
+    this.city = value;
+  }
+
+  setStreet(value: string): void {
+    this.street = value;
+  }
+
+  setBuilding(value: string): void {
+    this.building = value;
+  }
+
+  setFlat(value: string): void {
+    this.flat = value;
+  }
+
+  selectCity(item: string, id: string, zip?: number): void {
     this.city = item;
     this.cityId = id;
     this.zip = zip ?? 0;
     this.dropStreet();
   }
 
-  setStreet(item: string, id: string): void {
+  selectStreet(item: string, id: string): void {
     this.street = item;
     this.streetId = id;
     this.dropBuilding();
   }
 
-  setBuilding(item: string, id: string): void {
+  selectBuilding(item: string, id: string): void {
     this.buildingId = id;
     this.building = item;
   }
 
-  setFlat(item: string, id: string): void {
+  selectFlat(item: string): void {
     this.flat = item;
   }
 
