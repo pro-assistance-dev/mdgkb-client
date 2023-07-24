@@ -71,7 +71,7 @@
             {{ application.diploma.universityName }}
             <template #label>
               <span>ВУЗ</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать ВУЗ">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать ВУЗ">
                 <template #reference>
                   <el-button
                     size="small"
@@ -88,7 +88,7 @@
             {{ $dateTimeFormatter.format(application.diploma.universityEndDate) }}
             <template #label>
               <span>Дата окончания</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать дату окончания">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать дату окончания">
                 <template #reference>
                   <el-button
                     size="small"
@@ -104,7 +104,7 @@
           <el-descriptions-item>
             <template #label>
               <span>Серия</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать серию и номер">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать серию и номер">
                 <template #reference>
                   <el-button
                     size="small"
@@ -126,7 +126,7 @@
             {{ $dateTimeFormatter.format(application.diploma.date) }}
             <template #label>
               <span>Дата выдачи</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать дату выдачи">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать дату выдачи">
                 <template #reference>
                   <el-button
                     size="small"
@@ -143,7 +143,7 @@
             {{ application.diploma.specialityCode }}
             <template #label>
               <span>Код специальности</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать код специальности">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать код специальности">
                 <template #reference>
                   <el-button
                     size="small"
@@ -160,7 +160,7 @@
             {{ application.diploma.speciality }}
             <template #label>
               <span>Расшифровка специальности</span>
-              <el-popover placement="top-start" width="auto" trigger="hover" content="Копировать расшифровку специальности">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать расшифровку специальности">
                 <template #reference>
                   <el-button
                     size="small"

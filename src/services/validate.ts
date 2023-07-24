@@ -17,9 +17,9 @@ export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fiel
         ElNotification.error(new MessageError(errorFields));
       }
       validationResult = false;
-      return false;
+      return validationResult;
     }
-    return true;
+    return validationResult;
   });
   return validationResult;
 }

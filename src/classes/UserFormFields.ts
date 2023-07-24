@@ -117,4 +117,9 @@ export default class UserFormFields implements IUserFormFields {
     newForm.userPhone = true;
     return newForm;
   }
+
+  setUserEmail(value: boolean): IUserFormFields {
+    this.userEmail = value;
+    return this;
+  }
 }

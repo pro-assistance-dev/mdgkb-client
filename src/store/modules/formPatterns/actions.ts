@@ -24,7 +24,7 @@ const actions: ActionTree<State, RootState> = {
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
-      fileInfos: state.item.getFileInfos(),
+      fileInfos: state.item.getFieldsFileInfos(),
     });
     commit('set', res);
   },

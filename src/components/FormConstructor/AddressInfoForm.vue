@@ -1,5 +1,11 @@
 <template>
-  <el-form-item v-for="input in inputs.filter((i) => i.condition())" :key="input.name" :label="input.label">
+  <el-form-item
+    v-for="input in inputs.filter((i) => i.condition())"
+    :key="input.name"
+    :prop="`formValue.user.human.contactInfo.addressInfo.${input.name}`"
+    :label="input.label"
+    :rules="input.rule"
+  >
     <el-autocomplete
       v-model="input.model"
       autocomplete="nope"
@@ -43,46 +49,103 @@ export default defineComponent({
     const addresses: ComputedRef<Address[]> = computed(() => Provider.store.getters[`meta/addresses`]);
     const kladrAPI: ComputedRef<KladrApi> = computed(() => Provider.store.getters[`meta/kladrAPI`]);
 
+    const rules = {
+      region: [{ required: true, message: 'Пожалуйста, укажите регион', trigger: 'change' }],
+      city: [{ required: true, message: 'Пожалуйста, укажите населённый пункт', trigger: 'change' }],
+      street: [{ required: true, message: 'Пожалуйста, укажите улицу', trigger: 'change' }],
+      building: [{ required: true, message: 'Пожалуйста, укажите дом', trigger: 'change' }],
+    };
+
     const inputs = ref([
       {
         name: 'region',
-        model: props.addressInfo.region,
-        condition: () => true,
+        model: computed({
+          get(): string {
+            return props.addressInfo.region;
+          },
+          set(value): void {
+            props.addressInfo.setRegion(value);
+          },
+        }),
+        condition: (): boolean => true,
         label: 'Регион',
-        setAddressFunc: props.addressInfo.setRegion.bind(props.addressInfo),
+        setAddressFunc: props.addressInfo.selectRegion.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropRegion.bind(props.addressInfo),
         apiFunc: kladrAPI.value.setRegionId.bind(kladrAPI.value),
         apiDropFunc: kladrAPI.value.dropRegion.bind(kladrAPI.value),
+        rule: rules.region,
       },
       {
         name: 'city',
-        model: props.addressInfo.city,
+        model: computed({
+          get(): string {
+            return props.addressInfo.city;
+          },
+          set(value): void {
+            props.addressInfo.setCity(value);
+          },
+        }),
         condition: () => props.addressInfo.regionId !== '',
         label: 'Населённый пункт',
-        setAddressFunc: props.addressInfo.setCity.bind(props.addressInfo),
+        setAddressFunc: props.addressInfo.selectCity.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropCity.bind(props.addressInfo),
         apiFunc: kladrAPI.value.setCityId.bind(kladrAPI.value),
         apiDropFunc: kladrAPI.value.dropCity.bind(kladrAPI.value),
+        rule: rules.city,
       },
       {
         name: 'street',
-        model: props.addressInfo.street,
+        model: computed({
+          get(): string {
+            return props.addressInfo.street;
+          },
+          set(value): void {
+            props.addressInfo.setStreet(value);
+          },
+        }),
         condition: () => props.addressInfo.cityId !== '',
         label: 'Улица',
-        setAddressFunc: props.addressInfo.setStreet.bind(props.addressInfo),
+        setAddressFunc: props.addressInfo.selectStreet.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropStreet.bind(props.addressInfo),
         apiFunc: kladrAPI.value.setStreetId.bind(kladrAPI.value),
         apiDropFunc: kladrAPI.value.dropStreet.bind(kladrAPI.value),
+        rule: rules.street,
       },
       {
         name: 'building',
-        model: props.addressInfo.building,
+        model: computed({
+          get(): string {
+            return props.addressInfo.building;
+          },
+          set(value): void {
+            props.addressInfo.setBuilding(value);
+          },
+        }),
         condition: () => props.addressInfo.streetId !== '',
         label: 'Дом',
-        setAddressFunc: props.addressInfo.setBuilding.bind(props.addressInfo),
+        setAddressFunc: props.addressInfo.selectBuilding.bind(props.addressInfo),
         dropAddressFunc: () => undefined,
         apiFunc: kladrAPI.value.setBuildingId.bind(kladrAPI.value),
         apiDropFunc: () => undefined,
+        rule: rules.building,
+      },
+      {
+        name: 'flat',
+        model: computed({
+          get(): string {
+            return props.addressInfo.flat;
+          },
+          set(value): void {
+            props.addressInfo.setFlat(value);
+          },
+        }),
+        condition: () => props.addressInfo.buildingId !== '',
+        label: 'Номер квартиры',
+        setAddressFunc: props.addressInfo.selectFlat.bind(props.addressInfo),
+        dropAddressFunc: () => undefined,
+        apiFunc: () => undefined,
+        apiDropFunc: () => undefined,
+        rule: '',
       },
     ]);
 
