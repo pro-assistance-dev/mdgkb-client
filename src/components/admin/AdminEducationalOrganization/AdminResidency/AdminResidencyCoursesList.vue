@@ -32,6 +32,12 @@
           {{ scope.row.getPeriod() }}
         </template>
       </el-table-column>
+      <el-table-column label="Шаблон формы" align="center" width="200">
+        <template #default="scope">
+          {{ scope.row.formPattern.title }}
+        </template>
+      </el-table-column>
+
       <el-table-column label="Количество платных мест" align="center" width="150">
         <template #default="scope">
           <div v-if="isEditMode">

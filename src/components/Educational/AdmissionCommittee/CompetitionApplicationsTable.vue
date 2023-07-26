@@ -4,7 +4,7 @@
       <th>ФИО</th>
       <th>Специальность</th>
       <th>Целевое/ДПОУ (договор)</th>
-      <th>Дата принятия заявления</th>
+      <th>Дата принятия заявления, номер заявления</th>
       <th>Заявление по специальности приоритетное/дополнительное</th>
       <th style="text-align: center">Балл общий</th>
       <th style="text-align: center">Балл вступительных испытаний</th>
@@ -22,7 +22,12 @@
         </td>
         <td>{{ application.paid ? 'Договор' : 'Целевое' }}</td>
         <td style="text-align: center">
-          {{ $dateTimeFormatter.format(application.formValue.approvingDate) }}
+          <div>
+            {{ $dateTimeFormatter.format(application.formValue.approvingDate) }}
+          </div>
+          <div v-if="application.applicationNum && application.formValue.formStatus.isAccepted()">
+            {{ application.applicationNum }}
+          </div>
         </td>
         <td>{{ application.main ? 'Приоритетное' : 'Дополнительное' }}</td>
         <td style="text-align: center">{{ application.getPointsSum() }}</td>
