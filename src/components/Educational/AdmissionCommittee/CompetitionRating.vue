@@ -7,6 +7,7 @@
       <th style="text-align: center">Балл вступительных испытаний</th>
       <th style="text-align: center">Балл индивидуальных достижений</th>
       <th style="text-align: center">Основное/дополнительное</th>
+      <th style="text-align: center">Целевое/ДПОУ (договор)</th>
     </thead>
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">
@@ -16,12 +17,13 @@
           </td>
         </tr>
         <tr v-for="(application, j) in course.getApplicationsByPoint()" :key="application.id">
-          <td style="text-align: right">{{ j + 1 }}</td>
-          <td style="text-align: right">{{ application.formValue.user.human.snils }}</td>
-          <td style="text-align: right">{{ application.getPointsSum() }}</td>
-          <td style="text-align: right">{{ application.pointsEntrance }}</td>
-          <td style="text-align: right">{{ application.calculateAchievementsPoints(true) }}</td>
-          <td style="text-align: right">{{ application.main ? 'Основное' : 'Дополнительное' }}</td>
+          <td style="text-align: center">{{ j + 1 }}</td>
+          <td style="text-align: center">{{ application.formValue.user.human.snils }}</td>
+          <td style="text-align: center">{{ application.getPointsSum() }}</td>
+          <td style="text-align: center">{{ application.pointsEntrance }}</td>
+          <td style="text-align: center">{{ application.calculateAchievementsPoints(true) }}</td>
+          <td style="text-align: center">{{ application.main ? 'Основное' : 'Дополнительное' }}</td>
+          <td style="text-align: center">{{ application.paid ? 'Договор' : 'Целевое' }}</td>
         </tr>
       </template>
     </tbody>

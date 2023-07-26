@@ -86,7 +86,7 @@ export default defineComponent({
           },
         }),
         condition: () => props.addressInfo.regionId !== '',
-        label: 'Населённый пункт',
+        label: 'Нас. пункт',
         setAddressFunc: props.addressInfo.selectCity.bind(props.addressInfo),
         dropAddressFunc: props.addressInfo.dropCity.bind(props.addressInfo),
         apiFunc: kladrAPI.value.setCityId.bind(kladrAPI.value),
