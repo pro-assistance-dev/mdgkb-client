@@ -83,7 +83,7 @@ export default defineComponent({
         name: 'Заявки ординатура',
         icon: 'Education',
         to: '/profile/residency-applications',
-        route: 'daily-menu-orders',
+        route: 'education',
         liCondition: () => user.value.residencyApplications.length,
         notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
         notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,

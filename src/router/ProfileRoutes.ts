@@ -7,6 +7,7 @@ import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
 import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
 import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
 import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
+import CancelResidencyApplication from '@/components/Profile/ProfileResidencyApplications/CancelResidencyApplication.vue';
 import EditResidencyApplication from '@/components/Profile/ProfileResidencyApplications/EditResidencyApplication.vue';
 import ProfileResidencyApplications from '@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue';
 import QuestionAnswerPage from '@/components/Profile/QuestionAnswerPage.vue';
@@ -72,7 +73,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       authGuard();
       isAuthorized(next);
     },
-    meta: { protected: true, profile: 'education' },
+    meta: { protected: true, profile: 'daily-menu-orders' },
   },
   {
     path: '/profile/question-answer',
@@ -118,6 +119,16 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     path: '/profile/residency-applications/:id',
     name: 'EditResidencyApplication',
     component: EditResidencyApplication,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'education' },
+  },
+  {
+    path: '/profile/residency-applications/cancel/:id',
+    name: 'CancelResidencyApplication',
+    component: CancelResidencyApplication,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard();
       isAuthorized(next);

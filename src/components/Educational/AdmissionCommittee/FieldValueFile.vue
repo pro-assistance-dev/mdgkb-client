@@ -2,15 +2,18 @@
   <div v-if="fieldValue" prop="primaryAccreditationPoints">
     <div style="margin-bottom: 5px">
       <span v-if="required" class="red">*&nbsp;</span>
-      {{ fieldValue?.field?.name }}
+      {{ field?.name }}
     </div>
-    <div v-if="fieldValue?.field?.file.fileSystemPath">
+    <div v-if="field?.comment" style="margin-bottom: 5px; line-height: normal">
+      <i>{{ field.comment }}</i>
+    </div>
+    <div v-if="field?.file.fileSystemPath">
       <span>Образец: </span>
-      <a v-if="fieldValue?.field.file.fileSystemPath" :href="fieldValue?.field.file.getFileUrl()" target="_blank">
-        {{ fieldValue?.field.file.originalName }}
+      <a v-if="field.file.fileSystemPath" :href="field.file.getFileUrl()" target="_blank">
+        {{ field.file.originalName }}
       </a>
     </div>
-    <span>
+    <span v-if="fieldValue?.file">
       <FileUploader :file-info="fieldValue?.file" />
       <div v-if="showError && fieldValue.file && !fieldValue.file.fileSystemPath" class="form-item-error">
         {{ fieldValue.errorText }}
@@ -20,17 +23,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import FieldValue from '@/classes/FieldValue';
 import FileUploader from '@/components/FileUploader.vue';
+import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
+import IForm from '@/interfaces/IForm';
 
 export default defineComponent({
   name: 'FieldValueFile',
   components: { FileUploader },
   props: {
-    fieldValue: {
-      type: Object as PropType<IFieldValue | undefined>,
+    field: {
+      type: Object as PropType<IField | undefined>,
+      required: true,
+    },
+    form: {
+      type: Object as PropType<IForm>,
       required: true,
     },
     showError: {
@@ -41,6 +51,18 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+  },
+  setup(props) {
+    const fieldValue: Ref<IFieldValue> = ref(new FieldValue());
+    onBeforeMount(() => {
+      if (props.field?.id) {
+        fieldValue.value = props.form.findFieldValue(props.field.id) || new FieldValue();
+      }
+    });
+
+    return {
+      fieldValue,
+    };
   },
 });
 </script>

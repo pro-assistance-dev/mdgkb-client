@@ -73,7 +73,7 @@ export default defineComponent({
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
     const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const cancelApplication = async (formValue: IForm, status: IFormStatus) => {
-      ElMessageBox.confirm('Вы уверены, что хотите отменить заказ?', {
+      ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
         type: 'warning',
@@ -85,7 +85,7 @@ export default defineComponent({
 
     const updateFormStatus = async (application: ResidencyApplication, status: IFormStatus) => {
       if (status.isCancelled()) {
-        await cancelApplication(application.formValue, status);
+        await Provider.router.push(`/profile/residency-applications/cancel/${application.id}`);
         return;
       }
       if (status.isClarified()) {
