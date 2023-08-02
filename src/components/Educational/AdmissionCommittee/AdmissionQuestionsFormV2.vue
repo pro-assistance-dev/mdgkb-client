@@ -39,7 +39,11 @@
       )}].file.fileSystemPath`"
       :rules="rules.primaryAccreditationApplication"
     >
-      <FieldValueFile required :field-value="residencyApplicationValue.formValue.getFieldValueByCode('PrimaryAccreditationApplication')" />
+      <FieldValueFile
+        required
+        :form="residencyApplicationValue.formValue"
+        :field="residencyApplicationValue.formValue.getFieldByCode('PrimaryAccreditationApplication')"
+      />
     </el-form-item>
   </template>
   <template v-else>
@@ -58,7 +62,10 @@
         <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
       </el-form-item>
       <el-form-item>
-        <FieldValueFile :field-value="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamApplication')" />
+        <FieldValueFile
+          :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
+        />
       </el-form-item>
     </template>
     <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
@@ -66,13 +73,19 @@
         <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
       </el-form-item>
       <el-form-item>
-        <FieldValueFile :field-value="residencyApplicationValue.formValue.getFieldValueByCode('ExamPlaceApplication')" />
+        <FieldValueFile
+          :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')"
+        />
       </el-form-item>
       <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
         <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
       </el-form-item>
       <el-form-item>
-        <FieldValueFile :field-value="residencyApplicationValue.formValue.getFieldValueByCode('MdgkbExamPointsApplication')" />
+        <FieldValueFile
+          :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamPointsApplication')"
+        />
       </el-form-item>
     </template>
   </template>

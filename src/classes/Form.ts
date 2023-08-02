@@ -251,7 +251,7 @@ export default class Form implements IForm {
     });
   }
 
-  validate(withoutFiles?: boolean): void {
+  validate(withoutFiles?: boolean, requiredForCancel?: boolean): void {
     this.validated = true;
 
     this.fieldValues.forEach((el: IFieldValue) => {
@@ -260,6 +260,12 @@ export default class Form implements IForm {
       }
 
       if (el.field?.required) {
+        el.validate();
+        if (el.showError) {
+          this.validated = false;
+        }
+      }
+      if (requiredForCancel && el.field?.requiredForCancel) {
         el.validate();
         if (el.showError) {
           this.validated = false;
@@ -350,6 +356,13 @@ export default class Form implements IForm {
   setCpecifyStatus(statuses: IFormStatus[]): void {
     statuses.forEach((el: IFormStatus) => {
       if (el.isClarified()) {
+        this.formStatus = new FormStatus(el);
+      }
+    });
+  }
+  setCanceledStatus(statuses: IFormStatus[]): void {
+    statuses.forEach((el: IFormStatus) => {
+      if (el.isCancelled()) {
         this.formStatus = new FormStatus(el);
       }
     });

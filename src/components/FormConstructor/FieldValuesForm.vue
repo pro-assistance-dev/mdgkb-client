@@ -99,6 +99,10 @@ export default defineComponent({
       type: Array as PropType<string[]>,
       default: () => [],
     },
+    requiredForCancelOnly: {
+      type: Boolean,
+      default: false,
+    },
     table: {
       type: Boolean,
       default: false,
@@ -143,6 +147,9 @@ export default defineComponent({
       }
       if (props.filterFieldsWithCode?.length > 0) {
         return props.form.fields.filter((field: IField) => !props.filterFieldsWithCode?.includes(field.code));
+      }
+      if (props.requiredForCancelOnly) {
+        return props.form.fields.filter((field: IField) => field.requiredForCancel);
       }
       return props.form.fields;
     };

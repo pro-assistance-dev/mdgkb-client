@@ -98,7 +98,6 @@ export default defineComponent({
       application.value.formValue.setCpecifyStatus(formStatuses.value);
       application.value.changeUserEdit(false);
       await Provider.store.dispatch('residencyApplications/update', application.value);
-      console.log(123);
       buttonOff.value = false;
       loading.close();
       Provider.router.push('/profile/residency-applications');
