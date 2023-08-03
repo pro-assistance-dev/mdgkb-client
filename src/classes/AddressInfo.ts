@@ -53,9 +53,10 @@ export default class AddressInfo {
     this.dropStreet();
   }
 
-  selectStreet(item: string, id: string): void {
+  selectStreet(item: string, id: string, zip?: number): void {
     this.street = item;
     this.streetId = id;
+    this.zip = zip ?? 0;
     this.dropBuilding();
   }
 
