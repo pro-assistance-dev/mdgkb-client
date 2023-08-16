@@ -70,6 +70,10 @@ export default class FormStatus implements IFormStatus {
     return this.name === FormStatusNames.Cancelled;
   }
 
+  isRemoved(): boolean {
+    return this.name === FormStatusNames.Removed;
+  }
+
   isNew(): boolean {
     console.log(this.name);
     return this.name === FormStatusNames.New;
