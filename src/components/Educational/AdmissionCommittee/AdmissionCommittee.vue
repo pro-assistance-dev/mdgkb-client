@@ -4,14 +4,14 @@
       <component :is="section.component"></component>
     </template>
     <template #bottom>
-      <div class="button-container">
-        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>
-      </div>
+      <!--      <div class="button-container">-->
+      <!--        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>-->
+      <!--      </div>-->
     </template>
     <template #title>
-      <div class="title-button-container">
-        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>
-      </div>
+      <!--      <div class="title-button-container">-->
+      <!--        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>-->
+      <!--      </div>-->
     </template>
   </PageComponent>
 </template>
