@@ -5,4 +5,5 @@ export enum FormStatusNames {
   ClarifyRequired = 'Требует уточнения',
   Cancelled = 'Отозвано',
   New = 'Новое',
+  Removed = 'Снят с конкурса',
 }

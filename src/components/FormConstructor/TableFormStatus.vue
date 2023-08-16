@@ -4,7 +4,7 @@
     <el-tag
       v-if="form.formStatus.label"
       size="small"
-      :style="`background-color: inherit; color: ${form.formStatus.color}; border-color: ${form.formStatus.color}`"
+      :style="`background-color: inherit; color: ${form.formStatus.color}; border-color: ${form.formStatus.color}; line-height: 1; padding: 5px 10px`"
     >
       {{ form.formStatus.label }}
     </el-tag>

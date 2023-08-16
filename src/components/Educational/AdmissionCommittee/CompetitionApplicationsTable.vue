@@ -38,6 +38,12 @@
         </td>
         <td style="text-align: center">
           <TableFormStatus :form="application.formValue" />
+          <div
+            v-if="application.formValue.formStatus.isRemoved() && application.formValue.modComment?.length"
+            style="font-size: 12px; text-align: start; line-height: 1.1"
+          >
+            <div v-html="application.formValue.modComment"></div>
+          </div>
           <!--          {{ application.formValue.formStatus.name }}-->
         </td>
       </tr>

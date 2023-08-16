@@ -11,7 +11,7 @@
           <el-input v-model="formStatus.name" placeholder="Кодовое название"></el-input>
         </el-form-item> -->
         <el-form-item label="Код (при отутствии совпадений - оставить пустым)" name="">
-          <el-select v-model="formStatus.name" placeholder="Группа статусов" clearable>
+          <el-select v-model="formStatus.name" placeholder="Код" clearable>
             <el-option v-for="item in Object.values(FormStatusNames)" :key="item" :label="item" :value="item"> </el-option>
           </el-select>
         </el-form-item>
