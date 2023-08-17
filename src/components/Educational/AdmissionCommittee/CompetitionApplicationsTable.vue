@@ -40,9 +40,15 @@
           <TableFormStatus :form="application.formValue" />
           <div
             v-if="application.formValue.formStatus.isRemoved() && application.formValue.modComment?.length"
-            style="font-size: 12px; text-align: start; line-height: 1.1"
+            style="font-size: 12px; text-align: center; line-height: 1.1"
           >
-            <div v-html="application.formValue.modComment"></div>
+            <el-popover trigger="click" width="300px" placement="left-end">
+              <template #reference>
+                <a style="text-decoration: underline"> Подробнее</a>
+              </template>
+
+              <div style="word-break: break-word; text-align: left" v-html="application.formValue.modComment"></div>
+            </el-popover>
           </div>
           <!--          {{ application.formValue.formStatus.name }}-->
         </td>
