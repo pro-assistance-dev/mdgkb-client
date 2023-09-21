@@ -11,7 +11,10 @@ const NewsFiltersLib = (() => {
       Provider.schema.value.news.publishedOn,
       DataTypes.Date
     );
-    onlyPublished.date1 = new Date();
+    const now = new Date();
+    now.setTime(now.getTime() + 3 * 60 * 60 * 1000);
+
+    onlyPublished.date1 = now;
     onlyPublished.operator = Operators.Lt;
     return onlyPublished;
   }

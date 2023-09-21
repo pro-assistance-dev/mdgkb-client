@@ -32,10 +32,20 @@
                 <el-input v-model="news.mainImageDescription" placeholder="Описание" />
               </el-form-item>
             </el-card>
-            <el-card>
-              <template #header> Галерея </template>
-              <AdminGallery :file-list="news.newsImages" :file-list-for-delete="news.newsImagesForDelete" @add-image="news.addImage()" />
-            </el-card>
+
+            <CollapseItem :collapsed="false">
+              <template #inside-title>
+                <div class="title-in">Фотографии</div>
+              </template>
+              <template #inside-content>
+                <div class="tools-buttons">
+                  <button class="admin-add" @click.prevent="news.addImage()">+ Добавить</button>
+                </div>
+                <div v-if="news.newsImages.length" class="background-container">
+                  <AdminGallery :default-ratio="4 / 3" :file-list="news.newsImages" :file-list-for-delete="news.newsImagesForDelete" />
+                </div>
+              </template>
+            </CollapseItem>
           </el-container>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
@@ -58,6 +68,7 @@
                 <UploaderSingleScan
                   :file-info="news.previewImage"
                   :height="300"
+                  :default-ratio="1"
                   @remove-file="news.removePreviewImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
@@ -81,6 +92,7 @@ import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue'
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
+import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import INews from '@/interfaces/news/INews';
 import AdminGallery from '@/services/components/AdminGallery.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
@@ -88,7 +100,6 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
-
 export default defineComponent({
   name: 'AdminNewsPage',
   components: {
@@ -98,6 +109,7 @@ export default defineComponent({
     WysiwygEditor,
     AdminNewsPageTags,
     AdminNewsDoctors,
+    CollapseItem,
   },
   setup() {
     const route = useRoute();
@@ -161,6 +173,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/elements/base-style.scss';
+
 .el-container {
   .el-card {
     margin-bottom: 20px;
@@ -174,5 +188,67 @@ export default defineComponent({
 
 :deep(.el-dialog) {
   overflow: hidden;
+}
+
+.title-in {
+  display: flex;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #303133;
+  height: 60px;
+  align-items: center;
+  font-weight: normal;
+}
+
+.tools-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.background-container {
+  width: auto;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: $normal-border-radius;
+  border: 1px solid #c3c3c3;
+}
+
+.tools-buttons {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.admin-add {
+  border: none;
+  background: inherit;
+  color: #1979cf;
+  margin: 10px;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+:deep(.el-upload--picture-card) {
+  width: 300px;
+  font-size: 50px;
+  margin: 10px;
+}
+
+:deep(.el-upload--picture-card i) {
+  font-size: 50px;
+  color: #00b5a4;
+  padding: 0 54px;
+}
+
+:deep(.el-upload-list--picture-card .el-upload-list__item) {
+  margin: 10px;
 }
 </style>
