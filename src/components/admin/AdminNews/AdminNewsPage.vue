@@ -147,7 +147,11 @@ export default defineComponent({
         });
       } else {
         Provider.store.commit('news/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить новость', showBackButton: true, buttons: [{ action: submit }] });
+        Provider.store.commit('admin/setHeaderParams', {
+          title: 'Добавить новость',
+          showBackButton: true,
+          buttons: [{ action: submit }],
+        });
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(news, formUpdated, { deep: true });

@@ -32,7 +32,7 @@
                 </div>
 
                 <p>{{ manager.doctor.employee.human.getFullName() }}</p>
-                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 11</div>
+                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 8</div>
                 <ContactsBlock :contact-info="manager.doctor.employee.human.contactInfo" />
                 <div v-if="i !== 2" class="contact-h3">
                   <div class="item">
