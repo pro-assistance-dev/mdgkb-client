@@ -46,6 +46,62 @@
       <Pagination />
     </template>
   </component>
+  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="15vh" @open="loadMain">
+    <el-form-item>
+      <el-select
+        v-model="newsMain"
+        :fit-input-width="true"
+        style="width: 100%"
+        value-key="id"
+        placeholder="Выберите главную новость"
+        @change="changeMain"
+      >
+        <el-option
+          v-for="item in news"
+          :key="item.id"
+          :label="item.title + ' ' + $dateTimeFormatter.format(item.publishedOn)"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-select
+        v-model="newsSubMain1"
+        :fit-input-width="true"
+        style="width: 100%"
+        value-key="id"
+        placeholder="Выберите первую подглавную новость"
+        @change="changeSubMain1"
+      >
+        <el-option
+          v-for="item in news"
+          :key="item.id"
+          :label="item.title + ' ' + $dateTimeFormatter.format(item.publishedOn)"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
+    <el-form-item>
+      <el-select
+        v-model="newsSubMain2"
+        :fit-input-width="true"
+        style="width: 100%"
+        value-key="id"
+        placeholder="Выберите вторую подглавную новость"
+        @change="changeSubMain2"
+      >
+        <el-option
+          v-for="item in news"
+          :key="item.id"
+          :label="item.title + ' ' + $dateTimeFormatter.format(item.publishedOn)"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+    </el-form-item>
+  </el-dialog>
 </template>
 
 <script lang="ts">
@@ -72,6 +128,9 @@ export default defineComponent({
   components: { FiltersList, FilterSelectDate, TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper },
   setup() {
     const news = computed(() => Provider.store.getters['news/news']);
+    const newsMain = computed(() => Provider.store.getters['news/main']);
+    const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
+    const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
@@ -80,6 +139,7 @@ export default defineComponent({
       const item = news.value.find((i: INews) => i.id === id);
       if (item) await Provider.router.push(`/admin/news/${item.slug}`);
     };
+    const isModalOpened: Ref<boolean> = ref(false);
 
     const remove = async (id: string) => {
       await Provider.store.dispatch('news/remove', id);
@@ -96,8 +156,43 @@ export default defineComponent({
       await loadNews();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Новости',
-        buttons: [{ text: 'Добавить новость', type: 'primary', action: addNews }],
+        buttons: [
+          { text: 'Назначить главную новость', type: 'success', action: openModal },
+          { text: 'Добавить новость', type: 'primary', action: addNews },
+        ],
       });
+    };
+
+    const loadMain = async () => {
+      await Promise.all([Provider.store.dispatch('news/getMain'), Provider.store.dispatch('news/getSubMain')]);
+    };
+
+    const openModal = () => {
+      isModalOpened.value = true;
+    };
+
+    const changeMain = async (item: INews) => {
+      newsMain.value.main = false;
+      await Provider.store.dispatch('news/update', newsMain.value);
+      item.main = true;
+      Provider.store.commit('news/setMain', { news: [item] });
+      await Provider.store.dispatch('news/update', newsMain.value);
+    };
+
+    const changeSubMain1 = async (item: INews) => {
+      newsSubMain1.value.subMain = false;
+      await Provider.store.dispatch('news/update', newsSubMain1.value);
+      item.subMain = true;
+      Provider.store.commit('news/setSubMain1', item);
+      await Provider.store.dispatch('news/update', newsSubMain1.value);
+    };
+
+    const changeSubMain2 = async (item: INews) => {
+      newsSubMain2.value.subMain = false;
+      await Provider.store.dispatch('news/update', newsSubMain2.value);
+      item.subMain = true;
+      Provider.store.commit('news/setSubMain2', item);
+      await Provider.store.dispatch('news/update', newsSubMain2.value);
     };
 
     Hooks.onBeforeMount(load, {
@@ -122,6 +217,14 @@ export default defineComponent({
       createFilterModels,
       mounted: Provider.mounted,
       schema: Provider.schema,
+      isModalOpened,
+      loadMain,
+      newsMain,
+      newsSubMain1,
+      newsSubMain2,
+      changeMain,
+      changeSubMain1,
+      changeSubMain2,
     };
   },
 });

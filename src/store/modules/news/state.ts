@@ -7,6 +7,9 @@ import ITag from '@/interfaces/news/ITag';
 
 export interface State {
   news: INews[];
+  main: INews;
+  subMain1: INews;
+  subMain2: INews;
   filteredNews: INews[];
   filterTags: ITag[];
   newsItem: INews;

@@ -54,7 +54,19 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const recentNewsList = computed(() =>
-      store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber)
+      store.getters['news/news']
+        .filter((item: INews) => {
+          if (props.main) {
+            if (item.id !== news.value.id && !item.main && !item.subMain) {
+              return item;
+            }
+          } else {
+            if (item.id !== news.value.id) {
+              return item;
+            }
+          }
+        })
+        .slice(0, props.newsNumber)
     );
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();

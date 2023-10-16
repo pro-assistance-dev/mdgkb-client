@@ -14,6 +14,9 @@ import { State } from './state';
 export const getDefaultState = (): State => {
   return {
     news: [],
+    main: new News(),
+    subMain1: new News(),
+    subMain2: new News(),
     filteredNews: [],
     filterTags: [],
     newsItem: new News(),

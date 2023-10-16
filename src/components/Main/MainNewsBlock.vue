@@ -8,11 +8,11 @@
   >
     <div class="main-news-block">
       <div class="main-news-block-left">
-        <MainBigNewsCard :news="news[7]" />
+        <MainBigNewsCard :news="newsMain" />
       </div>
       <div class="main-news-block-middle">
-        <div class="size"><NewsCard :news="news[1]" :main="true" /></div>
-        <div class="size"><NewsCard :news="news[2]" :main="true" /></div>
+        <div class="size"><NewsCard :news="newsSubMain1" :main="true" /></div>
+        <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
       </div>
       <div class="main-news-block-right">
         <RecentNewsCard :main="true" :news-number="5" style="height: 100%" />
@@ -40,6 +40,9 @@ export default defineComponent({
 
   setup() {
     const news = computed(() => Provider.store.getters['news/news']);
+    const newsMain = computed(() => Provider.store.getters['news/main']);
+    const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
+    const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
     const mounted: Ref<boolean> = ref(false);
 
     const createFilterModels = () => {
@@ -57,8 +60,12 @@ export default defineComponent({
 
     const load = async () => {
       createFilterModels();
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
-      await Provider.store.commit('news/setFilteredNews');
+      await Promise.all([
+        Provider.store.dispatch('news/getAll', Provider.filterQuery.value),
+        Provider.store.dispatch('news/getMain'),
+        Provider.store.dispatch('news/getSubMain'),
+      ]);
+      Provider.store.commit('news/setFilteredNews');
       mounted.value = true;
     };
 
@@ -67,6 +74,9 @@ export default defineComponent({
     return {
       news,
       mounted,
+      newsMain,
+      newsSubMain1,
+      newsSubMain2,
     };
   },
 });

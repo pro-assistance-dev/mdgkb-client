@@ -25,6 +25,19 @@ const mutations: MutationTree<State> = {
       return;
     }
   },
+  setMain(state, items: INewsWithCount) {
+    state.main = new News(items.news[0]);
+  },
+  setSubMain(state, items: INewsWithCount) {
+    state.subMain1 = new News(items.news[0]);
+    state.subMain2 = new News(items.news[1]);
+  },
+  setSubMain1(state, item: INews) {
+    state.subMain1 = new News(item);
+  },
+  setSubMain2(state, item: INews) {
+    state.subMain2 = new News(item);
+  },
   appendToAll(state, items: INewsWithCount) {
     const itemsForAdding = items.news.map((i: INews) => new News(i));
     state.news.push(...itemsForAdding);
