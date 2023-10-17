@@ -4,6 +4,7 @@
     :style="{ 'background-image': 'url(' + news.getImageUrl() + ')' }"
     @click="$router.push(`/news/${news.slug}`)"
   >
+    <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="big-news-card-container">
       <div class="big-news-card-tags">
         <el-tag
@@ -28,18 +29,24 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Close from '@/assets/svg/Icons/Close.svg';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'MainBigNewsCard',
-  components: { NewsMeta },
+  components: { NewsMeta, Close },
   props: {
     news: {
       type: Object as PropType<INews>,
       required: true,
     },
+    showClose: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['close'],
 });
 </script>
 
@@ -54,7 +61,9 @@ export default defineComponent({
   color: #343e5c;
   display: flex;
   align-items: flex-end;
+  position: relative;
   &-container {
+    width: 100%;
     background: #ffffff;
     display: flex;
     flex-direction: column;
@@ -216,5 +225,22 @@ export default defineComponent({
       }
     }
   }
+}
+.close-icon {
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  backdrop-filter: blur(5px);
+  border-radius: 20%;
+  padding: 5px;
+  filter: brightness(100%);
+  z-index: 99;
+}
+.close-icon:hover {
+  backdrop-filter: blur(20px);
+  transform: scale(1.1);
 }
 </style>

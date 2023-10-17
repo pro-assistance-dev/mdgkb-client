@@ -58,6 +58,11 @@ const getters: GetterTree<State, RootState> = {
   calendarNews(state): INews[] {
     return state.calendarNews;
   },
+  mainPageRecentNewsList(state): INews[] {
+    return state.news
+      .filter((item: INews) => item.id !== state.main.id && item.id !== state.subMain1.id && item.id !== state.subMain2.id)
+      .slice(0, 5);
+  },
   calendarMeta(state): ICalendarMeta | undefined {
     return state.calendarMeta;
   },

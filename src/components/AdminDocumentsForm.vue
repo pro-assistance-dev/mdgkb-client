@@ -5,6 +5,11 @@
         <TableMover :ordered-items="documentType.pageSectionDocuments" :index="scope.$index" />
       </template>
     </el-table-column>
+    <el-table-column width="50" label="№" align="center">
+      <template #default="scope">
+        {{ scope.row.order + 1 }}
+      </template>
+    </el-table-column>
     <el-table-column prop="name" label="Название документа">
       <template #default="scope">
         <el-form-item size="mini" style="margin: 0">

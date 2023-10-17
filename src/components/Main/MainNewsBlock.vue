@@ -15,7 +15,7 @@
         <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
       </div>
       <div class="main-news-block-right">
-        <RecentNewsCard :main="true" :news-number="5" style="height: 100%" />
+        <RecentNewsCard :news-list="recentNewsList" :main="true" :news-number="5" style="height: 100%" />
       </div>
     </div>
   </component>
@@ -43,6 +43,7 @@ export default defineComponent({
     const newsMain = computed(() => Provider.store.getters['news/main']);
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
+    const recentNewsList = computed(() => Provider.store.getters['news/mainPageRecentNewsList']);
     const mounted: Ref<boolean> = ref(false);
 
     const createFilterModels = () => {
@@ -60,12 +61,11 @@ export default defineComponent({
 
     const load = async () => {
       createFilterModels();
-      await Promise.all([
-        Provider.store.dispatch('news/getAll', Provider.filterQuery.value),
-        Provider.store.dispatch('news/getMain'),
-        Provider.store.dispatch('news/getSubMain'),
-      ]);
+      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getMain', true);
+      await Provider.store.dispatch('news/getSubMain', true);
       Provider.store.commit('news/setFilteredNews');
+      // setNews();
       mounted.value = true;
     };
 
@@ -77,6 +77,7 @@ export default defineComponent({
       newsMain,
       newsSubMain1,
       newsSubMain2,
+      recentNewsList,
     };
   },
 });

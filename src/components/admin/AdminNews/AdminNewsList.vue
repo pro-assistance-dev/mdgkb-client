@@ -46,15 +46,36 @@
       <Pagination />
     </template>
   </component>
-  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="15vh" @open="loadMain">
-    <el-form-item>
+
+  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%" @open="loadMain">
+    <div style="display: flex; width: 100%; justify-content: center; margin-bottom: 20px">
+      <RemoteSearch
+        ref="searchMainNewsRef"
+        :clear-after-select="false"
+        max-width="500px"
+        :key-value="schema.news.key"
+        placeholder="Выберите новость"
+        @select="selectSearchMainNews"
+      />
+      <el-button size="small" type="success" round @click="makeNewsMain(newsMain, 'setMain', true)"> Сделать главной </el-button>
+      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)"
+        >Сделать подглавной #1
+      </el-button>
+      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)"
+        >Сделать подглавной #2
+      </el-button>
+    </div>
+
+    <!-- <el-form-item>
       <el-select
         v-model="newsMain"
         :fit-input-width="true"
         style="width: 100%"
         value-key="id"
         placeholder="Выберите главную новость"
-        @change="changeMain"
+        clearable
+        @change="(value: ISearch) => selectMainNewsHandler(value, newsMain, 'setMain', true)"
+        @clear="clearHandler(newsMain, 'setMain', true)"
       >
         <el-option
           v-for="item in news"
@@ -72,7 +93,9 @@
         style="width: 100%"
         value-key="id"
         placeholder="Выберите первую подглавную новость"
-        @change="changeSubMain1"
+        clearable
+        @change="(value: INews) => selectMainNewsHandler(value, newsSubMain1, 'setSubMain1', false)"
+        @clear="clearHandler(newsSubMain1, 'setSubMain1', false)"
       >
         <el-option
           v-for="item in news"
@@ -90,7 +113,9 @@
         style="width: 100%"
         value-key="id"
         placeholder="Выберите вторую подглавную новость"
-        @change="changeSubMain2"
+        clearable
+        @change="(value: INews) => selectMainNewsHandler(value, newsSubMain2, 'setSubMain2', false)"
+        @clear="clearHandler(newsSubMain2, 'setSubMain2', false)"
       >
         <el-option
           v-for="item in news"
@@ -100,17 +125,46 @@
         >
         </el-option>
       </el-select>
-    </el-form-item>
+    </el-form-item> -->
+
+    <div class="main-news-block">
+      <div class="main-news-block-left">
+        <MainBigNewsCard v-if="newsMain.id" :news="newsMain" :show-close="true" @close="clearHandler(newsMain, 'setMain', true)" />
+      </div>
+      <div class="main-news-block-middle">
+        <div class="size">
+          <NewsCard
+            v-if="newsSubMain1.id"
+            :news="newsSubMain1"
+            :main="true"
+            :show-close="true"
+            @close="clearHandler(newsSubMain1, 'setSubMain1', false)"
+          />
+        </div>
+        <div class="size">
+          <NewsCard
+            v-if="newsSubMain2.id"
+            :news="newsSubMain2"
+            :main="true"
+            :show-close="true"
+            @close="clearHandler(newsSubMain2, 'setSubMain2', false)"
+          />
+        </div>
+      </div>
+    </div>
   </el-dialog>
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import News from '@/classes/news/News';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
+import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
+import NewsCard from '@/components/News/NewsCard.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import INews from '@/interfaces/news/INews';
@@ -125,12 +179,24 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminNewsList',
-  components: { FiltersList, FilterSelectDate, TableButtonGroup, Pagination, RemoteSearch, SortList, AdminListWrapper },
+  components: {
+    MainBigNewsCard,
+    NewsCard,
+    FiltersList,
+    FilterSelectDate,
+    TableButtonGroup,
+    Pagination,
+    RemoteSearch,
+    SortList,
+    AdminListWrapper,
+  },
   setup() {
     const news = computed(() => Provider.store.getters['news/news']);
+    const searchResult = computed(() => Provider.store.getters['news/newsItem']);
     const newsMain = computed(() => Provider.store.getters['news/main']);
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
+
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
@@ -171,28 +237,38 @@ export default defineComponent({
       isModalOpened.value = true;
     };
 
-    const changeMain = async (item: INews) => {
+    const clearMain = async () => {
       newsMain.value.main = false;
       await Provider.store.dispatch('news/update', newsMain.value);
-      item.main = true;
-      Provider.store.commit('news/setMain', { news: [item] });
-      await Provider.store.dispatch('news/update', newsMain.value);
+      Provider.store.commit('news/setMain', { news: [new News()] });
     };
 
-    const changeSubMain1 = async (item: INews) => {
-      newsSubMain1.value.subMain = false;
-      await Provider.store.dispatch('news/update', newsSubMain1.value);
-      item.subMain = true;
-      Provider.store.commit('news/setSubMain1', item);
-      await Provider.store.dispatch('news/update', newsSubMain1.value);
+    const clearHandler = async (previousItem: INews, storeName: string, isMain: boolean) => {
+      if (isMain) {
+        previousItem.main = false;
+      } else {
+        previousItem.subMain = false;
+      }
+      await Provider.store.dispatch('news/update', previousItem);
+      Provider.store.commit(`news/${storeName}`, { news: [new News()] });
     };
 
-    const changeSubMain2 = async (item: INews) => {
-      newsSubMain2.value.subMain = false;
-      await Provider.store.dispatch('news/update', newsSubMain2.value);
-      item.subMain = true;
-      Provider.store.commit('news/setSubMain2', item);
-      await Provider.store.dispatch('news/update', newsSubMain2.value);
+    const selectMainNewsHandler = async (newItem: INews, previousItem: INews, storeName: string, isMain: boolean) => {
+      if (isMain) {
+        previousItem.main = false;
+      } else {
+        previousItem.subMain = false;
+      }
+      await Provider.store.dispatch('news/update', previousItem);
+      if (newItem) {
+        if (isMain) {
+          newItem.main = true;
+        } else {
+          newItem.subMain = true;
+        }
+        Provider.store.commit(`news/${storeName}`, { news: [newItem] });
+        await Provider.store.dispatch('news/update', newItem);
+      }
     };
 
     Hooks.onBeforeMount(load, {
@@ -205,6 +281,39 @@ export default defineComponent({
 
     const createFilterModels = (): IFilterModel[] => {
       return [NewsFiltersLib.withoutDrafts(), NewsFiltersLib.withDrafts()];
+    };
+
+    const selectSearchMainNews = async (event: ISearchObject) => {
+      await Provider.store.dispatch('news/get', event.value);
+    };
+
+    interface RemoteSearchType extends InstanceType<typeof RemoteSearch> {
+      clear(): void;
+    }
+
+    const searchMainNewsRef: Ref<RemoteSearchType | null> = ref(null);
+
+    const clickHadler = () => {
+      searchMainNewsRef.value?.clear();
+    };
+
+    const makeNewsMain = async (previousItem: INews, storeName: string, isMain: boolean) => {
+      if (isMain) {
+        previousItem.main = false;
+      } else {
+        previousItem.subMain = false;
+      }
+      await Provider.store.dispatch('news/update', previousItem);
+      if (searchResult.value) {
+        if (isMain) {
+          searchResult.value.main = true;
+        } else {
+          searchResult.value.subMain = true;
+        }
+        Provider.store.commit(`news/${storeName}`, { news: [searchResult.value] });
+        await Provider.store.dispatch('news/update', searchResult.value);
+      }
+      searchMainNewsRef.value?.clear();
     };
 
     return {
@@ -222,9 +331,13 @@ export default defineComponent({
       newsMain,
       newsSubMain1,
       newsSubMain2,
-      changeMain,
-      changeSubMain1,
-      changeSubMain2,
+      clearMain,
+      selectMainNewsHandler,
+      clearHandler,
+      selectSearchMainNews,
+      searchMainNewsRef,
+      clickHadler,
+      makeNewsMain,
     };
   },
 });
@@ -251,5 +364,35 @@ $margin: 20px 0;
   align-items: center;
   justify-content: flex-end;
   margin: $margin;
+}
+
+.main-news-block {
+  display: flex;
+  justify-content: center;
+  height: auto;
+}
+
+.main-news-block-left {
+  display: flex;
+  width: 47%;
+  padding-right: 10px;
+  min-height: 400px;
+  max-height: 800px;
+}
+
+.main-news-block-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 270px;
+}
+
+.main-news-block-middle > .size:first-child {
+  margin-bottom: 10px;
+}
+
+.main-news-block-right {
+  width: 270px;
+  padding-left: 15px;
 }
 </style>

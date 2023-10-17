@@ -29,7 +29,9 @@ export default class PageSection {
   }
 
   addDocument(): void {
-    this.pageSectionDocuments.push(new PageSectionDocument());
+    const newDoc = new PageSectionDocument();
+    newDoc.order = this.pageSectionDocuments.length - 1;
+    this.pageSectionDocuments.push(newDoc);
   }
 
   getFileInfos(): IFileInfo[] {

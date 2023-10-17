@@ -28,15 +28,38 @@ const mutations: MutationTree<State> = {
   setMain(state, items: INewsWithCount) {
     state.main = new News(items.news[0]);
   },
+  setMainOrFill(state, items: INewsWithCount) {
+    const main = new News(items.news[0]);
+    if (!main.id) {
+      state.main = state.news.filter((item: INews) => item.id !== state.subMain1.id && item.id !== state.subMain2.id)[0];
+    } else {
+      state.main = main;
+    }
+  },
+  setSubMain1(state, items: INewsWithCount) {
+    state.subMain1 = new News(items.news[0]);
+  },
+  setSubMain2(state, items: INewsWithCount) {
+    state.subMain2 = new News(items.news[0]);
+  },
   setSubMain(state, items: INewsWithCount) {
     state.subMain1 = new News(items.news[0]);
     state.subMain2 = new News(items.news[1]);
   },
-  setSubMain1(state, item: INews) {
-    state.subMain1 = new News(item);
-  },
-  setSubMain2(state, item: INews) {
-    state.subMain2 = new News(item);
+  setSubMainOrFill(state, items: INewsWithCount) {
+    const subMain1 = new News(items.news[0]);
+    if (!subMain1.id) {
+      state.subMain1 = state.news.filter((item: INews) => item.id !== state.main.id && item.id !== state.subMain2.id)[0];
+    } else {
+      state.subMain1 = subMain1;
+    }
+
+    const subMain2 = new News(items.news[1]);
+    if (!subMain2.id) {
+      state.subMain2 = state.news.filter((item: INews) => item.id !== state.main.id && item.id !== state.subMain1.id)[0];
+    } else {
+      state.subMain2 = subMain2;
+    }
   },
   appendToAll(state, items: INewsWithCount) {
     const itemsForAdding = items.news.map((i: INews) => new News(i));
@@ -51,7 +74,6 @@ const mutations: MutationTree<State> = {
   },
   set(state, item?: INews) {
     state.newsItem = new News(item);
-    state.news = [];
   },
   resetState(state) {
     Object.assign(state, getDefaultState());

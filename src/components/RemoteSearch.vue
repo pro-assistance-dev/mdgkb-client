@@ -73,9 +73,13 @@ export default defineComponent({
       type: [Number, String],
       default: 300,
     },
+    clearAfterSelect: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['select', 'load', 'input'],
-  setup(props, { emit }) {
+  setup(props, { emit, expose }) {
     const queryString: Ref<string> = ref(props.modelValue);
     const searchForm = ref();
     const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
@@ -114,8 +118,10 @@ export default defineComponent({
         await Provider.store.dispatch(`${props.storeModule}/getAllById`, item.id);
         return;
       }
-      emit('select', item);
-      queryString.value = '';
+      await emit('select', item);
+      if (props.clearAfterSelect) {
+        queryString.value = '';
+      }
     };
 
     const createModel = (): IFilterModel => {
@@ -139,6 +145,12 @@ export default defineComponent({
         emit('input', '');
       }
     };
+
+    const clearSearch = () => {
+      queryString.value = '';
+    };
+
+    expose({ clear: clearSearch });
 
     return { searchForm, onEnter, queryString, handleSelect, find, handleSearchInput, handleInput };
   },

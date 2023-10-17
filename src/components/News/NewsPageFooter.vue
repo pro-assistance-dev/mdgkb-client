@@ -1,7 +1,15 @@
 <template>
   <div class="article-footer">
     <div class="top-footer">
-      <div class="date-meta">{{ $dateTimeFormatter.format(news.publishedOn, { month: 'long', hour: 'numeric', minute: 'numeric' }) }}</div>
+      <div class="date-meta">
+        {{
+          $dateTimeFormatter.format(news.publishedOn, {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          })
+        }}
+      </div>
       <div class="card-meta">
         <div class="views">
           <EyeOutlined />

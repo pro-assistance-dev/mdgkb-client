@@ -30,7 +30,7 @@
 
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -49,25 +49,20 @@ export default defineComponent({
       type: Number,
       default: 3,
     },
+    newsList: {
+      type: Array as PropType<INews[]>,
+      default: () => [],
+    },
   },
 
   setup(props) {
     const store = useStore();
-    const recentNewsList = computed(() =>
-      store.getters['news/news']
-        .filter((item: INews) => {
-          if (props.main) {
-            if (item.id !== news.value.id && !item.main && !item.subMain) {
-              return item;
-            }
-          } else {
-            if (item.id !== news.value.id) {
-              return item;
-            }
-          }
-        })
-        .slice(0, props.newsNumber)
-    );
+    const recentNewsList = computed(() => {
+      if (props.newsList.length) {
+        return props.newsList;
+      }
+      return store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber);
+    });
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();
 
