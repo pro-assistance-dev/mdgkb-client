@@ -10,7 +10,9 @@
           <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
-              <div class="item-date">{{ $dateTimeFormatter.format(scope.row.publishedOn, { month: 'long' }) }}</div>
+              <div class="item-date">
+                {{ $dateTimeFormatter.format(scope.row.publishedOn, { month: 'long', day: 'numeric', year: 'numeric' }) }}
+              </div>
               <div class="icon">
                 <EyeOutlined />
                 <span>{{ scope.row.viewsCount }}</span>
@@ -158,5 +160,11 @@ h4 {
       background-color: darken(white, 10%);
     }
   }
+}
+
+:deep(.el-table),
+:deep(.el-table__body-wrapper),
+:deep(.el-table__body) {
+  height: 100%;
 }
 </style>
