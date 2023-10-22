@@ -30,6 +30,22 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<INews>({ query: `${slug}` });
     commit('set', res);
   },
+  getMain: async ({ commit }, fill?: boolean): Promise<void> => {
+    const items = await httpClient.get<INewsWithCount[]>({ query: 'main' });
+    if (fill) {
+      commit('setMainOrFill', items);
+    } else {
+      commit('setMain', items);
+    }
+  },
+  getSubMain: async ({ commit }, fill?: boolean): Promise<void> => {
+    const items = await httpClient.get<INewsWithCount[]>({ query: 'submain' });
+    if (fill) {
+      commit('setSubMainOrFill', items);
+    } else {
+      commit('setSubMain', items);
+    }
+  },
   getByMonth: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
     const items = await httpClient.get<INewsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     commit('setCalendarNews', items);
@@ -57,7 +73,7 @@ const actions: ActionTree<State, RootState> = {
       fileInfos: fileInfos,
       isFormData: true,
     });
-    commit('set');
+    // commit('set');
   },
   remove: async ({ commit }, newsId: string): Promise<void> => {
     await httpClient.delete({ query: `${newsId}` });

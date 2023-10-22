@@ -10,6 +10,7 @@ export default class PageSideMenu {
   order = 0;
   description = '';
   routeAnchor = '';
+  slug = '';
   @ClassHelper.GetClassConstructor(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];

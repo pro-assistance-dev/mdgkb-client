@@ -5,6 +5,7 @@
     :body-style="{ padding: '0px', height: '75%' }"
     @click="$router.push(`/news/${news.slug}`)"
   >
+    <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="flex-between-columm front">
       <div class="image">
         <img :src="news.getImageUrl()" alt="alt" />
@@ -67,13 +68,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Close from '@/assets/svg/Icons/Close.svg';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 import INews from '@/interfaces/news/INews';
 import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsCard',
-  components: { NewsMeta },
+  components: { NewsMeta, Close },
   props: {
     news: {
       type: Object as PropType<INews>,
@@ -87,7 +89,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    showClose: {
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['close'],
   setup() {
     const filterNews = async (tag: ITag): Promise<void> => {
       // tag.selected = !tag.selected;
@@ -337,6 +344,24 @@ $card-width: 300px;
   z-index: 1;
   top: 0;
   left: 0;
+}
+
+.close-icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  backdrop-filter: blur(5px);
+  border-radius: 20%;
+  padding: 5px;
+  filter: brightness(100%);
+  z-index: 99;
+}
+.close-icon:hover {
+  backdrop-filter: blur(20px);
+  transform: scale(1.1);
 }
 
 // @media screen and (max-width: 980px) {

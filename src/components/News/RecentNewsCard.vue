@@ -10,7 +10,9 @@
           <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
-              <div class="item-date">{{ $dateTimeFormatter.format(scope.row.publishedOn, { month: 'long' }) }}</div>
+              <div class="item-date">
+                {{ $dateTimeFormatter.format(scope.row.publishedOn, { month: 'long', day: 'numeric', year: 'numeric' }) }}
+              </div>
               <div class="icon">
                 <EyeOutlined />
                 <span>{{ scope.row.viewsCount }}</span>
@@ -30,7 +32,7 @@
 
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -49,13 +51,20 @@ export default defineComponent({
       type: Number,
       default: 3,
     },
+    newsList: {
+      type: Array as PropType<INews[]>,
+      default: () => [],
+    },
   },
 
   setup(props) {
     const store = useStore();
-    const recentNewsList = computed(() =>
-      store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber)
-    );
+    const recentNewsList = computed(() => {
+      if (props.newsList.length) {
+        return props.newsList;
+      }
+      return store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber);
+    });
     const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
     const router = useRouter();
 
@@ -151,5 +160,11 @@ h4 {
       background-color: darken(white, 10%);
     }
   }
+}
+
+:deep(.el-table),
+:deep(.el-table__body-wrapper),
+:deep(.el-table__body) {
+  height: 100%;
 }
 </style>

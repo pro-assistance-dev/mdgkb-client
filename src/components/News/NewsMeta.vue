@@ -1,8 +1,10 @@
 <template>
   <div class="card-meta" style="margin-bottom: 0">
-    <div v-if="article" class="date-meta">{{ $dateTimeFormatter.format(news.publishedOn, { month: 'long' }) }}</div>
+    <div v-if="article" class="date-meta">
+      {{ $dateTimeFormatter.format(news.publishedOn, { month: 'long', day: 'numeric', year: 'numeric' }) }}
+    </div>
     <div v-else class="date-meta">
-      {{ $dateTimeFormatter.format(news.publishedOn, { day: '2-digit', month: 'long', year: 'numeric' }) }}
+      {{ $dateTimeFormatter.format(news.publishedOn, { month: 'long', day: 'numeric', year: 'numeric' }) }}
     </div>
     <div class="icons">
       <div class="icon">
