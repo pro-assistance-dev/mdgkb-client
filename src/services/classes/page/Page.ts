@@ -80,12 +80,18 @@ export default class Page {
     return menu.id;
   }
 
-  selectSideMenu(id: string): void {
-    if (!id && this.pageSideMenus.length > 0) {
+  selectSideMenu(value: string, isId: boolean): void {
+    if (!value && this.pageSideMenus.length > 0) {
       this.pageSideMenus[0].selected = true;
       return;
     }
-    this.pageSideMenus.forEach((m: PageSideMenu) => (m.selected = m.id === id));
+    this.pageSideMenus.forEach((m: PageSideMenu) => {
+      if (isId) {
+        m.selected = m.id === value;
+      } else {
+        m.selected = m.slug === value;
+      }
+    });
   }
 
   getSelectedSideMenu(): PageSideMenu {

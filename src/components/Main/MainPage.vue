@@ -1,5 +1,5 @@
 <template>
-  <MainHeaderButtons />
+  <!-- <MainHeaderButtons /> -->
   <MainInfo />
   <MainNewsBlock />
   <div class="hidden"><MainSpecialServices /></div>
@@ -22,7 +22,7 @@ import MainArticles from '@/components/Main/MainArticles.vue';
 // import MainCertificates from '@/components/Main/MainCertificates.vue';
 import MainDoctors from '@/components/Main/MainDoctors.vue';
 import MainEvents from '@/components/Main/MainEvents.vue';
-import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
+// import MainHeaderButtons from '@/components/Main/MainHeaderButtons.vue';
 import MainInfo from '@/components/Main/MainInfo.vue';
 import MainMedicalProfiles from '@/components/Main/MainMedicalProfiles.vue';
 import MainNewsBlock from '@/components/Main/MainNewsBlock.vue';
@@ -42,7 +42,7 @@ export default defineComponent({
     MainArticles,
     // MainCertificates,
     MainSocialMedia,
-    MainHeaderButtons,
+    // MainHeaderButtons,
     MainInfo,
     MainPageFooter,
     MainNewsBlock,
