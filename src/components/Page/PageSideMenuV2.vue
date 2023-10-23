@@ -1,7 +1,11 @@
 <template>
   <div v-if="mounted" class="menu">
-    <div v-for="menu in page.getPageSideMenus()" :key="menu.id" class="menu-item">
-      <div class="item-style" :class="isActive(menu.id)" @click="changeMenu(menu.id)">
+    <div v-for="menu in page.getPageSideMenus()" :key="menu.slug ? menu.slug : menu.id" class="menu-item">
+      <div
+        class="item-style"
+        :class="isActive(menu.slug ? menu.slug : String(menu.id))"
+        @click="changeMenu(menu.slug ? menu.slug : String(menu.id), menu.slug ? false : true)"
+      >
         {{ menu.name }}
       </div>
     </div>
@@ -25,24 +29,32 @@ export default defineComponent({
   emits: ['selectMenu'],
   setup(props, { emit }) {
     const mounted = ref(false);
-    const close = ref(false);
-    const activeMenuId: Ref<string | undefined> = ref('');
+    const activeMenu: Ref<string | undefined> = ref('');
+
     const setMenuFromRoute = () => {
-      let menu = Provider.route().query.menu as string;
-      changeMenu(menu);
+      let slug = Provider.route().query.menus as string;
+      let id = Provider.route().query.menud as string;
+      if (id) {
+        changeMenu(id, true);
+      } else {
+        changeMenu(slug, false);
+      }
     };
 
-    const isActive = (id: string): string => {
-      close.value = true;
-      return id === activeMenuId.value ? 'is-active' : '';
+    const isActive = (value: string): string => {
+      return value === activeMenu.value ? 'is-active' : '';
     };
 
-    const changeMenu = (id: string) => {
-      props.page.selectSideMenu(id);
-      const menu = props.page.getSelectedSideMenu();
-      activeMenuId.value = menu.id;
-      emit('selectMenu', menu);
-      Provider.router.replace({ query: { menu: activeMenuId.value as string } });
+    const changeMenu = (value: string, isId: boolean) => {
+      props.page.selectSideMenu(value, isId);
+      const selectedMenu = props.page.getSelectedSideMenu();
+      activeMenu.value = selectedMenu.slug ? selectedMenu.slug : selectedMenu.id;
+      emit('selectMenu', selectedMenu);
+      if (isId) {
+        Provider.router.replace({ query: { menud: activeMenu.value as string } });
+      } else {
+        Provider.router.replace({ query: { menus: activeMenu.value as string } });
+      }
     };
 
     onBeforeMount(() => {
@@ -51,7 +63,6 @@ export default defineComponent({
     });
 
     return {
-      activeMenuId,
       isActive,
       mounted,
       changeMenu,

@@ -49,9 +49,9 @@
         </div>
       </div>
     </div>
-    <div class="doctor-card-footer">
+    <!-- <div class="doctor-card-footer">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
-    </div>
+    </div> -->
   </div>
 </template>
 

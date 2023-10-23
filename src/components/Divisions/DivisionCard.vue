@@ -111,9 +111,9 @@
         </div>
       </div>
     </div>
-    <div class="division-card-footer">
+    <!-- <div class="division-card-footer">
       <button @click="$router.push('/appointments/oms')">Запись на прием</button>
-    </div>
+    </div> -->
   </div>
   <Phone />
   <Email />
