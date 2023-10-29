@@ -4,7 +4,7 @@
       <el-row align="middle" justify="center">
         <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4">
           <div class="image flex-center">
-            <img src="@/assets/img/mdgkb-logo-vert.webp" />
+            <img src="@/assets/img/mdgkb-logo-vert.webp" alt="mdgkb-logo" />
           </div>
         </el-col>
         <el-col :xl="2">
@@ -24,29 +24,34 @@
         <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
           <div>
             Круглосуточный Call-центр<br />
-            <a href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a><br />
-            <a href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a>
+            <a href="tel:+7 (495) 959-88-00" rel="noopener noreferrer">+7 (495) 959-88-00</a><br />
+            <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a>
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">
           <div class="flex-center">
             <div class="icons">
-              <a href="https://t.me/morozdgkbdzm" class="social-icon" target="_blank">
+              <a href="https://t.me/morozdgkbdzm" class="social-icon" target="_blank" rel="noopener noreferrer">
                 <svg class="icon-ok">
                   <use xlink:href="#telegram"></use>
                 </svg>
               </a>
-              <a href="https://ok.ru/group/61174577365147" class="social-icon" target="_blank">
+              <a href="https://ok.ru/group/61174577365147" class="social-icon" target="_blank" rel="noopener noreferrer">
                 <svg class="icon-ok">
                   <use xlink:href="#odnoklassniki"></use>
                 </svg>
               </a>
-              <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank">
+              <a
+                href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA"
+                class="social-icon"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <svg class="icon-yt">
                   <use xlink:href="#icon-YT"></use>
                 </svg>
               </a>
-              <a href="https://vk.com/morozdgkbdzm" class="social-icon" target="_blank">
+              <a href="https://vk.com/morozdgkbdzm" class="social-icon" target="_blank" rel="noopener noreferrer">
                 <svg class="icon-vk">
                   <use xlink:href="#icon-VK"></use>
                 </svg>
@@ -67,6 +72,7 @@
               href="/files/Выписка-лицензия-Морозовская-ДГКБ-ДЗМ.pdf"
               data-v-bc8b679e=""
               class="underlined"
+              rel="noopener noreferrer"
               >Лицензия на медицинскую деятельность</a
             >
           </div>

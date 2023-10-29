@@ -70,7 +70,7 @@
                   <div v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems" :key="dailyMenuOrderItem.id">
                     <div class="left">
                       <div class="image-box">
-                        <img src="@/assets/svg/Buffet/food.webp" alt="alt" />
+                        <img src="@/assets/svg/Buffet/food.webp" alt="eat-photo" />
                       </div>
                       <div class="info">
                         <!-- <div class="small-title">Блюда из овощей</div> -->

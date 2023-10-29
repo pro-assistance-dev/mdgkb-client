@@ -47,10 +47,10 @@
             indicator-position="inside"
           >
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" />
+              <img src="@/assets/img/main-page/templates/main-info.webp" alt="main-info" />
             </el-carousel-item>
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" />
+              <img src="@/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" alt="main-info" />
             </el-carousel-item>
           </el-carousel>
         </div>

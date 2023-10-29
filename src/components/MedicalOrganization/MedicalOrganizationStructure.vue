@@ -7,7 +7,7 @@
           <div class="main-doctor-info">
             <div class="main-doctor-avatar">
               <div class="doctor-avatar">
-                <img src="../../assets/doctors/Gorev_V_3.webp" alt="alt" />
+                <img src="../../assets/doctors/Gorev_V_3.webp" alt="doctor-Gorev" />
               </div>
             </div>
             <div class="main-doctor-title">
@@ -38,7 +38,7 @@
               <div class="vice-doctor-info">
                 <div class="vice-doctor-avatar">
                   <div class="doctor-avatar">
-                    <img :src="head.photo.getImageUrl()" alt="alt" />
+                    <img :src="head.photo.getImageUrl()" alt="doctor-photo" />
                   </div>
                 </div>
                 <div class="vice-doctor-title">

@@ -12,7 +12,7 @@
       <div class="card-item">
         <div class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
-          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="alt" @error="news.mainImage.errorImg" />
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <div class="article-preview">{{ news.previewText }}</div>
         </div>

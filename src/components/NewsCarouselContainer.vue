@@ -1,6 +1,6 @@
 <template>
   <div class="carousel-container">
-    <img class="el-upload-list__item-thumbnail" :src="src" alt="" />
+    <img class="el-upload-list__item-thumbnail" :src="src" alt="carousel" />
     <div class="carousel-body">
       <div class="carousel-title" v-html="slide.title" />
       <div class="carousel-content" v-html="slide.content" />

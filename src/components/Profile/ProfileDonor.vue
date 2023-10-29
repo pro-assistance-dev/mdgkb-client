@@ -13,7 +13,7 @@
           v-if="currentRule.image.fileSystemPath"
           class="scale-image"
           :src="currentRule.image.getImageUrl()"
-          alt="alt"
+          alt="donor-rule"
           @error="errorImg"
         />
       </div>

@@ -7,7 +7,7 @@
     </template>
     <template #image>
       <div class="image-box">
-        <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
+        <img src="../../assets/svg/Buffet/food.webp" alt="eat" />
       </div>
     </template>
     <template #small-title> {{ dailyMenuName }} - {{ dishesGroupName }} </template>

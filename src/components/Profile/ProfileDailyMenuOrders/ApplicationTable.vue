@@ -54,7 +54,7 @@
               >
                 <template #reference>
                   <button v-if="item.childFormStatus.icon.fileSystemPath">
-                    <img :src="item.childFormStatus.icon.getImageUrl()" alt="alt" />
+                    <img :src="item.childFormStatus.icon.getImageUrl()" alt="form-status" />
                   </button>
                   <button
                     v-else

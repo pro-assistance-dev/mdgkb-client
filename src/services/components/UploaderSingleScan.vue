@@ -18,7 +18,7 @@
     </template>
     <template #file="{ file }">
       <div class="div1">
-        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="upload-image" />
       </div>
       <span class="el-upload-list__item-actions">
         <span class="el-upload-list__item-preview" @click="openCropper(file)">

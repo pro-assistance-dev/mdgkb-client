@@ -20,12 +20,12 @@
           <div class="favor"><FavouriteIcon :domain-id="123" :domain-name="favouriteDomain" /></div>
           <img
             v-if="dailyMenuItem.dishSample.image.fileSystemPath"
-            data-test="doctor-photo"
+            data-test="eat-photo"
             :src="dailyMenuItem.dishSample.image.getImageUrl()"
-            alt="alt"
+            alt="doctor-photo"
             @error="dailyMenuItem.dishSample.image.errorImg($event)"
           />
-          <img v-else src="../../assets/svg/Buffet/food.webp" alt="alt" />
+          <img v-else src="../../assets/svg/Buffet/food.webp" alt="eat-photo" />
         </div>
         <div class="price">{{ dailyMenuItem.price }} р.</div>
         <div class="name">{{ dailyMenuItem.name }}</div>

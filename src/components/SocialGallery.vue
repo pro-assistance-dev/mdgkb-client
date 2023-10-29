@@ -12,7 +12,7 @@
           <div style="display: flex">
             <div v-for="social in socialGroup" :key="social">
               <a :href="social.permalink">
-                <img :src="social.mediaUrl" style="height: 100px; width: 100px" />
+                <img :src="social.mediaUrl" style="height: 100px; width: 100px" alt="media" />
                 <div>{{ social.caption.substring(1, 100) }}...</div>
               </a>
             </div>

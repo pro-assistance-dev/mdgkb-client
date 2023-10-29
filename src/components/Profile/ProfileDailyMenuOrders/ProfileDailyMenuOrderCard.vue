@@ -70,7 +70,7 @@
         >
           <template #reference>
             <button>
-              <img :src="item.childFormStatus.icon.getImageUrl()" alt="alt" @click="updateFormStatus(form, item.childFormStatus)" />
+              <img :src="item.childFormStatus.icon.getImageUrl()" alt="form-status" @click="updateFormStatus(form, item.childFormStatus)" />
             </button>
           </template>
         </el-popover>

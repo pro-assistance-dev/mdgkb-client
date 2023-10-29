@@ -8,7 +8,7 @@
     <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="flex-between-columm front">
       <div class="image">
-        <img :src="news.getImageUrl()" alt="alt" />
+        <img :src="news.getImageUrl()" alt="news-image" />
       </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>
@@ -40,7 +40,7 @@
     <a class="link-block" target="_blank" :href="news.articleLink"></a>
     <div class="flex-between-columm front">
       <div class="image">
-        <img :src="news.getImageUrl()" alt="alt" />
+        <img :src="news.getImageUrl()" alt="news-image" />
       </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>

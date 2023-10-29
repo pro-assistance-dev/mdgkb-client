@@ -9,7 +9,7 @@
   >
     <DatePicker v-model="diploma.universityEndDate" />
   </el-form-item>
-  <img :src="require(`@/assets/img/diplomaexample.png`)" />
+  <img :src="require(`@/assets/img/diplomaexample.png`)" alt="diploma-example" />
   <el-form-item label="Серия" prop="diploma.series" :rules="[{ required: true, message: 'Необходимо указать серию', trigger: 'blur' }]">
     <el-input v-model="diploma.series" placeholder="Серия" @input="(e) => (diploma.series = e.replace(/\D+/g, ''))"></el-input>
   </el-form-item>

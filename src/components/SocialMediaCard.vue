@@ -1,7 +1,7 @@
 <template>
   <div class="social-media-card">
     <a :href="item.link" class="social-media-card-link" target="_blank">
-      <img class="social-media-card-img" :src="item.image" />
+      <img class="social-media-card-img" :src="item.image" alt="media-icon" />
     </a>
     <div class="social-media-card-header">
       <a :href="item.link" class="social-media-card-link icon" target="_blank">
