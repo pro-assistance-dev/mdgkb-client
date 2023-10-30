@@ -204,7 +204,7 @@ $card-width: 300px;
     left: 50%;
     transform: translate(-50%, -50%);
     width: $card-width;
-    height: $card-width;
+    // height: $card-width;
     object-fit: cover;
   }
 }
