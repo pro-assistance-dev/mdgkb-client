@@ -23,7 +23,7 @@
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
                 <UploaderSingleScan
                   :file-info="news.mainImage"
-                  :height="200"
+                  :height="300"
                   @remove-file="news.removeMainImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
@@ -68,7 +68,7 @@
                 <UploaderSingleScan
                   :file-info="news.previewImage"
                   :height="300"
-                  :default-ratio="1"
+                  :default-ratio="4 / 3"
                   @remove-file="news.removePreviewImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
