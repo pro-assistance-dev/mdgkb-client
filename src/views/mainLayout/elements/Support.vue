@@ -361,7 +361,23 @@ a.btn:active {
   border: 1px solid #343e5c;
   border-right: none;
   display: flex;
+  animation-name: shadow;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
   cursor: pointer;
+}
+
+@keyframes shadow {
+  0% {
+    box-shadow: 0px 0px 4px 4px rgba(60, 160, 250, 1);
+  }
+  50% {
+    box-shadow: 0px 0px 4px 4px rgba(255, 255, 255, 1);
+  }
+  100% {
+    box-shadow: 0px 0px 4px 4px rgba(60, 160, 250, 1);
+  }
 }
 
 .support:hover {
