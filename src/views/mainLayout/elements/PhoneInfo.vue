@@ -22,29 +22,29 @@
       </button>
       <div class="info-block">
         <div class="margin-bottom font-weight-600">
-          <a href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a><br />
-          <a href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a>
+          <a href="tel:+7 (495) 959-88-00" rel="noopener noreferrer">+7 (495) 959-88-00</a><br />
+          <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a>
         </div>
         <div class="call-center margin-bottom">Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный.</div>
         <div class="address margin-bottom font-weight-600">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>
         <div class="address2 margin-bottom">Вход на территорию больницы с 1-ого Добрынинского переулка.</div>
         <div class="icons">
-          <a href="https://t.me/morozdgkbdzm" class="social-icon" target="_blank">
+          <a href="https://t.me/morozdgkbdzm" class="social-icon" target="_blank" rel="noopener noreferrer">
             <svg class="icon-ok">
               <use xlink:href="#telegram"></use>
             </svg>
           </a>
-          <a href="https://ok.ru/group/61174577365147" class="social-icon" target="_blank">
+          <a href="https://ok.ru/group/61174577365147" class="social-icon" target="_blank" rel="noopener noreferrer">
             <svg class="icon-ok">
               <use xlink:href="#odnoklassniki"></use>
             </svg>
           </a>
-          <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank">
+          <a href="https://www.youtube.com/channel/UCG0gK-lfsZUVe6TvTrZh8uA" class="social-icon" target="_blank" rel="noopener noreferrer">
             <svg class="icon-yt">
               <use xlink:href="#icon-YT"></use>
             </svg>
           </a>
-          <a href="https://vk.com/morozdgkbdzm" class="social-icon" target="_blank">
+          <a href="https://vk.com/morozdgkbdzm" class="social-icon" target="_blank" rel="noopener noreferrer">
             <svg class="icon-vk">
               <use xlink:href="#icon-VK"></use>
             </svg>

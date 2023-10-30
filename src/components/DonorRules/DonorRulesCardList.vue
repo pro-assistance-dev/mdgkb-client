@@ -7,7 +7,13 @@
 
   <el-dialog v-model="visible" width="40%" :top="'5vh'" lock-scroll="true">
     <div class="scale-image-container">
-      <img v-if="currentRule.image.fileSystemPath" class="scale-image" :src="currentRule.image.getImageUrl()" alt="alt" @error="errorImg" />
+      <img
+        v-if="currentRule.image.fileSystemPath"
+        class="scale-image"
+        :src="currentRule.image.getImageUrl()"
+        alt="donor-rule"
+        @error="errorImg"
+      />
     </div>
   </el-dialog>
 </template>

@@ -9,7 +9,7 @@
           alt="alt"
           @error="dailyMenuOrderItem.dishSample.image.errorImg($event)"
         /> -->
-        <img src="../../assets/svg/Buffet/food.webp" alt="alt" />
+        <img src="../../assets/svg/Buffet/food.webp" alt="eat" />
       </div>
       <div class="info">
         <div class="small-title">Завтрак - Блюда из овощей</div>

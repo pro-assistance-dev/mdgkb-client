@@ -10,7 +10,7 @@
       <div class="support">
         <div class="avatar">
           <div class="helper-avatar">
-            <img src="../../../assets/img/avatar-helper-elena.jpg" alt="alt" />
+            <img src="../../../assets/img/avatar-helper-elena.jpg" alt="avatar-helper-elena" />
           </div>
         </div>
         <div class="text">ТЕСТОВЫЙ РЕЖИМ</div>

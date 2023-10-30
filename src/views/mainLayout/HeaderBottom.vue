@@ -9,7 +9,7 @@
         <div class="left-block">
           <el-row class="mb-4" @click="$scroll('#header-top')">
             <el-button v-if="scrollOffset >= 66 || mobileWindow" class="menu-item" @click="$router.push('/')">
-              <img alt="Buefy" src="@/assets/img/mdgkb-logo-mini.webp" />
+              <img alt="mdgkb-logo-mini" src="@/assets/img/mdgkb-logo-mini.webp" />
             </el-button>
           </el-row>
         </div>

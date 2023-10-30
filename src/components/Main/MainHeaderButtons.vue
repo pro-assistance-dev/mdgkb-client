@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="button-container">
-      <a href="https://morozdgkb.onlinedoctor.ru/doctors/" class="tele-link">
+      <a href="https://morozdgkb.onlinedoctor.ru/doctors/" class="tele-link" rel="noopener noreferrer">
         <button class="green-button">
           <el-icon><cellphone /></el-icon>
           Телемедицина

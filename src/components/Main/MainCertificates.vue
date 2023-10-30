@@ -9,7 +9,13 @@
       height="350px"
     >
       <el-carousel-item v-for="(certificates, i) in carousel" :key="i">
-        <img v-for="item in certificates" :key="item" class="item" :src="require(`@/assets/img/main-page/templates/${item.description}`)" />
+        <img
+          v-for="item in certificates"
+          :key="item"
+          class="item"
+          :src="require(`@/assets/img/main-page/templates/${item.description}`)"
+          alt="certificate"
+        />
       </el-carousel-item>
     </el-carousel>
   </component>

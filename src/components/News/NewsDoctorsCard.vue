@@ -12,7 +12,7 @@
             <!--              alt="Фото врача"-->
             <!--              @error="errorImg"-->
             <!--            />-->
-            <img src="@/assets/img/doctor-default.webp" />
+            <img src="@/assets/img/doctor-default.webp" alt="doctor-photo" />
             <div>
               <div class="name">
                 <!--                <div>{{ scope.row.doctor.employee.human.surname }}</div>-->

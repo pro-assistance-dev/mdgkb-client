@@ -4,7 +4,7 @@
       <div class="main-doctor-info">
         <div class="main-doctor-avatar">
           <div class="doctor-avatar">
-            <img src="../../assets/doctors/Gorev_V_3.webp" alt="alt" />
+            <img src="../../assets/doctors/Gorev_V_3.webp" alt="doctor-Gorev" />
           </div>
         </div>
         <div class="main-doctor-title">
@@ -78,7 +78,7 @@
           <div class="doctor-avatar">
             <img
               :src="head.employee.human.photoMini.getImageUrl()"
-              alt="alt"
+              alt="doctor-photo"
               @error="head.employee.human.photoMini.errorImg($event, 'doctor-default.webp')"
             />
           </div>

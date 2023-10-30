@@ -22,7 +22,7 @@
           <el-carousel-item v-for="item in items" :key="item.id">
             <div class="carousel-container">
               <el-space direction="vertical" alignment="start" :size="0">
-                <img :src="require(`@/assets/img/services-menu/banner/${item.id}.webp`)" />
+                <img :src="require(`@/assets/img/services-menu/banner/${item.id}.webp`)" alt="banner" />
                 <div class="icon">
                   <Component :is="require(`@/assets/img/services-menu/icon/${item.id}.svg`).default"></Component>
                 </div>

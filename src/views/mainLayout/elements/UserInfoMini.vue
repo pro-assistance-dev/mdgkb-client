@@ -2,7 +2,7 @@
   <div class="user-mini-info">
     <div class="avatar-block">
       <div class="avatar">
-        <img :src="user.human.photo.getFileUrl()" alt="alt" @error="user.human.photo.errorImg($event)" />
+        <img :src="user.human.photo.getFileUrl()" alt="user-photo" @error="user.human.photo.errorImg($event)" />
       </div>
     </div>
     <div class="right-block">
