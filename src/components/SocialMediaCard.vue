@@ -1,16 +1,16 @@
 <template>
   <div class="social-media-card">
-    <a :href="item.link" class="social-media-card-link" target="_blank">
+    <a rel="noopener" :href="item.link" class="social-media-card-link" target="_blank">
       <img class="social-media-card-img" :src="item.image" alt="media-icon" />
     </a>
     <div class="social-media-card-header">
-      <a :href="item.link" class="social-media-card-link icon" target="_blank">
+      <a rel="noopener" :href="item.link" class="social-media-card-link icon" target="_blank">
         <svg class="icon">
           <use v-if="item.isVK()" xlink:href="#icon-VK"></use>
           <use v-if="item.isYouTube()" xlink:href="#icon-YT"></use>
         </svg>
       </a>
-      <a :href="item.link" class="social-media-card-link" target="_blank">
+      <a rel="noopener" :href="item.link" class="social-media-card-link" target="_blank">
         <div class="social-media-card-header-title">{{ item.title }}</div>
       </a>
     </div>
