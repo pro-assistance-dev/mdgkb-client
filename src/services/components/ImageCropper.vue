@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :model-value="open" title="Настройка изображения" :close-on-click-modal="false" :close-on-press-escape="false">
+  <el-dialog
+    :model-value="open"
+    title="Настройка изображения"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    @close="$emit('close')"
+  >
     <div class="background-container">
       <div class="tools-line">
         <div class="line-block">

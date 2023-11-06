@@ -40,7 +40,6 @@ import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminGallery',
   components: { draggable, UploaderSingleScan, Move },
-  emits: ['addImage', 'ratio'],
   props: {
     fileList: {
       type: Array as PropType<IFiler[]>,
@@ -57,6 +56,7 @@ export default defineComponent({
       default: 1,
     },
   },
+  emits: ['addImage', 'ratio`'],
   setup() {
     return {
       sort,
