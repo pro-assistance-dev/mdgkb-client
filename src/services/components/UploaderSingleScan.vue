@@ -1,5 +1,4 @@
 <template>
-  {{ cropperOpened }}
   <el-upload
     ref="uploader"
     :multiple="false"
