@@ -190,6 +190,11 @@ export default defineComponent({
         action: () => addImage(),
       },
       {
+        icon: 'video-add-line',
+        title: 'Добавить видео',
+        action: () => addVideo(),
+      },
+      {
         icon: 'links-line',
         title: 'Добавить ссылку',
         action: () => setLink(),
@@ -226,6 +231,17 @@ export default defineComponent({
       props.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
     };
 
+    const addVideo = () => {
+      const url = window.prompt('Enter YouTube URL');
+
+      if (url) {
+        props.editor.commands.setYoutubeVideo({
+          src: url,
+          // width: Math.max(320, parseInt(this.width, 10)) || 640,
+          // height: Math.max(180, parseInt(this.height, 10)) || 480,
+        });
+      }
+    };
     return { items };
   },
 });

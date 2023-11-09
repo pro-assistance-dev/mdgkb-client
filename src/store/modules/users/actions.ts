@@ -21,7 +21,9 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', items);
   },
   get: async ({ commit }, id: number) => {
-    commit('set', await httpClient.get<IUser>({ query: `${id}` }));
+    if (id) {
+      commit('set', await httpClient.get<IUser>({ query: `${id}` }));
+    }
   },
   findEmail: async ({ commit }, email): Promise<void> => {
     const res = await httpClient.get<IUser[]>({ query: `get-by-email/${email}` });

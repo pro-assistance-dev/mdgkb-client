@@ -101,10 +101,10 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      const fq = new FilterQuery();
-      fq.filterModels.push(DivisionsFiltersLib.onlyDivisions());
-      fq.sortModels.push(DivisionsSortsLib.byName());
-      await Provider.store.dispatch('divisions/getAll', fq);
+      const filterQuery = new FilterQuery();
+      filterQuery.filterModels.push(DivisionsFiltersLib.onlyDivisions());
+      filterQuery.sortModels.push(DivisionsSortsLib.byName());
+      await Provider.store.dispatch('divisions/getAll', { filterQuery });
       await Provider.store.dispatch('entrances/getAll');
       mount.value = true;
     });

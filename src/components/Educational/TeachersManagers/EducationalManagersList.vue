@@ -30,7 +30,7 @@ export default defineComponent({
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'educationalManagers');
-      await store.dispatch('educationalManagers/getAll', filterQuery.value);
+      await store.dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     });
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
@@ -38,7 +38,7 @@ export default defineComponent({
     const loadMore = async () => {
       // const lastCursor = managers.value[managers.value.length - 1].name;
       // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
-      await store.dispatch('educationalManagers/getAll', filterQuery.value);
+      await store.dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     };
 
     return {

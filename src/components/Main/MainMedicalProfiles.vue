@@ -125,7 +125,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       const filterQuery = new FilterQuery();
       filterQuery.pagination.limit = 6;
-      await Provider.store.dispatch('medicalProfiles/getAll', filterQuery);
+      await Provider.store.dispatch('medicalProfiles/getAll', { filterQuery, withCache: true });
       setColors();
       mounted.value = true;
     });

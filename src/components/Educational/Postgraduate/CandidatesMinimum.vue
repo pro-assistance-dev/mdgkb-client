@@ -65,7 +65,7 @@ export default defineComponent({
     // const loadMore = async () => {
     //   const lastCursor = postgraduateCourses.value[postgraduateCourses.value.length - 1].description;
     // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.postgraduateCourse.name, schema.value.postgraduateCourse.tableName);
-    // await store.dispatch('postgraduateCourses/getAll', filterQuery.value);
+    // await store.dispatch('postgraduateCourses/getAll', { filterQuery: filterQuery.value });
     // };
 
     return {
