@@ -14,6 +14,9 @@ const mutations: MutationTree<State> = {
     state.schema = schema;
   },
   setSocialMedia(state, items: SocialMedia[]) {
+    if (!items) {
+      return;
+    }
     state.socialMedia = items.map((i: SocialMedia) => new SocialMedia(i));
   },
   setAddresses(state, items?: Address[]) {

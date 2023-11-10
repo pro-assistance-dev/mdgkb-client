@@ -1,17 +1,26 @@
 import { ActionTree } from 'vuex';
 
 import IMenusWithDeleted from '@/interfaces/IMenusWithDeleted';
+import Cache from '@/services/Cache';
 import Menu from '@/services/classes/Menu';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
 import { State } from './index';
+const cache = new Cache();
+cache.name = 'menus';
 
 const httpClient = new HttpClient('menus');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<Menu[]>());
+  getAll: async ({ state, commit }): Promise<void> => {
+    if (state.menus.length > 0) {
+      return;
+    }
+    const get = async () => {
+      return await httpClient.get<Menu[]>();
+    };
+    commit('setAll', await cache.storeGetWithCache<Menu[]>(get));
   },
   get: async ({ commit }, slug: string): Promise<void> => {
     const res = await httpClient.get<Menu>({ query: `${slug}` });

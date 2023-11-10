@@ -134,10 +134,10 @@ export default defineComponent({
     };
 
     // const loadDoctors = async (): Promise<void> => {
-    //   const filters: IFilterQuery = store.getters['filter/filterQuery'];
-    //   filters.limit = 8;
-    //   filters.main = true;
-    //   await store.dispatch('doctors/getAll', filters);
+    //   const filterQuery: IFilterQuery = store.getters['filter/filterQuery'];
+    //   filterQuery.limit = 8;
+    //   filterQuery.main = true;
+    //   await store.dispatch('doctors/getAll', { filterQuery });
     // };
 
     // const loadComments = async (): Promise<void> => {

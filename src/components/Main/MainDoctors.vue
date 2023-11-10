@@ -37,9 +37,9 @@ export default defineComponent({
     const carouselRef = ref();
 
     onBeforeMount(async () => {
-      const fq = new FilterQuery();
-      fq.pagination.limit = 8;
-      await store.dispatch('doctors/getAll', fq);
+      const filterQuery = new FilterQuery();
+      filterQuery.pagination.limit = 8;
+      await store.dispatch('doctors/getAll', { filterQuery, withCache: true });
       carousel.value = makeCarousel<Doctor>(doctors.value, 3);
       mounted.value = true;
     });

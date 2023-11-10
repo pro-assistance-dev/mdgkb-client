@@ -57,7 +57,7 @@ export default defineComponent({
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 6;
       store.commit('filter/setStoreModule', 'teachers');
-      await store.dispatch('teachers/getAll', filterQuery.value);
+      await store.dispatch('teachers/getAll', { filterQuery: filterQuery.value });
     };
 
     const createSortModels = (): ISortModel[] => {

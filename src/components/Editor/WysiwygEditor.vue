@@ -36,6 +36,7 @@ const CustomTableCell = TableCell.extend({
   },
 });
 
+import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
 import { defineComponent, watch } from 'vue';
@@ -89,6 +90,9 @@ export default defineComponent({
         Underline,
         Highlight.configure({
           multicolor: true,
+        }),
+        Youtube.configure({
+          controls: false,
         }),
       ],
       content: props.modelValue,

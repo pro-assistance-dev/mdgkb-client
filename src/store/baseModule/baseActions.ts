@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import IFileInfo from '@/interfaces/files/IFileInfo';
+import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
@@ -19,21 +20,36 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
   } else {
     httpClient = endPointOrClient;
   }
+  const cache = new Cache();
+  cache.name = String(endPointOrClient);
+
+  interface GetAllOptions {
+    filterQuery?: FilterQuery;
+    withCache?: boolean;
+  }
 
   return {
-    getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-      const res = await httpClient.get<T[] | ItemsWithCount<T>>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    getAll: async ({ commit }, options?: GetAllOptions): Promise<void> => {
+      const get = async () => {
+        return await httpClient.get<T[] | ItemsWithCount<T>>({ query: options && options.filterQuery ? options.filterQuery.toUrl() : '' });
+      };
+      let res;
+      if (options && options.withCache) {
+        res = await cache.storeGetWithCache<T[] | ItemsWithCount<T>>(get);
+      } else {
+        res = await get();
+      }
       if (Array.isArray(res)) {
-        if (filterQuery && filterQuery.pagination.append && res) {
+        if (options && options.filterQuery && options.filterQuery.pagination.append && res) {
           commit('appendToAll', res);
-          filterQuery.pagination.setAllLoaded(res ? res.length : 0);
+          options.filterQuery.pagination.setAllLoaded(res ? res.length : 0);
           return;
         }
         commit('setAll', res);
       } else {
-        if (filterQuery && filterQuery.pagination.append && res) {
+        if (options && options.filterQuery && options.filterQuery.pagination.append && res) {
           commit('appendToAll', res.items);
-          filterQuery.pagination.setAllLoaded(res.items.length ? res.items.length : 0);
+          options.filterQuery.pagination.setAllLoaded(res.items.length ? res.items.length : 0);
           return;
         }
         commit('setAllWithCount', res);

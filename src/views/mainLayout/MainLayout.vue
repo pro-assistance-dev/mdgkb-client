@@ -3,7 +3,7 @@
   <SearchDrawer />
   <div style="position: relative">
     <div v-if="!isClose" class="blur" @click="isClose = true"></div>
-    <StartModal color="#343D5C" margin="auto" :icon-close="iconClose" :is-close="isClose">
+    <StartModal color="#343D5C" margin="auto" :is-close="isClose">
       <template #icon>
         <svg class="icon-close" @click="isClose = true">
           <use xlink:href="#close"></use>
@@ -48,32 +48,34 @@
     </div>
   </div>
   <div class="footer-container">
-    <FooterTop />
-    <FooterBottom />
+    <!-- <FooterTop />
+    <FooterBottom /> -->
   </div>
   <Close />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineAsyncComponent, defineComponent, ref } from 'vue';
 
 import Close from '@/assets/svg/Main/Close.svg';
 import AuthPage from '@/components/Auth/AuthPage.vue';
 import StartModal from '@/components/Base/StartModal.vue';
 import NewsCarousel from '@/components/News/NewsCarousel.vue';
 import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
-import FooterBottom from '@/views/mainLayout/FooterBottom.vue';
-import FooterTop from '@/views/mainLayout/FooterTop.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
 import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
 import ProfileHeader from '@/views/mainLayout/ProfileHeader.vue';
 import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 
+const FooterTop = defineAsyncComponent({
+  loader: () => import('@/views/mainLayout/FooterTop.vue' /* webpackChunkName: "footerTop" */),
+  delay: 200,
+});
+const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/FooterBottom.vue' /* webpackChunkName: "footerBottom" */));
+
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    FooterBottom,
-    FooterTop,
     HeaderBottom,
     HeaderTop,
     AuthPage,
@@ -82,6 +84,8 @@ export default defineComponent({
     SearchDrawer,
     ProfileHeader,
     StartModal,
+    // FooterBottom,
+    // FooterTop,
     Close,
   },
   setup() {
