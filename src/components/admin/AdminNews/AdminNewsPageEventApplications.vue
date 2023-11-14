@@ -42,8 +42,6 @@ export default defineComponent({
       await store.dispatch('events/eventApplicationsPdf', id);
     };
 
-    // const dow = async (documentId: IVacancyResponse) => {};
-
     return {
       show,
       showedItem,

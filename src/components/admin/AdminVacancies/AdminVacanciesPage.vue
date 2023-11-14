@@ -76,7 +76,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Division from '@/classes/Division';
-import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponcesTable.vue';
+import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';

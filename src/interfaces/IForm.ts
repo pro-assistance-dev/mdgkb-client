@@ -2,6 +2,7 @@ import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import VacancyResponse from '@/classes/VacancyResponse';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
@@ -13,7 +14,6 @@ import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
 import IVisitsApplication from './IVisitsApplication';
-import IVacancyResponse from './vacancyResponse/IVacancyResponse';
 
 export default interface IForm {
   id?: string;
@@ -52,7 +52,7 @@ export default interface IForm {
   candidateApplication?: ICandidateApplication;
   residencyApplication?: ResidencyApplication;
   visitsApplication?: IVisitsApplication;
-  vacancyResponse?: IVacancyResponse;
+  vacancyResponse?: VacancyResponse;
 
   addField: (field?: IField) => void;
   removeField: (index: number) => void;

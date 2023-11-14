@@ -18,17 +18,16 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import UserFormFields from '@/classes/UserFormFields';
+import VacancyResponse from '@/classes/VacancyResponse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import IVacancy from '@/interfaces/IVacancy';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import IUser from '@/services/interfaces/IUser';
-import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -42,31 +41,11 @@ export default defineComponent({
     const mounted = ref(false);
     const rules = ref(VacancyResponseRules);
     const form = ref();
-    const vacancyResponse: ComputedRef<IVacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
+    const vacancyResponse: ComputedRef<VacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
     const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/item']);
     const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['vacancyResponses/emailExists']);
-    const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
-
-    watch(isAuth, async () => {
-      store.commit('vacancyResponses/setUser', user.value);
-      await findEmail();
-    });
-
-    const findEmail = async () => {
-      await store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
-    };
 
     const submit = async () => {
-      if (emailExists.value) {
-        ElMessage({
-          type: 'error',
-          dangerouslyUseHTMLString: true,
-          message: document.querySelector('#error-block-message')?.innerHTML || '',
-        });
-        scroll('#error-block-message');
-        return;
-      }
       vacancyResponse.value.formValue.validate();
       if (!validate(form, true) || !vacancyResponse.value.formValue.validated) {
         return;
@@ -87,21 +66,18 @@ export default defineComponent({
       vacancyResponse.value.formValue.initFieldsValues();
       store.commit('vacancyResponses/setVacancy', vacancy.value);
       store.commit('vacancyResponses/setUser', user.value);
-      await findEmail();
+
       mounted.value = true;
     });
 
     return {
       user,
-      isAuth,
       form,
       rules,
       mounted,
       submit,
       vacancyResponse,
       filter,
-      findEmail,
-      emailExists,
       UserFormFields,
     };
   },

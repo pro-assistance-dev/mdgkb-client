@@ -11,9 +11,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import VacancyResponse from '@/classes/VacancyResponse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -30,7 +30,7 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
-    const vacancyResponse: ComputedRef<IVacancyResponse> = computed<IVacancyResponse>(() => store.getters['vacancyResponses/item']);
+    const vacancyResponse: ComputedRef<VacancyResponse> = computed<VacancyResponse>(() => store.getters['vacancyResponses/item']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['vacancyResponses/emailExists']);
 
     const changeEditMode = () => {

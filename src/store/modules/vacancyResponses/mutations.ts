@@ -2,40 +2,17 @@ import { MutationTree } from 'vuex';
 
 import Form from '@/classes/Form';
 import User from '@/classes/User';
+import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
-import IVacancy from '@/interfaces/IVacancy';
-import IVacancyResponsesWithCount from '@/interfaces/IVacancyResponsesWithCount ';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { getDefaultState } from '.';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IVacancyResponse[]) {
-    state.items = items.map((i: IVacancyResponse) => new VacancyResponse(i));
-  },
-  setAllWithCount(state, items: IVacancyResponsesWithCount) {
-    if (!items.vacancyResponses) {
-      state.items = [];
-      return;
-    }
-    state.items = items.vacancyResponses.map((i: IVacancyResponse) => new VacancyResponse(i));
-    state.count = items.count;
-  },
-  appendToAll(state, items: IVacancyResponsesWithCount) {
-    if (!items.vacancyResponses) {
-      state.items = [];
-      return;
-    }
-    const vacancyResponses = items.vacancyResponses.map((i: IVacancyResponse) => new VacancyResponse(i));
-    state.items.push(...vacancyResponses);
-    state.count = items.count;
-  },
-  set(state, item: IVacancyResponse) {
-    state.item = new VacancyResponse(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IVacancyResponse) => i.id === id);
-    state.items.splice(index, 1);
+  ...getBaseMutations(VacancyResponse),
+  resetState(state) {
+    Object.assign(state, getDefaultState());
   },
   resetItems(state) {
     state.items = [];
@@ -46,7 +23,7 @@ const mutations: MutationTree<State> = {
   setFormValue(state, form: Form) {
     state.item.formValue = new Form(form);
   },
-  setVacancy(state, vacancy: IVacancy) {
+  setVacancy(state, vacancy: Vacancy) {
     // state.item.vacancy = new Vacancy(vacancy);
     state.item.vacancyId = vacancy.id;
   },

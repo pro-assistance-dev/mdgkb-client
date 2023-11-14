@@ -54,13 +54,16 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
+import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
+
+import MessageError from '../../services/classes/messages/MessageError';
 
 export default defineComponent({
   name: 'VacancyPage',
@@ -70,12 +73,26 @@ export default defineComponent({
     const showForm: Ref<boolean> = ref(false);
     const vacancy: ComputedRef<Vacancy> = computed(() => Provider.store.getters['vacancies/item']);
     const mounted: Ref<boolean> = ref(false);
+    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
 
-    const showFormFunc = async () => {
-      showForm.value = true;
+    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['vacancyResponses/emailExists']);
+    const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+
+    watch(isAuth, async () => await findEmail());
+
+    const findEmail = async () => {
+      Provider.store.commit('vacancyResponses/setUser', user.value);
+      await Provider.store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
     };
 
+    const showFormFunc = async () => (showForm.value = true);
+
     const openRespondForm = async () => {
+      await findEmail();
+      if (emailExists.value) {
+        MessageError.Show('Вы уже откликались на эту вакансию');
+        return;
+      }
       await showFormFunc();
       scroll('#vacancy-form');
     };
@@ -87,6 +104,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await Provider.store.dispatch('vacancies/getBySlug', Provider.route().params['slug']);
+      await findEmail();
       mounted.value = true;
       if (Provider.route().query.respondForm) {
         await openRespondForm();

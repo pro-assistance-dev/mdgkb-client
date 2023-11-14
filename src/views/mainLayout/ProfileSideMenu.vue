@@ -35,6 +35,8 @@ import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
+import VacancyResponse from '../../classes/VacancyResponse';
+
 export default defineComponent({
   name: 'ProfileSideMenu',
   components: { UserInfoMini, Arrow, Home, Education, Question, Settings },
@@ -87,6 +89,15 @@ export default defineComponent({
         liCondition: () => user.value.residencyApplications.length,
         notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
         notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
+      },
+      {
+        name: 'Отклики на вакансии',
+        icon: 'Education',
+        to: '/profile/vacancy-responses',
+        route: 'vacancy',
+        liCondition: () => user.value.vacancyResponses.length,
+        notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
+        notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
       },
       // {
       //   name: 'Вопросы-ответы',

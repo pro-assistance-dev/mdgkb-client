@@ -23,6 +23,7 @@ import ClassHelper from '@/services/ClassHelper';
 import IUser from '@/services/interfaces/IUser';
 
 import Form from './Form';
+import VacancyResponse from './VacancyResponse';
 
 export default class User implements IUser {
   id?: string;
@@ -54,6 +55,8 @@ export default class User implements IUser {
   @ClassHelper.GetClassConstructor(CandidateApplication)
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
+  @ClassHelper.GetClassConstructor(VacancyResponse)
+  vacancyResponses: VacancyResponse[] = [];
   @ClassHelper.GetClassConstructor(Form)
   formValues: Form[] = [];
   createdAt?: Date;
@@ -177,6 +180,12 @@ export default class User implements IUser {
     });
   }
 
+  setVacancyResponsesViewed(): void {
+    this.vacancyResponses.forEach((el) => {
+      el.formValue.viewedByUser = true;
+    });
+  }
+
   hasComments(): boolean {
     return this.comments.length > 0;
   }
@@ -197,6 +206,12 @@ export default class User implements IUser {
 
   getResidencyApplicationsFormValues(): Form[] {
     return this.residencyApplications.map((el) => {
+      return el.formValue;
+    });
+  }
+
+  getVacancyResponsesFormValues(): Form[] {
+    return this.vacancyResponses.map((el) => {
       return el.formValue;
     });
   }

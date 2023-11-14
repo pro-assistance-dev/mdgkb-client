@@ -1,6 +1,6 @@
-import IVacancyResponse from './vacancyResponse/IVacancyResponse';
+import VacancyResponse from '@/classes/VacancyResponse';
 
-export default interface IVacancyResponsesWithCount {
-  vacancyResponses: IVacancyResponse[];
+export default interface VacancyResponsesWithCount {
+  vacancyResponses: VacancyResponse[];
   count: number;
 }

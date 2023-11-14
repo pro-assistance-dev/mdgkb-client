@@ -10,10 +10,11 @@ import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
 import CancelResidencyApplication from '@/components/Profile/ProfileResidencyApplications/CancelResidencyApplication.vue';
 import EditResidencyApplication from '@/components/Profile/ProfileResidencyApplications/EditResidencyApplication.vue';
 import ProfileResidencyApplications from '@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue';
+import EditVacancyResponse from '@/components/Profile/ProfileVacancyResponses/EditVacancyResponse.vue';
+import ProfileVacancyResponses from '@/components/Profile/ProfileVacancyResponses/ProfileVacancyResponses.vue';
 import QuestionAnswerPage from '@/components/Profile/QuestionAnswerPage.vue';
 import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
 import { authGuard, isAuthorized } from '@/router/index';
-
 const ProfileRoutes: Array<RouteRecordRaw> = [
   {
     path: '/profile',
@@ -114,6 +115,26 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'education' },
+  },
+  {
+    path: '/profile/vacancy-responses',
+    name: 'ProfileVacancyResponse',
+    component: ProfileVacancyResponses,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'vacancy' },
+  },
+  {
+    path: '/profile/vacancy-responses/:id',
+    name: 'EditVacancyResponse',
+    component: EditVacancyResponse,
+    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+      authGuard();
+      isAuthorized(next);
+    },
+    meta: { protected: true, profile: 'vacancy' },
   },
   {
     path: '/profile/residency-applications/:id',

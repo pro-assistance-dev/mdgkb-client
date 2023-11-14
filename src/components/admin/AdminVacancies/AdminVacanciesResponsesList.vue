@@ -3,7 +3,7 @@
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadResponses" />
     </template>
-    <AdminVacancyResponcesTable :vacancy-responses="vacancyResponses" vacancy-column @remove="remove" />
+    <AdminVacancyResponsesTable :vacancy-responses="vacancyResponses" vacancy-column @remove="remove" />
     <template #footer>
       <Pagination />
     </template>
@@ -13,10 +13,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
 
-import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponcesTable.vue';
+import VacancyResponse from '@/classes/VacancyResponse';
+import AdminVacancyResponsesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
@@ -26,10 +26,10 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminVacanciesResponsesList',
-  components: { Pagination, AdminListWrapper, AdminVacancyResponcesTable, SortList },
+  components: { Pagination, AdminListWrapper, AdminVacancyResponsesTable, SortList },
 
   setup() {
-    const vacancyResponses: ComputedRef<IVacancyResponse[]> = computed(() => Provider.store.getters['vacancyResponses/items']);
+    const vacancyResponses: ComputedRef<VacancyResponse[]> = computed(() => Provider.store.getters['vacancyResponses/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('vacancy_responses'));
 
     const loadResponses = async () => {

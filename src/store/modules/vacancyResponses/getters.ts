@@ -1,17 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IVacancyResponse[] {
-    return state.items;
-  },
-  item(state): IVacancyResponse {
-    return state.item;
-  },
+  ...getBaseGetters(),
   emailExists(state): boolean {
     return state.emailExists;
   },

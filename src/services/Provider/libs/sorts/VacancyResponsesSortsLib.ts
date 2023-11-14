@@ -6,7 +6,7 @@ const VacancyResponsesSortsLib = (() => {
   function byDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
       Provider.schema.value.vacancyResponse.tableName,
-      Provider.schema.value.vacancyResponse.date,
+      Provider.schema.value.vacancyResponse.createdAt,
       order ? order : Orders.Asc,
       `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false

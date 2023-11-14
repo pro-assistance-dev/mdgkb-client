@@ -6,7 +6,6 @@ import IForm from '@/interfaces/IForm';
 import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -47,14 +46,14 @@ export default class Vacancy implements IVacancy {
   }
 
   withNewResponses(): boolean {
-    return this.vacancyResponses.some((vacancyResponse: IVacancyResponse) => vacancyResponse.formValue.isNew);
+    return this.vacancyResponses.some((vacancyResponse: VacancyResponse) => vacancyResponse.formValue.isNew);
   }
 
   countResponses(onlyNew?: boolean): number {
     if (!onlyNew) {
       return this.vacancyResponses.length;
     }
-    return this.vacancyResponses.filter((response: IVacancyResponse) => response.formValue.isNew).length;
+    return this.vacancyResponses.filter((response: VacancyResponse) => response.formValue.isNew).length;
   }
 
   getSalary(): string {

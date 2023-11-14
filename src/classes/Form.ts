@@ -14,7 +14,6 @@ import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 import IVisitsApplication from '@/interfaces/IVisitsApplication';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import Chat from '@/services/classes/Chat';
 
 import CandidateApplication from './CandidateApplication';
@@ -67,7 +66,7 @@ export default class Form implements IForm {
   candidateApplication?: ICandidateApplication;
   residencyApplication?: ResidencyApplication;
   visitsApplication?: IVisitsApplication;
-  vacancyResponse?: IVacancyResponse;
+  vacancyResponse?: VacancyResponse;
   dailyMenuOrder?: DailyMenuOrder;
   formValueFiles: IFormValueFile[] = [];
   formValueFilesForDelete: string[] = [];

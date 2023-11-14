@@ -1,7 +1,7 @@
 import Division from '@/classes/Division';
+import VacancyResponse from '@/classes/VacancyResponse';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import ContactInfo from '@/services/classes/ContactInfo';
 
 import IForm from './IForm';
@@ -29,7 +29,7 @@ export default interface IVacancy {
   formPattern: IForm;
   formPatternId?: string;
 
-  vacancyResponses: IVacancyResponse[];
+  vacancyResponses: VacancyResponse[];
   vacancyResponsesForDelete: string[];
   withNewResponses: () => boolean;
   countResponses: (onlyNew?: boolean) => number;

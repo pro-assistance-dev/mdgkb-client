@@ -7,7 +7,7 @@
     </el-table-column>
     <el-table-column label="Дата" align="center" min-width="150">
       <template #default="scope">
-        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt) }}
       </template>
     </el-table-column>
     <el-table-column prop="coverLetter" label="Email" min-width="150" class-name="sticky-left">
@@ -43,16 +43,16 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import VacancyResponse from '@/classes/VacancyResponse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 
 export default defineComponent({
-  name: 'AdminVacancyResponcesTable',
+  name: 'AdminVacancyResponsesTable',
   components: { TableButtonGroup, TableFormStatus },
   props: {
     vacancyResponses: {
-      type: Object as PropType<IVacancyResponse[]>,
+      type: Object as PropType<VacancyResponse[]>,
       required: true,
     },
     vacancyColumn: {

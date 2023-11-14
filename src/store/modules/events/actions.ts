@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
+import VacancyResponse from '@/classes/VacancyResponse';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
-import IVacancyResponse from '@/interfaces/vacancyResponse/IVacancyResponse';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -15,7 +15,7 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.post<IEventApplication, IEventApplication>({ query: `application`, payload: eventApplication });
   },
   eventApplicationsPdf: async (_, id: string): Promise<void> => {
-    await httpClient.get<IVacancyResponse>({
+    await httpClient.get<VacancyResponse>({
       query: `${id}/applications/pdf/`,
       isBlob: true,
       downloadFileName: 'Список заявок',
