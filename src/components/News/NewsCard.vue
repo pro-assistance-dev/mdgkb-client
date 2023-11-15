@@ -118,7 +118,8 @@ export default defineComponent({
 $card-border-radius: 15px;
 $card-content-padding: 15px;
 $card-content-outpadding: 0px;
-$card-width: 300px;
+$card-width: 270px;
+$main-card-width: 100%;
 
 .card {
   position: relative;
@@ -138,6 +139,20 @@ $card-width: 300px;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
       rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
+  }
+
+  .image {
+    position: relative;
+    overflow: hidden;
+    padding-top: 75% !important;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: $card-width;
+      object-fit: cover;
+    }
   }
 
   .transition-box {
@@ -164,8 +179,6 @@ $card-width: 300px;
 
   .card-content {
     width: auto;
-    // padding-left: $card-content-padding;
-    // padding-right: $card-content-padding;
     max-height: calc(100% - 100px);
     overflow: hidden;
     overflow-wrap: break-word;
@@ -191,21 +204,6 @@ $card-width: 300px;
         margin: 0;
       }
     }
-  }
-}
-
-.image {
-  position: relative;
-  overflow: hidden;
-  padding-top: 75% !important;
-  img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: $card-width;
-    // height: $card-width;
-    object-fit: cover;
   }
 }
 
@@ -236,27 +234,6 @@ $card-width: 300px;
 .show-more {
   cursor: pointer;
   color: #0075b2;
-}
-
-.image {
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
-}
-
-.image > div {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  left: -50%;
-  width: 200%;
-  display: flex;
-  justify-content: center;
-}
-
-.image > div > img {
-  height: 100%;
-  width: auto;
 }
 
 .flex-between-columm {
@@ -305,15 +282,28 @@ $card-width: 300px;
 }
 .main-card {
   position: relative;
-  width: 100%;
+  width: $main-card-width;
   height: 100%;
+
   .image {
-    padding-top: calc(100% - 120px);
+    position: relative;
+    overflow: hidden;
+    padding-top: 75% !important;
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: $main-card-width;
+      object-fit: cover;
+    }
   }
   :deep(.title) {
     font-size: 14px !important;
-    margin-top: 5px !important;
+    margin-top: 0px !important;
     width: auto;
+    overflow: hidden;
+    height: 40px;
   }
   .card-meta {
     font-size: 12px;
@@ -327,10 +317,6 @@ $card-width: 300px;
   }
   .news-tag-link {
     font-size: 8px;
-  }
-  .card-content {
-    // padding-left: 10px;
-    // padding-right: 10px;
   }
   .tags {
     padding: 5px 10px;
@@ -363,55 +349,4 @@ $card-width: 300px;
   backdrop-filter: blur(20px);
   transform: scale(1.1);
 }
-
-// @media screen and (max-width: 980px) {
-//   .card {
-//     width: 100%;
-//   }
-
-//   .card-content {
-//     width: 100%;
-//     word-wrap: break-word;
-//   }
-
-//   .image {
-//     position: relative;
-//     overflow: hidden;
-//     padding-top: 75% !important;
-//     img {
-//       position: absolute;
-//       top: 50%;
-//       left: 50%;
-//       transform: translate(-50%, -50%);
-//       width: 100%;
-//       height: 100%;
-//       object-fit: cover;
-//     }
-//   }
-
-//   .article-card {
-//     width: 220px;
-//     height: 320px;
-//     margin: 0 10px 100px 0;
-//     .image {
-//       padding-top: 180px;
-//     }
-//     :deep(.title) {
-//       font-size: 12px !important;
-//     }
-//     .card-meta {
-//       font-size: 11px;
-//       :deep(.anticon) {
-//         font-size: 12px;
-//         height: 12px;
-//       }
-//     }
-//     .tags-top {
-//       margin: 10px 0 0 10px;
-//     }
-//     .news-tag-link {
-//       font-size: 8px;
-//     }
-//   }
-// }
 </style>
