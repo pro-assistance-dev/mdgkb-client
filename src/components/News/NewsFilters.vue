@@ -18,7 +18,7 @@
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
 import ITag from '@/interfaces/news/ITag';
-import IFilterModel from '@/services/interfaces/IFilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
@@ -31,8 +31,8 @@ export default defineComponent({
     const filteredTagList = computed(() => Provider.store.getters['tags/filteredTagList']);
     const tagListVisible = ref(false);
 
-    let filterModel: IFilterModel = NewsFiltersLib.filterByTags([]);
-    const removeFilterTag = async (id: string) => {
+    let filterModel: FilterModel = NewsFiltersLib.filterByTags([]);
+    const removeFilterTag = async () => {
       dropFilterModel();
     };
 

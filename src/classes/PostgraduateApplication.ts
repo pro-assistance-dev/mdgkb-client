@@ -10,6 +10,11 @@ export default class PostgraduateApplication implements PostgraduateApplication 
   postgraduateCourse = new PostgraduateCourse();
   formValue = new Form();
   formValueId?: string;
+  //
+  createdAt = '';
+  fullName = '';
+  email = '';
+  courseName = '';
 
   constructor(i?: PostgraduateApplication) {
     ClassHelper.BuildClass(this, i);
@@ -17,5 +22,9 @@ export default class PostgraduateApplication implements PostgraduateApplication 
 
   getFileInfos(): IFileInfo[] {
     return this.formValue.getFileInfos();
+  }
+
+  static GetClassName(): string {
+    return 'postgraduateApplication';
   }
 }

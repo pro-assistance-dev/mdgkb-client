@@ -13,4 +13,8 @@ export default class DoctorDivision {
   constructor(i?: DoctorDivision) {
     ClassHelper.BuildClass(this, i);
   }
+
+  static GetClassName(): string {
+    return 'doctorDivision';
+  }
 }

@@ -2,7 +2,6 @@ import { MutationTree } from 'vuex';
 
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
-import NewsToTag from '@/classes/news/NewsToTag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
@@ -19,17 +18,17 @@ const mutations: MutationTree<State> = {
   setAll(state, items: INewsWithCount) {
     state.allNewsLoaded = false;
     state.count = items.count;
-    state.news = items.news.map((i: INews) => new News(i));
-    if (items.news.length === 0 || (state.params.limit && state.params.limit > items.news.length)) {
+    state.news = items.items.map((i: INews) => new News(i));
+    if (items.items.length === 0 || (state.params.limit && state.params.limit > items.items.length)) {
       state.allNewsLoaded = true;
       return;
     }
   },
   setMain(state, items: INewsWithCount) {
-    state.main = new News(items.news[0]);
+    state.main = new News(items.items[0]);
   },
   setMainOrFill(state, items: INewsWithCount) {
-    const main = new News(items.news[0]);
+    const main = new News(items.items[0]);
     if (!main.id) {
       state.main = state.news.filter((item: INews) => item.id !== state.subMain1.id && item.id !== state.subMain2.id)[0];
     } else {
@@ -37,24 +36,24 @@ const mutations: MutationTree<State> = {
     }
   },
   setSubMain1(state, items: INewsWithCount) {
-    state.subMain1 = new News(items.news[0]);
+    state.subMain1 = new News(items.items[0]);
   },
   setSubMain2(state, items: INewsWithCount) {
-    state.subMain2 = new News(items.news[0]);
+    state.subMain2 = new News(items.items[0]);
   },
   setSubMain(state, items: INewsWithCount) {
-    state.subMain1 = new News(items.news[0]);
-    state.subMain2 = new News(items.news[1]);
+    state.subMain1 = new News(items.items[0]);
+    state.subMain2 = new News(items.items[1]);
   },
   setSubMainOrFill(state, items: INewsWithCount) {
-    const subMain1 = new News(items.news[0]);
+    const subMain1 = new News(items.items[0]);
     if (!subMain1.id) {
       state.subMain1 = state.news.filter((item: INews) => item.id !== state.main.id && item.id !== state.subMain2.id)[0];
     } else {
       state.subMain1 = subMain1;
     }
 
-    const subMain2 = new News(items.news[1]);
+    const subMain2 = new News(items.items[1]);
     if (!subMain2.id) {
       state.subMain2 = state.news.filter((item: INews) => item.id !== state.main.id && item.id !== state.subMain1.id)[0];
     } else {
@@ -62,7 +61,7 @@ const mutations: MutationTree<State> = {
     }
   },
   appendToAll(state, items: INewsWithCount) {
-    const itemsForAdding = items.news.map((i: INews) => new News(i));
+    const itemsForAdding = items.items.map((i: INews) => new News(i));
     state.news.push(...itemsForAdding);
     state.count = items.count;
   },
@@ -82,7 +81,7 @@ const mutations: MutationTree<State> = {
     if (!items) {
       return;
     }
-    state.calendarNews = items.news.map((i: INews) => new News(i));
+    state.calendarNews = items.items.map((i: INews) => new News(i));
   },
   remove(state, id: string) {
     const index = state.news.findIndex((i: INews) => i.id === id);
@@ -118,23 +117,6 @@ const mutations: MutationTree<State> = {
       state.news = filteredNews;
     }
     // state.params =
-  },
-  chooseTag(state, tag: ITag) {
-    if (!state.newsItem || !state.newsItem.newsToTags) {
-      return;
-    }
-    const index = state.newsItem.newsToTags.findIndex((t: INewsToTag) => tag.id === t.tagId);
-    if (index === -1) {
-      const newsToTag = new NewsToTag();
-      if (state.newsItem.id) {
-        newsToTag.newsId = state.newsItem.id;
-      }
-      newsToTag.tagId = tag.id;
-      state.newsItem.newsToTags.push(newsToTag);
-      newsToTag.tag = tag;
-      return;
-    }
-    state.newsItem.newsToTags.splice(index, 1);
   },
   setLikeNews(state, newsLike: INewsLike) {
     const news = state.news.find((i: INews) => i.id === newsLike.newsId);

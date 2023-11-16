@@ -18,7 +18,7 @@
           <el-card>
             <SetEntity
               :link="`/admin/doctors/${division.chief.employee.human.slug}`"
-              :search-key="schema.doctor.key"
+              :search-key="Doctor.GetClassName()"
               label="Выбрать заведующего"
               :entity-name="division.chief.employee.human.getFullName()"
               @select-search="selectDoctorSearch"
@@ -263,7 +263,7 @@ export default defineComponent({
       addDoctor,
       filteredDoctors,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+      Doctor,
       selectDoctorSearch,
 
       Provider,

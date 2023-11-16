@@ -3,7 +3,6 @@ import { computed, ComputedRef, Ref, ref } from 'vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import Store from '@/services/Provider/Store';
 
 const Filter = (() => {
@@ -48,11 +47,11 @@ const Filter = (() => {
     });
   }
 
-  function setFilterModels(...models: IFilterModel[]): void {
-    models.forEach((model: IFilterModel) => filterQuery.value.setFilterModel(model));
+  function setFilterModels(...models: FilterModel[]): void {
+    models.forEach((model: FilterModel) => filterQuery.value.setFilterModel(model));
   }
 
-  function replaceFilterModel(newFilterModel: IFilterModel, previousFilterModelId: string | undefined) {
+  function replaceFilterModel(newFilterModel: FilterModel, previousFilterModelId: string | undefined) {
     filterQuery.value.spliceFilterModel(previousFilterModelId);
     filterQuery.value.setFilterModel(newFilterModel);
   }

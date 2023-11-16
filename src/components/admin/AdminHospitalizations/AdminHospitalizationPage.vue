@@ -105,7 +105,6 @@ export default defineComponent({
       submit,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

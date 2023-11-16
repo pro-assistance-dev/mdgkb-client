@@ -117,7 +117,6 @@ export default defineComponent({
       calendar,
       selectDay,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       backToToday,
       isToDay,
     };

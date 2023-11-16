@@ -60,7 +60,6 @@ export default defineComponent({
     return {
       hospitalizationsTypes,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

@@ -23,6 +23,8 @@ export default class FormStatus implements IFormStatus {
   formStatusGroup = new FormStatusGroup();
   formStatusGroupId?: string;
 
+  //
+  code = '';
   constructor(formStatus?: IFormStatus) {
     if (!formStatus) {
       return;
@@ -90,5 +92,9 @@ export default class FormStatus implements IFormStatus {
       return;
     }
     this.formStatusToFormStatusesForDelete.push(item.id);
+  }
+
+  static GetClassName(): string {
+    return 'formStatus';
   }
 }

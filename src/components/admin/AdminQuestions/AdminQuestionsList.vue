@@ -69,7 +69,6 @@ import IQuestion from '@/interfaces/IQuestion';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
@@ -82,7 +81,7 @@ export default defineComponent({
   components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminQuestionStatus, AdminListWrapper, Pagination },
   setup() {
     const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
-    const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { saveButtonClick } = useConfirmLeavePage();

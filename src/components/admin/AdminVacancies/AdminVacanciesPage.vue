@@ -20,7 +20,7 @@
             </div>
             <div style="flex: 1">
               <el-form-item label="Отделение">
-                <RemoteSearch :key-value="schema.division.key" @select="selectDivisionSearch" />
+                <RemoteSearch :key-value="Division.GetClassName()" @select="selectDivisionSearch" />
                 <div v-if="vacancy.division">
                   {{ vacancy.division.name }}
                 </div>
@@ -153,7 +153,7 @@ export default defineComponent({
       vacancy,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+      Division,
       sortList: Provider.sortList,
       formPatterns,
     };

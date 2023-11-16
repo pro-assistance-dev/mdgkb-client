@@ -54,6 +54,6 @@ export default class Head {
   }
 
   static GetClassName(): string {
-    return 'Head';
+    return 'head';
   }
 }

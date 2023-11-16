@@ -4,7 +4,6 @@ import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IField from '@/interfaces/IField';
 import IFieldValue from '@/interfaces/IFieldValue';
 import IFieldValueFile from '@/interfaces/IFieldValueFile';
@@ -13,7 +12,6 @@ import IFormStatus from '@/interfaces/IFormStatus';
 import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import IFormValueFile from '@/interfaces/IFormValueFile';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import Chat from '@/services/classes/Chat';
 
 import CandidateApplication from './CandidateApplication';
@@ -63,9 +61,9 @@ export default class Form implements IForm {
   // changed = false;
 
   postgraduateApplication?: PostgraduateApplication;
-  candidateApplication?: ICandidateApplication;
+  candidateApplication?: CandidateApplication;
   residencyApplication?: ResidencyApplication;
-  visitsApplication?: IVisitsApplication;
+  visitsApplication?: VisitsApplication;
   vacancyResponse?: VacancyResponse;
   dailyMenuOrder?: DailyMenuOrder;
   formValueFiles: IFormValueFile[] = [];
@@ -77,6 +75,11 @@ export default class Form implements IForm {
   constructor(form?: Form) {
     this.constructorMethod(form);
   }
+
+  static GetClassName(): string {
+    return 'formPattern';
+  }
+
   constructorMethod(form?: Form) {
     if (!form) {
       return;
@@ -463,9 +466,9 @@ export default class Form implements IForm {
     if (this.visitsApplication) {
       return this.visitsApplication.division?.name;
     }
-    if (this.vacancyResponse?.vacancy) {
-      return this.vacancyResponse.vacancy?.title;
-    }
+    // if (this.vacancyResponse?.vacancy) {
+    // return this.vacancyResponse.vacancy?.title;
+    // }
     if (this.dailyMenuOrder) {
       return `${this.dailyMenuOrder.getFormattedNumber()}: ${this.dailyMenuOrder.getPriceSum()} р.`;
     }
@@ -488,9 +491,9 @@ export default class Form implements IForm {
     if (this.visitsApplication) {
       return `/divisions/${this.visitsApplication.division?.slug}`;
     }
-    if (this.vacancyResponse) {
-      return `/vacancies/${this.vacancyResponse.vacancy?.slug}`;
-    }
+    // if (this.vacancyResponse) {
+    // return `/vacancies/${this.vacancyResponse.vacancy?.slug}`;
+    // }
     if (this.dailyMenuOrder) {
       return `/bufet`;
     }

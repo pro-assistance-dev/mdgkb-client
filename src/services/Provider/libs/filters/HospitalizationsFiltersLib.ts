@@ -1,17 +1,17 @@
+import Hospitalization from '@/classes/Hospitalization';
 import { PolicyTypes } from '@/interfaces/PolicyTypes';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const HospitalizationsFiltersLib = (() => {
-  function onlyOMS(value: string): IFilterModel {
+  function onlyOMS(value: string): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.policyType,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).policyType,
       DataTypes.String
     );
     filterModel.operator = Operators.Eq;
@@ -20,10 +20,10 @@ const HospitalizationsFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyConservative(value: string): IFilterModel {
+  function onlyConservative(value: string): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.treatmentType,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).treatmentType,
       DataTypes.String
     );
     filterModel.operator = Operators.Eq;
@@ -32,10 +32,10 @@ const HospitalizationsFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyAllDay(value: string): IFilterModel {
+  function onlyAllDay(value: string): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.stayType,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).stayType,
       DataTypes.String
     );
     filterModel.operator = Operators.Eq;
@@ -44,20 +44,20 @@ const HospitalizationsFiltersLib = (() => {
     return filterModel;
   }
 
-  function byStatus(): IFilterModel {
+  function byStatus(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.formStatusId,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).formStatusId,
       DataTypes.Set
     );
     filterModel.operator = Operators.In;
     return filterModel;
   }
 
-  function byDivisions(divisionsIds: string[]): IFilterModel {
+  function byDivisions(divisionsIds: string[]): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.divisionId,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).divisionId,
       DataTypes.Set
     );
     filterModel.operator = Operators.In;

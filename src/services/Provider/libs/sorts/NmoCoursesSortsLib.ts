@@ -4,10 +4,9 @@ import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
 const NmoCoursesSortsLib = (() => {
-  const modelName = 'nmoCourse';
   function byName(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
+    return SortModel.CreateSortModel(
+      NmoCourse,
       ClassHelper.GetPropertyName(NmoCourse).name,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
@@ -16,9 +15,9 @@ const NmoCoursesSortsLib = (() => {
   }
 
   function byCost(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
-      'cost',
+    return SortModel.CreateSortModel(
+      NmoCourse,
+      ClassHelper.GetPropertyName(NmoCourse).cost,
       order ? order : Orders.Desc,
       `По cтоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -26,9 +25,9 @@ const NmoCoursesSortsLib = (() => {
   }
 
   function byHours(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
-      'hours',
+    return SortModel.CreateSortModel(
+      NmoCourse,
+      ClassHelper.GetPropertyName(NmoCourse).hours,
       order ? order : Orders.Desc,
       `По длительности ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true

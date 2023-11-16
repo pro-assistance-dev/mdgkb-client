@@ -62,4 +62,8 @@ export default class Comment implements IComment {
       this.link = `/divisions/${this.division.id}`;
     }
   }
+
+  static GetClassName(): string {
+    return 'comment';
+  }
 }

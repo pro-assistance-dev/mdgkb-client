@@ -1,12 +1,14 @@
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
+
+import DishesGroup from '../../../../classes/DishesGroup';
 
 const DishesGroupsSortsLib = (() => {
   function byOrder(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.dishesGroup.tableName,
-      Provider.schema.value.dishesGroup.order,
+      DishesGroup,
+      ClassHelper.GetPropertyName(DishesGroup).order,
       order ? order : Orders.Asc,
       `По дате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true

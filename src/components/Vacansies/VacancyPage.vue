@@ -103,7 +103,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('vacancies/getBySlug', Provider.route().params['slug']);
+      await Provider.store.dispatch('vacancies/get', Provider.route().params['slug']);
       await findEmail();
       mounted.value = true;
       if (Provider.route().query.respondForm) {

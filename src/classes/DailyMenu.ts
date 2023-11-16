@@ -216,4 +216,8 @@ export default class DailyMenu {
     menuCopy.active = false;
     return menuCopy;
   }
+
+  static GetClassName(): string {
+    return 'dailyMenu';
+  }
 }

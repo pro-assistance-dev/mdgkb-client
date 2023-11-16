@@ -76,7 +76,6 @@ export default defineComponent({
       preparation,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

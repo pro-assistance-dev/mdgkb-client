@@ -147,7 +147,6 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
@@ -188,7 +187,7 @@ export default defineComponent({
     const loadVacancies = async () => {
       await Provider.getAll('vacancies');
     };
-    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
     const load = async () => {
       Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setSortModels(VacanciesSortsLib.byTitle());

@@ -1,20 +1,24 @@
 import { Module } from 'vuex';
 
 import Question from '@/classes/Question';
+import getBaseDefaultState from '@/store/baseModule/baseIndex';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<Question> {
+  question: Question;
+  allLoaded: boolean;
+}
 
 export const getDefaultState = (): State => {
   return {
-    items: [],
-    item: new Question(),
+    ...getBaseDefaultState(Question),
     question: new Question(),
     allLoaded: false,
-    count: 0,
   };
 };
 

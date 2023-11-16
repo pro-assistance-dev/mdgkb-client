@@ -30,6 +30,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
 
   return {
     getAll: async ({ commit }, options?: GetAllOptions): Promise<void> => {
+      console.log(options);
       const get = async () => {
         return await httpClient.get<T[] | ItemsWithCount<T>>({ query: options && options.filterQuery ? options.filterQuery.toUrl() : '' });
       };

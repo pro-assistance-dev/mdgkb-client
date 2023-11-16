@@ -86,7 +86,6 @@ export default defineComponent({
 
     return {
       mounted: Provider.mounted,
-      schema: Provider.schema,
       sortList: Provider.sortList,
       postgraduateApplications,
       edit,

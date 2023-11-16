@@ -1,28 +1,21 @@
+import Doctor from '@/classes/Doctor';
+import DoctorDivision from '@/classes/DoctorDivision';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const DoctorsFiltersLib = (() => {
-  function onlyMale(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.doctor.tableName,
-      Provider.schema.value.doctor.isMale,
-      DataTypes.Boolean
-    );
+  function onlyMale(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Doctor, ClassHelper.GetPropertyName(Doctor).isMale, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Мужской';
     return filterModel;
   }
 
-  function onlyFemale(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.doctor.tableName,
-      Provider.schema.value.doctor.isMale,
-      DataTypes.Boolean
-    );
+  function onlyFemale(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Doctor, ClassHelper.GetPropertyName(Doctor).isMale, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Женский';
@@ -30,16 +23,7 @@ const DoctorsFiltersLib = (() => {
   }
 
   function byDivisions(divisionsIds: string[]): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelWithJoin(
-      Provider.schema.value.doctor.tableName,
-      Provider.schema.value.doctor.id,
-      Provider.schema.value.doctorDivision.tableName,
-      Provider.schema.value.doctorDivision.id,
-      Provider.schema.value.doctorDivision.doctorId,
-      DataTypes.Join,
-      Provider.schema.value.doctorDivision.id,
-      Provider.schema.value.doctorDivision.divisionId
-    );
+    const filterModel = FilterModel.OnlyIfSecondModelExists(Doctor, DoctorDivision);
     filterModel.operator = Operators.In;
     filterModel.set = divisionsIds;
     return filterModel;

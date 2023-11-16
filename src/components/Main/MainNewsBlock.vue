@@ -28,10 +28,10 @@ import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
-import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -47,16 +47,8 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
 
     const createFilterModels = () => {
-      const modelForMainNews = SortModel.CreateSortModel(Provider.schema.value.news.tableName, Provider.schema.value.news.main);
-      const modelForSubMainNews = SortModel.CreateSortModel(Provider.schema.value.news.tableName, Provider.schema.value.news.subMain);
-      const modelForPublishedOnMainNews = SortModel.CreateSortModel(
-        Provider.schema.value.news.tableName,
-        Provider.schema.value.news.publishedOn,
-        Orders.Desc
-      );
-      Provider.setSortModels(modelForMainNews, modelForSubMainNews, modelForPublishedOnMainNews);
+      Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
       Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
-      // Provider.filterQuery.value.limit = 8;
     };
 
     const load = async () => {
@@ -65,7 +57,6 @@ export default defineComponent({
       await Provider.store.dispatch('news/getMain', true);
       await Provider.store.dispatch('news/getSubMain', true);
       Provider.store.commit('news/setFilteredNews');
-      // setNews();
       mounted.value = true;
     };
 

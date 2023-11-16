@@ -1,16 +1,13 @@
+import News from '@/classes/news/News';
+import NewsToTag from '@/classes/news/NewsToTag';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const NewsFiltersLib = (() => {
-  function onlyPublished(): IFilterModel {
-    const onlyPublished = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.publishedOn,
-      DataTypes.Date
-    );
+  function onlyPublished(): FilterModel {
+    const onlyPublished = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).publishedOn, DataTypes.Date);
     const now = new Date();
     now.setTime(now.getTime() + 3 * 60 * 60 * 1000);
 
@@ -19,52 +16,44 @@ const NewsFiltersLib = (() => {
     return onlyPublished;
   }
 
-  function excludeSlug(slug: string): IFilterModel {
-    const sf = FilterModel.CreateFilterModel(Provider.schema.value.news.tableName, Provider.schema.value.news.slug, DataTypes.String);
+  function excludeSlug(slug: string): FilterModel {
+    const sf = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).slug, DataTypes.String);
     sf.value1 = slug;
     sf.operator = Operators.Ne;
     return sf;
   }
 
-  function filterByTags(tagsIdSet: string[]): IFilterModel {
-    const filterModel: IFilterModel = FilterModel.CreateFilterModelWithJoin(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.id,
-      Provider.schema.value.newsToTag.tableName,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.newsId,
-      DataTypes.Join,
-      Provider.schema.value.newsToTag.id,
-      Provider.schema.value.newsToTag.tagId
-    );
-    filterModel.operator = Operators.In;
-    filterModel.set = tagsIdSet;
-    return filterModel;
-  }
-
-  function withoutDrafts(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.isDraft,
-      DataTypes.Boolean
-    );
+  function withoutDrafts(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).isDraft, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.label = 'Без черновиков';
     return filterModel;
   }
 
-  function withDrafts(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.isDraft,
-      DataTypes.Boolean
-    );
+  function withDrafts(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).isDraft, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.label = 'Только черновики';
     return filterModel;
   }
 
+  function filterByTags(tagsIdSet: string[]): FilterModel {
+    const filterModel = FilterModel.OnlyIfSecondModelExists(News, NewsToTag);
+    filterModel.operator = Operators.In;
+    filterModel.set = tagsIdSet;
+    return filterModel;
+  }
+
+  function byPeriod(date1: Date, date2: Date): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).publishedOn, DataTypes.Date);
+    filterModel.date1 = date1;
+    filterModel.date1 = date2;
+    filterModel.operator = Operators.Btw;
+    return filterModel;
+  }
+
   return {
+    byPeriod,
     filterByTags,
     excludeSlug,
     onlyPublished,

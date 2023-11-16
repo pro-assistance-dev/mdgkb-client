@@ -1,13 +1,13 @@
 import Doctor from '@/classes/Doctor';
+import Event from '@/classes/news/Event';
+import NewsComment from '@/classes/news/NewsComment';
 import NewsDivision from '@/classes/news/NewsDivision';
+import NewsDoctor from '@/classes/news/NewsDoctor';
+import NewsImage from '@/classes/news/NewsImage';
+import NewsLike from '@/classes/news/NewsLike';
+import NewsToCategory from '@/classes/news/NewsToCategory';
+import NewsToTag from '@/classes/news/NewsToTag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IEvent from '@/interfaces/news/IEvent';
-import INewsComment from '@/interfaces/news/INewsComment';
-import INewsDoctor from '@/interfaces/news/INewsDoctor';
-import INewsImage from '@/interfaces/news/INewsImage';
-import INewsLike from '@/interfaces/news/INewsLike';
-import INewsToCategory from '@/interfaces/news/INewsToCategory';
-import INewsToTag from '@/interfaces/news/INewsToTag';
 
 export default interface INews {
   id?: string;
@@ -18,8 +18,8 @@ export default interface INews {
   slug: string;
   main: boolean;
   subMain: boolean;
-  newsToCategories: INewsToCategory[];
-  newsToTags: INewsToTag[];
+  newsToCategories: NewsToCategory[];
+  newsToTags: NewsToTag[];
   previewImageId?: string;
   previewImage: IFileInfo;
   mainImageId?: string;
@@ -29,18 +29,19 @@ export default interface INews {
   createdAt: Date;
   articleLink: string;
   isArticle: boolean;
+  isDraft: boolean;
 
-  newsLikes: INewsLike[];
-  newsComments: INewsComment[];
-  newsDoctors: INewsDoctor[];
+  newsLikes: NewsLike[];
+  newsComments: NewsComment[];
+  newsDoctors: NewsDoctor[];
   newsDivisions: NewsDivision[];
   newsDivisionsForDelete: string[];
   newsDoctorsForDelete: string[];
-  newsImages: INewsImage[];
+  newsImages: NewsImage[];
   newsImagesForDelete: string[];
   newsImagesNames: string[];
   viewsCount: number;
-  event?: IEvent;
+  event?: Event;
 
   getImageUrl: () => string;
 

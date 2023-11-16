@@ -21,7 +21,15 @@ export default class VisitsApplication {
   @ClassHelper.GetClassConstructor(Visit)
   visits: IVisit[] = [];
   visitsForDelete: string[] = [];
+  //
 
+  createdAt = '';
+  childFullName = '';
+  fullName = '';
+  email = '';
+  formStatusId = '';
+  gateName = '';
+  divisionName = '';
   constructor(i?: VisitsApplication) {
     ClassHelper.BuildClass(this, i);
   }
@@ -44,5 +52,9 @@ export default class VisitsApplication {
 
   changeWithCar(value: boolean): void {
     this.withCar = value;
+  }
+
+  static GetClassName(): string {
+    return 'visitsApplication';
   }
 }

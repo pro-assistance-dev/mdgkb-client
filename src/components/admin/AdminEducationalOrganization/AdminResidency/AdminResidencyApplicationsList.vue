@@ -129,7 +129,6 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/services/Provider/libs/filters/ResidencyApplicationsFiltersLib';
@@ -148,8 +147,8 @@ export default defineComponent({
     );
 
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const onlyAdmissionFilter: Ref<IFilterModel> = ref(new FilterModel());
-    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
+    const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
     const applicationsCount: ComputedRef<number> = computed(() =>
       Provider.store.getters['admin/applicationsCount']('residency_applications')
     );
@@ -158,7 +157,7 @@ export default defineComponent({
     const isNotEditMode: Ref<boolean> = ref(true);
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('residencyApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyApplications/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const enableEditMode = () => {
@@ -233,11 +232,11 @@ export default defineComponent({
       await Provider.store.dispatch('formStatuses/getAll', filterQuery);
     };
 
-    const createFilterMainModels = (): IFilterModel[] => {
+    const createFilterMainModels = (): FilterModel[] => {
       return [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
     };
 
-    const createFilterPaidModels = (): IFilterModel[] => {
+    const createFilterPaidModels = (): FilterModel[] => {
       return [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
     };
 
@@ -246,7 +245,7 @@ export default defineComponent({
       filtersToOptions,
       onlyAdmissionFilter,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+
       residencyApplications,
       edit,
       sortList: Provider.sortList,

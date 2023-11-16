@@ -41,6 +41,7 @@ import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
 import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
+import ClassHelper from '@/services/ClassHelper';
 import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -65,7 +66,7 @@ export default defineComponent({
   setup() {
     const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.division.id, Provider.route().params['id'] as string);
+      Provider.filterQuery.value.setParams(ClassHelper.GetPropertyName(Division).id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
     };
 

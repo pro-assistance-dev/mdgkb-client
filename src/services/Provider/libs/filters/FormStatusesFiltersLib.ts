@@ -1,27 +1,19 @@
+import FormStatus from '@/classes/FormStatus';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const FormStatusesFiltersLib = (() => {
-  function byGroupId(groupId: string): IFilterModel {
-    const sf = FilterModel.CreateFilterModel(
-      Provider.schema.value.formStatus.tableName,
-      Provider.schema.value.formStatus.formStatusGroupId,
-      DataTypes.String
-    );
+  function byGroupId(groupId: string): FilterModel {
+    const sf = FilterModel.CreateFilterModel(FormStatus, ClassHelper.GetPropertyName(FormStatus).formStatusGroupId, DataTypes.String);
     sf.value1 = groupId;
     sf.operator = Operators.Eq;
     return sf;
   }
 
-  function byCode(groupId: string): IFilterModel {
-    const sf = FilterModel.CreateFilterModel(
-      Provider.schema.value.formStatus.tableName,
-      Provider.schema.value.formStatus.code,
-      DataTypes.String
-    );
+  function byCode(groupId: string): FilterModel {
+    const sf = FilterModel.CreateFilterModel(FormStatus, ClassHelper.GetPropertyName(FormStatus).code, DataTypes.String);
     sf.value1 = groupId;
     sf.operator = Operators.Eq;
     return sf;

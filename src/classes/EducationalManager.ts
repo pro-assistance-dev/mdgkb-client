@@ -11,4 +11,8 @@ export default class EducationalManager {
   constructor(i?: EducationalManager) {
     ClassHelper.BuildClass(this, i);
   }
+
+  static GetClassName(): string {
+    return 'educationalManeger';
+  }
 }

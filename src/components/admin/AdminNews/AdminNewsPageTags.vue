@@ -39,40 +39,40 @@
 import { ElMessage } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
 
-import ITag from '@/interfaces/news/ITag';
+import Tag from '@/classes/news/Tag';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsPageTags',
   setup() {
-    const store = useStore();
     let tagsVisible = ref(false);
     const loadTags = async () => {
-      await store.dispatch('tags/getAll');
+      await Provider.store.dispatch('tags/getAll');
     };
 
     onMounted(loadTags);
 
-    let tags = computed(() => store.getters['tags/items']);
-    let tag = computed(() => store.getters['tags/item']);
+    let news = computed(() => Provider.store.getters['news/item']);
+    let tags = computed(() => Provider.store.getters['tags/items']);
+    let tag = computed(() => Provider.store.getters['tags/item']);
 
     const createTag = async () => {
       tagsVisible.value = false;
-      await store.dispatch('tags/create', tag.value);
+      await Provider.store.dispatch('tags/create', tag.value);
     };
 
-    const chooseTag = (tag: ITag) => {
-      store.commit('news/chooseTag', tag);
+    const chooseTag = (tag: Tag) => {
+      news.value.addOrRemoveTag(tag);
     };
 
     const removeTag = async (tagId: string) => {
-      await store.dispatch('tags/remove', tagId);
+      await Provider.store.dispatch('tags/remove', tagId);
     };
 
     const findTag = (tagId: string): boolean => {
-      const tags = store.getters['news/findTags'];
-      const index = tags.findIndex((tag: ITag) => tag.id === tagId);
+      const tags = Provider.store.getters['news/findTags'];
+      const index = tags.findIndex((tag: Tag) => tag.id === tagId);
       return index > -1;
     };
 

@@ -1,19 +1,19 @@
+import CandidateApplication from '@/classes/CandidateApplication';
 import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import VacancyResponse from '@/classes/VacancyResponse';
+import VisitsApplication from '@/classes/VisitsApplication';
 import IField from '@/interfaces/IField';
 import IFormValueFile from '@/interfaces/IFormValueFile';
 
 import IUser from '../services/interfaces/IUser';
 import IFileInfo from './files/IFileInfo';
-import ICandidateApplication from './ICandidateApplication';
 import IChild from './IChild';
 import IFieldValue from './IFieldValue';
 import IFormStatus from './IFormStatus';
 import IFormStatusGroup from './IFormStatusGroup';
-import IVisitsApplication from './IVisitsApplication';
 
 export default interface IForm {
   id?: string;
@@ -49,9 +49,9 @@ export default interface IForm {
   formValueFiles: IFormValueFile[];
   formValueFilesForDelete: string[];
   postgraduateApplication?: PostgraduateApplication;
-  candidateApplication?: ICandidateApplication;
+  candidateApplication?: CandidateApplication;
   residencyApplication?: ResidencyApplication;
-  visitsApplication?: IVisitsApplication;
+  visitsApplication?: VisitsApplication;
   vacancyResponse?: VacancyResponse;
 
   addField: (field?: IField) => void;

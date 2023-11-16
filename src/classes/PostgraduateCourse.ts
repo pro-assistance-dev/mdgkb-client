@@ -46,6 +46,9 @@ export default class PostgraduateCourse {
   postgraduateCoursePlans: PostgraduateCoursePlan[] = [];
   postgraduateCoursePlansForDelete: string[] = [];
 
+  //
+  name = '';
+  code = '';
   constructor(i?: PostgraduateCourse) {
     ClassHelper.BuildClass(this, i);
   }
@@ -141,5 +144,9 @@ export default class PostgraduateCourse {
       return this.postgraduateCoursesSpecializations[0].specialization;
     }
     return new Specialization();
+  }
+
+  static GetClassName(): string {
+    return 'postgraduateCourse';
   }
 }

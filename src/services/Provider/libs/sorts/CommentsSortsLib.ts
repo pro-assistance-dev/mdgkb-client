@@ -1,12 +1,13 @@
+import Comment from '@/classes/Comment';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const CommentsSortsLib = (() => {
   function byPublishedOn(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.comment.tableName,
-      Provider.schema.value.comment.publishedOn,
+      Comment,
+      ClassHelper.GetPropertyName(Comment).publishedOn,
       order ? order : Orders.Desc,
       `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -15,8 +16,8 @@ const CommentsSortsLib = (() => {
 
   function byRating(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.comment.tableName,
-      Provider.schema.value.comment.rating,
+      Comment,
+      ClassHelper.GetPropertyName(Comment).rating,
       order ? order : Orders.Desc,
       `Cначала ${order === Orders.Asc ? 'отрицательные' : 'положительные'}`,
       false

@@ -155,7 +155,6 @@ export default defineComponent({
       selectDivision,
       visitsApplication,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       form,
       submit,
       UserFormFields,

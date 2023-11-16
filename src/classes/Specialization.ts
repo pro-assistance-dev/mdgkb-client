@@ -14,4 +14,8 @@ export default class Specialization implements ISpecialization {
     this.code = i.code;
     this.slug = i.slug;
   }
+
+  static GetClassName(): string {
+    return 'specialization';
+  }
 }

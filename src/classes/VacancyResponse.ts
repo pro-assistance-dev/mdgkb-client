@@ -1,8 +1,8 @@
-import Vacancy from '@/classes/Vacancy';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
+import Vacancy from './Vacancy';
 
 export default class VacancyResponse {
   id?: string;
@@ -11,6 +11,11 @@ export default class VacancyResponse {
 
   formValue = new Form();
   formValueId?: string;
+
+  createdAt = '';
+  title = '';
+  fullName = '';
+  email = '';
 
   constructor(i?: VacancyResponse) {
     ClassHelper.BuildClass(this, i);
@@ -21,5 +26,9 @@ export default class VacancyResponse {
 
   getFileInfos(): IFileInfo[] {
     return this.formValue.getFileInfos();
+  }
+
+  static GetClassName(): string {
+    return 'vacancyResponse';
   }
 }

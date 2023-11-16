@@ -1,12 +1,13 @@
+import User from '@/classes/User';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const UsersSortsLib = (() => {
   function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.user.tableName,
-      Provider.schema.value.user.email,
+      User,
+      ClassHelper.GetPropertyName(User).email,
       order ? order : Orders.Asc,
       `По email ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -15,8 +16,8 @@ const UsersSortsLib = (() => {
 
   function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.user.tableName,
-      Provider.schema.value.user.fullName,
+      User,
+      ClassHelper.GetPropertyName(User).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false

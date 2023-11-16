@@ -28,7 +28,6 @@ import SearchGroup from '@/classes/SearchGroup';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SearchModel from '@/services/classes/SearchModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearch from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
@@ -124,7 +123,7 @@ export default defineComponent({
       }
     };
 
-    const createModel = (): IFilterModel => {
+    const createModel = (): FilterModel => {
       const fm = FilterModel.CreateFilterModel(props.table, props.col, DataTypes.String);
       fm.operator = Operators.Like;
       return fm;

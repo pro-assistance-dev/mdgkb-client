@@ -87,8 +87,8 @@ export default class FilterQuery {
     });
   }
 
-  setParams(col: string, value: string): void {
-    this.col = col;
+  setParams(col: unknown, value: string): void {
+    this.col = (col as string) ?? '';
     this.value = value;
   }
 

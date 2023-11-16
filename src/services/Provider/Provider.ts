@@ -27,7 +27,6 @@ const Provider = (() => {
   }
 
   async function submit(next?: NavigationGuardNext): Promise<void> {
-    console.log(Router.id());
     if (Router.id()) {
       await Store.update();
     } else {
@@ -77,7 +76,7 @@ const Provider = (() => {
     if (!module) {
       module = Store.getStoreModule();
     }
-    await Store.store.dispatch(`${module}/getAll`, Provider.filterQuery.value);
+    await Store.store.dispatch(`${module}/getAll`, { filterQuery: Provider.filterQuery.value });
   }
 
   function getAdminLib() {

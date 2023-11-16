@@ -138,4 +138,8 @@ export default class Question implements IQuestion {
     }
     return false;
   }
+
+  static GetClassName(): string {
+    return 'question';
+  }
 }

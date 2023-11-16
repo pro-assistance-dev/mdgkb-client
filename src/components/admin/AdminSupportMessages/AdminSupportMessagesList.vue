@@ -51,7 +51,6 @@ import ISupportMessage from '@/interfaces/ISupportMessage';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import SupportMessagesFiltersLib from '@/services/Provider/libs/filters/SupportMessagesFiltersLib';
 import SupportMessagesSortsLib from '@/services/Provider/libs/sorts/SupportMessagesSortsLib';
@@ -64,7 +63,7 @@ export default defineComponent({
   components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper, Pagination },
   setup() {
     const supportMessages: Ref<ISupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
-    const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
     const { saveButtonClick } = useConfirmLeavePage();
@@ -127,7 +126,6 @@ export default defineComponent({
       mounted: Provider.mounted,
       onlyNewFilter,
       isEditMode,
-      schema: Provider.schema,
     };
   },
 });

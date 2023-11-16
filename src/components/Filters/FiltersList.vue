@@ -46,7 +46,7 @@ export default defineComponent({
     });
 
     const setFilter = async () => {
-      if (selectedFilterModel.value && (selectedFilterModel.value.table || selectedFilterModel.value.model)) {
+      if (selectedFilterModel.value && selectedFilterModel.value.model) {
         Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
         selectedId.value = selectedFilterModel.value.id;
       } else {

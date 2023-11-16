@@ -1,12 +1,13 @@
+import Teacher from '@/classes/Teacher';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const TeachersSortsLib = (() => {
   function byFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.teacher.tableName,
-      Provider.schema.value.teacher.fullName,
+      Teacher,
+      ClassHelper.GetPropertyName(Teacher).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? false : true

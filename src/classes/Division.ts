@@ -78,11 +78,14 @@ export default class Division {
   newsDivisions: NewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
   isCenter = false;
+
+  //
+  commentsCount = 0;
   constructor(i?: Division) {
     ClassHelper.BuildClass(this, i);
   }
   static GetClassName(): string {
-    return 'Division';
+    return 'division';
   }
   getAddress(): string {
     if (this.entrance && this.entrance.building) {

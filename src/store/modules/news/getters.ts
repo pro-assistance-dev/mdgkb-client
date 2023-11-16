@@ -12,6 +12,9 @@ import RootState from '@/store/types';
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
+  item(state): INews {
+    return state.newsItem;
+  },
   news(state): INews[] | undefined {
     return state.news;
   },

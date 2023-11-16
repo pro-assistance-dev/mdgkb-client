@@ -6,7 +6,7 @@
           <el-container direction="vertical">
             <el-card>
               <SetEntity
-                :search-key="schema.employee.key"
+                :search-key="Employee.GetClassName()"
                 label="Выбрать руководителя"
                 :entity-name="nmoCourse.mainTeacher.human.getFullName()"
                 @select-search="selectMainTeacherSearch"
@@ -211,6 +211,7 @@ export default defineComponent({
     // };
 
     return {
+      Employee,
       specializations,
       selectMainTeacherSearch,
       schema: Provider.schema,

@@ -5,9 +5,8 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 
 const PagesFiltersLib = (() => {
-  const modelName = 'page';
   function byPagesGroup(value: string): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Page).pagesGroup, DataTypes.String);
+    const filterModel = FilterModel.CreateFilterModel(Page, ClassHelper.GetPropertyName(Page).pagesGroup, DataTypes.String);
     filterModel.operator = Operators.Eq;
     filterModel.label = value;
     filterModel.value1 = value;
@@ -15,7 +14,7 @@ const PagesFiltersLib = (() => {
   }
 
   function byRole(value: string): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Page).roleId, DataTypes.String);
+    const filterModel = FilterModel.CreateFilterModel(Page, ClassHelper.GetPropertyName(Page).roleId, DataTypes.String);
     filterModel.operator = Operators.Eq;
     filterModel.label = value;
     filterModel.value1 = value;

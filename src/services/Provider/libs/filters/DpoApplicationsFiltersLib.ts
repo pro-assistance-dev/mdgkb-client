@@ -1,22 +1,19 @@
+import DpoApplication from '@/classes/DpoApplication';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import Provider from '@/services/Provider/Provider';
 
 const DpoApplicationsFiltersLib = (() => {
-  function byCourseType(isNmo: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.dpoApplication.tableName,
-      Provider.schema.value.dpoApplication.isNmo,
-      DataTypes.Boolean
-    );
+  function byCourseType(isNmo: boolean): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(DpoApplication, ClassHelper.GetPropertyName(DpoApplication).isNmo, DataTypes.Boolean);
+    filterModel.boolean = isNmo;
     return filterModel;
   }
 
-  function byStatus(statusId: string, label: string): IFilterModel {
+  function byStatus(statusId: string, label: string): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.dpoApplication.tableName,
-      Provider.schema.value.dpoApplication.formStatusId,
+      DpoApplication,
+      ClassHelper.GetPropertyName(DpoApplication).formStatusId,
       DataTypes.String
     );
     filterModel.value1 = statusId;

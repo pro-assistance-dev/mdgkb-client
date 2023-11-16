@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import IWithId from '@/services/interfaces/IWithId';
 
 export type ClassType = { [key: string]: any };
@@ -80,5 +82,15 @@ export default class ClassHelper {
         return key;
       },
     });
+  }
+
+  static CreateUUID(): string {
+    return uuidv4();
+  }
+
+  static InitClassInstance(passedClass: ClassType, arg?: ClassType): ClassType {
+    ClassHelper.BuildClass(passedClass, arg);
+    passedClass.id = ClassHelper.CreateUUID();
+    return passedClass;
   }
 }

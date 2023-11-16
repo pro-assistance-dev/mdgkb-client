@@ -90,8 +90,8 @@ import { RoleName } from '@/interfaces/RoleName';
 import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Role from '@/services/classes/Role';
+import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
-import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
 import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -109,7 +109,7 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup() {
     const paths = Provider.router.getRoutes();
     const searchString: Ref<string> = ref('');
     const sortString: Ref<string> = ref('');
@@ -220,7 +220,7 @@ export default defineComponent({
         }
       });
     };
-    const createSortModels = (): ISortModel[] => {
+    const createSortModels = (): SortModel[] => {
       return [PathPermissionsSortsLib.byResource(Orders.Asc), PathPermissionsSortsLib.byResource(Orders.Desc)];
     };
 

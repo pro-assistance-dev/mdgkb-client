@@ -1,12 +1,12 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <RemoteSearch :key-value="schema.news.key" @select="selectSearch" />
+      <RemoteSearch :key-value="'news'" @select="selectSearch" />
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
       <FilterSelectDate
         class="filters-block"
-        :table="schema.news.tableName"
-        :col="schema.news.publishedOn"
+        :table="News.GetClassName()"
+        :col="$classHelper.GetPropertyName(News).publishedOn"
         placeholder="Дата публикации"
         @load="loadNews"
       />
@@ -53,7 +53,7 @@
         ref="searchMainNewsRef"
         :clear-after-select="false"
         max-width="500px"
-        :key-value="schema.news.key"
+        :key-value="'news'"
         placeholder="Выберите новость"
         @select="selectSearchMainNews"
       />
@@ -168,10 +168,10 @@ import NewsCard from '@/components/News/NewsCard.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import INews from '@/interfaces/news/INews';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import ISortModel from '@/services/interfaces/ISortModel';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -200,7 +200,7 @@ export default defineComponent({
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
-    const sortList: Ref<ISortModel[]> = ref([]);
+    const sortList: Ref<SortModel[]> = ref([]);
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: INews) => i.id === id);
       if (item) await Provider.router.push(`/admin/news/${item.slug}`);
@@ -279,7 +279,7 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.value } });
     };
 
-    const createFilterModels = (): IFilterModel[] => {
+    const createFilterModels = (): FilterModel[] => {
       return [NewsFiltersLib.withoutDrafts(), NewsFiltersLib.withDrafts()];
     };
 
@@ -317,6 +317,7 @@ export default defineComponent({
     };
 
     return {
+      News,
       news,
       edit,
       remove,
@@ -325,7 +326,7 @@ export default defineComponent({
       loadNews,
       createFilterModels,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+
       isModalOpened,
       loadMain,
       newsMain,

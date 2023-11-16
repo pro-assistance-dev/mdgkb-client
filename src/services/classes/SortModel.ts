@@ -2,6 +2,8 @@ import { LocationQuery } from 'vue-router';
 
 import { Orders } from '@/services/interfaces/Orders';
 
+import { ClassNameGetter } from '../interfaces/Class';
+
 export default class SortModel {
   model = '';
   table = '';
@@ -9,27 +11,21 @@ export default class SortModel {
   order: Orders | undefined;
   label = '';
   default = false;
-  version = '';
   selected = false;
 
-  static CreateSortModel(table: string, col: string, order?: Orders, label?: string, defaultModel?: boolean, code?: string): SortModel {
-    const model = new SortModel();
-    model.table = table;
-    model.col = col;
-    model.order = order ?? Orders.Asc;
-    model.label = label ?? '';
-    model.default = defaultModel ?? false;
-    return model;
-  }
-
-  static CreateSortModelV2(model: string, col: string | undefined, order?: Orders, label?: string, defaultModel?: boolean): SortModel {
+  static CreateSortModel(
+    model: string | ClassNameGetter,
+    col: unknown,
+    order: Orders = Orders.Asc,
+    label?: string,
+    defaultModel?: boolean
+  ): SortModel {
     const m = new SortModel();
-    m.model = model;
-    m.col = col ?? '';
+    m.model = typeof model === 'string' ? model : model.GetClassName();
+    m.col = (col as string) ?? '';
     m.order = order ?? Orders.Asc;
     m.label = label ?? '';
     m.default = defaultModel ?? false;
-    m.version = 'v2';
     return m;
   }
 
@@ -63,7 +59,6 @@ export default class SortModel {
     this.model = params.get('model') ?? '';
     this.col = params.get('col') ?? '';
     this.label = params.get('label') ?? '';
-    this.version = params.get('version') ?? '';
     this.default = Boolean(params.get('default'));
     // this.id = params.get('id') ?? '';
     this.order = (params.get('order') as Orders) ?? ('' as Orders);

@@ -16,14 +16,16 @@
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>
       Профиль
-      <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
+      <!-- TODO: переделать на серверный запрос  -->
+      <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
     </el-button>
 
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">
           Профиль
-          <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge>
+          <!-- TODO: переделать на серверный запрос  -->
+          <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
         </el-dropdown-item>
         <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push(`/admin/${curUser.role.startPage}`)"
           >Кабинет администратора</el-dropdown-item

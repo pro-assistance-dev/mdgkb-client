@@ -1,12 +1,13 @@
+import VisitsApplication from '@/classes/VisitsApplication';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const VisitsApplicationsSortsLib = (() => {
   function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.createdAt,
+      VisitsApplication,
+      ClassHelper.GetPropertyName(VisitsApplication).createdAt,
       order ? order : Orders.Asc,
       `По дате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
@@ -14,8 +15,8 @@ const VisitsApplicationsSortsLib = (() => {
   }
   function byChildFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.childFullName,
+      VisitsApplication,
+      ClassHelper.GetPropertyName(VisitsApplication).childFullName,
       order ? order : Orders.Asc,
       `По ФИО пациента ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -23,8 +24,8 @@ const VisitsApplicationsSortsLib = (() => {
 
   function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.email,
+      VisitsApplication,
+      ClassHelper.GetPropertyName(VisitsApplication).email,
       order ? order : Orders.Asc,
       `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -32,8 +33,8 @@ const VisitsApplicationsSortsLib = (() => {
 
   function byGateName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.gateName,
+      VisitsApplication,
+      ClassHelper.GetPropertyName(VisitsApplication).gateName,
       order ? order : Orders.Asc,
       `По названию входа ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -41,8 +42,8 @@ const VisitsApplicationsSortsLib = (() => {
 
   function byDivisionName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.visitsApplication.tableName,
-      Provider.schema.value.visitsApplication.divisionName,
+      VisitsApplication,
+      ClassHelper.GetPropertyName(VisitsApplication).divisionName,
       order ? order : Orders.Asc,
       `По названию отделения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );

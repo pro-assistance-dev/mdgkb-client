@@ -15,7 +15,6 @@ import { useStore } from 'vuex';
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
 
 export default defineComponent({
@@ -78,7 +77,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
 
-    const createModel = (): IFilterModel => {
+    const createModel = (): FilterModel => {
       if (props.dataType === DataTypes.Join) {
         return FilterModel.CreateFilterModelWithJoin(
           props.table,

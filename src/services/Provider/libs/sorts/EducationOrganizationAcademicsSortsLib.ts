@@ -4,10 +4,9 @@ import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
 const EducationOrganizationAcademicsSortsLib = (() => {
-  const modelName = 'educationalAcademic';
   function byFullName(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
+    return SortModel.CreateSortModel(
+      EducationalAcademic,
       ClassHelper.GetPropertyName(EducationalAcademic).fullName,
       order ? order : Orders.Asc,
       `По ФИО ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
@@ -15,9 +14,9 @@ const EducationOrganizationAcademicsSortsLib = (() => {
     );
   }
   function byOrder(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
-      'order',
+    return SortModel.CreateSortModel(
+      EducationalAcademic,
+      ClassHelper.GetPropertyName(EducationalAcademic).order,
       order ? order : Orders.Asc,
       `По порядку ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true

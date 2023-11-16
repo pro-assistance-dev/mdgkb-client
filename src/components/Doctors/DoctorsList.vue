@@ -70,6 +70,8 @@ export default defineComponent({
       filterQuery.value.pagination.cursor.operation = Operators.Gt;
       filterQuery.value.pagination.cursor.column = schema.value.doctor.fullName;
       filterQuery.value.pagination.cursorMode = true;
+      console.log('fff');
+
       await store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
     };
 

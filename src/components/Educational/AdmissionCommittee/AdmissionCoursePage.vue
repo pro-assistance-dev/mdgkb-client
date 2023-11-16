@@ -96,6 +96,8 @@ import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
+
+import ClassHelper from '../../../services/ClassHelper';
 export default defineComponent({
   name: 'AdmissionCoursePage',
   components: { AdmissionForm, SharesBlock },
@@ -116,7 +118,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
+      Provider.filterQuery.value.setParams(ClassHelper.GetPropertyName(ResidencyCourse).id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
       Provider.mounted.value = true;
       if (Provider.route().query.respondForm) {

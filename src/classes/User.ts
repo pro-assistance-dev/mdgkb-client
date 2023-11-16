@@ -1,15 +1,12 @@
 import CandidateApplication from '@/classes/CandidateApplication';
 import Child from '@/classes/Child';
-import Comment from '@/classes/Comment';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
-import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import Question from '@/classes/Question';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import IChild from '@/interfaces/IChild';
@@ -37,8 +34,8 @@ export default class User implements IUser {
   rejectEmail = false;
   @ClassHelper.GetClassConstructor(Question)
   questions: IQuestion[] = [];
-  @ClassHelper.GetClassConstructor(Comment)
-  comments: IComment[] = [];
+  // @ClassHelper.GetClassConstructor(Comment)
+  // comments: Comment[] = [];
   @ClassHelper.GetClassConstructor(Child)
   children: IChild[] = [];
   childrenForDelete: string[] = [];
@@ -49,23 +46,24 @@ export default class User implements IUser {
   @ClassHelper.GetClassConstructor(DpoApplication)
   dpoApplications: DpoApplication[] = [];
   dpoApplicationsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructor(PostgraduateApplication)
-  postgraduateApplications: PostgraduateApplication[] = [];
+  // @ClassHelper.GetClassConstructor(PostgraduateApplication)
+  // postgraduateApplications: PostgraduateApplication[] = [];
   postgraduateApplicationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(CandidateApplication)
   candidateApplications: ICandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(VacancyResponse)
   vacancyResponses: VacancyResponse[] = [];
-  @ClassHelper.GetClassConstructor(Form)
-  formValues: Form[] = [];
+  // @ClassHelper.GetClassConstructor(Form)
+  // formValues: Form[] = [];
   createdAt?: Date;
   @ClassHelper.GetClassConstructor(DailyMenuOrder)
   dailyMenuOrders: DailyMenuOrder[] = [];
 
   @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
-
+  //
+  fullName = '';
   constructor(i?: User) {
     ClassHelper.BuildClass(this, i);
   }
@@ -130,7 +128,7 @@ export default class User implements IUser {
   }
 
   addPostgraduateApplication(): void {
-    this.postgraduateApplications.push(new PostgraduateApplication());
+    // this.postgraduateApplications.push(new PostgraduateApplication());
   }
 
   removePostgraduateApplication(index: number): void {
@@ -153,21 +151,6 @@ export default class User implements IUser {
     )?.value;
   }
 
-  getNotViewedApplicationsCount(): number {
-    let result = 0;
-    this.formValues.forEach((el) => {
-      if (!el.viewedByUser) {
-        result += 1;
-      }
-    });
-    return result;
-  }
-
-  setApplicationsViewed(): void {
-    this.formValues.forEach((el) => {
-      el.viewedByUser = true;
-    });
-  }
   setAnswersViewed(): void {
     this.questions.forEach((el) => {
       el.answerIsRead = true;
@@ -184,10 +167,6 @@ export default class User implements IUser {
     this.vacancyResponses.forEach((el) => {
       el.formValue.viewedByUser = true;
     });
-  }
-
-  hasComments(): boolean {
-    return this.comments.length > 0;
   }
 
   getHuman(): Human {
@@ -214,5 +193,9 @@ export default class User implements IUser {
     return this.vacancyResponses.map((el) => {
       return el.formValue;
     });
+  }
+
+  static GetClassName(): string {
+    return 'user';
   }
 }

@@ -17,10 +17,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import INews from '@/interfaces/news/INews';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
@@ -52,22 +49,17 @@ export default defineComponent({
         };
       }),
     ]);
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.news.tableName,
-      Provider.schema.value.news.publishedOn,
-      DataTypes.Date
-    );
+
     const changeMonth = async (page: ICalendarMeta): Promise<void> => {
       if (!page.year || !page.month) {
         return;
       }
       const fq = new FilterQuery();
-      filterModel.operator = Operators.Btw;
+
       const dateFrom = new Date(page.year, page.month - 1, 1);
       const dateTo = new Date(page.year, page.month, 1);
-      filterModel.date1 = dateFrom;
-      filterModel.date2 = dateTo;
-      fq.filterModels.push(filterModel, NewsFiltersLib.onlyPublished());
+
+      fq.filterModels.push(NewsFiltersLib.byPeriod(dateFrom, dateTo), NewsFiltersLib.onlyPublished());
       await Provider.store.dispatch('news/getByMonth', fq);
 
       const params: ICalendarMeta = { month: page.month, year: page.year };
@@ -91,6 +83,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '@/assets/styles/elements/calendar-style.scss';
+
 :deep(.newsLabel) {
   cursor: pointer !important;
   max-width: 200px;

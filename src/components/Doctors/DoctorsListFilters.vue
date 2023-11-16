@@ -82,9 +82,9 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import SortModel from '@/services/classes/SortModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import ISortModel from '@/services/interfaces/ISortModel';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
@@ -119,7 +119,7 @@ export default defineComponent({
       await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
     };
 
-    const createSortModels = (): ISortModel[] => {
+    const createSortModels = (): SortModel[] => {
       return [DoctorsSortsLib.byFullName(Orders.Asc), DoctorsSortsLib.byFullName(Orders.Desc)];
     };
 

@@ -166,6 +166,6 @@ export default class Employee {
   }
 
   static GetClassName(): string {
-    return 'Employee';
+    return 'employee';
   }
 }

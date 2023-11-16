@@ -1,12 +1,13 @@
+import Division from '@/classes/Division';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const DivisionsSortsLib = (() => {
   function byName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.name,
+      Division,
+      ClassHelper.GetPropertyName(Division).name,
       order ? order : Orders.Asc,
       `По алфавиту ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -15,8 +16,8 @@ const DivisionsSortsLib = (() => {
 
   function byCommentsCount(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.commentsCount,
+      Division,
+      ClassHelper.GetPropertyName(Division).commentsCount,
       order ? order : Orders.Asc,
       `По отзывам ${order === Orders.Asc ? '(больше)' : '(меньше)'}`,
       false

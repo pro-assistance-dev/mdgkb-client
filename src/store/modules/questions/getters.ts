@@ -1,21 +1,14 @@
 import { GetterTree } from 'vuex';
 
-import IQuestion from '@/interfaces/IQuestion';
+import Question from '@/classes/Question';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IQuestion[] {
-    return state.items;
-  },
-  item(state): IQuestion {
-    return state.item;
-  },
-  count(state): number {
-    return state.count;
-  },
-  question(state): IQuestion {
+  ...getBaseGetters(),
+  question(state): Question {
     return state.question;
   },
   allLoaded(state): boolean {

@@ -49,11 +49,11 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import IFormStatus from '@/interfaces/IFormStatus';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 // import FiltersList from '@/components/Filters/FiltersList.vue';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Orders } from '@/services/interfaces/Orders';
 import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
@@ -142,8 +142,8 @@ export default defineComponent({
     // const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
     const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
-    const createFilterModels = (): IFilterModel[] => {
-      const filters: IFilterModel[] = [];
+    const createFilterModels = (): FilterModel[] => {
+      const filters: FilterModel[] = [];
       formStatuses.value.forEach((fs: IFormStatus) => {
         if (fs.id) {
           filters.push(DpoApplicationsFiltersLib.byStatus(fs.id, fs.label));

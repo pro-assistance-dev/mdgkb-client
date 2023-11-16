@@ -21,7 +21,7 @@ const actions: ActionTree<State, RootState> = {
     const value = `value=${schema.value}`;
     const label = `label=${schema.label}`;
     const sortColumn = `sortColumn=${schema.sortColumn}`;
-    const query = `options/?${tableName}&${value}&${label}&${sortColumn}`;
+    const query = `options?${tableName}&${value}&${label}&${sortColumn}`;
     const options = await httpClient.get<IOption[]>({ query: `${query}` });
     if (options) {
       schema.options = options;
