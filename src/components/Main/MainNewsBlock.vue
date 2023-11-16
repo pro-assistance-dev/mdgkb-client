@@ -6,17 +6,26 @@
     header-title="Главные новости"
     header-button-title="Все новости"
   >
-    <div class="main-news-block">
+    <div class="wrapper">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="newsMain" />
       </div>
-      <div class="main-news-block-middle">
+      <div class="height1"></div>
+      <div class="main-news-block-middle1">
         <div class="size"><NewsCard :news="newsSubMain1" :main="true" /></div>
         <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
       </div>
+      <div class="height2"></div>
       <div class="main-news-block-right">
         <RecentNewsCard :news-list="recentNewsList" :main="true" :news-number="5" style="height: 100%" />
       </div>
+    </div>
+    <div class="main-news-block-middle2">
+      <div class="size"><NewsCard :news="newsSubMain1" :main="true" /></div>
+      <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
+    </div>
+    <div class="main-news-block-right2">
+      <RecentNewsCard :news-list="recentNewsList" :main="true" :news-number="5" style="height: 100%" />
     </div>
   </component>
 </template>
@@ -84,6 +93,23 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.height1 {
+  height: 623px;
+}
+
+.height2 {
+  height: 623px;
+}
+
+.wrapper {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 631px 1fr 270px 1fr 270px;
+  grid-column-gap: 10px;
+  grid-row-gap: 1em;
+  align-items: stretch;
+  justify-items: center;
+}
 .main-news-block {
   display: flex;
   justify-content: space-between;
@@ -92,139 +118,131 @@ export default defineComponent({
 
 .main-news-block-left {
   display: flex;
-  width: 47%;
-  padding-right: 10px;
-  max-height: 800px;
+  width: 100%;
+  height: auto;
 }
 
-.main-news-block-middle {
+.main-news-block-middle1 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 270px;
-}
-
-.main-news-block-middle > .size:first-child {
-  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
 }
 
 .main-news-block-right {
-  width: 270px;
-  padding-left: 15px;
+  width: 100%;
+  height: auto;
+}
+
+.main-news-block-right2 {
+  display: none;
+}
+
+.main-news-block-middle2 {
+  display: none;
 }
 
 .size {
-  width: 100%;
+  height: 47%;
 }
 
-@media screen and (max-width: 980px) {
-  :deep(.card) {
+@media screen and (max-width: 1280px) {
+  .wrapper {
     width: 100%;
+    display: grid;
+    grid-template-columns: 20fr 1fr 10fr 0.01fr 0.01fr;
+    grid-column-gap: 10px;
+    align-items: stretch;
+    justify-items: center;
   }
-
-  :deep(.card-content) {
-    width: 100%;
-    word-wrap: break-word;
-  }
-
-  :deep(.image) {
-    position: relative;
-    overflow: hidden;
-    padding-top: 75% !important;
-    img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  :deep(.article-card) {
-    width: 220px;
-    height: 320px;
-    margin: 0 10px 100px 0;
-    .image {
-      padding-top: 180px;
-    }
-    :deep(.title) {
-      font-size: 12px !important;
-    }
-    .card-meta {
-      font-size: 11px;
-      :deep(.anticon) {
-        font-size: 12px;
-        height: 12px;
-      }
-    }
-    .tags-top {
-      margin: 10px 0 0 10px;
-    }
-    .news-tag-link {
-      font-size: 8px;
-    }
-  }
-
-  .size {
-    width: 48%;
-    height: auto;
-  }
-
-  .colomn {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-
   .main-news-block {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding: 0 15px;
   }
 
   .main-news-block-left {
     display: flex;
-    width: 100%;
-    height: 600px;
-    padding-bottom: 30px;
+    height: 100%;
   }
 
-  .main-news-block-middle {
-    display: flex;
-    flex-direction: row;
+  .main-news-block-middle1 {
     justify-content: space-between;
-    width: 100%;
+    height: 100%;
   }
 
   .main-news-block-right {
+    display: none;
+  }
+
+  .main-news-block-right2 {
+    display: block;
     width: 100%;
     padding-top: 30px;
     padding-left: 0;
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 1024px) {
+  .size {
+    height: 49%;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-column-gap: 10px;
+    align-items: stretch;
+    justify-items: center;
+  }
+
+  .height1 {
+    display: none;
+  }
+
+  .height2 {
+    display: none;
+  }
   .main-news-block {
-    padding: 0 5px;
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
   }
 
-  :deep(.main-page-container-header button) {
-    font-size: 12px;
-    margin: 0px;
+  .main-news-block-left {
+    display: flex;
+    height: 100%;
   }
 
-  :deep(.el-icon) {
-    width: 0.5em;
-    height: 0.5em;
+  .main-news-block-middle1 {
+    display: none;
   }
-  :deep(.el-icon svg) {
-    width: 0.5em;
-    height: 0.5em;
-    padding-bottom: 6px;
+
+  .main-news-block-middle2 {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    margin-top: 30px;
+  }
+
+  .main-news-block-right {
+    display: none;
+  }
+
+  .main-news-block-right2 {
+    display: block;
+    width: 100%;
+    padding-top: 30px;
+    padding-left: 0;
+  }
+
+  .size {
+    width: 48%;
+    height: auto;
   }
 }
 </style>

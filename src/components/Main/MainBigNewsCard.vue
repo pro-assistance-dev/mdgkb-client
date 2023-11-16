@@ -1,12 +1,8 @@
 <template>
-  <div
-    class="big-news-card card-hover"
-    :style="{ 'background-image': 'url(' + news.getImageUrl() + ')' }"
-    @click="$router.push(`/news/${news.slug}`)"
-  >
-    <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
-    <div class="big-news-card-container">
-      <div class="big-news-card-tags">
+  <div class="main-card card-hover" @click="$router.push(`/news/${news.slug}`)">
+    <div class="main-image">
+      <img :src="news.getImageUrl()" alt="news-image" />
+      <div class="tags">
         <el-tag
           v-for="newsToTag in news.newsToTags.slice(0)"
           :key="newsToTag.id"
@@ -18,8 +14,12 @@
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
-      <div class="big-news-card-title">{{ news.title }}</div>
-      <div class="big-news-card-meta">
+    </div>
+    <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
+
+    <div class="main-card-container">
+      <div class="title">{{ news.title }}</div>
+      <div class="meta">
         <NewsMeta :news="news" />
       </div>
     </div>
@@ -51,181 +51,63 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.big-news-card {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100%;
+.main-card {
   width: 100%;
-  border-radius: 5px;
-  color: #343e5c;
-  display: flex;
-  align-items: flex-end;
   position: relative;
-  &-container {
+  background: #ffffff;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.main-image {
+  height: auto;
+  width: 100%;
+  img {
     width: 100%;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    padding: 10px 25px;
-    border-radius: 0 0 4px 4px;
-    // opacity: 0.9;
-  }
-  &-tags {
-    margin-bottom: 10px;
-    .news-tag-link {
-      font-size: 12px;
-    }
-  }
-  &-title {
-    font-weight: bold;
-    font-size: 28px;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-  }
-  .card-meta {
-    color: #a1a7bd;
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 1px;
-    :deep(.anticon) {
-      font-size: 20px;
-      height: 20px;
-    }
+    object-fit: cover;
   }
 }
 
-@media screen and (max-width: 1100px) {
-  .big-news-card {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
-    color: #343e5c;
-    display: flex;
-    align-items: flex-end;
-    &-container {
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      padding: 10px 25px;
-      border-radius: 0 0 4px 4px;
-      // opacity: 0.9;
-    }
-    &-tags {
-      margin-bottom: 10px;
-      .news-tag-link {
-        font-size: 12px;
-      }
-    }
-    &-title {
-      font-weight: bold;
-      font-size: 26px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    .card-meta {
-      color: #a1a7bd;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      :deep(.anticon) {
-        font-size: 20px;
-        height: 20px;
-      }
-    }
+.main-card-container {
+  width: calc(100% - 30px);
+  padding: 0px 15px 10px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tags {
+  width: calc(100% - 30px);
+  padding: 0 15px;
+  .news-tag-link {
+    font-size: 12px;
+  }
+}
+.title {
+  display: flex;
+  align-items: start;
+  font-weight: bold;
+  font-size: 28px;
+  letter-spacing: 1px;
+  margin: auto 0;
+  height: 80px;
+  overflow: hidden;
+}
+.meta {
+  position: absolute;
+  bottom: 0px;
+  width: calc(100% - 20px);
+  color: #a1a7bd;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  padding-bottom: 5px;
+  :deep(.anticon) {
+    font-size: 20px;
+    height: 20px;
   }
 }
 
-@media screen and (max-width: 980px) {
-  .big-news-card {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
-    color: #343e5c;
-    display: flex;
-    align-items: flex-end;
-    &-container {
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      padding: 10px 25px;
-      border-radius: 0 0 4px 4px;
-      // opacity: 0.9;
-    }
-    &-tags {
-      margin-bottom: 10px;
-      .news-tag-link {
-        font-size: 12px;
-      }
-    }
-    &-title {
-      font-weight: bold;
-      font-size: 22px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    .card-meta {
-      color: #a1a7bd;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      :deep(.anticon) {
-        font-size: 20px;
-        height: 20px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .big-news-card {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 5px;
-    color: #343e5c;
-    display: flex;
-    align-items: flex-end;
-    &-container {
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      padding: 10px 25px;
-      border-radius: 0 0 4px 4px;
-      // opacity: 0.9;
-    }
-    &-tags {
-      margin-bottom: 10px;
-      .news-tag-link {
-        font-size: 12px;
-      }
-    }
-    &-title {
-      font-weight: bold;
-      font-size: 16px;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    .card-meta {
-      color: #a1a7bd;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      :deep(.anticon) {
-        font-size: 20px;
-        height: 20px;
-      }
-    }
-  }
-}
 .close-icon {
   width: 30px;
   height: 30px;
@@ -242,5 +124,19 @@ export default defineComponent({
 .close-icon:hover {
   backdrop-filter: blur(20px);
   transform: scale(1.1);
+}
+
+@media screen and (max-width: 980px) {
+  .title {
+    height: auto;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .title {
+    font-size: 16px;
+  }
 }
 </style>
