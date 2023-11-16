@@ -48,8 +48,8 @@
     </div>
   </div>
   <div class="footer-container">
-    <!-- <FooterTop />
-    <FooterBottom /> -->
+    <FooterTop />
+    <FooterBottom />
   </div>
   <Close />
 </template>
