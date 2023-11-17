@@ -17,7 +17,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
-import ITag from '@/interfaces/news/ITag';
+import Tag from '@/classes/news/Tag';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
@@ -38,7 +38,7 @@ export default defineComponent({
 
     const resetFilterTags = async () => {
       dropFilterModel();
-      filteredTagList.value.forEach((tag: ITag) => (tag.selected = false));
+      filteredTagList.value.forEach((tag: Tag) => (tag.selected = false));
       await Provider.store.dispatch('news/resetFilterTags');
       emit('loadNews');
     };
@@ -52,7 +52,7 @@ export default defineComponent({
       filterModel = NewsFiltersLib.filterByTags([]);
     };
 
-    const chooseTag = async (tag: ITag) => {
+    const chooseTag = async (tag: Tag) => {
       if (!tag.id) {
         return;
       }

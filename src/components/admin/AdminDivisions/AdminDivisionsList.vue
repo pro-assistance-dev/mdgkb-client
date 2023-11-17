@@ -72,7 +72,7 @@ export default defineComponent({
     };
 
     const loadDivisions = async (): Promise<void> => {
-      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const load = async (): Promise<void> => {

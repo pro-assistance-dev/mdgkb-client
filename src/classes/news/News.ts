@@ -9,11 +9,11 @@ import NewsLike from '@/classes/news/NewsLike';
 import NewsToCategory from '@/classes/news/NewsToCategory';
 import NewsToTag from '@/classes/news/NewsToTag';
 import Tag from '@/classes/news/Tag';
-import INews from '@/interfaces/news/INews';
+import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class News implements INews {
+export default class News {
   id?: string;
   status = '';
   title = '';
@@ -49,7 +49,7 @@ export default class News implements INews {
   //
   isDraft = false;
 
-  constructor(news?: INews) {
+  constructor(news?: News) {
     if (!news) {
       return;
     }
@@ -166,5 +166,16 @@ export default class News implements INews {
       return;
     }
     ClassHelper.RemoveFromClassByIndex(index, this.newsToTags, this.newsToTagsForDelete);
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(this.previewImage, this.mainImage);
+    this.newsImages.forEach((image: NewsImage) => {
+      if (image.fileInfo) {
+        fileInfos.push(image.fileInfo);
+      }
+    });
+    return fileInfos;
   }
 }

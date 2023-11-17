@@ -24,9 +24,9 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import News from '@/classes/news/News';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
-import INews from '@/interfaces/news/INews';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -35,8 +35,8 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const news = computed(() => store.getters['news/news']);
-    const carousel: Ref<INews[][]> = ref([]);
+    const news = computed(() => store.getters['news/items']);
+    const carousel: Ref<News[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
@@ -44,7 +44,7 @@ export default defineComponent({
       store.commit('news/clearNews');
       // await store.dispatch('news/getAllMain');
       await store.commit('news/setFilteredNews');
-      carousel.value = makeCarousel<INews>(news.value, 4);
+      carousel.value = makeCarousel<News>(news.value, 4);
       mounted.value = true;
     });
 

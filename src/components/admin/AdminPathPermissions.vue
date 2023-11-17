@@ -4,7 +4,7 @@
       <div class="filters-block">
         <span>Найти:</span>
         <RemoteSearch
-          :key-value="schema.pathPermission.key"
+          :key-value="'pathPermission'"
           :model-value="searchString"
           :show-suggestions="false"
           :must-be-translated="false"

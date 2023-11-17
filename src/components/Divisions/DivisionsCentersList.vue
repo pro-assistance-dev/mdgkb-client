@@ -64,13 +64,13 @@ export default defineComponent({
       if (!mode.value) {
         Provider.filterQuery.value.pagination.limit = 6;
       }
-      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = divisions.value.length;
-      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const selectMode = async (selectedMode: string) => {

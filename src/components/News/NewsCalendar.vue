@@ -15,8 +15,8 @@
 import { Calendar, PopoverRow } from 'v-calendar';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
+import News from '@/classes/news/News';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import INews from '@/interfaces/news/INews';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
@@ -35,7 +35,7 @@ export default defineComponent({
     };
 
     const attributesProp = computed(() => [
-      ...news.value.map((item: INews) => {
+      ...news.value.map((item: News) => {
         return {
           dot: randomDotColor(),
           dates: [new Date(item.publishedOn)],

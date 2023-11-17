@@ -39,7 +39,7 @@ export default defineComponent({
   components: { MainContainer, NewsCard, MainBigNewsCard, RecentNewsCard },
 
   setup() {
-    const news = computed(() => Provider.store.getters['news/news']);
+    const news = computed(() => Provider.store.getters['news/items']);
     const newsMain = computed(() => Provider.store.getters['news/main']);
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
@@ -53,7 +53,7 @@ export default defineComponent({
 
     const load = async () => {
       createFilterModels();
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
       await Provider.store.dispatch('news/getMain', true);
       await Provider.store.dispatch('news/getSubMain', true);
       Provider.store.commit('news/setFilteredNews');

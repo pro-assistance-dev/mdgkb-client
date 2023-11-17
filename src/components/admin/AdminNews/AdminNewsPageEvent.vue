@@ -13,20 +13,18 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Event from '@/classes/news/Event';
+import News from '@/classes/news/News';
 import AdminNewsPageEventApplications from '@/components/admin/AdminNews/AdminNewsPageEventApplications.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
-import INews from '@/interfaces/news/INews';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsPageEvent',
   components: { FormConstructor, AdminNewsPageEventApplications },
   setup() {
-    const store = useStore();
-
-    const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
+    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
 
     const createEvent = (newsIsEvent: boolean) => {
       if (!newsIsEvent) {

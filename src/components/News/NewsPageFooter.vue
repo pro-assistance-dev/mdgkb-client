@@ -53,26 +53,21 @@
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
+import News from '@/classes/news/News';
+import Tag from '@/classes/news/Tag';
 import NewsLikes from '@/components/News/NewsLike.vue';
-import INews from '@/interfaces/news/INews';
-import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsPageFooter',
   components: { EyeOutlined, NewsLikes },
   props: {
     news: {
-      type: Object as PropType<INews>,
+      type: Object as PropType<News>,
       required: true,
     },
   },
   async setup(props) {
-    const store = useStore();
-    const router = useRouter();
-
     const shares = [
       // { name: 'facebook', icon: 'fb' },
       // { name: 'twitter', icon: 'twitter' },
@@ -80,9 +75,8 @@ export default defineComponent({
       { name: 'Telegram', icon: 'telegram' },
     ];
 
-    const filterNews = async (tag: ITag): Promise<void> => {
-      await store.dispatch('news/addFilterTag', tag);
-      await router.push('/news');
+    const filterNews = async (tag: Tag): Promise<void> => {
+      // await Provider.router.push('/news');
     };
 
     const getUrl = (): string => {

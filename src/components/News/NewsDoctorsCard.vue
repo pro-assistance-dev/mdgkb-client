@@ -58,13 +58,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import INewsDoctor from '@/interfaces/news/INewsDoctor';
+import NewsDoctor from '@/classes/news/NewsDoctor';
 
 export default defineComponent({
   name: 'NewsDoctorsCard',
   props: {
     newsDoctors: {
-      type: Object as PropType<INewsDoctor[]>,
+      type: Object as PropType<NewsDoctor[]>,
       required: true,
     },
   },

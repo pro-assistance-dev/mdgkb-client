@@ -32,8 +32,8 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import News from '@/classes/news/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'AdminMedicalProfilesList',
@@ -52,7 +52,7 @@ export default defineComponent({
     };
 
     const edit = async (id: string): Promise<void> => {
-      const item = pages.value.find((i: INews) => i.id === id);
+      const item = pages.value.find((i: News) => i.id === id);
       if (item) {
         await router.push(`/admin/medical-profiles/${item.id}`);
       }

@@ -41,16 +41,15 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
 
 import CommentRules from '@/classes/news/CommentRules';
+import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
 import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery from '@/components/ImageGallery.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
-import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
@@ -63,10 +62,9 @@ export default defineComponent({
   async setup() {
     let comment = ref(new NewsComment());
     const commentInput = ref();
-    const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
-    const slug = computed(() => route.params['slug']);
-    const news: ComputedRef<INews> = computed<INews>(() => Provider.store.getters['news/newsItem']);
+    const slug = computed(() => Provider.route().params['slug']);
+    const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
 
     watch(slug, async () => {
       console.log(slug);

@@ -39,7 +39,7 @@ export default defineComponent({
   components: { DatePicker },
   async setup(prop) {
     const store = useStore();
-    const event: Ref<IEvent> = computed(() => store.getters['news/newsItem'].event);
+    const event: Ref<IEvent> = computed(() => store.getters['news/item'].event);
     const eventApplication: Ref<IEventApplication> = computed(() => store.getters['news/eventApplication']);
     eventApplication.value.eventId = event.value.id;
     const form = ref();

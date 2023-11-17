@@ -22,9 +22,9 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Doctor from '@/classes/Doctor';
+import News from '@/classes/news/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import INews from '@/interfaces/news/INews';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
@@ -32,7 +32,7 @@ export default defineComponent({
   name: 'AdminNewsDoctors',
   components: { TableButtonGroup, RemoteSearch },
   setup() {
-    const news: ComputedRef<INews> = computed(() => Provider.store.getters['news/newsItem']);
+    const news: ComputedRef<News> = computed(() => Provider.store.getters['news/item']);
     const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {

@@ -20,15 +20,15 @@
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
+import News from '@/classes/news/News';
 import NewsLikes from '@/components/News/NewsLike.vue';
-import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'NewsMeta',
   components: { EyeOutlined, NewsLikes },
   props: {
     news: {
-      type: Object as PropType<INews>,
+      type: Object as PropType<News>,
       required: true,
     },
     article: {

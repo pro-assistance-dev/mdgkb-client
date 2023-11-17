@@ -10,7 +10,7 @@ export default class Pagination {
   cursorMode = false;
   append = false;
   allLoaded = false;
-
+  version = '';
   setLoadMore(lastCursor: string, column: string, table: string): void {
     this.cursor.value = lastCursor;
     this.cursor.initial = false;
@@ -28,6 +28,7 @@ export default class Pagination {
     this.cursor.column = column;
     this.cursor.model = model;
     this.cursorMode = true;
+    this.version = 'v2';
     return;
   }
 
