@@ -28,7 +28,7 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <ImageGallery :images="news.newsImages" />
+          <ImageGallery_new :images="news.newsImages" :quantity="2" />
         </template>
         <el-divider />
         <NewsPageFooter :news="news" />
@@ -46,7 +46,7 @@ import CommentRules from '@/classes/news/CommentRules';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
 import Comments from '@/components/Comments/Comments.vue';
-import ImageGallery from '@/components/ImageGallery.vue';
+import ImageGallery_new from '@/components/ImageGallery_new.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
@@ -57,7 +57,7 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, ImageGallery, EventRegistration, Comments },
+  components: { NewsPageFooter, RecentNewsCard, ImageGallery_new, EventRegistration, Comments },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -234,6 +234,10 @@ h3 {
 
 .card-item {
   padding: 30px;
+}
+
+:deep(.leave-a-review) {
+  padding: 40px 190px 35px 175px;
 }
 
 @media screen and (max-width: 480px) {

@@ -44,13 +44,18 @@ import IFileInfo from '@/interfaces/files/IFileInfo';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
-  name: 'ImageGallery',
+  name: 'ImageGalleryNew',
   components: { CollapseItem },
   props: {
     images: {
       type: Array as PropType<DivisionImage[]>,
       default: () => [],
       required: true,
+    },
+    quantity: {
+      type: Number,
+      default: 3,
+      required: false,
     },
   },
   setup(props) {
@@ -65,8 +70,10 @@ export default defineComponent({
     };
 
     onBeforeMount(() => {
-      carousel.value = makeCarousel<DivisionImage>(props.images, 3);
-      console.log('Значение карусели: ' + carousel.value);
+      if (props.quantity) {
+        carousel.value = makeCarousel<DivisionImage>(props.images, props.quantity);
+        console.log('Значение карусели: ' + carousel.value);
+      }
     });
 
     return {
