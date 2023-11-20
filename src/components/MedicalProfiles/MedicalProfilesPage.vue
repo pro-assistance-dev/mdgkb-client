@@ -27,7 +27,7 @@
           <el-table :data="medicalProfile.medicalProfilesNews" cell-class-name="cell-row" :show-header="false">
             <el-table-column>
               <template #default="scope">
-                <div class="recent-news-item" @click="$router.push(`/news/${scope.row.news.slug}`)">
+                <div class="recent-news-item" @click="$router.push(`/news/${scope.row.news.id}`)">
                   <div class="item-title">{{ scope.row.news.title }}</div>
                   <div class="item-footer">
                     <div class="item-date">{{ $dateTimeFormatter.format(scope.row.news.publishedOn, { month: 'long' }) }}</div>

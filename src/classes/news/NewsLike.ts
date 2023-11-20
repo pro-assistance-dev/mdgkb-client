@@ -1,16 +1,11 @@
-import INewsLike from '@/interfaces/news/INewsLike';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class NewsLike implements INewsLike {
+export default class NewsLike {
   id?: string;
   newsId = '';
   userId = '';
 
-  constructor(i?: INewsLike) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.newsId = i.newsId;
-    this.userId = i.userId;
+  constructor(i?: NewsLike) {
+    ClassHelper.BuildClass(this, i);
   }
 }

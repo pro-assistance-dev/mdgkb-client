@@ -178,4 +178,13 @@ export default class News {
     });
     return fileInfos;
   }
+
+  createLike(userId?: string): NewsLike {
+    const item = new NewsLike();
+    item.id = ClassHelper.CreateUUID();
+    item.newsId = this.id as string;
+    item.userId = userId as string;
+    this.newsLikes.push(item);
+    return item;
+  }
 }

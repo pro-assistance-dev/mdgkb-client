@@ -1,7 +1,7 @@
 <template>
   <div class="icon like">
-    <LikeFilled v-if="liked(news.newsLikes)" class="liked" @click.stop="deleteLike(news)" />
-    <LikeOutlined v-else @click.stop="createLike(news)" />
+    <LikeFilled v-if="like" class="liked" @click.stop="toggleLike" />
+    <LikeOutlined v-else @click.stop="toggleLike" />
     <span>{{ news.newsLikes.length }} </span>
   </div>
 </template>
@@ -9,12 +9,12 @@
 <script lang="ts">
 import { LikeFilled, LikeOutlined } from '@ant-design/icons-vue';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, PropType } from 'vue';
-import { useStore } from 'vuex';
+import { computed, ComputedRef, defineComponent, PropType } from 'vue';
 
 import News from '@/classes/news/News';
 import NewsLike from '@/classes/news/NewsLike';
-import INewsLike from '@/interfaces/news/INewsLike';
+import ClassHelper from '@/services/ClassHelper';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'NewsLike',
@@ -25,50 +25,32 @@ export default defineComponent({
       required: true,
     },
   },
-  async setup() {
-    const store = useStore();
-    const user = computed(() => store.getters['auth/user']);
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+  async setup(props) {
+    const user = computed(() => Provider.store.getters['auth/user']);
 
-    const createLike = async (news: News): Promise<void> => {
-      const token = TokenService.getAccessToken();
-      if (!token) {
-        ElMessage({
-          message: 'Пожалуйста, авторизируйтесь',
-          type: 'warning',
-        });
+    const like: ComputedRef<NewsLike | undefined> = computed(() =>
+      props.news.newsLikes.find((like: NewsLike) => like.userId === user.value.id)
+    );
+
+    const toggleLike = async () => {
+      if (!TokenService.getAccessToken()) {
+        ElMessage.warning('Пожалуйста, авторизируйтесь');
         return;
       }
-      const newsLike = new NewsLike();
-      if (news.id) newsLike.newsId = news.id;
-      if (user.value.id) newsLike.userId = user.value.id;
-      await store.dispatch('news/createLike', newsLike);
-    };
-
-    const deleteLike = async (news: News): Promise<void> => {
-      const token = TokenService.getAccessToken();
-      if (!token) {
-        ElMessage({
-          message: 'Пожалуйста, авторизируйтесь',
-          type: 'warning',
-        });
+      if (like.value) {
+        await Provider.store.dispatch('news/deleteLike', like.value);
+        ClassHelper.RemoveFromClassById(like.value.id, props.news.newsLikes, []);
         return;
       }
+      const l = props.news.createLike(user.value.id);
+      console.log(l);
 
-      const like = news.newsLikes.find((i: INewsLike) => i.userId === user.value.id);
-      if (like) await store.dispatch('news/deleteLike', like);
-    };
-
-    const liked = (likes: INewsLike[]) => {
-      if (!isAuth.value) return false;
-      const i = likes.findIndex((like: INewsLike) => like.userId === user.value.id);
-      return i > -1;
+      await Provider.store.dispatch('news/createLike', l);
     };
 
     return {
-      liked,
-      createLike,
-      deleteLike,
+      toggleLike,
+      like,
     };
   },
 });

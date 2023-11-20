@@ -46,7 +46,7 @@ export default class Comment implements IComment {
       this.news = new News(comment.newsComment.news);
       this.title = this.news.title;
       this.commentTo = 'Новость';
-      this.link = `/news/${this.news.slug}`;
+      this.link = `/news/${this.news.id}`;
     }
     if (comment.doctorComment && comment.doctorComment.doctor) {
       this.doctor = new Doctor(comment.doctorComment.doctor);

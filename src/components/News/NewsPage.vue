@@ -28,7 +28,7 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <ImageGallery_new :images="news.newsImages" :quantity="2" />
+          <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" />
         </template>
         <el-divider />
         <NewsPageFooter :news="news" />

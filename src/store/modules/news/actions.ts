@@ -35,9 +35,8 @@ const actions: ActionTree<State, RootState> = {
     const items = await httpClient.get<INewsWithCount[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     commit('setCalendarNews', items);
   },
-  createLike: async ({ commit }, newsLike: NewsLike): Promise<void> => {
-    const res = await httpClient.post<NewsLike, NewsLike>({ query: `like`, payload: newsLike });
-    commit('setLikeNews', res);
+  createLike: async (_, newsLike: NewsLike): Promise<void> => {
+    await httpClient.post<NewsLike, NewsLike>({ query: `like`, payload: newsLike });
   },
   removeComment: async ({ commit }, id: string): Promise<void> => {
     await httpClient.delete({ query: `comment/${id}` });
@@ -55,9 +54,8 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
   },
-  deleteLike: async ({ commit }, newsLike: NewsLike): Promise<void> => {
+  deleteLike: async (_, newsLike: NewsLike): Promise<void> => {
     await httpClient.delete({ query: `like/${newsLike.id}` });
-    commit('deleteLikeFromNews', newsLike);
   },
   addFilterTag: async ({ commit }): Promise<void> => {
     commit('setFilteredNews');

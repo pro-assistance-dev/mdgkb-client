@@ -202,7 +202,7 @@ export default defineComponent({
     const sortList: Ref<SortModel[]> = ref([]);
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: News) => i.id === id);
-      if (item) await Provider.router.push(`/admin/news/${item.slug}`);
+      if (item) await Provider.router.push(`/admin/news/${item.id}`);
     };
     const isModalOpened: Ref<boolean> = ref(false);
 
@@ -211,7 +211,9 @@ export default defineComponent({
     };
 
     const loadNews = async (): Promise<void> => {
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
+      await Provider.store.dispatch('news/getAll', {
+        filterQuery: Provider.filterQuery.value,
+      });
     };
 
     const load = async (): Promise<void> => {
@@ -275,7 +277,10 @@ export default defineComponent({
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.value } });
+      await Provider.router.push({
+        name: `AdminNewsPageEdit`,
+        params: { id: event.id, slug: event.value },
+      });
     };
 
     const createFilterModels = (): FilterModel[] => {
@@ -297,11 +302,13 @@ export default defineComponent({
     };
 
     const makeNewsMain = async (previousItem: News, storeName: string, isMain: boolean) => {
+      console.log(searchResult.value);
       if (isMain) {
         previousItem.main = false;
       } else {
         previousItem.subMain = false;
       }
+
       await Provider.store.dispatch('news/update', previousItem);
       if (searchResult.value) {
         if (isMain) {
@@ -309,7 +316,7 @@ export default defineComponent({
         } else {
           searchResult.value.subMain = true;
         }
-        Provider.store.commit(`news/${storeName}`, { news: [searchResult.value] });
+        Provider.store.commit(`news/${storeName}`, { items: [searchResult.value] });
         await Provider.store.dispatch('news/update', searchResult.value);
       }
       searchMainNewsRef.value?.clear();

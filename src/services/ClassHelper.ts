@@ -89,8 +89,9 @@ export default class ClassHelper {
   }
 
   static InitClassInstance(passedClass: ClassType, arg?: ClassType): ClassType {
-    ClassHelper.BuildClass(passedClass, arg);
+    const item = passedClass.constructor(arg);
+    // ClassHelper.BuildClass(passedClass, arg);
     passedClass.id = ClassHelper.CreateUUID();
-    return passedClass;
+    return item;
   }
 }
