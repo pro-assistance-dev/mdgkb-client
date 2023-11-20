@@ -22,16 +22,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, defineComponent, PropType, Ref, ref, watch } from 'vue';
 
-import SearchGroup from '@/classes/SearchGroup';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SearchModel from '@/services/classes/SearchModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearch from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
-import StringsService from '@/services/Strings';
 
 export default defineComponent({
   name: 'RemoteSearch',
@@ -64,13 +62,13 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       default: true,
     },
-    mustBeTranslated: {
-      type: Boolean as PropType<boolean>,
-      default: true,
-    },
     maxWidth: {
       type: [Number, String],
-      default: 300,
+      default: 350,
+    },
+    focus: {
+      type: Boolean as PropType<boolean>,
+      default: false,
     },
     clearAfterSelect: {
       type: Boolean,
@@ -83,6 +81,18 @@ export default defineComponent({
     const searchForm = ref();
     const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
 
+    watch(
+      () => props.focus,
+      () => {
+        if (props.focus) {
+          setTimeout(() => {
+            searchForm.value.focus();
+            queryString.value = '';
+          }, 500);
+        }
+      }
+    );
+
     const find = async (query: string, resolve: (arg: any) => void): Promise<void> => {
       if (query.length < 2) {
         resolve([]);
@@ -90,12 +100,8 @@ export default defineComponent({
       }
       searchForm.value.activated = true;
       searchModel.value.searchObjects = [];
-      searchModel.value.query = StringsService.translit(query);
-      searchModel.value.mustBeTranslated = props.mustBeTranslated;
-      const groupForSearch = searchModel.value.searchGroups.find((group: SearchGroup) => group.key === props.keyValue);
-      if (groupForSearch) {
-        searchModel.value.searchGroup = groupForSearch;
-      }
+      searchModel.value.query = query;
+      searchModel.value.key = props.keyValue;
       await Provider.store.dispatch(`search/search`, searchModel.value);
 
       // emit('input', searchModel.value.searchObjects);

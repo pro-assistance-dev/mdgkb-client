@@ -235,7 +235,6 @@ export default defineComponent({
       store.commit('admin/showLoading');
       await store.dispatch('teachers/getAll');
       await store.dispatch('specializations/getAll');
-      await store.dispatch('search/searchGroups');
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');
       await loadItem();
