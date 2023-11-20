@@ -14,6 +14,7 @@ export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fiel
       if (hideErrorList) {
         ElNotification.error('Пожалуйста, проверьте правильность введенных данных');
       } else {
+        console.log(errorFields);
         ElNotification.error(new MessageError(errorFields));
       }
       validationResult = false;

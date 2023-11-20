@@ -34,7 +34,14 @@ export default class ResidencyApplication {
   agreedWithRules = false;
   agreedWithPrivacy = false;
   diploma = new Diploma();
-
+  //
+  formStatusId = '';
+  createdAt = '';
+  approvingDate = '';
+  fullName = '';
+  email = '';
+  courseName = '';
+  pointsSum = '';
   constructor(i?: ResidencyApplication) {
     ClassHelper.BuildClass(this, i);
   }
@@ -183,5 +190,9 @@ export default class ResidencyApplication {
       return false;
     }
     return !!fieldValue.file?.fileSystemPath;
+  }
+
+  static GetClassName(): string {
+    return 'residencyApplication';
   }
 }

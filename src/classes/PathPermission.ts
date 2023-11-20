@@ -46,4 +46,8 @@ export default class PathPermission implements IPathPermission {
   checkPermissionForRole(roleId: string): boolean {
     return !!this.pathPermissionsRoles.find((pr: IPathPermissionRole) => roleId === pr.roleId);
   }
+
+  static GetClassName(): string {
+    return 'pathPermission';
+  }
 }

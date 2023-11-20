@@ -1,9 +1,7 @@
 import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
-import VacancyResponse from '@/classes/VacancyResponse';
 import IForm from '@/interfaces/IForm';
-import IVacancy from '@/interfaces/IVacancy';
 import IVacancyDuty from '@/interfaces/IVacancyDuty';
 import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
 import ContactInfo from '@/services/classes/ContactInfo';
@@ -11,7 +9,7 @@ import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
-export default class Vacancy implements IVacancy {
+export default class Vacancy {
   id?: string;
   title = '';
   slug = '';
@@ -24,9 +22,9 @@ export default class Vacancy implements IVacancy {
   active = false;
   responsesCount = 0;
   newResponsesCount = 0;
-  @ClassHelper.GetClassConstructor(VacancyResponse)
-  vacancyResponses: VacancyResponse[] = [];
-  vacancyResponsesForDelete = [];
+  // @ClassHelper.GetClassConstructor(VacancyResponse)
+  // vacancyResponses: VacancyResponse[] = [];
+  // vacancyResponsesForDelete = [];
   experience = '';
   @ClassHelper.GetClassConstructor(VacancyDuty)
   vacancyDuties: IVacancyDuty[] = [];
@@ -41,20 +39,20 @@ export default class Vacancy implements IVacancy {
   formPattern: IForm = new Form();
   formPatternId?: string;
 
-  constructor(i?: IVacancy) {
+  constructor(i?: Vacancy) {
     ClassHelper.BuildClass(this, i);
   }
 
-  withNewResponses(): boolean {
-    return this.vacancyResponses.some((vacancyResponse: VacancyResponse) => vacancyResponse.formValue.isNew);
-  }
+  // withNewResponses(): boolean {
+  //   return this.vacancyResponses.some((vacancyResponse: VacancyResponse) => vacancyResponse.formValue.isNew);
+  // }
 
-  countResponses(onlyNew?: boolean): number {
-    if (!onlyNew) {
-      return this.vacancyResponses.length;
-    }
-    return this.vacancyResponses.filter((response: VacancyResponse) => response.formValue.isNew).length;
-  }
+  // countResponses(onlyNew?: boolean): number {
+  //   if (!onlyNew) {
+  //     return this.vacancyResponses.length;
+  //   }
+  //   return this.vacancyResponses.filter((response: VacancyResponse) => response.formValue.isNew).length;
+  // }
 
   getSalary(): string {
     if (this.maxSalary > 0) {
@@ -69,5 +67,9 @@ export default class Vacancy implements IVacancy {
 
   addRequirement(): void {
     this.vacancyRequirements.push(new VacancyRequirement());
+  }
+
+  static GetClassName(): string {
+    return 'vacancy';
   }
 }

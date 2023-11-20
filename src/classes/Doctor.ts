@@ -42,7 +42,10 @@ export default class Doctor {
   mosDoctorLink?: string;
   hasAppointment = true;
   doctorsDivisionsForDelete: string[] = [];
-
+  //
+  isMale = '';
+  fullName = '';
+  dateBirth = '';
   constructor(i?: Doctor) {
     ClassHelper.BuildClass(this, i);
   }
@@ -98,7 +101,7 @@ export default class Doctor {
   }
 
   static GetClassName(): string {
-    return 'Doctor';
+    return 'doctor';
   }
 
   setPosition(id: string, name: string): void {

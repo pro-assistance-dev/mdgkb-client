@@ -92,4 +92,8 @@ export default class NmoCourse {
     this.mainTeacher = new Employee();
     this.mainTeacherId = undefined;
   }
+
+  static GetClassName(): string {
+    return 'nmoCourse';
+  }
 }

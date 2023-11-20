@@ -1,15 +1,14 @@
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const ResidencyApplicationsFiltersLib = (() => {
-  const model = 'residencyApplication';
-  function onlyAdmissionCommittee(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(
-      model,
-      Provider.schema.value.residencyApplication.admissionCommittee,
+  function onlyAdmissionCommittee(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).admissionCommittee,
       DataTypes.Boolean
     );
     filterModel.boolean = false;
@@ -17,24 +16,36 @@ const ResidencyApplicationsFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyMain(value: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(model, Provider.schema.value.residencyApplication.main, DataTypes.Boolean);
+  function onlyMain(value: boolean): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).main,
+      DataTypes.Boolean
+    );
     filterModel.operator = Operators.Eq;
     filterModel.boolean = value;
     filterModel.label = value ? 'Основная' : 'Дополнительная';
     return filterModel;
   }
 
-  function onlyPaid(value: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(model, Provider.schema.value.residencyApplication.paid, DataTypes.Boolean);
+  function onlyPaid(value: boolean): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).paid,
+      DataTypes.Boolean
+    );
     filterModel.operator = Operators.Eq;
     filterModel.boolean = value;
     filterModel.label = value ? 'Контракт' : 'Бюджет';
     return filterModel;
   }
 
-  function byStatus(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(model, 'formStatusId', DataTypes.Set);
+  function byStatus(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).formStatusId,
+      DataTypes.Set
+    );
     filterModel.operator = Operators.In;
     return filterModel;
   }

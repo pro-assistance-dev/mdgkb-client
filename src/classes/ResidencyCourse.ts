@@ -204,4 +204,8 @@ export default class ResidencyCourse {
     newItem.order = this.residencyCoursePracticePlaceGroups.length;
     this.residencyCoursePracticePlaceGroups.push(newItem);
   }
+
+  static GetClassName(): string {
+    return 'residencyCourse';
+  }
 }

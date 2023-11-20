@@ -1,10 +1,10 @@
 import Doctor from '@/classes/Doctor';
-import INews from '@/interfaces/news/INews';
+import News from '@/classes/news/News';
 
 export default interface INewsDoctor {
   id?: string;
   newsId?: string;
-  news?: INews;
+  news?: News;
   doctorId?: string;
   doctor?: Doctor;
 }

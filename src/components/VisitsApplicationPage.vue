@@ -133,7 +133,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.store.dispatch('divisions/getAllWithCount');
+      await Provider.store.dispatch('divisions/getAll');
       await Provider.store.dispatch('gates/get', route.params['gateId']);
       Provider.store.commit('visitsApplications/resetItem');
       Provider.store.commit('visitsApplications/setFormValue', gate.value.formPattern);
@@ -155,7 +155,6 @@ export default defineComponent({
       selectDivision,
       visitsApplication,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       form,
       submit,
       UserFormFields,

@@ -6,6 +6,7 @@ import Provider from '@/services/Provider/Provider';
 
 export default class SearchModel {
   query = '';
+  key = '';
   params = '';
   suggester = false;
   mustBeTranslated = true;

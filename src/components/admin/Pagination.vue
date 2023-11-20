@@ -74,7 +74,7 @@ export default defineComponent({
       Provider.store.commit('filter/setOffset', pageNum - 1);
       await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       if (load) {
-        await Provider.store.dispatch(`${storeModule}/${action}`, Provider.filterQuery.value);
+        await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
       }
       const table = document.querySelector('.el-table__body-wrapper');
       const list = document.querySelector('#list');

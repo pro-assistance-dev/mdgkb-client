@@ -112,7 +112,7 @@ export default defineComponent({
     const divisions: ComputedRef<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
 
     onBeforeMount(() => {
-      Provider.store.dispatch('divisions/getAllWithCount');
+      Provider.store.dispatch('divisions/getAll');
     });
 
     return {

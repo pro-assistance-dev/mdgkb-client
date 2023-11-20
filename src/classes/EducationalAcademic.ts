@@ -12,6 +12,6 @@ export default class EducationalAcademic {
   }
 
   static GetClassName(): string {
-    return 'EducationalAcademic';
+    return 'educationalAcademic';
   }
 }

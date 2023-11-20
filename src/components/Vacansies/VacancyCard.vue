@@ -13,7 +13,7 @@
         <svg class="icon-vacancies">
           <use xlink:href="#vacancies-icon"></use>
         </svg>
-        <div class="card-item-title" @click="$router.push(`/vacancies/${vacancy.slug}`)">
+        <div class="card-item-title" @click="$router.push(`/vacancies/${vacancy.id}`)">
           {{ vacancy.title }}
         </div>
         <hr class="hr-line" />

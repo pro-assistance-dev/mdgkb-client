@@ -12,8 +12,8 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 
+import News from '@/classes/news/News';
 import NewsLike from '@/classes/news/NewsLike';
-import INews from '@/interfaces/news/INews';
 import INewsLike from '@/interfaces/news/INewsLike';
 import TokenService from '@/services/Token';
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
   components: { LikeOutlined, LikeFilled },
   props: {
     news: {
-      type: Object as PropType<INews>,
+      type: Object as PropType<News>,
       required: true,
     },
   },
@@ -30,7 +30,7 @@ export default defineComponent({
     const user = computed(() => store.getters['auth/user']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
 
-    const createLike = async (news: INews): Promise<void> => {
+    const createLike = async (news: News): Promise<void> => {
       const token = TokenService.getAccessToken();
       if (!token) {
         ElMessage({
@@ -45,7 +45,7 @@ export default defineComponent({
       await store.dispatch('news/createLike', newsLike);
     };
 
-    const deleteLike = async (news: INews): Promise<void> => {
+    const deleteLike = async (news: News): Promise<void> => {
       const token = TokenService.getAccessToken();
       if (!token) {
         ElMessage({

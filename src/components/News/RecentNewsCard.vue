@@ -33,11 +33,11 @@
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
-import INews from '@/interfaces/news/INews';
-import INewsToTag from '@/interfaces/news/INewsToTag';
+import News from '@/classes/news/News';
+import NewsToTag from '@/classes/news/NewsToTag';
+import router from '@/router';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'RecentNewsCard',
@@ -52,43 +52,31 @@ export default defineComponent({
       default: 3,
     },
     newsList: {
-      type: Array as PropType<INews[]>,
+      type: Array as PropType<News[]>,
       default: () => [],
     },
   },
 
   setup(props) {
-    const store = useStore();
     const recentNewsList = computed(() => {
       if (props.newsList.length) {
         return props.newsList;
       }
-      return store.getters['news/news'].filter((item: INews) => item.id !== news.value.id).slice(0, props.newsNumber);
+      return Provider.store.getters['news/items'].filter((item: News) => item.id !== news.value.id).slice(0, props.newsNumber);
     });
-    const news: Ref<INews> = computed(() => store.getters['news/newsItem']);
-    const router = useRouter();
+    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
 
     onBeforeMount(async () => {
-      // const params: INewsParams = {
-      //   limit: 5,
-      //   orderByView: true,
-      // };
       let filterTags: string[] = [];
-      news.value.newsToTags.forEach((newsToTag: INewsToTag) => {
+      news.value.newsToTags.forEach((newsToTag: NewsToTag) => {
         if (newsToTag.tagId) {
           filterTags.push(newsToTag.tagId);
         }
       });
-      // if (filterTags.length) {
-      //   params.filterTags = filterTags;
-      // }
-      // await store.dispatch('news/getAll', params);
-      // await store.dispatch('news/getAll');
     });
 
     const getNewsAndRecent = async (slug: string): Promise<void> => {
       await router.push(`/news/${slug}`);
-      // await store.dispatch('news/getAll');
     };
 
     return {

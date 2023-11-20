@@ -1,26 +1,18 @@
+import Vacancy from '@/classes/Vacancy';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const VacanciesFiltersLib = (() => {
-  function onlyActive(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.active,
-      DataTypes.Boolean
-    );
+  function onlyActive(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Vacancy, ClassHelper.GetPropertyName(Vacancy).active, DataTypes.Boolean);
     filterModel.boolean = true;
     return filterModel;
   }
 
-  function byDivisions(divisionsIds: string[]): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.divisionId,
-      DataTypes.Set
-    );
+  function byDivisions(divisionsIds: string[]): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Vacancy, ClassHelper.GetPropertyName(Vacancy).divisionId, DataTypes.Set);
     filterModel.operator = Operators.In;
     filterModel.set = divisionsIds;
     return filterModel;

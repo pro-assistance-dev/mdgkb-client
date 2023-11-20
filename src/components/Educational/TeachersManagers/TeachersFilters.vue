@@ -23,7 +23,6 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import ISortModel from '@/services/interfaces/ISortModel';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import TokenService from '@/services/Token';
@@ -60,7 +59,7 @@ export default defineComponent({
       await store.dispatch('teachers/getAll', { filterQuery: filterQuery.value });
     };
 
-    const createSortModels = (): ISortModel[] => {
+    const createSortModels = (): SortModel[] => {
       return [SortModel.CreateSortModel(schema.value.teacher.tableName, schema.value.teacher.fullName, Orders.Asc, 'По алфавиту', true)];
     };
 

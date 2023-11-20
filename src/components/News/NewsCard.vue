@@ -69,16 +69,16 @@
 import { defineComponent, PropType } from 'vue';
 
 import Close from '@/assets/svg/Icons/Close.svg';
+import News from '@/classes/news/News';
+import Tag from '@/classes/news/Tag';
 import NewsMeta from '@/components/News/NewsMeta.vue';
-import INews from '@/interfaces/news/INews';
-import ITag from '@/interfaces/news/ITag';
 
 export default defineComponent({
   name: 'NewsCard',
   components: { NewsMeta, Close },
   props: {
     news: {
-      type: Object as PropType<INews>,
+      type: Object as PropType<News>,
       required: true,
     },
     article: {
@@ -96,14 +96,13 @@ export default defineComponent({
   },
   emits: ['close'],
   setup() {
-    const filterNews = async (tag: ITag): Promise<void> => {
+    const filterNews = async (tag: Tag): Promise<void> => {
       // tag.selected = !tag.selected;
       // filteredTagList.value.forEach((filterTag: ITag) => {
       //   if (filterTag.id === tag.id) {
       //     filterTag.selected = true;
       //   }
       // });
-      // await store.dispatch('news/addFilterTag', tag);
       // await store.dispatch('news/getAll');
     };
 

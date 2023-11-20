@@ -1,7 +1,7 @@
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
+import News from '@/classes/news/News';
 import User from '@/classes/User';
-import INews from '@/interfaces/news/INews';
 
 export default interface IComment {
   id?: string;
@@ -16,7 +16,7 @@ export default interface IComment {
   title: string;
   link: string;
   commentTo: string;
-  news?: INews;
+  news?: News;
   doctor?: Doctor;
   division?: Division;
   newsComment?: IComment;

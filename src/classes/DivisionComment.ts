@@ -19,4 +19,8 @@ export default class divisionComment implements IDivisionComment {
       this.comment = new Comment(divisionComment.comment);
     }
   }
+
+  static GetClassName(): string {
+    return 'divisionComment';
+  }
 }

@@ -30,15 +30,15 @@
 import { defineComponent, PropType } from 'vue';
 
 import Close from '@/assets/svg/Icons/Close.svg';
+import News from '@/classes/news/News';
 import NewsMeta from '@/components/News/NewsMeta.vue';
-import INews from '@/interfaces/news/INews';
 
 export default defineComponent({
   name: 'MainBigNewsCard',
   components: { NewsMeta, Close },
   props: {
     news: {
-      type: Object as PropType<INews>,
+      type: Object as PropType<News>,
       required: true,
     },
     showClose: {

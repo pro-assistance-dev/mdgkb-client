@@ -1,9 +1,6 @@
 import DoctorUser from '@/classes/DoctorUser';
 import DpoApplication from '@/classes/DpoApplication';
-import Form from '@/classes/Form';
-import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import IComment from '@/interfaces/comments/IComment';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import IChild from '@/interfaces/IChild';
 import IDonorRule from '@/interfaces/IDonorRule';
@@ -23,17 +20,17 @@ export default interface IUser {
   human: Human;
   humanId?: string;
   questions: IQuestion[];
-  comments: IComment[];
+  // comments: IComment[];
   children: IChild[];
   childrenForDelete: string[];
   dpoApplications: DpoApplication[];
   dpoApplicationsForDelete: string[];
-  postgraduateApplications: PostgraduateApplication[];
-  postgraduateApplicationsForDelete: string[];
+  // postgraduateApplications: PostgraduateApplication[];
+  // postgraduateApplicationsForDelete: string[];
   candidateApplications: ICandidateApplication[];
   residencyApplications: ResidencyApplication[];
   candidateApplicationsForDelete: string[];
-  formValues: Form[];
+  // formValues: Form[];
   donorRulesUsers: IDonorRuleUser[];
   doctorsUsers: DoctorUser[];
   role: Role;
@@ -51,9 +48,9 @@ export default interface IUser {
   getFileInfos: () => IFileInfo[];
   setDefaultRole: (options: IOption[]) => void;
 
-  getNotViewedApplicationsCount: () => number;
-  setApplicationsViewed: () => void;
+  // getNotViewedAppl: () => number;
+  // setApplicationsViewed: () => void;
   setAnswersViewed: () => void;
-  hasComments: () => boolean;
+  // hasComments: () => boolean;
   getHuman: () => Human;
 }

@@ -70,7 +70,6 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
@@ -91,7 +90,7 @@ export default defineComponent({
   },
   setup() {
     const hospitalizations = computed(() => Provider.store.getters['hospitalizations/items']);
-    const filterByDivision: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
 
     const loadHospitalizations = async () => {
       await Provider.store.dispatch('hospitalizations/getAll', Provider.filterQuery.value);
@@ -122,14 +121,14 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
     };
 
-    const createFilterConservativeModels = (): IFilterModel[] => {
+    const createFilterConservativeModels = (): FilterModel[] => {
       return [
         HospitalizationsFiltersLib.onlyConservative(TreatmentTypes.Conservative),
         HospitalizationsFiltersLib.onlyConservative(TreatmentTypes.Operative),
       ];
     };
 
-    const createFilterAllDayModels = (): IFilterModel[] => {
+    const createFilterAllDayModels = (): FilterModel[] => {
       return [HospitalizationsFiltersLib.onlyAllDay(StayTypes.AllDay), HospitalizationsFiltersLib.onlyAllDay(StayTypes.ShortDay)];
     };
 

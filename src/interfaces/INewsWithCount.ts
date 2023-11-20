@@ -1,6 +1,6 @@
-import INews from '@/interfaces/news/INews';
+import News from '@/classes/news/News';
 
 export default interface INewsWithCount {
-  news: INews[];
+  items: News[];
   count: number;
 }

@@ -1,18 +1,18 @@
+import ResidencyCourse from '@/classes/ResidencyCourse';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 function getFirstDateOfThisYear(): Date {
   return new Date(`${new Date().getFullYear()}-01-01`);
 }
 
 const ResidencyFiltersLib = (() => {
-  function onlyThisYear(): IFilterModel {
+  function onlyThisYear(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.startYear,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).startYear,
       DataTypes.Date
     );
     filterModel.label = 'Начинающиеся в этом году';
@@ -21,10 +21,10 @@ const ResidencyFiltersLib = (() => {
     return filterModel;
   }
 
-  function beforeThisYear(): IFilterModel {
+  function beforeThisYear(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.startYear,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).startYear,
       DataTypes.Date
     );
     filterModel.label = 'Уже идущие';
@@ -33,10 +33,10 @@ const ResidencyFiltersLib = (() => {
     return filterModel;
   }
 
-  function notThisYear(): IFilterModel {
+  function notThisYear(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.startYear,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).startYear,
       DataTypes.Date
     );
     filterModel.label = 'Кроме начинающихся в этом году';

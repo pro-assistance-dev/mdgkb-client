@@ -6,7 +6,7 @@
           <el-container direction="vertical">
             <el-card>
               <SetEntity
-                :search-key="schema.employee.key"
+                :search-key="Employee.GetClassName()"
                 label="Выбрать руководителя"
                 :entity-name="nmoCourse.mainTeacher.human.getFullName()"
                 @select-search="selectMainTeacherSearch"
@@ -176,7 +176,6 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('educationYears/getAll');
       await Provider.store.dispatch('specializations/getAll');
-      await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('formPatterns/getAll');
       await Provider.loadItem(ClassHelper.GetPropertyName(NmoCourse).id);
     };
@@ -211,6 +210,7 @@ export default defineComponent({
     // };
 
     return {
+      Employee,
       specializations,
       selectMainTeacherSearch,
       schema: Provider.schema,

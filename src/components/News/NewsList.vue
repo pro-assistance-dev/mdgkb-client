@@ -25,11 +25,11 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
+import News from '@/classes/news/News';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
-import INews from '@/interfaces/news/INews';
 import Hooks from '@/services/Hooks/Hooks';
 import { Operators } from '@/services/interfaces/Operators';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
@@ -45,21 +45,20 @@ export default defineComponent({
     const mount = ref(false);
     const loading = ref(false);
 
-    const news: ComputedRef<INews[]> = computed(() => Provider.store.getters['news/news']);
+    const news: ComputedRef<News[]> = computed(() => Provider.store.getters['news/items']);
 
     const loadNews = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 6;
       Provider.filterQuery.value.pagination.cursorMode = true;
       Provider.setSortModels(NewsSortsLib.byPublishedOn());
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished());
-      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
+      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts());
       await load();
     };
 
     const load = async () => {
       Provider.store.commit('news/clearNews');
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
       Provider.store.commit('news/setFilteredNews');
       mount.value = true;
     };
@@ -68,14 +67,21 @@ export default defineComponent({
 
     const loadMore = async () => {
       loading.value = true;
-      Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
+      Provider.filterQuery.value.pagination.setLoadMoreV2(
+        news.value[news.value.length - 1].publishedOn as unknown as string,
+        'publishedOn',
+        'news'
+      );
+      // Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
       Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
-      Provider.filterQuery.value.pagination.cursor.column = Provider.schema.value.news.publishedOn;
-      Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.news.tableName;
+      Provider.filterQuery.value.pagination.version = 'v2';
+      Provider.filterQuery.value.pagination.append = true;
+      // Provider.filterQuery.value.pagination.cursor.column = ClassHelper.GetPropertyName(News).publishedOn as unknown as string;
+      // Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.news.tableName;
       Provider.filterQuery.value.pagination.cursor.initial = false;
       Provider.filterQuery.value.pagination.cursorMode = true;
 
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
       // Provider.store.commit('news/setFilteredNews');
     };
 

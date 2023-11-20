@@ -3,13 +3,11 @@ import { Ref, ref } from 'vue';
 
 import { ClassNameGetter } from '@/services/interfaces/Class';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
 import StringsService from '@/services/Strings';
 
 export default class FilterModel {
   id?: string;
-  table = '';
   model = '';
   label = '';
   col = '';
@@ -21,7 +19,6 @@ export default class FilterModel {
   number = 0;
   type: DataTypes = DataTypes.String;
   set: string[] = [];
-  version = '';
   isSet = false;
 
   joinTable = '';
@@ -34,8 +31,8 @@ export default class FilterModel {
   toUrlQuery(): string {
     let url = '';
     Object.keys(this).forEach((el, i) => {
-      let value: any = this[el as keyof typeof this];
-      if (value && url !== '?' && value.length !== 0) {
+      let value: unknown = this[el as keyof typeof this];
+      if (value && url !== '?' && (value as Array<unknown>).length !== 0) {
         if (el == ('date1' || 'date2') && value) {
           value = String(new Date(String(value)).toISOString().split('T')[0]);
         }
@@ -53,7 +50,6 @@ export default class FilterModel {
     this.model = params.get('model') ?? '';
     this.col = params.get('col') ?? '';
     this.label = params.get('label') ?? '';
-    this.version = params.get('version') ?? '';
     this.operator = (params.get('operator') as Operators) ?? '';
     this.value1 = params.get('value1') ?? '';
     this.type = (params.get('type') as DataTypes) ?? '';
@@ -72,15 +68,16 @@ export default class FilterModel {
   isBetweenFilter(): boolean {
     return this.operator === Operators.Btw;
   }
+
   isSetFilter(): boolean {
     return this.operator === Operators.In;
   }
 
-  static CreateFilterModel(table: string, col: string, type: DataTypes): IFilterModel {
+  static CreateFilterModel(model: string | ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
-    filterModel.table = table;
-    filterModel.col = col;
+    filterModel.model = typeof model === 'string' ? model : model.GetClassName();
+    filterModel.col = (col as string) ?? '';
     filterModel.type = type;
     if (filterModel.type === DataTypes.Number) {
       filterModel.value1 = '0';
@@ -91,25 +88,6 @@ export default class FilterModel {
     if (filterModel.type === DataTypes.Boolean) {
       filterModel.value1 = 'false';
     }
-    return filterModel;
-  }
-
-  static CreateFilterModelV2(model: string, col: string | undefined, type: DataTypes): IFilterModel {
-    const filterModel = new FilterModel();
-    filterModel.id = uuidv4();
-    filterModel.model = model;
-    filterModel.col = col ?? '';
-    filterModel.type = type;
-    if (filterModel.type === DataTypes.Number) {
-      filterModel.value1 = '0';
-    }
-    if (filterModel.type === DataTypes.String) {
-      filterModel.value1 = '';
-    }
-    if (filterModel.type === DataTypes.Boolean) {
-      filterModel.value1 = 'false';
-    }
-    filterModel.version = 'v2';
     return filterModel;
   }
 
@@ -122,10 +100,9 @@ export default class FilterModel {
     type: DataTypes,
     joinTableId?: string,
     joinTableIdCol?: string
-  ): IFilterModel {
+  ): FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
-    filterModel.table = table;
     filterModel.joinTable = joinTable;
     filterModel.joinTablePk = joinTablePk;
     filterModel.joinTableFk = joinTableFk;
@@ -148,7 +125,7 @@ export default class FilterModel {
     joinTableFk: string,
     joinTableId?: string,
     joinTableIdCol?: string
-  ): IFilterModel {
+  ): FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
     filterModel.model = model;
@@ -157,7 +134,6 @@ export default class FilterModel {
     filterModel.joinTableFk = joinTableFk;
     filterModel.col = col;
     filterModel.type = DataTypes.Join;
-    filterModel.version = 'v2';
     if (joinTableId) {
       filterModel.joinTableId = joinTableId;
     }
@@ -167,18 +143,13 @@ export default class FilterModel {
     return filterModel;
   }
 
-  static CreateJoin(firstClass: ClassNameGetter, joinClass: ClassNameGetter): IFilterModel {
+  static OnlyIfSecondModelExists(firstClass: ClassNameGetter, secondClass: ClassNameGetter): FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
 
-    const firstClassModel = StringsService.toCamelCase(firstClass.GetClassName());
-    filterModel.model = firstClassModel;
-    filterModel.joinTableModel = StringsService.toCamelCase(joinClass.GetClassName());
-    filterModel.joinTablePk = 'id';
-    filterModel.joinTableFk = firstClassModel + 'Id';
-    filterModel.col = 'id';
+    filterModel.model = StringsService.toCamelCase(firstClass.GetClassName());
+    filterModel.joinTableModel = StringsService.toCamelCase(secondClass.GetClassName());
     filterModel.type = DataTypes.Join;
-    filterModel.version = 'v2';
     return filterModel;
   }
 
@@ -208,7 +179,7 @@ export default class FilterModel {
     this.boolean = value;
   }
 
-  toRef(): Ref<IFilterModel> {
+  toRef(): Ref<FilterModel> {
     return ref(this);
   }
 }

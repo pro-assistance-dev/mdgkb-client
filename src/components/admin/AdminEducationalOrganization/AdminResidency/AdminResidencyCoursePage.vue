@@ -6,7 +6,7 @@
           <el-container direction="vertical">
             <el-card>
               <SetEntity
-                :search-key="schema.employee.key"
+                :search-key="Employee.GetClassName()"
                 label="Выбрать руководителя"
                 :entity-name="residencyCourse.mainTeacher.human.getFullName()"
                 @select-search="selectMainTeacherSearch"
@@ -160,7 +160,6 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('educationYears/getAll');
       await Provider.store.dispatch('specializations/getAll');
-      await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('formPatterns/getAll');
       await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
     };
@@ -188,7 +187,7 @@ export default defineComponent({
       educationYears,
       specializations,
       selectMainTeacherSearch,
-      schema: Provider.schema,
+      Employee,
       mounted: Provider.mounted,
       residencyCourse,
       form: Provider.form,

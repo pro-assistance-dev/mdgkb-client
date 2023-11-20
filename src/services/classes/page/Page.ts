@@ -121,4 +121,8 @@ export default class Page {
     }
     return this.pageSideMenus;
   }
+
+  static GetClassName(): string {
+    return 'page';
+  }
 }

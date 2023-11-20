@@ -8,13 +8,14 @@
         <svg class="icon-close" @click="isClose = true">
           <use xlink:href="#close"></use>
         </svg>
+        <Close />
       </template>
       <template #title>Сайт работает в тестовом режиме</template>
       <template #info>
         Вы можете: посмотреть новости, информацию об образовании, сведения о медицинской организации и информацию для пациенов.
       </template>
       <template #button>
-        <button class="make-green" @click="isClose = true">Понятно</button>
+        <button class="make-green" @click="clickHandler">Понятно</button>
       </template>
     </StartModal>
     <HeaderTop />
@@ -51,7 +52,6 @@
     <FooterTop />
     <FooterBottom />
   </div>
-  <Close />
 </template>
 
 <script lang="ts">
@@ -61,6 +61,7 @@ import Close from '@/assets/svg/Main/Close.svg';
 import AuthPage from '@/components/Auth/AuthPage.vue';
 import StartModal from '@/components/Base/StartModal.vue';
 import NewsCarousel from '@/components/News/NewsCarousel.vue';
+import Cache from '@/services/Cache';
 import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
 import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
 import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
@@ -84,15 +85,23 @@ export default defineComponent({
     SearchDrawer,
     ProfileHeader,
     StartModal,
-    // FooterBottom,
-    // FooterTop,
+    FooterBottom,
+    FooterTop,
     Close,
   },
   setup() {
-    const isClose = ref(false);
+    const cache = new Cache();
+    cache.name = 'startModal';
+    const isClose = ref(cache.getFromCache(3) || false);
+
+    const clickHandler = () => {
+      isClose.value = true;
+      cache.cache(isClose.value);
+    };
 
     return {
       isClose,
+      clickHandler,
     };
   },
 });

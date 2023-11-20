@@ -40,4 +40,8 @@ export default class SupportMessage implements ISupportMessage {
       this.isNew = !this.isNew;
     }
   }
+
+  static GetClassName(): string {
+    return 'supportMessage';
+  }
 }

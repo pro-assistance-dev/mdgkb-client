@@ -4,11 +4,9 @@ import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
 const PreparationsSortsLib = (() => {
-  const modelName = 'preparation';
-
   function byName(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      modelName,
+    return SortModel.CreateSortModel(
+      Preparation,
       ClassHelper.GetPropertyName(Preparation).name,
       order ? order : Orders.Asc,
       `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,

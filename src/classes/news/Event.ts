@@ -3,13 +3,12 @@ import News from '@/classes/news/News';
 import IForm from '@/interfaces/IForm';
 import IEvent from '@/interfaces/news/IEvent';
 import IEventApplication from '@/interfaces/news/IEventApplication';
-import INews from '@/interfaces/news/INews';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Event implements IEvent {
   id?: string;
   newsId?: string;
-  news: INews = new News();
+  news: News = new News();
   eventApplications: IEventApplication[] = [];
   form: IForm = new Form();
   startDate = new Date();

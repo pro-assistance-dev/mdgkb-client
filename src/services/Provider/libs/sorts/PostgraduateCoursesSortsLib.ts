@@ -1,12 +1,13 @@
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 export default (() => {
   function byName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.postgraduateCourse.tableName,
-      Provider.schema.value.postgraduateCourse.name,
+      PostgraduateCourse,
+      ClassHelper.GetPropertyName(PostgraduateCourse).name,
       order ? order : Orders.Desc,
       `По алфавиту ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -15,8 +16,8 @@ export default (() => {
 
   function byYears(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.postgraduateCourse.tableName,
-      Provider.schema.value.postgraduateCourse.years,
+      PostgraduateCourse,
+      ClassHelper.GetPropertyName(PostgraduateCourse).years,
       order ? order : Orders.Desc,
       `По длительности обучения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -25,8 +26,8 @@ export default (() => {
 
   function byCode(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.postgraduateCourse.tableName,
-      Provider.schema.value.postgraduateCourse.code,
+      PostgraduateCourse,
+      ClassHelper.GetPropertyName(PostgraduateCourse).code,
       order ? order : Orders.Desc,
       `По коду специальности ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -35,8 +36,8 @@ export default (() => {
 
   function byCost(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.postgraduateCourse.tableName,
-      Provider.schema.value.postgraduateCourse.cost,
+      PostgraduateCourse,
+      ClassHelper.GetPropertyName(PostgraduateCourse).cost,
       order ? order : Orders.Desc,
       `По стоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true

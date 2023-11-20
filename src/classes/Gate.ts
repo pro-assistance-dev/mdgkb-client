@@ -1,13 +1,12 @@
 import Form from '@/classes/Form';
 import IGate from '@/interfaces/IGate';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 
 import VisitsApplication from './VisitsApplication';
 
 export default class Gate implements IGate {
   id?: string;
   name = '';
-  visitsApplications: IVisitsApplication[] = [];
+  visitsApplications: VisitsApplication[] = [];
   num = 0;
   formPattern: Form = new Form();
   formPatternId?: string;
@@ -21,7 +20,7 @@ export default class Gate implements IGate {
     this.num = i.num;
     this.formPatternId = i.formPatternId;
     if (i.visitsApplications) {
-      this.visitsApplications = i.visitsApplications.map((i: IVisitsApplication) => new VisitsApplication(i));
+      this.visitsApplications = i.visitsApplications.map((i: VisitsApplication) => new VisitsApplication(i));
     }
     if (i.formPattern) {
       this.formPattern = new Form(i.formPattern);

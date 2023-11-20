@@ -1,10 +1,10 @@
 import Division from '@/classes/Division';
-import INews from '@/interfaces/news/INews';
+import News from '@/classes/news/News';
 
 export default interface INewsDivision {
   id?: string;
   newsId?: string;
-  news?: INews;
+  news?: News;
   divisionId?: string;
   division?: Division;
 }

@@ -45,4 +45,8 @@ export default class DailyMenuOrderItem {
     this.quantity--;
     this.price -= this.dailyMenuItem.price;
   }
+
+  static GetClassName(): string {
+    return 'dailyMenuOrderItem';
+  }
 }

@@ -2,13 +2,11 @@ import ResidencyCourse from '@/classes/ResidencyCourse';
 import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const ResidencyCoursesSortsLib = (() => {
   function byName(order?: Orders): SortModel {
-    const model = 'residencyCourse';
-    return SortModel.CreateSortModelV2(
-      model,
+    return SortModel.CreateSortModel(
+      ResidencyCourse,
       ClassHelper.GetPropertyName(ResidencyCourse).name,
       order ? order : Orders.Desc,
       `По алфавиту ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
@@ -18,8 +16,8 @@ const ResidencyCoursesSortsLib = (() => {
 
   function byStartYear(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.startYear,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).startYear,
       order ? order : Orders.Desc,
       `По году обучения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -28,8 +26,8 @@ const ResidencyCoursesSortsLib = (() => {
 
   function byFreePlaces(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.freePlaces,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).freePlaces,
       order ? order : Orders.Desc,
       `По количеству бесплатных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -38,8 +36,8 @@ const ResidencyCoursesSortsLib = (() => {
 
   function byPaidPlaces(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.paidPlaces,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).paidPlaces,
       order ? order : Orders.Desc,
       `По количеству платных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -48,8 +46,8 @@ const ResidencyCoursesSortsLib = (() => {
 
   function byCost(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.residencyCourse.tableName,
-      Provider.schema.value.residencyCourse.cost,
+      ResidencyCourse,
+      ClassHelper.GetPropertyName(ResidencyCourse).cost,
       order ? order : Orders.Desc,
       `По стоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true

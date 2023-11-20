@@ -19,7 +19,9 @@ const mutations: MutationTree<State> = {
   },
   setGate(state, gate: Gate) {
     state.item.gate = new Gate(gate);
-    state.item.gateId = state.item.gate.id;
+    if (state.item.gate) {
+      state.item.gateId = state.item.gate.id;
+    }
   },
   setFormValue(state, form: Form) {
     state.item.formValue = new Form(form);

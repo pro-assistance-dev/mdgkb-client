@@ -18,7 +18,6 @@ import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -35,8 +34,8 @@ export default defineComponent({
     const modes: Ref<IOption[]> = ref([]);
     const mode: Ref<string> = ref('divisions');
     const divisions: Ref<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
-    const onlyDivisionsFilterModel: Ref<IFilterModel> = ref(new FilterModel());
-    const onlyCentersFilterModel: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
+    const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
     const count: Ref<number> = ref(1);
 
     const load = async () => {
@@ -65,13 +64,13 @@ export default defineComponent({
       if (!mode.value) {
         Provider.filterQuery.value.pagination.limit = 6;
       }
-      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = divisions.value.length;
-      await Provider.store.dispatch('divisions/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const selectMode = async (selectedMode: string) => {

@@ -85,10 +85,10 @@ import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import ISortModel from '@/services/interfaces/ISortModel';
 import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -132,7 +132,7 @@ export default defineComponent({
       sortsLib: ResidencyCoursesSortsLib,
       getAction: 'getAllWithCount',
     });
-    const createResidencySortModels = (): ISortModel[] => {
+    const createResidencySortModels = (): SortModel[] => {
       return createSortModels(ResidencyCoursesSortsLib);
     };
 
@@ -144,7 +144,7 @@ export default defineComponent({
       showConfirmModal(save, next);
     });
 
-    const createFilterModels = (): IFilterModel[] => {
+    const createFilterModels = (): FilterModel[] => {
       return [
         ResidencyCoursesFiltersLib.onlyThisYear(),
         ResidencyCoursesFiltersLib.notThisYear(),

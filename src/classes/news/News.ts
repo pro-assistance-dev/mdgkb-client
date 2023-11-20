@@ -8,17 +8,12 @@ import NewsImage from '@/classes/news/NewsImage';
 import NewsLike from '@/classes/news/NewsLike';
 import NewsToCategory from '@/classes/news/NewsToCategory';
 import NewsToTag from '@/classes/news/NewsToTag';
+import Tag from '@/classes/news/Tag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
-import IEvent from '@/interfaces/news/IEvent';
-import INews from '@/interfaces/news/INews';
-import INewsComment from '@/interfaces/news/INewsComment';
-import INewsDoctor from '@/interfaces/news/INewsDoctor';
-import INewsImage from '@/interfaces/news/INewsImage';
-import INewsLike from '@/interfaces/news/INewsLike';
-import INewsToCategory from '@/interfaces/news/INewsToCategory';
 import INewsToTag from '@/interfaces/news/INewsToTag';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class News implements INews {
+export default class News {
   id?: string;
   status = '';
   title = '';
@@ -27,9 +22,10 @@ export default class News implements INews {
   slug = '';
   main = false;
   subMain = false;
-  newsToTags: INewsToTag[] = [];
-  newsToCategories: INewsToCategory[] = [];
-  previewImage: IFileInfo = new FileInfo();
+  newsToTags: NewsToTag[] = [];
+  newsToTagsForDelete: string[] = [];
+  newsToCategories: NewsToCategory[] = [];
+  previewImage: FileInfo = new FileInfo();
   previewImageId?: string;
   mainImage = new FileInfo();
   mainImageId?: string;
@@ -37,20 +33,23 @@ export default class News implements INews {
   isArticle = false;
   publishedOn: Date = new Date();
   createdAt: Date = new Date();
-  newsLikes: INewsLike[] = [];
-  newsComments: INewsComment[] = [];
-  newsDoctors: INewsDoctor[] = [];
+  newsLikes: NewsLike[] = [];
+  newsComments: NewsComment[] = [];
+  newsDoctors: NewsDoctor[] = [];
   newsDoctorsForDelete: string[] = [];
   newsDivisions: NewsDivision[] = [];
   newsDivisionsForDelete: string[] = [];
-  newsImages: INewsImage[] = [];
+  newsImages: NewsImage[] = [];
   newsImagesForDelete: string[] = [];
   newsImagesNames: string[] = [];
   viewsCount = 0;
-  event?: IEvent;
+  event?: Event;
   mainImageDescription = '';
 
-  constructor(news?: INews) {
+  //
+  isDraft = false;
+
+  constructor(news?: News) {
     if (!news) {
       return;
     }
@@ -68,11 +67,12 @@ export default class News implements INews {
     this.viewsCount = news.viewsCount;
     this.articleLink = news.articleLink;
     this.isArticle = news.isArticle;
+    this.isDraft = news.isDraft;
     if (news.newsToCategories) {
-      this.newsToCategories = news.newsToCategories.map((item: INewsToCategory) => new NewsToCategory(item));
+      this.newsToCategories = news.newsToCategories.map((item: NewsToCategory) => new NewsToCategory(item));
     }
     if (news.newsToTags) {
-      this.newsToTags = news.newsToTags.map((item: INewsToTag) => new NewsToTag(item));
+      this.newsToTags = news.newsToTags.map((item: NewsToTag) => new NewsToTag(item));
     }
     if (news.previewImage) {
       this.previewImage = new FileInfo(news.previewImage);
@@ -83,19 +83,19 @@ export default class News implements INews {
     this.publishedOn = news.publishedOn;
     this.createdAt = news.createdAt;
     if (news.newsLikes) {
-      this.newsLikes = news.newsLikes.map((item: INewsLike) => new NewsLike(item));
+      this.newsLikes = news.newsLikes.map((item: NewsLike) => new NewsLike(item));
     }
     if (news.newsComments) {
-      this.newsComments = news.newsComments.map((item: INewsComment) => new NewsComment(item));
+      this.newsComments = news.newsComments.map((item: NewsComment) => new NewsComment(item));
     }
     if (news.newsDoctors) {
-      this.newsDoctors = news.newsDoctors.map((item: INewsDoctor) => new NewsDoctor(item));
+      this.newsDoctors = news.newsDoctors.map((item: NewsDoctor) => new NewsDoctor(item));
     }
     if (news.newsDivisions) {
       this.newsDivisions = news.newsDivisions.map((item: NewsDivision) => new NewsDivision(item));
     }
     if (news.newsImages) {
-      this.newsImages = news.newsImages.map((item: INewsImage) => new NewsImage(item));
+      this.newsImages = news.newsImages.map((item: NewsImage) => new NewsImage(item));
     }
     if (news.event) {
       this.event = new Event(news.event);
@@ -151,5 +151,31 @@ export default class News implements INews {
   removePreviewImage(): void {
     this.previewImage = new FileInfo();
     this.previewImageId = undefined;
+  }
+
+  static GetClassName(): string {
+    return 'news';
+  }
+
+  addOrRemoveTag(tag: Tag): Tag | undefined {
+    const index = this.newsToTags.findIndex((t: NewsToTag) => tag.id === t.tagId);
+    if (index === -1) {
+      const item = NewsToTag.Create(this.id, tag.id);
+      this.newsToTags.push(item);
+      item.tag = tag;
+      return;
+    }
+    ClassHelper.RemoveFromClassByIndex(index, this.newsToTags, this.newsToTagsForDelete);
+  }
+
+  getFileInfos(): IFileInfo[] {
+    const fileInfos: IFileInfo[] = [];
+    fileInfos.push(this.previewImage, this.mainImage);
+    this.newsImages.forEach((image: NewsImage) => {
+      if (image.fileInfo) {
+        fileInfos.push(image.fileInfo);
+      }
+    });
+    return fileInfos;
   }
 }

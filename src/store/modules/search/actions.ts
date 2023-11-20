@@ -11,7 +11,7 @@ const httpClient = new HttpClient('search');
 
 const actions: ActionTree<State, RootState> = {
   search: async ({ commit }, searchModel: SearchModel): Promise<void> => {
-    const item = await httpClient.get<SearchModel>({ query: `?searchModel=${searchModel.toUrl()}` });
+    const item = await httpClient.get<SearchModel>({ query: `?key=${searchModel.key}&query=${searchModel.query}` });
     if (item) {
       item.searchGroup.options.forEach((opt: SearchElement) => {
         searchModel.searchObjects.push({ id: opt.id, value: opt.value, label: opt.label, description: opt.description });

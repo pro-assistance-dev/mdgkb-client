@@ -11,11 +11,22 @@ export default class DpoApplication {
   formValue = new Form();
   formValueId?: string;
 
+  //
+  isNmo = false;
+  formStatusId = '';
+  createdAt = '';
+  fullName = '';
+  email = '';
+  courseName = '';
   constructor(i?: DpoApplication) {
     ClassHelper.BuildClass(this, i);
   }
 
   getFileInfos(): IFileInfo[] {
     return this.formValue.getFileInfos();
+  }
+
+  static GetClassName(): string {
+    return 'dpoApplication';
   }
 }

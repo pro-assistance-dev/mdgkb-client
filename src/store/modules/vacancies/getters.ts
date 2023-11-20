@@ -1,20 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IVacancy from '@/interfaces/IVacancy';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IVacancy[] {
-    return state.items;
-  },
-  item(state): IVacancy {
-    return state.item;
-  },
-  count(state): number {
-    return state.count;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

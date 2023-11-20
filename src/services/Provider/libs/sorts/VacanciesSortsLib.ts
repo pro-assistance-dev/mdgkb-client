@@ -1,12 +1,13 @@
+import Vacancy from '@/classes/Vacancy';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const VacanciesSortsLib = (() => {
   function byTitle(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.title,
+      Vacancy,
+      ClassHelper.GetPropertyName(Vacancy).title,
       order ? order : Orders.Asc,
       `По названию ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       true
@@ -15,8 +16,8 @@ const VacanciesSortsLib = (() => {
 
   function byMinSalary(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.minSalary,
+      Vacancy,
+      ClassHelper.GetPropertyName(Vacancy).minSalary,
       order ? order : Orders.Asc,
       `По минимальной зарплате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
@@ -25,8 +26,8 @@ const VacanciesSortsLib = (() => {
 
   function byMaxSalary(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.maxSalary,
+      Vacancy,
+      ClassHelper.GetPropertyName(Vacancy).maxSalary,
       order ? order : Orders.Asc,
       `По максимальной зарплате ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
@@ -35,8 +36,8 @@ const VacanciesSortsLib = (() => {
 
   function byDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.date,
+      Vacancy,
+      ClassHelper.GetPropertyName(Vacancy).date,
       order ? order : Orders.Asc,
       `По дате публикации ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false
@@ -45,8 +46,8 @@ const VacanciesSortsLib = (() => {
 
   function byResponsesCount(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.vacancy.tableName,
-      Provider.schema.value.vacancy.responsesCount,
+      Vacancy,
+      ClassHelper.GetPropertyName(Vacancy).responsesCount,
       order ? order : Orders.Desc,
       `По количеству отзывов ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       false

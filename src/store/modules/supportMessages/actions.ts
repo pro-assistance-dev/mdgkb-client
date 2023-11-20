@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
+import News from '@/classes/news/News';
 import ISupportMessage from '@/interfaces/ISupportMessage';
 import ISupportMessagesWithCount from '@/interfaces/ISupportMessagesWithCount';
-import INews from '@/interfaces/news/INews';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -23,7 +23,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<INews>({ query: `${id}` });
+    const res = await httpClient.get<News>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ commit }, item: ISupportMessage): Promise<void> => {

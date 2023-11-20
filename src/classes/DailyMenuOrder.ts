@@ -17,6 +17,9 @@ export default class DailyMenuOrder {
   formValueId?: string;
   formStatusId?: string;
   chatIsOpen = false;
+  //
+  isNew = false;
+  createdAt = '';
   constructor(i?: DailyMenuOrder) {
     ClassHelper.BuildClass(this, i);
   }
@@ -150,6 +153,6 @@ export default class DailyMenuOrder {
   }
 
   static GetClassName(): string {
-    return 'DailyMenuItem';
+    return 'dailyMenuItem';
   }
 }

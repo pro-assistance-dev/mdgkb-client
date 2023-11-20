@@ -20,6 +20,15 @@ export default class Hospitalization implements IHospitalization {
   formValueId?: string;
 
   diagnosis = '';
+  //
+  treatmentType = '';
+  policyType = '';
+  stayType = '';
+  formStatusId = '';
+  createdAt = '';
+  approvingDate = '';
+  fullName = '';
+  email = '';
   constructor(i?: Hospitalization) {
     ClassHelper.BuildClass(this, i);
   }
@@ -30,5 +39,9 @@ export default class Hospitalization implements IHospitalization {
 
   getFileInfos(): IFileInfo[] {
     return this.formValue.getFileInfos();
+  }
+
+  static GetClassName(): string {
+    return 'hospitalization';
   }
 }

@@ -30,16 +30,15 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
+import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -51,15 +50,12 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => store.getters['doctors/items']);
+    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
     const mount = ref(false);
 
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
+    const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
 
     onBeforeMount(async () => {
-      await store.dispatch('meta/getSchema');
       mount.value = true;
     });
 
@@ -68,9 +64,11 @@ export default defineComponent({
       filterQuery.value.pagination.cursor.value = lastCursor;
       filterQuery.value.pagination.cursor.initial = false;
       filterQuery.value.pagination.cursor.operation = Operators.Gt;
-      filterQuery.value.pagination.cursor.column = schema.value.doctor.fullName;
+      filterQuery.value.pagination.cursor.column = 'fullName';
       filterQuery.value.pagination.cursorMode = true;
-      await store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
+      console.log('fff');
+
+      await Provider.store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
     };
 
     return {
@@ -78,7 +76,6 @@ export default defineComponent({
       Operators,
       DataTypes,
       loadMore,
-      schema,
       doctors,
       mount,
     };

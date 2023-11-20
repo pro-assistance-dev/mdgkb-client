@@ -5,9 +5,8 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 
 const TeachersFiltersLib = (() => {
-  const modelName = 'teacher';
   function onlyMale(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
+    const filterModel = FilterModel.CreateFilterModel(Teacher, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Мужской';
@@ -15,7 +14,7 @@ const TeachersFiltersLib = (() => {
   }
 
   function onlyFemale(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
+    const filterModel = FilterModel.CreateFilterModel(Teacher, ClassHelper.GetPropertyName(Teacher).isMale, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Женский';
@@ -23,7 +22,7 @@ const TeachersFiltersLib = (() => {
   }
 
   function byFullName(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Teacher).fullName, DataTypes.String);
+    const filterModel = FilterModel.CreateFilterModel(Teacher, ClassHelper.GetPropertyName(Teacher).fullName, DataTypes.String);
     filterModel.operator = Operators.Eq;
     filterModel.label = 'По ФИО';
     return filterModel;

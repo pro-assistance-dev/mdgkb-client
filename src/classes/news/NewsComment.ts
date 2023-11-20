@@ -19,4 +19,8 @@ export default class NewsComment implements INewsComment {
       this.comment = new Comment(newsComment.comment);
     }
   }
+
+  static GetClassName(): string {
+    return 'doctorComment';
+  }
 }

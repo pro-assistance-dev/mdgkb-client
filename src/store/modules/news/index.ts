@@ -4,22 +4,41 @@ import EventApplication from '@/classes/news/EventApplication';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
 import NewsParams from '@/classes/NewsParams';
+import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
+import IEventApplication from '@/interfaces/news/IEventApplication';
+import ITag from '@/interfaces/news/ITag';
+import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
+import getBaseDefaultState from '../../baseModule/baseIndex';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<News> {
+  main: News;
+  subMain1: News;
+  subMain2: News;
+  filteredNews: News[];
+  filterTags: ITag[];
+  allNewsLoaded: boolean;
+  calendarNews: News[];
+  calendarMeta?: ICalendarMeta;
+  comment: NewsComment;
+  eventMode: boolean;
+  eventApplication: IEventApplication;
+  params: NewsParams;
+  count: number;
+}
 
 export const getDefaultState = (): State => {
   return {
-    news: [],
+    ...getBaseDefaultState(News),
     main: new News(),
     subMain1: new News(),
     subMain2: new News(),
     filteredNews: [],
     filterTags: [],
-    newsItem: new News(),
     allNewsLoaded: false,
     calendarNews: [new News()],
     calendarMeta: undefined,

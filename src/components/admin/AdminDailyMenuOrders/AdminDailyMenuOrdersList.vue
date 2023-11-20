@@ -82,7 +82,6 @@ import IOption from '@/interfaces/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import DailyMenuOrdersFiltersLib from '@/services/Provider/libs/filters/DailyMenuOrdersFiltersLib';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
@@ -95,9 +94,9 @@ export default defineComponent({
   components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect, FilterCheckboxV2 },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
-    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const onlyNewFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 
     Hooks.onBeforeMount(
       async () => {

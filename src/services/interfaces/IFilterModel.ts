@@ -5,7 +5,6 @@ import { Operators } from '@/services/interfaces/Operators';
 
 export default interface IFilterModel {
   id?: string;
-  table: string;
   col: string;
   operator: Operators;
   label: string;

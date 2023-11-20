@@ -87,4 +87,8 @@ export default class DishesGroup {
   getTransliteIdFromName(): string {
     return this.name.replace(/\s+/g, '');
   }
+
+  static GetClassName(): string {
+    return 'dishesGroup';
+  }
 }

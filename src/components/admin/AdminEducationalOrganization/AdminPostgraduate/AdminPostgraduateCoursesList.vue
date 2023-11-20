@@ -80,9 +80,9 @@ import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import buildNameNumbers from '@/services/buildNameNumbers';
+import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import ISortModel from '@/services/interfaces/ISortModel';
 import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -145,7 +145,7 @@ export default defineComponent({
       pagination: { storeModule: 'postgraduateCourses', action: 'getAll' },
     });
 
-    const createResidencySortModels = (): ISortModel[] => {
+    const createResidencySortModels = (): SortModel[] => {
       return createSortModels(PostgraduateCoursesSortsLib);
     };
 

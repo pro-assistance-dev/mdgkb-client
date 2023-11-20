@@ -85,15 +85,15 @@
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import News from '@/classes/news/News';
 import NewsRules from '@/classes/news/NewsRules';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import INews from '@/interfaces/news/INews';
 import AdminGallery from '@/services/components/AdminGallery.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
@@ -112,13 +112,12 @@ export default defineComponent({
     CollapseItem,
   },
   setup() {
-    const route = useRoute();
     let isCropGalleryOpen = ref(false);
     const form = ref();
     const rules = ref(NewsRules);
 
     const galleryList = computed(() => Provider.store.getters[`news/galleryList`]);
-    const news: Ref<INews> = computed(() => Provider.store.getters['news/newsItem']);
+    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -128,7 +127,7 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['slug']) {
+      if (!Provider.route().params['slug']) {
         await Provider.store.dispatch('news/create', news.value);
         await Provider.router.push('/admin/news');
         return;
@@ -138,8 +137,8 @@ export default defineComponent({
     };
 
     const loadNewsItem = async () => {
-      if (route.params['slug']) {
-        await Provider.store.dispatch('news/get', route.params['slug']);
+      if (Provider.route().params['slug']) {
+        await Provider.store.dispatch('news/get', Provider.route().params['slug']);
         Provider.store.commit('admin/setHeaderParams', {
           title: news.value.title,
           showBackButton: true,

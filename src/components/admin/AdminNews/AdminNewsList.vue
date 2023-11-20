@@ -1,12 +1,12 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <RemoteSearch :key-value="schema.news.key" @select="selectSearch" />
+      <RemoteSearch :key-value="'news'" @select="selectSearch" />
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
       <FilterSelectDate
         class="filters-block"
-        :table="schema.news.tableName"
-        :col="schema.news.publishedOn"
+        :table="News.GetClassName()"
+        :col="$classHelper.GetPropertyName(News).publishedOn"
         placeholder="Дата публикации"
         @load="loadNews"
       />
@@ -53,7 +53,7 @@
         ref="searchMainNewsRef"
         :clear-after-select="false"
         max-width="500px"
-        :key-value="schema.news.key"
+        :key-value="'news'"
         placeholder="Выберите новость"
         @select="selectSearchMainNews"
       />
@@ -94,7 +94,7 @@
         value-key="id"
         placeholder="Выберите первую подглавную новость"
         clearable
-        @change="(value: INews) => selectMainNewsHandler(value, newsSubMain1, 'setSubMain1', false)"
+        @change="(value: News) => selectMainNewsHandler(value, newsSubMain1, 'setSubMain1', false)"
         @clear="clearHandler(newsSubMain1, 'setSubMain1', false)"
       >
         <el-option
@@ -114,7 +114,7 @@
         value-key="id"
         placeholder="Выберите вторую подглавную новость"
         clearable
-        @change="(value: INews) => selectMainNewsHandler(value, newsSubMain2, 'setSubMain2', false)"
+        @change="(value: News) => selectMainNewsHandler(value, newsSubMain2, 'setSubMain2', false)"
         @clear="clearHandler(newsSubMain2, 'setSubMain2', false)"
       >
         <el-option
@@ -167,11 +167,10 @@ import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import INews from '@/interfaces/news/INews';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import ISortModel from '@/services/interfaces/ISortModel';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
@@ -191,8 +190,8 @@ export default defineComponent({
     AdminListWrapper,
   },
   setup() {
-    const news = computed(() => Provider.store.getters['news/news']);
-    const searchResult = computed(() => Provider.store.getters['news/newsItem']);
+    const news = computed(() => Provider.store.getters['news/items']);
+    const searchResult = computed(() => Provider.store.getters['news/item']);
     const newsMain = computed(() => Provider.store.getters['news/main']);
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
@@ -200,9 +199,9 @@ export default defineComponent({
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
-    const sortList: Ref<ISortModel[]> = ref([]);
+    const sortList: Ref<SortModel[]> = ref([]);
     const edit = async (id: string): Promise<void> => {
-      const item = news.value.find((i: INews) => i.id === id);
+      const item = news.value.find((i: News) => i.id === id);
       if (item) await Provider.router.push(`/admin/news/${item.slug}`);
     };
     const isModalOpened: Ref<boolean> = ref(false);
@@ -212,7 +211,7 @@ export default defineComponent({
     };
 
     const loadNews = async (): Promise<void> => {
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const load = async (): Promise<void> => {
@@ -243,7 +242,7 @@ export default defineComponent({
       Provider.store.commit('news/setMain', { news: [new News()] });
     };
 
-    const clearHandler = async (previousItem: INews, storeName: string, isMain: boolean) => {
+    const clearHandler = async (previousItem: News, storeName: string, isMain: boolean) => {
       if (isMain) {
         previousItem.main = false;
       } else {
@@ -253,7 +252,7 @@ export default defineComponent({
       Provider.store.commit(`news/${storeName}`, { news: [new News()] });
     };
 
-    const selectMainNewsHandler = async (newItem: INews, previousItem: INews, storeName: string, isMain: boolean) => {
+    const selectMainNewsHandler = async (newItem: News, previousItem: News, storeName: string, isMain: boolean) => {
       if (isMain) {
         previousItem.main = false;
       } else {
@@ -279,7 +278,7 @@ export default defineComponent({
       await Provider.router.push({ name: `AdminNewsPageEdit`, params: { id: event.id, slug: event.value } });
     };
 
-    const createFilterModels = (): IFilterModel[] => {
+    const createFilterModels = (): FilterModel[] => {
       return [NewsFiltersLib.withoutDrafts(), NewsFiltersLib.withDrafts()];
     };
 
@@ -297,7 +296,7 @@ export default defineComponent({
       searchMainNewsRef.value?.clear();
     };
 
-    const makeNewsMain = async (previousItem: INews, storeName: string, isMain: boolean) => {
+    const makeNewsMain = async (previousItem: News, storeName: string, isMain: boolean) => {
       if (isMain) {
         previousItem.main = false;
       } else {
@@ -317,6 +316,7 @@ export default defineComponent({
     };
 
     return {
+      News,
       news,
       edit,
       remove,
@@ -325,7 +325,7 @@ export default defineComponent({
       loadNews,
       createFilterModels,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+
       isModalOpened,
       loadMain,
       newsMain,

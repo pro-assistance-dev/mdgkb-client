@@ -11,4 +11,8 @@ export default class DoctorComment {
   constructor(i?: DoctorComment) {
     ClassHelper.BuildClass(this, i);
   }
+
+  static GetClassName(): string {
+    return 'doctorComment';
+  }
 }

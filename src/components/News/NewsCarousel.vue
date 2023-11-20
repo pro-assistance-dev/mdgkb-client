@@ -15,21 +15,20 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import NewsSlide from '@/classes/NewsSlide';
 import NewsCarouselSlide from '@/components/News/NewsCarouselSlide.vue';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsCarousel',
   components: { NewsCarouselSlide },
   setup() {
-    const store = useStore();
-    const slides: ComputedRef<NewsSlide[]> = computed(() => store.getters['newsSlides/items']);
+    const slides: ComputedRef<NewsSlide[]> = computed(() => Provider.store.getters['newsSlides/items']);
     const carouselRef = ref();
     const mount = ref(false);
     onBeforeMount(async () => {
-      await store.dispatch('newsSlides/getAll');
+      await Provider.store.dispatch('newsSlides/getAll');
       mount.value = true;
     });
 

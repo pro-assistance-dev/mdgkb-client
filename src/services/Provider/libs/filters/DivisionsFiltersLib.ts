@@ -1,40 +1,32 @@
 import { toRef } from 'vue';
 
+import Division from '@/classes/Division';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const DivisionsFiltersLib = (() => {
-  function onlyDivisions(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.isCenter,
-      DataTypes.Boolean
-    );
+  function onlyDivisions(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Division, ClassHelper.GetPropertyName(Division).isCenter, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Отделения';
     return filterModel;
   }
 
-  function withComments(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.commentsCount,
-      DataTypes.Number
-    );
+  function withComments(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Division, ClassHelper.GetPropertyName(Division).commentsCount, DataTypes.Number);
     filterModel.operator = Operators.Gt;
     filterModel.number = 0;
     filterModel.label = 'С отзывами';
     return filterModel;
   }
 
-  function withHospitalization(): IFilterModel {
+  function withHospitalization(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.hospitalizationContactInfoId,
+      Division,
+      ClassHelper.GetPropertyName(Division).hospitalizationContactInfoId,
       DataTypes.String
     );
     filterModel.operator = Operators.NotNull;
@@ -42,36 +34,24 @@ const DivisionsFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyWithAmbulatory(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.hasAmbulatory,
-      DataTypes.Boolean
-    );
+  function onlyWithAmbulatory(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Division, ClassHelper.GetPropertyName(Division).hasAmbulatory, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'С амбулаторным лечением';
     return filterModel;
   }
 
-  function onlyWithDiagnostic(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.hasDiagnostic,
-      DataTypes.Boolean
-    );
+  function onlyWithDiagnostic(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Division, ClassHelper.GetPropertyName(Division).hasDiagnostic, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'С услугами диагностики';
     return filterModel;
   }
 
-  function onlyCenters(): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.division.tableName,
-      Provider.schema.value.division.isCenter,
-      DataTypes.Boolean
-    );
+  function onlyCenters(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Division, ClassHelper.GetPropertyName(Division).isCenter, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Центры';

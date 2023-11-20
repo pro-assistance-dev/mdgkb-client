@@ -3,7 +3,6 @@ import Doctor from '@/classes/Doctor';
 import News from '@/classes/news/News';
 import User from '@/classes/User';
 import IComment from '@/interfaces/comments/IComment';
-import INews from '@/interfaces/news/INews';
 
 export default class Comment implements IComment {
   id?: string;
@@ -18,7 +17,7 @@ export default class Comment implements IComment {
   answer = '';
   link = '';
   commentTo = '';
-  news?: INews;
+  news?: News;
   doctor?: Doctor;
   division?: Division;
   newsComment?: IComment;
@@ -61,5 +60,9 @@ export default class Comment implements IComment {
       this.commentTo = 'Отделение';
       this.link = `/divisions/${this.division.id}`;
     }
+  }
+
+  static GetClassName(): string {
+    return 'comment';
   }
 }

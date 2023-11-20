@@ -1,15 +1,11 @@
+import NmoCourse from '@/classes/NmoCourse';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
-import Provider from '@/services/Provider/Provider';
 
 const DpoCoursesFiltersLib = (() => {
-  function byCourseType(isNmo: boolean): IFilterModel {
-    const filterModel = FilterModel.CreateFilterModel(
-      Provider.schema.value.nmoCourse.tableName,
-      Provider.schema.value.nmoCourse.isNmo,
-      DataTypes.Boolean
-    );
+  function byCourseType(isNmo: boolean): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(NmoCourse, ClassHelper.GetPropertyName(NmoCourse).isNmo, DataTypes.Boolean);
     filterModel.boolean = isNmo;
     return filterModel;
   }

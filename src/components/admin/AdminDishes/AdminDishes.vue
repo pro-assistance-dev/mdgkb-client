@@ -45,7 +45,6 @@ import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
@@ -69,13 +68,13 @@ export default defineComponent({
     const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
-    const dayFilter: Ref<IFilterModel> = ref(new FilterModel());
+    const dayFilter: Ref<FilterModel> = ref(new FilterModel());
     const selectedSample: Ref<DishSample | undefined> = ref(undefined);
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      await Provider.store.dispatch('search/searchGroups');
+      // await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('dishesGroups/getAll');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Меню буфета',

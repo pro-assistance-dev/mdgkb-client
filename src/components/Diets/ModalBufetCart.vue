@@ -167,7 +167,7 @@ export default defineComponent({
       createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+
       costOfDelivery,
       totalPrice,
     };

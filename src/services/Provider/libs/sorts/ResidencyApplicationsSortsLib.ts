@@ -1,21 +1,22 @@
+import ResidencyApplication from '@/classes/ResidencyApplication';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
 const ResidencyApplicationsSortsLib = (() => {
-  const model = 'residencyApplication';
   function byCreatedAt(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'createdAt',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).createdAt,
       order ? order : Orders.Asc,
       `По дате подачи ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
     );
   }
   function byApprovingDate(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'approvingDate',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).approvingDate,
       order ? order : Orders.Asc,
       `По дате принятия ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
@@ -23,54 +24,54 @@ const ResidencyApplicationsSortsLib = (() => {
   }
 
   function byUserFullName(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'fullName',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).fullName,
       order ? order : Orders.Asc,
       `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   function byUserEmail(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'email',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).email,
       order ? order : Orders.Asc,
       `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   function byCourseName(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'courseName',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).courseName,
       order ? order : Orders.Asc,
       `По названию курса ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   function byPointsAchievements(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'pointsAchievements',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).pointsAchievements,
       order ? order : Orders.Asc,
       `По баллам индивидуальных достижений ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   function byPointsEntrance(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'pointsEntrance',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).pointsEntrance,
       order ? order : Orders.Asc,
       `По баллам вступительных испытаний ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
   function byPointsSum(order?: Orders): SortModel {
-    return SortModel.CreateSortModelV2(
-      model,
-      'pointsSum',
+    return SortModel.CreateSortModel(
+      ResidencyApplication,
+      ClassHelper.GetPropertyName(ResidencyApplication).pointsSum,
       order ? order : Orders.Asc,
       `По сумме баллов ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );

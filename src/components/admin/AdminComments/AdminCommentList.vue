@@ -2,12 +2,12 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <SortList class="filters-block" :models="sortList" @load="loadComments" />
-      <FilterSelectDate class="filters-block" :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
+      <FilterSelectDate class="filters-block" :table="'comments'" :col="'publishedOn'" @load="loadComments" />
       <FilterCheckbox
         class="filters-block"
         label="Отмодерированные"
-        :table="schema.comment.tableName"
-        :col="schema.comment.modChecked"
+        :table="Comment.GetClassName()"
+        :col="$classHelper.GetPropertyName(Comment).modChecked"
         :data-type="DataTypes.Boolean"
         :operator="Operators.Eq"
         @load="loadComments"
@@ -26,12 +26,12 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 
+import Comment from '@/classes/Comment';
 import AdminCommentCard from '@/components/admin/AdminComments/AdminCommentCard.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IComment from '@/interfaces/comments/IComment';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -42,12 +42,11 @@ import CommentsFiltersLib from '@/services/Provider/libs/filters/CommentsFilters
 import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
-
 export default defineComponent({
   name: 'AdminCommentList',
   components: { FilterSelectV2, AdminCommentCard, FilterSelectDate, FilterCheckbox, AdminListWrapper, SortList },
   setup() {
-    const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
+    const comments: ComputedRef<Comment[]> = computed<Comment[]>(() => Provider.store.getters['comments/comments']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('comments'));
     const searchString: Ref<string> = ref('');
     let sourceSSE: EventSource | undefined = undefined;
@@ -83,7 +82,7 @@ export default defineComponent({
     return {
       comments,
       mounted: Provider.mounted,
-      schema: Provider.schema,
+      Comment,
       searchString,
       loadComments,
       load,

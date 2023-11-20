@@ -94,7 +94,6 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
@@ -108,7 +107,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterMultipleSelect, FilterCheckbox },
 
   setup() {
-    const filterByStatus: Ref<IFilterModel> = ref(new FilterModel());
+    const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
     const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const visitsApplications: ComputedRef<IVisitsApplication[]> = computed(() => Provider.store.getters['visitsApplications/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));

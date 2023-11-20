@@ -26,4 +26,8 @@ export default class Teacher {
     this.employee = new Employee();
     this.employeeId = undefined;
   }
+
+  static GetClassName(): string {
+    return 'teacher';
+  }
 }

@@ -117,7 +117,7 @@ import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 import ContactInfo from '@/services/classes/ContactInfo';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/IDishesGroupsSortsLib';
+import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/DishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -164,7 +164,7 @@ export default defineComponent({
       dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
-      Provider.filterQuery.value.setParams(Provider.schema.value.formPattern.code, 'bufet');
+      Provider.filterQuery.value.setParams(Form.GetClassName(), 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       initForm();
       await getDishesGroups();

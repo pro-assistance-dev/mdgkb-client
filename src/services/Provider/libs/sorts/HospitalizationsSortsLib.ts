@@ -1,12 +1,13 @@
+import Hospitalization from '@/classes/Hospitalization';
 import SortModel from '@/services/classes/SortModel';
+import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 
 const HospitalizationsSortsLib = (() => {
   function byCreatedAt(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.createdAt,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).createdAt,
       order ? order : Orders.Asc,
       `По дате подачи ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
@@ -14,8 +15,8 @@ const HospitalizationsSortsLib = (() => {
   }
   function byApprovingDate(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.approvingDate,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).approvingDate,
       order ? order : Orders.Asc,
       `По дате принятия ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
       order === Orders.Desc ? true : false
@@ -24,8 +25,8 @@ const HospitalizationsSortsLib = (() => {
 
   function byUserFullName(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.fullName,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).fullName,
       order ? order : Orders.Asc,
       `По ФИО заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
@@ -33,8 +34,8 @@ const HospitalizationsSortsLib = (() => {
 
   function byUserEmail(order?: Orders): SortModel {
     return SortModel.CreateSortModel(
-      Provider.schema.value.hospitalization.tableName,
-      Provider.schema.value.hospitalization.email,
+      Hospitalization,
+      ClassHelper.GetPropertyName(Hospitalization).email,
       order ? order : Orders.Asc,
       `По email заявителя ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );

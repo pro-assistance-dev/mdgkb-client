@@ -25,4 +25,8 @@ export default class PostgraduateCourseSpecialization {
     }
     this.postgraduateCourseId = i.postgraduateCourseId;
   }
+
+  static GetClassName(): string {
+    return 'postgraduateCourseSpecialization';
+  }
 }

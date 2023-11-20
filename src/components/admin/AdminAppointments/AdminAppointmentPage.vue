@@ -61,7 +61,6 @@ export default defineComponent({
     const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
 
     const load = async () => {
-      await Provider.store.dispatch('search/searchGroups');
       await loadAppointment();
       await updateNew();
     };
@@ -98,7 +97,6 @@ export default defineComponent({
       submit,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

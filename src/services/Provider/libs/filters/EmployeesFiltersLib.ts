@@ -6,12 +6,10 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import StringsService from '@/services/Strings';
 
 const EmployeesFiltersLib = (() => {
-  const modelName = StringsService.toCamelCase(Employee.GetClassName());
   function onlyMale(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Employee).isMale, DataTypes.Boolean);
+    const filterModel = FilterModel.CreateFilterModel(Employee, ClassHelper.GetPropertyName(Employee).isMale, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Мужской';
@@ -19,7 +17,7 @@ const EmployeesFiltersLib = (() => {
   }
 
   function onlyFemale(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Employee).isMale, DataTypes.Boolean);
+    const filterModel = FilterModel.CreateFilterModel(Employee, ClassHelper.GetPropertyName(Employee).isMale, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.operator = Operators.Eq;
     filterModel.label = 'Женский';
@@ -27,24 +25,24 @@ const EmployeesFiltersLib = (() => {
   }
 
   function byFullName(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModelV2(modelName, ClassHelper.GetPropertyName(Employee).fullName, DataTypes.String);
+    const filterModel = FilterModel.CreateFilterModel(Employee, ClassHelper.GetPropertyName(Employee).fullName, DataTypes.String);
     filterModel.operator = Operators.Eq;
     filterModel.label = 'По ФИО';
     return filterModel;
   }
 
   function onlyHeads(): FilterModel {
-    const f = FilterModel.CreateJoin(Employee, Head);
+    const f = FilterModel.OnlyIfSecondModelExists(Employee, Head);
     f.label = 'Только руководители';
     return f;
   }
   function onlyDoctors(): FilterModel {
-    const f = FilterModel.CreateJoin(Employee, Doctor);
+    const f = FilterModel.OnlyIfSecondModelExists(Employee, Doctor);
     f.label = 'Только врачи';
     return f;
   }
   function onlyEducationalAcademics(): FilterModel {
-    const f = FilterModel.CreateJoin(Employee, EducationalAcademic);
+    const f = FilterModel.OnlyIfSecondModelExists(Employee, EducationalAcademic);
     f.label = 'Только члены учёного совета';
     return f;
   }
