@@ -75,7 +75,7 @@ export default defineComponent({
 
     const load = async () => {
       dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      await Provider.store.dispatch('search/searchGroups');
+      // await Provider.store.dispatch('search/searchGroups');
       await Provider.store.dispatch('dishesGroups/getAll');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Меню буфета',
