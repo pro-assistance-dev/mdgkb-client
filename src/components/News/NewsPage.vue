@@ -90,7 +90,7 @@ export default defineComponent({
       if (filtersIds.length > 0) {
         Provider.setFilterModels(NewsFiltersLib.filterByTags(filtersIds));
       }
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     Hooks.onBeforeMount(load);
