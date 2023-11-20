@@ -1,7 +1,6 @@
 import Tag from '@/classes/news/Tag';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ITag from '@/interfaces/news/ITag';
-import ClassHelper from '@/services/ClassHelper';
 export default class NewsToTag {
   id?: string;
   tagId?: string;
@@ -24,6 +23,9 @@ export default class NewsToTag {
   }
 
   static Create(newsId?: string, tagId?: string): NewsToTag {
-    return ClassHelper.InitClassInstance(new NewsToTag(), { newsId, tagId }) as NewsToTag;
+    const item = new NewsToTag();
+    item.newsId = newsId;
+    item.tagId = tagId;
+    return item;
   }
 }
