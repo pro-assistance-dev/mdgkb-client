@@ -240,8 +240,20 @@ h3 {
   padding: 40px 190px 35px 175px;
 }
 
+@media screen and (max-width: 1024px) {
+  :deep(.leave-a-review) {
+    padding: 20px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .card-item {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.leave-a-review) {
     padding: 10px;
   }
 }

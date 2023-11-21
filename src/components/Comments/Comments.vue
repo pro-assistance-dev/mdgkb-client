@@ -118,4 +118,10 @@ html {
   align-items: right;
   padding-bottom: 20px;
 }
+
+@media screen and (max-width: 400px) {
+  .reviews {
+    padding: 0px 20px;
+  }
+}
 </style>
