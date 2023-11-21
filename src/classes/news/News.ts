@@ -12,6 +12,7 @@ import Tag from '@/classes/news/Tag';
 import IFileInfo from '@/interfaces/files/IFileInfo';
 import INewsToTag from '@/interfaces/news/INewsToTag';
 import ClassHelper from '@/services/ClassHelper';
+import DateTimeFormat from '@/services/DateFormat';
 
 export default class News {
   id?: string;
@@ -80,7 +81,7 @@ export default class News {
     if (news.mainImage) {
       this.mainImage = new FileInfo(news.mainImage);
     }
-    this.publishedOn = news.publishedOn;
+    this.publishedOn = new Date(news.publishedOn);
     this.createdAt = news.createdAt;
     if (news.newsLikes) {
       this.newsLikes = news.newsLikes.map((item: NewsLike) => new NewsLike(item));
@@ -186,5 +187,23 @@ export default class News {
     item.userId = userId as string;
     this.newsLikes.push(item);
     return item;
+  }
+
+  getStatusString(): string {
+    if (this.isDraft) {
+      return 'Черновик';
+    }
+    console.log(this.publishedOn);
+
+    if (this.publishedOn > new Date()) {
+      return `Опубликуется ${new DateTimeFormat().format(this.publishedOn, {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      })}`;
+    }
+    return 'Опубликовано';
   }
 }

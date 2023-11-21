@@ -18,11 +18,15 @@
       <el-table-column prop="title" label="Заголовок" width="400px" class-name="sticky-left"> </el-table-column>
       <el-table-column prop="created_by" label="Автор"> </el-table-column>
       <el-table-column prop="viewsCount" label="Просмотров"> </el-table-column>
-      <el-table-column prop="status" label="Статус"> </el-table-column>
+      <el-table-column label="Статус">
+        <template #default="scope">
+          {{ scope.row.getStatusString() }}
+        </template>
+      </el-table-column>
       <el-table-column label="Тэги">
         <template #default="scope">
-          <span v-for="(item, i) in scope.row.tags" :key="item.id">
-            {{ i + 1 === scope.row.tags.length ? item.label : `${item.label}, ` }}
+          <span v-for="(item, i) in scope.row.newsToTags" :key="item.id">
+            {{ i + 1 === scope.row.newsToTags.length ? item.tag.label : `${item.tag.label}, ` }}
           </span>
         </template>
       </el-table-column>
