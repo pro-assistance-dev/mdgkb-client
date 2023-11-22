@@ -2,17 +2,19 @@
   <div class="slides">
     <el-button @click="toPreviousGroup()">Предыдущий</el-button>
     <div v-for="(carouselGroupElement, i) in activeCarouselGroup" :key="i" class="slide">
-      <div class="image">
-        <img
-          :src="carouselGroupElement.fileInfo.getImageUrl()"
-          :alt="carouselGroupElement.fileInfo.originalName"
-          @click="showImageInFullScreen(i)"
-        />
-      </div>
+      <Transition name="slide-fade">
+        <div class="image">
+          <img
+            :src="carouselGroupElement.fileInfo.getImageUrl()"
+            :alt="carouselGroupElement.fileInfo.originalName"
+            @click="showImageInFullScreen(i)"
+          />
+        </div>
+      </Transition>
     </div>
+
     <el-button @click="toNextGroup()">Следующий</el-button>
   </div>
-  <div v-for="(j, i) in carousel" :key="i" @click="toGroup(i)">{{ i }}</div>
 </template>
 
 <script lang="ts">
@@ -29,7 +31,7 @@ export default defineComponent({
     },
     quantity: {
       type: Number,
-      default: 2,
+      default: 1,
       required: false,
     },
   },
@@ -46,8 +48,6 @@ export default defineComponent({
     const activeImage: ComputedRef<IWithImage> = computed(() => {
       return carousel.value[activeGroupIndex.value][activeImageIndex.value];
     });
-    // const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
-    // const carouselRef = ref();
 
     const showImageInFullScreen = (indexInActiveGroup: number) => {
       fullScreenMode.value = true;
@@ -76,6 +76,19 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}
 * {
   box-sizing: border-box;
 }
