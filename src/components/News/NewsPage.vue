@@ -28,7 +28,8 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" />
+          <CarouselImages :key="news.id" :images="news.newsImages" />
+          <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
         <NewsPageFooter :news="news" />
@@ -45,8 +46,8 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import CommentRules from '@/classes/news/CommentRules';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
+import CarouselImages from '@/components/CarouselImages.vue';
 import Comments from '@/components/Comments/Comments.vue';
-import ImageGallery_new from '@/components/ImageGallery_new.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
@@ -54,10 +55,9 @@ import Hooks from '@/services/Hooks/Hooks';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
-
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, ImageGallery_new, EventRegistration, Comments },
+  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages },
 
   async setup() {
     let comment = ref(new NewsComment());
