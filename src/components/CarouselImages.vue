@@ -1,27 +1,59 @@
 <template>
-  <div class="slides">
-    <el-button @click="toPreviousGroup()">Предыдущий</el-button>
-    <div v-for="(carouselGroupElement, i) in activeCarouselGroup" :key="i" class="slide">
-      <div class="image">
-        <img
-          :src="carouselGroupElement.fileInfo.getImageUrl()"
-          :alt="carouselGroupElement.fileInfo.originalName"
-          @click="showImageInFullScreen(i)"
-        />
+  <div class="container">
+    <svg class="icon-arrow" @click="toPrev()">
+      <use xlink:href="#arrow-prev"></use>
+    </svg>
+    <div class="slide-box">
+      <div
+        v-for="(carouselGroupElement, i) in activeCarouselGroup"
+        :key="i"
+        :class="{ animationnext: !show && !rev, animationprev: !show && rev }"
+      >
+        <div class="image">
+          <img
+            :id="carouselGroupElement.fileInfo.getImageUrl()"
+            :src="carouselGroupElement.fileInfo.getImageUrl()"
+            :alt="carouselGroupElement.fileInfo.originalName"
+            @click="showImageInFullScreen(i)"
+          />
+        </div>
+        <div class="label">{{ carouselGroupElement.description }}</div>
       </div>
     </div>
-    <el-button @click="toNextGroup()">Следующий</el-button>
+    <svg class="icon-arrow" @click="toNext()">
+      <use xlink:href="#arrow-next"></use>
+    </svg>
   </div>
-  <div v-for="(j, i) in carousel" :key="i" @click="toGroup(i)">{{ i }}</div>
+  <div class="link-number">
+    <div
+      v-for="(j, i) in carousel"
+      :id="i.toString()"
+      :key="i"
+      class="number"
+      :style="{ background: i.toString() === activeGroupIndex.toString() ? '#9D9D9D' : '' }"
+      @click="toGroup(i)"
+    >
+      {{ i + 1 }}
+    </div>
+  </div>
+  <ArrowPrev />
+  <ArrowNext />
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
 
+import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
+import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
 import IWithImage from '@/services/interfaces/IWithImage';
 import makeCarousel from '@/services/MakeCarousel';
+
 export default defineComponent({
   name: 'CarouselImages',
+  components: {
+    ArrowPrev,
+    ArrowNext,
+  },
   props: {
     images: {
       type: Array as PropType<Array<IWithImage>>,
@@ -29,7 +61,7 @@ export default defineComponent({
     },
     quantity: {
       type: Number,
-      default: 2,
+      default: 1,
       required: false,
     },
   },
@@ -37,6 +69,8 @@ export default defineComponent({
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(0);
     const activeImageIndex = ref(0);
+    const show: Ref<boolean> = ref(true);
+    const rev: Ref<boolean> = ref(true);
 
     let carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
 
@@ -46,8 +80,6 @@ export default defineComponent({
     const activeImage: ComputedRef<IWithImage> = computed(() => {
       return carousel.value[activeGroupIndex.value][activeImageIndex.value];
     });
-    // const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
-    // const carouselRef = ref();
 
     const showImageInFullScreen = (indexInActiveGroup: number) => {
       fullScreenMode.value = true;
@@ -59,6 +91,28 @@ export default defineComponent({
       (activeGroupIndex.value = activeGroupIndex.value - 1 < 0 ? carousel.value.length - 1 : activeGroupIndex.value - 1);
     const toGroup = (value: number) => (activeGroupIndex.value = value);
 
+    const toNext = () => {
+      rev.value = false;
+      show.value = true;
+      setTimeout(() => {
+        show.value = false;
+      }, 10);
+      setTimeout(() => {
+        toNextGroup();
+      }, 250);
+    };
+
+    const toPrev = () => {
+      rev.value = true;
+      show.value = true;
+      setTimeout(() => {
+        show.value = false;
+      }, 10);
+      setTimeout(() => {
+        toPreviousGroup();
+      }, 250);
+    };
+
     return {
       carousel,
       activeGroupIndex,
@@ -68,6 +122,10 @@ export default defineComponent({
       toPreviousGroup,
       activeCarouselGroup,
       showImageInFullScreen,
+      show,
+      rev,
+      toNext,
+      toPrev,
     };
   },
 });
@@ -76,108 +134,198 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
-* {
-  box-sizing: border-box;
+@keyframes movenext {
+  0% {
+    margin-left: 0;
+    margin-top: 0;
+  }
+  48% {
+    margin-left: -200%;
+    margin-top: 0;
+  }
+  49% {
+    margin-left: -200%;
+    margin-top: -200%;
+  }
+  50% {
+    margin-left: 200%;
+    margin-top: -200%;
+  }
+  51% {
+    margin-left: 200%;
+    margin-top: 0;
+  }
+  100% {
+    margin-left: 0;
+    margin-top: 0;
+  }
 }
 
-.slider {
-  width: 300px;
-  text-align: center;
+@keyframes moveprev {
+  0% {
+    margin-right: 0;
+    margin-top: 0;
+  }
+  48% {
+    margin-right: -200%;
+    margin-top: 0;
+  }
+  49% {
+    margin-right: -200%;
+    margin-top: -200%;
+  }
+  50% {
+    margin-right: 200%;
+    margin-top: -200%;
+  }
+  51% {
+    margin-right: 200%;
+    margin-top: 0;
+  }
+  100% {
+    margin-right: 0;
+    margin-top: 0;
+  }
+}
+
+.container {
+  width: 100%;
+  height: 360px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.icon-arrow {
+  width: 30px;
+  height: 30px;
+  fill: $site_dark_gray;
+  border-radius: 25px;
+  padding: 10px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.icon-arrow:hover {
+  background: #e3e3e3;
+}
+
+.slide-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 60px);
+  height: 100%;
+  z-index: 2;
   overflow: hidden;
 }
 
-.slides {
-  display: flex;
-
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-
-  /*
-  scroll-snap-points-x: repeat(300px);
-  scroll-snap-type: mandatory;
-  */
+.animationnext {
+  position: absolute;
+  animation: movenext 500ms infinite;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  z-index: 1;
 }
-.slides::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-.slides::-webkit-scrollbar-thumb {
-  background: black;
-  border-radius: 10px;
-}
-.slides::-webkit-scrollbar-track {
-  background: transparent;
-}
-.slides > div {
-  scroll-snap-align: start;
-  flex-shrink: 0;
-  width: 300px;
-  height: 300px;
-  margin-right: 50px;
-  border-radius: 10px;
-  background: #eee;
-  transform-origin: center center;
-  transform: scale(1);
-  transition: transform 0.5s;
-  position: relative;
 
+.animationprev {
+  position: absolute;
+  animation: moveprev 500ms infinite;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+  z-index: 1;
+}
+
+.image {
+  height: auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 100px;
+  overflow: hidden;
+  transition: 0.1s;
 }
-.slides > div:target {
-  /*   transform: scale(0.8); */
-}
-.author-info {
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 0.75rem;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin: 0;
-}
-.author-info a {
-  color: white;
-}
+
 img {
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  width: auto;
+  height: 20vh;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  border-radius: 10px;
 }
 
-.slider > a {
-  display: inline-flex;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: white;
-  text-decoration: none;
+.link-number {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+
+.number {
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  margin: 0 0 0.5rem 0;
-  position: relative;
-}
-.slider > a:active {
-  top: 1px;
-}
-.slider > a:focus {
-  background: #000;
+  width: 26px;
+  height: 26px;
+  margin: 5px;
+  border-radius: 20px;
+  color: #ffffff;
+  transform: 0.5s;
+  background: #e3e3e3;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  cursor: pointer;
 }
 
-/* Don't need button navigation */
-@supports (scroll-snap-type) {
-  .slider > a {
-    display: none;
+.number:hover {
+  background: #c3c3c3;
+}
+
+.hidden {
+  display: none;
+}
+
+.label {
+  max-width: 600px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+  color: #9d9d9d;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    height: 240px;
+  }
+  img {
+    height: 178px;
+  }
+  .label {
+    max-width: 400px;
+    font-size: 12px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    height: 160px;
+  }
+  img {
+    height: 108px;
+  }
+
+  .label {
+    max-width: 200px;
+    height: 40px;
+    font-size: 9px;
   }
 }
 </style>
