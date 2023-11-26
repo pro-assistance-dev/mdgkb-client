@@ -28,7 +28,17 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <CarouselImages :key="news.id" :images="news.newsImages" />
+          <teleport to="body">
+            <div v-if="modalOpen" class="modal" @click="modalOpen = false">
+              <div class="modal-box">
+                <svg class="icon-close" @click="modalOpen = false">
+                  <use xlink:href="#close"></use>
+                </svg>
+                <CarouselImages :key="news.id" :images="news.newsImages" height="600px" />
+              </div>
+            </div>
+          </teleport>
+          <CarouselImages :key="news.id" :images="news.newsImages" @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
@@ -38,11 +48,13 @@
       </div>
     </div>
   </div>
+  <Close />
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
+import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/news/CommentRules';
 import News from '@/classes/news/News';
 import NewsComment from '@/classes/news/NewsComment';
@@ -57,7 +69,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages },
+  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages, Close },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -65,6 +77,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const slug = computed(() => Provider.route().params['slug']);
     const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
+    const modalOpen: Ref<boolean> = ref(false);
 
     watch(slug, async () => {
       console.log(slug);
@@ -103,6 +116,10 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
+    const openModalWindow = async () => {
+      modalOpen.value = true;
+    };
+
     return {
       rules,
       comment,
@@ -112,6 +129,8 @@ export default defineComponent({
       commentInput,
       commentForm,
       editCommentForm,
+      modalOpen,
+      openModalWindow,
     };
   },
 });
@@ -122,6 +141,57 @@ $side-cotainer-max-width: 300px;
 $news-content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.modal-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  max-width: 1344px;
+  width: calc(100% - 40px);
+  padding: 20px;
+  z-index: 4;
+  border-radius: 10px;
+}
+
+.field {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.icon-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 20px;
+}
+
+.icon-close:hover {
+  fill: #205bb8;
+}
 .news-page-container {
   display: flex;
   justify-content: center;

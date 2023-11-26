@@ -1,42 +1,45 @@
 <template>
-  <div class="container">
-    <svg class="icon-arrow" @click="toPrev()">
-      <use xlink:href="#arrow-prev"></use>
-    </svg>
-    <div class="slide-box">
-      <div
-        v-for="(carouselGroupElement, i) in activeCarouselGroup"
-        :key="i"
-        :class="{
-          animationnext: rev === Animations.Next,
-          animationprev: rev === Animations.Prev,
-        }"
-      >
-        <div class="image">
-          <img
-            :id="carouselGroupElement.fileInfo.getImageUrl()"
-            :src="carouselGroupElement.fileInfo.getImageUrl()"
-            :alt="carouselGroupElement.fileInfo.originalName"
-            @click="showImageInFullScreen()"
-          />
+  <div class="field" :style="{ height: height }">
+    <div class="container">
+      <svg class="icon-arrow" @click.stop="toPrev()">
+        <use xlink:href="#arrow-prev"></use>
+      </svg>
+      <div class="slide-box">
+        <div
+          v-for="(carouselGroupElement, i) in activeCarouselGroup"
+          :key="i"
+          :class="{
+            animationnext: rev === Animations.Next,
+            animationprev: rev === Animations.Prev,
+          }"
+        >
+          <div class="image">
+            <img
+              :id="carouselGroupElement.fileInfo.getImageUrl()"
+              :style="{ height: `calc(${height} - 110px)` }"
+              :src="carouselGroupElement.fileInfo.getImageUrl()"
+              :alt="carouselGroupElement.fileInfo.originalName"
+              @click="showImageInFullScreen()"
+            />
+          </div>
+          <div class="label">{{ carouselGroupElement.description }}</div>
         </div>
-        <div class="label">{{ carouselGroupElement.description }}</div>
       </div>
+      <svg class="icon-arrow" @click.stop="toNext()">
+        <use xlink:href="#arrow-next"></use>
+      </svg>
     </div>
-    <svg class="icon-arrow" @click="toNext()">
-      <use xlink:href="#arrow-next"></use>
-    </svg>
-  </div>
-  <div class="link-number">
-    <div
-      v-for="(j, i) in carousel"
-      :id="i.toString()"
-      :key="i"
-      class="number"
-      :style="{ background: i.toString() === activeGroupIndex.toString() ? '#9D9D9D' : '' }"
-      @click="toGroup(i)"
-    >
-      {{ i + 1 }}
+    <div class="link-number">
+      <div
+        v-for="(j, i) in carousel"
+        :id="i.toString()"
+        :key="i"
+        class="number"
+        :style="{ background: i.toString() === activeGroupIndex.toString() ? '#9D9D9D' : '' }"
+        @click.stop="toGroup(i)"
+      >
+        {{ i + 1 }}
+      </div>
     </div>
   </div>
   <ArrowPrev />
@@ -71,14 +74,20 @@ export default defineComponent({
       type: Number,
       default: 500,
     },
+
+    height: {
+      type: String,
+      default: '360px',
+    },
   },
-  setup(props) {
+  emits: ['openModalWindow'],
+  setup(props, { emit }) {
     const cssAnimationTime = `${props.animationTime}ms`;
 
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(0);
     // const activeImageIndex = ref(0);
-    // const rev: Ref<boolean> = ref(true);
+
     const rev: Ref<Animations> = ref(Animations.None);
 
     let carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
@@ -92,6 +101,7 @@ export default defineComponent({
 
     const showImageInFullScreen = () => {
       fullScreenMode.value = true;
+      emit('openModalWindow', fullScreenMode);
     };
 
     const toNextGroup = () =>
@@ -200,10 +210,11 @@ export default defineComponent({
 
 .container {
   width: 100%;
-  height: 360px;
+  height: calc(100% - 50px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .icon-arrow {
@@ -214,10 +225,15 @@ export default defineComponent({
   padding: 10px;
   background: #ffffff;
   cursor: pointer;
+  transition: 0.1s;
 }
 
 .icon-arrow:hover {
   background: #e3e3e3;
+}
+
+.icon-arrow:active {
+  background: #9d9d9d;
 }
 
 .slide-box {
@@ -229,6 +245,7 @@ export default defineComponent({
   height: 100%;
   z-index: 2;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .animationnext {
@@ -253,16 +270,24 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  transition: 0.1s;
+}
+
+.image {
+  height: auto;
+  display: grid;
+  grid-template-rows: 1fr;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 img {
   width: auto;
-  height: 20vh;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .link-number {
@@ -299,7 +324,7 @@ img {
 }
 
 .label {
-  max-width: 600px;
+  max-width: 100%;
   height: 60px;
   display: flex;
   justify-content: center;
