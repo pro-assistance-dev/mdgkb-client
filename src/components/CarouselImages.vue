@@ -17,7 +17,7 @@
             :id="carouselGroupElement.fileInfo.getImageUrl()"
             :src="carouselGroupElement.fileInfo.getImageUrl()"
             :alt="carouselGroupElement.fileInfo.originalName"
-            @click="showImageInFullScreen(i)"
+            @click="showImageInFullScreen()"
           />
         </div>
         <div class="label">{{ carouselGroupElement.description }}</div>
@@ -67,11 +67,17 @@ export default defineComponent({
       default: 1,
       required: false,
     },
+    animationTime: {
+      type: Number,
+      default: 500,
+    },
   },
   setup(props) {
+    const cssAnimationTime = `${props.animationTime}ms`;
+
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(0);
-    const activeImageIndex = ref(0);
+    // const activeImageIndex = ref(0);
     // const rev: Ref<boolean> = ref(true);
     const rev: Ref<Animations> = ref(Animations.None);
 
@@ -80,11 +86,11 @@ export default defineComponent({
     const activeCarouselGroup: ComputedRef<IWithImage[]> = computed(() => {
       return carousel.value[activeGroupIndex.value];
     });
-    const activeImage: ComputedRef<IWithImage> = computed(() => {
-      return carousel.value[activeGroupIndex.value][activeImageIndex.value];
-    });
+    // const activeImage: ComputedRef<IWithImage> = computed(() => {
+    //   return carousel.value[activeGroupIndex.value][activeImageIndex.value];
+    // });
 
-    const showImageInFullScreen = (indexInActiveGroup: number) => {
+    const showImageInFullScreen = () => {
       fullScreenMode.value = true;
     };
 
@@ -95,7 +101,7 @@ export default defineComponent({
 
     const callAnimation = (animation: Animations) => {
       rev.value = animation;
-      setTimeout(() => (rev.value = Animations.None), 500);
+      setTimeout(() => (rev.value = Animations.None), props.animationTime);
     };
 
     const toGroup = (value: number) => {
@@ -103,17 +109,17 @@ export default defineComponent({
         return;
       }
       callAnimation(value < activeGroupIndex.value ? Animations.Prev : Animations.Next);
-      setTimeout(() => (activeGroupIndex.value = value), 250);
+      setTimeout(() => (activeGroupIndex.value = value), props.animationTime / 2);
     };
 
     const toNext = () => {
       callAnimation(Animations.Next);
-      setTimeout(toNextGroup, 250);
+      setTimeout(toNextGroup, props.animationTime / 2);
     };
 
     const toPrev = () => {
       callAnimation(Animations.Prev);
-      setTimeout(toPreviousGroup, 250);
+      setTimeout(toPreviousGroup, props.animationTime / 2);
     };
 
     return {
@@ -129,6 +135,7 @@ export default defineComponent({
       rev,
       toNext,
       toPrev,
+      cssAnimationTime,
     };
   },
 });
@@ -226,7 +233,7 @@ export default defineComponent({
 
 .animationnext {
   position: absolute;
-  animation: movenext 500ms infinite;
+  animation: movenext v-bind(cssAnimationTime) infinite;
   animation-timing-function: linear;
   animation-iteration-count: 1;
   z-index: 1;
@@ -234,7 +241,7 @@ export default defineComponent({
 
 .animationprev {
   position: absolute;
-  animation: moveprev 500ms infinite;
+  animation: moveprev v-bind(cssAnimationTime) infinite;
   animation-timing-function: linear;
   animation-iteration-count: 1;
   z-index: 1;
