@@ -7,7 +7,10 @@
       <div
         v-for="(carouselGroupElement, i) in activeCarouselGroup"
         :key="i"
-        :class="{ animationnext: !show && !rev, animationprev: !show && rev }"
+        :class="{
+          animationnext: rev === Animations.Next,
+          animationprev: rev === Animations.Prev,
+        }"
       >
         <div class="image">
           <img
@@ -45,9 +48,9 @@ import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue'
 
 import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
 import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
+import { Animations } from '@/interfaces/Animations';
 import IWithImage from '@/services/interfaces/IWithImage';
 import makeCarousel from '@/services/MakeCarousel';
-
 export default defineComponent({
   name: 'CarouselImages',
   components: {
@@ -69,8 +72,8 @@ export default defineComponent({
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(0);
     const activeImageIndex = ref(0);
-    const show: Ref<boolean> = ref(true);
-    const rev: Ref<boolean> = ref(true);
+    // const rev: Ref<boolean> = ref(true);
+    const rev: Ref<Animations> = ref(Animations.None);
 
     let carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
 
@@ -89,31 +92,32 @@ export default defineComponent({
       (activeGroupIndex.value = activeGroupIndex.value + 1 < carousel.value.length ? activeGroupIndex.value + 1 : 0);
     const toPreviousGroup = () =>
       (activeGroupIndex.value = activeGroupIndex.value - 1 < 0 ? carousel.value.length - 1 : activeGroupIndex.value - 1);
-    const toGroup = (value: number) => (activeGroupIndex.value = value);
+
+    const callAnimation = (animation: Animations) => {
+      rev.value = animation;
+      setTimeout(() => (rev.value = Animations.None), 500);
+    };
+
+    const toGroup = (value: number) => {
+      if (value == activeGroupIndex.value) {
+        return;
+      }
+      callAnimation(value < activeGroupIndex.value ? Animations.Prev : Animations.Next);
+      setTimeout(() => (activeGroupIndex.value = value), 250);
+    };
 
     const toNext = () => {
-      rev.value = false;
-      show.value = true;
-      setTimeout(() => {
-        show.value = false;
-      }, 10);
-      setTimeout(() => {
-        toNextGroup();
-      }, 250);
+      callAnimation(Animations.Next);
+      setTimeout(toNextGroup, 250);
     };
 
     const toPrev = () => {
-      rev.value = true;
-      show.value = true;
-      setTimeout(() => {
-        show.value = false;
-      }, 10);
-      setTimeout(() => {
-        toPreviousGroup();
-      }, 250);
+      callAnimation(Animations.Prev);
+      setTimeout(toPreviousGroup, 250);
     };
 
     return {
+      Animations,
       carousel,
       activeGroupIndex,
       carouselGroups: Array(carousel.value.length).keys(),
@@ -122,7 +126,6 @@ export default defineComponent({
       toPreviousGroup,
       activeCarouselGroup,
       showImageInFullScreen,
-      show,
       rev,
       toNext,
       toPrev,
