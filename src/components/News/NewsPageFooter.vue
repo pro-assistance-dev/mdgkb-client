@@ -81,7 +81,7 @@ export default defineComponent({
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/news/${props.news.slug}`;
+      return `${host}/news/${props.news.id}`;
     };
 
     return {

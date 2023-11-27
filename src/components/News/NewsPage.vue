@@ -28,7 +28,7 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <ImageGallery_new :images="news.newsImages" :quantity="2" />
+          <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" />
         </template>
         <el-divider />
         <NewsPageFooter :news="news" />
@@ -90,7 +90,7 @@ export default defineComponent({
       if (filtersIds.length > 0) {
         Provider.setFilterModels(NewsFiltersLib.filterByTags(filtersIds));
       }
-      await Provider.store.dispatch('news/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     Hooks.onBeforeMount(load);
@@ -240,8 +240,20 @@ h3 {
   padding: 40px 190px 35px 175px;
 }
 
+@media screen and (max-width: 1024px) {
+  :deep(.leave-a-review) {
+    padding: 20px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .card-item {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  :deep(.leave-a-review) {
     padding: 10px;
   }
 }

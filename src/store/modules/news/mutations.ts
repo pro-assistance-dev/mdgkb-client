@@ -2,7 +2,6 @@ import { MutationTree } from 'vuex';
 
 import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
-import NewsLike from '@/classes/NewsLike';
 import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
@@ -91,11 +90,6 @@ const mutations: MutationTree<State> = {
     }
     // state.params =
   },
-  setLikeNews(state, newsLike: NewsLike) {
-    const news = state.items.find((i: News) => i.id === newsLike.newsId);
-    if (news) news.newsLikes.push(newsLike);
-    if (state.item) state.item.newsLikes.push(newsLike);
-  },
   setComment(state, item: NewsComment) {
     if (state.item) state.item.newsComments.unshift(item);
     state.comment = new NewsComment();
@@ -124,17 +118,6 @@ const mutations: MutationTree<State> = {
   },
   setParentIdToComment(state, parentId: string) {
     state.comment.newsId = parentId;
-  },
-  deleteLikeFromNews(state, newsLike: NewsLike) {
-    const news = state.items.find((i: News) => i.id === newsLike.newsId);
-    const deleteLike = (news: News) => {
-      const index = news.newsLikes.findIndex((i: NewsLike) => i.id === newsLike.id);
-      if (index > -1) {
-        news.newsLikes.splice(index, 1);
-      }
-    };
-    if (news) deleteLike(news);
-    if (state.item) deleteLike(state.item);
   },
   deleteCommentFromNews(state, item: NewsComment) {
     const news = state.items.find((i: News) => i.id === item.newsId);

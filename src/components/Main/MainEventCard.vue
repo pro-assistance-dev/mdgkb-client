@@ -6,7 +6,7 @@
     </div>
     <div class="event-card-container-time">{{ formatTime(item.startDate) }}</div>
     <div v-if="item.news.content" class="event-card-container-content">{{ item.news.getStrippedContent().substring(0, 40) }}</div>
-    <a @click="$router.push(`/news/${item.news.slug}`)">{{ item.news.title }}</a>
+    <a @click="$router.push(`/news/${item.news.id}`)">{{ item.news.title }}</a>
   </div>
 </template>
 

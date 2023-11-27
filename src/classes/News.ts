@@ -10,6 +10,7 @@ import NewsToCategory from '@/classes/NewsToCategory';
 import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
 import ClassHelper from '@/services/ClassHelper';
+import DateTimeFormat from '@/services/DateFormat';
 
 export default class News {
   id?: string;
@@ -132,5 +133,32 @@ export default class News {
       }
     });
     return fileInfos;
+  }
+
+  createLike(userId?: string): NewsLike {
+    const item = new NewsLike();
+    item.id = ClassHelper.CreateUUID();
+    item.newsId = this.id as string;
+    item.userId = userId as string;
+    this.newsLikes.push(item);
+    return item;
+  }
+
+  getStatusString(): string {
+    if (this.isDraft) {
+      return 'Черновик';
+    }
+    console.log(this.publishedOn);
+
+    if (this.publishedOn > new Date()) {
+      return `Опубликуется ${new DateTimeFormat().format(this.publishedOn, {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+      })}`;
+    }
+    return 'Опубликовано';
   }
 }

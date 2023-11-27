@@ -6,6 +6,7 @@ import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
+import IsometricMap from '@/components/IsometricMap/IsometricMap.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
 import MedicalOrganizationStructure from '@/components/MedicalOrganization/MedicalOrganizationStructure.vue';
@@ -177,6 +178,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SiteMap',
     meta: { title: 'Карта сайта' },
     component: SiteMap,
+  },
+  {
+    path: '/isometric-map',
+    name: 'IsometricMap',
+    meta: { title: 'Изометрическая карта больницы' },
+    component: IsometricMap,
   },
   {
     path: '/contacts',

@@ -3,7 +3,7 @@
     v-if="news.content"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
-    @click="$router.push(`/news/${news.slug}`)"
+    @click="$router.push(`/news/${news.id}`)"
   >
     <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="flex-between-columm front">

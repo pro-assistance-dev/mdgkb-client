@@ -11,7 +11,7 @@
         <EyeOutlined />
         <span>{{ news.viewsCount }} </span>
       </div>
-      <NewsLikes :news="news" />
+      <NewsLike :news="news" />
     </div>
   </div>
 </template>
@@ -21,11 +21,11 @@ import { EyeOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
 import News from '@/classes/News';
-import NewsLikes from '@/components/News/NewsLike.vue';
+import NewsLike from '@/components/News/NewsLike.vue';
 
 export default defineComponent({
   name: 'NewsMeta',
-  components: { EyeOutlined, NewsLikes },
+  components: { EyeOutlined, NewsLike },
   props: {
     news: {
       type: Object as PropType<News>,

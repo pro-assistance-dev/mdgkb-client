@@ -1,5 +1,5 @@
 <template>
-  <div class="main-card card-hover" @click="$router.push(`/news/${news.slug}`)">
+  <div class="main-card card-hover" @click="$router.push(`/news/${news.id}`)">
     <div class="main-image">
       <img :src="news.getImageUrl()" alt="news-image" />
       <div class="tags">

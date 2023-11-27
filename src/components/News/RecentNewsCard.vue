@@ -7,7 +7,7 @@
     <el-table :data="recentNewsList" cell-class-name="cell-row" :show-header="false">
       <el-table-column>
         <template #default="scope">
-          <div class="recent-news-item" @click="getNewsAndRecent(scope.row.slug)">
+          <div class="recent-news-item" @click="getNewsAndRecent(scope.row.id)">
             <div class="item-title">{{ scope.row.title }}</div>
             <div class="item-footer">
               <div class="item-date">
