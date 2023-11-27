@@ -74,7 +74,7 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
 import Provider from '@/services/Provider/Provider';
 import Time from '@/services/Time';
 
@@ -83,7 +83,7 @@ export default defineComponent({
   components: { Time },
   props: {
     timetable: {
-      type: Object as PropType<ITimetable>,
+      type: Object as PropType<Timetable>,
       required: true,
     },
   },

@@ -34,8 +34,8 @@
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 
-import News from '@/classes/news/News';
-import NewsToTag from '@/classes/news/NewsToTag';
+import News from '@/classes/News';
+import NewsToTag from '@/classes/NewsToTag';
 import router from '@/router';
 import Provider from '@/services/Provider/Provider';
 

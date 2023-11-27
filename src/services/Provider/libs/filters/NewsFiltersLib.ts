@@ -1,5 +1,5 @@
-import News from '@/classes/news/News';
-import NewsToTag from '@/classes/news/NewsToTag';
+import News from '@/classes/News';
+import NewsToTag from '@/classes/NewsToTag';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';

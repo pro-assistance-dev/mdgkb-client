@@ -20,7 +20,7 @@ export default defineComponent({
     const store = useStore();
 
     await store.dispatch('buildings/getAll');
-    const buildings = computed(() => store.getters['buildings/buildings']);
+    const buildings = computed(() => store.getters['buildings/items']);
 
     return {
       buildings,

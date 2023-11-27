@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IDiet from '@/interfaces/IDiet';
+import Diet from '@/classes/Diet';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDiet[] {
-    return state.items;
-  },
-  item(state): IDiet {
-    return state.item;
-  },
+  ...getBaseGetters<Diet, State>(),
 };
 
 export default getters;

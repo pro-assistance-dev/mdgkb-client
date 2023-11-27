@@ -11,9 +11,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FormStatus from '@/classes/FormStatus';
 import VacancyResponse from '@/classes/VacancyResponse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -59,7 +59,7 @@ export default defineComponent({
       next ? next() : await router.go(-1);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

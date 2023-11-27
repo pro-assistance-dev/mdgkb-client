@@ -5,24 +5,17 @@ import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
 import Question from '@/classes/Question';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import IChild from '@/interfaces/IChild';
-import IDonorRule from '@/interfaces/IDonorRule';
-import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
-import IQuestion from '@/interfaces/IQuestion';
+import VacancyResponse from '@/classes/VacancyResponse';
 import IOption from '@/interfaces/schema/IOption';
 import Human from '@/services/classes/Human';
 import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';
-import IUser from '@/services/interfaces/IUser';
 
-import Form from './Form';
-import VacancyResponse from './VacancyResponse';
-
-export default class User implements IUser {
+export default class User {
   id?: string;
   email = '';
   password?: string = '';
@@ -33,14 +26,14 @@ export default class User implements IUser {
   roleId?: string;
   rejectEmail = false;
   @ClassHelper.GetClassConstructor(Question)
-  questions: IQuestion[] = [];
+  questions: Question[] = [];
   // @ClassHelper.GetClassConstructor(Comment)
   // comments: Comment[] = [];
   @ClassHelper.GetClassConstructor(Child)
-  children: IChild[] = [];
+  children: Child[] = [];
   childrenForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(DonorRuleUser)
-  donorRulesUsers: IDonorRuleUser[] = [];
+  donorRulesUsers: DonorRuleUser[] = [];
   @ClassHelper.GetClassConstructor(DoctorUser)
   doctorsUsers: DoctorUser[] = [];
   @ClassHelper.GetClassConstructor(DpoApplication)
@@ -50,7 +43,7 @@ export default class User implements IUser {
   // postgraduateApplications: PostgraduateApplication[] = [];
   postgraduateApplicationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(CandidateApplication)
-  candidateApplications: ICandidateApplication[] = [];
+  candidateApplications: CandidateApplication[] = [];
   candidateApplicationsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(VacancyResponse)
   vacancyResponses: VacancyResponse[] = [];
@@ -62,22 +55,22 @@ export default class User implements IUser {
 
   @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
-  //
   fullName = '';
+
   constructor(i?: User) {
     ClassHelper.BuildClass(this, i);
   }
 
   hasNewAnswers(): boolean {
-    return this.questions.some((question: IQuestion) => question.hasNewAnswer());
+    return this.questions.some((question: Question) => question.hasNewAnswer());
   }
 
   countNewAnswers(): number {
-    return this.questions.filter((question: IQuestion) => question.hasNewAnswer()).length;
+    return this.questions.filter((question: Question) => question.hasNewAnswer()).length;
   }
 
   readAllAnswers(): void {
-    this.questions.forEach((question: IQuestion) => (question.answerIsRead = true));
+    this.questions.forEach((question: Question) => (question.answerIsRead = true));
   }
 
   addChild(): void {
@@ -92,12 +85,12 @@ export default class User implements IUser {
     this.children.splice(index, 1);
   }
 
-  getDonorRules(): IDonorRule[] {
-    return this.donorRulesUsers.map((item: IDonorRuleUser) => new DonorRule(item.donorRule));
+  getDonorRules(): DonorRule[] {
+    return this.donorRulesUsers.map((item: DonorRuleUser) => new DonorRule(item.donorRule));
   }
 
   removeDonorRule(ruleId: string): void {
-    const index = this.donorRulesUsers.findIndex((item: IDonorRuleUser) => item.donorRuleId === ruleId);
+    const index = this.donorRulesUsers.findIndex((item: DonorRuleUser) => item.donorRuleId === ruleId);
     if (index > -1) {
       this.donorRulesUsers.splice(index, 1);
     }
@@ -139,8 +132,8 @@ export default class User implements IUser {
     this.dpoApplications.splice(index, 1);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(this.human.photo);
     return fileInfos;
   }

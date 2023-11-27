@@ -28,8 +28,8 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
-import IForm from '@/interfaces/IForm';
-import IGate from '@/interfaces/IGate';
+import Form from '@/classes/Form';
+import Gate from '@/classes/Gate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -37,8 +37,8 @@ export default defineComponent({
   name: 'AdminGatesList',
 
   setup() {
-    const gates: ComputedRef<IGate[]> = computed(() => Provider.store.getters['gates/items']);
-    const formPatterns: ComputedRef<IForm[]> = computed(() => Provider.store.getters['formPatterns/items']);
+    const gates: ComputedRef<Gate[]> = computed(() => Provider.store.getters['gates/items']);
+    const formPatterns: ComputedRef<Form[]> = computed(() => Provider.store.getters['formPatterns/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 

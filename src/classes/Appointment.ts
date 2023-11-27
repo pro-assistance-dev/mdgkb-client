@@ -1,24 +1,27 @@
+import AppointmentType from '@/classes/AppointmentType';
 import Doctor from '@/classes/Doctor';
 import Form from '@/classes/Form';
-import IAppointment from '@/interfaces/IAppointment';
-import IAppointmentType from '@/interfaces/IAppointmentType';
-import ISpecialization from '@/interfaces/ISpecialization';
+import Specialization from '@/classes/Specialization';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class Appointment implements IAppointment {
+export default class Appointment {
   id?: string;
   date = new Date();
   time = '9:00';
-  specialization?: ISpecialization;
+  @ClassHelper.GetClassConstructor(Specialization)
+  specialization?: Specialization;
   specializationId?: string;
   doctorId?: string;
+  @ClassHelper.GetClassConstructor(Doctor)
   doctor?: Doctor;
   formValue: Form = new Form();
   formValueId?: string;
 
-  appointmentType?: IAppointmentType;
+  @ClassHelper.GetClassConstructor(AppointmentType)
+  appointmentType?: AppointmentType;
   appointmentTypeId?: string;
-  constructor(i?: IAppointment) {
+
+  constructor(i?: Appointment) {
     ClassHelper.BuildClass(this, i);
   }
 }

@@ -1,5 +1,5 @@
-import IWeekday from '@/interfaces/timetables/IWeekday';
+import Weekday from '@/classes/Weekday';
 
 export interface State {
-  weekdays: IWeekday[];
+  weekdays: Weekday[];
 }

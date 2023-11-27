@@ -1,6 +1,5 @@
-import IUserFormFields from '@/interfaces/IUserFormFields';
-
-export default class UserFormFields implements IUserFormFields {
+import ClassHelper from '@/services/ClassHelper';
+export default class UserFormFields {
   userEmail = true;
   userSurname = false;
   userName = false;
@@ -23,61 +22,11 @@ export default class UserFormFields implements IUserFormFields {
   childIsMale = false;
   childCitizenship = false;
 
-  constructor(i?: IUserFormFields) {
-    if (!i) {
-      return;
-    }
-    if (i.userEmail !== undefined) {
-      this.userEmail = i.userEmail;
-    }
-    if (i.userSurname !== undefined) {
-      this.userSurname = i.userSurname;
-    }
-    if (i.userName !== undefined) {
-      this.userName = i.userName;
-    }
-    if (i.userPatronymic !== undefined) {
-      this.userPatronymic = i.userPatronymic;
-    }
-    if (i.userSnils !== undefined) {
-      this.userSnils = i.userSnils;
-    }
-    if (i.userDateBirth !== undefined) {
-      this.userDateBirth = i.userDateBirth;
-    }
-    if (i.userIsMale !== undefined) {
-      this.userIsMale = i.userIsMale;
-    }
-    if (i.userPhone !== undefined) {
-      this.userPhone = i.userPhone;
-    }
-    if (i.userCarNumber !== undefined) {
-      this.userCarNumber = i.userCarNumber;
-    }
-    if (i.userCarModel !== undefined) {
-      this.userCarModel = i.userCarModel;
-    }
-    if (i.childSurname !== undefined) {
-      this.childSurname = i.childSurname;
-    }
-    if (i.childName !== undefined) {
-      this.childName = i.childName;
-    }
-    if (i.childPatronymic !== undefined) {
-      this.childPatronymic = i.childPatronymic;
-    }
-    if (i.childDateBirth !== undefined) {
-      this.childDateBirth = i.childDateBirth;
-    }
-    if (i.childIsMale !== undefined) {
-      this.childIsMale = i.childIsMale;
-    }
-    if (i.childCitizenship !== undefined) {
-      this.childCitizenship = i.childCitizenship;
-    }
+  constructor(i?: UserFormFields) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  static CreateWithAllChildFields(form?: IUserFormFields): IUserFormFields {
+  static CreateWithAllChildFields(form?: UserFormFields): UserFormFields {
     const newForm = new UserFormFields(form);
     newForm.childSurname = true;
     newForm.childName = true;
@@ -88,7 +37,7 @@ export default class UserFormFields implements IUserFormFields {
     return newForm;
   }
 
-  static CreateWithAllUserFields(form?: IUserFormFields): IUserFormFields {
+  static CreateWithAllUserFields(form?: UserFormFields): UserFormFields {
     const newForm = new UserFormFields(form);
     newForm.userSurname = true;
     newForm.userName = true;
@@ -104,7 +53,7 @@ export default class UserFormFields implements IUserFormFields {
     return newForm;
   }
 
-  static CreateWithFullName(form?: IUserFormFields): IUserFormFields {
+  static CreateWithFullName(form?: UserFormFields): UserFormFields {
     const newForm = new UserFormFields(form);
     newForm.userSurname = true;
     newForm.userName = true;
@@ -112,13 +61,13 @@ export default class UserFormFields implements IUserFormFields {
     return newForm;
   }
 
-  static CreateWithPhone(form?: IUserFormFields): IUserFormFields {
+  static CreateWithPhone(form?: UserFormFields): UserFormFields {
     const newForm = new UserFormFields(form);
     newForm.userPhone = true;
     return newForm;
   }
 
-  setUserEmail(value: boolean): IUserFormFields {
+  setUserEmail(value: boolean): UserFormFields {
     this.userEmail = value;
     return this;
   }

@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IPointsAchievement from '@/interfaces/IPointsAchievement';
+import PointsAchievement from '@/classes/PointsAchievement';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -11,14 +11,14 @@ const httpClient = new HttpClient('points-achievements');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-    commit('setAll', await httpClient.get<IPointsAchievement[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
+    commit('setAll', await httpClient.get<PointsAchievement[]>({ query: filterQuery ? filterQuery.toUrl() : '' }));
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IPointsAchievement[]>({ query: `${id}` });
+    const res = await httpClient.get<PointsAchievement[]>({ query: `${id}` });
     commit('set', res);
   },
   // create: async ({ state }): Promise<void> => {
-  //   await httpClient.post<IPointsAchievement, IPointsAchievement>({
+  //   await httpClient.post<PointsAchievement, PointsAchievement>({
   //     payload: state.item,
   //     isFormData: true,
   //     fileInfos: state.item.getFileInfos(),
@@ -26,7 +26,7 @@ const actions: ActionTree<State, RootState> = {
   //   TokenService.updateHuman(new Human(state.item.formValue.user.human));
   // },
   // update: async ({ state, commit }): Promise<void> => {
-  //   const res = await httpClient.put<IPointsAchievement, IPointsAchievement>({
+  //   const res = await httpClient.put<PointsAchievement, PointsAchievement>({
   //     query: `${state.item.id}`,
   //     payload: state.item,
   //     isFormData: true,
@@ -39,7 +39,7 @@ const actions: ActionTree<State, RootState> = {
   //   commit('remove', id);
   // },
   // updateMany: async ({ state }): Promise<void> => {
-  //   await httpClient.put<IPointsAchievement[], IPointsAchievement[]>({ query: 'many', payload: state.items });
+  //   await httpClient.put<PointsAchievement[], PointsAchievement[]>({ query: 'many', payload: state.items });
   // },
 };
 

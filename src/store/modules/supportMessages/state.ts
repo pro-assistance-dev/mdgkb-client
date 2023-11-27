@@ -1,9 +1,9 @@
-import ISupportMessage from '@/interfaces/ISupportMessage';
+import SupportMessage from '@/classes/SupportMessage';
 
 export interface State {
-  items: ISupportMessage[];
-  item: ISupportMessage;
+  items: SupportMessage[];
+  item: SupportMessage;
   count: number;
-  question: ISupportMessage;
+  question: SupportMessage;
   allLoaded: boolean;
 }

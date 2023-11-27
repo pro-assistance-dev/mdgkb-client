@@ -188,15 +188,15 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } fro
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Form from '@/classes/Form';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
+import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IForm from '@/interfaces/IForm';
-import ISpecialization from '@/interfaces/ISpecialization';
 import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PageSection from '@/services/classes/page/PageSection';
@@ -225,9 +225,9 @@ export default defineComponent({
     const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
+    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
     const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => store.getters['teachers/item']);
-    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
     const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 

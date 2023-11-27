@@ -23,10 +23,10 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Comment from '@/classes/Comment';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import ReviewCard from '@/components/Main/ReviewCard.vue';
-import IComment from '@/interfaces/comments/IComment';
 
 export default defineComponent({
   name: 'MainReviews',
@@ -36,10 +36,10 @@ export default defineComponent({
     const store = useStore();
     const showDialog: Ref<boolean> = ref(false);
     const mounted = ref(false);
-    const reviews: ComputedRef<IComment[]> = computed(() => store.getters['comments/comments']);
-    const dialogComment: Ref<IComment | undefined> = ref();
+    const reviews: ComputedRef<Comment[]> = computed(() => store.getters['comments/comments']);
+    const dialogComment: Ref<Comment | undefined> = ref();
 
-    const showMore = (item: IComment) => {
+    const showMore = (item: Comment) => {
       dialogComment.value = item;
       showDialog.value = true;
     };

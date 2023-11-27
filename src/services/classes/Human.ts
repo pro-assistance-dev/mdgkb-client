@@ -1,5 +1,4 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 import StringsService from '@/services/Strings';
@@ -15,9 +14,9 @@ export default class Human {
   carModel = '';
   snils = '';
   photoId?: string;
-  photo: IFileInfo = new FileInfo();
+  photo: FileInfo = new FileInfo();
   photoMiniId?: string;
-  photoMini: IFileInfo = new FileInfo();
+  photoMini: FileInfo = new FileInfo();
   isMale = true;
   dateBirth = new Date();
   @ClassHelper.GetClassConstructor(ContactInfo)
@@ -61,8 +60,8 @@ export default class Human {
     this.capitalizeName();
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(this.photo);
     fileInfos.push(this.photoMini);
     return fileInfos;

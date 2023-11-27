@@ -1,7 +1,7 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 
 export default interface IFiler {
   id?: string;
-  fileInfo: IFileInfo;
+  fileInfo: FileInfo;
   order: number;
 }

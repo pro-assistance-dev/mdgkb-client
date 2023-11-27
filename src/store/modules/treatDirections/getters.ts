@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import ITreatDirection from '@/interfaces/ITreatDirection';
+import TreatDirection from '@/classes/TreatDirection';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): ITreatDirection[] {
-    return state.items;
-  },
-  item(state): ITreatDirection {
-    return state.item;
-  },
+  ...getBaseGetters<TreatDirection, State>(),
 };
 
 export default getters;

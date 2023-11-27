@@ -10,12 +10,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IQuestion from '@/interfaces/IQuestion';
+import Question from '@/classes/Question';
+
 export default defineComponent({
   name: 'AdminQuestionStatus',
   props: {
     question: {
-      type: Object as PropType<IQuestion>,
+      type: Object as PropType<Question>,
       required: true,
     },
   },

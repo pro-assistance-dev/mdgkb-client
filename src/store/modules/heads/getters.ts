@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import Head from '@/classes/Head';
-import Timetable from '@/classes/timetable/Timetable';
+import Timetable from '@/classes/Timetable';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

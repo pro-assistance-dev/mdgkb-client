@@ -1,28 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import Specialization from '@/classes/Specialization';
-import ISpecialization from '@/interfaces/ISpecialization';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: ISpecialization[]) {
-    state.items = items.map((i: ISpecialization) => new Specialization(i));
-  },
-  appendToAll(state, items: ISpecialization[]) {
-    const itemsForAdding = items.map((i: ISpecialization) => new Specialization(i));
-    state.items.push(...itemsForAdding);
-  },
-  set(state, item: ISpecialization) {
-    state.item = new Specialization(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: ISpecialization) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  resetItem(state) {
-    state.item = new Specialization();
-  },
+  ...getBaseMutations<Specialization, State>(Specialization),
 };
 
 export default mutations;

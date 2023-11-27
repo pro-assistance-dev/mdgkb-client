@@ -15,7 +15,7 @@
 import { Calendar, PopoverRow } from 'v-calendar';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';

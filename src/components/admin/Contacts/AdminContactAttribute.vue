@@ -37,8 +37,8 @@
 import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
+import SideOrganization from '@/classes/SideOrganization';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 import Email from '@/services/classes/Email';
 import EmailRules from '@/services/classes/EmailRules';
 import PostAddress from '@/services/classes/PostAddress';
@@ -63,11 +63,11 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
 
-    const sideOrganization: WritableComputedRef<ISideOrganization> = computed({
-      get(): ISideOrganization {
-        return store.getters['sideOrganizations/sideOrganization'];
+    const sideOrganization: WritableComputedRef<SideOrganization> = computed({
+      get(): SideOrganization {
+        return store.getters['sideOrganizations/item'];
       },
-      set(organization: ISideOrganization): void {
+      set(organization: SideOrganization): void {
         store.commit('sideOrganizations/set', organization);
       },
     });

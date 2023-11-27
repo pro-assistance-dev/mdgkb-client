@@ -54,7 +54,7 @@ export default defineComponent({
 
     const load = async () => {
       Provider.store.commit('filter/setStoreModule', 'appointments');
-      await Provider.store.dispatch('appointments/getAll', Provider.store.getters['filter/filterQuery']);
+      await Provider.store.dispatch('appointments/getAll', { filterQuery: Provider.store.getters['filter/filterQuery'] });
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Записи к врачу',
         buttons: [{ text: 'Добавить запись', type: 'primary', action: create }],

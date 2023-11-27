@@ -79,7 +79,7 @@ export default defineComponent({
     const curStepThreeAgree: Ref<boolean> = ref(false);
 
     Hooks.onBeforeMount(async () => {
-      await Provider.store.dispatch('preparations/getAllWithCount');
+      await Provider.store.dispatch('preparations/getAll');
     });
 
     const toStepTwo = (selectedPreparation: Preparation): void => {

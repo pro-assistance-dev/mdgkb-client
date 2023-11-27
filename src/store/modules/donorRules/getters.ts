@@ -1,16 +1,16 @@
 import { GetterTree } from 'vuex';
 
-import IDonorRule from '@/interfaces/IDonorRule';
-import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
+import DonorRule from '@/classes/DonorRule';
+import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IDonorRulesWithDeleted {
+  items(state): DonorRulesWithDeleted {
     return state.items;
   },
-  donorRules(state): IDonorRule[] {
+  donorRules(state): DonorRule[] {
     return state.items.donorRules;
   },
 };

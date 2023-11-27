@@ -23,9 +23,9 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Hospitalization from '@/classes/Hospitalization';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IHospitalization from '@/interfaces/IHospitalization';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -41,7 +41,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref(DoctorRules);
     const isEditMode: Ref<boolean> = ref(false);
-    const hospitalization: Ref<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const hospitalization: Ref<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {

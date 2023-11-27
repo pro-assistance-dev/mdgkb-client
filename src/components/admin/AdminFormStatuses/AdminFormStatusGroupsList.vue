@@ -31,9 +31,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import AdminFormStatusGroupDialog from '@/components/admin/AdminFormStatuses/AdminFormStatusGroupDialog.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
@@ -43,8 +43,8 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, AdminFormStatusGroupDialog },
 
   setup() {
-    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
-    const formStatusGroup: ComputedRef<IFormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
+    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
+    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
     const mounted: Ref<boolean> = ref(false);
 
     const load = async () => {

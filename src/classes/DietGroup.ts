@@ -1,20 +1,12 @@
 import Diet from '@/classes/Diet';
-import IDiet from '@/interfaces/IDiet';
-import IDietGroup from '@/interfaces/IDietGroup';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DietGroup implements IDietGroup {
+export default class DietGroup {
   id?: string;
   name = '';
-  diets: IDiet[] = [];
+  diets: Diet[] = [];
 
-  constructor(i?: IDietGroup) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    if (i.diets) {
-      this.diets = i.diets.map((item: IDiet) => new Diet(item));
-    }
+  constructor(i?: DietGroup) {
+    ClassHelper.BuildClass(this, i);
   }
 }

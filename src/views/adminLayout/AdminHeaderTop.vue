@@ -37,8 +37,8 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'AdminHeaderTop',
@@ -49,7 +49,7 @@ export default defineComponent({
     const router = useRouter();
     const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
     const openDrawer = () => store.commit('admin/openDrawer');
-    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
     const logout = async () => {
       await store.dispatch('auth/logout');
       await router.push('/');

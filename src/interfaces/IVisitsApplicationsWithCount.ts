@@ -1,6 +1,6 @@
-import IVisitsApplication from './IVisitsApplication';
+import VisitsApplication from '@/classes/VisitsApplication';
 
 export default interface IVisitsApplicationsWithCount {
-  visitsApplications: IVisitsApplication[];
+  visitsApplications: VisitsApplication[];
   count: number;
 }

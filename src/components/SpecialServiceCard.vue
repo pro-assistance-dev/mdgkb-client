@@ -15,14 +15,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import ISpecialService from '@/interfaces/ISpecialService';
+import SpecialService from '@/classes/SpecialService';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SpecialServiceCard',
   props: {
     item: {
-      type: Object as PropType<ISpecialService>,
+      type: Object as PropType<SpecialService>,
       required: true,
     },
   },

@@ -2,24 +2,12 @@ import { MutationTree } from 'vuex';
 
 import Project from '@/classes/Project';
 import ProjectItem from '@/classes/ProjectItem';
-import IProject from '@/interfaces/projects/IProject';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IProject[]) {
-    state.items = items.map((i: IProject) => new Project(i));
-  },
-  set(state, item: IProject) {
-    state.item = new Project(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IProject) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  resetItem(state) {
-    state.item = new Project();
-  },
+  ...getBaseMutations<Project, State>(Project),
   addProjectItem(state) {
     state.item.projectItems.push(ProjectItem.NewTab());
   },

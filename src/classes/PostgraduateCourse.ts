@@ -1,18 +1,14 @@
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
 import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecialization';
 import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IForm from '@/interfaces/IForm';
-import ISpecialization from '@/interfaces/ISpecialization';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
-
-import Form from './Form';
 
 export default class PostgraduateCourse {
   id?: string;
@@ -32,15 +28,15 @@ export default class PostgraduateCourse {
   @ClassHelper.GetClassConstructor(PostgraduateCourseDates)
   postgraduateCoursesDates: PostgraduateCourseDates[] = [];
   postgraduateCoursesDatesForDelete: string[] = [];
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
-  questionsFile: IFileInfo = new FileInfo();
+  questionsFile: FileInfo = new FileInfo();
   questionsFileId?: string;
-  programFile: IFileInfo = new FileInfo();
+  programFile: FileInfo = new FileInfo();
   programFileId?: string;
-  calendar: IFileInfo = new FileInfo();
+  calendar: FileInfo = new FileInfo();
   calendarId?: string;
-  annotation: IFileInfo = new FileInfo();
+  annotation: FileInfo = new FileInfo();
   annotationId?: string;
 
   postgraduateCoursePlans: PostgraduateCoursePlan[] = [];
@@ -81,7 +77,7 @@ export default class PostgraduateCourse {
     this.postgraduateCoursesDates.push(new PostgraduateCourseDates());
   }
 
-  addSpecialization(specialization: ISpecialization): void {
+  addSpecialization(specialization: Specialization): void {
     const index = this.postgraduateCoursesSpecializations.findIndex(
       (i: PostgraduateCourseSpecialization) => i.specializationId === specialization.id
     );
@@ -108,8 +104,8 @@ export default class PostgraduateCourse {
     });
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     if (this.questionsFile) {
       fileInfos.push(this.questionsFile);
     }
@@ -135,7 +131,7 @@ export default class PostgraduateCourse {
     this.postgraduateCoursePlans.push(new PostgraduateCoursePlan());
   }
 
-  getMainSpecialization(): ISpecialization {
+  getMainSpecialization(): Specialization {
     const spec = this.postgraduateCoursesSpecializations.find((s: PostgraduateCourseSpecialization) => s.main);
     if (spec) {
       return spec.specialization;

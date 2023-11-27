@@ -1,7 +1,7 @@
 import Comment from '@/classes/Comment';
 import DivisionComment from '@/classes/DivisionComment';
 import DoctorComment from '@/classes/DoctorComment';
-import NewsComment from '@/classes/news/NewsComment';
+import NewsComment from '@/classes/NewsComment';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';

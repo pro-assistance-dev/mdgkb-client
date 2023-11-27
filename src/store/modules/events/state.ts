@@ -1,6 +1,6 @@
-import IEvent from '@/interfaces/news/IEvent';
+import Event from '@/classes/Event';
 
 export interface State {
-  event: IEvent;
-  items: IEvent[];
+  event: Event;
+  items: Event[];
 }

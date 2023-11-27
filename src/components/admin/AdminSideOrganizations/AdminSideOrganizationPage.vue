@@ -48,7 +48,6 @@ import { useStore } from 'vuex';
 import SideOrganization from '@/classes/SideOrganization';
 import SideOrganizationRules from '@/classes/SideOrganizationRules';
 import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -62,11 +61,11 @@ export default defineComponent({
     const isEdit = ref(false);
     const form = ref();
     const rules = ref(SideOrganizationRules);
-    const sideOrganization: WritableComputedRef<ISideOrganization> = computed({
-      get(): ISideOrganization {
-        return store.getters['sideOrganizations/sideOrganization'];
+    const sideOrganization: WritableComputedRef<SideOrganization> = computed({
+      get(): SideOrganization {
+        return store.getters['sideOrganizations/item'];
       },
-      set(organization: ISideOrganization): void {
+      set(organization: SideOrganization): void {
         store.commit('sideOrganizations/set', organization);
       },
     });

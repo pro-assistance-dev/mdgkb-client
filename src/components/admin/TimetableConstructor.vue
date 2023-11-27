@@ -90,8 +90,7 @@
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Timetable from '@/classes/timetable/Timetable';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
 export default defineComponent({
   name: 'TimetableConstructor',
   props: {
@@ -104,7 +103,7 @@ export default defineComponent({
   setup(props) {
     const store = useStore();
     const weekdays = computed(() => store.getters['timetables/weekdays']);
-    const timetable: Ref<ITimetable> = computed<ITimetable>(() => store.getters[`${props.storeModule}/timetable`]);
+    const timetable: Ref<Timetable> = computed<Timetable>(() => store.getters[`${props.storeModule}/timetable`]);
 
     onBeforeMount(async () => {
       await store.dispatch('timetables/getAllWeekdays');

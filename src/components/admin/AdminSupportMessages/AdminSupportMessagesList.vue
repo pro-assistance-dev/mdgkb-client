@@ -43,11 +43,11 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
+import SupportMessage from '@/classes/SupportMessage';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
-import ISupportMessage from '@/interfaces/ISupportMessage';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -62,7 +62,7 @@ export default defineComponent({
   name: 'AdminSupportMessagesList',
   components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper, Pagination },
   setup() {
-    const supportMessages: Ref<ISupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
+    const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -115,7 +115,7 @@ export default defineComponent({
       sourceSSE?.close();
     });
 
-    const changeNewStatus = async (question: ISupportMessage) => {
+    const changeNewStatus = async (question: SupportMessage) => {
       question.changeNewStatus();
       await Provider.store.dispatch('supportMessages/changeNewStatus', question);
     };

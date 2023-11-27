@@ -1,6 +1,6 @@
-import ISupportMessage from '@/interfaces/ISupportMessage';
+import SupportMessage from '@/classes/SupportMessage';
 
 export default interface ISupportMessagesWithCount {
-  supportMessages: ISupportMessage[];
+  supportMessages: SupportMessage[];
   count: number;
 }

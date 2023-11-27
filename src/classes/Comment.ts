@@ -1,10 +1,10 @@
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import User from '@/classes/User';
-import IComment from '@/interfaces/comments/IComment';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Comment implements IComment {
+export default class Comment {
   id?: string;
   userId?: string;
   text = '';
@@ -20,27 +20,16 @@ export default class Comment implements IComment {
   news?: News;
   doctor?: Doctor;
   division?: Division;
-  newsComment?: IComment;
-  doctorComment?: IComment;
-  divisionComment?: IComment;
+  newsComment?: Comment;
+  doctorComment?: Comment;
+  divisionComment?: Comment;
 
   user: User = new User();
 
-  constructor(comment?: IComment) {
+  constructor(comment?: Comment) {
+    ClassHelper.BuildClass(this, comment);
     if (!comment) {
       return;
-    }
-    this.id = comment.id;
-    this.userId = comment.userId;
-    this.text = comment.text;
-    this.publishedOn = comment.publishedOn;
-    this.isEditing = comment.isEditing;
-    this.rating = comment.rating;
-    this.modChecked = comment.modChecked;
-    this.answer = comment.answer;
-    this.positive = comment.positive;
-    if (comment.user) {
-      this.user = new User(comment.user);
     }
     if (comment.newsComment && comment.newsComment.news) {
       this.news = new News(comment.newsComment.news);

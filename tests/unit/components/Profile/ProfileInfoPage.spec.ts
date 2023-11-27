@@ -38,7 +38,7 @@ describe('ProfileInfoPage.vue', () => {
   //           },
   //         },
   //         mutations: {
-  //           set(state, item: IUser) {
+  //           set(state, item: User) {
   //             state.item = new User(item);
   //           },
   //         },

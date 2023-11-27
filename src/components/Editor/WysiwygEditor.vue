@@ -1,7 +1,7 @@
 <template>
   <div v-if="editor" class="editor">
     <menu-bar class="editor__header" :editor="editor" />
-    <editor-content :editor="editor" class="scroll" :style="{ height: height }" />
+    <editor-content :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
   </div>
 </template>
@@ -57,6 +57,10 @@ export default defineComponent({
     height: {
       type: String,
       default: 'auto',
+    },
+    maxHeight: {
+      type: String,
+      default: '700px',
     },
     // limit: {
     //   type: Number,

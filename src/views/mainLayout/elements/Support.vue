@@ -99,8 +99,8 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
+import SupportMessage from '@/classes/SupportMessage';
 import User from '@/classes/User';
-import ISupportMessage from '@/interfaces/ISupportMessage';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -108,7 +108,7 @@ export default defineComponent({
   emits: ['changeDrawerStatus'],
   setup(prop, { emit }) {
     const activePath: Ref<string> = ref('');
-    const supportMessage: ComputedRef<ISupportMessage> = computed<ISupportMessage>(() => Provider.store.getters['supportMessages/item']);
+    const supportMessage: ComputedRef<SupportMessage> = computed<SupportMessage>(() => Provider.store.getters['supportMessages/item']);
 
     const isDrawerOpen: Ref<boolean> = ref(false);
 

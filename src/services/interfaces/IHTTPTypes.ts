@@ -1,4 +1,4 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 
 export interface IBodilessParams {
   query?: string;
@@ -14,5 +14,5 @@ export interface IBodyfulParams<PayloadType> {
   downloadFileName?: string;
   headers?: Headers;
   isFormData?: boolean;
-  fileInfos?: IFileInfo[];
+  fileInfos?: FileInfo[];
 }

@@ -94,9 +94,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
 
+import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import UserRules from '@/rules/UserRules';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -105,7 +105,7 @@ export default defineComponent({
   components: { HumanForm },
   setup() {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
+    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
     const rules = ref(UserRules);
     const form = ref();
 

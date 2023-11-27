@@ -1,9 +1,9 @@
 import { GetterTree } from 'vuex';
 
 import Division from '@/classes/Division';
-import IDivisionComment from '@/interfaces/IDivisionComment';
-import ISchedule from '@/interfaces/timetables/ISchedule';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import DivisionComment from '@/classes/DivisionComment';
+import Schedule from '@/classes/Schedule';
+import Timetable from '@/classes/Timetable';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
@@ -11,16 +11,16 @@ import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
   ...getBaseGetters(),
-  timetable(state): ITimetable | undefined {
+  timetable(state): Timetable | undefined {
     if (state.item) return state.item.timetable;
   },
-  schedule(state): ISchedule | undefined {
+  schedule(state): Schedule | undefined {
     if (state.item) return state.item.schedule;
   },
-  comment(state): IDivisionComment {
+  comment(state): DivisionComment {
     return state.comment;
   },
-  comments(state): IDivisionComment[] {
+  comments(state): DivisionComment[] {
     return state.item.divisionComments;
   },
   divisionById(state): (id: string) => Division | undefined {

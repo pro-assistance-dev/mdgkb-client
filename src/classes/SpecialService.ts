@@ -1,25 +1,15 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import ISpecialService from '@/interfaces/ISpecialService';
+import FileInfo from '@/classes/FileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
-import FileInfo from './File/FileInfo';
-
-export default class SpecialService implements ISpecialService {
+export default class SpecialService {
   id?: string;
   title = '';
   content = '';
+  link = '';
   fileInfoId?: string;
-  fileInfo: IFileInfo = new FileInfo();
+  fileInfo: FileInfo = new FileInfo();
 
-  constructor(specialService?: ISpecialService) {
-    if (!specialService) {
-      return;
-    }
-    this.id = specialService.id;
-    this.title = specialService.title;
-    this.content = specialService.content;
-    this.fileInfoId = specialService.fileInfoId;
-    if (specialService.fileInfo) {
-      this.fileInfo = new FileInfo(specialService.fileInfo);
-    }
+  constructor(i?: SpecialService) {
+    ClassHelper.BuildClass(this, i);
   }
 }

@@ -20,7 +20,7 @@
 import { EyeOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import NewsLikes from '@/components/News/NewsLike.vue';
 
 export default defineComponent({

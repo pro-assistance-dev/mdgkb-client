@@ -27,11 +27,11 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
-import CommentRules from '@/classes/news/CommentRules';
+import CommentRules from '@/classes/CommentRules';
+import Event from '@/classes/Event';
+import EventApplication from '@/classes/EventApplication';
 import User from '@/classes/User';
 import DatePicker from '@/components/DatePicker.vue';
-import IEvent from '@/interfaces/news/IEvent';
-import IEventApplication from '@/interfaces/news/IEventApplication';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -39,8 +39,8 @@ export default defineComponent({
   components: { DatePicker },
   async setup(prop) {
     const store = useStore();
-    const event: Ref<IEvent> = computed(() => store.getters['news/item'].event);
-    const eventApplication: Ref<IEventApplication> = computed(() => store.getters['news/eventApplication']);
+    const event: Ref<Event> = computed(() => store.getters['news/item'].event);
+    const eventApplication: Ref<EventApplication> = computed(() => store.getters['news/eventApplication']);
     eventApplication.value.eventId = event.value.id;
     const form = ref();
     const rules = ref(CommentRules);

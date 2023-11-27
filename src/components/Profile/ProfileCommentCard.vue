@@ -42,21 +42,20 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Comment from '@/classes/Comment';
 import Question from '@/classes/Question';
 import Rating from '@/components/Rating.vue';
-import IComment from '@/interfaces/comments/IComment';
-import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'ProfileCommentCard',
   components: { Rating },
   props: {
     comment: {
-      type: Object as PropType<IComment>,
+      type: Object as PropType<Comment>,
       default: new Comment(),
     },
     question: {
-      type: Object as PropType<IQuestion>,
+      type: Object as PropType<Question>,
       default: new Question(),
     },
     isQuestion: {

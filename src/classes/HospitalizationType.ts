@@ -3,66 +3,31 @@ import HospitalizationToDocumentType from '@/classes/HospitalizationToDocumentTy
 import HospitalizationTypeAnalyze from '@/classes/HospitalizationTypeAnalyze';
 import HospitalizationTypeDocument from '@/classes/HospitalizationTypeDocument';
 import HospitalizationTypeStage from '@/classes/HospitalizationTypeStage';
-import IHospitalizationToDocumentType from '@/interfaces/IHospitalizationToDocumentType';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
-import IHospitalizationTypeAnalize from '@/interfaces/IHospitalizationTypeAnalize';
-import IHospitalizationTypeDocument from '@/interfaces/IHospitalizationTypeDocument';
-import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
 import { PolicyTypes } from '@/interfaces/PolicyTypes';
 import { ReferralTypes } from '@/interfaces/ReferralTypes';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class HospitalizationType implements IHospitalizationType {
+export default class HospitalizationType {
   id?: string;
   description = '';
-  hospitalizationsToDocumentTypes?: IHospitalizationToDocumentType[];
+  @ClassHelper.GetClassConstructor(HospitalizationToDocumentType)
+  hospitalizationsToDocumentTypes?: HospitalizationToDocumentType[];
   policyType: PolicyTypes = PolicyTypes.OMS;
   referralType: ReferralTypes = ReferralTypes.Moscow;
   stayType: StayTypes = StayTypes.AllDay;
   treatmentType: TreatmentTypes = TreatmentTypes.Conservative;
-  hospitalizationTypeAnalyzes: IHospitalizationTypeAnalize[] = [];
-  hospitalizationTypeDocuments: IHospitalizationTypeDocument[] = [];
-  hospitalizationTypeStages: IHospitalizationTypeStage[] = [];
+  @ClassHelper.GetClassConstructor(HospitalizationTypeAnalyze)
+  hospitalizationTypeAnalyzes: HospitalizationTypeAnalyze[] = [];
+  @ClassHelper.GetClassConstructor(HospitalizationTypeDocument)
+  hospitalizationTypeDocuments: HospitalizationTypeDocument[] = [];
+  @ClassHelper.GetClassConstructor(HospitalizationTypeStage)
+  hospitalizationTypeStages: HospitalizationTypeStage[] = [];
 
   formPattern: Form = new Form();
   formPatternId?: string;
   constructor(i?: HospitalizationType) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.description = i.description;
-    this.policyType = i.policyType;
-    this.referralType = i.referralType;
-    this.stayType = i.stayType;
-    this.treatmentType = i.treatmentType;
-    if (i.hospitalizationTypeStages) {
-      this.hospitalizationTypeStages = i.hospitalizationTypeStages.map(
-        (item: IHospitalizationTypeStage) => new HospitalizationTypeStage(item)
-      );
-    }
-    if (i.hospitalizationsToDocumentTypes) {
-      this.hospitalizationsToDocumentTypes = i.hospitalizationsToDocumentTypes.map((item: IHospitalizationToDocumentType) => {
-        return new HospitalizationToDocumentType(item);
-      });
-    }
-    // if (i.selectedHospitalisation) {
-    //   this.selectedHospitalisation = new Hospitalization(i.selectedHospitalisation);
-    // }
-    if (i.hospitalizationTypeAnalyzes) {
-      this.hospitalizationTypeAnalyzes = i.hospitalizationTypeAnalyzes.map((item: IHospitalizationTypeAnalize) => {
-        return new HospitalizationTypeAnalyze(item);
-      });
-    }
-    if (i.hospitalizationTypeDocuments) {
-      this.hospitalizationTypeDocuments = i.hospitalizationTypeDocuments.map((item: IHospitalizationTypeDocument) => {
-        return new HospitalizationTypeDocument(item);
-      });
-    }
-    if (i.formPattern) {
-      this.formPattern = new Form(i.formPattern);
-    }
-    this.formPatternId = i.formPatternId;
+    ClassHelper.BuildClass(this, i);
   }
 }

@@ -44,12 +44,12 @@ import { ElMessage } from 'element-plus';
 import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
+import Building from '@/classes/Building';
+import Entrance from '@/classes/Entrance';
+import Floor from '@/classes/Floor';
+import Gate from '@/classes/Gate';
 import MapPoint from '@/classes/MapPoint';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import IBuilding from '@/interfaces/IBuilding';
-import IEntrance from '@/interfaces/IEntrance';
-import IFloor from '@/interfaces/IFloor';
-import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
 import Provider from '@/services/Provider/Provider';
 
@@ -75,8 +75,8 @@ export default defineComponent({
   emits: ['close', 'selectObject'],
   setup(props, { emit }) {
     const entrances = computed(() => Provider.store.getters['entrances/items']);
-    const buildings = computed(() => Provider.store.getters['buildings/buildings']);
-    const gates: Ref<IGate[]> = computed(() => Provider.store.getters['gates/items']);
+    const buildings = computed(() => Provider.store.getters['buildings/items']);
+    const gates: Ref<Gate[]> = computed(() => Provider.store.getters['gates/items']);
 
     const selectItems: Ref<IMapObject[]> = ref([]);
     const selectAId: Ref<string> = ref('');
@@ -206,8 +206,8 @@ export default defineComponent({
 
     const updateSelectValue = (building: string, entrance: string) => {
       const res =
-        gates.value.find((el: IGate) => el.getBuildingNumber() === building && el.getEntranceNumber() === entrance) ||
-        entrances.value.find((el: IEntrance) => String(el.building?.number) === building && String(el.number) === entrance);
+        gates.value.find((el: Gate) => el.getBuildingNumber() === building && el.getEntranceNumber() === entrance) ||
+        entrances.value.find((el: Entrance) => String(el.building?.number) === building && String(el.number) === entrance);
       if (!res) {
         return;
       }
@@ -224,7 +224,7 @@ export default defineComponent({
         selectAId.value = props.preSelectedObject.id;
       }
       selectItems.value.push(...gates.value);
-      buildings.value.forEach((b: IBuilding) => b.floors.forEach((f: IFloor) => selectItems.value.push(...f.divisions)));
+      buildings.value.forEach((b: Building) => b.floors.forEach((f: Floor) => selectItems.value.push(...f.divisions)));
       selectItems.value.push(...entrances.value);
       const mapPointsRef = document.getElementById('map-points');
       if (!mapPointsRef) {

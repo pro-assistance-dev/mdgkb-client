@@ -40,8 +40,8 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Comment from '@/classes/Comment';
 import Rating from '@/components/Rating.vue';
-import IComment from '@/interfaces/comments/IComment';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -49,7 +49,7 @@ export default defineComponent({
   components: { Rating },
   props: {
     comment: {
-      type: Object as PropType<IComment>,
+      type: Object as PropType<Comment>,
       required: true,
     },
   },

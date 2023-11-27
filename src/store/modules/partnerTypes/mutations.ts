@@ -1,24 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import PartnerType from '@/classes/PartnerType';
-import IPartnerType from '@/interfaces/partners/IPartnerType';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IPartnerType[]) {
-    state.items = items.map((i: IPartnerType) => new PartnerType(i));
-  },
-  set(state, item: IPartnerType) {
-    state.item = new PartnerType(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IPartnerType) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  resetItem(state) {
-    state.item = new PartnerType();
-  },
+  ...getBaseMutations<PartnerType, State>(PartnerType),
 };
 
 export default mutations;

@@ -1,19 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IProject from '@/interfaces/projects/IProject';
-import IProjectItem from '@/interfaces/projects/IProjectItem';
+import Project from '@/classes/Project';
+import ProjectItem from '@/classes/ProjectItem';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IProject[] {
-    return state.items;
-  },
-  item(state): IProject {
-    return state.item;
-  },
-  projectItems(state): IProjectItem[] {
+  ...getBaseGetters<Project, State>(),
+  projectItems(state): ProjectItem[] {
     return state.item.projectItems;
   },
 };

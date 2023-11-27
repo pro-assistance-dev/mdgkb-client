@@ -89,13 +89,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IForm from '@/interfaces/IForm';
+import Form from '@/classes/Form';
 
 export default defineComponent({
   name: 'ApplicationCard',
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
   },

@@ -25,9 +25,9 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
+import Building from '@/classes/Building';
 import Division from '@/classes/Division';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import IBuilding from '@/interfaces/IBuilding';
 import ICoordinates from '@/services/interfaces/canvas/ICoordinates';
 import StringsService from '@/services/Strings';
 
@@ -38,7 +38,7 @@ export default defineComponent({
   },
   props: {
     building: {
-      type: Object as PropType<IBuilding>,
+      type: Object as PropType<Building>,
       required: true,
     },
     position: {

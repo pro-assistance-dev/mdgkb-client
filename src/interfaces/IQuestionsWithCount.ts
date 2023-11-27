@@ -1,6 +1,6 @@
-import IQuestion from '@/interfaces/IQuestion';
+import Question from '@/classes/Question';
 
 export default interface IQuestionsWithCount {
-  questions: IQuestion[];
+  questions: Question[];
   count: number;
 }

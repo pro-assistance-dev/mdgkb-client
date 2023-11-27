@@ -1,35 +1,13 @@
 import { ActionTree } from 'vuex';
 
-import ISpecialization from '@/interfaces/ISpecialization';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import HttpClient from '@/services/HttpClient';
+import Specialization from '@/classes/Specialization';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
-
-const httpClient = new HttpClient('specializations');
+import { State } from './index';
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit, state }, filterQuery?: FilterQuery): Promise<void> => {
-    const items = await httpClient.get<ISpecialization[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
-    commit('setAll', items);
-  },
-  get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<ISpecialization[]>({ query: `${id}` });
-    commit('set', res);
-  },
-  create: async ({ state, commit }): Promise<void> => {
-    await httpClient.post<ISpecialization, ISpecialization>({ payload: state.item, isFormData: true });
-    commit('resetItem');
-  },
-  update: async ({ commit }, item: ISpecialization): Promise<void> => {
-    const res = await httpClient.put<ISpecialization, ISpecialization>({ query: `${item.id}`, payload: item, isFormData: true });
-    commit('set', res);
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
+  ...getBaseActions<Specialization, State>('specializations'),
 };
 
 export default actions;

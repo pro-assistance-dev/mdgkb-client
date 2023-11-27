@@ -1,14 +1,14 @@
 import { LocationQuery } from 'vue-router';
 
+import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import IPagination from '@/services/interfaces/IPagination';
 
 export default interface IFilterQuery {
   id?: string;
   col: string;
   value: string;
-  filterModels: IFilterModel[];
+  filterModels: FilterModel[];
   pagination: IPagination;
   sortModels: SortModel[];
   withDeleted: boolean;

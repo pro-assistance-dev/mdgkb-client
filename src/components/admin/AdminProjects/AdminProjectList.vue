@@ -20,8 +20,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Project from '@/classes/Project';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IProject from '@/interfaces/projects/IProject';
 
 export default defineComponent({
   name: 'AdminProjectList',
@@ -30,7 +30,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const projects: ComputedRef<IProject[]> = computed(() => store.getters['projects/items']);
+    const projects: ComputedRef<Project[]> = computed(() => store.getters['projects/items']);
     const mounted: Ref<boolean> = ref(false);
 
     const edit = (id: string): void => {

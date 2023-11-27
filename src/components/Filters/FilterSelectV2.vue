@@ -11,14 +11,14 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
-import IFilterModel from '@/services/interfaces/IFilterModel';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FilterSelectV2',
   props: {
     filterModels: {
-      type: Array as PropType<IFilterModel[]>,
+      type: Array as PropType<FilterModel[]>,
       default: () => [],
       required: true,
     },
@@ -43,7 +43,7 @@ export default defineComponent({
         emit('load');
         return;
       }
-      const newFilter = props.filterModels.find((f: IFilterModel) => f.id === filterModelId);
+      const newFilter = props.filterModels.find((f: FilterModel) => f.id === filterModelId);
       if (newFilter && selectedModel.value) {
         Provider.replaceFilterModel(newFilter, prevModel.value);
         prevModel.value = newFilter.id;

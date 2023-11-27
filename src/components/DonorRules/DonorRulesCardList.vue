@@ -25,7 +25,6 @@ import { useStore } from 'vuex';
 
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleCard from '@/components/DonorRules/DonorRuleCard.vue';
-import IDonorRule from '@/interfaces/IDonorRule';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
@@ -33,7 +32,7 @@ export default defineComponent({
   components: { DonorRuleCard },
   props: {
     donorRules: {
-      type: Object as PropType<IDonorRule[]>,
+      type: Object as PropType<DonorRule[]>,
       required: true,
     },
   },
@@ -41,10 +40,10 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const currentRule: Ref<IDonorRule> = ref(new DonorRule());
+    const currentRule: Ref<DonorRule> = ref(new DonorRule());
     const visible: Ref<boolean> = ref(false);
 
-    const addToUser = async (rule: IDonorRule) => {
+    const addToUser = async (rule: DonorRule) => {
       const token = TokenService.getAccessToken();
       if (!token) {
         ElMessage({
@@ -56,7 +55,7 @@ export default defineComponent({
       rule.addFavourite(userId.value);
       await store.dispatch('donorRules/addToUser', rule.donorRulesUsers[0]);
     };
-    const removeFromUser = async (rule: IDonorRule) => {
+    const removeFromUser = async (rule: DonorRule) => {
       const token = TokenService.getAccessToken();
       if (!token) {
         ElMessage({
@@ -69,7 +68,7 @@ export default defineComponent({
       await store.dispatch('donorRules/deleteFromUser', rule.id);
     };
 
-    const showRule = (rule: IDonorRule) => {
+    const showRule = (rule: DonorRule) => {
       currentRule.value = rule;
       visible.value = !visible.value;
     };

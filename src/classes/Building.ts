@@ -1,8 +1,6 @@
 import Division from '@/classes/Division';
 import Entrance from '@/classes/Entrance';
 import Floor from '@/classes/Floor';
-import IBuilding from '@/interfaces/IBuilding';
-import IFloor from '@/interfaces/IFloor';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Building {
@@ -17,7 +15,7 @@ export default class Building {
   @ClassHelper.GetClassConstructor(Entrance)
   entrances: Entrance[] = [];
 
-  constructor(i?: IBuilding) {
+  constructor(i?: Building) {
     ClassHelper.BuildClass(this, i);
   }
 
@@ -27,7 +25,7 @@ export default class Building {
 
   findDivision(divisionId: string): Division | undefined {
     let indexOfDivision = -1;
-    const indexOfFloor = this.floors.findIndex((f: IFloor, floorIndex: number) => {
+    const indexOfFloor = this.floors.findIndex((f: Floor, floorIndex: number) => {
       const divIndex = f.divisions.findIndex((d: Division) => d.id === divisionId);
       if (divIndex && divIndex > -1) {
         indexOfDivision = divIndex;

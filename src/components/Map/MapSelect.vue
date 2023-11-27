@@ -50,10 +50,10 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
+import Building from '@/classes/Building';
 import Division from '@/classes/Division';
-import IBuilding from '@/interfaces/IBuilding';
-import IFloor from '@/interfaces/IFloor';
-import IGate from '@/interfaces/IGate';
+import Floor from '@/classes/Floor';
+import Gate from '@/classes/Gate';
 import IMapObject from '@/interfaces/IMapObject';
 import IOption from '@/interfaces/schema/IOption';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -71,8 +71,8 @@ export default defineComponent({
   },
   emits: ['openMapRouter', 'selectObject'],
   setup(_, { emit }) {
-    const buildings = computed(() => Provider.store.getters['buildings/buildings']);
-    const gates: Ref<IGate[]> = computed(() => Provider.store.getters['gates/items']);
+    const buildings = computed(() => Provider.store.getters['buildings/items']);
+    const gates: Ref<Gate[]> = computed(() => Provider.store.getters['gates/items']);
 
     const parkings: Ref<IOption[]> = ref([
       { value: '1', label: 'Парковка A' },
@@ -85,8 +85,8 @@ export default defineComponent({
     const mount = ref(false);
 
     const selectObject = (id: string) => {
-      buildings.value.forEach((b: IBuilding) => {
-        b.floors.forEach((f: IFloor) => {
+      buildings.value.forEach((b: Building) => {
+        b.floors.forEach((f: Floor) => {
           const obj = f.divisions.find((d: Division) => d.id === id);
           if (obj) {
             selectedObject.value = obj;
@@ -94,7 +94,7 @@ export default defineComponent({
         });
       });
       if (!selectedObject.value) {
-        selectedObject.value = gates.value.find((e: IGate) => e.id === id);
+        selectedObject.value = gates.value.find((e: Gate) => e.id === id);
       }
 
       emit('selectObject', selectedObject.value, true);

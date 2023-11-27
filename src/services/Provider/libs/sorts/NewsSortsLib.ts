@@ -1,4 +1,4 @@
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';

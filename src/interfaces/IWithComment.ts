@@ -1,5 +1,5 @@
-import IComment from './comments/IComment';
+import Comment from '@/classes/Comment';
 
 export default interface IWithComment {
-  comment: IComment;
+  comment: Comment;
 }

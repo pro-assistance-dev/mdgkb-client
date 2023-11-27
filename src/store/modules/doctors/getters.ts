@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import DoctorComment from '@/classes/DoctorComment';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
@@ -15,7 +15,7 @@ const getters: GetterTree<State, RootState> = {
   comments(state): DoctorComment[] {
     return state.item.doctorComments;
   },
-  timetable(state): ITimetable {
+  timetable(state): Timetable {
     return state.item.timetable;
   },
 };

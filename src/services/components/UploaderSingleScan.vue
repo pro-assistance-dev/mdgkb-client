@@ -38,8 +38,8 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FileInfo from '@/classes/FileInfo';
 import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import IFilesList from '@/interfaces/files/IFIlesList';
 import Cropper from '@/services/classes/Cropper';
 import ImageCropper from '@/services/components/ImageCropper.vue';
@@ -55,7 +55,7 @@ export default defineComponent({
       default: true,
     },
     fileInfo: {
-      type: Object as PropType<IFileInfo>,
+      type: Object as PropType<FileInfo>,
       required: true,
     },
     height: {

@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -23,8 +23,8 @@ export default class PageSideMenu {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     this.pageSections.forEach((i: PageSection) => {
       fileInfos.push(...i.getFileInfos());
     });

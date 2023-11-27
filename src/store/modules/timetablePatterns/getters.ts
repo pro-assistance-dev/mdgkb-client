@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): ITimetable[] {
-    return state.items;
-  },
-  item(state): ITimetable {
-    return state.item;
-  },
+  ...getBaseGetters<Timetable, State>(),
 };
 
 export default getters;

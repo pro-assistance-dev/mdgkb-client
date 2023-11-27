@@ -1,15 +1,14 @@
 import { MutationTree } from 'vuex';
 
 import PointsAchievement from '@/classes/PointsAchievement';
-import IPointsAchievement from '@/interfaces/IPointsAchievement';
 
 import { State } from './state';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IPointsAchievement[]) {
-    state.items = items.map((i: IPointsAchievement) => new PointsAchievement(i));
+  setAll(state, items: PointsAchievement[]) {
+    state.items = items.map((i: PointsAchievement) => new PointsAchievement(i));
   },
-  set(state, item: IPointsAchievement) {
+  set(state, item: PointsAchievement) {
     state.item = new PointsAchievement(item);
   },
 };

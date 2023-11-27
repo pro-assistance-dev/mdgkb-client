@@ -26,9 +26,8 @@ import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue
 import { useStore } from 'vuex';
 
 import DonorRule from '@/classes/DonorRule';
+import User from '@/classes/User';
 import DonorRuleCard from '@/components/DonorRules/DonorRuleCard.vue';
-import IDonorRule from '@/interfaces/IDonorRule';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileDonor',
@@ -38,11 +37,11 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
-    const donorRules: ComputedRef<IDonorRule[]> = computed(() => {
+    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
+    const donorRules: ComputedRef<DonorRule[]> = computed(() => {
       return user.value.getDonorRules();
     });
-    const currentRule: Ref<IDonorRule> = ref(new DonorRule());
+    const currentRule: Ref<DonorRule> = ref(new DonorRule());
     const visible: Ref<boolean> = ref(false);
 
     const loadUser = async () => {
@@ -55,7 +54,7 @@ export default defineComponent({
       await store.dispatch('donorRules/deleteFromUser', ruleId);
     };
 
-    const showRule = (rule: IDonorRule) => {
+    const showRule = (rule: DonorRule) => {
       currentRule.value = rule;
       visible.value = !visible.value;
     };

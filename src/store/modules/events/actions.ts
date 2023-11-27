@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
+import Event from '@/classes/Event';
+import EventApplication from '@/classes/EventApplication';
 import VacancyResponse from '@/classes/VacancyResponse';
-import IEvent from '@/interfaces/news/IEvent';
-import IEventApplication from '@/interfaces/news/IEventApplication';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -11,8 +11,8 @@ import { State } from './state';
 const httpClient = new HttpClient('events');
 
 const actions: ActionTree<State, RootState> = {
-  sendEventApplications: async (_, eventApplication: IEventApplication): Promise<void> => {
-    await httpClient.post<IEventApplication, IEventApplication>({ query: `application`, payload: eventApplication });
+  sendEventApplications: async (_, eventApplication: EventApplication): Promise<void> => {
+    await httpClient.post<EventApplication, EventApplication>({ query: `application`, payload: eventApplication });
   },
   eventApplicationsPdf: async (_, id: string): Promise<void> => {
     await httpClient.get<VacancyResponse>({
@@ -22,7 +22,7 @@ const actions: ActionTree<State, RootState> = {
     });
   },
   getAllMain: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IEvent[]>({ query: 'main' }));
+    commit('setAll', await httpClient.get<Event[]>({ query: 'main' }));
   },
 };
 

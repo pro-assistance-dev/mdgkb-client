@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import ISpecialization from '@/interfaces/ISpecialization';
+import Specialization from '@/classes/Specialization';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): ISpecialization[] {
-    return state.items;
-  },
-  item(state): ISpecialization {
-    return state.item;
-  },
+  ...getBaseGetters<Specialization, State>(),
 };
 
 export default getters;

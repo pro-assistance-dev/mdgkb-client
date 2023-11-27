@@ -1,20 +1,14 @@
 import DonorRule from '@/classes/DonorRule';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDonorRule from '@/interfaces/IDonorRule';
-import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
+import FileInfo from '@/classes/FileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DonorRulesWithDeleted implements IDonorRulesWithDeleted {
+export default class DonorRulesWithDeleted {
   id?: string;
-  donorRules: IDonorRule[] = [];
+  donorRules: DonorRule[] = [];
   donorRulesForDelete: string[] = [];
 
-  constructor(i?: IDonorRulesWithDeleted) {
-    if (!i) {
-      return;
-    }
-    if (i.donorRules) {
-      this.donorRules = i.donorRules.map((item: IDonorRule) => new DonorRule(item));
-    }
+  constructor(i?: DonorRulesWithDeleted) {
+    ClassHelper.BuildClass(this, i);
   }
 
   addDonorRule(): void {
@@ -29,9 +23,9 @@ export default class DonorRulesWithDeleted implements IDonorRulesWithDeleted {
     this.donorRules.splice(index, 1);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
-    this.donorRules.forEach((rule: IDonorRule) => fileInfos.push(...rule.getFileInfos()));
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
+    this.donorRules.forEach((rule: DonorRule) => fileInfos.push(...rule.getFileInfos()));
     return fileInfos;
   }
 }

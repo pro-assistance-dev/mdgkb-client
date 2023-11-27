@@ -40,10 +40,10 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
+import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 import ISchema from '@/interfaces/schema/ISchema';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -66,7 +66,7 @@ export default defineComponent({
     const filterModel = ref();
 
     const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoApplicationFormValue: ComputedRef<IForm> = computed<IForm>(() => store.getters['dpoApplications/formValue']);
+    const dpoApplicationFormValue: ComputedRef<Form> = computed<Form>(() => store.getters['dpoApplications/formValue']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
@@ -126,7 +126,7 @@ export default defineComponent({
       await store.dispatch('dpoApplications/update', dpoApplication.value);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

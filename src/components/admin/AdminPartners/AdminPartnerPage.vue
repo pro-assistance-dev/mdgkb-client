@@ -29,9 +29,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Partner from '@/classes/Partner';
+import PartnerType from '@/classes/PartnerType';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import IPartner from '@/interfaces/partners/IPartner';
-import IPartnerType from '@/interfaces/partners/IPartnerType';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -46,8 +46,8 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const partner: ComputedRef<IPartner> = computed(() => store.getters['partners/item']);
-    const partnerTypes: ComputedRef<IPartnerType[]> = computed(() => store.getters['partnerTypes/items']);
+    const partner: ComputedRef<Partner> = computed(() => store.getters['partners/item']);
+    const partnerTypes: ComputedRef<PartnerType[]> = computed(() => store.getters['partnerTypes/items']);
 
     const imageRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
       if (partner.value.partnerType && partner.value.partnerType.showImage) {

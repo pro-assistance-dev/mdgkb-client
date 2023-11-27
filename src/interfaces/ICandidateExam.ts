@@ -1,10 +1,9 @@
+import Form from '@/classes/Form';
 import PageSection from '@/services/classes/page/PageSection';
-
-import IForm from './IForm';
 
 export default interface ICandidateExam {
   id?: string;
-  formPattern: IForm;
+  formPattern: Form;
   formPatternId?: string;
 
   documentTypeId?: string;

@@ -111,6 +111,7 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
@@ -119,8 +120,6 @@ import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IUserFormFields from '@/interfaces/IUserFormFields';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
@@ -153,7 +152,7 @@ export default defineComponent({
       required: true,
     },
     activeFields: {
-      type: Object as PropType<IUserFormFields>,
+      type: Object as PropType<UserFormFields>,
       default: UserFormFields.CreateWithFullName(),
     },
     showAdditionalFiles: {
@@ -182,10 +181,10 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const formValue = ref(new Form());
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const mounted: Ref<boolean> = ref(false);
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    const changeFormStatusHandler = (status: IFormStatus) => {
+    const changeFormStatusHandler = (status: FormStatus) => {
       if (!formValue.value) return;
       if (props.checkFields) {
         if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {

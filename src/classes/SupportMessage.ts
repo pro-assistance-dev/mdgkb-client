@@ -1,7 +1,7 @@
 import User from '@/classes/User';
-import ISupportMessage from '@/interfaces/ISupportMessage';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class SupportMessage implements ISupportMessage {
+export default class SupportMessage {
   id?: string;
   theme = '';
   question = '';
@@ -11,22 +11,8 @@ export default class SupportMessage implements ISupportMessage {
   userId?: string;
   isNew = true;
 
-  constructor(i?: ISupportMessage) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.theme = i.theme;
-    this.question = i.question;
-    if (i.user) {
-      this.user = new User(i.user);
-    }
-    if (i.date) {
-      this.date = new Date(i.date);
-    }
-    this.userId = i.userId;
-    this.answer = i.answer;
-    this.isNew = i.isNew;
+  constructor(i?: SupportMessage) {
+    ClassHelper.BuildClass(this, i);
   }
 
   getThemeOrFirstPhrase(): string {

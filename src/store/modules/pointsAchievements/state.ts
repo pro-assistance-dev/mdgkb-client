@@ -1,6 +1,6 @@
-import IPointsAchievement from '@/interfaces/IPointsAchievement';
+import PointsAchievement from '@/classes/PointsAchievement';
 
 export interface State {
-  items: IPointsAchievement[];
-  item: IPointsAchievement;
+  items: PointsAchievement[];
+  item: PointsAchievement;
 }

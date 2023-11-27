@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import Event from '@/classes/news/Event';
+import Event from '@/classes/Event';
 import RootState from '@/store/types';
 
 import actions from './actions';

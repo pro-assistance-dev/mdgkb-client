@@ -1,8 +1,8 @@
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
 import Entrance from '@/classes/Entrance';
-import Schedule from '@/classes/timetable/Schedule';
-import Timetable from '@/classes/timetable/Timetable';
+import Schedule from '@/classes/Schedule';
+import Timetable from '@/classes/Timetable';
 import TreatDirection from '@/classes/TreatDirection';
 import ContactInfo from '@/services/classes/ContactInfo';
 

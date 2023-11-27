@@ -1,6 +1,6 @@
-import IFormStatusGroup from './IFormStatusGroup';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 
 export default interface IFormStatusGroupsWithCount {
-  formStatusGroups: IFormStatusGroup[];
+  formStatusGroups: FormStatusGroup[];
   count: number;
 }

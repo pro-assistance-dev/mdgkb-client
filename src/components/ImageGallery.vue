@@ -28,27 +28,26 @@
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
-import FileInfo from '@/classes/File/FileInfo';
+import DivisionImage from '@/classes/DivisionImage';
+import FileInfo from '@/classes/FileInfo';
+import NewsImage from '@/classes/NewsImage';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivisionImage from '@/interfaces/IDivisionImage';
-import INewsImage from '@/interfaces/news/INewsImage';
 
 export default defineComponent({
   name: 'ImageGallery',
   components: { CollapseItem },
   props: {
     images: {
-      type: Array as PropType<Array<INewsImage | IDivisionImage>>,
+      type: Array as PropType<Array<NewsImage | DivisionImage>>,
       required: true,
     },
   },
   setup() {
     const dialogVisible: Ref<boolean> = ref(false);
-    const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
+    const dialogFileInfo: Ref<FileInfo> = ref(new FileInfo());
     const carouselRef = ref();
 
-    const imgClickHandler = (fileInfo: IFileInfo) => {
+    const imgClickHandler = (fileInfo: FileInfo) => {
       dialogFileInfo.value = fileInfo;
       dialogVisible.value = true;
     };

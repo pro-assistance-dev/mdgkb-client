@@ -1,4 +1,4 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 
 export default interface ICarouselSlide {
   id?: string;
@@ -8,6 +8,6 @@ export default interface ICarouselSlide {
   fileInfoId?: string;
   buttonShow: boolean;
   buttonColor: string;
-  fileInfo: IFileInfo;
+  fileInfo: FileInfo;
   link: string;
 }

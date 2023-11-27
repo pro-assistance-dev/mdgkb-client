@@ -1,5 +1,5 @@
-import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
+import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
 
 export interface State {
-  items: IDonorRulesWithDeleted;
+  items: DonorRulesWithDeleted;
 }

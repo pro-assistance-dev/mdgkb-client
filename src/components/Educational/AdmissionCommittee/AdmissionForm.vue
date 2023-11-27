@@ -58,12 +58,12 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -100,7 +100,7 @@ export default defineComponent({
     const buttonOff: Ref<boolean> = ref(false);
 
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
     const userForm = ref();

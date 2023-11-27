@@ -15,14 +15,15 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import HospitalizationTypeAnalyze from '@/classes/HospitalizationTypeAnalyze';
 import HospitalizationAnalysisCard from '@/components/Hospitalizations/HospitalizationAnalysisCard.vue';
-import IHospitalizationTypeAnalyze from '@/interfaces/IHospitalizationTypeAnalize';
+
 export default defineComponent({
   name: 'HospitalizationAnalyzes',
-  props: {
-    hospitalizationTypeAnalyzes: { type: Array as PropType<IHospitalizationTypeAnalyze[]>, required: true },
-  },
   components: { HospitalizationAnalysisCard },
+  props: {
+    hospitalizationTypeAnalyzes: { type: Array as PropType<HospitalizationTypeAnalyze[]>, required: true },
+  },
 });
 </script>
 

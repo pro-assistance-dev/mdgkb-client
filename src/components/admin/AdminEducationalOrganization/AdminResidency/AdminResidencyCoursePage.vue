@@ -129,13 +129,13 @@ import { computed, ComputedRef, defineComponent, Ref } from 'vue';
 
 import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
+import Form from '@/classes/Form';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import Specialization from '@/classes/Specialization';
 import AdminResidencyCoursePracticePlaces from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePracticePlaces.vue';
 import SetEntity from '@/components/admin/SetEntity.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import IForm from '@/interfaces/IForm';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -154,7 +154,7 @@ export default defineComponent({
     const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
       () => Provider.store.getters['specializations/items']
     );
-    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
     const educationYears: ComputedRef<EducationYear[]> = computed<EducationYear[]>(() => Provider.store.getters['educationYears/items']);
 
     const load = async () => {

@@ -27,8 +27,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Form from '@/classes/Form';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IForm from '@/interfaces/IForm';
 
 export default defineComponent({
   name: 'AdminFormPatternList',
@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
 
     const create = (): void => {
       router.push('/admin/form-patterns/new');

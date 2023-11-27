@@ -46,8 +46,8 @@ export default defineComponent({
         title: 'Подготовка к исследованиям',
         buttons: [{ text: 'Добавить исследование', type: 'primary', action: Provider.createAdmin }],
       },
-      pagination: { storeModule: 'preparations', action: 'getAllWithCount' },
-      getAction: 'getAllWithCount',
+      pagination: { storeModule: 'preparations', action: 'getAll' },
+      getAction: 'getAll',
       sortsLib: PreparationsSortsLib,
     });
 

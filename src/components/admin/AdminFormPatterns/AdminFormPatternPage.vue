@@ -41,11 +41,11 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Form from '@/classes/Form';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -56,8 +56,8 @@ export default defineComponent({
   components: { FormConstructor, FileUploader, WysiwygEditor },
 
   setup() {
-    const formPattern: ComputedRef<IForm> = computed<IForm>(() => Provider.store.getters['formPatterns/item']);
-    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
+    const formPattern: ComputedRef<Form> = computed<Form>(() => Provider.store.getters['formPatterns/item']);
+    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const rules = ref({

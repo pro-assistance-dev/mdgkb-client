@@ -53,7 +53,6 @@ import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import UserFormFields from '@/classes/UserFormFields';
-import IUserFormFields from '@/interfaces/IUserFormFields';
 
 export default defineComponent({
   name: 'AdminUserInfo',
@@ -64,7 +63,7 @@ export default defineComponent({
       required: true,
     },
     activeFields: {
-      type: Object as PropType<IUserFormFields>,
+      type: Object as PropType<UserFormFields>,
       default: UserFormFields.CreateWithFullName(),
     },
   },

@@ -41,8 +41,8 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import HospitalizationType from '@/classes/HospitalizationType';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -52,7 +52,7 @@ export default defineComponent({
   components: { WysiwygEditor },
   setup() {
     const form = ref();
-    const hospitalizationType: Ref<IHospitalizationType> = computed<IHospitalizationType>(
+    const hospitalizationType: Ref<HospitalizationType> = computed<HospitalizationType>(
       () => Provider.store.getters['hospitalizationsTypes/item']
     );
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();

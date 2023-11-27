@@ -1,19 +1,14 @@
-import ITimePeriod from '@/interfaces/ITimePeriod';
+import ClassHelper from '@/services/ClassHelper';
 
-import TimetableDay from './timetable/TimetableDay';
+import TimetableDay from './TimetableDay';
 
-export default class TimePeriod implements ITimePeriod {
+export default class TimePeriod {
   id?: string;
   startTime = '9:00';
   endTime = '18:00';
 
-  constructor(timePeriod?: ITimePeriod) {
-    if (!timePeriod) {
-      return;
-    }
-    this.id = timePeriod.id;
-    this.startTime = timePeriod.startTime;
-    this.endTime = timePeriod.endTime;
+  constructor(i?: TimePeriod) {
+    ClassHelper.BuildClass(this, i);
   }
 
   public getTime(dateString: string): string {

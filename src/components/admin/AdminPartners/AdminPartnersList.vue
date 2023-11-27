@@ -25,8 +25,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Partner from '@/classes/Partner';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IPartner from '@/interfaces/partners/IPartner';
 
 export default defineComponent({
   name: 'AdminPartnersList',
@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const partners: ComputedRef<IPartner[]> = computed(() => store.getters['partners/items']);
+    const partners: ComputedRef<Partner[]> = computed(() => store.getters['partners/items']);
     const mounted: Ref<boolean> = ref(false);
 
     const edit = (id: string): void => {

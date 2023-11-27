@@ -158,7 +158,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';

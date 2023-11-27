@@ -2,13 +2,11 @@ import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
+import FileInfo from '@/classes/FileInfo';
 import MedicalProfile from '@/classes/MedicalProfile';
-import NewsDoctor from '@/classes/news/NewsDoctor';
+import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';
-import Timetable from '@/classes/timetable/Timetable';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import INewsDoctor from '@/interfaces/news/INewsDoctor';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -20,7 +18,8 @@ export default class Doctor {
   employeeId?: string;
   description = '';
   show = true;
-  timetable: ITimetable = new Timetable();
+  @ClassHelper.GetClassConstructor(Timetable)
+  timetable: Timetable = new Timetable();
   timetableId?: string;
   onlineDoctorId?: string;
   @ClassHelper.GetClassConstructor(Position)
@@ -28,7 +27,7 @@ export default class Doctor {
   positionId?: string;
   tags?: string;
   @ClassHelper.GetClassConstructor(NewsDoctor)
-  newsDoctors: INewsDoctor[] = [];
+  newsDoctors: NewsDoctor[] = [];
   @ClassHelper.GetClassConstructor(DoctorComment)
   doctorComments: DoctorComment[] = [];
   @ClassHelper.GetClassConstructor(DoctorPaidService)
@@ -62,8 +61,8 @@ export default class Doctor {
     this.doctorPaidServices.splice(index, 1);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(...this.employee.getFileInfos());
     return fileInfos;
   }

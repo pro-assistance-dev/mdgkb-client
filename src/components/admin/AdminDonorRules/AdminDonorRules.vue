@@ -32,16 +32,17 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
-import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
+import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
 import Menu from '@/services/classes/Menu';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import sort from '@/services/sort';
+
 export default defineComponent({
   name: 'AdminDonorRules',
   components: { draggable, Grid, UploaderSingleScan },
   setup() {
     const store = useStore();
-    const donorRulesWithDeleted: ComputedRef<IDonorRulesWithDeleted> = computed(() => store.getters['donorRules/items']);
+    const donorRulesWithDeleted: ComputedRef<DonorRulesWithDeleted> = computed(() => store.getters['donorRules/items']);
     const mounted: Ref<boolean> = ref(false);
     const selectedMenu: Ref<Menu | undefined> = ref(undefined);
 

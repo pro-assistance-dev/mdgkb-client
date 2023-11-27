@@ -77,12 +77,12 @@ import { v4 as uuidv4 } from 'uuid';
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
+import Diet from '@/classes/Diet';
+import DietAge from '@/classes/DietAge';
+import DietGroup from '@/classes/DietGroup';
 import DietPage from '@/components/Diets/DietPage.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IDiet from '@/interfaces/IDiet';
-import IDietAge from '@/interfaces/IDietAge';
-import IDietGroup from '@/interfaces/IDietGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -91,11 +91,11 @@ export default defineComponent({
   components: { DietPage, PageWrapper, FiltersWrapper, ArrowRight },
 
   setup() {
-    const selectedGroup: Ref<IDietGroup | undefined> = ref(undefined);
-    const selectedDiet: Ref<IDiet | undefined> = ref(undefined);
-    const motherDiet: Ref<IDiet | undefined> = ref(undefined);
-    const selectedAge: Ref<IDietAge | undefined> = ref(undefined);
-    const dietsGroups: ComputedRef<IDietGroup[]> = computed<IDietGroup[]>(() => Provider.store.getters['dietsGroups/items']);
+    const selectedGroup: Ref<DietGroup | undefined> = ref(undefined);
+    const selectedDiet: Ref<Diet | undefined> = ref(undefined);
+    const motherDiet: Ref<Diet | undefined> = ref(undefined);
+    const selectedAge: Ref<DietAge | undefined> = ref(undefined);
+    const dietsGroups: ComputedRef<DietGroup[]> = computed<DietGroup[]>(() => Provider.store.getters['dietsGroups/items']);
     const DietRouter: { id: string; name: string; goBack: string }[] = [];
     const load = async () => {
       await loadDiets();
@@ -107,11 +107,11 @@ export default defineComponent({
       await Provider.store.dispatch('dietsGroups/getAll', Provider.filterQuery.value);
     };
 
-    const selectAge = (age: IDietAge): void => {
+    const selectAge = (age: DietAge): void => {
       selectedAge.value = age;
       if (selectedAge.value && selectedGroup.value && selectedDiet.value?.motherDietId) {
-        dietsGroups.value.forEach((dg: IDietGroup) => {
-          const md = dg.diets.find((d: IDiet) => d.id === selectedDiet.value?.motherDietId);
+        dietsGroups.value.forEach((dg: DietGroup) => {
+          const md = dg.diets.find((d: Diet) => d.id === selectedDiet.value?.motherDietId);
           if (md) {
             motherDiet.value = md;
           }
@@ -125,7 +125,7 @@ export default defineComponent({
       }
     };
 
-    const selectDiet = (diet: IDiet): void => {
+    const selectDiet = (diet: Diet): void => {
       selectedDiet.value = diet;
       DietRouter[0].goBack = 'toDiet';
       DietRouter.push({ id: uuidv4(), name: diet.siteName, goBack: 'noLink' });
@@ -137,7 +137,7 @@ export default defineComponent({
       }
     };
 
-    const selectGroup = (group: IDietGroup): void => {
+    const selectGroup = (group: DietGroup): void => {
       selectedGroup.value = group;
       DietRouter.push({ id: uuidv4(), name: group.name, goBack: 'noLink' });
       if (selectedGroup.value?.diets.length === 1) {

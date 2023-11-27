@@ -37,7 +37,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IAppointment from '@/interfaces/IAppointment';
+import Appointment from '@/classes/Appointment';
 import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
     const store = useStore();
     const chosenDay: Ref<string | undefined> = ref();
     const mount = ref(false);
-    const appointment: ComputedRef<IAppointment> = computed(() => store.getters['appointments/item']);
+    const appointment: ComputedRef<Appointment> = computed(() => store.getters['appointments/item']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const createChildMode: Ref<boolean> = ref(false);

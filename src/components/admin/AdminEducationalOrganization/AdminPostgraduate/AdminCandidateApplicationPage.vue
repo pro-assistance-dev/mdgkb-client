@@ -45,10 +45,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import CandidateApplication from '@/classes/CandidateApplication';
+import FormStatus from '@/classes/FormStatus';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -63,7 +63,7 @@ export default defineComponent({
     const mounted = ref(false);
     const form = ref();
 
-    const application: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
+    const application: ComputedRef<CandidateApplication> = computed<CandidateApplication>(
       () => store.getters['candidateApplications/item']
     );
     const candidateExams: Ref<ICandidateExam[]> = computed<ICandidateExam[]>(() => [store.getters['candidateExams/item']]);
@@ -105,7 +105,7 @@ export default defineComponent({
       await store.dispatch('candidateApplications/update', application.value);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

@@ -35,8 +35,8 @@
 import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import DatePicker from '@/components/DatePicker.vue';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileChildrenPage',
@@ -45,7 +45,7 @@ export default defineComponent({
     const store = useStore();
 
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const user: Ref<User> = computed(() => store.getters['users/item']);
 
     const loadUser = async () => {
       await store.dispatch('users/get', userId.value);

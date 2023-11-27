@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IDivisionComment from '@/interfaces/IDivisionComment';
+import DivisionComment from '@/classes/DivisionComment';
 import HttpClient from '@/services/HttpClient';
 import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
@@ -15,15 +15,15 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `comment/${id}` });
     commit('removeComment', id);
   },
-  createComment: async ({ commit }, comment: IDivisionComment): Promise<void> => {
-    const res = await httpClient.post<IDivisionComment, IDivisionComment>({ query: `comment`, payload: comment });
+  createComment: async ({ commit }, comment: DivisionComment): Promise<void> => {
+    const res = await httpClient.post<DivisionComment, DivisionComment>({ query: `comment`, payload: comment });
     commit('resetComment', res);
   },
-  updateComment: async ({ commit }, newComment: IDivisionComment): Promise<void> => {
+  updateComment: async ({ commit }, newComment: DivisionComment): Promise<void> => {
     await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });
     commit('updateComment', newComment.comment.id);
   },
-  deleteComment: async ({ commit }, comment: IDivisionComment): Promise<void> => {
+  deleteComment: async ({ commit }, comment: DivisionComment): Promise<void> => {
     await httpClient.delete({ query: `comment/${comment.id}` });
     commit('deleteCommentFromNews', comment);
   },

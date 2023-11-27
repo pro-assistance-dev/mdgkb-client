@@ -110,7 +110,7 @@ export default defineComponent({
     };
 
     const loadCourses = async () => {
-      await Provider.store.dispatch('residencyCourses/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {
@@ -130,7 +130,7 @@ export default defineComponent({
         ],
       },
       sortsLib: ResidencyCoursesSortsLib,
-      getAction: 'getAllWithCount',
+      getAction: 'getAll',
     });
     const createResidencySortModels = (): SortModel[] => {
       return createSortModels(ResidencyCoursesSortsLib);

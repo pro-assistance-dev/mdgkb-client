@@ -56,7 +56,7 @@ export default defineComponent({
       Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
       Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.filterQuery.value.pagination.cursorMode = false;
-      await Provider.store.dispatch('residencyCourses/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
 
     return { mounted: Provider.mounted, showForm, customSections };

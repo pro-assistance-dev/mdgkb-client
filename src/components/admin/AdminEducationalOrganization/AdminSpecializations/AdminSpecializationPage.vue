@@ -19,7 +19,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import ISpecialization from '@/interfaces/ISpecialization';
+import Specialization from '@/classes/Specialization';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -31,7 +31,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const specialization: ComputedRef<ISpecialization> = computed<ISpecialization>(() => store.getters['specializations/item']);
+    const specialization: ComputedRef<Specialization> = computed<Specialization>(() => store.getters['specializations/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const rules = ref({

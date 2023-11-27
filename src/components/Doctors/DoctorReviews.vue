@@ -242,11 +242,11 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Comment from '@/classes/Comment';
+import CommentRules from '@/classes/CommentRules';
+import DivisionComment from '@/classes/DivisionComment';
 import DoctorComment from '@/classes/DoctorComment';
-import CommentRules from '@/classes/news/CommentRules';
-import IComment from '@/interfaces/comments/IComment';
-import IDivisionComment from '@/interfaces/IDivisionComment';
-import INewsComment from '@/interfaces/news/INewsComment';
+import NewsComment from '@/classes/NewsComment';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -269,7 +269,7 @@ export default defineComponent({
     const comment = computed(() => store.getters[`${prop.storeModule}/comment`]);
     const commentInput = ref();
     const store = useStore();
-    const comments: ComputedRef<IComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
+    const comments: ComputedRef<Comment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
 
     const userId = computed(() => store.getters['auth/user']?.id);
     const userEmail = computed(() => store.getters['auth/user']?.email);
@@ -279,7 +279,7 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const sendComment = async (item: INewsComment | IDivisionComment | DoctorComment) => {
+    const sendComment = async (item: NewsComment | DivisionComment | DoctorComment) => {
       if (!validate(commentForm)) return;
       store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
       if (userEmail.value) item.comment.user.email = userEmail.value;
@@ -299,7 +299,7 @@ export default defineComponent({
     const editComment = (commentId: string) => {
       store.commit(`${prop.storeModule}/editComment`, commentId);
     };
-    const saveCommentChanges = async (item: INewsComment | IDivisionComment | DoctorComment) => {
+    const saveCommentChanges = async (item: NewsComment | DivisionComment | DoctorComment) => {
       if (!validate(editCommentForm)) return;
       try {
         await store.dispatch(`${prop.storeModule}/updateComment`, item);

@@ -1,11 +1,10 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Certificate {
   id?: string;
   description = '';
-  scan: IFileInfo = new FileInfo();
+  scan: FileInfo = new FileInfo();
   scanId?: string;
   employeeId?: string;
 
@@ -13,7 +12,7 @@ export default class Certificate {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfo(): IFileInfo {
+  getFileInfo(): FileInfo {
     return this.scan;
   }
 }

@@ -26,14 +26,14 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import Map from '@/assets/img/map.svg';
+import Building from '@/classes/Building';
 import Division from '@/classes/Division';
+import Floor from '@/classes/Floor';
+import Gate from '@/classes/Gate';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import MapLegends from '@/components/Map/MapLegends.vue';
 import MapPopover from '@/components/Map/MapPopover.vue';
 import MapRouter from '@/components/Map/MapRouter.vue';
-import IBuilding from '@/interfaces/IBuilding';
-import IFloor from '@/interfaces/IFloor';
-import IGate from '@/interfaces/IGate';
 
 export default defineComponent({
   name: 'MapSvg',
@@ -46,7 +46,7 @@ export default defineComponent({
   },
   props: {
     buildings: {
-      type: Array as PropType<Array<IBuilding>>,
+      type: Array as PropType<Array<Building>>,
       required: true,
     },
   },
@@ -57,8 +57,8 @@ export default defineComponent({
     let building = ref();
     const store = useStore();
     const enterPopoverRef = ref<HTMLDivElement>();
-    const gates: Ref<IGate[]> = computed(() => store.getters['gates/items']);
-    const chosenGate: Ref<IGate | undefined> = ref();
+    const gates: Ref<Gate[]> = computed(() => store.getters['gates/items']);
+    const chosenGate: Ref<Gate | undefined> = ref();
 
     onBeforeMount(async (): Promise<void> => {
       await store.dispatch('gates/getAll');
@@ -115,8 +115,8 @@ export default defineComponent({
 
     const getRouteInfo = (): void => {
       const divisionId = route.params['id'];
-      props.buildings.forEach((b: IBuilding) => {
-        b.floors.forEach((f: IFloor) => {
+      props.buildings.forEach((b: Building) => {
+        b.floors.forEach((f: Floor) => {
           const ddd = f.divisions?.find((d: Division) => d.id === divisionId);
           if (ddd) {
             buildingId.value = b.id;

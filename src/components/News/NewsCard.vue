@@ -69,8 +69,8 @@
 import { defineComponent, PropType } from 'vue';
 
 import Close from '@/assets/svg/Icons/Close.svg';
-import News from '@/classes/news/News';
-import Tag from '@/classes/news/Tag';
+import News from '@/classes/News';
+import Tag from '@/classes/Tag';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 
 export default defineComponent({
@@ -98,7 +98,7 @@ export default defineComponent({
   setup() {
     const filterNews = async (tag: Tag): Promise<void> => {
       // tag.selected = !tag.selected;
-      // filteredTagList.value.forEach((filterTag: ITag) => {
+      // filteredTagList.value.forEach((filterTag: Tag) => {
       //   if (filterTag.id === tag.id) {
       //     filterTag.selected = true;
       //   }

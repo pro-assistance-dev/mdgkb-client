@@ -20,9 +20,9 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import FormStatus from '@/classes/FormStatus';
+import User from '@/classes/User';
 import Button from '@/components/Base/Button.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -32,8 +32,8 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
+    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => store.getters['formStatuses/items']);
 
     onBeforeMount(async () => {
       await store.dispatch('users/get', userId.value);

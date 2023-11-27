@@ -1,4 +1,4 @@
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 
 export default interface IWithNews {
   id?: string;

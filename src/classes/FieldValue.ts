@@ -1,11 +1,9 @@
+import Field from '@/classes/Field';
 import FieldValueFile from '@/classes/FieldValueFile';
-import IFieldValue from '@/interfaces/IFieldValue';
-import IFieldValueFile from '@/interfaces/IFieldValueFile';
+import FileInfo from '@/classes/FileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
-import Field from './Field';
-import FileInfo from './File/FileInfo';
-
-export default class FieldValue implements IFieldValue {
+export default class FieldValue {
   id?: string;
   fieldId?: string;
   valueString?: string;
@@ -19,38 +17,11 @@ export default class FieldValue implements IFieldValue {
   field = new Field();
   showError = false; // Display validation error
   errorText = 'Это поле обязательно к заполнению';
-  fieldValuesFiles: IFieldValueFile[] = [];
+  @ClassHelper.GetClassConstructor(FieldValueFile)
+  fieldValuesFiles: FieldValueFile[] = [];
   fieldValuesFilesForDelete: string[] = [];
-  constructor(i?: IFieldValue) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.fieldId = i.fieldId;
-    this.eventApplicationId = i.eventApplicationId;
-    this.valueString = i.valueString;
-    this.modComment = i.modComment;
-    this.valueNumber = i.valueNumber;
-    if (i.errorText) {
-      this.errorText = i.errorText;
-    }
-    if (i.modChecked) {
-      this.modChecked = i.modChecked;
-    }
-    if (i.showError) {
-      this.showError = i.showError;
-    }
-    this.valueDate = i.valueDate;
-    this.fileId = i.fileId;
-    if (i.file) {
-      this.file = new FileInfo(i.file);
-    }
-    if (i.field) {
-      this.field = new Field(i.field);
-    }
-    if (i.fieldValuesFiles) {
-      this.fieldValuesFiles = i.fieldValuesFiles.map((item: IFieldValueFile) => new FieldValueFile(item));
-    }
+  constructor(i?: FieldValue) {
+    ClassHelper.BuildClass(this, i);
   }
 
   validate(): void {

@@ -108,11 +108,10 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vu
 import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
+import Form from '@/classes/Form';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import IField from '@/interfaces/IField';
-import IForm from '@/interfaces/IForm';
 import ValueType from '@/services/classes/ValueType';
 
 export default defineComponent({
@@ -120,7 +119,7 @@ export default defineComponent({
   components: { FileUploader, TableMover, TableButtonGroup },
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     filesOnly: {
@@ -151,7 +150,7 @@ export default defineComponent({
       await store.dispatch('valueTypes/getAll');
     });
 
-    const changeHandler = (field: IField) => {
+    const changeHandler = (field: Field) => {
       if (field.valueType.id) {
         field.valueTypeId = field.valueType.id;
       }

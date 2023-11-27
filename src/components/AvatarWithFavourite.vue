@@ -12,16 +12,15 @@
 import { defineComponent, PropType } from 'vue';
 import { RouteLocationRaw } from 'vue-router';
 
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default defineComponent({
   name: 'AvatarWithFavourite',
   components: { FavouriteIcon },
   props: {
     image: {
-      type: Object as PropType<IFileInfo>,
+      type: Object as PropType<FileInfo>,
       default: new FileInfo(),
     },
     imgLink: {

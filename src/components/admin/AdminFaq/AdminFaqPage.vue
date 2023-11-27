@@ -19,8 +19,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Faq from '@/classes/Faq';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IFaq from '@/interfaces/IFaq';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -34,7 +34,7 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const faq: ComputedRef<IFaq> = computed<IFaq>(() => store.getters['faqs/item']);
+    const faq: ComputedRef<Faq> = computed<Faq>(() => store.getters['faqs/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
       question: [{ required: true, message: 'Необходимо указать вопрос', trigger: 'blur' }],

@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import Page from '@/services/classes/page/Page';
 import SubMenu from '@/services/classes/SubMenu';
 import ClassHelper from '@/services/ClassHelper';
@@ -56,8 +55,8 @@ export default class Menu {
     return !!this.pageId && this.pageId !== '';
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(this.icon);
     this.subMenus.forEach((subMenu: SubMenu) => {
       fileInfos.push(subMenu.icon);

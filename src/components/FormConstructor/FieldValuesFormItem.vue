@@ -90,22 +90,21 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Field from '@/classes/Field';
 import FieldValue from '@/classes/FieldValue';
+import Form from '@/classes/Form';
 import FileUploader from '@/components/FileUploader.vue';
-import IField from '@/interfaces/IField';
-import IFieldValue from '@/interfaces/IFieldValue';
-import IForm from '@/interfaces/IForm';
 
 export default defineComponent({
   name: 'FieldValuesFormItem',
   components: { FileUploader },
   props: {
     field: {
-      type: Object as PropType<IField>,
+      type: Object as PropType<Field>,
       required: true,
     },
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     showLabel: {
@@ -119,7 +118,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const fieldValue: Ref<IFieldValue> = ref(new FieldValue());
+    const fieldValue: Ref<FieldValue> = ref(new FieldValue());
     onBeforeMount(() => {
       if (props.field.id) {
         fieldValue.value = props.form.findFieldValue(props.field.id) || new FieldValue();

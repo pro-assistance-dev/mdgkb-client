@@ -49,7 +49,7 @@ export default defineComponent({
         Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
       }
       Provider.setSortModels(PagesSortsLib.byTitle());
-      await Provider.store.dispatch('pages/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('pages/getAll', Provider.filterQuery.value);
       if (user.value.role.name === 'ADMIN') {
         Provider.store.commit('admin/setHeaderParams', {
           title: 'Страницы',

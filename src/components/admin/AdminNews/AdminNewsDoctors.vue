@@ -22,7 +22,7 @@
 import { computed, ComputedRef, defineComponent } from 'vue';
 
 import Doctor from '@/classes/Doctor';
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import ISearchObject from '@/services/interfaces/ISearchObject';

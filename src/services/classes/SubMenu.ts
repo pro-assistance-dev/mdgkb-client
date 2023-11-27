@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
 import Page from '@/services/classes/page/Page';
 import ClassHelper from '@/services/ClassHelper';

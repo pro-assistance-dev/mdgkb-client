@@ -1,12 +1,11 @@
 import { Module } from 'vuex';
 
-import EventApplication from '@/classes/news/EventApplication';
-import News from '@/classes/news/News';
-import NewsComment from '@/classes/news/NewsComment';
+import EventApplication from '@/classes/EventApplication';
+import News from '@/classes/News';
+import NewsComment from '@/classes/NewsComment';
 import NewsParams from '@/classes/NewsParams';
+import Tag from '@/classes/Tag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import IEventApplication from '@/interfaces/news/IEventApplication';
-import ITag from '@/interfaces/news/ITag';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 
@@ -20,13 +19,13 @@ export interface State extends IBasicState<News> {
   subMain1: News;
   subMain2: News;
   filteredNews: News[];
-  filterTags: ITag[];
+  filterTags: Tag[];
   allNewsLoaded: boolean;
   calendarNews: News[];
   calendarMeta?: ICalendarMeta;
   comment: NewsComment;
   eventMode: boolean;
-  eventApplication: IEventApplication;
+  eventApplication: EventApplication;
   params: NewsParams;
   count: number;
 }

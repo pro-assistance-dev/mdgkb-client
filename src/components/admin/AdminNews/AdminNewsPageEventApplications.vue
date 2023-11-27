@@ -18,16 +18,16 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Event from '@/classes/Event';
+import EventApplication from '@/classes/EventApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IEvent from '@/interfaces/news/IEvent';
-import IEventApplication from '@/interfaces/news/IEventApplication';
 
 export default defineComponent({
   name: 'AdminNewsPageEventApplications',
   components: { TableButtonGroup },
   props: {
     event: {
-      type: Object as PropType<IEvent>,
+      type: Object as PropType<Event>,
       required: true,
     },
   },
@@ -36,7 +36,7 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
     const show = ref(false);
-    let showedItem: Ref<IEventApplication | undefined> = ref(undefined);
+    let showedItem: Ref<EventApplication | undefined> = ref(undefined);
 
     const eventApplicationsPdf = async (id: string) => {
       await store.dispatch('events/eventApplicationsPdf', id);

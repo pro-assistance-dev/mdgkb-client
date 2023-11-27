@@ -1,8 +1,8 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 
 export default interface IScanWithDescription {
   id?: string;
   scanId?: string;
-  scan?: IFileInfo;
+  scan?: FileInfo;
   description: string;
 }

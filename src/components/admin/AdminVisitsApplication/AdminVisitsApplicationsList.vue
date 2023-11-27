@@ -81,13 +81,13 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
+import VisitsApplication from '@/classes/VisitsApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -108,14 +108,14 @@ export default defineComponent({
 
   setup() {
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const visitsApplications: ComputedRef<IVisitsApplication[]> = computed(() => Provider.store.getters['visitsApplications/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const visitsApplications: ComputedRef<VisitsApplication[]> = computed(() => Provider.store.getters['visitsApplications/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
     const create = () => Provider.router.push(`${Provider.route().path}/new`);
     const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('visitsApplications/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('visitsApplications/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {
@@ -132,12 +132,12 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'visitsApplications', action: 'getAllWithCount' },
+      pagination: { storeModule: 'visitsApplications', action: 'getAll' },
     });
 
     const filtersToOptions = (): IOption[] => {
       const options: IOption[] = [];
-      formStatuses.value.forEach((i: IFormStatus) => {
+      formStatuses.value.forEach((i: FormStatus) => {
         if (i.id) {
           options.push({ value: i.id, label: i.label });
         }

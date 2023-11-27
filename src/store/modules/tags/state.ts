@@ -1,7 +1,7 @@
-import ITag from '@/interfaces/news/ITag';
+import Tag from '@/classes/Tag';
 
 export interface State {
-  items: ITag[];
-  item?: ITag;
-  filteredTagList: ITag[];
+  items: Tag[];
+  item?: Tag;
+  filteredTagList: Tag[];
 }

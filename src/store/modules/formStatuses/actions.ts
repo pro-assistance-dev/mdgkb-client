@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFormStatus from '@/interfaces/IFormStatus';
+import FormStatus from '@/classes/FormStatus';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -11,7 +11,7 @@ const httpClient = new HttpClient('form-statuses');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }, filterQuery?: FilterQuery): Promise<void> => {
-    const items = await httpClient.get<IFormStatus[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
+    const items = await httpClient.get<FormStatus[]>({ query: filterQuery ? filterQuery.toUrl() : '' });
     if (filterQuery) {
       filterQuery.pagination.setAllLoaded(items ? items.length : 0);
     }
@@ -22,22 +22,22 @@ const actions: ActionTree<State, RootState> = {
     commit('setAll', items);
   },
   getAllByGroupId: async ({ commit }, id: string): Promise<void> => {
-    const items = await httpClient.get<IFormStatus[]>({ query: `by-group/${id}` });
+    const items = await httpClient.get<FormStatus[]>({ query: `by-group/${id}` });
     commit('setAll', items);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IFormStatus[]>({ query: `${id}` });
+    const res = await httpClient.get<FormStatus[]>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ state }): Promise<void> => {
-    await httpClient.post<IFormStatus, IFormStatus>({
+    await httpClient.post<FormStatus, FormStatus>({
       payload: state.item,
       isFormData: true,
       fileInfos: state.item.getFileInfos(),
     });
   },
   update: async ({ state, commit }): Promise<void> => {
-    const res = await httpClient.put<IFormStatus, IFormStatus>({
+    const res = await httpClient.put<FormStatus, FormStatus>({
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
@@ -46,7 +46,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   updateAll: async ({ state, commit }): Promise<void> => {
-    const items = await httpClient.put<IFormStatus[], IFormStatus[]>({ payload: state.items, isFormData: true });
+    const items = await httpClient.put<FormStatus[], FormStatus[]>({ payload: state.items, isFormData: true });
     commit('setAll', items);
   },
   remove: async ({ commit }, id: string): Promise<void> => {

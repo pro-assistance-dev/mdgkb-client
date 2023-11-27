@@ -76,13 +76,13 @@ import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
 import Division from '@/classes/Division';
+import Form from '@/classes/Form';
+import Vacancy from '@/classes/Vacancy';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
 import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
-import IForm from '@/interfaces/IForm';
-import IVacancy from '@/interfaces/IVacancy';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -96,9 +96,9 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const form = ref();
-    const vacancy: Ref<IVacancy> = computed<IVacancy>(() => Provider.store.getters['vacancies/item']);
+    const vacancy: Ref<Vacancy> = computed<Vacancy>(() => Provider.store.getters['vacancies/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const formPatterns: ComputedRef<IForm[]> = computed<IForm[]>(() => Provider.store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
 
     const load = async () => {
       await Provider.store.dispatch('divisions/getAll');

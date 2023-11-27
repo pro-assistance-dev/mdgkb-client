@@ -16,13 +16,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IHospitalizationTypeDocument from '@/interfaces/IHospitalizationTypeDocument';
+import HospitalizationTypeDocument from '@/classes/HospitalizationTypeDocument';
 
 export default defineComponent({
   name: 'HospitalizationDocumentsCard',
   props: {
     documents: {
-      type: Object as PropType<IHospitalizationTypeDocument[]>,
+      type: Object as PropType<HospitalizationTypeDocument[]>,
       required: true,
     },
     title: {

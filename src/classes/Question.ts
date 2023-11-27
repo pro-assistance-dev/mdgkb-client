@@ -1,11 +1,9 @@
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
 import User from '@/classes/User';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IQuestion from '@/interfaces/IQuestion';
+import ClassHelper from '@/services/ClassHelper';
 
-import FileInfo from './File/FileInfo';
-import Form from './Form';
-
-export default class Question implements IQuestion {
+export default class Question {
   id?: string;
   theme = '';
   question = '';
@@ -31,35 +29,8 @@ export default class Question implements IQuestion {
 
   formValue = new Form();
 
-  constructor(question?: IQuestion) {
-    if (!question) {
-      return;
-    }
-    this.id = question.id;
-    this.theme = question.theme;
-    this.question = question.question;
-    if (!this.question) {
-      this.question = question.originalQuestion;
-    }
-    if (question.user) {
-      this.user = new User(question.user);
-    }
-    if (question.date) {
-      this.date = new Date(question.date);
-    }
-    this.fileId = question.fileId;
-    if (question.file) {
-      this.file = new FileInfo(question.file);
-    }
-    this.answered = question.answered;
-    this.userId = question.userId;
-    this.originalQuestion = question.originalQuestion;
-    this.answer = question.answer;
-    this.originalAnswer = question.originalAnswer;
-    this.isNew = question.isNew;
-    this.publishAgreement = question.publishAgreement;
-    this.published = question.published;
-    this.answerIsRead = question.answerIsRead;
+  constructor(i?: Question) {
+    ClassHelper.BuildClass(this, i);
   }
 
   publish(): void {
@@ -109,7 +80,7 @@ export default class Question implements IQuestion {
     }
     return true;
   }
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return [this.file];
   }
 

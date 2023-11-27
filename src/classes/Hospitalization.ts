@@ -1,26 +1,25 @@
 import Division from '@/classes/Division';
+import FileInfo from '@/classes/FileInfo';
 import Form from '@/classes/Form';
 import HospitalizationType from '@/classes/HospitalizationType';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IForm from '@/interfaces/IForm';
-import IHospitalization from '@/interfaces/IHospitalization';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import { ReferralTypes } from '@/interfaces/ReferralTypes';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class Hospitalization implements IHospitalization {
+export default class Hospitalization {
   id?: string;
   date: Date = new Date();
-  hospitalizationType: IHospitalizationType = new HospitalizationType();
+  @ClassHelper.GetClassConstructor(HospitalizationType)
+  hospitalizationType: HospitalizationType = new HospitalizationType();
   hospitalizationTypeId?: string;
+  @ClassHelper.GetClassConstructor(Division)
   division?: Division;
   divisionId?: string;
 
-  formValue: IForm = new Form();
+  @ClassHelper.GetClassConstructor(Form)
+  formValue: Form = new Form();
   formValueId?: string;
 
   diagnosis = '';
-  //
   treatmentType = '';
   policyType = '';
   stayType = '';
@@ -37,7 +36,7 @@ export default class Hospitalization implements IHospitalization {
     return this.hospitalizationType.referralType === ReferralTypes.Moscow;
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return this.formValue.getFileInfos();
   }
 

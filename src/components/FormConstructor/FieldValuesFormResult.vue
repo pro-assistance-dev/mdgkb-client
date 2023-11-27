@@ -61,14 +61,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IFieldValue from '@/interfaces/IFieldValue';
-import IForm from '@/interfaces/IForm';
+import FieldValue from '@/classes/FieldValue';
+import Form from '@/classes/Form';
 
 export default defineComponent({
   name: 'FieldValuesFormResult',
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     checkFields: {
@@ -78,7 +78,7 @@ export default defineComponent({
   },
 
   setup() {
-    const changeModCheckedHandler = (fieldValue: IFieldValue) => {
+    const changeModCheckedHandler = (fieldValue: FieldValue) => {
       if (fieldValue.modChecked) {
         fieldValue.modComment = '';
       }

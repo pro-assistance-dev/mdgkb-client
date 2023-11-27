@@ -1,8 +1,7 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IBanner from '@/interfaces/banners/IBanner';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Banner implements IBanner {
+export default class Banner {
   id?: string;
   name?: string;
   link?: string;
@@ -10,22 +9,12 @@ export default class Banner implements IBanner {
   fileInfo = new FileInfo();
   fileInfoId?: string;
 
-  constructor(i?: IBanner) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.link = i.link;
-    this.listNumber = i.listNumber;
-    this.fileInfoId = i.fileInfoId;
-    if (i.fileInfo) {
-      this.fileInfo = new FileInfo(i.fileInfo);
-    }
+  constructor(i?: Banner) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(this.fileInfo);
     return fileInfos;
   }

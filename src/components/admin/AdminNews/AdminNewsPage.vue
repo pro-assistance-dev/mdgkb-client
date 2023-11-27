@@ -87,8 +87,8 @@
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
-import News from '@/classes/news/News';
-import NewsRules from '@/classes/news/NewsRules';
+import News from '@/classes/News';
+import NewsRules from '@/classes/NewsRules';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
@@ -186,7 +186,7 @@ export default defineComponent({
 
 .content-card {
   min-height: 450px;
-  max-height: 900px;
+  // max-height: 900px;
 }
 
 :deep(.el-dialog) {

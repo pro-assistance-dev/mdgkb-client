@@ -2,7 +2,6 @@ import { MutationTree } from 'vuex';
 
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
-import IForm from '@/interfaces/IForm';
 
 import { getDefaultState } from '.';
 import { State } from './state';
@@ -18,7 +17,7 @@ const mutations: MutationTree<State> = {
     Object.assign(state, getDefaultState());
   },
   remove(state, id: string) {
-    const index = state.items.findIndex((i: IForm) => i.id === id);
+    const index = state.items.findIndex((i: Form) => i.id === id);
     state.items.splice(index, 1);
   },
   resetItem(state) {

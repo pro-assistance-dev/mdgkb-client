@@ -7,15 +7,15 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
+import DonorRule from '@/classes/DonorRule';
 import DonorRulesCardList from '@/components/DonorRules/DonorRulesCardList.vue';
-import IDonorRule from '@/interfaces/IDonorRule';
 
 export default defineComponent({
   name: 'DonorRulesPage',
   components: { DonorRulesCardList },
   setup() {
     const store = useStore();
-    const donorRules: ComputedRef<IDonorRule[]> = computed(() => store.getters['donorRules/donorRules']);
+    const donorRules: ComputedRef<DonorRule[]> = computed(() => store.getters['donorRules/donorRules']);
 
     onBeforeMount(async () => {
       await store.dispatch('donorRules/getAll');

@@ -1,4 +1,4 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -11,8 +11,8 @@ export default class PageSectionImage {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(...this.documentType.getFileInfos());
     return fileInfos;
   }

@@ -25,15 +25,15 @@
 import { ElNotification } from 'element-plus';
 import { defineComponent, PropType } from 'vue';
 
+import FileInfo from '@/classes/FileInfo';
 import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import getExtension from '@/services/GetExtension';
 
 export default defineComponent({
   name: 'FileUploader',
   props: {
     fileInfo: {
-      type: Object as PropType<IFileInfo>,
+      type: Object as PropType<FileInfo>,
       required: true,
     },
   },

@@ -12,9 +12,8 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
 
-import News from '@/classes/news/News';
-import NewsLike from '@/classes/news/NewsLike';
-import INewsLike from '@/interfaces/news/INewsLike';
+import News from '@/classes/News';
+import NewsLike from '@/classes/NewsLike';
 import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'NewsLike',
@@ -55,13 +54,13 @@ export default defineComponent({
         return;
       }
 
-      const like = news.newsLikes.find((i: INewsLike) => i.userId === user.value.id);
+      const like = news.newsLikes.find((i: NewsLike) => i.userId === user.value.id);
       if (like) await store.dispatch('news/deleteLike', like);
     };
 
-    const liked = (likes: INewsLike[]) => {
+    const liked = (likes: NewsLike[]) => {
       if (!isAuth.value) return false;
-      const i = likes.findIndex((like: INewsLike) => like.userId === user.value.id);
+      const i = likes.findIndex((like: NewsLike) => like.userId === user.value.id);
       return i > -1;
     };
 

@@ -116,6 +116,7 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
+import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
@@ -123,7 +124,6 @@ import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue'
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -146,7 +146,7 @@ export default defineComponent({
       () => Provider.store.getters['residencyApplications/items']
     );
 
-    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
     const applicationsCount: ComputedRef<number> = computed(() =>
@@ -218,7 +218,7 @@ export default defineComponent({
 
     const filtersToOptions = (): IOption[] => {
       const options: IOption[] = [];
-      formStatuses.value.forEach((i: IFormStatus) => {
+      formStatuses.value.forEach((i: FormStatus) => {
         if (i.id) {
           options.push({ value: i.id, label: i.label });
         }

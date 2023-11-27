@@ -1,6 +1,6 @@
-import IComment from './comments/IComment';
+import Comment from '@/classes/Comment';
 
 export default interface ICommentsWithCount {
-  comments: IComment[];
+  comments: Comment[];
   count: number;
 }

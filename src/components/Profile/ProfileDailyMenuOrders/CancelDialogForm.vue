@@ -25,18 +25,18 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import Form from '@/classes/Form';
 import FileUploader from '@/components/FileUploader.vue';
-import IForm from '@/interfaces/IForm';
 export default defineComponent({
   name: 'CancelDialogForm',
   components: { FileUploader },
-  emits: ['cancelApplication', 'closeDialog'],
   props: {
     formValue: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
   },
+  emits: ['cancelApplication', 'closeDialog'],
 });
 </script>
 

@@ -27,10 +27,10 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import CommentRules from '@/classes/CommentRules';
+import DivisionComment from '@/classes/DivisionComment';
 import DoctorComment from '@/classes/DoctorComment';
-import CommentRules from '@/classes/news/CommentRules';
-import IDivisionComment from '@/interfaces/IDivisionComment';
-import INewsComment from '@/interfaces/news/INewsComment';
+import NewsComment from '@/classes/NewsComment';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -77,7 +77,7 @@ export default defineComponent({
         commentInput.value.blur();
       }
     };
-    const sendComment = async (item: INewsComment | IDivisionComment | DoctorComment) => {
+    const sendComment = async (item: NewsComment | DivisionComment | DoctorComment) => {
       if (!validate(commentForm)) return;
       if (prop.parentId) {
         store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
@@ -104,7 +104,7 @@ export default defineComponent({
     const editComment = (commentId: string) => {
       store.commit(`${prop.storeModule}/editComment`, commentId);
     };
-    const saveCommentChanges = async (item: INewsComment | IDivisionComment | DoctorComment) => {
+    const saveCommentChanges = async (item: NewsComment | DivisionComment | DoctorComment) => {
       if (!validate(editCommentForm)) return;
       try {
         await store.dispatch(`${prop.storeModule}/updateComment`, item);

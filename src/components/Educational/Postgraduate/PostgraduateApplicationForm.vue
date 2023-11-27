@@ -29,9 +29,9 @@ import { useStore } from 'vuex';
 
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
+import User from '@/classes/User';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/services/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
@@ -47,7 +47,7 @@ export default defineComponent({
       () => store.getters['postgraduateApplications/item']
     );
     const postgraduateCourse: Ref<PostgraduateCourse> = computed<PostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);
     const form = ref();

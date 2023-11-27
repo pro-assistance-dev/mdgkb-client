@@ -1,22 +1,13 @@
-import Timetable from '@/classes/timetable/Timetable';
-import IDietAge from '@/interfaces/IDietAge';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DietAge implements IDietAge {
+export default class DietAge {
   id?: string;
   name = '';
-  timetable: ITimetable = new Timetable();
+  timetable: Timetable = new Timetable();
   timetableId?: string;
 
-  constructor(i?: IDietAge) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    if (i.timetable) {
-      this.timetable = new Timetable(i.timetable);
-    }
-    this.timetableId = i.timetableId;
+  constructor(i?: DietAge) {
+    ClassHelper.BuildClass(this, i);
   }
 }

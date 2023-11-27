@@ -16,13 +16,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IHospitalizationTypeAnalize from '@/interfaces/IHospitalizationTypeAnalize';
+import HospitalizationTypeAnalyze from '@/classes/HospitalizationTypeAnalyze';
 
 export default defineComponent({
   name: 'HospitalizationAnalysisCard',
   props: {
     analyzes: {
-      type: Object as PropType<IHospitalizationTypeAnalize[]>,
+      type: Object as PropType<HospitalizationTypeAnalyze[]>,
       required: true,
     },
     title: {

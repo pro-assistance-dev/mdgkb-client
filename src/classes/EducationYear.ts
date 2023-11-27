@@ -1,16 +1,11 @@
-import IEducationYear from '@/interfaces/IEducationYear';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class EducationYear implements IEducationYear {
+export default class EducationYear {
   id?: string;
   year = new Date();
   active = false;
 
-  constructor(i?: IEducationYear) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.year = new Date(i.year);
-    this.active = i.active;
+  constructor(i?: EducationYear) {
+    ClassHelper.BuildClass(this, i);
   }
 }

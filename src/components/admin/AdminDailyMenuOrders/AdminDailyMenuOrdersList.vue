@@ -71,13 +71,13 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import IOption from '@/interfaces/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -95,7 +95,7 @@ export default defineComponent({
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 
     Hooks.onBeforeMount(
@@ -110,8 +110,8 @@ export default defineComponent({
           title: 'Буфет. Заказы',
           buttons: [],
         },
-        pagination: { storeModule: 'dailyMenuOrders', action: 'getAllWithCount' },
-        getAction: 'getAllWithCount',
+        pagination: { storeModule: 'dailyMenuOrders', action: 'getAll' },
+        getAction: 'getAll',
         sortsLib: DailyMenuOrdersSortsLib,
       }
     );
@@ -126,7 +126,7 @@ export default defineComponent({
 
     const filtersToOptions = (): IOption[] => {
       const options: IOption[] = [];
-      formStatuses.value.forEach((i: IFormStatus) => {
+      formStatuses.value.forEach((i: FormStatus) => {
         if (i.id) {
           options.push({ value: i.id, label: i.label });
         }

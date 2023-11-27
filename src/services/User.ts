@@ -1,5 +1,5 @@
+import User from '@/classes/User';
 import Human from '@/services/classes/Human';
-import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 
 const UserService = (() => {
@@ -11,7 +11,7 @@ const UserService = (() => {
     return '';
   }
 
-  function _getUser(): IUser | undefined {
+  function _getUser(): User | undefined {
     const userString = localStorage.getItem('user');
     if (userString) {
       return JSON.parse(userString);

@@ -73,9 +73,9 @@
 import { computed, defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 
+import Question from '@/classes/Question';
+import User from '@/classes/User';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import IQuestion from '@/interfaces/IQuestion';
-import IUser from '@/services/interfaces/IUser';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -86,8 +86,8 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
     const mounted = ref(false);
-    const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const question: Ref<Question> = computed(() => store.getters['questions/question']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     watch(user, () => {
       store.commit('questions/setUser', user.value);
     });

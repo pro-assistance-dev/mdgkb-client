@@ -1,9 +1,7 @@
 import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
-import IForm from '@/interfaces/IForm';
-import IVacancyDuty from '@/interfaces/IVacancyDuty';
-import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
+import VacancyResponse from '@/classes/VacancyResponse';
 import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -13,6 +11,7 @@ export default class Vacancy {
   id?: string;
   title = '';
   slug = '';
+  @ClassHelper.GetClassConstructor(ContactInfo)
   contactInfo: ContactInfo = new ContactInfo();
   contactInfoId?: string;
   specialization = '';
@@ -22,37 +21,36 @@ export default class Vacancy {
   active = false;
   responsesCount = 0;
   newResponsesCount = 0;
-  // @ClassHelper.GetClassConstructor(VacancyResponse)
-  // vacancyResponses: VacancyResponse[] = [];
-  // vacancyResponsesForDelete = [];
+  vacancyResponses: VacancyResponse[] = [];
+  vacancyResponsesForDelete = [];
   experience = '';
   @ClassHelper.GetClassConstructor(VacancyDuty)
-  vacancyDuties: IVacancyDuty[] = [];
+  vacancyDuties: VacancyDuty[] = [];
   vacancyDutiesForDelete = [];
   @ClassHelper.GetClassConstructor(VacancyRequirement)
-  vacancyRequirements: IVacancyRequirement[] = [];
+  vacancyRequirements: VacancyRequirement[] = [];
   vacancyRequirementsForDelete = [];
   schedule = '';
   division?: Division;
   divisionId?: string;
   date: Date = new Date();
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
 
   constructor(i?: Vacancy) {
     ClassHelper.BuildClass(this, i);
   }
 
-  // withNewResponses(): boolean {
-  //   return this.vacancyResponses.some((vacancyResponse: VacancyResponse) => vacancyResponse.formValue.isNew);
-  // }
+  withNewResponses(): boolean {
+    return this.vacancyResponses.some((vacancyResponse: VacancyResponse) => vacancyResponse.formValue.isNew);
+  }
 
-  // countResponses(onlyNew?: boolean): number {
-  //   if (!onlyNew) {
-  //     return this.vacancyResponses.length;
-  //   }
-  //   return this.vacancyResponses.filter((response: VacancyResponse) => response.formValue.isNew).length;
-  // }
+  countResponses(onlyNew?: boolean): number {
+    if (!onlyNew) {
+      return this.vacancyResponses.length;
+    }
+    return this.vacancyResponses.filter((response: VacancyResponse) => response.formValue.isNew).length;
+  }
 
   getSalary(): string {
     if (this.maxSalary > 0) {

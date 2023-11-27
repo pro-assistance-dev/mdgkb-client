@@ -83,10 +83,10 @@ import { ElNotification } from 'element-plus';
 import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Question from '@/classes/Question';
+import User from '@/classes/User';
 import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import IQuestion from '@/interfaces/IQuestion';
-import IUser from '@/services/interfaces/IUser';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -97,8 +97,8 @@ export default defineComponent({
     const store = useStore();
     const form = ref();
     const mounted = ref(false);
-    const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const question: Ref<Question> = computed(() => store.getters['questions/question']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     // watch(user, () => {
     //   store.commit('questions/setUser', user.value);
     // });
@@ -178,10 +178,10 @@ export default defineComponent({
 
 // import FileUploader from '@/components/FileUploader.vue';
 // import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-// import IField from '@/interfaces/IField';
-// import IForm from '@/interfaces/IForm';
-// import IQuestion from '@/interfaces/IQuestion';
-// import IUser from '@/interfaces/IUser';
+// import Field from '@/classes/Field';
+// import Form from '@/classes/Form';
+// import Question from '@/classes/Question';
+// import User from '@/classes/User';
 // import validate from '@/services/validate';
 
 // export default defineComponent({
@@ -189,11 +189,11 @@ export default defineComponent({
 //   components: { FileUploader },
 //   props: {
 //     field: {
-//       type: Object as PropType<IField>,
+//       type: Object as PropType<Field>,
 //       required: true,
 //     },
 //     form: {
-//       type: Object as PropType<IForm>,
+//       type: Object as PropType<Form>,
 //       required: true,
 //     },
 //   },
@@ -202,8 +202,8 @@ export default defineComponent({
 //     const store = useStore();
 //     const form = ref();
 //     const mounted = ref(false);
-//     const question: Ref<IQuestion> = computed(() => store.getters['questions/question']);
-//     const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+//     const question: Ref<Question> = computed(() => store.getters['questions/question']);
+//     const user: Ref<User> = computed(() => store.getters['auth/user']);
 //     watch(user, () => {
 //       store.commit('questions/setUser', user.value);
 //     });

@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
-import IDonorRule from '@/interfaces/IDonorRule';
-import IDonorRulesWithDeleted from '@/interfaces/IDonorRulesWithDeleted';
-import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
+import DonorRule from '@/classes/DonorRule';
+import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
+import DonorRuleUser from '@/classes/DonorRuleUser';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -12,20 +12,20 @@ const httpClient = new HttpClient('donor-rules');
 
 const actions: ActionTree<State, RootState> = {
   getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IDonorRule[]>());
+    commit('setAll', await httpClient.get<DonorRule[]>());
   },
   updateMany: async ({ commit, state }): Promise<void> => {
     commit(
       'setAll',
-      await httpClient.put<IDonorRulesWithDeleted, IDonorRulesWithDeleted>({
+      await httpClient.put<DonorRulesWithDeleted, DonorRulesWithDeleted>({
         payload: state.items,
         fileInfos: state.items.getFileInfos(),
         isFormData: true,
       })
     );
   },
-  addToUser: async ({ commit }, item: IDonorRuleUser): Promise<void> => {
-    await httpClient.post<IDonorRuleUser, IDonorRuleUser>({
+  addToUser: async ({ commit }, item: DonorRuleUser): Promise<void> => {
+    await httpClient.post<DonorRuleUser, DonorRuleUser>({
       query: 'add-to-user',
       payload: item,
     });

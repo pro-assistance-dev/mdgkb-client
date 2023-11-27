@@ -59,8 +59,8 @@
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import Schedule from '@/classes/timetable/Schedule';
-import ScheduleItem from '@/classes/timetable/ScheduleItems';
+import Schedule from '@/classes/Schedule';
+import ScheduleItem from '@/classes/ScheduleItems';
 export default defineComponent({
   name: 'ScheduleConstructor',
   props: {

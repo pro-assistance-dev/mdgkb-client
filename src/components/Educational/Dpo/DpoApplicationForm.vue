@@ -28,9 +28,9 @@ import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
 import NmoCourse from '@/classes/NmoCourse';
+import User from '@/classes/User';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/services/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
@@ -44,7 +44,7 @@ export default defineComponent({
     const mounted = ref(false);
     const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
     const nmoCourse: ComputedRef<NmoCourse> = computed<NmoCourse>(() => store.getters['dpoCourses/item']);
-    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
     const isAuth: ComputedRef<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
     const form = ref();

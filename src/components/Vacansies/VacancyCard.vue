@@ -57,15 +57,15 @@
 import { ElTag } from 'element-plus';
 import { defineComponent, PropType } from 'vue';
 
+import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
-import IVacancy from '@/interfaces/IVacancy';
 
 export default defineComponent({
   name: 'VacanncyCard',
   components: { ContactBlock, ElTag },
   props: {
     vacancy: {
-      type: Object as PropType<IVacancy>,
+      type: Object as PropType<Vacancy>,
       required: true,
     },
   },

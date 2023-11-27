@@ -25,7 +25,7 @@ export default defineComponent({
   setup() {
     const loadCourses = async () => {
       Provider.store.commit('residencyCourses/clearItems');
-      await Provider.store.dispatch('residencyCourses/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {

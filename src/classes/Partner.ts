@@ -1,32 +1,18 @@
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import PartnerType from '@/classes/PartnerType';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPartner from '@/interfaces/partners/IPartner';
-import IPartnerType from '@/interfaces/partners/IPartnerType';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Partner implements IPartner {
+export default class Partner {
   id?: string;
   name = '';
   link = '';
-  image: IFileInfo = new FileInfo();
+  image: FileInfo = new FileInfo();
   imageId?: string;
-  partnerType?: IPartnerType;
+  @ClassHelper.GetClassConstructor(PartnerType)
+  partnerType?: PartnerType;
   partnerTypeId?: string;
 
-  constructor(partner?: IPartner) {
-    if (!partner) {
-      return;
-    }
-    this.id = partner.id;
-    this.name = partner.name;
-    this.link = partner.link;
-    this.imageId = partner.imageId;
-    this.partnerTypeId = partner.partnerTypeId;
-    if (partner.image) {
-      this.image = new FileInfo(partner.image);
-    }
-    if (partner.partnerType) {
-      this.partnerType = new PartnerType(partner.partnerType);
-    }
+  constructor(i?: Partner) {
+    ClassHelper.BuildClass(this, i);
   }
 }

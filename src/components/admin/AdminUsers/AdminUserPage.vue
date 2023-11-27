@@ -29,10 +29,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import ISchema from '@/interfaces/schema/ISchema';
 import Role from '@/services/classes/Role';
-import IUser from '@/services/interfaces/IUser';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
@@ -45,7 +45,7 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const isNew: ComputedRef<boolean> = computed(() => !route.params['id']);
-    const user: ComputedRef<IUser> = computed<IUser>(() => store.getters['users/item']);
+    const user: ComputedRef<User> = computed<User>(() => store.getters['users/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const roles: ComputedRef<Role[]> = computed(() => store.getters['roles/items']);

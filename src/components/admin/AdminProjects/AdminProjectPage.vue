@@ -32,9 +32,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Project from '@/classes/Project';
+import ProjectItem from '@/classes/ProjectItem';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IProject from '@/interfaces/projects/IProject';
-import IProjectItem from '@/interfaces/projects/IProjectItem';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -68,8 +68,8 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const project: ComputedRef<IProject> = computed(() => store.getters['projects/item']);
-    const projectItems: ComputedRef<IProjectItem[]> = computed(() => store.getters['projects/projectItems']);
+    const project: ComputedRef<Project> = computed(() => store.getters['projects/item']);
+    const projectItems: ComputedRef<ProjectItem[]> = computed(() => store.getters['projects/projectItems']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const editableTabsIndex: Ref<string> = ref('0');
     const rules = {

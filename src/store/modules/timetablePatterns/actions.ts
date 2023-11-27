@@ -1,30 +1,13 @@
 import { ActionTree } from 'vuex';
 
-import ITimetable from '@/interfaces/timetables/ITimetable';
-import HttpClient from '@/services/HttpClient';
+import Timetable from '@/classes/Timetable';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
-
-const httpClient = new HttpClient('timetable-patterns');
+import { State } from './index';
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<ITimetable[]>());
-  },
-  get: async ({ commit }, id: string) => {
-    commit('set', await httpClient.get<ITimetable>({ query: `${id}` }));
-  },
-  create: async (_, item: ITimetable): Promise<void> => {
-    await httpClient.post<ITimetable, ITimetable>({ payload: item });
-  },
-  update: async (_, item: ITimetable): Promise<void> => {
-    await httpClient.put<ITimetable, ITimetable>({ query: `${item.id}`, payload: item });
-  },
-  remove: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `${id}` });
-    commit('remove', id);
-  },
+  ...getBaseActions<Timetable, State>('timetable-patterns'),
 };
 
 export default actions;

@@ -17,10 +17,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import Timetable from '@/classes/timetable/Timetable';
+import Timetable from '@/classes/Timetable';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
-import ITimetable from '@/interfaces/timetables/ITimetable';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+
 export default defineComponent({
   name: 'AdminTimetablePatternPage',
   components: { TimetableConstructorV2 },
@@ -30,7 +30,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const timetablePattern: ComputedRef<ITimetable> = computed<ITimetable>(() => store.getters['timetablePatterns/item']);
+    const timetablePattern: ComputedRef<Timetable> = computed<Timetable>(() => store.getters['timetablePatterns/item']);
     const weekdays = computed(() => store.getters['timetables/weekdays']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 

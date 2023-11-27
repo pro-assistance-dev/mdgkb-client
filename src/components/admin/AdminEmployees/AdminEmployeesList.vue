@@ -111,7 +111,7 @@ export default defineComponent({
         buttons: [{ text: 'Добавить сотрудника', type: 'primary', action: Provider.createAdmin }],
       },
       sortsLib: EmployeesSortsLib,
-      getAction: 'getAllWithCount',
+      getAction: 'getAll',
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {

@@ -117,10 +117,9 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import Timetable from '@/classes/timetable/Timetable';
+import Timetable from '@/classes/Timetable';
+import TimetableDay from '@/classes/TimetableDay';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ITimetable from '@/interfaces/timetables/ITimetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
 export default defineComponent({
   name: 'TimetableConstructorV2New',
   components: { TableButtonGroup },
@@ -139,11 +138,11 @@ export default defineComponent({
     const store = useStore();
     const weekdays = computed(() => store.getters['timetables/weekdays']);
     const expandRowKeys: Ref<string[]> = ref(['']);
-    const timetable: Ref<ITimetable> = computed<ITimetable>(
+    const timetable: Ref<Timetable> = computed<Timetable>(
       () => store.getters[`${props.storeModule}/${props.pattern ? 'item' : 'timetable'}`]
     );
-    const timetablePatterns: Ref<ITimetable[]> = computed<ITimetable[]>(() => store.getters[`timetablePatterns/items`]);
-    const chosenPattern: Ref<ITimetable> = ref(timetablePatterns.value[0]);
+    const timetablePatterns: Ref<Timetable[]> = computed<Timetable[]>(() => store.getters[`timetablePatterns/items`]);
+    const chosenPattern: Ref<Timetable> = ref(timetablePatterns.value[0]);
 
     const addTimetable = () => {
       if (!chosenPattern.value) {
@@ -157,15 +156,15 @@ export default defineComponent({
       store.commit(`${props.storeModule}/removeTimetable`);
     };
 
-    const addBreak = (day: ITimetableDay): void => {
+    const addBreak = (day: TimetableDay): void => {
       day.addBreak();
     };
 
-    const removeBreak = (day: ITimetableDay, index: number): void => {
+    const removeBreak = (day: TimetableDay, index: number): void => {
       day.removeBreak(index);
     };
 
-    const tableRowClassName = ({ row }: { row: ITimetableDay; rowIndex: number }): string => {
+    const tableRowClassName = ({ row }: { row: TimetableDay; rowIndex: number }): string => {
       if (row.breaksExists) {
         return 'timetable-row expand';
       }
@@ -176,13 +175,13 @@ export default defineComponent({
       return 'timetable-row';
     };
 
-    const handleExpandChange = (row: ITimetableDay) => {
+    const handleExpandChange = (row: TimetableDay) => {
       const key = row.weekday.name;
       const lastKey = expandRowKeys.value[0];
       expandRowKeys.value = key === lastKey ? [] : [key];
     };
 
-    const handleBreakChange = (value: boolean, row: ITimetableDay) => {
+    const handleBreakChange = (value: boolean, row: TimetableDay) => {
       if (value) {
         handleExpandChange(row);
         row.addBreak();
