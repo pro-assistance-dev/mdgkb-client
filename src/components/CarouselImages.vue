@@ -1,5 +1,5 @@
 <template>
-  <div class="field" :style="{ height: height }">
+  <div class="field" :style="{ height: height, maxHeight: maxHeight }">
     <div class="container">
       <svg class="icon-arrow" @click.stop="toPrev()">
         <use xlink:href="#arrow-prev"></use>
@@ -14,15 +14,17 @@
           }"
         >
           <div class="image">
-            <img
-              :id="carouselGroupElement.fileInfo.getImageUrl()"
-              :style="{ height: `calc(${height} - 110px)` }"
-              :src="carouselGroupElement.fileInfo.getImageUrl()"
-              :alt="carouselGroupElement.fileInfo.originalName"
-              @click="showImageInFullScreen()"
-            />
+            <div class="image-box">
+              <img
+                :id="carouselGroupElement.fileInfo.getImageUrl()"
+                :style="{ height: `calc(${height} - 110px)`, maxHeight: `calc(${maxHeight} - 110px)` }"
+                :src="carouselGroupElement.fileInfo.getImageUrl()"
+                :alt="carouselGroupElement.fileInfo.originalName"
+                @click="showImageInFullScreen()"
+              />
+            </div>
           </div>
-          <div class="label">{{ carouselGroupElement.description }}</div>
+          <div class="label">{{ carouselGroupElement.description }}{{ height }}{{ maxHeight }}</div>
         </div>
       </div>
       <svg class="icon-arrow" @click.stop="toNext()">
@@ -79,6 +81,11 @@ export default defineComponent({
       type: String,
       default: '360px',
     },
+
+    maxHeight: {
+      type: String,
+      default: '360px',
+    },
   },
   emits: ['openModalWindow'],
   setup(props, { emit }) {
@@ -86,6 +93,8 @@ export default defineComponent({
 
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(0);
+    // const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
+
     // const activeImageIndex = ref(0);
 
     const rev: Ref<Animations> = ref(Animations.None);
@@ -272,15 +281,6 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.image {
-  height: auto;
-  display: grid;
-  grid-template-rows: 1fr;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 img {
   width: auto;
   -webkit-user-select: none; /* Safari */
@@ -337,28 +337,16 @@ img {
 }
 
 @media screen and (max-width: 768px) {
-  .container {
-    height: 240px;
-  }
-  img {
-    height: 178px;
-  }
   .label {
-    max-width: 400px;
     font-size: 12px;
+  }
+  .icon-arrow {
+    padding: 0px;
   }
 }
 
 @media screen and (max-width: 480px) {
-  .container {
-    height: 160px;
-  }
-  img {
-    height: 108px;
-  }
-
   .label {
-    max-width: 200px;
     height: 40px;
     font-size: 9px;
   }

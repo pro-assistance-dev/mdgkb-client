@@ -34,11 +34,11 @@
                 <svg class="icon-close" @click="modalOpen = false">
                   <use xlink:href="#close"></use>
                 </svg>
-                <CarouselImages :key="news.id" :images="news.newsImages" height="600px" />
+                <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" max-height="1000px" />
               </div>
             </div>
           </teleport>
-          <CarouselImages :key="news.id" :images="news.newsImages" @openModalWindow="openModalWindow" />
+          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
@@ -78,6 +78,9 @@ export default defineComponent({
     const slug = computed(() => Provider.route().params['slug']);
     const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
     const modalOpen: Ref<boolean> = ref(false);
+    const mobileWindow = ref(
+      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
+    );
 
     watch(slug, async () => {
       console.log(slug);
@@ -131,6 +134,7 @@ export default defineComponent({
       editCommentForm,
       modalOpen,
       openModalWindow,
+      mobileWindow,
     };
   },
 });
@@ -316,9 +320,43 @@ h3 {
   }
 }
 
+@media screen and (max-width: 768px) {
+  :deep(.leave-a-review) {
+    padding: 20px;
+  }
+  .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    max-width: 1344px;
+    width: calc(100% - 20px);
+    padding: 10px;
+    z-index: 4;
+    border-radius: 10px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .card-item {
     padding: 10px;
+  }
+  .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    max-width: 1344px;
+    width: calc(100% - 10px);
+    padding: 5px;
+    z-index: 4;
+    border-radius: 10px;
   }
 }
 
