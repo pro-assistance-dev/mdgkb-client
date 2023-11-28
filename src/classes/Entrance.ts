@@ -1,18 +1,17 @@
+import Building from '@/classes/Building';
 import Division from '@/classes/Division';
-import IBuilding from '@/interfaces/IBuilding';
-import IEntrance from '@/interfaces/IEntrance';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class Entrance implements IEntrance {
+export default class Entrance {
   id?: string;
   name = '';
   address = '';
   number?: number;
-  building?: IBuilding;
+  building?: Building;
   buildingId?: string;
   divisions?: Division[] = [];
 
-  constructor(i?: IEntrance) {
+  constructor(i?: Entrance) {
     ClassHelper.BuildClass(this, i);
     this.setName();
   }

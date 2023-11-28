@@ -198,8 +198,8 @@ export default defineComponent({
     const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
     const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
     const newDoctorId = ref();
-    const buildingOption = computed(() => Provider.store.getters['buildings/building']);
-    const buildingsOptions = computed(() => Provider.store.getters['buildings/buildings']);
+    const buildingOption = computed(() => Provider.store.getters['buildings/item']);
+    const buildingsOptions = computed(() => Provider.store.getters['buildings/items']);
 
     const load = async (): Promise<void> => {
       await Provider.store.dispatch('buildings/getAll');

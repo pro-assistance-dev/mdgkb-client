@@ -15,8 +15,8 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'QuestionAnswerPage',
@@ -25,7 +25,7 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
 
     onBeforeMount(async () => {
       await store.dispatch('users/get', userId.value);

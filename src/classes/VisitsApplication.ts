@@ -1,17 +1,15 @@
 import Division from '@/classes/Division';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IGate from '@/interfaces/IGate';
-import IVisit from '@/interfaces/IVisit';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
+import Gate from '@/classes/Gate';
+import Visit from '@/classes/Visit';
 import ClassHelper from '@/services/ClassHelper';
-
-import Form from './Form';
-import Visit from './Visit';
 
 export default class VisitsApplication {
   id?: string;
   division: Division = new Division();
   divisionId?: string;
-  gate?: IGate;
+  gate?: Gate;
   gateId?: string;
   withCar = false;
 
@@ -19,7 +17,7 @@ export default class VisitsApplication {
   formValueId?: string;
 
   @ClassHelper.GetClassConstructor(Visit)
-  visits: IVisit[] = [];
+  visits: Visit[] = [];
   visitsForDelete: string[] = [];
   //
 
@@ -34,7 +32,7 @@ export default class VisitsApplication {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return this.formValue.getFileInfos();
   }
 

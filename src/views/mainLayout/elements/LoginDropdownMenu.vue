@@ -40,10 +40,11 @@
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 
+import User from '@/classes/User';
 import { authGuard } from '@/router';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
+
 export default defineComponent({
   name: 'LoginDropdownMenu',
   components: { LoginOutlined, LogoutOutlined, UserAddOutlined },
@@ -53,8 +54,8 @@ export default defineComponent({
     const login = () => Provider.store.commit('auth/openModal', 'login');
     const register = () => Provider.store.commit('auth/openModal', 'register');
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
-    const curUser: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const curUser: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
     const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
 
     const loadUser = async () => {

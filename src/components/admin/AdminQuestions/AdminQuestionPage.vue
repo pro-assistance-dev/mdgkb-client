@@ -79,9 +79,9 @@ import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Question from '@/classes/Question';
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import IQuestion from '@/interfaces/IQuestion';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -94,7 +94,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const form = ref();
-    const question: Ref<IQuestion> = computed<IQuestion>(() => store.getters['questions/item']);
+    const question: Ref<Question> = computed<Question>(() => store.getters['questions/item']);
     const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
       question: [{ required: true, message: 'Необходимо указать вопрос для публикации', trigger: 'blur' }],

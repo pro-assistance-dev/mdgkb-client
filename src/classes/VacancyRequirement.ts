@@ -1,17 +1,12 @@
-import IVacancyRequirement from '@/interfaces/IVacancyRequirement';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class VacancyRequirement implements IVacancyRequirement {
-  id?;
+export default class VacancyRequirement {
+  id?: string;
   name = '';
   vacancyId?: string;
   order = 0;
-  constructor(i?: IVacancyRequirement) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.order = i.order;
-    this.vacancyId = i.vacancyId;
+
+  constructor(i?: VacancyRequirement) {
+    ClassHelper.BuildClass(this, i);
   }
 }

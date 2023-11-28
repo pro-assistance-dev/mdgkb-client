@@ -1,7 +1,7 @@
 import { ActionTree } from 'vuex';
 
-import News from '@/classes/news/News';
-import ISupportMessage from '@/interfaces/ISupportMessage';
+import News from '@/classes/News';
+import SupportMessage from '@/classes/SupportMessage';
 import ISupportMessagesWithCount from '@/interfaces/ISupportMessagesWithCount';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
@@ -26,15 +26,15 @@ const actions: ActionTree<State, RootState> = {
     const res = await httpClient.get<News>({ query: `${id}` });
     commit('set', res);
   },
-  create: async ({ commit }, item: ISupportMessage): Promise<void> => {
-    await httpClient.post<ISupportMessage, ISupportMessage>({
+  create: async ({ commit }, item: SupportMessage): Promise<void> => {
+    await httpClient.post<SupportMessage, SupportMessage>({
       payload: item,
       isFormData: true,
     });
     commit('set');
   },
-  update: async ({ commit }, item: ISupportMessage): Promise<void> => {
-    await httpClient.put<ISupportMessage, ISupportMessage>({
+  update: async ({ commit }, item: SupportMessage): Promise<void> => {
+    await httpClient.put<SupportMessage, SupportMessage>({
       query: `${item.id}`,
       payload: item,
     });
@@ -44,8 +44,8 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.delete({ query: `${id}` });
     commit('remove', id);
   },
-  changeNewStatus: async (_, item: ISupportMessage): Promise<void> => {
-    await httpClient.put<ISupportMessage, ISupportMessage>({
+  changeNewStatus: async (_, item: SupportMessage): Promise<void> => {
+    await httpClient.put<SupportMessage, SupportMessage>({
       query: `new/${item.id}?isNew=${item.isNew}`,
     });
   },

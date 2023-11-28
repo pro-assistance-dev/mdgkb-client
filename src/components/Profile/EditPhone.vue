@@ -39,10 +39,10 @@
 import { ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onMounted } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
+import User from '@/classes/User';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import router from '@/router';
-import IUser from '@/services/interfaces/IUser';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 
@@ -54,8 +54,8 @@ export default defineComponent({
   emits: ['close'],
   setup(_, { emit }) {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const rules = {
       phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],

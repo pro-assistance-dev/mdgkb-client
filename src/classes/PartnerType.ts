@@ -1,18 +1,12 @@
-import IPartnerType from '@/interfaces/partners/IPartnerType';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class PartnerType implements IPartnerType {
+export default class PartnerType {
   id?: string;
   name = '';
   slug = '';
   showImage = false;
 
-  constructor(partnerType?: IPartnerType) {
-    if (!partnerType) {
-      return;
-    }
-    this.id = partnerType.id;
-    this.name = partnerType.name;
-    this.slug = partnerType.slug;
-    this.showImage = partnerType.showImage;
+  constructor(i?: PartnerType) {
+    ClassHelper.BuildClass(this, i);
   }
 }

@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import ContactInfo from '@/services/classes/ContactInfo';
 import Human from '@/services/classes/Human';
 import StringsService from '@/services/Strings';

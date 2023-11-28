@@ -1,6 +1,6 @@
-import IFaq from '@/interfaces/IFaq';
+import Faq from '@/classes/Faq';
 
 export default interface IFaqWithDeleted {
-  faqs: IFaq[];
+  faqs: Faq[];
   faqsWithDeleted: string[];
 }

@@ -12,12 +12,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
+import HospitalizationTypeStage from '@/classes/HospitalizationTypeStage';
 import HospitalizationStageCard from '@/components/Hospitalizations/HospitalizationStageCard.vue';
-import IHospitalizationTypeStage from '@/interfaces/IHospitalizationTypeStage';
+
 export default defineComponent({
   name: 'HospitalizationStages',
   props: {
-    hospitalizationTypeStages: { type: Array as PropType<IHospitalizationTypeStage[]>, required: true },
+    hospitalizationTypeStages: { type: Array as PropType<HospitalizationTypeStage[]>, required: true },
   },
   components: { HospitalizationStageCard },
   setup() {

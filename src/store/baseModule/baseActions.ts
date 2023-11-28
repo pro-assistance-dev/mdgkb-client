@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
@@ -73,7 +73,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       const opts: IBodyfulParams<T> = { payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
-        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
+        opts.fileInfos.forEach((f: FileInfo) => (f.url = ''));
       }
       return await httpClient.post<T, T>(opts);
     },
@@ -92,7 +92,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       const opts: IBodyfulParams<T> = { query: `${item.id}`, payload: item, isFormData: true };
       if (item.getFileInfos) {
         opts.fileInfos = item.getFileInfos();
-        opts.fileInfos.forEach((f: IFileInfo) => (f.url = ''));
+        opts.fileInfos.forEach((f: FileInfo) => (f.url = ''));
       }
       return await httpClient.put<T, T>(opts);
     },

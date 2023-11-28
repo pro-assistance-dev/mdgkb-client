@@ -1,35 +1,33 @@
 import CandidateApplicationSpecialization from '@/classes/CandidateApplicationSpecialization';
 import CandidateExam from '@/classes/CandidateExam';
+import FileInfo from '@/classes/FileInfo';
 import Specialization from '@/classes/Specialization';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
-import ICandidateApplicationSpecialization from '@/interfaces/ICandidateApplicationSpecialization';
-import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
 
-export default class CandidateApplication implements ICandidateApplication {
+export default class CandidateApplication {
   id?: string;
+  @ClassHelper.GetClassConstructor(CandidateExam)
   candidateExam: CandidateExam = new CandidateExam();
   candidateExamId?: string;
   @ClassHelper.GetClassConstructor(CandidateApplicationSpecialization)
-  candidateApplicationSpecializations: ICandidateApplicationSpecialization[] = [];
+  candidateApplicationSpecializations: CandidateApplicationSpecialization[] = [];
   candidateApplicationSpecializationsForDelete: string[] = [];
   formValue = new Form();
   formValueId?: string;
 
-  constructor(i?: ICandidateApplication) {
+  constructor(i?: CandidateApplication) {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return this.formValue.getFileInfos();
   }
 
-  addSpecialization(specialization: ISpecialization): void {
+  addSpecialization(specialization: Specialization): void {
     const index = this.candidateApplicationSpecializations.findIndex(
-      (i: ICandidateApplicationSpecialization) => i.specializationId === specialization.id
+      (i: CandidateApplicationSpecialization) => i.specializationId === specialization.id
     );
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(
@@ -45,7 +43,7 @@ export default class CandidateApplication implements ICandidateApplication {
     this.candidateApplicationSpecializations.push(s);
   }
   findSpecialization(id: string): boolean {
-    const spec = this.candidateApplicationSpecializations.find((i: ICandidateApplicationSpecialization) => i.specializationId === id);
+    const spec = this.candidateApplicationSpecializations.find((i: CandidateApplicationSpecialization) => i.specializationId === id);
     return !!spec;
   }
 }

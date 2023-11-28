@@ -21,14 +21,14 @@
 import { Star, StarFilled } from '@element-plus/icons-vue';
 import { defineComponent, PropType } from 'vue';
 
-import IDonorRule from '@/interfaces/IDonorRule';
+import DonorRule from '@/classes/DonorRule';
 
 export default defineComponent({
   name: 'DonorRuleCard',
   components: { StarFilled, Star },
   props: {
     donorRule: {
-      type: Object as PropType<IDonorRule>,
+      type: Object as PropType<DonorRule>,
       required: true,
     },
   },

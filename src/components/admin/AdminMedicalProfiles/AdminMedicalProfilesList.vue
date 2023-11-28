@@ -32,7 +32,7 @@ import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
 export default defineComponent({

@@ -18,9 +18,9 @@
 import { ElLoading, ElMessage, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';
@@ -35,7 +35,7 @@ export default defineComponent({
     const form = ref();
     const questionsForm = ref();
     const achievementsForm = ref();
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );

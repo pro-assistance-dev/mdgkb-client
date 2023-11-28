@@ -41,7 +41,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const sideOrganizations = computed(() => store.getters['sideOrganizations/sideOrganizations']);
+    const sideOrganizations = computed(() => store.getters['sideOrganizations/items']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');

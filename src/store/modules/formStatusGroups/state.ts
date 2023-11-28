@@ -1,8 +1,8 @@
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 
 export interface State {
-  items: IFormStatusGroup[];
-  item: IFormStatusGroup;
+  items: FormStatusGroup[];
+  item: FormStatusGroup;
   count: number;
   showDialog: boolean;
   dialogTitle: string;

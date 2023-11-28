@@ -1,11 +1,11 @@
 import { GetterTree } from 'vuex';
 
-import News from '@/classes/news/News';
-import NewsComment from '@/classes/news/NewsComment';
-import NewsToTag from '@/classes/news/NewsToTag';
+import EventApplication from '@/classes/EventApplication';
+import News from '@/classes/News';
+import NewsComment from '@/classes/NewsComment';
+import NewsToTag from '@/classes/NewsToTag';
+import Tag from '@/classes/Tag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import IEventApplication from '@/interfaces/news/IEventApplication';
-import ITag from '@/interfaces/news/ITag';
 import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
@@ -44,13 +44,13 @@ const getters: GetterTree<State, RootState> = {
   getBySlug(state, slug): News | undefined {
     return state.items.find((i: News) => i.slug === slug);
   },
-  findTags(state): ITag[] | undefined {
+  findTags(state): Tag[] | undefined {
     if (state.item) return state.item.newsToTags.map((newsToTag: NewsToTag) => newsToTag.tag);
   },
   allNewsLoaded(state): boolean {
     return state.allNewsLoaded;
   },
-  filterTags(state): ITag[] {
+  filterTags(state): Tag[] {
     return state.filterTags;
   },
   calendarNews(state): News[] {
@@ -70,7 +70,7 @@ const getters: GetterTree<State, RootState> = {
   comments(state): NewsComment[] {
     return state.item.newsComments;
   },
-  eventApplication(state): IEventApplication {
+  eventApplication(state): EventApplication {
     return state.eventApplication;
   },
 };

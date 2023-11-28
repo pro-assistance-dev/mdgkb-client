@@ -71,20 +71,20 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Field from '@/classes/Field';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import EditorContent from '@/components/EditorContent.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IField from '@/interfaces/IField';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 
 export default defineComponent({
   name: 'FieldValuesForm',
   components: { FieldValuesFormItem, EditorContent, FileUploader },
   props: {
     form: {
-      type: Object as PropType<IForm>,
+      type: Object as PropType<Form>,
       required: true,
     },
     showModComments: {
@@ -114,11 +114,11 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => store.getters['formStatuses/items']);
-    const formValue: Ref<IForm | undefined> = ref();
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => store.getters['formStatuses/items']);
+    const formValue: Ref<Form | undefined> = ref();
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
-    const fields: Ref<IField[]> = ref([]);
+    const fields: Ref<Field[]> = ref([]);
     const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
@@ -127,7 +127,7 @@ export default defineComponent({
         formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses.value);
       }
       if (props.showModComments && !props.form.formStatus.isNew() && !props.form.formStatus.isAccepted()) {
-        formValue.value.fields = formValue.value.fields.filter((el: IField) => {
+        formValue.value.fields = formValue.value.fields.filter((el: Field) => {
           if (!el.id) return;
           return props.form.findFieldValue(el.id)?.modComment;
         });
@@ -141,15 +141,15 @@ export default defineComponent({
       });
     });
 
-    const filteredFields = (): IField[] => {
+    const filteredFields = (): Field[] => {
       if (props.leaveFieldsWithCode?.length > 0) {
-        return props.form.fields.filter((field: IField) => props.leaveFieldsWithCode?.includes(field.code));
+        return props.form.fields.filter((field: Field) => props.leaveFieldsWithCode?.includes(field.code));
       }
       if (props.filterFieldsWithCode?.length > 0) {
-        return props.form.fields.filter((field: IField) => !props.filterFieldsWithCode?.includes(field.code));
+        return props.form.fields.filter((field: Field) => !props.filterFieldsWithCode?.includes(field.code));
       }
       if (props.requiredForCancelOnly) {
-        return props.form.fields.filter((field: IField) => field.requiredForCancel);
+        return props.form.fields.filter((field: Field) => field.requiredForCancel);
       }
       return props.form.fields;
     };
@@ -164,11 +164,11 @@ export default defineComponent({
     };
   },
   methods: {
-    showColumn(dataTable: IField[], fieldData: string, secondFieldData?: string) {
-      const showColumn = !!dataTable.filter((item: IField) => {
-        const firstField = item[fieldData as keyof IField];
-        const firstFieldAsIFileInfo = item[fieldData as keyof IField] as IFileInfo;
-        return !secondFieldData ? firstField : firstFieldAsIFileInfo[secondFieldData as keyof IFileInfo];
+    showColumn(dataTable: Field[], fieldData: string, secondFieldData?: string) {
+      const showColumn = !!dataTable.filter((item: Field) => {
+        const firstField = item[fieldData as keyof Field];
+        const firstFieldAsIFileInfo = item[fieldData as keyof Field] as FileInfo;
+        return !secondFieldData ? firstField : firstFieldAsIFileInfo[secondFieldData as keyof FileInfo];
       }).length;
       return showColumn;
     },

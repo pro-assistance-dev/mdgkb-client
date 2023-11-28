@@ -1,9 +1,9 @@
-import IComment from '@/interfaces/comments/IComment';
-import INewsComment from '@/interfaces/news/INewsComment';
+import Comment from '@/classes/Comment';
+import NewsComment from '@/classes/NewsComment';
 
 export default interface State {
-  comments: IComment[];
+  comments: Comment[];
   count: number;
   positiveMode: boolean;
-  comment: INewsComment;
+  comment: NewsComment;
 }

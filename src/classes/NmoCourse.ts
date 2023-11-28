@@ -4,7 +4,6 @@ import NmoCourseSpecialization from '@/classes/NmoCourseSpecialization';
 import NmoCourseTeacher from '@/classes/NmoCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
-import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
 
@@ -65,7 +64,7 @@ export default class NmoCourse {
     this.dpoCoursesDates.push(new DpoCourseDates());
   }
 
-  addSpecialization(specialization: ISpecialization): void {
+  addSpecialization(specialization: Specialization): void {
     const index = this.dpoCoursesSpecializations.findIndex((i: NmoCourseSpecialization) => i.specializationId === specialization.id);
     if (index > -1) {
       ClassHelper.RemoveFromClassByIndex(index, this.dpoCoursesSpecializations, this.dpoCoursesSpecializationsForDelete);

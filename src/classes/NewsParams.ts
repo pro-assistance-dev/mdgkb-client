@@ -1,12 +1,16 @@
-import INewsParams from '@/interfaces/news/INewsParams';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class NewsParams implements INewsParams {
+export default class NewsParams {
   publishedOn?: Date;
   createdAt?: Date;
   limit = 6;
   filterTags?: string[];
   orderByView = false;
   events = false;
+
+  constructor(i?: NewsParams) {
+    ClassHelper.BuildClass(this, i);
+  }
 
   toUrl(): string {
     const limit = `limit=${this.limit}`;

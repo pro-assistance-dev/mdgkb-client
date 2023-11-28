@@ -56,10 +56,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
+import User from '@/classes/User';
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
@@ -73,7 +73,7 @@ export default defineComponent({
     const showForm: Ref<boolean> = ref(false);
     const vacancy: ComputedRef<Vacancy> = computed(() => Provider.store.getters['vacancies/item']);
     const mounted: Ref<boolean> = ref(false);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
 
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['vacancyResponses/emailExists']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);

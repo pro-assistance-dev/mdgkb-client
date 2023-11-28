@@ -1,23 +1,15 @@
-import ScheduleItem from '@/classes/timetable/ScheduleItems';
-import IDish from '@/interfaces/IDish';
+import ScheduleItem from '@/classes/ScheduleItems';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Dish implements IDish {
+export default class Dish {
   id?: string;
   name = '';
   weight = '';
+  @ClassHelper.GetClassConstructor(ScheduleItem)
   scheduleItem = new ScheduleItem();
   scheduleItemId?: string;
 
-  constructor(i?: IDish) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.weight = i.weight;
-    if (i.scheduleItem) {
-      this.scheduleItem = new ScheduleItem();
-    }
-    this.scheduleItemId = i.scheduleItemId;
+  constructor(i?: Dish) {
+    ClassHelper.BuildClass(this, i);
   }
 }

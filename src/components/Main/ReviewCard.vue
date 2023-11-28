@@ -13,13 +13,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IComment from '@/interfaces/comments/IComment';
+import Comment from '@/classes/Comment';
 
 export default defineComponent({
   name: 'ReviewCard',
   props: {
     item: {
-      type: Object as PropType<IComment>,
+      type: Object as PropType<Comment>,
       required: true,
     },
   },

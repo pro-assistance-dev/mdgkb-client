@@ -72,12 +72,12 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import Hospitalization from '@/classes/Hospitalization';
+import HospitalizationType from '@/classes/HospitalizationType';
 import HospitalizationAnalyzes from '@/components/Hospitalizations/HospitalizationAnalyzes.vue';
 import HospitalizationDocuments from '@/components/Hospitalizations/HospitalizationDocuments.vue';
 import HospitalizationsHowSendApplication from '@/components/Hospitalizations/HospitalizationsHowSendApplication.vue';
 import HospitalizationStages from '@/components/Hospitalizations/HospitalizationStages.vue';
-import IHospitalization from '@/interfaces/IHospitalization';
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
@@ -88,11 +88,9 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const showInfo: Ref<boolean> = ref(false);
-    const hospitalizationsTypes: ComputedRef<IHospitalizationType[]> = computed(
-      () => Provider.store.getters['hospitalizationsTypes/items']
-    );
-    const selectedHospitalizationsType: Ref<IHospitalizationType | undefined> = ref(undefined);
-    const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const hospitalizationsTypes: ComputedRef<HospitalizationType[]> = computed(() => Provider.store.getters['hospitalizationsTypes/items']);
+    const selectedHospitalizationsType: Ref<HospitalizationType | undefined> = ref(undefined);
+    const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
     const showDialog: Ref<boolean> = ref(false);
     const showContacts: Ref<boolean> = ref(false);
     const contacts = [
@@ -124,14 +122,14 @@ export default defineComponent({
       Provider.store.dispatch('hospitalizationsTypes/getAll');
     });
 
-    const downloadDocs = (hospitalization: IHospitalizationType): void => {
+    const downloadDocs = (hospitalization: HospitalizationType): void => {
       Provider.store.commit('hospitalizations/selectHospitalization', hospitalization);
       selectedHospitalizationsType.value = hospitalization;
       emit('downloadDocs');
       showDialog.value = true;
     };
 
-    const selectHospitalization = (hospitalizationType: IHospitalizationType): void => {
+    const selectHospitalization = (hospitalizationType: HospitalizationType): void => {
       Provider.store.commit('hospitalizations/selectHospitalization', hospitalizationType);
       if (hospitalization.value.isMoscowReferral()) {
         ElMessageBox.alert(

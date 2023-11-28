@@ -135,14 +135,14 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import Form from '@/classes/Form';
+import Vacancy from '@/classes/Vacancy';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IForm from '@/interfaces/IForm';
-import IVacancy from '@/interfaces/IVacancy';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -166,10 +166,10 @@ export default defineComponent({
     AdminListWrapper,
   },
   setup() {
-    const vacancies: ComputedRef<IVacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
+    const vacancies: ComputedRef<Vacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
-    const formPatterns: ComputedRef<IForm[]> = computed(() => Provider.store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = computed(() => Provider.store.getters['formPatterns/items']);
 
     const editMany = async () => {
       Provider.store.commit('admin/showLoading');
@@ -215,10 +215,10 @@ export default defineComponent({
     const create = () => Provider.router.push(`/admin/vacancies/new`);
 
     const newResponsesExists = (): boolean => {
-      return vacancies.value.some((vacancy: IVacancy) => vacancy.withNewResponses());
+      return vacancies.value.some((vacancy: Vacancy) => vacancy.withNewResponses());
     };
 
-    const setActive = async (vacancy: IVacancy) => {
+    const setActive = async (vacancy: Vacancy) => {
       await Provider.store.dispatch('vacancies/update', vacancy);
     };
 

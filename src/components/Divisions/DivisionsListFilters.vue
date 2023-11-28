@@ -32,13 +32,13 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 
+import TreatDirection from '@/classes/TreatDirection';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import ITreatDirection from '@/interfaces/ITreatDirection';
 import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -70,7 +70,7 @@ export default defineComponent({
   },
   emits: ['selectMode', 'load'],
   setup(props, { emit }) {
-    const treatDirections: Ref<ITreatDirection[]> = computed<ITreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
+    const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push(`/divisions/${event.value}`);
     };

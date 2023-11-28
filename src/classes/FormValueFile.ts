@@ -1,18 +1,16 @@
+import FileInfo from '@/classes/FileInfo';
 import Form from '@/classes/Form';
-import IForm from '@/interfaces/IForm';
-import IFormValueFile from '@/interfaces/IFormValueFile';
 import ClassHelper from '@/services/ClassHelper';
 
-import FileInfo from './File/FileInfo';
-
-export default class FormValueFile implements IFormValueFile {
+export default class FormValueFile {
   id?: string;
   formValueId?: string;
-  formValue: IForm = new Form();
+  formValue: Form = new Form();
+  @ClassHelper.GetClassConstructor(FileInfo)
   file = new FileInfo();
   fileId?: string;
 
-  constructor(i?: IFormValueFile) {
+  constructor(i?: FormValueFile) {
     ClassHelper.BuildClass(this, i);
   }
 }

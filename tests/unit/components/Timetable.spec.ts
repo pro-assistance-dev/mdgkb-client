@@ -1,16 +1,15 @@
 import { mount, VueWrapper } from '@vue/test-utils';
 
 import TimePeriod from '@/classes/TimePeriod';
-import Timetable from '@/classes/timetable/Timetable';
-import TimetableDay from '@/classes/timetable/TimetableDay';
+import Timetable from '@/classes/Timetable';
+import TimetableDay from '@/classes/TimetableDay';
 import TimetableComponent from '@/components/TimetableComponent.vue';
-import ITimetable from '@/interfaces/timetables/ITimetable';
 
 jest.mock('vue-router', () => ({
   useRoute: jest.fn(() => ({ params: { slug: 1 } })),
 }));
 
-const createWrapper = (timetable: ITimetable, route?: string): VueWrapper<any> => {
+const createWrapper = (timetable: Timetable, route?: string): VueWrapper<any> => {
   return mount(TimetableComponent, {
     props: {
       timetable: timetable,
@@ -27,7 +26,7 @@ const createWrapper = (timetable: ITimetable, route?: string): VueWrapper<any> =
 
 describe('Timetable.vue', () => {
   let wrapper: VueWrapper<any>;
-  let timetable: ITimetable;
+  let timetable: Timetable;
 
   beforeEach(() => {
     timetable = new Timetable();

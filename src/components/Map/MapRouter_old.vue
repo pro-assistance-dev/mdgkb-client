@@ -26,7 +26,7 @@ import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Division from '@/classes/Division';
-import IEntrance from '@/interfaces/IEntrance';
+import Entrance from '@/classes/Entrance';
 import IStreetEntranceRef from '@/interfaces/IStreetEntranceRef';
 
 export default defineComponent({
@@ -41,15 +41,15 @@ export default defineComponent({
       { id: 'main-enter-2', name: 'Вход для пациентов, записанных на прием в КДЦ', building: 'main-enter', entrance: '2' },
       { id: 'main-enter-3', name: 'Вход для пациентов за экстренной медицинской помощью', building: 'main-enter', entrance: '3' },
     ]);
-    const selectItems: Ref<(Division | IEntrance | IStreetEntranceRef)[]> = ref([]);
+    const selectItems: Ref<(Division | Entrance | IStreetEntranceRef)[]> = ref([]);
     let selectADataBuilding = '';
     let selectBDataBuilding = '';
     let selectADataEntrance = '';
     let selectBDataEntrance = '';
     const selectAId: Ref<string> = ref('');
-    const selectA: Ref<Division | IEntrance | IStreetEntranceRef | undefined> = ref();
+    const selectA: Ref<Division | Entrance | IStreetEntranceRef | undefined> = ref();
     const selectBId: Ref<string> = ref('');
-    const selectB: Ref<Division | IEntrance | IStreetEntranceRef | undefined> = ref();
+    const selectB: Ref<Division | Entrance | IStreetEntranceRef | undefined> = ref();
     const clickedPointA: Ref<boolean> = ref(true);
     const mount = ref(false);
     const loading = computed(() => store.getters['map/loading']);
@@ -58,13 +58,13 @@ export default defineComponent({
     const selectAChangeHandler = (id: string) => {
       // selectA.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = true;
-      selectA.value = selectItems.value.find((item: Division | IEntrance | IStreetEntranceRef) => item.id === id);
+      selectA.value = selectItems.value.find((item: Division | Entrance | IStreetEntranceRef) => item.id === id);
       if (selectA.value?.constructor.name === 'Division') {
         selectADataBuilding = String((selectA.value as Division)?.entrance?.building?.number);
         selectADataEntrance = String((selectA.value as Division)?.entrance?.number);
       } else if (selectA.value?.constructor.name === 'Entrance') {
-        selectADataBuilding = String((selectA.value as IEntrance)?.building?.number);
-        selectADataEntrance = String((selectA.value as IEntrance)?.number);
+        selectADataBuilding = String((selectA.value as Entrance)?.building?.number);
+        selectADataEntrance = String((selectA.value as Entrance)?.number);
       } else {
         selectADataBuilding = (selectA.value as IStreetEntranceRef)?.building;
         selectADataEntrance = (selectA.value as IStreetEntranceRef)?.entrance;
@@ -79,13 +79,13 @@ export default defineComponent({
     const selectBChangeHandler = (id: string) => {
       // selectB.value = store.getters['divisions/divisionById'](id);
       clickedPointA.value = false;
-      selectB.value = selectItems.value.find((item: Division | IEntrance | IStreetEntranceRef) => item.id === id);
+      selectB.value = selectItems.value.find((item: Division | Entrance | IStreetEntranceRef) => item.id === id);
       if (selectB.value?.constructor.name === 'Division') {
         selectBDataBuilding = String((selectB.value as Division)?.entrance?.building?.number);
         selectBDataEntrance = String((selectB.value as Division)?.entrance?.number);
       } else if (selectB.value?.constructor.name === 'Entrance') {
-        selectBDataBuilding = String((selectB.value as IEntrance)?.building?.number);
-        selectBDataEntrance = String((selectB.value as IEntrance)?.number);
+        selectBDataBuilding = String((selectB.value as Entrance)?.building?.number);
+        selectBDataEntrance = String((selectB.value as Entrance)?.number);
       } else {
         selectBDataBuilding = (selectB.value as IStreetEntranceRef)?.building;
         selectBDataEntrance = (selectB.value as IStreetEntranceRef)?.entrance;
@@ -271,7 +271,7 @@ export default defineComponent({
     const updateSelectValue = (building: string, entrance: string) => {
       const res =
         streetEntrances.value.find((el: IStreetEntranceRef) => el.building === building && el.entrance === entrance) ||
-        entrances.value.find((el: IEntrance) => String(el.building?.number) === building && String(el.number) === entrance);
+        entrances.value.find((el: Entrance) => String(el.building?.number) === building && String(el.number) === entrance);
       if (!res) return;
       if (clickedPointA.value) {
         selectA.value = res;

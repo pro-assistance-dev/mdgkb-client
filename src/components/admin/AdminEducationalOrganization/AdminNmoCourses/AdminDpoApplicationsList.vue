@@ -45,10 +45,10 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 
 import DpoApplication from '@/classes/DpoApplication';
+import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
@@ -67,7 +67,7 @@ export default defineComponent({
 
   setup() {
     const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](tableName));
 
     const filterModel = ref();
@@ -144,7 +144,7 @@ export default defineComponent({
 
     const createFilterModels = (): FilterModel[] => {
       const filters: FilterModel[] = [];
-      formStatuses.value.forEach((fs: IFormStatus) => {
+      formStatuses.value.forEach((fs: FormStatus) => {
         if (fs.id) {
           filters.push(DpoApplicationsFiltersLib.byStatus(fs.id, fs.label));
         }

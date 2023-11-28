@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IForm from '@/interfaces/IForm';
+import Form from '@/classes/Form';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IForm[] {
+  items(state): Form[] {
     return state.items;
   },
-  item(state): IForm {
+  item(state): Form {
     return state.item;
   },
 };

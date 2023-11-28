@@ -208,13 +208,13 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminResidencyApplicationAchievementsPoints from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationAchievementsPoints.vue';
 import DiplomaForm from '@/components/Educational/AdmissionCommittee/DiplomaForm.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -277,7 +277,7 @@ export default defineComponent({
       await store.dispatch('residencyApplications/updateWithoutReset', application.value);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

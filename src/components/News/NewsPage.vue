@@ -42,9 +42,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
-import CommentRules from '@/classes/news/CommentRules';
-import News from '@/classes/news/News';
-import NewsComment from '@/classes/news/NewsComment';
+import CommentRules from '@/classes/CommentRules';
+import News from '@/classes/News';
+import NewsComment from '@/classes/NewsComment';
 import Comments from '@/components/Comments/Comments.vue';
 import ImageGallery_new from '@/components/ImageGallery_new.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';

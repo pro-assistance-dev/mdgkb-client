@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IFaq from '@/interfaces/IFaq';
+import Faq from '@/classes/Faq';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IFaq[] {
-    return state.items;
-  },
-  item(state): IFaq {
-    return state.item;
-  },
+  ...getBaseGetters<Faq, State>(),
 };
 
 export default getters;

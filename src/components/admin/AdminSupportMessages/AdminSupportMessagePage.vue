@@ -45,8 +45,8 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import SupportMessage from '@/classes/SupportMessage';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import ISupportMessage from '@/interfaces/ISupportMessage';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -56,7 +56,7 @@ export default defineComponent({
   components: { WysiwygEditor },
   setup() {
     const form = ref();
-    const supportMessage: Ref<ISupportMessage> = computed<ISupportMessage>(() => Provider.store.getters['supportMessages/item']);
+    const supportMessage: Ref<SupportMessage> = computed<SupportMessage>(() => Provider.store.getters['supportMessages/item']);
     const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
       answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],

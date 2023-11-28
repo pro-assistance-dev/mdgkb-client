@@ -1,6 +1,6 @@
+import FileInfo from '@/classes/FileInfo';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default interface IFiler {
-  addFile: (file: IElementPlusFile, fileInfo: IFileInfo) => void;
+  addFile: (file: IElementPlusFile, fileInfo: FileInfo) => void;
 }

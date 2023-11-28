@@ -38,9 +38,8 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -60,11 +59,11 @@ export default defineComponent({
   },
   setup(props) {
     const dialogVisible: Ref<boolean> = ref(false);
-    const dialogFileInfo: Ref<IFileInfo> = ref(new FileInfo());
+    const dialogFileInfo: Ref<FileInfo> = ref(new FileInfo());
     const carouselRef = ref();
     const carousel: Ref<DivisionImage[][]> = ref([]);
 
-    const imgClickHandler = (fileInfo: IFileInfo) => {
+    const imgClickHandler = (fileInfo: FileInfo) => {
       dialogFileInfo.value = fileInfo;
       dialogVisible.value = true;
     };

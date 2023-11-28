@@ -16,9 +16,9 @@ import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
+import Appointment from '@/classes/Appointment';
 import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IAppointment from '@/interfaces/IAppointment';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -34,7 +34,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref(DoctorRules);
     const isEditMode: Ref<boolean> = ref(false);
-    const appointment: Ref<IAppointment> = computed(() => Provider.store.getters['appointments/item']);
+    const appointment: Ref<Appointment> = computed(() => Provider.store.getters['appointments/item']);
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {

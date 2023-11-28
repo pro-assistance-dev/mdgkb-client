@@ -13,12 +13,13 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 
-import IUser from '@/services/interfaces/IUser';
+import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
+
 export default defineComponent({
   name: 'RejectEmailPage',
   async setup() {
-    const user: Ref<IUser> = computed(() => Provider.store.getters['users/item']);
+    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
 
     onBeforeMount(async () => {
       await Provider.store.dispatch('users/get', Provider.route().params['userId']);

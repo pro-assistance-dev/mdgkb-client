@@ -35,10 +35,10 @@
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
 
+import FormStatus from '@/classes/FormStatus';
 import UserFormFields from '@/classes/UserFormFields';
+import VisitsApplication from '@/classes/VisitsApplication';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -51,7 +51,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const form = ref();
-    const visitsApplication: ComputedRef<IVisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
+    const visitsApplication: ComputedRef<VisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
     const isEditMode: Ref<boolean> = ref(false);
 
     const editButtonTitle: ComputedRef<string> = computed(() => {
@@ -83,7 +83,7 @@ export default defineComponent({
       next ? next() : await Provider.router.go(-1);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

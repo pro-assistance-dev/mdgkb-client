@@ -46,8 +46,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import CandidateApplication from '@/classes/CandidateApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
 
 export default defineComponent({
   name: 'AdminCandidateApplicationsList',
@@ -59,7 +59,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const candidateApplications: ComputedRef<ICandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
+    const candidateApplications: ComputedRef<CandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
     // const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     // const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     // const filterModel = ref();

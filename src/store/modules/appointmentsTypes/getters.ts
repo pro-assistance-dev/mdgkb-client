@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IAppointmentType from '@/interfaces/IAppointmentType';
+import AppointmentType from '@/classes/AppointmentType';
 import RootState from '@/store/types';
 
 import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IAppointmentType[] {
+  items(state): AppointmentType[] {
     return state.items;
   },
-  item(state): IAppointmentType {
+  item(state): AppointmentType {
     return state.item;
   },
 };

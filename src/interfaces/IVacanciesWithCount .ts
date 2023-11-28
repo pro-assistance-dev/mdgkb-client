@@ -1,6 +1,6 @@
-import IVacancy from './IVacancy';
+import Vacancy from '@/classes/Vacancy';
 
 export default interface IVacanciesWithCount {
-  vacancies: IVacancy[];
+  vacancies: Vacancy[];
   count: number;
 }

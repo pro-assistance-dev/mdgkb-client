@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex';
 
-import News from '@/classes/news/News';
-import NewsComment from '@/classes/news/NewsComment';
-import NewsToTag from '@/classes/news/NewsToTag';
-import Tag from '@/classes/news/Tag';
+import News from '@/classes/News';
+import NewsComment from '@/classes/NewsComment';
+import NewsToTag from '@/classes/NewsToTag';
+import Tag from '@/classes/Tag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import getBaseMutations from '@/store/baseModule/baseMutations';

@@ -1,4 +1,4 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 import PageSectionImage from '@/services/classes/PageSectionImage';
 import ClassHelper from '@/services/ClassHelper';
@@ -7,11 +7,11 @@ export default class PageSection {
   id?: string;
   name = '';
   singleScan = false;
-  scan?: IFileInfo;
+  scan?: FileInfo;
   scanId?: string;
   order = 0;
   description = '';
-  scans: IFileInfo[] = [];
+  scans: FileInfo[] = [];
   scansForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(PageSectionDocument)
   pageSectionDocuments: PageSectionDocument[] = [];
@@ -34,8 +34,8 @@ export default class PageSection {
     this.pageSectionDocuments.push(newDoc);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     this.pageSectionDocuments.forEach((i: PageSectionDocument) => {
       fileInfos.push(...i.getFileInfos());
     });

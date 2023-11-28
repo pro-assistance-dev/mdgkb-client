@@ -5,7 +5,7 @@
 
 // import User from '@/classes/User';
 // import ProfileSettingsPage from '@/components/Profile/Education/ProfileSettingsPage.vue';
-// import IUser from '@/interfaces/IUser';
+// import User from '@/classes/User';
 
 // import ComponentStub from '../../../__mocks__/ComponentStub';
 
@@ -48,7 +48,7 @@ describe('ProfileSettingsPage.vue', () => {
   //           },
   //         },
   //         mutations: {
-  //           set(state, item: IUser) {
+  //           set(state, item: User) {
   //             state.item = new User(item);
   //           },
   //         },

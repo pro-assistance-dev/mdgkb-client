@@ -58,7 +58,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import NewsDoctor from '@/classes/news/NewsDoctor';
+import NewsDoctor from '@/classes/NewsDoctor';
 
 export default defineComponent({
   name: 'NewsDoctorsCard',

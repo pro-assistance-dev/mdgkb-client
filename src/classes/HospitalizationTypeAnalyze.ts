@@ -1,23 +1,15 @@
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
-import IHospitalizationTypeAnalyze from '@/interfaces/IHospitalizationTypeAnalize';
+import HospitalizationType from '@/classes/HospitalizationType';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class HospitalizationTypeAnalyze implements IHospitalizationTypeAnalyze {
+export default class HospitalizationTypeAnalyze {
   id?: string;
   name = '';
   order = 0;
   durationDays = 0;
-  hospitalizationType?: IHospitalizationType;
+  hospitalizationType?: HospitalizationType;
   hospitalizationTypeId?: string;
   children = true;
-  constructor(i?: IHospitalizationTypeAnalyze) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.order = i.order;
-    this.name = i.name;
-    this.durationDays = i.durationDays;
-    this.children = i.children;
-    this.hospitalizationTypeId = i.hospitalizationTypeId;
+  constructor(i?: HospitalizationTypeAnalyze) {
+    ClassHelper.BuildClass(this, i);
   }
 }

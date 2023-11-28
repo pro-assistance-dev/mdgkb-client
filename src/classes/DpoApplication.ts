@@ -1,8 +1,7 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
+import NmoCourse from '@/classes/NmoCourse';
 import ClassHelper from '@/services/ClassHelper';
-
-import Form from './Form';
-import NmoCourse from './NmoCourse';
 
 export default class DpoApplication {
   id?: string;
@@ -22,7 +21,7 @@ export default class DpoApplication {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return this.formValue.getFileInfos();
   }
 

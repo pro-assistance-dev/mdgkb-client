@@ -1,5 +1,5 @@
 import MedicalProfile from '@/classes/MedicalProfile';
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class MedicalProfileNews {

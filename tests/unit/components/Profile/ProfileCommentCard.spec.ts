@@ -4,8 +4,6 @@ import { ComponentPublicInstance } from 'vue';
 import Comment from '@/classes/Comment';
 import Question from '@/classes/Question';
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
-import IComment from '@/interfaces/comments/IComment';
-import IQuestion from '@/interfaces/IQuestion';
 import DateTimeFormatter from '@/services/DateFormat';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
@@ -13,8 +11,8 @@ import ComponentStub from '../../../__mocks__/ComponentStub';
 const dateTimeFormatter = new DateTimeFormatter('ru-RU');
 
 type IWrapper = (object: {
-  comment?: IComment;
-  question?: IQuestion;
+  comment?: Comment;
+  question?: Question;
   isQuestion?: boolean;
   isReview?: boolean;
 }) => VueWrapper<ComponentPublicInstance>;
@@ -40,8 +38,8 @@ const createWrapper: IWrapper = ({ comment, question, isQuestion, isReview }): V
 
 describe('ProfileCommentCard.vue', () => {
   let wrapper: VueWrapper<ComponentPublicInstance>;
-  let comment: IComment;
-  let question: IQuestion;
+  let comment: Comment;
+  let question: Question;
 
   beforeEach(() => {
     comment = new Comment();

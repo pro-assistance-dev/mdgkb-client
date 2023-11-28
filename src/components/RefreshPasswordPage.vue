@@ -8,13 +8,13 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 
 import User from '@/classes/User';
 import Page from '@/services/classes/page/Page';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
+
 export default defineComponent({
   name: 'RefreshPasswordPage',
   async setup() {
     const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-    const user: Ref<IUser> = computed(() => new User());
+    const user: Ref<User> = computed(() => new User());
     const newPassword: Ref<string> = ref('');
 
     const passwordChange = () => {

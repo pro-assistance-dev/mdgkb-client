@@ -1,24 +1,23 @@
 import Building from '@/classes/Building';
 import DivisionComment from '@/classes/DivisionComment';
+import DivisionImage from '@/classes/DivisionImage';
 import DivisionPaidService from '@/classes/DivisionPaidService';
 import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
 import DoctorDivision from '@/classes/DoctorDivision';
 import Entrance from '@/classes/Entrance';
+import FileInfo from '@/classes/FileInfo';
 import Floor from '@/classes/Floor';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
-import NewsDivision from '@/classes/news/NewsDivision';
+import NewsDivision from '@/classes/NewsDivision';
+import Schedule from '@/classes/Schedule';
 import SocialMedia from '@/classes/SocialMedia';
-import Schedule from '@/classes/timetable/Schedule';
-import Timetable from '@/classes/timetable/Timetable';
+import Timetable from '@/classes/Timetable';
+import TreatDirection from '@/classes/TreatDirection';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import ContactInfo from '@/services/classes/ContactInfo';
 import ClassHelper from '@/services/ClassHelper';
-
-import DivisionImage from './DivisionImage';
-import TreatDirection from './TreatDirection';
 
 export default class Division {
   id?: string;
@@ -164,8 +163,8 @@ export default class Division {
     this.divisionImages.push(new DivisionImage());
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     this.divisionImages.forEach((d: DivisionImage) => fileInfos.push(d.fileInfo));
     return fileInfos;
   }

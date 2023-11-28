@@ -41,11 +41,11 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
@@ -89,14 +89,14 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'divisions', action: 'getAllWithCount' },
+      pagination: { storeModule: 'divisions', action: 'getAll' },
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push(`/admin/divisions/${event.id}`);
     };
 
-    const createFilterModels = (): IFilterModel[] => {
+    const createFilterModels = (): FilterModel[] => {
       return [];
     };
 

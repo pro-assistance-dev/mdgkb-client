@@ -23,8 +23,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Specialization from '@/classes/Specialization';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ISpecialization from '@/interfaces/ISpecialization';
 
 export default defineComponent({
   name: 'AdminSpecializationsList',
@@ -35,7 +35,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(() => store.getters['specializations/items']);
+    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');

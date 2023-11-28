@@ -2,7 +2,6 @@ import { Module } from 'vuex';
 
 import Division from '@/classes/Division';
 import DivisionComment from '@/classes/DivisionComment';
-import IDivisionComment from '@/interfaces/IDivisionComment';
 import getBaseDefaultState from '@/store/baseModule/baseIndex';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
@@ -12,7 +11,7 @@ import getters from './getters';
 import mutations from './mutations';
 
 export interface State extends IBasicState<Division> {
-  comment: IDivisionComment;
+  comment: DivisionComment;
   onlyShowed: boolean;
 }
 

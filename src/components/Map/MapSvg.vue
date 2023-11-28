@@ -34,15 +34,15 @@
 import { computed, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 
 import Map from '@/assets/img/map.svg';
+import Building from '@/classes/Building';
 import Division from '@/classes/Division';
+import Floor from '@/classes/Floor';
+import Gate from '@/classes/Gate';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import MapLegends from '@/components/Map/MapLegends.vue';
 import MapPopover from '@/components/Map/MapPopover.vue';
 import MapRouter from '@/components/Map/MapRouter.vue';
 import MapSelect from '@/components/Map/MapSelect.vue';
-import IBuilding from '@/interfaces/IBuilding';
-import IFloor from '@/interfaces/IFloor';
-import IGate from '@/interfaces/IGate';
 import IMapObject from '@/interfaces/IMapObject';
 import Provider from '@/services/Provider/Provider';
 
@@ -58,7 +58,7 @@ export default defineComponent({
   },
   props: {
     buildings: {
-      type: Array as PropType<Array<IBuilding>>,
+      type: Array as PropType<Array<Building>>,
       required: true,
     },
   },
@@ -75,8 +75,8 @@ export default defineComponent({
 
     const objectA: Ref<IMapObject | undefined> = ref(undefined);
     const enterPopoverRef = ref<HTMLDivElement>();
-    const gates: Ref<IGate[]> = computed(() => Provider.store.getters['gates/items']);
-    const chosenGate: Ref<IGate | undefined> = ref();
+    const gates: Ref<Gate[]> = computed(() => Provider.store.getters['gates/items']);
+    const chosenGate: Ref<Gate | undefined> = ref();
     const isShowMapRouter: Ref<boolean> = ref(false);
 
     const closeMapRouter = () => {
@@ -145,8 +145,8 @@ export default defineComponent({
 
     const getRouteInfo = (): void => {
       const divisionId = Provider.route().params['id'];
-      props.buildings.forEach((b: IBuilding) => {
-        b.floors.forEach((f: IFloor) => {
+      props.buildings.forEach((b: Building) => {
+        b.floors.forEach((f: Floor) => {
           const ddd = f.divisions?.find((d: Division) => d.id === divisionId);
           if (ddd) {
             buildingId.value = b.id;

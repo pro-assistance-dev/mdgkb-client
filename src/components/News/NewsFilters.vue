@@ -17,7 +17,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
-import Tag from '@/classes/news/Tag';
+import Tag from '@/classes/Tag';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';

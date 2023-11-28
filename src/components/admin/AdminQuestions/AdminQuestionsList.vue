@@ -60,12 +60,12 @@
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
+import Question from '@/classes/Question';
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
-import IQuestion from '@/interfaces/IQuestion';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -80,7 +80,7 @@ export default defineComponent({
   name: 'AdminQuestionsList',
   components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminQuestionStatus, AdminListWrapper, Pagination },
   setup() {
-    const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
+    const questions: Ref<Question[]> = computed(() => Provider.store.getters['questions/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -129,7 +129,7 @@ export default defineComponent({
       pagination: { storeModule: 'questions', action: 'getAll' },
     });
 
-    const publish = async (question: IQuestion) => {
+    const publish = async (question: Question) => {
       question.publish();
       await Provider.store.dispatch('questions/publish', question.id);
     };
@@ -138,7 +138,7 @@ export default defineComponent({
       sourceSSE?.close();
     });
 
-    const changeNewStatus = async (question: IQuestion) => {
+    const changeNewStatus = async (question: Question) => {
       question.changeNewStatus();
       await Provider.store.dispatch('questions/changeNewStatus', question);
     };

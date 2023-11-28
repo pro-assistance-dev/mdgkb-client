@@ -13,13 +13,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IEvent from '@/interfaces/news/IEvent';
+import Event from '@/classes/Event';
 
 export default defineComponent({
   name: 'MainEventCard',
   props: {
     item: {
-      type: Object as PropType<IEvent>,
+      type: Object as PropType<Event>,
       required: true,
     },
   },

@@ -1,12 +1,10 @@
+import Diploma from '@/classes/Diploma';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPointsAchievement from '@/interfaces/IPointsAchievement';
 import ClassHelper from '@/services/ClassHelper';
-
-import Diploma from './Diploma';
-import Form from './Form';
 // import ResidencyCourse from './ResidencyCourse';
 
 export default class ResidencyApplication {
@@ -46,8 +44,8 @@ export default class ResidencyApplication {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     fileInfos.push(...this.formValue.getFileInfos());
     this.residencyApplicationPointsAchievements.forEach((pa: ResidencyApplicationPointsAchievement) => fileInfos.push(pa.fileInfo));
     return fileInfos;
@@ -58,7 +56,7 @@ export default class ResidencyApplication {
     const pointsEntrance = this.pointsEntrance ?? 0;
     return pointsAchievements + pointsEntrance;
   }
-  addAchievement(pointsAchievement: IPointsAchievement): void {
+  addAchievement(pointsAchievement: PointsAchievement): void {
     const achievement = new ResidencyApplicationPointsAchievement();
     achievement.pointsAchievementId = pointsAchievement.id;
     achievement.pointsAchievement = new PointsAchievement(pointsAchievement);

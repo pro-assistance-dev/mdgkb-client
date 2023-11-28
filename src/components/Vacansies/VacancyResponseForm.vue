@@ -21,13 +21,13 @@ import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
+import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IVacancy from '@/interfaces/IVacancy';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
-import IUser from '@/services/interfaces/IUser';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -42,8 +42,8 @@ export default defineComponent({
     const rules = ref(VacancyResponseRules);
     const form = ref();
     const vacancyResponse: ComputedRef<VacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
-    const vacancy: ComputedRef<IVacancy> = computed(() => store.getters['vacancies/item']);
-    const user: ComputedRef<IUser> = computed(() => store.getters['auth/user']);
+    const vacancy: ComputedRef<Vacancy> = computed(() => store.getters['vacancies/item']);
+    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
 
     const submit = async () => {
       vacancyResponse.value.formValue.validate();

@@ -1,5 +1,4 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class DishSample {
@@ -13,7 +12,7 @@ export default class DishSample {
   additionalWeight = 0;
   dishesGroupId?: string;
   selected = false;
-  image: IFileInfo = new FileInfo();
+  image: FileInfo = new FileInfo();
   imageId?: string;
   updatedAt?: Date = new Date();
   proteins = 0;
@@ -33,7 +32,7 @@ export default class DishSample {
     this.imageId = undefined;
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return [this.image];
   }
 }

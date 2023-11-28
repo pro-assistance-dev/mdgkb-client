@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import SideOrganization from '@/classes/SideOrganization';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
@@ -10,7 +10,7 @@ const httpClient = new HttpClient('timetables');
 
 const actions: ActionTree<State, RootState> = {
   getAllWeekdays: async ({ commit }): Promise<void> => {
-    commit('setAllWeekdays', await httpClient.get<ISideOrganization[]>({ query: 'weekdays' }));
+    commit('setAllWeekdays', await httpClient.get<SideOrganization[]>({ query: 'weekdays' }));
   },
 };
 

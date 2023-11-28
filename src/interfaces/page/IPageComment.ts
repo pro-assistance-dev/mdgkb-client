@@ -1,9 +1,9 @@
-import IComment from '@/interfaces/comments/IComment';
+import Comment from '@/classes/Comment';
 
 export default interface IPageComment {
   id?: string;
 
-  comment: IComment;
+  comment: Comment;
   commentId?: string;
 
   pageId?: string;

@@ -80,7 +80,7 @@ export default defineComponent({
     };
 
     const loadCourses = async () => {
-      await Provider.store.dispatch('nmoCourses/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('nmoCourses/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {
@@ -100,7 +100,7 @@ export default defineComponent({
         ],
       },
       sortsLib: NmoCoursesSortsLib,
-      getAction: 'getAllWithCount',
+      getAction: 'getAll',
     });
 
     const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();

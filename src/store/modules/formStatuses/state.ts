@@ -1,8 +1,8 @@
-import IFormStatus from '@/interfaces/IFormStatus';
-import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
+import FormStatus from '@/classes/FormStatus';
+import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 
 export interface State {
-  items: IFormStatus[];
-  item: IFormStatus;
-  formStatusToFormStatuses: IFormStatusToFormStatus[];
+  items: FormStatus[];
+  item: FormStatus;
+  formStatusToFormStatuses: FormStatusToFormStatus[];
 }

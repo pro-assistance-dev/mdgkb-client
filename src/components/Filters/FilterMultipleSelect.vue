@@ -21,7 +21,6 @@ import { defineComponent, PropType } from 'vue';
 
 import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -32,7 +31,7 @@ export default defineComponent({
       default: () => [],
     },
     filterModel: {
-      type: Object as PropType<IFilterModel>,
+      type: Object as PropType<FilterModel>,
       default: () => new FilterModel(),
       required: true,
     },

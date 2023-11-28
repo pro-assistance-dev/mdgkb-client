@@ -1,6 +1,6 @@
-import IForm from '@/interfaces/IForm';
+import Form from '@/classes/Form';
 
 export interface State {
-  items: IForm[];
-  item: IForm;
+  items: Form[];
+  item: Form;
 }

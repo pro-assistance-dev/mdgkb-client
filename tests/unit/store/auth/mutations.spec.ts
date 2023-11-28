@@ -16,7 +16,7 @@ describe('Vuex Auth Mutations', () => {
   //   expect(store.getters['auth/user'].id).toBeUndefined();
   //   expect(localStorage.getItem('user')).toBeNull();
   //   // Act
-  //   const user: IUser = new User();
+  //   const user: User = new User();
   //   user.id = testUUID;
   //   // const { setUser } = mutations;
   //   store.commit('auth/setUser', user);

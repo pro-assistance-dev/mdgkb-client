@@ -117,7 +117,7 @@ export default defineComponent({
       createChildMode.value = true;
     };
 
-    // const createChild = async (child: IChild) => {
+    // const createChild = async (child: Child) => {
     //   Provider.store.commit('auth/addChild', child);
     //   await Provider.store.dispatch('children/create', child);
     //   // if (appointment.value.user) {

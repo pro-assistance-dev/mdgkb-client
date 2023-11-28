@@ -14,8 +14,8 @@
 <script lang="ts">
 import { computed, defineComponent, Ref } from 'vue';
 
-import Event from '@/classes/news/Event';
-import News from '@/classes/news/News';
+import Event from '@/classes/Event';
+import News from '@/classes/News';
 import AdminNewsPageEventApplications from '@/components/admin/AdminNews/AdminNewsPageEventApplications.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import Provider from '@/services/Provider/Provider';

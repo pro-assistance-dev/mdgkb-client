@@ -1,24 +1,12 @@
 import { MutationTree } from 'vuex';
 
 import Faq from '@/classes/Faq';
-import IFaq from '@/interfaces/IFaq';
+import getBaseMutations from '@/store/baseModule/baseMutations';
 
-import { State } from './state';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: IFaq[]) {
-    state.items = items.map((i: IFaq) => new Faq(i));
-  },
-  set(state, item: IFaq) {
-    state.item = new Faq(item);
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: IFaq) => i.id === id);
-    state.items.splice(index, 1);
-  },
-  resetItem(state) {
-    state.item = new Faq();
-  },
+  ...getBaseMutations<Faq, State>(Faq),
 };
 
 export default mutations;

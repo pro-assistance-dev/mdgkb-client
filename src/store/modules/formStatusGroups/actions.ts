@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import IFormStatusGroupsWithCount from '@/interfaces/IFormStatusGroupsWithCount';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
@@ -20,17 +20,17 @@ const actions: ActionTree<State, RootState> = {
     commit('setAllWithCount', item);
   },
   get: async ({ commit }, id: string): Promise<void> => {
-    const res = await httpClient.get<IFormStatusGroup[]>({ query: `${id}` });
+    const res = await httpClient.get<FormStatusGroup[]>({ query: `${id}` });
     commit('set', res);
   },
   create: async ({ state }): Promise<void> => {
-    await httpClient.post<IFormStatusGroup, IFormStatusGroup>({
+    await httpClient.post<FormStatusGroup, FormStatusGroup>({
       payload: state.item,
       isFormData: true,
     });
   },
   update: async ({ state, commit }): Promise<void> => {
-    const res = await httpClient.put<IFormStatusGroup, IFormStatusGroup>({
+    const res = await httpClient.put<FormStatusGroup, FormStatusGroup>({
       query: `${state.item.id}`,
       payload: state.item,
       isFormData: true,
@@ -38,7 +38,7 @@ const actions: ActionTree<State, RootState> = {
     commit('set', res);
   },
   updateAll: async ({ state, commit }): Promise<void> => {
-    const items = await httpClient.put<IFormStatusGroup[], IFormStatusGroup[]>({ payload: state.items, isFormData: true });
+    const items = await httpClient.put<FormStatusGroup[], FormStatusGroup[]>({ payload: state.items, isFormData: true });
     commit('setAll', items);
   },
   remove: async ({ commit }, id: string): Promise<void> => {

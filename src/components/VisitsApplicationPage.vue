@@ -79,15 +79,15 @@ import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import Division from '@/classes/Division';
+import Gate from '@/classes/Gate';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
+import VisitsApplication from '@/classes/VisitsApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import PersonalDataAgreement from '@/components/FormConstructor/PersonalDataAgreement.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IGate from '@/interfaces/IGate';
-import IVisitsApplication from '@/interfaces/IVisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import IUser from '@/services/interfaces/IUser';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -101,12 +101,12 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const visitsApplication: ComputedRef<IVisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
-    const gate: ComputedRef<IGate> = computed(() => Provider.store.getters['gates/item']);
+    const visitsApplication: ComputedRef<VisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
+    const gate: ComputedRef<Gate> = computed(() => Provider.store.getters['gates/item']);
     const divisions: ComputedRef<Division[]> = computed(() => Provider.store.getters['divisions/items']);
     const division: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
     const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-    const user: ComputedRef<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
     const form = ref();
     const rules = ref({
       division: [{ required: true, message: 'Необходимо выбрать отделение', trigger: 'change' }],

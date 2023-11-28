@@ -1,15 +1,15 @@
 import { GetterTree } from 'vuex';
 
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IFormStatusGroup[] {
+  items(state): FormStatusGroup[] {
     return state.items;
   },
-  item(state): IFormStatusGroup {
+  item(state): FormStatusGroup {
     return state.item;
   },
   count(state): number {

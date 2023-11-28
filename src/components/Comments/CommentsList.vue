@@ -65,6 +65,7 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Comment from '@/classes/Comment';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
 import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
@@ -72,7 +73,6 @@ import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IComment from '@/interfaces/comments/IComment';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
@@ -92,7 +92,7 @@ export default defineComponent({
     FiltersWrapper,
   },
   setup() {
-    const comments: Ref<IComment[]> = computed<IComment[]>(() => Provider.store.getters['comments/comments']);
+    const comments: Ref<Comment[]> = computed<Comment[]>(() => Provider.store.getters['comments/comments']);
     const showDialog: Ref<boolean> = ref(false);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 

@@ -113,14 +113,14 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import Button from '@/components/Base/Button.vue';
 import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -140,12 +140,12 @@ export default defineComponent({
   },
   setup() {
     let costOfDelivery = Number(0);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const cancelDialogVisible: Ref<boolean> = ref(false);
-    const selectedFormValue: Ref<IForm | undefined> = ref(undefined);
-    const selectedStatus: Ref<IFormStatus | undefined> = ref(undefined);
+    const selectedFormValue: Ref<Form | undefined> = ref(undefined);
+    const selectedStatus: Ref<FormStatus | undefined> = ref(undefined);
 
-    const cancelApplication = async (formValue: IForm, status: IFormStatus) => {
+    const cancelApplication = async (formValue: Form, status: FormStatus) => {
       ElMessageBox.confirm('Вы уверены, что хотите отменить заказ?', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
@@ -156,7 +156,7 @@ export default defineComponent({
       });
     };
 
-    const updateFormStatus = async (formValue: IForm, status: IFormStatus) => {
+    const updateFormStatus = async (formValue: Form, status: FormStatus) => {
       if (status.isCancelled()) {
         await cancelApplication(formValue, status);
         return;

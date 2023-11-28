@@ -1,17 +1,15 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDivisionImage from '@/interfaces/IDivisionImage';
+import FileInfo from '@/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
-export default class DivisionImage implements IDivisionImage {
+export default class DivisionImage {
   id?: string;
   divisionId?: string;
   fileInfoId?: string;
-  fileInfo: IFileInfo = new FileInfo();
+  fileInfo: FileInfo = new FileInfo();
   description?: string;
   order = 0;
 
-  constructor(i?: IDivisionImage) {
+  constructor(i?: DivisionImage) {
     ClassHelper.BuildClass(this, i);
   }
 }

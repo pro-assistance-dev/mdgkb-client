@@ -48,10 +48,10 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
+import FormStatusGroup from '@/classes/FormStatusGroup';
+import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
@@ -61,9 +61,9 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper },
 
   setup() {
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const formStatusGroup: ComputedRef<IFormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
-    const formStatusToFormStatuses: ComputedRef<IFormStatusToFormStatus[]> = computed<IFormStatusToFormStatus[]>(
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
+    const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = computed<FormStatusToFormStatus[]>(
       () => Provider.store.getters['formStatuses/formStatusToFormStatuses']
     );
     const isEditMode: Ref<boolean> = ref(false);
@@ -107,9 +107,9 @@ export default defineComponent({
       });
     };
 
-    const formStatusesByGroupId = (groupId: string): IFormStatusToFormStatus[] => {
+    const formStatusesByGroupId = (groupId: string): FormStatusToFormStatus[] => {
       console.log(formStatusToFormStatuses);
-      return formStatusToFormStatuses.value.filter((fs: IFormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
+      return formStatusToFormStatuses.value.filter((fs: FormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
     };
 
     Hooks.onBeforeMount(load);

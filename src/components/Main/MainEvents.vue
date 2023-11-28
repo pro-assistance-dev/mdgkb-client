@@ -25,10 +25,10 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Event from '@/classes/Event';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import MainEventCard from '@/components/Main/MainEventCard.vue';
 import IEventTemplate from '@/interfaces/IEventTemplate';
-import IEvent from '@/interfaces/news/IEvent';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -41,7 +41,7 @@ export default defineComponent({
     const carouselRef = ref();
 
     const store = useStore();
-    const items: ComputedRef<IEvent[]> = computed<IEvent[]>(() => store.getters['events/items']);
+    const items: ComputedRef<Event[]> = computed<Event[]>(() => store.getters['events/items']);
 
     onBeforeMount(async () => {
       await store.dispatch('events/getAllMain');

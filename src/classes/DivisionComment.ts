@@ -1,23 +1,14 @@
 import Comment from '@/classes/Comment';
-import IComment from '@/interfaces/comments/IComment';
-import IDivisionComment from '@/interfaces/IDivisionComment';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class divisionComment implements IDivisionComment {
+export default class DivisionComment {
   id?: string;
   divisionId?: string;
   commentId?: string;
-  comment: IComment = new Comment();
+  comment: Comment = new Comment();
 
-  constructor(divisionComment?: IDivisionComment) {
-    if (!divisionComment) {
-      return;
-    }
-    this.id = divisionComment.id;
-    this.divisionId = divisionComment.divisionId;
-    this.commentId = divisionComment.commentId;
-    if (divisionComment.comment) {
-      this.comment = new Comment(divisionComment.comment);
-    }
+  constructor(divisionComment?: DivisionComment) {
+    ClassHelper.BuildClass(this, divisionComment);
   }
 
   static GetClassName(): string {

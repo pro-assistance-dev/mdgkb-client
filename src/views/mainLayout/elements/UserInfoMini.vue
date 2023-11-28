@@ -32,14 +32,15 @@
 import { computed, defineComponent, Ref } from 'vue';
 import { useStore } from 'vuex';
 
-import IUser from '@/services/interfaces/IUser';
+import User from '@/classes/User';
+
 export default defineComponent({
   name: 'UserInfoMini',
 
   setup() {
     const store = useStore();
 
-    const user: Ref<IUser> = computed(() => store.getters['users/item']);
+    const user: Ref<User> = computed(() => store.getters['users/item']);
 
     return {
       user,

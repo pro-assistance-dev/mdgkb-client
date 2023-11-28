@@ -30,9 +30,9 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import Faq from '@/classes/Faq';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import IFaq from '@/interfaces/IFaq';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -40,7 +40,7 @@ export default defineComponent({
   components: { TableMover, TableButtonGroup },
 
   setup() {
-    const faqs: ComputedRef<IFaq[]> = computed<IFaq[]>(() => Provider.store.getters['faqs/items']);
+    const faqs: ComputedRef<Faq[]> = computed<Faq[]>(() => Provider.store.getters['faqs/items']);
     const isEdit: Ref<boolean> = ref(false);
     const isNotEdit: Ref<boolean> = ref(true);
 

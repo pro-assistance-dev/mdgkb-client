@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IPartnerType from '@/interfaces/partners/IPartnerType';
+import PartnerType from '@/classes/PartnerType';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): IPartnerType[] {
-    return state.items;
-  },
-  item(state): IPartnerType {
-    return state.item;
-  },
+  ...getBaseGetters<PartnerType, State>(),
 };
 
 export default getters;

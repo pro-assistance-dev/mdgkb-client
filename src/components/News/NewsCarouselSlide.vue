@@ -26,8 +26,9 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import FileInfo from '@/classes/FileInfo';
 import NewsSlide from '@/classes/NewsSlide';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+
 export default defineComponent({
   name: 'NewsCarouselSlide',
   props: {
@@ -51,7 +52,7 @@ export default defineComponent({
       } else {
         containerWidth = window.innerWidth;
       }
-      let img: IFileInfo = props.item.desktopImg;
+      let img: FileInfo = props.item.desktopImg;
       switch (true) {
         case containerWidth <= 480:
           img = props.item.mobileImg;

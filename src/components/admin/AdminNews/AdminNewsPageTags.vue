@@ -40,7 +40,7 @@ import { ElMessage } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onMounted, ref } from 'vue';
 
-import Tag from '@/classes/news/Tag';
+import Tag from '@/classes/Tag';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

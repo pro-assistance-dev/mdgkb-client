@@ -7,10 +7,10 @@ import Doctor from '@/classes/Doctor';
 import Education from '@/classes/Education';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Experience from '@/classes/Experience';
+import FileInfo from '@/classes/FileInfo';
 import Head from '@/classes/Head';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -91,8 +91,8 @@ export default class Employee {
     ClassHelper.RemoveFromClassByIndex(i, this.certificates, this.certificatesForDelete);
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     this.certificates.forEach((i: Certificate) => {
       if (i.scan) {
         fileInfos.push(i.scan);

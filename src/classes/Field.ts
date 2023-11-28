@@ -1,11 +1,9 @@
-import IField from '@/interfaces/IField';
-import IMaskToken from '@/interfaces/IMaskToken';
+import FileInfo from '@/classes/FileInfo';
+import MaskToken from '@/classes/MaskToken';
 import ValueType from '@/services/classes/ValueType';
+import ClassHelper from '@/services/ClassHelper';
 
-import FileInfo from './File/FileInfo';
-import MaskToken from './MaskToken';
-
-export default class Field implements IField {
+export default class Field {
   id?: string;
   name = '';
   order = 0;
@@ -19,34 +17,11 @@ export default class Field implements IField {
   file = new FileInfo();
   fileId?: string;
   required = true;
-  maskTokens: IMaskToken[] = [];
+  maskTokens: MaskToken[] = [];
   maskTokensForDelete: string[] = [];
 
-  constructor(i?: IField) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.comment = i.comment;
-    this.code = i.code;
-    this.requiredForCancel = i.requiredForCancel;
-    this.valueType = i.valueType;
-    this.order = i.order;
-    this.formId = i.formId;
-    this.valueTypeId = i.valueTypeId;
-    this.fileId = i.fileId;
-    this.required = i.required;
-    this.mask = i.mask;
-    if (i.valueType) {
-      this.valueType = new ValueType(i.valueType);
-    }
-    if (i.file) {
-      this.file = new FileInfo(i.file);
-    }
-    if (i.maskTokens) {
-      this.maskTokens = i.maskTokens.map((item: IMaskToken) => new MaskToken(item));
-    }
+  constructor(i?: Field) {
+    ClassHelper.BuildClass(this, i);
   }
 
   clearIds(): void {

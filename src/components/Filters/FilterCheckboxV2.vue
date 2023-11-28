@@ -12,14 +12,13 @@
 import { defineComponent, PropType } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
-import IFilterModel from '@/services/interfaces/IFilterModel';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FilterCheckboxV2',
   props: {
     filterModel: {
-      type: Object as PropType<IFilterModel>,
+      type: Object as PropType<FilterModel>,
       default: () => new FilterModel(),
       required: true,
     },

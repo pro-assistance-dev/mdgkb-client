@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import NewsComment from '@/classes/news/NewsComment';
+import NewsComment from '@/classes/NewsComment';
 import RootState from '@/store/types';
 
 import actions from './actions';

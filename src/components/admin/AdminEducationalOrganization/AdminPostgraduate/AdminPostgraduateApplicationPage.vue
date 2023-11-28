@@ -47,10 +47,10 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FormStatus from '@/classes/FormStatus';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -113,7 +113,7 @@ export default defineComponent({
       await store.dispatch('postgraduateApplications/update', application.value);
     };
 
-    let initialStatus: IFormStatus;
+    let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

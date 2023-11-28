@@ -1,14 +1,10 @@
-import IHospitalizationStageComment from '@/interfaces/IHospitalizationStageComment';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class HospitalizationStageComment implements IHospitalizationStageComment {
+export default class HospitalizationStageComment {
   id?: string;
   hospitalizationStageId?: string;
   name = '';
-  constructor(i?: IHospitalizationStageComment) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
+  constructor(i?: HospitalizationStageComment) {
+    ClassHelper.BuildClass(this, i);
   }
 }

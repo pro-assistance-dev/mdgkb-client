@@ -41,22 +41,23 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
+import User from '@/classes/User';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import IUser from '@/services/interfaces/IUser';
 import UsersSortsLib from '@/services/Provider/libs/sorts/UsersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
+
 export default defineComponent({
   name: 'AdminUsersList',
   components: { TableButtonGroup, Pagination, AdminListWrapper, SortList },
 
   setup() {
-    const users: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['users/items']);
-    const roles: ComputedRef<IUser[]> = computed<IUser[]>(() => Provider.store.getters['roles/items']);
+    const users: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['users/items']);
+    const roles: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['roles/items']);
     const mounted: Ref<boolean> = ref(false);
     const isEditMode: Ref<boolean> = ref(false);
 

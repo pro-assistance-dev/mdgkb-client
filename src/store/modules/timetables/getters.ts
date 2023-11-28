@@ -1,12 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import IWeekday from '@/interfaces/timetables/IWeekday';
+import Weekday from '@/classes/Weekday';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
-  weekdays(state): IWeekday[] | undefined {
+  weekdays(state): Weekday[] | undefined {
     return state.weekdays;
   },
 };

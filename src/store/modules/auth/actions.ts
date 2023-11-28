@@ -1,11 +1,11 @@
 import { ActionTree } from 'vuex';
 
+import User from '@/classes/User';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import ITokens from '@/services/interfaces/ITokens';
-import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 import RootState from '@/store/types';
 
@@ -14,8 +14,8 @@ import State from './state';
 const httpClient = new HttpClient('auth');
 
 const actions: ActionTree<State, RootState> = {
-  login: async ({ commit }, user: IUser): Promise<void> => {
-    const res = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'login', payload: user });
+  login: async ({ commit }, user: User): Promise<void> => {
+    const res = await httpClient.post<User, { user: User; tokens: ITokens }>({ query: 'login', payload: user });
     if (!res) {
       return;
     }
@@ -26,7 +26,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setFavourite', newUser);
   },
   loginAs: async ({ commit }, email: string): Promise<void> => {
-    const res = await httpClient.post<{ email: string }, { user: IUser; tokens: ITokens }>({
+    const res = await httpClient.post<{ email: string }, { user: User; tokens: ITokens }>({
       query: 'login-as',
       payload: { email: email },
     });
@@ -39,8 +39,8 @@ const actions: ActionTree<State, RootState> = {
     commit('setIsAuth', true);
     commit('setFavourite', newUser);
   },
-  register: async ({ commit }, user: IUser): Promise<void> => {
-    const res = await httpClient.post<IUser, { user: IUser; tokens: ITokens }>({ query: 'register', payload: user });
+  register: async ({ commit }, user: User): Promise<void> => {
+    const res = await httpClient.post<User, { user: User; tokens: ITokens }>({ query: 'register', payload: user });
     if (!res) {
       return;
     }
@@ -49,14 +49,14 @@ const actions: ActionTree<State, RootState> = {
     commit('setTokens', tokens);
     commit('setIsAuth', true);
   },
-  restorePassword: async ({ commit }, user: IUser): Promise<void> => {
-    await httpClient.post<IUser, IUser>({ query: 'restore-password', payload: user });
+  restorePassword: async ({ commit }, user: User): Promise<void> => {
+    await httpClient.post<User, User>({ query: 'restore-password', payload: user });
   },
-  passwordChange: async ({ commit }, user: IUser): Promise<void> => {
-    await httpClient.post<IUser, IUser>({ query: 'password-change', payload: user });
+  passwordChange: async ({ commit }, user: User): Promise<void> => {
+    await httpClient.post<User, User>({ query: 'password-change', payload: user });
   },
-  refreshPassword: async ({ commit }, user: IUser): Promise<void> => {
-    await httpClient.put<IUser, IUser>({ query: 'refresh-password', payload: user });
+  refreshPassword: async ({ commit }, user: User): Promise<void> => {
+    await httpClient.put<User, User>({ query: 'refresh-password', payload: user });
   },
   logout: async ({ commit, state }): Promise<void> => {
     commit('setIsAuth', false);
@@ -66,14 +66,14 @@ const actions: ActionTree<State, RootState> = {
   refreshToken: async ({ commit }): Promise<void> => {
     commit(
       'setTokens',
-      await httpClient.post<any, { user: IUser; token: ITokens }>({
+      await httpClient.post<any, { user: User; token: ITokens }>({
         query: 'refresh-token',
         payload: { refreshToken: TokenService.getRefreshToken() },
       })
     );
   },
   checkUuid: async ({ commit }, checkObj: { userId: string; uniqueId: string }): Promise<void> => {
-    await httpClient.get<IUser>({ query: `check-uuid/${checkObj.userId}/${checkObj.uniqueId}` });
+    await httpClient.get<User>({ query: `check-uuid/${checkObj.userId}/${checkObj.uniqueId}` });
   },
   checkPathPermissions: async ({ commit }, path: string): Promise<void> => {
     await httpClient.post<string, string>({ query: `check-path-permissions`, payload: path });

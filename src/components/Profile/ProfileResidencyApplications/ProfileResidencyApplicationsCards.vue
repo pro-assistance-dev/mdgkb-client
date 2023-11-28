@@ -53,13 +53,13 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
+import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -71,8 +71,8 @@ export default defineComponent({
   },
   setup() {
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const cancelApplication = async (formValue: IForm, status: IFormStatus) => {
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const cancelApplication = async (formValue: Form, status: FormStatus) => {
       ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
@@ -83,7 +83,7 @@ export default defineComponent({
       });
     };
 
-    const updateFormStatus = async (application: ResidencyApplication, status: IFormStatus) => {
+    const updateFormStatus = async (application: ResidencyApplication, status: FormStatus) => {
       if (status.isCancelled()) {
         await Provider.router.push(`/profile/residency-applications/cancel/${application.id}`);
         return;

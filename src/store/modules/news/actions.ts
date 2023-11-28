@@ -1,8 +1,8 @@
 import { ActionTree } from 'vuex';
 
-import EventApplication from '@/classes/news/EventApplication';
-import NewsComment from '@/classes/news/NewsComment';
-import NewsLike from '@/classes/news/NewsLike';
+import EventApplication from '@/classes/EventApplication';
+import NewsComment from '@/classes/NewsComment';
+import NewsLike from '@/classes/NewsLike';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';

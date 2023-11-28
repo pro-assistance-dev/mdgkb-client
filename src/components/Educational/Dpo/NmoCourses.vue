@@ -25,7 +25,7 @@ export default defineComponent({
   setup() {
     const sortModels: Ref<ISortModel[]> = ref([]);
     const loadCourses = async () => {
-      await Provider.store.dispatch('nmoCourses/getAllWithCount', Provider.filterQuery.value);
+      await Provider.store.dispatch('nmoCourses/getAll', Provider.filterQuery.value);
     };
 
     const load = async () => {

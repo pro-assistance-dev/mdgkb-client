@@ -60,8 +60,9 @@
 import { defineComponent, PropType } from 'vue';
 
 import Time from '@/assets/svg/DivisionCard/Time.svg';
-import ITimetable from '@/interfaces/timetables/ITimetable';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
+import Timetable from '@/classes/Timetable';
+import TimetableDay from '@/classes/TimetableDay';
+
 export default defineComponent({
   name: 'TimetableComponent',
   components: {
@@ -69,12 +70,12 @@ export default defineComponent({
   },
   props: {
     timetable: {
-      type: Object as PropType<ITimetable>,
+      type: Object as PropType<Timetable>,
       required: true,
     },
   },
   setup() {
-    const tableRowClassName = ({ row }: { row: ITimetableDay; rowIndex: number }): string => {
+    const tableRowClassName = ({ row }: { row: TimetableDay; rowIndex: number }): string => {
       if (row.isWeekend) {
         return 'weekend';
       }

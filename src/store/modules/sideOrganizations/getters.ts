@@ -1,19 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
+import SideOrganization from '@/classes/SideOrganization';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  sideOrganizations(state): ISideOrganization[] | undefined {
-    const { sideOrganizations } = state;
-    return sideOrganizations;
-  },
-  sideOrganization(state): ISideOrganization {
-    const { sideOrganization } = state;
-    return sideOrganization;
-  },
+  ...getBaseGetters<SideOrganization, State>(),
 };
 
 export default getters;

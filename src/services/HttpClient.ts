@@ -1,4 +1,4 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import axiosInstance from '@/services/Axios';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import TokenService from '@/services/Token';
@@ -124,7 +124,7 @@ export default class HttpClient {
     return baseUrl + apiVersion + this.endpoint;
   }
 
-  private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: IFileInfo[]): FormData {
+  private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: FileInfo[]): FormData {
     const data = new FormData();
     data.append('form', JSON.stringify(payload));
 

@@ -1,18 +1,13 @@
-import ISpecialization from '@/interfaces/ISpecialization';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Specialization implements ISpecialization {
+export default class Specialization {
   id?: string;
   name = '';
   code = '';
   slug = '';
-  constructor(i?: ISpecialization) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.code = i.code;
-    this.slug = i.slug;
+
+  constructor(i?: Specialization) {
+    ClassHelper.BuildClass(this, i);
   }
 
   static GetClassName(): string {

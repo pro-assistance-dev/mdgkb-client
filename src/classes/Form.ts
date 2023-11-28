@@ -1,24 +1,18 @@
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Field from '@/classes/Field';
+import FieldValueFile from '@/classes/FieldValueFile';
+import FileInfo from '@/classes/FileInfo';
+import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IField from '@/interfaces/IField';
-import IFieldValue from '@/interfaces/IFieldValue';
-import IFieldValueFile from '@/interfaces/IFieldValueFile';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
-import IFormStatusToFormStatus from '@/interfaces/IFormStatusToFormStatus';
-import IFormValueFile from '@/interfaces/IFormValueFile';
 import Chat from '@/services/classes/Chat';
+import ClassHelper from '@/services/ClassHelper';
 
 import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
-import FileInfo from './File/FileInfo';
 import FormStatus from './FormStatus';
 import FormStatusGroup from './FormStatusGroup';
 import ResidencyApplication from './ResidencyApplication';
@@ -26,7 +20,7 @@ import User from './User';
 import VacancyResponse from './VacancyResponse';
 import VisitsApplication from './VisitsApplication';
 
-export default class Form implements IForm {
+export default class Form {
   id?: string;
   title?: string;
   modComment?: string;
@@ -36,23 +30,28 @@ export default class Form implements IForm {
   code = '';
   withApprovingDate = false;
   approvingDate?: Date;
-  fields: IField[] = [];
+  fields: Field[] = [];
   fieldsForDelete: string[] = [];
-  fieldValues: IFieldValue[] = [];
+  fieldValues: FieldValue[] = [];
   fieldValuesForDelete: string[] = [];
   validated = true;
   isNew = true;
   viewedByUser = false;
   createdAt: Date = new Date();
   user = new User();
+  @ClassHelper.GetClassConstructor(FormStatus)
   formStatus = new FormStatus();
+  @ClassHelper.GetClassConstructor(DpoApplication)
   dpoApplication?: DpoApplication;
-  defaultFormStatus?: IFormStatus;
+  defaultFormStatus?: FormStatus;
   defaultFormStatusId?: string;
-  formStatusGroup?: IFormStatusGroup;
+  @ClassHelper.GetClassConstructor(FormStatusGroup)
+  formStatusGroup?: FormStatusGroup;
   formStatusGroupId?: string;
+  @ClassHelper.GetClassConstructor(Child)
   child = new Child();
   childId?: string;
+  @ClassHelper.GetClassConstructor(FileInfo)
   personalDataAgreement = new FileInfo();
   personalDataAgreementId?: string;
   withPersonalDataAgreement = false;
@@ -60,20 +59,28 @@ export default class Form implements IForm {
   showPersonalDataAgreementError = false;
   // changed = false;
 
+  @ClassHelper.GetClassConstructor(PostgraduateApplication)
   postgraduateApplication?: PostgraduateApplication;
+  @ClassHelper.GetClassConstructor(CandidateApplication)
   candidateApplication?: CandidateApplication;
+  @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplication?: ResidencyApplication;
+  @ClassHelper.GetClassConstructor(VisitsApplication)
   visitsApplication?: VisitsApplication;
+  @ClassHelper.GetClassConstructor(VacancyResponse)
   vacancyResponse?: VacancyResponse;
+  @ClassHelper.GetClassConstructor(DailyMenuOrder)
   dailyMenuOrder?: DailyMenuOrder;
-  formValueFiles: IFormValueFile[] = [];
+  @ClassHelper.GetClassConstructor(FormValueFile)
+  formValueFiles: FormValueFile[] = [];
   formValueFilesForDelete: string[] = [];
 
   chatId?: string;
+  @ClassHelper.GetClassConstructor(Chat)
   chat = new Chat();
 
-  constructor(form?: Form) {
-    this.constructorMethod(form);
+  constructor(i?: Form) {
+    ClassHelper.BuildClass(this, i);
   }
 
   static GetClassName(): string {
@@ -111,10 +118,10 @@ export default class Form implements IForm {
       this.formStatus = new FormStatus(form.formStatus);
     }
     if (form.fields) {
-      this.fields = form.fields.map((item: IField) => new Field(item));
+      this.fields = form.fields.map((item: Field) => new Field(item));
     }
     if (form.fieldValues) {
-      this.fieldValues = form.fieldValues.map((item: IFieldValue) => new FieldValue(item));
+      this.fieldValues = form.fieldValues.map((item: FieldValue) => new FieldValue(item));
     }
     if (form.dpoApplication) {
       this.dpoApplication = new DpoApplication(form.dpoApplication);
@@ -161,7 +168,7 @@ export default class Form implements IForm {
       this.dailyMenuOrder = new DailyMenuOrder(form.dailyMenuOrder);
     }
     if (form.formValueFiles) {
-      this.formValueFiles = form.formValueFiles.map((item: IFormValueFile) => new FormValueFile(item));
+      this.formValueFiles = form.formValueFiles.map((item: FormValueFile) => new FormValueFile(item));
     }
     if (form.chat) {
       this.chat = new Chat(form.chat);
@@ -175,7 +182,7 @@ export default class Form implements IForm {
     // this.clearIds();
   }
 
-  addField(field?: IField): void {
+  addField(field?: Field): void {
     this.fields.push(field ?? new Field());
   }
   removeField(index: number): void {
@@ -186,14 +193,14 @@ export default class Form implements IForm {
     this.fields.splice(index, 1);
   }
   // For formValue fileinfos
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
-    this.fieldValues.forEach((i: IFieldValue) => {
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
+    this.fieldValues.forEach((i: FieldValue) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
       if (i.fieldValuesFiles.length > 0) {
-        i.fieldValuesFiles.forEach((fvf: IFieldValueFile) => fileInfos.push(fvf.fileInfo));
+        i.fieldValuesFiles.forEach((fvf: FieldValueFile) => fileInfos.push(fvf.fileInfo));
       }
     });
     if (this.residencyApplication) {
@@ -201,7 +208,7 @@ export default class Form implements IForm {
         fileInfos.push(r.fileInfo);
       });
     }
-    this.formValueFiles.forEach((i: IFormValueFile) => {
+    this.formValueFiles.forEach((i: FormValueFile) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
@@ -209,9 +216,9 @@ export default class Form implements IForm {
     return fileInfos;
   }
   // For form fileinfos
-  getFieldsFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
-    this.fields.forEach((i: IField) => {
+  getFieldsFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
+    this.fields.forEach((i: Field) => {
       if (i.file) {
         fileInfos.push(i.file);
       }
@@ -219,11 +226,11 @@ export default class Form implements IForm {
     return fileInfos;
   }
 
-  findFieldValue(fieldId: string): IFieldValue | undefined {
-    return this.fieldValues.find((fieldValue: IFieldValue) => fieldId === fieldValue.fieldId);
+  findFieldValue(fieldId: string): FieldValue | undefined {
+    return this.fieldValues.find((fieldValue: FieldValue) => fieldId === fieldValue.fieldId);
   }
 
-  getFieldValue(field: IField): string | number | Date | IFileInfo | boolean | undefined {
+  getFieldValue(field: Field): string | number | Date | FileInfo | boolean | undefined {
     if (!field.id) {
       return;
     }
@@ -245,7 +252,7 @@ export default class Form implements IForm {
     }
   }
   initFieldsValues(): void {
-    this.fields.forEach((field: IField) => {
+    this.fields.forEach((field: Field) => {
       const fieldValue = new FieldValue();
       fieldValue.fieldId = field.id;
       fieldValue.field = new Field(field);
@@ -256,7 +263,7 @@ export default class Form implements IForm {
   validate(withoutFiles?: boolean, requiredForCancel?: boolean): void {
     this.validated = true;
 
-    this.fieldValues.forEach((el: IFieldValue) => {
+    this.fieldValues.forEach((el: FieldValue) => {
       if (withoutFiles && (el.field?.valueType.isFile() || el.field?.valueType.isFiles())) {
         return;
       }
@@ -282,12 +289,12 @@ export default class Form implements IForm {
 
   clearValidate(): void {
     this.validated = true;
-    this.fieldValues.forEach((el: IFieldValue) => {
+    this.fieldValues.forEach((el: FieldValue) => {
       el.showError = false;
     });
   }
 
-  getErrorFields(): IFieldValue[] {
+  getErrorFields(): FieldValue[] {
     return this.fieldValues.filter((item) => item.showError === true);
   }
 
@@ -303,21 +310,21 @@ export default class Form implements IForm {
 
   clearIds(): void {
     this.id = undefined;
-    this.fields.forEach((el: IField) => {
+    this.fields.forEach((el: Field) => {
       el.clearIds();
     });
-    this.fieldValues.forEach((el: IFieldValue) => {
+    this.fieldValues.forEach((el: FieldValue) => {
       el.clearIds();
     });
   }
 
   removeAllFieldsAndValues(): void {
-    this.fields.forEach((el: IField) => {
+    this.fields.forEach((el: Field) => {
       if (el.id) {
         this.fieldsForDelete.push(el.id);
       }
     });
-    this.fieldValues.forEach((el: IFieldValue) => {
+    this.fieldValues.forEach((el: FieldValue) => {
       if (el.id) {
         this.fieldValuesForDelete.push(el.id);
       }
@@ -325,8 +332,8 @@ export default class Form implements IForm {
     this.fields = [];
     this.fieldValues = [];
   }
-  applyFormPatternFields(pattern: IForm): void {
-    this.fields = pattern.fields.map((el: IField) => {
+  applyFormPatternFields(pattern: Form): void {
+    this.fields = pattern.fields.map((el: Field) => {
       el.formId = undefined;
       el.fileId = undefined;
       // const fieldValue = new FieldValue();
@@ -343,57 +350,57 @@ export default class Form implements IForm {
     return this.fieldValues.some((el) => el.modComment);
   }
   changeFieldValuesModChecked(modChecked: boolean): void {
-    this.fieldValues.forEach((el: IFieldValue) => {
+    this.fieldValues.forEach((el: FieldValue) => {
       el.modChecked = modChecked;
       el.modComment = '';
     });
   }
-  // setNewStatus(statuses: IFormStatus[]): void {
-  //   statuses.forEach((el: IFormStatus) => {
+  // setNewStatus(statuses: FormStatus[]): void {
+  //   statuses.forEach((el: FormStatus) => {
   //     if (el.isNew()) {
   //       this.formStatus = new FormStatus(el);
   //     }
   //   });
   // }
-  setCpecifyStatus(statuses: IFormStatus[]): void {
-    statuses.forEach((el: IFormStatus) => {
+  setCpecifyStatus(statuses: FormStatus[]): void {
+    statuses.forEach((el: FormStatus) => {
       if (el.isClarified()) {
         this.formStatus = new FormStatus(el);
       }
     });
   }
-  setCanceledStatus(statuses: IFormStatus[]): void {
-    statuses.forEach((el: IFormStatus) => {
+  setCanceledStatus(statuses: FormStatus[]): void {
+    statuses.forEach((el: FormStatus) => {
       if (el.isCancelled()) {
         this.formStatus = new FormStatus(el);
       }
     });
   }
-  setStatus(status: IFormStatus, statuses: IFormStatus[]): void {
-    const newStatus = statuses.find((el: IFormStatus) => el.id === status.id);
+  setStatus(status: FormStatus, statuses: FormStatus[]): void {
+    const newStatus = statuses.find((el: FormStatus) => el.id === status.id);
     this.formStatus = new FormStatus(newStatus);
     if (this.formStatus.isAccepted() && !this.approvingDate) {
       this.approvingDate = new Date();
     }
     // this.emailNotify = true;
   }
-  getFieldsWithModComemnts(): IField[] {
-    return this.fields.filter((el: IField) => {
+  getFieldsWithModComemnts(): Field[] {
+    return this.fields.filter((el: Field) => {
       if (!el.id) {
         return;
       }
       return this.findFieldValue(el.id)?.modComment && !this.findFieldValue(el.id)?.modChecked;
     });
   }
-  updateViewedByUser(initialStatus: IFormStatus): void {
+  updateViewedByUser(initialStatus: FormStatus): void {
     if (initialStatus && initialStatus.id !== this.formStatus.id) {
       this.viewedByUser = false;
     }
   }
-  // static ApplyFormPattern(pattern: IForm): IForm {
+  // static ApplyFormPattern(pattern: Form): Form {
   //   const form = new Form(pattern);
   //   form.id = undefined;
-  //   form.fields.forEach((el: IField) => {
+  //   form.fields.forEach((el: Field) => {
   // el.id = undefined;
   //     el.formId = undefined;
   //     el.fileId = undefined;
@@ -500,34 +507,34 @@ export default class Form implements IForm {
     return '';
   }
 
-  getRequiredForCancelFields(): IField[] {
-    return this.fields.filter((f: IField) => f.requiredForCancel);
+  getRequiredForCancelFields(): Field[] {
+    return this.fields.filter((f: Field) => f.requiredForCancel);
   }
 
   clearAllFields(): void {
     this.fields = [];
-    this.fieldValues.forEach((fv: IFieldValue) => (fv.field = undefined));
+    this.fieldValues.forEach((fv: FieldValue) => (fv.field = new Field()));
   }
 
-  getFieldsByCodes(codes: string[]): IField[] {
-    return this.fields.filter((f: IField) => codes.includes(f.code));
+  getFieldsByCodes(codes: string[]): Field[] {
+    return this.fields.filter((f: Field) => codes.includes(f.code));
   }
 
-  getFieldByCode(code: string): IField | undefined {
-    return this.fields.find((f: IField) => f.code === code);
+  getFieldByCode(code: string): Field | undefined {
+    return this.fields.find((f: Field) => f.code === code);
   }
 
   addForValueFile(): void {
     this.formValueFiles.push(new FormValueFile());
   }
 
-  getFieldValueByCode(code: string): IFieldValue | undefined {
-    return this.fieldValues.find((fv: IFieldValue) => fv.field?.code === code);
+  getFieldValueByCode(code: string): FieldValue | undefined {
+    return this.fieldValues.find((fv: FieldValue) => fv.field?.code === code);
   }
 
   getFieldValueIndexByCode(code: string): number | undefined {
     let index;
-    this.fieldValues.forEach((fv: IFieldValue, i: number) => {
+    this.fieldValues.forEach((fv: FieldValue, i: number) => {
       if (fv.field?.code === code) {
         index = i;
         return;
@@ -536,8 +543,8 @@ export default class Form implements IForm {
     return index;
   }
 
-  getFieldValuesByCodes(codes: string[]): IFieldValue[] {
-    return this.fieldValues.filter((fv: IFieldValue) => {
+  getFieldValuesByCodes(codes: string[]): FieldValue[] {
+    return this.fieldValues.filter((fv: FieldValue) => {
       if (fv.field?.code) {
         return codes.includes(fv.field?.code);
       }
@@ -564,7 +571,7 @@ export default class Form implements IForm {
     return !!fieldValue && !!fieldValue.getValue();
   }
 
-  getUserActions(): IFormStatusToFormStatus[] {
-    return this.formStatus.formStatusToFormStatuses.filter((f: IFormStatusToFormStatus) => f.childFormStatus.userActionName);
+  getUserActions(): FormStatusToFormStatus[] {
+    return this.formStatus.formStatusToFormStatuses.filter((f: FormStatusToFormStatus) => f.childFormStatus.userActionName);
   }
 }

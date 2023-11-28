@@ -185,6 +185,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch 
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import AdmissionQuestionsFormV2 from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsFormV2.vue';
 import DiplomaForm from '@/components/Educational/AdmissionCommittee/DiplomaForm.vue';
@@ -193,7 +194,6 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import IUser from '@/services/interfaces/IUser';
 import { Orders } from '@/services/interfaces/Orders';
 import residencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
 import residencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
@@ -255,7 +255,7 @@ export default defineComponent({
     const filteredCourses: Ref<ResidencyCourse[]> = computed(() =>
       residencyCourses.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
     );
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
     const userForm = ref();

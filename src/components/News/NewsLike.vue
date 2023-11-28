@@ -11,8 +11,8 @@ import { LikeFilled, LikeOutlined } from '@ant-design/icons-vue';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType } from 'vue';
 
-import News from '@/classes/news/News';
-import NewsLike from '@/classes/news/NewsLike';
+import News from '@/classes/News';
+import NewsLike from '@/classes/NewsLike';
 import ClassHelper from '@/services/ClassHelper';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';

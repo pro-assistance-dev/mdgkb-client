@@ -1,26 +1,18 @@
 import { ActionTree } from 'vuex';
 
-import IBuilding from '@/interfaces/IBuilding';
+import Building from '@/classes/Building';
 import HttpClient from '@/services/HttpClient';
+import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const httpClient = new HttpClient('buildings');
 
 const actions: ActionTree<State, RootState> = {
-  getAll: async ({ commit }): Promise<void> => {
-    commit('setAll', await httpClient.get<IBuilding[]>());
-  },
-  get: async ({ commit }, id: number) => {
-    commit('set', await httpClient.get<IBuilding>({ query: `${id}` }));
-  },
-  update: async ({ commit }, building: IBuilding): Promise<void> => {
-    await httpClient.put<IBuilding, IBuilding>({ query: `${building.id}`, payload: building });
-    commit('set');
-  },
+  ...getBaseActions<Building, State>(httpClient),
   getByFloorId: async ({ commit }, id: number) => {
-    commit('set', await httpClient.get<IBuilding>({ query: `floor/${id}` }));
+    commit('set', await httpClient.get<Building>({ query: `floor/${id}` }));
   },
 };
 

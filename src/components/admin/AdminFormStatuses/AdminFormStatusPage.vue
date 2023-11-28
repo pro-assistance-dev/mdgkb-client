@@ -47,9 +47,9 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount,
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import FormStatus from '@/classes/FormStatus';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
-import IFormStatus from '@/interfaces/IFormStatus';
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
@@ -62,8 +62,8 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const formStatus: ComputedRef<IFormStatus> = computed<IFormStatus>(() => store.getters['formStatuses/item']);
-    const formStatusGroups: ComputedRef<IFormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
+    const formStatus: ComputedRef<FormStatus> = computed<FormStatus>(() => store.getters['formStatuses/item']);
+    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 

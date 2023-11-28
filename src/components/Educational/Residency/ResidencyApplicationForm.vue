@@ -23,10 +23,10 @@ import { useStore } from 'vuex';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import IUser from '@/services/interfaces/IUser';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
@@ -41,7 +41,7 @@ export default defineComponent({
       () => store.getters['residencyApplications/item']
     );
     const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => store.getters['residencyCourses/item']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
     const form = ref();

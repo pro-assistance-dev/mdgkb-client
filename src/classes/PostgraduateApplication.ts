@@ -1,16 +1,15 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
+import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import ClassHelper from '@/services/ClassHelper';
 
-import Form from './Form';
-import PostgraduateCourse from './PostgraduateCourse';
-
-export default class PostgraduateApplication implements PostgraduateApplication {
+export default class PostgraduateApplication {
   id?: string;
   postgraduateCourseId?: string;
+  @ClassHelper.GetClassConstructor(PostgraduateCourse)
   postgraduateCourse = new PostgraduateCourse();
   formValue = new Form();
   formValueId?: string;
-  //
   createdAt = '';
   fullName = '';
   email = '';
@@ -20,7 +19,7 @@ export default class PostgraduateApplication implements PostgraduateApplication 
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return this.formValue.getFileInfos();
   }
 

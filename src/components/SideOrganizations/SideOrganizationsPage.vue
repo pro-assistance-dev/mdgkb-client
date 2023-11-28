@@ -126,9 +126,9 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import SideOrganization from '@/classes/SideOrganization';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import ISideOrganization from '@/interfaces/sideOrganization/ISideOrganization';
 import Email from '@/services/classes/Email';
 import PostAddress from '@/services/classes/PostAddress';
 import TelephoneNumber from '@/services/classes/TelephoneNumber';
@@ -144,7 +144,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const filter = ref('');
-    const sideOrganizations = computed(() => store.getters['sideOrganizations/sideOrganizations']);
+    const sideOrganizations = computed(() => store.getters['sideOrganizations/items']);
     const activeName = ref(1);
     const mounted: Ref<boolean> = ref(false);
 
@@ -164,9 +164,9 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const list = computed((): ISideOrganization[] => {
+    const list = computed((): SideOrganization[] => {
       if (filter.value) {
-        return sideOrganizations.value.filter((o: ISideOrganization) => {
+        return sideOrganizations.value.filter((o: SideOrganization) => {
           if (o.name) return o.name.toLowerCase().includes(filter.value.toLowerCase());
         });
       } else {

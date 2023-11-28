@@ -30,7 +30,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import Close from '@/assets/svg/Icons/Close.svg';
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 
 export default defineComponent({

@@ -1,17 +1,13 @@
 import { GetterTree } from 'vuex';
 
-import IBuilding from '@/interfaces/IBuilding';
+import Building from '@/classes/Building';
+import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  buildings(state): IBuilding[] | undefined {
-    return state.buildings;
-  },
-  building(state): IBuilding | undefined {
-    return state.building;
-  },
+  ...getBaseGetters<Building, State>(),
 };
 
 export default getters;

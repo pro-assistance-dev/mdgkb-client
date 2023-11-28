@@ -42,13 +42,13 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
+import CandidateApplication from '@/classes/CandidateApplication';
+import Specialization from '@/classes/Specialization';
+import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import ICandidateApplication from '@/interfaces/ICandidateApplication';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import ISpecialization from '@/interfaces/ISpecialization';
-import IUser from '@/services/interfaces/IUser';
 import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
@@ -61,14 +61,14 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const mounted = ref(false);
-    const candidateApplication: ComputedRef<ICandidateApplication> = computed<ICandidateApplication>(
+    const candidateApplication: ComputedRef<CandidateApplication> = computed<CandidateApplication>(
       () => Provider.store.getters['candidateApplications/item']
     );
     const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => Provider.store.getters['candidateExams/item']);
-    const user: Ref<IUser> = computed(() => Provider.store.getters['auth/user']);
+    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
-    const specializations: ComputedRef<ISpecialization[]> = computed<ISpecialization[]>(
+    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
       () => Provider.store.getters['specializations/items']
     );
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['candidateApplications/emailExists']);

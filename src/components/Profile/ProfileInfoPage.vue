@@ -169,10 +169,10 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import User from '@/classes/User';
 import EditPhone from '@/components/Profile/EditPhone.vue';
 // import EducationPage from '@/components/Profile/ProfileDailyMenuOrders/EducationPage.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
@@ -182,7 +182,7 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<IUser> = computed(() => store.getters['users/item']);
+    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
 
     const saveAvatar = async () => {
       await store.dispatch('users/update', user.value);

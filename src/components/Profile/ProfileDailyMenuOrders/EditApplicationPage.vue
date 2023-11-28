@@ -41,12 +41,12 @@
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 
+import Form from '@/classes/Form';
+import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import IForm from '@/interfaces/IForm';
-import IFormStatus from '@/interfaces/IFormStatus';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';
@@ -62,9 +62,9 @@ export default defineComponent({
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
 
     const form = ref();
-    const formValue: ComputedRef<IForm> = computed(() => Provider.store.getters['formValues/item']);
+    const formValue: ComputedRef<Form> = computed(() => Provider.store.getters['formValues/item']);
     const questionsForm = ref();
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const submit = async () => {
       await loadFilters();

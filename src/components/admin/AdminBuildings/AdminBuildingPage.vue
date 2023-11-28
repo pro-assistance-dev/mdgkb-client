@@ -86,7 +86,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const building = computed(() => store.getters['buildings/building']);
+    const building = computed(() => store.getters['buildings/item']);
     const rules = ref(BuildingRules);
     const form = ref();
     const mounted = ref(false);

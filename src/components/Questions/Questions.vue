@@ -8,9 +8,9 @@
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
+import Question from '@/classes/Question';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import IQuestion from '@/interfaces/IQuestion';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
@@ -23,11 +23,11 @@ export default defineComponent({
   async setup() {
     const filter = ref('');
     const filePath = ref('');
-    const questions: Ref<IQuestion[]> = computed(() => Provider.store.getters['questions/items']);
+    const questions: Ref<Question[]> = computed(() => Provider.store.getters['questions/items']);
 
-    const questionsList = computed((): IQuestion[] => {
+    const questionsList = computed((): Question[] => {
       if (filter.value) {
-        return questions.value.filter((o: IQuestion) => {
+        return questions.value.filter((o: Question) => {
           return (
             o.question.toLowerCase().includes(filter.value.toLowerCase()) || o.answer.toLowerCase().includes(filter.value.toLowerCase())
           );

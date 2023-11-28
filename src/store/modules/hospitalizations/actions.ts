@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
+import HospitalizationType from '@/classes/HospitalizationType';
 import HttpClient from '@/services/HttpClient';
 import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
@@ -12,7 +12,7 @@ const httpClient = new HttpClient('hospitalizations');
 const actions: ActionTree<State, RootState> = {
   ...getBaseActions(httpClient),
   pdf: async (_, id: string): Promise<void> => {
-    await httpClient.get<IHospitalizationType>({
+    await httpClient.get<HospitalizationType>({
       query: `pdf/${id}`,
       isBlob: true,
     });

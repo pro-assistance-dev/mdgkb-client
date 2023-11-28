@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import CustomSection from '@/classes/CustomSection';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IPageImage from '@/interfaces/page/IPageImage';
+import FileInfo from '@/classes/FileInfo';
 import ContactInfo from '@/services/classes/ContactInfo';
 import PageComment from '@/services/classes/page/PageComment';
 import PageDocument from '@/services/classes/page/PageDocument';
@@ -53,8 +52,8 @@ export default class Page {
     return '404';
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     this.pageSideMenus.forEach((item: PageSideMenu) => {
       fileInfos.push(...item.getFileInfos());
     });
@@ -63,7 +62,7 @@ export default class Page {
         fileInfos.push(pageDocument.document.scan);
       }
     });
-    this.pageImages.forEach((pageImage: IPageImage) => {
+    this.pageImages.forEach((pageImage: PageImage) => {
       if (pageImage.fileInfo) {
         fileInfos.push(pageImage.fileInfo);
       }

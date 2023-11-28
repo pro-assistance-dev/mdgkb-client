@@ -25,7 +25,7 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';

@@ -1,18 +1,12 @@
-import IFaq from '@/interfaces/IFaq';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Faq implements IFaq {
+export default class Faq {
   id?: string;
   answer = '';
   question = '';
   order = 1;
 
-  constructor(faq?: IFaq) {
-    if (!faq) {
-      return;
-    }
-    this.id = faq.id;
-    this.answer = faq.answer;
-    this.question = faq.question;
-    this.order = faq.order;
+  constructor(i?: Faq) {
+    ClassHelper.BuildClass(this, i);
   }
 }

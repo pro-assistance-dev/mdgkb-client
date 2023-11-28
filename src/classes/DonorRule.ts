@@ -1,35 +1,21 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import DonorRuleUser from '@/classes/DonorRuleUser';
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IDonorRule from '@/interfaces/IDonorRule';
-import IDonorRuleUser from '@/interfaces/IDonorRuleUser';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class DonorRule implements IDonorRule {
+export default class DonorRule {
   id?: string;
   name = '';
   order = 0;
   image = new FileInfo();
   imageId?: string;
-  donorRulesUsers: IDonorRuleUser[] = [];
+  @ClassHelper.GetClassConstructor(DonorRuleUser)
+  donorRulesUsers: DonorRuleUser[] = [];
 
-  constructor(i?: IDonorRule) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.order = i.order;
-
-    if (i.image) {
-      this.image = new FileInfo(i.image);
-    }
-    this.imageId = i.imageId;
-    if (i.donorRulesUsers) {
-      this.donorRulesUsers = i.donorRulesUsers.map((item: IDonorRuleUser) => new DonorRuleUser(item));
-    }
+  constructor(i?: DonorRule) {
+    ClassHelper.BuildClass(this, i);
   }
 
   addFile(file: IElementPlusFile): void {
@@ -40,7 +26,7 @@ export default class DonorRule implements IDonorRule {
     this.image.file = file.raw;
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     this.image.url = '';
     return [this.image];
   }

@@ -4,8 +4,8 @@ import { createStore } from 'vuex';
 
 import Comment from '@/classes/Comment';
 import User from '@/classes/User';
+import User from '@/classes/User';
 import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
-import IUser from '@/services/interfaces/IUser';
 
 import ComponentStub from '../../../__mocks__/ComponentStub';
 
@@ -48,7 +48,7 @@ describe('UserCommentsPage.vue', () => {
             },
           },
           mutations: {
-            set(state, item: IUser) {
+            set(state, item: User) {
               state.item = new User(item);
             },
           },

@@ -2,12 +2,10 @@ import { MutationTree } from 'vuex';
 
 import Division from '@/classes/Division';
 import DivisionComment from '@/classes/DivisionComment';
-import Schedule from '@/classes/timetable/Schedule';
-import Timetable from '@/classes/timetable/Timetable';
-import IDivisionComment from '@/interfaces/IDivisionComment';
-import ISchedule from '@/interfaces/timetables/ISchedule';
-import IScheduleItem from '@/interfaces/timetables/IScheduleItem';
-import ITimetableDay from '@/interfaces/timetables/ITimetableDay';
+import Schedule from '@/classes/Schedule';
+import ScheduleItem from '@/classes/ScheduleItems';
+import Timetable from '@/classes/Timetable';
+import TimetableDay from '@/classes/TimetableDay';
 import getBaseMutations from '@/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
@@ -28,7 +26,7 @@ const mutations: MutationTree<State> = {
     if (!state.item) {
       return;
     }
-    state.item.timetable.timetableDays.forEach((day: ITimetableDay) => {
+    state.item.timetable.timetableDays.forEach((day: TimetableDay) => {
       if (day.id) {
         state.item.timetableDaysForDelete.push(day.id);
       }
@@ -38,7 +36,7 @@ const mutations: MutationTree<State> = {
   setOnlyShowed(state, onlyShowed: boolean) {
     state.onlyShowed = onlyShowed;
   },
-  setSchedule(state, item: ISchedule) {
+  setSchedule(state, item: Schedule) {
     if (!state.item) return;
     state.item.schedule = item;
   },
@@ -52,23 +50,23 @@ const mutations: MutationTree<State> = {
     if (idForDelete) state.item.schedule.scheduleItemsForDelete.push(idForDelete);
     state.item.schedule.scheduleItems.splice(i, 1);
   },
-  addScheduleItem(state, item: IScheduleItem) {
+  addScheduleItem(state, item: ScheduleItem) {
     if (!state.item) return;
     state.item.schedule.scheduleItems.push(item);
   },
-  setComment(state, item: IDivisionComment) {
+  setComment(state, item: DivisionComment) {
     if (state.item) state.item.divisionComments.unshift(item);
     state.comment = new DivisionComment();
   },
   removeComment(state, commentId: string) {
     if (state.item) {
-      const index = state.item.divisionComments.findIndex((item: IDivisionComment) => item.id === commentId);
+      const index = state.item.divisionComments.findIndex((item: DivisionComment) => item.id === commentId);
       state.item.divisionComments.splice(index, 1);
     }
   },
   editComment(state, commentId: string) {
     if (state.item) {
-      state.item.divisionComments = state.item.divisionComments.map((item: IDivisionComment) => {
+      state.item.divisionComments = state.item.divisionComments.map((item: DivisionComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = true;
         return item;
       });
@@ -76,7 +74,7 @@ const mutations: MutationTree<State> = {
   },
   updateComment(state, commentId: string) {
     if (state.item) {
-      state.item.divisionComments = state.item.divisionComments.map((item: IDivisionComment) => {
+      state.item.divisionComments = state.item.divisionComments.map((item: DivisionComment) => {
         if (item.comment.id === commentId) item.comment.isEditing = false;
         return item;
       });

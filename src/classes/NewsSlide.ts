@@ -1,5 +1,4 @@
-import FileInfo from '@/classes/File/FileInfo';
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 import NewsSlideButton from './NewsSlideButton';
@@ -26,7 +25,7 @@ export default class NewsSlide {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return [this.desktopImg, this.laptopImg, this.tabletImg, this.mobileImg];
   }
 }

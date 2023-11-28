@@ -88,12 +88,12 @@
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Comment from '@/classes/Comment';
 import Division from '@/classes/Division';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
 import CommentCard from '@/components/Main/CommentCard.vue';
 import NewsCalendar from '@/components/News/NewsCalendar.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
-import IComment from '@/interfaces/comments/IComment';
 
 export default defineComponent({
   name: 'MainPageOldVersion',
@@ -111,7 +111,7 @@ export default defineComponent({
     const mainNews = computed(() => store.getters['news/main']);
     const subMainNews = computed(() => store.getters['news/subMain']);
     const recentNews = computed(() => store.getters['news/recent']);
-    const comments: ComputedRef<IComment[]> = computed<IComment[]>(() => store.getters['comments/comments']);
+    const comments: ComputedRef<Comment[]> = computed<Comment[]>(() => store.getters['comments/comments']);
 
     const loadNews = async () => {
       store.commit('news/clearNews');

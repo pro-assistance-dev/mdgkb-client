@@ -1,17 +1,12 @@
 import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
+import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import ResidencyCoursePracticePlaceGroup from '@/classes/ResidencyCoursePracticePlaceGroup';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import Specialization from '@/classes/Specialization';
-import IFileInfo from '@/interfaces/files/IFileInfo';
-import IEducationYear from '@/interfaces/IEducationYear';
-import IForm from '@/interfaces/IForm';
-import ISpecialization from '@/interfaces/ISpecialization';
 import ClassHelper from '@/services/ClassHelper';
-
-import Form from './Form';
-import ResidencyCoursePracticePlaceGroup from './ResidencyCoursePracticePlaceGroup';
 
 export default class ResidencyCourse {
   id?: string;
@@ -26,25 +21,25 @@ export default class ResidencyCourse {
   residencyCoursesSpecializations: ResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
 
-  formPattern: IForm = new Form();
+  formPattern: Form = new Form();
   formPatternId?: string;
 
-  program: IFileInfo = new FileInfo();
+  program: FileInfo = new FileInfo();
   programId?: string;
 
-  annotation: IFileInfo = new FileInfo();
+  annotation: FileInfo = new FileInfo();
   annotationId?: string;
 
-  plan: IFileInfo = new FileInfo();
+  plan: FileInfo = new FileInfo();
   planId?: string;
 
-  schedule: IFileInfo = new FileInfo();
+  schedule: FileInfo = new FileInfo();
   scheduleId?: string;
 
-  startYear: IEducationYear = new EducationYear();
+  startYear: EducationYear = new EducationYear();
   startYearId?: string;
 
-  endYear: IEducationYear = new EducationYear();
+  endYear: EducationYear = new EducationYear();
   endYearId?: string;
   // @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
@@ -70,7 +65,7 @@ export default class ResidencyCourse {
     this.mainTeacherId = teacher.id;
   }
 
-  addSpecialization(specialization: ISpecialization): void {
+  addSpecialization(specialization: Specialization): void {
     const index = this.residencyCoursesSpecializations.findIndex(
       (i: ResidencyCourseSpecialization) => i.specializationId === specialization.id
     );
@@ -97,7 +92,7 @@ export default class ResidencyCourse {
     this.residencyCoursesSpecializations[index].main = true;
   }
 
-  getMainSpecialization(): ISpecialization {
+  getMainSpecialization(): Specialization {
     const spec = this.residencyCoursesSpecializations.find((s: ResidencyCourseSpecialization) => s.main);
     if (spec) {
       return spec.specialization;
@@ -108,8 +103,8 @@ export default class ResidencyCourse {
     return new Specialization();
   }
 
-  getFileInfos(): IFileInfo[] {
-    const fileInfos: IFileInfo[] = [];
+  getFileInfos(): FileInfo[] {
+    const fileInfos: FileInfo[] = [];
     if (this.program) {
       fileInfos.push(this.program);
     }
@@ -182,7 +177,7 @@ export default class ResidencyCourse {
     return this.residencyApplications.some((a) => a.paid && a.formValue.formStatus.isAccepted());
   }
 
-  getInfoFiles(): IFileInfo[] {
+  getInfoFiles(): FileInfo[] {
     const annotaion = new FileInfo(this.annotation);
     annotaion.originalName = 'Аннотация';
     const plan = new FileInfo(this.plan);
@@ -191,7 +186,7 @@ export default class ResidencyCourse {
     program.originalName = 'Программа';
     const schedule = new FileInfo(this.schedule);
     schedule.originalName = 'Расписание';
-    return [annotaion, plan, program, schedule].filter((f: IFileInfo) => f.fileSystemPath);
+    return [annotaion, plan, program, schedule].filter((f: FileInfo) => f.fileSystemPath);
   }
 
   resetMainTeacher(): void {

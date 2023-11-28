@@ -26,9 +26,9 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
+import Child from '@/classes/Child';
+import User from '@/classes/User';
 import DatePicker from '@/components/DatePicker.vue';
-import IChild from '@/interfaces/IChild';
-import IUser from '@/services/interfaces/IUser';
 
 export default defineComponent({
   name: 'ChildForm',
@@ -37,8 +37,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
-    const child: WritableComputedRef<IChild> = computed(() => store.getters['children/item']);
-    const user: Ref<IUser> = computed(() => store.getters['auth/user']);
+    const child: WritableComputedRef<Child> = computed(() => store.getters['children/item']);
+    const user: Ref<User> = computed(() => store.getters['auth/user']);
     onBeforeMount(() => {
       mounted.value = true;
     });

@@ -50,6 +50,7 @@ import { ElLoading, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
 import Division from '@/classes/Division';
+import Hospitalization from '@/classes/Hospitalization';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
@@ -58,7 +59,6 @@ import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import HospitalizationsTable from '@/components/Hospitalizations/HospitalizationsTable.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IHospitalization from '@/interfaces/IHospitalization';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
@@ -80,7 +80,7 @@ export default defineComponent({
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const activeStep: Ref<number> = ref(0);
     const buttonOff: Ref<boolean> = ref(false);
-    const hospitalization: ComputedRef<IHospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
 
     const getPDF = (id: string) => {
       Provider.store.dispatch('hospitalizations/pdf', id);

@@ -24,7 +24,7 @@
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import News from '@/classes/news/News';
+import News from '@/classes/News';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import makeCarousel from '@/services/MakeCarousel';

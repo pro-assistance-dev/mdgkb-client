@@ -18,7 +18,7 @@
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref, WritableComputedRef } from 'vue';
 
-import IFormStatusGroup from '@/interfaces/IFormStatusGroup';
+import FormStatusGroup from '@/classes/FormStatusGroup';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -27,7 +27,7 @@ export default defineComponent({
 
   setup() {
     const form = ref();
-    const formStatusGroup: ComputedRef<IFormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
+    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
     const showDialog: WritableComputedRef<boolean> = computed({
       get(): boolean {
         return Provider.store.getters['formStatusGroups/showDialog'];

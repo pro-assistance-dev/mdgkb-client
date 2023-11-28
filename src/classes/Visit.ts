@@ -1,9 +1,7 @@
-import IVisit from '@/interfaces/IVisit';
+import VisitsApplication from '@/classes/VisitsApplication';
 import ClassHelper from '@/services/ClassHelper';
 
-import VisitsApplication from './VisitsApplication';
-
-export default class Visit implements IVisit {
+export default class Visit {
   id?: string;
   date?: Date;
   entered = false;
@@ -12,7 +10,7 @@ export default class Visit implements IVisit {
   visitsApplication = new VisitsApplication();
   visitsApplicationId?: string;
 
-  constructor(i?: IVisit) {
+  constructor(i?: Visit) {
     ClassHelper.BuildClass(this, i);
   }
 }

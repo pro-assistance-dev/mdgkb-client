@@ -27,8 +27,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
+import Timetable from '@/classes/Timetable';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ITimetable from '@/interfaces/timetables/ITimetable';
 
 export default defineComponent({
   name: 'AdminTimetablePatternList',
@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const timetablePatterns: ComputedRef<ITimetable[]> = computed<ITimetable[]>(() => store.getters['timetablePatterns/items']);
+    const timetablePatterns: ComputedRef<Timetable[]> = computed<Timetable[]>(() => store.getters['timetablePatterns/items']);
 
     const create = (): void => {
       router.push('/admin/timetable-patterns/new');

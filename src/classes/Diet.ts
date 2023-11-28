@@ -1,46 +1,29 @@
 import DietAge from '@/classes/DietAge';
 import DietGroup from '@/classes/DietGroup';
-import IDiet from '@/interfaces/IDiet';
-import IDietAge from '@/interfaces/IDietAge';
-import IDietGroup from '@/interfaces/IDietGroup';
-import ITimetable from '@/interfaces/timetables/ITimetable';
+import Timetable from '@/classes/Timetable';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class Diet implements IDiet {
+export default class Diet {
   id?: string;
   name = '';
   shortName = '';
   siteName = '';
   diabetes = false;
 
-  motherDiet?: IDiet;
+  motherDiet?: Diet;
   motherDietId?: string;
 
-  dietAges: IDietAge[] = [];
+  @ClassHelper.GetClassConstructor(DietAge)
+  dietAges: DietAge[] = [];
   dietGroupId?: string;
-  dietGroup: IDietGroup = new DietGroup();
+  @ClassHelper.GetClassConstructor(DietGroup)
+  dietGroup: DietGroup = new DietGroup();
 
-  constructor(i?: IDiet) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.name = i.name;
-    this.siteName = i.siteName;
-    this.diabetes = i.diabetes;
-    this.dietGroupId = i.dietGroupId;
-    if (i.motherDiet) {
-      this.motherDiet = new Diet(i.motherDiet);
-    }
-    this.motherDietId = i.motherDietId;
-    if (i.dietGroup) {
-      this.dietGroup = new DietGroup(i.dietGroup);
-    }
-    if (i.dietAges) {
-      this.dietAges = i.dietAges.map((item: IDietAge) => new DietAge(item));
-    }
+  constructor(i?: Diet) {
+    ClassHelper.BuildClass(this, i);
   }
 
-  getMotherTimetable(): ITimetable | undefined {
+  getMotherTimetable(): Timetable | undefined {
     return this.motherDiet?.dietAges[0]?.timetable;
   }
 }

@@ -1,8 +1,8 @@
-import IUser from '@/services/interfaces/IUser';
+import User from '@/classes/User';
 
 export interface State {
-  items: IUser[];
-  item?: IUser;
+  items: User[];
+  item?: User;
   count: number;
   emailExists: boolean;
   authPageEmail: string;

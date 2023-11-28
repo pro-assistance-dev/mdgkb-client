@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex';
 
-import IComment from '@/interfaces/comments/IComment';
+import Comment from '@/classes/Comment';
 import ICommentsWithCount from '@/interfaces/ICommentsWithCount';
 import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -26,20 +26,20 @@ const actions: ActionTree<State, RootState> = {
   },
   getAllMain: async ({ commit }): Promise<void> => {
     const get = async () => {
-      return await httpClient.get<IComment[]>({ query: 'main' });
+      return await httpClient.get<Comment[]>({ query: 'main' });
     };
-    commit('setAll', await cache.storeGetWithCache<IComment[]>(get));
+    commit('setAll', await cache.storeGetWithCache<Comment[]>(get));
   },
-  modChecked: async (_, comment: IComment): Promise<void> => {
-    await httpClient.put<IComment, IComment>({ query: `${comment.id}`, payload: comment });
+  modChecked: async (_, comment: Comment): Promise<void> => {
+    await httpClient.put<Comment, Comment>({ query: `${comment.id}`, payload: comment });
   },
   createComment: async ({ state, commit }): Promise<void> => {
-    const res = await httpClient.post<IComment, IComment>({ payload: state.comment.comment });
+    const res = await httpClient.post<Comment, Comment>({ payload: state.comment.comment });
     commit('setComment', res);
   },
   subscribeCreate: async ({ commit }, isNmo: boolean): Promise<void> => {
     const c = new HttpClient('subscribe');
-    source = await c.subscribe<IComment>({ query: 'comment-create' });
+    source = await c.subscribe<Comment>({ query: 'comment-create' });
     source.onmessage = function (e) {
       commit('unshiftToAll', JSON.parse(e.data));
     };

@@ -1,14 +1,13 @@
 import { MutationTree } from 'vuex';
 
+import Child from '@/classes/Child';
 import DoctorUser from '@/classes/DoctorUser';
 import PathPermission from '@/classes/PathPermission';
 import User from '@/classes/User';
-import IChild from '@/interfaces/IChild';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionsWithCount from '@/interfaces/IPathPermissionsWithCount';
 import FavouriteService from '@/services/Favourite';
 import ITokens from '@/services/interfaces/ITokens';
-import IUser from '@/services/interfaces/IUser';
 import TokenService from '@/services/Token';
 
 import State from './state';
@@ -18,7 +17,7 @@ const mutations: MutationTree<State> = {
     state.user = new User(user);
     localStorage.setItem('user', JSON.stringify(user));
   },
-  addChild(state, child: IChild) {
+  addChild(state, child: Child) {
     if (!state.user) {
       return;
     }
@@ -58,7 +57,7 @@ const mutations: MutationTree<State> = {
     state.loginStatus = 'passwordChange';
   },
 
-  setFavourite(state, user: IUser) {
+  setFavourite(state, user: User) {
     if (user.doctorsUsers) {
       const doctorsFavourite = user.doctorsUsers.map((i: DoctorUser) => i.doctorId);
       FavouriteService.setFavourite('doctor', doctorsFavourite);

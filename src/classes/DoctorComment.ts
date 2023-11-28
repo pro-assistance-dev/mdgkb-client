@@ -1,12 +1,11 @@
 import Comment from '@/classes/Comment';
-import IComment from '@/interfaces/comments/IComment';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class DoctorComment {
   id?: string;
   doctorId?: string;
   commentId?: string;
-  comment: IComment = new Comment();
+  comment: Comment = new Comment();
 
   constructor(i?: DoctorComment) {
     ClassHelper.BuildClass(this, i);

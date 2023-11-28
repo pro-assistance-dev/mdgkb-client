@@ -1,5 +1,5 @@
-import IFileInfo from '@/interfaces/files/IFileInfo';
+import FileInfo from '@/classes/FileInfo';
 
 export default interface IFileInfosGetter {
-  getFileInfos?: () => IFileInfo[];
+  getFileInfos?: () => FileInfo[];
 }

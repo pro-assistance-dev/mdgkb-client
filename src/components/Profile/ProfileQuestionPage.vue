@@ -11,8 +11,8 @@
 import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
+import Question from '@/classes/Question';
 import QuestionCard from '@/components/Questions/QuestionCard.vue';
-import IQuestion from '@/interfaces/IQuestion';
 
 export default defineComponent({
   name: 'ProfileQuestionPage',
@@ -22,9 +22,9 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const userQuestions: ComputedRef<IQuestion[]> = computed(() => {
+    const userQuestions: ComputedRef<Question[]> = computed(() => {
       const user = store.getters['users/item'];
-      return user.questions.sort((a: IQuestion, b: IQuestion) => b.date.getTime() - a.date.getTime());
+      return user.questions.sort((a: Question, b: Question) => b.date.getTime() - a.date.getTime());
     });
 
     const loadUser = async () => {

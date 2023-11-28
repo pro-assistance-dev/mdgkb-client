@@ -48,12 +48,12 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
+import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import VacancyResponse from '@/classes/VacancyResponse';
 import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
-import IFormStatus from '@/interfaces/IFormStatus';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -65,9 +65,9 @@ export default defineComponent({
   },
   setup() {
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
-    const formStatuses: ComputedRef<IFormStatus[]> = computed<IFormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
-    const updateFormStatus = async (application: VacancyResponse, status: IFormStatus) => {
+    const updateFormStatus = async (application: VacancyResponse, status: FormStatus) => {
       if (status.isCancelled()) {
         await Provider.router.push(`/profile/vacancy-responses/cancel/${application.id}`);
         return;

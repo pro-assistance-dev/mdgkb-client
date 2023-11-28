@@ -24,8 +24,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
+import Certificate from '@/classes/Certificate';
 import MainContainer from '@/components/Main/MainContainer.vue';
-import ICertificate from '@/interfaces/ICertificate';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -33,7 +33,7 @@ export default defineComponent({
   components: { MainContainer },
 
   setup() {
-    const carousel: Ref<ICertificate[][]> = ref([]);
+    const carousel: Ref<Certificate[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
@@ -62,7 +62,7 @@ export default defineComponent({
     ];
 
     onBeforeMount(async () => {
-      carousel.value = makeCarousel<ICertificate>(items, 4);
+      carousel.value = makeCarousel<Certificate>(items, 4);
       mounted.value = true;
     });
 

@@ -118,7 +118,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import DatePicker from '@/components/DatePicker.vue';
 import AddressInfoForm from '@/components/FormConstructor/AddressInfoForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import IUserFormFields from '@/interfaces/IUserFormFields';
 import PhoneService from '@/services/PhoneService';
 
 export default defineComponent({
@@ -146,7 +145,7 @@ export default defineComponent({
       default: false,
     },
     activeFields: {
-      type: Object as PropType<IUserFormFields>,
+      type: Object as PropType<UserFormFields>,
       default: UserFormFields.CreateWithFullName(),
     },
   },

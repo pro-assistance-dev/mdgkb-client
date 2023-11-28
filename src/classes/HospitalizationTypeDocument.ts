@@ -1,21 +1,14 @@
-import IHospitalizationType from '@/interfaces/IHospitalizationType';
-import IHospitalizationTypeDocument from '@/interfaces/IHospitalizationTypeDocument';
+import HospitalizationType from '@/classes/HospitalizationType';
+import ClassHelper from '@/services/ClassHelper';
 
-export default class HospitalizationTypeDocument implements IHospitalizationTypeDocument {
+export default class HospitalizationTypeDocument {
   id?: string;
   name = '';
   order = 0;
-  hospitalizationType?: IHospitalizationType;
+  hospitalizationType?: HospitalizationType;
   hospitalizationTypeId?: string;
   children = true;
-  constructor(i?: IHospitalizationTypeDocument) {
-    if (!i) {
-      return;
-    }
-    this.id = i.id;
-    this.order = i.order;
-    this.name = i.name;
-    this.children = i.children;
-    this.hospitalizationTypeId = i.hospitalizationTypeId;
+  constructor(i?: HospitalizationTypeDocument) {
+    ClassHelper.BuildClass(this, i);
   }
 }

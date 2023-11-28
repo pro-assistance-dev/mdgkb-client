@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/File/FileInfo';
+import FileInfo from '@/classes/FileInfo';
 import IFile from '@/interfaces/files/IFile';
-import IFileInfo from '@/interfaces/files/IFileInfo';
 
 export default class PageSectionDocument {
   id?: string;
@@ -12,7 +11,7 @@ export default class PageSectionDocument {
   pageSectionId?: string;
   // pageSection: IPageSection = new PageSection();
 
-  scan: IFileInfo = new FileInfo();
+  scan: FileInfo = new FileInfo();
   scanId?: string;
 
   constructor(i?: PageSectionDocument) {
@@ -33,11 +32,11 @@ export default class PageSectionDocument {
     this.scanId = i.scanId;
   }
 
-  getFileInfos(): IFileInfo[] {
+  getFileInfos(): FileInfo[] {
     return [this.scan];
   }
 
-  uploadScan(file: IFile): IFileInfo {
+  uploadScan(file: IFile): FileInfo {
     if (!this.scan.id) {
       this.scan.id = uuidv4();
     }
