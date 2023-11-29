@@ -1,4 +1,15 @@
 <template>
+  <teleport to="body">
+    <div v-if="fullScreenMode" class="modal" @click="fullScreenMode = false">
+      <div class="modal-box">
+        <svg class="icon-close" @click="fullScreenMode = false">
+          <use xlink:href="#close"></use>
+        </svg>
+        <CarouselImages :start-active-group-index="activeGroupIndex" :images="images" :height="`${mobileWindow}px`" max-height="1000px" />
+      </div>
+    </div>
+  </teleport>
+
   <div class="field" :style="{ height: height, maxHeight: maxHeight }">
     <div class="container">
       <svg class="icon-arrow" @click.stop="toPrev()">
@@ -49,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
 import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
 import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
@@ -81,18 +92,24 @@ export default defineComponent({
       type: String,
       default: '360px',
     },
-
     maxHeight: {
       type: String,
       default: '360px',
     },
+    startActiveGroupIndex: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ['openModalWindow'],
-  setup(props, { emit }) {
+  setup(props) {
     const cssAnimationTime = `${props.animationTime}ms`;
-
     const fullScreenMode: Ref<boolean> = ref(false);
-    const activeGroupIndex = ref(0);
+    const activeGroupIndex = ref(props.startActiveGroupIndex);
+    const mobileWindow = ref(
+      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
+    );
+
     // const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
 
     // const activeImageIndex = ref(0);
@@ -110,8 +127,21 @@ export default defineComponent({
 
     const showImageInFullScreen = () => {
       fullScreenMode.value = true;
-      emit('openModalWindow', fullScreenMode);
     };
+
+    onMounted(() => {
+      document.addEventListener('keyup', function (evt) {
+        if (evt.keyCode === 37) {
+          toPrev();
+        }
+        if (evt.keyCode === 39) {
+          toNext();
+        }
+        if (evt.keyCode === 27) {
+          fullScreenMode.value = false;
+        }
+      });
+    });
 
     const toNextGroup = () =>
       (activeGroupIndex.value = activeGroupIndex.value + 1 < carousel.value.length ? activeGroupIndex.value + 1 : 0);
@@ -142,6 +172,8 @@ export default defineComponent({
     };
 
     return {
+      fullScreenMode,
+      mobileWindow,
       Animations,
       carousel,
       activeGroupIndex,
@@ -162,6 +194,51 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
+
+.icon-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 20px;
+}
+
+.icon-close:hover {
+  fill: #205bb8;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.modal-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  max-width: 1344px;
+  width: calc(100% - 40px);
+  padding: 20px;
+  z-index: 4;
+  border-radius: 10px;
+}
 
 @keyframes movenext {
   0% {

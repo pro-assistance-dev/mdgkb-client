@@ -28,16 +28,6 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <teleport to="body">
-            <div v-if="modalOpen" class="modal" @click="modalOpen = false">
-              <div class="modal-box">
-                <svg class="icon-close" @click="modalOpen = false">
-                  <use xlink:href="#close"></use>
-                </svg>
-                <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" max-height="1000px" />
-              </div>
-            </div>
-          </teleport>
           <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
