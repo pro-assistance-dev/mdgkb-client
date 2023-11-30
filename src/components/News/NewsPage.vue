@@ -28,7 +28,8 @@
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
-          <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" />
+          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
+          <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
         <NewsPageFooter :news="news" />
@@ -37,16 +38,18 @@
       </div>
     </div>
   </div>
+  <Close />
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
+import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
 import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
+import CarouselImages from '@/components/CarouselImages.vue';
 import Comments from '@/components/Comments/Comments.vue';
-import ImageGallery_new from '@/components/ImageGallery_new.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
@@ -54,10 +57,9 @@ import Hooks from '@/services/Hooks/Hooks';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
-
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, ImageGallery_new, EventRegistration, Comments },
+  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages, Close },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -65,6 +67,10 @@ export default defineComponent({
     const mounted: Ref<boolean> = ref(false);
     const slug = computed(() => Provider.route().params['slug']);
     const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
+    const modalOpen: Ref<boolean> = ref(false);
+    const mobileWindow = ref(
+      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
+    );
 
     watch(slug, async () => {
       console.log(slug);
@@ -103,6 +109,10 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
+    const openModalWindow = async () => {
+      modalOpen.value = true;
+    };
+
     return {
       rules,
       comment,
@@ -112,6 +122,9 @@ export default defineComponent({
       commentInput,
       commentForm,
       editCommentForm,
+      modalOpen,
+      openModalWindow,
+      mobileWindow,
     };
   },
 });
@@ -122,6 +135,57 @@ $side-cotainer-max-width: 300px;
 $news-content-max-width: 1000px;
 $card-margin-size: 30px;
 
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.modal-box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  max-width: 1344px;
+  width: calc(100% - 40px);
+  padding: 20px;
+  z-index: 4;
+  border-radius: 10px;
+}
+
+.field {
+  position: relative;
+  height: 360px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.icon-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  fill: #343e5c;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 20px;
+}
+
+.icon-close:hover {
+  fill: #205bb8;
+}
 .news-page-container {
   display: flex;
   justify-content: center;
@@ -246,9 +310,43 @@ h3 {
   }
 }
 
+@media screen and (max-width: 768px) {
+  :deep(.leave-a-review) {
+    padding: 20px;
+  }
+  .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    max-width: 1344px;
+    width: calc(100% - 20px);
+    padding: 10px;
+    z-index: 4;
+    border-radius: 10px;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .card-item {
     padding: 10px;
+  }
+  .modal-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    max-width: 1344px;
+    width: calc(100% - 10px);
+    padding: 5px;
+    z-index: 4;
+    border-radius: 10px;
   }
 }
 
