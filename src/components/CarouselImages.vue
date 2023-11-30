@@ -20,8 +20,8 @@
           v-for="(carouselGroupElement, i) in activeCarouselGroup"
           :key="i"
           :class="{
-            animationnext: rev === Animations.Next,
-            animationprev: rev === Animations.Prev,
+            animationnext: animation === Animations.Next,
+            animationprev: animation === Animations.Prev,
           }"
         >
           <div class="image">
@@ -106,24 +106,26 @@ export default defineComponent({
     const cssAnimationTime = `${props.animationTime}ms`;
     const fullScreenMode: Ref<boolean> = ref(false);
     const activeGroupIndex = ref(props.startActiveGroupIndex);
-    const mobileWindow = ref(
-      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
-    );
 
-    // const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
+    const mobileWindow = computed(() => {
+      const width = window.innerWidth;
+      let divisor = 3.5;
+      if (width < 1600) {
+        divisor = 2.5;
+      }
+      if (width < 600) {
+        divisor = 1.6;
+      }
+      return width / divisor;
+    });
 
-    // const activeImageIndex = ref(0);
-
-    const rev: Ref<Animations> = ref(Animations.None);
+    const animation: Ref<Animations> = ref(Animations.None);
 
     let carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
 
     const activeCarouselGroup: ComputedRef<IWithImage[]> = computed(() => {
       return carousel.value[activeGroupIndex.value];
     });
-    // const activeImage: ComputedRef<IWithImage> = computed(() => {
-    //   return carousel.value[activeGroupIndex.value][activeImageIndex.value];
-    // });
 
     const showImageInFullScreen = () => {
       fullScreenMode.value = true;
@@ -131,14 +133,21 @@ export default defineComponent({
 
     onMounted(() => {
       document.addEventListener('keyup', function (evt) {
-        if (evt.keyCode === 37) {
-          toPrev();
-        }
-        if (evt.keyCode === 39) {
-          toNext();
-        }
-        if (evt.keyCode === 27) {
-          fullScreenMode.value = false;
+        console.log(evt.key);
+
+        switch (evt.key) {
+          case 'ArrowLeft': {
+            toPrev();
+            break;
+          }
+          case 'ArrowRight': {
+            toNext();
+            break;
+          }
+          case 'Escape': {
+            fullScreenMode.value = false;
+            break;
+          }
         }
       });
     });
@@ -148,9 +157,9 @@ export default defineComponent({
     const toPreviousGroup = () =>
       (activeGroupIndex.value = activeGroupIndex.value - 1 < 0 ? carousel.value.length - 1 : activeGroupIndex.value - 1);
 
-    const callAnimation = (animation: Animations) => {
-      rev.value = animation;
-      setTimeout(() => (rev.value = Animations.None), props.animationTime);
+    const callAnimation = (curAnimation: Animations) => {
+      animation.value = curAnimation;
+      setTimeout(() => (animation.value = Animations.None), props.animationTime);
     };
 
     const toGroup = (value: number) => {
@@ -183,7 +192,7 @@ export default defineComponent({
       toPreviousGroup,
       activeCarouselGroup,
       showImageInFullScreen,
-      rev,
+      animation,
       toNext,
       toPrev,
       cssAnimationTime,
