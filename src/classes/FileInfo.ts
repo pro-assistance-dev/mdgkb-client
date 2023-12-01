@@ -29,6 +29,10 @@ export default class FileInfo {
     return { name: this.originalName, url: this.getImageUrl() };
   }
 
+  getFileInfos(): FileInfo[] {
+    return [this];
+  }
+
   reset(): void {
     this.url = '';
     this.originalName = '';

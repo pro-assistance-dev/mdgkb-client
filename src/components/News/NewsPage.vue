@@ -300,6 +300,12 @@ h3 {
   padding: 30px;
 }
 
+:deep(.article-body) {
+  img {
+    max-width: 100%;
+  }
+}
+
 :deep(.leave-a-review) {
   padding: 40px 190px 35px 175px;
 }

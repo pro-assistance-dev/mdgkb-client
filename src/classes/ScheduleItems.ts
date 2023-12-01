@@ -1,6 +1,5 @@
 import Dish from '@/classes/Dish';
 import TimetableDay from '@/classes/TimetableDay';
-import ClassHelper from '@/services/ClassHelper';
 
 export default class ScheduleItem {
   id?: string;
@@ -9,7 +8,16 @@ export default class ScheduleItem {
   endTime = '';
   dishes: Dish[] = [];
   constructor(i?: ScheduleItem) {
-    ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    this.name = i.name;
+    this.startTime = i.startTime;
+    this.endTime = i.endTime;
+    if (i.dishes) {
+      this.dishes = i.dishes.map((item: Dish) => new Dish(item));
+    }
   }
 
   static CreateStandartScheduleDay(): ScheduleItem[] {

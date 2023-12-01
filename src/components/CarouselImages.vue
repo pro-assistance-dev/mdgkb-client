@@ -35,7 +35,7 @@
               />
             </div>
           </div>
-          <div class="label">{{ carouselGroupElement.description }}{{ height }}{{ maxHeight }}</div>
+          <div class="label">{{ carouselGroupElement.description }}</div>
         </div>
       </div>
       <svg class="icon-arrow" @click.stop="toNext()">

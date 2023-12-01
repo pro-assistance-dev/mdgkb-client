@@ -4,19 +4,44 @@
       <div v-if="item.type === 'divider'" :key="`divider${index}`" class="divider" />
       <MenuItem v-else :key="index" v-bind="item" :action="item.action" :icon="item.icon" :title="item.title" />
     </template>
+    <el-dialog v-model="showDialog" @closed="clearDialogData">
+      <template #title>
+        <div class="dialog-header">
+          <div>Добавить картинку</div>
+          <div>
+            <el-button type="success" size="mini" @click="saveImage">Сохранить</el-button>
+          </div>
+        </div>
+      </template>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="Ссылкой" name="link">
+          <el-form-item title="Ссылка на картинку">
+            <el-input v-model="imageLink" placeholder="Вставьте ссылку"></el-input>
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="Файлом" name="file">
+          <UploaderSingleScan v-if="showDialog" :file-info="image" :height="300" @ratio="(e) => (element.ratio = e)" />
+        </el-tab-pane>
+      </el-tabs>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { ElMessage } from 'element-plus';
+import { defineComponent, Ref, ref } from 'vue';
 
+import FileInfo from '@/classes/FileInfo';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
+import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
+import Provider from '@/services/Provider/Provider';
 
 import MenuItem from './MenuItem.vue';
 
 export default defineComponent({
   name: 'MenuBar',
   components: {
+    UploaderSingleScan,
     MenuItem,
   },
   props: {
@@ -24,8 +49,13 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    fullScreen: {
+      type: Boolean,
+      required: true,
+    },
   },
-  setup(props) {
+  emits: ['fullScreen'],
+  setup(props, { emit }) {
     const items: IEditorMenuItem[] = [
       {
         icon: 'bold',
@@ -205,14 +235,56 @@ export default defineComponent({
         title: 'Добавить emoji',
         action: (content?: string) => props.editor.chain().focus().insertContent(content).run(),
       },
+      {
+        type: 'divider',
+      },
+      {
+        icon: props.fullScreen ? 'fullscreen-exit-line' : 'fullscreen-line',
+        title: props.fullScreen ? 'Выйти из полного экрана' : 'Полный экран',
+        action: () => emit('fullScreen', props.fullScreen ? false : true),
+      },
     ];
 
-    const addImage = () => {
-      const url = window.prompt('URL');
+    const showDialog: Ref<boolean> = ref(false);
+    const imageLink: Ref<string> = ref('');
+    const image: Ref<FileInfo> = ref(new FileInfo());
+    const activeName: Ref<string> = ref('link');
 
-      if (url) {
-        props.editor.chain().focus().setImage({ src: url }).run();
+    const addImage = () => {
+      showDialog.value = true;
+
+      // const url = window.prompt('URL');
+
+      // if (url) {
+      //   props.editor.chain().focus().setImage({ src: url }).run();
+      // }
+    };
+    const saveImage = async () => {
+      if (activeName.value === 'link') {
+        if (!imageLink.value.length) {
+          ElMessage({ message: 'Не добавлена ссылка', type: 'error' });
+          return;
+        }
+        props.editor.chain().focus().setImage({ src: imageLink.value }).run();
+      } else {
+        if (!image.value.fileSystemPath) {
+          ElMessage({ message: 'Не загружена картинка', type: 'error' });
+          return;
+        }
+        const result = await Provider.store.dispatch('fileInfos/create', image.value);
+        props.editor
+          .chain()
+          .focus()
+          .setImage({ src: new FileInfo(result).getImageUrl() })
+          .run();
       }
+      showDialog.value = false;
+    };
+
+    const clearDialogData = () => {
+      imageLink.value = '';
+      image.value = new FileInfo();
+      activeName.value = 'link';
     };
 
     const setLink = () => {
@@ -233,8 +305,8 @@ export default defineComponent({
 
     const addVideo = () => {
       const url = window.prompt('Enter YouTube URL');
-
       if (url) {
+        // props.editor.chain().focus().insertContent(`<video src="${url}"></video>`).run();
         props.editor.commands.setYoutubeVideo({
           src: url,
           // width: Math.max(320, parseInt(this.width, 10)) || 640,
@@ -242,7 +314,7 @@ export default defineComponent({
         });
       }
     };
-    return { items };
+    return { items, showDialog, image, saveImage, activeName, imageLink, clearDialogData };
   },
 });
 </script>
@@ -254,5 +326,10 @@ export default defineComponent({
   background-color: rgba(#000, 0.1);
   margin-left: 0.5rem;
   margin-right: 0.75rem;
+}
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 30px;
 }
 </style>

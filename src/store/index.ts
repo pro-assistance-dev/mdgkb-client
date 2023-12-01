@@ -34,6 +34,7 @@ import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { faqs } from '@/store/modules/faqs';
+import { fileInfos } from '@/store/modules/fileInfos';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
@@ -175,6 +176,7 @@ const s: StoreOptions<RootState> = {
     calendar,
     chats,
     chatMessages,
+    fileInfos,
   },
 };
 

@@ -1,7 +1,6 @@
 import DietAge from '@/classes/DietAge';
 import DietGroup from '@/classes/DietGroup';
 import Timetable from '@/classes/Timetable';
-import ClassHelper from '@/services/ClassHelper';
 
 export default class Diet {
   id?: string;
@@ -13,14 +12,29 @@ export default class Diet {
   motherDiet?: Diet;
   motherDietId?: string;
 
-  @ClassHelper.GetClassConstructor(DietAge)
   dietAges: DietAge[] = [];
   dietGroupId?: string;
-  @ClassHelper.GetClassConstructor(DietGroup)
   dietGroup: DietGroup = new DietGroup();
 
   constructor(i?: Diet) {
-    ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    this.name = i.name;
+    this.siteName = i.siteName;
+    this.diabetes = i.diabetes;
+    this.dietGroupId = i.dietGroupId;
+    if (i.motherDiet) {
+      this.motherDiet = new Diet(i.motherDiet);
+    }
+    this.motherDietId = i.motherDietId;
+    if (i.dietGroup) {
+      this.dietGroup = new DietGroup(i.dietGroup);
+    }
+    if (i.dietAges) {
+      this.dietAges = i.dietAges.map((item: DietAge) => new DietAge(item));
+    }
   }
 
   getMotherTimetable(): Timetable | undefined {
