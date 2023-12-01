@@ -5,7 +5,6 @@ export default class Dish {
   id?: string;
   name = '';
   weight = '';
-  @ClassHelper.GetClassConstructor(ScheduleItem)
   scheduleItem = new ScheduleItem();
   scheduleItemId?: string;
 

@@ -1,17 +1,22 @@
 import TimePeriod from '@/classes/TimePeriod';
 import TimetableDay from '@/classes/TimetableDay';
 import Weekday from '@/classes/Weekday';
-import ClassHelper from '@/services/ClassHelper';
 
 export default class Timetable {
   id?: string;
   title?: string;
-  @ClassHelper.GetClassConstructor(TimetableDay)
   timetableDays: TimetableDay[] = [];
   timetableDaysForDelete: string[] = [];
 
   constructor(i?: Timetable) {
-    ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    this.title = i.title;
+    if (i.timetableDays) {
+      this.timetableDays = i.timetableDays.map((item: TimetableDay) => new TimetableDay(item));
+    }
   }
 
   getOnlyWorkDays(): string[] {

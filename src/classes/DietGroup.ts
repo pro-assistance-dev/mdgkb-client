@@ -1,5 +1,4 @@
 import Diet from '@/classes/Diet';
-import ClassHelper from '@/services/ClassHelper';
 
 export default class DietGroup {
   id?: string;
@@ -7,6 +6,13 @@ export default class DietGroup {
   diets: Diet[] = [];
 
   constructor(i?: DietGroup) {
-    ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    this.name = i.name;
+    if (i.diets) {
+      this.diets = i.diets.map((item: Diet) => new Diet(item));
+    }
   }
 }

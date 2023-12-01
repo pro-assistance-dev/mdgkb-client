@@ -1,7 +1,6 @@
 import ScheduleItem from '@/classes/ScheduleItems';
 import TimePeriod from '@/classes/TimePeriod';
 import Weekday from '@/classes/Weekday';
-import ClassHelper from '@/services/ClassHelper';
 
 export default class TimetableDay {
   id?: string;
@@ -12,16 +11,33 @@ export default class TimetableDay {
   endTimeLimit = '23:59';
   breaksExists = false;
   weekdayId?: string;
-  @ClassHelper.GetClassConstructor(Weekday)
   weekday: Weekday = new Weekday();
   aroundTheClock = false;
-  @ClassHelper.GetClassConstructor(TimePeriod)
   breakPeriods: TimePeriod[] = [];
   breakPeriodsForDelete: string[] = [];
   scheduleItems: ScheduleItem[] = [];
 
   constructor(i?: TimetableDay) {
-    ClassHelper.BuildClass(this, i);
+    if (!i) {
+      return;
+    }
+    this.id = i.id;
+    this.isWeekend = i.isWeekend;
+    this.startTime = i.startTime;
+    this.startTimeLimit = i.startTimeLimit;
+    this.endTime = i.endTime;
+    this.breaksExists = i.breaksExists;
+    if (i.weekdayId) {
+      this.weekdayId = i.weekdayId;
+    }
+    this.weekday = new Weekday(i.weekday);
+    this.aroundTheClock = i.aroundTheClock;
+    if (i.breakPeriods) {
+      this.breakPeriods = i.breakPeriods.map((item: TimePeriod) => new TimePeriod(item));
+    }
+    if (i.scheduleItems) {
+      this.scheduleItems = i.scheduleItems.map((item: ScheduleItem) => new ScheduleItem(item));
+    }
   }
 
   static CreateStandartWeek(weekdays: Weekday[]): TimetableDay[] {

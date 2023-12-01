@@ -1,12 +1,16 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar class="editor__header" :editor="editor" />
-    <editor-content :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
+    <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+    <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
+    <el-dialog v-model="showDialog" fullscreen :show-close="false">
+      <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
+    </el-dialog>
     <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -36,10 +40,11 @@ const CustomTableCell = TableCell.extend({
   },
 });
 
+import { mergeAttributes, Node } from '@tiptap/core';
 import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
-import { defineComponent, watch } from 'vue';
+import { defineComponent, Ref, ref, watch } from 'vue';
 
 import MenuBar from './MenuBar.vue';
 
@@ -69,6 +74,57 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
+    const showDialog: Ref<boolean> = ref(false);
+    const toggleDialog = (value: boolean) => {
+      showDialog.value = value;
+    };
+    const Video = Node.create({
+      name: 'video', // unique name for the Node
+      group: 'block', // belongs to the 'block' group of extensions
+      selectable: true, // so we can select the video
+      draggable: true, // so we can drag the video
+      atom: true, // is a single unit
+
+      addAttributes() {
+        return {
+          src: {
+            default: null,
+          },
+        };
+      },
+
+      parseHTML() {
+        return [
+          {
+            tag: 'video',
+          },
+        ];
+      },
+
+      renderHTML({ HTMLAttributes }) {
+        return ['video', mergeAttributes(HTMLAttributes)];
+      },
+
+      addNodeView() {
+        return ({ editor, node }) => {
+          const div = document.createElement('div');
+          div.className = 'aspect-w-16 aspect-h-9' + (editor.isEditable ? ' cursor-pointer' : '');
+          const iframe = document.createElement('iframe');
+          if (editor.isEditable) {
+            iframe.className = 'pointer-events-none';
+          }
+          iframe.width = '640';
+          iframe.height = '360';
+          iframe.frameBorder = '0';
+          iframe.allowFullscreen = false;
+          iframe.src = node.attrs.src;
+          div.append(iframe);
+          return {
+            dom: div,
+          };
+        };
+      },
+    });
     const editor = new Editor({
       extensions: [
         StarterKit.configure(),
@@ -98,6 +154,7 @@ export default defineComponent({
         Youtube.configure({
           controls: false,
         }),
+        Video,
       ],
       content: props.modelValue,
       onUpdate: () => {
@@ -116,7 +173,7 @@ export default defineComponent({
       }
     );
 
-    return { editor };
+    return { editor, showDialog, toggleDialog };
   },
 });
 </script>
@@ -285,8 +342,14 @@ ul[data-type='taskList'] {
   }
 }
 
+.editor__header {
+  border: 1px solid grey;
+}
+
 .scroll {
   overflow-y: auto;
+  border: 1px solid grey;
+  border-top: 0;
 }
 
 // .counter {
@@ -295,5 +358,27 @@ ul[data-type='taskList'] {
 //   margin-right: 10px;
 //   font-size: 12px;
 //   color: #909299;
+// }
+
+// .video-container {
+//   position: relative;
+//   overflow: hidden;
+//   padding-bottom: 56.25%;
+// }
+
+// .video-container > iframe {
+//   position: absolute;
+//   top: 0px;
+//   right: 0px;
+//   bottom: 0px;
+//   left: 0px;
+//   width: 100%;
+//   height: 100%;
+// }
+// .pointer-events-none {
+//   pointer-events: none;
+// }
+// .cursor-pointer {
+//   cursor: pointer;
 // }
 </style>

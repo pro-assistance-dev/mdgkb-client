@@ -56,7 +56,7 @@ import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'NewsList',
+  name: 'NewsPage',
   components: { NewsPageFooter, RecentNewsCard, ImageGallery_new, EventRegistration, Comments },
 
   async setup() {
@@ -234,6 +234,12 @@ h3 {
 
 .card-item {
   padding: 30px;
+}
+
+:deep(.article-body) {
+  img {
+    max-width: 100%;
+  }
 }
 
 :deep(.leave-a-review) {
