@@ -1,21 +1,28 @@
 <template>
   <div v-if="!allLoaded" class="load-more">
-    <el-button round @click="$emit('loadMore')">Показать еще</el-button>
+    <el-button round @click="$emit('loadMore')"> {{ text }}</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'LoadMoreButton',
+  props: {
+    loading: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+  },
   emits: ['loadMore'],
-  setup() {
+  setup(props) {
     const allLoaded = computed(() => Provider.store.getters[`filter/allLoaded`]);
-
+    const text = computed(() => (props.loading ? 'Загрузка...' : 'Показать ещё'));
     return {
+      text,
       allLoaded,
     };
   },

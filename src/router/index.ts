@@ -286,7 +286,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(() => {
+router.afterEach(() => {
   document.body.scrollTo({ top: 0 });
 });
 

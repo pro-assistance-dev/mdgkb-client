@@ -16,7 +16,7 @@
             </div>
           </el-col>
         </el-row>
-        <LoadMoreButton v-if="!allNewsLoaded" @loadMore="loadMore" />
+        <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @loadMore="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -83,6 +83,7 @@ export default defineComponent({
 
       await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
       // Provider.store.commit('news/setFilteredNews');
+      loading.value = false;
     };
 
     return {

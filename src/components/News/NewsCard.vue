@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="news.content"
+    v-if="news && news.content"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
     @click="$router.push(`/news/${news.id}`)"
@@ -33,7 +33,7 @@
   </div>
 
   <div
-    v-else
+    v-else-if="news"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
   >

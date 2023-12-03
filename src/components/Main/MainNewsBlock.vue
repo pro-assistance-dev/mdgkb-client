@@ -1,11 +1,5 @@
 <template>
-  <component
-    :is="'MainContainer'"
-    v-if="mounted"
-    header-button-link="/news"
-    header-title="Главные новости"
-    header-button-title="Все новости"
-  >
+  <component :is="'MainContainer'" header-button-link="/news" header-title="Главные новости" header-button-title="Все новости">
     <div class="wrapper">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="newsMain" />
@@ -31,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent } from 'vue';
 
 import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
@@ -53,7 +47,6 @@ export default defineComponent({
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
     const recentNewsList = computed(() => Provider.store.getters['news/mainPageRecentNewsList']);
-    const mounted: Ref<boolean> = ref(false);
 
     const createFilterModels = () => {
       Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
@@ -62,18 +55,19 @@ export default defineComponent({
 
     const load = async () => {
       createFilterModels();
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
-      await Provider.store.dispatch('news/getMain', true);
-      await Provider.store.dispatch('news/getSubMain', true);
-      Provider.store.commit('news/setFilteredNews');
-      mounted.value = true;
+      new Promise(() => {
+        Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
+        Provider.store.dispatch('news/getMain', true);
+        Provider.store.dispatch('news/getSubMain', true);
+      }).then(() => {
+        Provider.store.commit('news/setFilteredNews');
+      });
     };
 
     Hooks.onBeforeMount(load);
 
     return {
       news,
-      mounted,
       newsMain,
       newsSubMain1,
       newsSubMain2,

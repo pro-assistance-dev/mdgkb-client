@@ -1,6 +1,7 @@
 import { ActionTree } from 'vuex';
 
 import EventApplication from '@/classes/EventApplication';
+import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
 import NewsLike from '@/classes/NewsLike';
 import INewsWithCount from '@/interfaces/INewsWithCount';
@@ -70,6 +71,9 @@ const actions: ActionTree<State, RootState> = {
   },
   sendEventApplications: async (_, eventApplication: EventApplication): Promise<void> => {
     await httpClient.post<EventApplication, EventApplication>({ query: `event/application`, payload: eventApplication });
+  },
+  getSuggestionNews: async ({ commit }, id: string): Promise<void> => {
+    commit('setAll', await httpClient.get<News[]>({ query: `get-suggestion/${id}` }));
   },
 };
 

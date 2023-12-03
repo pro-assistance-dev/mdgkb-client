@@ -32,10 +32,9 @@
 
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
-import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
+import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
 
 import News from '@/classes/News';
-import NewsToTag from '@/classes/NewsToTag';
 import router from '@/router';
 import Provider from '@/services/Provider/Provider';
 
@@ -51,28 +50,22 @@ export default defineComponent({
       type: Number,
       default: 3,
     },
-    newsList: {
-      type: Array as PropType<News[]>,
-      default: () => [],
-    },
   },
-
   setup(props) {
     const recentNewsList = computed(() => {
-      if (props.newsList.length) {
-        return props.newsList;
-      }
       return Provider.store.getters['news/items'].filter((item: News) => item.id !== news.value.id).slice(0, props.newsNumber);
     });
     const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
 
+    const loadRelatedNews = async () => {
+      await Provider.store.dispatch('news/getSuggestionNews', Provider.route().params['slug']);
+    };
+
     onBeforeMount(async () => {
-      let filterTags: string[] = [];
-      news.value.newsToTags.forEach((newsToTag: NewsToTag) => {
-        if (newsToTag.tagId) {
-          filterTags.push(newsToTag.tagId);
-        }
-      });
+      if (props.main) {
+        return;
+      }
+      await loadRelatedNews();
     });
 
     const getNewsAndRecent = async (slug: string): Promise<void> => {

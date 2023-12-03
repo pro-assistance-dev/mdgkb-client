@@ -10,7 +10,7 @@
     </div>
     <div class="news-content-container">
       <div class="card-item">
-        <div class="card-header">
+        <div v-if="news" class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
@@ -32,7 +32,7 @@
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
-        <NewsPageFooter :news="news" />
+        <NewsPageFooter v-if="news" :news="news" />
         <el-divider />
         <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineAsyncComponent, defineComponent, Ref, ref, watch } from 'vue';
 
 import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
@@ -52,11 +52,14 @@ import CarouselImages from '@/components/CarouselImages.vue';
 import Comments from '@/components/Comments/Comments.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
-import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
+
+const RecentNewsCard = defineAsyncComponent({
+  loader: () => import('@/components/News/RecentNewsCard.vue' /* webpackChunkName: "mainReviews" */),
+  delay: 100,
+});
+
 export default defineComponent({
   name: 'NewsList',
   components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages, Close },
@@ -81,22 +84,8 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('news/get', slug.value);
-      await loadRelatedNews();
       mounted.value = true;
       window.scrollTo(0, 0);
-    };
-
-    const loadRelatedNews = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 3;
-      Provider.setSortModels(NewsSortsLib.byViewsCount(), NewsSortsLib.byPublishedOn());
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
-      const filtersIds = news.value.getTagsIds();
-      if (filtersIds.length > 0) {
-        Provider.setFilterModels(NewsFiltersLib.filterByTags(filtersIds));
-      }
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     Hooks.onBeforeMount(load);
