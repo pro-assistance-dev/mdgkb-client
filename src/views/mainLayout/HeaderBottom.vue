@@ -7,11 +7,20 @@
         <div class="menu-left"><BurgerMobile /></div>
 
         <div class="left-block">
-          <el-row class="mb-4" @click="$scroll('#header-top')">
-            <el-button v-if="scrollOffset >= 66 || mobileWindow" class="menu-item" @click="$router.push('/')">
-              <img alt="mdgkb-logo-mini" src="@/assets/img/mdgkb-logo-mini.webp" />
-            </el-button>
-          </el-row>
+          <!-- <el-row class="mb-4" @click="$scroll('#header-top')"> -->
+          <button
+            v-if="scrollOffset >= 66 || mobileWindow"
+            class="menu-item"
+            :style="{
+              background: hovering ? '#ffffff' : '',
+            }"
+            @click="$router.push('/')"
+            @mouseenter="hovering = true"
+            @mouseleave="hovering = false"
+          >
+            <img alt="mdgkb-logo-mini" src="@/assets/img/mdgkb-logo-mini.webp" />
+          </button>
+          <!-- </el-row> -->
         </div>
         <div id="top" class="menu-center"><NavMenu /></div>
         <div class="menu-right">
@@ -52,6 +61,7 @@ export default defineComponent({
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
     const devTitle = process.env.VUE_APP_MODE;
+    const hovering = ref(false);
 
     const nav = async (to: string) => {
       await router.push(to);
@@ -106,6 +116,7 @@ export default defineComponent({
       mobileWindow,
       showSearchDrawer,
       devTitle,
+      hovering,
     };
   },
 });
@@ -170,12 +181,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f2f7;
+  background: #f0f2f7;
   border: none;
   border-radius: 0px;
-}
-.menu-item:hover {
-  background-color: #ffffff;
+  text-decoration: none;
 }
 
 .app-title {
