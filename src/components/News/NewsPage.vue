@@ -14,7 +14,7 @@
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
-          <div class="article-preview">{{ news.previewText }}</div>
+          <!-- <div class="article-preview">{{ news.previewText }}</div> -->
         </div>
         <div v-if="news.event && news.event.form.id" class="card-header action-container">
           <EventRegistration store-name="news" :parent-id="news.id" />
@@ -24,7 +24,6 @@
             <el-button class="send-comment" type="primary"> Перейти к статье </el-button>
           </a>
         </div>
-        <el-divider />
 
         <div class="article-body" v-html="newsContent"></div>
         <template v-if="news.newsImages.length > 0">
@@ -234,7 +233,7 @@ h3 {
     font-size: 14px;
   }
   .article-preview {
-    margin-top: 10px;
+    margin: 10px 0;
   }
 }
 
