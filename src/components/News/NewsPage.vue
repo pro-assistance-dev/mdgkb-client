@@ -2,7 +2,7 @@
   <div v-if="mounted" class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
-        <RecentNewsCard :key="$route.fullPath" />
+        <SuggestionNews :key="$route.fullPath" />
       </div>
       <!--      <div v-if="news.newsDoctors.length" class="side-item">-->
       <!--        <NewsDoctorsCard :news-doctors="news.newsDoctors" />-->
@@ -54,14 +54,14 @@ import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-const RecentNewsCard = defineAsyncComponent({
-  loader: () => import('@/components/News/RecentNewsCard.vue' /* webpackChunkName: "mainReviews" */),
+const SuggestionNews = defineAsyncComponent({
+  loader: () => import('@/components/News/SuggestionNews.vue' /* webpackChunkName: "mainReviews" */),
   delay: 100,
 });
 
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages, Close },
+  components: { NewsPageFooter, SuggestionNews, EventRegistration, Comments, CarouselImages, Close },
 
   async setup() {
     let comment = ref(new NewsComment());

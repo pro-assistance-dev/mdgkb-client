@@ -6,20 +6,20 @@
       </div>
       <div class="height1"></div>
       <div class="main-news-block-middle1">
-        <div class="size"><NewsCard :news="newsSubMain1" :main="true" /></div>
-        <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
+        <div class="size"><NewsCard :news="newsSubMain1" /></div>
+        <div class="size"><NewsCard :news="newsSubMain2" /></div>
       </div>
       <div class="height2"></div>
       <div class="main-news-block-right">
-        <RecentNewsCard :news-list="recentNewsList" :main="true" :news-number="5" style="height: 100%" />
+        <NewsSmallList :news-list="recentNewsList" style="height: 100%" />
       </div>
     </div>
     <div class="main-news-block-middle2">
-      <div class="size"><NewsCard :news="newsSubMain1" :main="true" /></div>
-      <div class="size"><NewsCard :news="newsSubMain2" :main="true" /></div>
+      <div class="size"><NewsCard :news="newsSubMain1" /></div>
+      <div class="size"><NewsCard :news="newsSubMain2" /></div>
     </div>
     <div class="main-news-block-right2">
-      <RecentNewsCard :news-list="recentNewsList" :main="true" :news-number="5" style="height: 100%" />
+      <NewsSmallList :news-list="recentNewsList" style="height: 100%" />
     </div>
   </component>
 </template>
@@ -30,7 +30,7 @@ import { computed, defineComponent } from 'vue';
 import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
-import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
+import NewsSmallList from '@/components/News/NewsSmallList.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
@@ -39,7 +39,7 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'MainNewsBlock',
-  components: { MainContainer, NewsCard, MainBigNewsCard, RecentNewsCard },
+  components: { MainContainer, NewsCard, MainBigNewsCard, NewsSmallList },
 
   setup() {
     const news = computed(() => Provider.store.getters['news/items']);
