@@ -6,7 +6,7 @@
     class="upload-container"
     :show-file-list="false"
     list-type="picture"
-    accept=".pdf, .jpeg, .jpg"
+    :accept="accept"
   >
     <el-button size="mini" type="success">{{ fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
     <template #tip>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
 import FileInfo from '@/classes/FileInfo';
 import IFile from '@/interfaces/files/IFile';
@@ -35,6 +35,10 @@ export default defineComponent({
     fileInfo: {
       type: Object as PropType<FileInfo>,
       required: true,
+    },
+    formats: {
+      type: Array as PropType<string[]>,
+      default: () => ['pdf', 'jpeg', 'jpg'],
     },
   },
 
@@ -51,21 +55,28 @@ export default defineComponent({
     const removeFile = () => {
       props.fileInfo.clearFile();
     };
+    const accept = ref(props.formats.map((el) => '.' + el).toString());
 
     function isAcceptedFormat(filename: string): boolean {
       let ext = getExtension(filename);
-      switch (ext.toLowerCase()) {
-        case 'pdf':
-        case 'jpg':
-        case 'jpeg':
-          return true;
+      if (props.formats.includes(ext.toLowerCase())) {
+        return true;
       }
+      // switch (ext.toLowerCase()) {
+      //   case 'pdf':
+      //   case 'jpg':
+      //   case 'jpeg':
+      //   case 'webm':
+      //   case 'mp4':
+      //     return true;
+      // }
       return false;
     }
 
     return {
       changeFileHandler,
       removeFile,
+      accept,
     };
   },
 });

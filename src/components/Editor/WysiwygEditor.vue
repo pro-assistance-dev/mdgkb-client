@@ -4,7 +4,7 @@
     <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
-      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
+      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
     <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
   </div>
@@ -89,6 +89,7 @@ export default defineComponent({
         return {
           src: {
             default: null,
+            autoplay: false,
           },
         };
       },
@@ -163,7 +164,7 @@ export default defineComponent({
     });
 
     watch(
-      () => [props.modelValue],
+      () => props.modelValue,
       (value) => {
         const isSame = editor.getHTML() == value;
         if (isSame) {

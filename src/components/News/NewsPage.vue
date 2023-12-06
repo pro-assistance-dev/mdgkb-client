@@ -26,7 +26,7 @@
         </div>
         <el-divider />
 
-        <div class="article-body" v-html="newsContent"></div>
+        <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
           <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
@@ -304,6 +304,11 @@ h3 {
   img {
     max-width: 100%;
   }
+  video,
+  iframe {
+    width: 100%;
+    min-height: 500px;
+  }
 }
 
 :deep(.leave-a-review) {
@@ -314,12 +319,25 @@ h3 {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+  :deep(.article-body) {
+    video,
+    iframe {
+      min-height: 400px;
+    }
+  }
 }
 
 @media screen and (max-width: 768px) {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+  :deep(.article-body) {
+    video,
+    iframe {
+      min-height: 300px;
+    }
+  }
+
   .modal-box {
     position: absolute;
     left: 50%;
