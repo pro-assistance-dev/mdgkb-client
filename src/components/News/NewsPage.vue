@@ -2,7 +2,7 @@
   <div v-if="mounted" class="news-page-container">
     <div class="side-container hidden-md-and-down">
       <div class="side-item">
-        <RecentNewsCard :key="$route.fullPath" />
+        <SuggestionNews :key="$route.fullPath" />
       </div>
       <!--      <div v-if="news.newsDoctors.length" class="side-item">-->
       <!--        <NewsDoctorsCard :news-doctors="news.newsDoctors" />-->
@@ -10,11 +10,11 @@
     </div>
     <div class="news-content-container">
       <div class="card-item">
-        <div class="card-header">
+        <div v-if="news" class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
           <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
-          <div class="article-preview">{{ news.previewText }}</div>
+          <!-- <div class="article-preview">{{ news.previewText }}</div> -->
         </div>
         <div v-if="news.event && news.event.form.id" class="card-header action-container">
           <EventRegistration store-name="news" :parent-id="news.id" />
@@ -24,7 +24,6 @@
             <el-button class="send-comment" type="primary"> Перейти к статье </el-button>
           </a>
         </div>
-        <el-divider />
 
         <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
@@ -32,7 +31,7 @@
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
-        <NewsPageFooter :news="news" />
+        <NewsPageFooter v-if="news" :news="news" />
         <el-divider />
         <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
@@ -42,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, ComputedRef, defineAsyncComponent, defineComponent, Ref, ref, watch } from 'vue';
 
 import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
@@ -52,14 +51,17 @@ import CarouselImages from '@/components/CarouselImages.vue';
 import Comments from '@/components/Comments/Comments.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
-import RecentNewsCard from '@/components/News/RecentNewsCard.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
+
+const SuggestionNews = defineAsyncComponent({
+  loader: () => import('@/components/News/SuggestionNews.vue' /* webpackChunkName: "mainReviews" */),
+  delay: 100,
+});
+
 export default defineComponent({
   name: 'NewsList',
-  components: { NewsPageFooter, RecentNewsCard, EventRegistration, Comments, CarouselImages, Close },
+  components: { NewsPageFooter, SuggestionNews, EventRegistration, Comments, CarouselImages, Close },
 
   async setup() {
     let comment = ref(new NewsComment());
@@ -81,22 +83,8 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('news/get', slug.value);
-      await loadRelatedNews();
       mounted.value = true;
       window.scrollTo(0, 0);
-    };
-
-    const loadRelatedNews = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 3;
-      Provider.setSortModels(NewsSortsLib.byViewsCount(), NewsSortsLib.byPublishedOn());
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.excludeSlug(slug.value as string));
-      const filtersIds = news.value.getTagsIds();
-      if (filtersIds.length > 0) {
-        Provider.setFilterModels(NewsFiltersLib.filterByTags(filtersIds));
-      }
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     Hooks.onBeforeMount(load);
@@ -245,7 +233,7 @@ h3 {
     font-size: 14px;
   }
   .article-preview {
-    margin-top: 10px;
+    margin: 10px 0;
   }
 }
 

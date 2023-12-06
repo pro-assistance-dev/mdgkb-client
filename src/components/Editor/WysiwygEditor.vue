@@ -166,7 +166,8 @@ export default defineComponent({
     watch(
       () => props.modelValue,
       (value) => {
-        const isSame = editor.getHTML() == value;
+        const v = value as unknown as string;
+        const isSame = editor.getHTML() == v;
         if (isSame) {
           return;
         }

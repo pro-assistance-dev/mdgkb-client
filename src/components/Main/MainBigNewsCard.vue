@@ -1,16 +1,9 @@
 <template>
-  <div class="main-card card-hover" @click="$router.push(`/news/${news.id}`)">
+  <div v-if="news.id" class="main-card card-hover" @click="$router.push(`/news/${news.id}`)">
     <div class="main-image">
       <img :src="news.getImageUrl()" alt="news-image" />
       <div class="tags">
-        <el-tag
-          v-for="newsToTag in news.newsToTags.slice(0)"
-          :key="newsToTag.id"
-          effect="plain"
-          class="news-tag-link"
-          size="small"
-          @click.stop="filterNews(newsToTag.tag)"
-        >
+        <el-tag v-for="newsToTag in news.newsToTags.slice(0)" :key="newsToTag.id" effect="plain" class="news-tag-link" size="small">
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
