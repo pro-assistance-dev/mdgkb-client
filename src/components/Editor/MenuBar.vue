@@ -7,20 +7,26 @@
     <el-dialog v-model="showDialog" @closed="clearDialogData">
       <template #title>
         <div class="dialog-header">
-          <div>Добавить картинку</div>
+          <div>{{ dialogType === 'image' ? 'Добавить картинку' : 'Добавить видео' }}</div>
           <div>
-            <el-button type="success" size="mini" @click="saveImage">Сохранить</el-button>
+            <el-button type="success" size="mini" @click="saveDialog">Сохранить</el-button>
           </div>
         </div>
       </template>
       <el-tabs v-model="activeName">
         <el-tab-pane label="Ссылкой" name="link">
           <el-form-item title="Ссылка на картинку">
-            <el-input v-model="imageLink" placeholder="Вставьте ссылку"></el-input>
+            <el-input v-model="inputLink" placeholder="Вставьте ссылку"></el-input>
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="Файлом" name="file">
-          <UploaderSingleScan v-if="showDialog" :file-info="image" :height="300" @ratio="(e) => (element.ratio = e)" />
+          <UploaderSingleScan
+            v-if="showDialog && dialogType === 'image'"
+            :file-info="image"
+            :height="300"
+            @ratio="(e) => (element.ratio = e)"
+          />
+          <FileUploader v-if="showDialog && dialogType === 'video'" :file-info="image" :formats="['webm', 'mp4']" />
         </el-tab-pane>
       </el-tabs>
     </el-dialog>
@@ -32,6 +38,7 @@ import { ElMessage } from 'element-plus';
 import { defineComponent, Ref, ref } from 'vue';
 
 import FileInfo from '@/classes/FileInfo';
+import FileUploader from '@/components/FileUploader.vue';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Provider from '@/services/Provider/Provider';
@@ -43,6 +50,7 @@ export default defineComponent({
   components: {
     UploaderSingleScan,
     MenuItem,
+    FileUploader,
   },
   props: {
     editor: {
@@ -246,11 +254,13 @@ export default defineComponent({
     ];
 
     const showDialog: Ref<boolean> = ref(false);
-    const imageLink: Ref<string> = ref('');
+    const inputLink: Ref<string> = ref('');
     const image: Ref<FileInfo> = ref(new FileInfo());
     const activeName: Ref<string> = ref('link');
+    const dialogType: Ref<string> = ref('');
 
     const addImage = () => {
+      dialogType.value = 'image';
       showDialog.value = true;
 
       // const url = window.prompt('URL');
@@ -259,30 +269,38 @@ export default defineComponent({
       //   props.editor.chain().focus().setImage({ src: url }).run();
       // }
     };
-    const saveImage = async () => {
+    const saveImage = (value: string) => {
+      props.editor.chain().focus().setImage({ src: value }).run();
+    };
+    const saveDialog = async () => {
       if (activeName.value === 'link') {
-        if (!imageLink.value.length) {
+        if (!inputLink.value.length) {
           ElMessage({ message: 'Не добавлена ссылка', type: 'error' });
           return;
         }
-        props.editor.chain().focus().setImage({ src: imageLink.value }).run();
+        if (dialogType.value === 'image') {
+          saveImage(inputLink.value);
+        } else {
+          saveVideo(inputLink.value);
+        }
       } else {
         if (!image.value.fileSystemPath) {
           ElMessage({ message: 'Не загружена картинка', type: 'error' });
           return;
         }
         const result = await Provider.store.dispatch('fileInfos/create', image.value);
-        props.editor
-          .chain()
-          .focus()
-          .setImage({ src: new FileInfo(result).getImageUrl() })
-          .run();
+        console.log(new FileInfo(result).getImageUrl());
+        if (dialogType.value === 'image') {
+          saveImage(new FileInfo(result).getImageUrl());
+        } else {
+          saveVideo(new FileInfo(result).getImageUrl());
+        }
       }
       showDialog.value = false;
     };
 
     const clearDialogData = () => {
-      imageLink.value = '';
+      inputLink.value = '';
       image.value = new FileInfo();
       activeName.value = 'link';
     };
@@ -303,18 +321,46 @@ export default defineComponent({
       props.editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
     };
 
-    const addVideo = () => {
-      const url = window.prompt('Enter YouTube URL');
-      if (url) {
-        // props.editor.chain().focus().insertContent(`<video src="${url}"></video>`).run();
-        props.editor.commands.setYoutubeVideo({
-          src: url,
-          // width: Math.max(320, parseInt(this.width, 10)) || 640,
-          // height: Math.max(180, parseInt(this.height, 10)) || 480,
-        });
-      }
+    const getYtId = (item: string) => {
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = item.match(regExp);
+
+      return match && match[2].length === 11 ? match[2] : null;
     };
-    return { items, showDialog, image, saveImage, activeName, imageLink, clearDialogData };
+
+    const makeEmbed = (id: string) => {
+      const link = '//www.youtube.com/embed/';
+      return link + id;
+    };
+
+    const saveVideo = (url: string) => {
+      let embedUrl;
+      const id = getYtId(url);
+      if (id) {
+        embedUrl = makeEmbed(id);
+      }
+      props.editor
+        .chain()
+        .focus()
+        .insertContent(`<video src="${embedUrl ? embedUrl : url}"></video>`)
+        .run();
+    };
+
+    const addVideo = () => {
+      dialogType.value = 'video';
+      showDialog.value = true;
+
+      // const url = window.prompt('Enter YouTube URL');
+
+      // if (url) {
+      // props.editor.commands.setYoutubeVideo({
+      //   src: url,
+      //   // width: Math.max(320, parseInt(this.width, 10)) || 640,
+      //   // height: Math.max(180, parseInt(this.height, 10)) || 480,
+      // });
+      // }
+    };
+    return { items, showDialog, image, saveDialog, activeName, inputLink, clearDialogData, dialogType };
   },
 });
 </script>
