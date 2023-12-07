@@ -2,9 +2,7 @@
   <div v-if="!allLoaded" class="load-more">
     <button class="lm-button" @click="$emit('loadMore')">
       <div v-if="!loading" class="text">{{ text }}</div>
-      <div v-if="loading" class="loadAnimation">
-        <div class="loader" style="--b: 5px; --c: #133dcc; width: 26px; --n: 16"></div>
-      </div>
+      <div v-if="loading" class="loader" style="--b: 5px; width: 26px; --n: 16"></div>
     </button>
   </div>
 </template>
@@ -66,19 +64,20 @@ export default defineComponent({
   color: #ffffff;
 }
 
-.loadAnimation {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
+.lm-button:hover {
+  background: #133dcc;
+  color: #ffffff;
+}
+
+.lm-button:hover > .loader {
+  --c: #ffffff; /* the color */
 }
 
 .loader {
   --b: 10px; /* border thickness */
   --n: 10; /* number of dashes*/
   --g: 10deg; /* gap  between dashes*/
-  --c: red; /* the color */
+  --c: #133dcc; /* the color */
 
   width: 30px; /* size */
   aspect-ratio: 1;
