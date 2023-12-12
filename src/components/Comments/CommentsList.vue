@@ -112,7 +112,7 @@ export default defineComponent({
     const loadComments = async () => {
       Provider.filterQuery.value.pagination.allLoaded = false;
       Provider.store.commit('comments/clearComments');
-      await Provider.getAll('comments');
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
 
     Hooks.onBeforeMount(load);
@@ -120,7 +120,7 @@ export default defineComponent({
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = comments.value.length;
-      await Provider.getAll('comments');
+      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
     };
 
     return {

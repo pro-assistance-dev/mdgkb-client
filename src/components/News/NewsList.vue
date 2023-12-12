@@ -30,12 +30,12 @@ import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
 import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
 import NewsFilters from '@/components/News/NewsFilters.vue';
+import Pagination from '@/services/classes/filters/Pagination';
 import Hooks from '@/services/Hooks/Hooks';
 import { Operators } from '@/services/interfaces/Operators';
 import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
-
 export default defineComponent({
   name: 'NewsList',
   components: { NewsEventsButtons, NewsCard, NewsFilters, LoadMoreButton },
@@ -47,16 +47,21 @@ export default defineComponent({
 
     const news: ComputedRef<News[]> = computed(() => Provider.store.getters['news/items']);
 
-    const loadNews = async () => {
-      Provider.resetFilterQuery();
+    const setDefaultPagination = () => {
+      Provider.filterQuery.value.pagination = new Pagination();
       Provider.filterQuery.value.pagination.limit = 6;
       Provider.filterQuery.value.pagination.cursorMode = true;
+    };
+    const loadNews = async () => {
+      Provider.resetFilterQuery();
+      setDefaultPagination();
       Provider.setSortModels(NewsSortsLib.byPublishedOn());
       Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts());
       await load();
     };
 
     const load = async () => {
+      setDefaultPagination();
       Provider.store.commit('news/clearNews');
       await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
       Provider.store.commit('news/setFilteredNews');

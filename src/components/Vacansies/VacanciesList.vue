@@ -33,7 +33,7 @@ export default defineComponent({
 
     const loadVacancies = async () => {
       Provider.filterQuery.value.pagination.limit = 8;
-      await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('vacancies/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     const load = async () => {
@@ -49,7 +49,7 @@ export default defineComponent({
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = vacancies.value.length;
-      await Provider.store.dispatch('vacancies/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('vacancies/getAll', { filterQuery: Provider.filterQuery.value });
     };
 
     return {

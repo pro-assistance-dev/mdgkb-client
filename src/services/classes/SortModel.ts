@@ -38,19 +38,11 @@ export default class SortModel {
   }
 
   toUrlQuery(): string {
-    let url = '';
-    Object.keys(this).forEach((el, i) => {
-      const value: any = this[el as keyof typeof this];
-      const isObj = typeof this[el as keyof typeof this] == 'object';
-      if (value && url !== '?' && !isObj) {
-        if (i !== 0) {
-          url += '&';
-        }
-        url += `${el}=${value}`;
-      }
-    });
-    url += '|';
-    return url;
+    const model = this.model ? `"model":"${this.model}"` : '';
+    const col = this.col ? `"col":"${this.col}"` : '';
+    const order = this.order ? `"order":"${this.order}"` : '';
+
+    return [model, col, order].toString();
   }
   async fromUrlQuery(obj: LocationQuery): Promise<void> {
     const str = window.location.search;

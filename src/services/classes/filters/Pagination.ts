@@ -37,22 +37,13 @@ export default class Pagination {
   }
 
   toUrlQuery(): string {
-    // console.log('FROM');
-    let url = '';
-    Object.keys(this).forEach((el, i) => {
-      const value: any = this[el as keyof typeof this];
-      const isObj = typeof this[el as keyof typeof this] == 'object';
-      // console.log(value, el);
-      if (value && url !== '?' && !isObj) {
-        if (i !== 0) {
-          url += '&';
-        }
-        url += `${el}=${value}`;
-      }
-    });
-    // url += this.cursor.toUrlQuery();
-    url += '|';
-    return url;
+    const offset = `"offset":${this.offset}`;
+    const limit = `"limit":${this.limit}`;
+    const cursorMode = `"cursorMode":${this.cursorMode}`;
+    const append = `"append":${this.append}`;
+    const allLoaded = `"allLoaded":${this.allLoaded}`;
+    const cursor = `"cursor":{${this.cursor.toUrlQuery()}}`;
+    return [offset, limit, cursorMode, append, allLoaded, cursor].toString();
   }
 
   fromUrlQuery(obj: LocationQuery): void {

@@ -40,6 +40,7 @@ const NewsFiltersLib = (() => {
   function filterByTags(tagsIdSet: string[]): FilterModel {
     const filterModel = FilterModel.OnlyIfSecondModelExists(News, NewsToTag);
     filterModel.operator = Operators.In;
+    filterModel.col = ClassHelper.GetPropertyName(NewsToTag).tagId as string;
     filterModel.set = tagsIdSet;
     return filterModel;
   }

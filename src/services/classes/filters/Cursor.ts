@@ -12,18 +12,15 @@ export default class Cursor {
   model = '';
 
   toUrlQuery(): string {
-    let url = '';
-    Object.keys(this).forEach((el, i) => {
-      const value: any = this[el as keyof typeof this];
-      if (value && url !== '?' && value.length !== 0) {
-        if (i !== 0) {
-          url += '&';
-        }
-        url += `curs${el}=${value}`;
-      }
-    });
+    const operation = this.operation ? `"operation":"${this.operation}"` : '';
+    const column = this.column ? `"column":"${this.column}"` : '';
+    const v = this.value && typeof (this.value as Date).toISOString === 'function' ? (this.value as Date).toISOString() : this.value;
 
-    return url;
+    const value = v ? `"value":"${v}"` : '';
+    const model = this.model ? `"model":"${this.model}"` : '';
+    const initial = `"initial":${this.initial}`;
+
+    return [operation, column, value, model, initial].filter((s: string) => s !== '').toString();
   }
 
   fromUrlQuery(obj: LocationQuery): void {

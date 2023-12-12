@@ -36,7 +36,7 @@
         <div class="contact-block"><ContactBlock :contact-info="vacancy.contactInfo" /></div>
         <div class="button-block">
           <button @click="$router.push(`/vacancies/${vacancy.slug}`)">Подробнее</button>
-          <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.slug}?respondForm=open`)">Откликнуться</button>
+          <button class="respond-btn" @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)">Откликнуться</button>
         </div>
       </div>
     </div>

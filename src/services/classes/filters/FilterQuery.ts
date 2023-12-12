@@ -18,15 +18,15 @@ export default class FilterQuery {
 
   toUrl(): string {
     const filterModels = this.filterModels?.map((filterModel: FilterModel) => {
-      return `filterModel=${JSON.stringify(filterModel)}`;
+      return `filterModel={${filterModel.toUrlQuery()}}`;
     });
     const sortModels = this.sortModels.map((sortModels: SortModel) => {
-      return `sortModel=${JSON.stringify(sortModels)}`;
+      return `sortModel={${sortModels.toUrlQuery()}}`;
     });
     if (this.sortModel) {
-      sortModels.push(`sortModel=${JSON.stringify(this.sortModel)}`);
+      sortModels.push(`sortModel={${this.sortModel.toUrlQuery()}}`);
     }
-    const pagination = `pagination=${JSON.stringify(this.pagination)}`;
+    const pagination = `pagination={${this.pagination.toUrlQuery()}}`;
 
     const withDeleted = `withDeleted=${this.withDeleted}`;
     const all = [...filterModels, ...sortModels, withDeleted, pagination];
