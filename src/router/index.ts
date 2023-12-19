@@ -6,6 +6,7 @@ import BufetPage from '@/components/Diets/BufetPage.vue';
 import DietsSelect from '@/components/Diets/DietsSelect.vue';
 import DispanserizationPage from '@/components/Dispanserization/DispanserizationPage.vue';
 import DonorRulesPage from '@/components/DonorRules/DonorRulesPage.vue';
+import HolidayPage from '@/components/HolidayPage.vue';
 import IsometricMap from '@/components/IsometricMap/IsometricMap.vue';
 import MainPage from '@/components/Main/MainPage.vue';
 import MedicalOrganization from '@/components/MedicalOrganization/MedicalOrganization.vue';
@@ -100,6 +101,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'MainPage',
     component: MainPage,
     meta: { carousel: true, main: true, title: 'Главная' },
+  },
+  {
+    path: '/holiday',
+    name: 'HolidayPage',
+    component: HolidayPage,
+    meta: { title: 'День редких болезней' },
   },
   {
     path: '/stop-coma',
