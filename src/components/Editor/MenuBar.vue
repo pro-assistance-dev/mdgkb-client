@@ -1,8 +1,12 @@
 <template>
   <div>
     <template v-for="(item, index) in items">
-      <div v-if="item.type === 'divider'" :key="`divider${index}`" class="divider" />
-      <MenuItem v-else :key="index" v-bind="item" :action="item.action" :icon="item.icon" :title="item.title" />
+      <template v-if="item.type === 'divider'">
+        <div v-if="!item.condition" :key="`divider${index}`" class="divider" />
+      </template>
+      <template v-else>
+        <MenuItem v-if="!item.condition" :key="index" v-bind="item" :action="item.action" :icon="item.icon" :title="item.title" />
+      </template>
     </template>
     <el-dialog v-model="showDialog" @closed="clearDialogData">
       <template #title>
@@ -35,9 +39,10 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref } from 'vue';
 
 import FileInfo from '@/classes/FileInfo';
+import News from '@/classes/News';
 import FileUploader from '@/components/FileUploader.vue';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
@@ -60,6 +65,10 @@ export default defineComponent({
     fullScreen: {
       type: Boolean,
       required: true,
+    },
+    hideTgButton: {
+      type: Boolean,
+      default: true,
     },
   },
   emits: ['fullScreen'],
@@ -247,6 +256,16 @@ export default defineComponent({
         type: 'divider',
       },
       {
+        condition: props.hideTgButton,
+        icon: 'send-plane-fill',
+        title: 'Отправить в тг',
+        action: () => sendToTg(),
+      },
+      {
+        condition: props.hideTgButton,
+        type: 'divider',
+      },
+      {
         icon: props.fullScreen ? 'fullscreen-exit-line' : 'fullscreen-line',
         title: props.fullScreen ? 'Выйти из полного экрана' : 'Полный экран',
         action: () => emit('fullScreen', props.fullScreen ? false : true),
@@ -360,6 +379,13 @@ export default defineComponent({
       // });
       // }
     };
+
+    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
+
+    const sendToTg = async () => {
+      await Provider.store.dispatch('news/sendToTg', news.value.content);
+    };
+
     return { items, showDialog, image, saveDialog, activeName, inputLink, clearDialogData, dialogType };
   },
 });

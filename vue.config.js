@@ -17,6 +17,11 @@ module.exports = {
       },
     },
   },
+  transpileDependencies: [
+    // can be string or regex
+    'vue-chartjs',
+    'chart.js',
+  ],
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');
 

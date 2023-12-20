@@ -75,7 +75,6 @@ export default defineComponent({
     );
 
     watch(slug, async () => {
-      console.log(slug);
       if (slug.value) {
         await load();
       }
@@ -83,6 +82,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('news/get', slug.value);
+      Provider.store.dispatch('news/getComments', slug.value);
       mounted.value = true;
       window.scrollTo(0, 0);
     };

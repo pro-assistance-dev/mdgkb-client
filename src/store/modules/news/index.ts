@@ -24,6 +24,7 @@ export interface State extends IBasicState<News> {
   calendarNews: News[];
   calendarMeta?: ICalendarMeta;
   comment: NewsComment;
+  comments: NewsComment[];
   eventMode: boolean;
   eventApplication: EventApplication;
   params: NewsParams;
@@ -42,6 +43,7 @@ export const getDefaultState = (): State => {
     calendarNews: [new News()],
     calendarMeta: undefined,
     comment: new NewsComment(),
+    comments: [],
     eventMode: false,
     eventApplication: new EventApplication(),
     params: new NewsParams(),

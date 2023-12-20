@@ -1,6 +1,6 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
     <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
@@ -71,6 +71,10 @@ export default defineComponent({
     //   type: Number,
     //   default: 500,
     // },
+    hideTgButton: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
