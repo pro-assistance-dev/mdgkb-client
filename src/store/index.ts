@@ -42,6 +42,7 @@ import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
 import { gates } from '@/store/modules/gates';
 import { heads } from '@/store/modules/heads';
+import { holidayForms } from '@/store/modules/holidayforms';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
 import { map } from '@/store/modules/map';
@@ -177,6 +178,7 @@ const s: StoreOptions<RootState> = {
     chats,
     chatMessages,
     fileInfos,
+    holidayForms,
   },
 };
 
