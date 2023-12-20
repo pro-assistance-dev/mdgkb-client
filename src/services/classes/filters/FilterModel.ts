@@ -29,21 +29,19 @@ export default class FilterModel {
   joinTableIdCol = '';
 
   toUrlQuery(): string {
-    let url = '';
-    Object.keys(this).forEach((el, i) => {
-      let value: unknown = this[el as keyof typeof this];
-      if (value && url !== '?' && (value as Array<unknown>).length !== 0) {
-        if (el == ('date1' || 'date2') && value) {
-          value = String(new Date(String(value)).toISOString().split('T')[0]);
-        }
-        if (i !== 0) {
-          url += '&';
-        }
-        url += `${el}=${value}`;
-      }
-    });
-    url += '|';
-    return url;
+    const t = this.type ? `"type":"${this.type}"` : '';
+    const model = this.model ? `"model":"${this.model}"` : '';
+    const col = this.col ? `"col":"${this.col}"` : '';
+    const operator = this.operator ? `"operator":"${this.operator}"` : '';
+    const value1 = this.value1 ? `"value1":"${this.value1}"` : '';
+    const b = this.type === DataTypes.Boolean ? `"boolean":${this.boolean}` : '';
+    const date1 = this.type === DataTypes.Date && this.date1 ? `"date1":"${this.date1.toISOString()}"` : '';
+    const date2 = this.type === DataTypes.Date && this.date2 ? `"date2":"${this.date2.toISOString()}"` : '';
+    const n = this.type === DataTypes.Number ? `"number":${this.number}` : '';
+    const s = this.type === DataTypes.Set || this.operator === Operators.In ? `"set":${JSON.stringify(this.set)}` : '';
+    const joinTableModel = this.type === DataTypes.Join ? `"joinTableModel":"${this.joinTableModel}"` : '';
+
+    return [t, model, col, operator, value1, b, date1, date2, n, s, joinTableModel].filter((s) => s !== '').toString();
   }
 
   fromUrlQuery(params: URLSearchParams): void {
