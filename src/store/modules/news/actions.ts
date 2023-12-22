@@ -5,6 +5,7 @@ import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
 import NewsLike from '@/classes/NewsLike';
 import INewsWithCount from '@/interfaces/INewsWithCount';
+import axiosInstance from '@/services/Axios';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
@@ -74,6 +75,19 @@ const actions: ActionTree<State, RootState> = {
   },
   getSuggestionNews: async ({ commit }, id: string): Promise<void> => {
     commit('setAll', await httpClient.get<News[]>({ query: `get-suggestion/${id}` }));
+  },
+  getComments: async ({ commit }, id: string): Promise<void> => {
+    const items = await httpClient.get<NewsComment[]>({ query: `comments/${id}` });
+    commit('setComments', items);
+  },
+  sendToTg: async (_, message: string): Promise<void> => {
+    if (!process.env.VUE_APP_TG_TOKEN || process.env.VUE_APP_TG_CHAT_ID) {
+      console.log('env tg');
+    }
+    await axiosInstance({
+      url: `https://api.telegram.org/bot${process.env.VUE_APP_TG_TOKEN}/sendMessage?chat_id=${process.env.VUE_APP_TG_CHAT_ID}&text=${message}&parse_mode=HTML`,
+      method: 'post',
+    });
   },
 };
 

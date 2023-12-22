@@ -15,7 +15,7 @@
             <el-card class="content-card">
               <template #header> Контент </template>
               <el-form-item prop="content">
-                <WysiwygEditor v-model="news.content" />
+                <WysiwygEditor v-model="news.content" :hide-tg-button="false" />
               </el-form-item>
             </el-card>
             <el-card>
@@ -80,6 +80,7 @@
       </el-row>
       <AdminNewsPageEvent />
     </el-form>
+    <ChartsModal ref="ChartsModalRef" :ids="chartsModalIds" />
   </div>
 </template>
 
@@ -92,6 +93,7 @@ import NewsRules from '@/classes/NewsRules';
 import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
 import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
 import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
+import ChartsModal from '@/components/admin/AdminNews/ChartsModal.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import AdminGallery from '@/services/components/AdminGallery.vue';
@@ -100,6 +102,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
+
 export default defineComponent({
   name: 'AdminNewsPage',
   components: {
@@ -110,6 +113,7 @@ export default defineComponent({
     AdminNewsPageTags,
     AdminNewsDoctors,
     CollapseItem,
+    ChartsModal,
   },
   setup() {
     let isCropGalleryOpen = ref(false);
@@ -142,7 +146,7 @@ export default defineComponent({
         Provider.store.commit('admin/setHeaderParams', {
           title: news.value.title,
           showBackButton: true,
-          buttons: [{ action: submit }],
+          buttons: [{ text: 'Статистика', action: open }, { action: submit }],
         });
       } else {
         Provider.store.commit('news/resetState');
@@ -162,6 +166,18 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
+    interface ChartsModalType extends InstanceType<typeof ChartsModal> {
+      open(): void;
+    }
+
+    const ChartsModalRef: Ref<ChartsModalType | null> = ref(null);
+
+    const open = () => {
+      ChartsModalRef.value?.open();
+    };
+
+    const chartsModalIds: string[] = Provider.route().params['slug'] ? [Provider.route().params['slug'] as string] : [];
+
     return {
       mounted: Provider.mounted,
       isCropGalleryOpen,
@@ -170,6 +186,8 @@ export default defineComponent({
       news,
       form,
       rules,
+      chartsModalIds,
+      ChartsModalRef,
     };
   },
 });

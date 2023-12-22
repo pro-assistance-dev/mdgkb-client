@@ -41,6 +41,7 @@ const Hooks = (() => {
       Provider.setGetAction(options?.getAction);
       Provider.initPagination(options?.pagination);
       await f(Provider.filterQuery.value);
+      console.log(options);
       if ((options?.adminHeader, options?.adminHeader)) {
         Provider.store.commit('admin/setHeaderParams', options.adminHeader);
       }

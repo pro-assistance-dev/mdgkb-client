@@ -157,12 +157,14 @@
       </div>
     </div>
   </el-dialog>
+  <ChartsModal ref="ChartsModalRef" />
 </template>
 
 <script lang="ts">
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import News from '@/classes/News';
+import ChartsModal from '@/components/admin/AdminNews/ChartsModal.vue';
 import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
@@ -192,6 +194,7 @@ export default defineComponent({
     RemoteSearch,
     SortList,
     AdminListWrapper,
+    ChartsModal,
   },
   setup() {
     const news = computed(() => Provider.store.getters['news/items']);
@@ -228,6 +231,7 @@ export default defineComponent({
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Новости',
         buttons: [
+          { text: 'Статистика', action: open },
           { text: 'Назначить главную новость', type: 'success', action: openModal },
           { text: 'Добавить новость', type: 'primary', action: addNews },
         ],
@@ -326,6 +330,16 @@ export default defineComponent({
       searchMainNewsRef.value?.clear();
     };
 
+    interface ChartsModalType extends InstanceType<typeof ChartsModal> {
+      open(): void;
+    }
+
+    const ChartsModalRef: Ref<ChartsModalType | null> = ref(null);
+
+    const open = () => {
+      ChartsModalRef.value?.open();
+    };
+
     return {
       News,
       news,
@@ -349,6 +363,7 @@ export default defineComponent({
       searchMainNewsRef,
       clickHadler,
       makeNewsMain,
+      ChartsModalRef,
     };
   },
 });

@@ -137,6 +137,9 @@ const mutations: MutationTree<State> = {
   resetComment(state) {
     state.comment = new NewsComment();
   },
+  setComments(state, items: NewsComment[]) {
+    state.comments = items.map((i: NewsComment) => new NewsComment(i));
+  },
   ...getBaseMutations,
 };
 

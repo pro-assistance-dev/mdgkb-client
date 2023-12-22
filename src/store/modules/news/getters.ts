@@ -68,7 +68,7 @@ const getters: GetterTree<State, RootState> = {
     return state.comment;
   },
   comments(state): NewsComment[] {
-    return state.item.newsComments;
+    return state.comments;
   },
   eventApplication(state): EventApplication {
     return state.eventApplication;
