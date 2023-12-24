@@ -6,6 +6,9 @@ export default class HolidayForm {
   phone = '';
   name = '';
   surname = '';
+  fio = '';
+  parentFio = '';
+
   patronymic = '';
   parentName = '';
   parentSurname = '';
@@ -14,12 +17,15 @@ export default class HolidayForm {
   dance = '';
   song = '';
   music = '';
+  poem = '';
   customShow = '';
-  needing = '';
+  needing: string[] = [];
+  customNeeding = '';
   color = '';
   hobby = '';
   happy = '';
-  place = '';
+  place: string[] = [];
+  customPlace = '';
 
   constructor(i?: HolidayForm) {
     ClassHelper.BuildClass(this, i);
