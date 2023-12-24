@@ -6,7 +6,9 @@ const Router = (() => {
   function id() {
     return route().params['id'];
   }
-
+  function qid() {
+    return getStringQueryParam('qid');
+  }
   function route(): RouteLocationNormalizedLoaded {
     return router.currentRoute.value;
   }
@@ -37,6 +39,7 @@ const Router = (() => {
   }
 
   return {
+    qid,
     getStringQueryParam,
     getNumberQueryParam,
     toAdmin,

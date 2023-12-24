@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex';
 import FileInfo from '@/classes/FileInfo';
 import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import HttpResponse from '@/services/classes/HttpResponse';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
@@ -10,7 +11,6 @@ import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
-
 export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType extends IBasicState<T>>(
   endPointOrClient: HttpClient | string
 ): ActionTree<StateType, RootState> {
@@ -53,16 +53,32 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         commit('setAllWithCount', res);
       }
     },
+    getWithFTSP: async ({ commit }, params?: { qid: string; ftsp: FilterQuery }) => {
+      if (!params) {
+        console.warn('noFilterSetInQuery');
+        return;
+      }
+      if (!params.ftsp) {
+        // если фильтра нет
+        const qidParam = `?qid=${params.qid}`;
+        const response: HttpResponse<T> = (await httpClient.get({ query: qidParam })) as HttpResponse<T>;
+        commit('setAll', response.data);
+        commit('filter/filterQuery', response.ftsp);
+      }
+      const p: IBodyfulParams<FilterQuery> = { payload: params.ftsp, isFormData: true };
+      // если фильтр есть
+      const response: HttpResponse<T> = (await httpClient.post<FilterQuery, HttpResponse<T>>(p)) as HttpResponse<T>;
+      commit('setAll', response.data);
+    },
     get: async ({ commit }, filter?: string | FilterQuery) => {
       if (!filter) {
         console.warn('noFilterSetInQuery');
-        return;
       }
       let query: IBodilessParams;
       if (typeof filter === 'string') {
         query = { query: filter };
       } else {
-        query = { query: `get${filter.toUrl()}` };
+        query = { query: `get${filter?.toUrl()}` };
       }
       commit('set', await httpClient.get<T>(query));
     },
@@ -82,6 +98,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       commit('set', result);
     },
     createAndReset: async ({ commit, dispatch }, item: T): Promise<void> => {
+      return;
       await dispatch('create', item);
       commit('set');
     },

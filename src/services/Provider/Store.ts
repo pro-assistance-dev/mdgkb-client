@@ -25,6 +25,10 @@ const Store = (() => {
     return storeModule;
   }
 
+  function getDispatchModuleAndAction(): string {
+    return getStoreModule() + '/' + getGetAction();
+  }
+
   function resetState(): void {
     if (storeModule === '') {
       return;
@@ -72,6 +76,7 @@ const Store = (() => {
     update,
     get,
     remove,
+    getDispatchModuleAndAction,
   };
 })();
 
