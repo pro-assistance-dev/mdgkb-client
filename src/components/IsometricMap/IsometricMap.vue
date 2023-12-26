@@ -1,70 +1,39 @@
 <template>
-  <div class="home">
-    <div id="iframecontainer">
-      <iframe id="myIframe" :src="signallingServerAddress" width="1280px" height="1100px"></iframe>
-    </div>
-    <br /><br />
-
-    <button @click="sendMessage">Send Message</button>
-    <input v-model="jsonMessage.message" type="text" />
-  </div>
+  <div ref="target"></div>
 </template>
 
-<script>
-export default {
-  name: 'Home',
-  data: function () {
-    return {
-      // Json message to send to the unreal app
-      jsonMessage: {
-        type: 'TestType',
-        message: 'Hello world',
-      },
-      signallingServerAddress: 'http://localhost:8090/map/TestProject.html',
-      iFrameScale: 0.75,
-    };
-  },
-  mounted: function () {
-    // Add the listener for any messages coming from the unreal app
-    this.addListener();
-    this.addResizeListener();
-    this.resizeIFrame();
-  },
-  methods: {
-    sendMessage: function () {
-      console.log('Sending message from Vue...');
-      // Send a json message via the iFrame
-      document.getElementById('myIframe').contentWindow.postMessage(JSON.stringify(this.jsonMessage), '*');
-    },
-    addListener: function () {
-      // Adds a listener for any messages coming from the iFrame
-      window.onmessage = function (e) {
-        // This is where you will handle all return types, other messages may be sent to the window so you need to handle them accordingly.
-        // As we are only expecting strings, ignore any objects
-        if (typeof e.data !== 'object') {
-          // E.g. ignore webpack messages
-          if (!e.data.includes('webpack')) {
-            alert('Message Recieved from Signalling Server: ' + e.data);
-          }
-        }
-      };
-    },
-    resizeIFrame: function () {
-      document.getElementById('myIframe').width = window.innerWidth * this.iFrameScale;
-      document.getElementById('myIframe').height = (window.innerWidth * this.iFrameScale) / 1.778;
-    },
-    addResizeListener: function () {
-      window.addEventListener('resize', this.resizeIFrame);
-    },
-  },
-};
+<script setup>
+import * as THREE from 'three';
+import { onMounted, ref } from 'vue';
+
+const target = ref();
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(500, 500);
+
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
+
+camera.position.z = 5;
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
+}
+
+onMounted(() => {
+  target.value.appendChild(renderer.domElement);
+  animate();
+});
 </script>
 
-<style>
-#myIframe {
-  border: none;
-  background: #c3c3c3;
-  /* border-radius: 10px;
-    box-shadow: -1px -1px 28px -6px rgba(0, 0, 0, 0.57); */
-}
-</style>
+<style></style>
