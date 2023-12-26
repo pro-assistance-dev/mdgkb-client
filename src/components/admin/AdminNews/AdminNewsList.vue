@@ -218,14 +218,15 @@ export default defineComponent({
     };
 
     const loadNews = async (): Promise<void> => {
-      await Provider.store.dispatch('news/getAll', {
-        filterQuery: Provider.filterQuery.value,
+      await Provider.store.dispatch('news/ftsp', {
+        qid: Provider.getQid(),
+        ftsp: Provider.filterQuery.value,
       });
     };
 
     const load = async (): Promise<void> => {
       sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
-      Provider.store.commit('news/clearNews');
+      // Provider.store.commit('news/clearNews');
       Provider.setSortModels(NewsSortsLib.byPublishedOn());
       await loadNews();
       Provider.store.commit('admin/setHeaderParams', {
@@ -281,7 +282,7 @@ export default defineComponent({
     };
 
     Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'news', action: 'getAll' },
+      pagination: { storeModule: 'news', action: 'ftsp' },
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {

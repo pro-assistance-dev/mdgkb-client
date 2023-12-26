@@ -53,22 +53,20 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         commit('setAllWithCount', res);
       }
     },
-    getWithFTSP: async ({ commit }, params?: { qid: string; ftsp: FilterQuery }) => {
+    ftsp: async ({ commit }, params?: { qid: string; ftsp: FilterQuery }) => {
       if (!params) {
         console.warn('noFilterSetInQuery');
         return;
       }
-      if (!params.ftsp) {
-        // если фильтра нет
-        const qidParam = `?qid=${params.qid}`;
-        const response: HttpResponse<T> = (await httpClient.get({ query: qidParam })) as HttpResponse<T>;
-        commit('setAll', response.data);
-        commit('filter/filterQuery', response.ftsp);
-      }
-      const p: IBodyfulParams<FilterQuery> = { payload: params.ftsp, isFormData: true };
+      params.ftsp.toFTSP();
+      const p: IBodyfulParams<{ qid: string; ftsp: FilterQuery }> = { payload: params, isFormData: true, query: 'ftsp' };
       // если фильтр есть
-      const response: HttpResponse<T> = (await httpClient.post<FilterQuery, HttpResponse<T>>(p)) as HttpResponse<T>;
-      commit('setAll', response.data);
+      const res: HttpResponse<T> = (await httpClient.post<{ qid: string; ftsp: FilterQuery }, HttpResponse<T>>(p)) as HttpResponse<T>;
+      if (Array.isArray(res.data)) {
+        commit('setAll', res.data);
+      } else {
+        commit('setAllWithCount', res.data);
+      }
     },
     get: async ({ commit }, filter?: string | FilterQuery) => {
       if (!filter) {

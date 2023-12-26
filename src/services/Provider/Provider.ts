@@ -36,10 +36,8 @@ const Provider = (() => {
   }
 
   async function loadItems(): Promise<void> {
-    const qid = Router.qid();
+    const qid = Router.getQid();
     await Store.store.dispatch(Store.getDispatchModuleAndAction(), { qid: qid, ftsp: Filter.filterQuery });
-
-    Store.loadItems();
   }
 
   async function loadItem(col?: string | FilterQuery): Promise<void> {

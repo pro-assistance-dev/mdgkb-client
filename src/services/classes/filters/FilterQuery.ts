@@ -16,6 +16,20 @@ export default class FilterQuery {
   pagination: Pagination = new Pagination();
   withDeleted = false;
 
+  f: FilterModel[] = [];
+  s: SortModel[] = [];
+  p: Pagination = new Pagination();
+
+  setQid(qid: string) {
+    this.id = qid;
+  }
+
+  toFTSP(): void {
+    this.f = this.filterModels;
+    this.s = this.sortModels;
+    this.p = this.pagination;
+  }
+
   toUrl(): string {
     const filterModels = this.filterModels?.map((filterModel: FilterModel) => {
       return `filterModel={${filterModel.toUrlQuery()}}`;
