@@ -3,6 +3,7 @@ import { ActionTree } from 'vuex';
 import FileInfo from '@/classes/FileInfo';
 import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import FTSP from '@/services/classes/filters/FTSP';
 import HttpResponse from '@/services/classes/HttpResponse';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
@@ -59,8 +60,13 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         return;
       }
       params.ftsp.toFTSP();
-      const p: IBodyfulParams<{ qid: string; ftsp: FilterQuery }> = { payload: params, isFormData: true, query: 'ftsp' };
-      // если фильтр есть
+      const ftsp = FTSP.FromFQ(params.ftsp);
+      const p: IBodyfulParams<{ qid: string; ftsp: FilterQuery }> = {
+        payload: { qid: '', ftsp: ftsp as FilterQuery },
+        isFormData: true,
+        query: 'ftsp',
+      };
+      // если фильтр естьFilterQuery
       const res: HttpResponse<T> = (await httpClient.post<{ qid: string; ftsp: FilterQuery }, HttpResponse<T>>(p)) as HttpResponse<T>;
       if (Array.isArray(res.data)) {
         commit('setAll', res.data);
