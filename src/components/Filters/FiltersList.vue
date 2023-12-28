@@ -53,7 +53,7 @@ export default defineComponent({
         Provider.spliceFilterModel(selectedId.value);
       }
       Provider.dropPagination();
-      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
+      // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };
 

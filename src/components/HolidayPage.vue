@@ -13,147 +13,159 @@
       <StringItem string="Что скажешь? Придешь? ;)" margin="20px 0 0 0" class="check-title" />
     </div>
     <div class="survey-list">
-      <CollapseContainer>
-        <CollapseItem background="inherit" background-attention="inherit" title="Я обязательно приду" margin="30px 0px 0 0px">
-          <template #inside-content>
-            <div class="content">
-              <StringItem string="Заполни коротко анкету:" class="check-title" />
-              <div>
-                <el-form-item label="Твое ФИО:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="ФИО родителей:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Телефон:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="С кем ты придешь:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-              </div>
-            </div>
-          </template>
-        </CollapseItem>
-        <CollapseItem background="inherit" background-attention="inherit" title="Я хочу выступать со своим номером" margin="0px 0px 0 0px">
-          <template #inside-content>
-            <div class="content">
-              <StringItem string="Я подготовлю:" class="check-title" />
-              <div>
-                <el-form-item label="Песню:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Танец:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Стихотворение:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Игру на музыкальном инструменте:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Уникальный номер (напиши свой вариант выступления):">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-              </div>
-              <StringItem string="Что тебе нужно для выступления:" class="check-title" />
-              <div class="my-2 flex items-center text-sm">
-                <el-radio-group class="ml-4">
-                  <el-radio label="1" size="large">музыкальные инструменты</el-radio>
-                  <el-radio label="2" size="large">краски и кисточки</el-radio>
-                  <el-radio label="3" size="large">музыкальное сопровождение</el-radio>
-                  <el-radio label="3" size="large"> свой вариант ответа: </el-radio>
-                </el-radio-group>
-                <el-form-item label="">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <StringItem string="За выступление полагается приз! ;)" class="check-title" />
-              </div>
-            </div>
-          </template>
-        </CollapseItem>
-        <CollapseItem
-          background="inherit"
-          background-attention="inherit"
-          title="'Сундучок счастья' расскажи о своей мечте"
-          margin="0px 0px 0 0px"
-        >
-          <template #inside-content>
-            <div class="content">
-              <StringItem string="Хочешь, чтобы твое желание исполнилось?" class="check-title" />
-              <StringItem string="Мечты сбываются не только в Новый год! " class="check-title" />
-              <StringItem string="Заполни анкету ниже:" class="check-title" />
-              <div>
-                <el-form-item label="Какой твой любимый цвет?">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Чем ты любишь заниматься?:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <el-form-item label="Что делает темя счастливым?">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
-                <StringItem string="Где бы ты хотел побывать (не более 3-х вариантов)?" class="check-title" />
+      <el-form>
+        <CollapseContainer>
+          <CollapseItem background="inherit" background-attention="inherit" title="Я обязательно приду" margin="30px 0px 0 0px">
+            <template #inside-content>
+              <div class="content">
+                <StringItem string="Заполни коротко анкету:" class="check-title" />
                 <div>
-                  <el-checkbox label="в цирке" size="large" />
-                  <el-checkbox label="в театре" size="large" />
-                  <el-checkbox label="в музее" size="large" />
-                  <el-checkbox label="в зоопарке" size="large" />
-                  <el-checkbox label="на выставке животных" size="large" />
-                  <el-checkbox label="на ВДНХ" size="large" />
-                  <el-checkbox label="на киностудии Мосфильм" size="large" />
-                  <el-checkbox label="на фабрике шоколада/мороженого" size="large" />
-                  <el-checkbox label="в городе профессий" size="large" />
-                  <el-checkbox label="свой вариант:" size="large" />
-                  <el-form-item label="">
-                    <el-input @change="updateSurvey" />
+                  <el-form-item label="Твое ФИО:">
+                    <el-input v-model="item.fio" />
+                  </el-form-item>
+                  <el-form-item label="ФИО родителей:">
+                    <el-input v-model="item.parentFio" />
+                  </el-form-item>
+                  <el-form-item label="Телефон:">
+                    <el-input v-model="item.phone" />
+                  </el-form-item>
+                  <el-form-item label="С кем ты придешь:">
+                    <el-input v-model="item.representative" />
                   </el-form-item>
                 </div>
-
-                <el-form-item label="Укажи свой email для связи:">
-                  <el-input @change="updateSurvey" />
-                </el-form-item>
               </div>
-            </div>
-          </template>
-        </CollapseItem>
-        <CollapseItem background="inherit" background-attention="inherit" title="Флешмоб 'Мы вместе'" margin="0px 0px 0 0px">
-          <template #inside-content>
-            <div class="content">
-              <StringItem string="Нам срочно нужна твоя помощь!" class="check-title" />
-              <StringItem string="1. Возьми лист цветной бумаги" class="check-title" margin="20px 0 0 0" />
-              <StringItem string="2. Обведи на нём свою руку" class="check-title" />
-              <StringItem string="3. Вырежи получившуюся ладошку" class="check-title" />
-              <StringItem string="4. Напиши на одной стороне свои фамилию и имя" class="check-title" />
-              <StringItem string="5. Подписанную ладошку опусти в коробку" class="check-title" />
-              <StringItem string="Твоя ручка окажется на общей картине. Вот увидишь! ;)" class="check-title" margin="20px 0 0 0" />
-              <StringItem string="Волшебная коробка с ладошками находится около елки" class="check-title" margin="20px 0 0 0" />
-            </div>
-          </template>
-        </CollapseItem>
-      </CollapseContainer>
-      <Button
-        width="296px"
-        height="80px"
-        margin-top="30px"
-        text="Отправить заявку участника"
-        border-radius="5px"
-        font-size="18px"
-        color="#4472C4"
-      />
+            </template>
+          </CollapseItem>
+          <CollapseItem
+            background="inherit"
+            background-attention="inherit"
+            title="Я хочу выступать со своим номером"
+            margin="0px 0px 0 0px"
+          >
+            <template #inside-content>
+              <div class="content">
+                <StringItem string="Я подготовлю:" class="check-title" />
+                <div>
+                  <el-form-item label="Песню:">
+                    <el-input v-model="item.song" />
+                  </el-form-item>
+                  <el-form-item label="Танец:">
+                    <el-input v-model="item.dance" />
+                  </el-form-item>
+                  <el-form-item label="Стихотворение:">
+                    <el-input v-model="item.poem" />
+                  </el-form-item>
+                  <el-form-item label="Игру на музыкальном инструменте:">
+                    <el-input v-model="item.music" />
+                  </el-form-item>
+                  <el-form-item label="Уникальный номер (напиши свой вариант выступления):">
+                    <el-input v-model="item.customShow" />
+                  </el-form-item>
+                </div>
+                <StringItem string="Что тебе нужно для выступления:" class="check-title" />
+                <div class="my-2 flex items-center text-sm">
+                  <el-checkbox-group v-model="item.needing" class="ml-4">
+                    <el-checkbox label="музыкальные инструменты" size="large">музыкальные инструменты</el-checkbox>
+                    <el-checkbox label="краски и кисточки" size="large">краски и кисточки</el-checkbox>
+                    <el-checkbox label="музыкальное сопровождение" size="large">музыкальное сопровождение</el-checkbox>
+                    <el-checkbox label="свой вариант ответа: " size="large">свой вариант ответа: </el-checkbox>
+                  </el-checkbox-group>
+                  <el-form-item label="">
+                    <el-input v-model="item.customNeeding" />
+                  </el-form-item>
+                  <StringItem string="За выступление полагается приз! ;)" class="check-title" />
+                </div>
+              </div>
+            </template>
+          </CollapseItem>
+          <CollapseItem
+            background="inherit"
+            background-attention="inherit"
+            title="'Сундучок счастья' расскажи о своей мечте"
+            margin="0px 0px 0 0px"
+          >
+            <template #inside-content>
+              <div class="content">
+                <StringItem string="Хочешь, чтобы твое желание исполнилось?" class="check-title" />
+                <StringItem string="Мечты сбываются не только в Новый год! " class="check-title" />
+                <StringItem string="Заполни анкету ниже:" class="check-title" />
+                <div>
+                  <el-form-item label="Какой твой любимый цвет?">
+                    <el-input v-model="item.color" />
+                  </el-form-item>
+                  <el-form-item label="Чем ты любишь заниматься?:">
+                    <el-input v-model="item.hobby" />
+                  </el-form-item>
+                  <el-form-item label="Что делает темя счастливым?">
+                    <el-input v-model="item.happy" />
+                  </el-form-item>
+                  <StringItem string="Где бы ты хотел побывать (не более 3-х вариантов)?" class="check-title" />
+                  <div>
+                    <el-checkbox-group v-model="item.place">
+                      <el-checkbox label="в цирке" size="large" />
+                      <el-checkbox label="в театре" size="large" />
+                      <el-checkbox label="в музее" size="large" />
+                      <el-checkbox label="в зоопарке" size="large" />
+                      <el-checkbox label="на выставке животных" size="large" />
+                      <el-checkbox label="на ВДНХ" size="large" />
+                      <el-checkbox label="на киностудии Мосфильм" size="large" />
+                      <el-checkbox label="на фабрике шоколада/мороженого" size="large" />
+                      <el-checkbox label="в городе профессий" size="large" />
+                      <el-checkbox label="свой вариант:" size="large" />
+                      <el-form-item label="">
+                        <el-input v-model="item.customPlace" />
+                      </el-form-item>
+                    </el-checkbox-group>
+                  </div>
+
+                  <el-form-item label="Укажи свой email для связи:">
+                    <el-input v-model="item.email" />
+                  </el-form-item>
+                </div>
+              </div>
+            </template>
+          </CollapseItem>
+          <CollapseItem background="inherit" background-attention="inherit" title="Флешмоб 'Мы вместе'" margin="0px 0px 0 0px">
+            <template #inside-content>
+              <div class="content">
+                <StringItem string="Нам срочно нужна твоя помощь!" class="check-title" />
+                <StringItem string="1. Возьми лист цветной бумаги" class="check-title" margin="20px 0 0 0" />
+                <StringItem string="2. Обведи на нём свою руку" class="check-title" />
+                <StringItem string="3. Вырежи получившуюся ладошку" class="check-title" />
+                <StringItem string="4. Напиши на одной стороне свои фамилию и имя" class="check-title" />
+                <StringItem string="5. Подписанную ладошку опусти в коробку" class="check-title" />
+                <StringItem string="Твоя ручка окажется на общей картине. Вот увидишь! ;)" class="check-title" margin="20px 0 0 0" />
+                <StringItem string="Волшебная коробка с ладошками находится около елки" class="check-title" margin="20px 0 0 0" />
+              </div>
+            </template>
+          </CollapseItem>
+        </CollapseContainer>
+        <Button
+          width="296px"
+          height="80px"
+          margin-top="30px"
+          text="Отправить заявку участника"
+          border-radius="5px"
+          font-size="18px"
+          color="#4472C4"
+          @click="submit"
+        />
+      </el-form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { ElMessage } from 'element-plus';
+import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
+import HolidayForm from '@/classes/HolidayForm';
 import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/components/Base/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
 import StringItem from '@/components/Base/StringItem.vue';
-
+import Provider from '@/services/Provider/Provider';
+import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'HolidayPage',
   components: {
@@ -163,14 +175,22 @@ export default defineComponent({
     CollapseItem,
   },
   async setup() {
-    const store = useStore();
-    const updateSurvey = () => {
-      // store.commit(`${props.storeName}/setHuman`, human);
+    const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
+    const blockButton = ref(false);
+    const submit = async () => {
+      await Provider.store.dispatch('holidayForms/createAndReset');
+      ElMessage({
+        message: 'Заявка успешно отправлена',
+        type: 'success',
+      });
+      scroll();
+      Provider.router.push('/');
     };
 
     return {
-      // survey,
-      updateSurvey,
+      item,
+      blockButton,
+      submit,
     };
   },
 });
@@ -273,7 +293,7 @@ export default defineComponent({
   min-width: 280px;
 }
 
-:deep(.el-radio__label) {
+:deep(.el-checkbox__label) {
   color: #a3a9be;
 }
 
@@ -304,7 +324,7 @@ export default defineComponent({
     margin-bottom: 10px;
   }
 
-  :deep(.el-radio__label) {
+  :deep(.el-checkbox__label) {
     color: #a3a9be;
     font-size: 13px;
   }

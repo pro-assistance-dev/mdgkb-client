@@ -35,7 +35,7 @@ const Hooks = (() => {
       if (options?.sortsLib) {
         Provider.setSortList(...createSortModels(options.sortsLib));
       }
-      await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
+      // await Provider.filterQuery.value.fromUrlQuery(Provider.route().query);
       // Provider.setDefaultSortModel();
       Provider.setStoreModule(undefined);
       Provider.setGetAction(options?.getAction);

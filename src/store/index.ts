@@ -47,6 +47,7 @@ import { holidayForms } from '@/store/modules/holidayforms';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
 import { map } from '@/store/modules/map';
+import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
@@ -181,6 +182,7 @@ const s: StoreOptions<RootState> = {
     fileInfos,
     dataExport,
     holidayForms,
+    mapRoutes,
   },
 };
 

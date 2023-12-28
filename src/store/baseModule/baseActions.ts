@@ -3,6 +3,8 @@ import { ActionTree } from 'vuex';
 import FileInfo from '@/classes/FileInfo';
 import Cache from '@/services/Cache';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import FTSP from '@/services/classes/filters/FTSP';
+import HttpResponse from '@/services/classes/HttpResponse';
 import HttpClient from '@/services/HttpClient';
 import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
@@ -10,7 +12,6 @@ import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
-
 export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType extends IBasicState<T>>(
   endPointOrClient: HttpClient | string
 ): ActionTree<StateType, RootState> {
@@ -53,16 +54,35 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         commit('setAllWithCount', res);
       }
     },
+    ftsp: async ({ commit }, params?: { qid: string; ftsp: FilterQuery }) => {
+      if (!params) {
+        console.warn('noFilterSetInQuery');
+        return;
+      }
+      params.ftsp.toFTSP();
+      const ftsp = FTSP.FromFQ(params.ftsp);
+      const p: IBodyfulParams<{ qid: string; ftsp: FilterQuery }> = {
+        payload: { qid: '', ftsp: ftsp as FilterQuery },
+        isFormData: true,
+        query: 'ftsp',
+      };
+      // если фильтр естьFilterQuery
+      const res: HttpResponse<T> = (await httpClient.post<{ qid: string; ftsp: FilterQuery }, HttpResponse<T>>(p)) as HttpResponse<T>;
+      if (Array.isArray(res.data)) {
+        commit('setAll', res.data);
+      } else {
+        commit('setAllWithCount', res.data);
+      }
+    },
     get: async ({ commit }, filter?: string | FilterQuery) => {
       if (!filter) {
         console.warn('noFilterSetInQuery');
-        return;
       }
       let query: IBodilessParams;
       if (typeof filter === 'string') {
         query = { query: filter };
       } else {
-        query = { query: `get${filter.toUrl()}` };
+        query = { query: `get${filter?.toUrl()}` };
       }
       commit('set', await httpClient.get<T>(query));
     },
@@ -82,6 +102,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       commit('set', result);
     },
     createAndReset: async ({ commit, dispatch }, item: T): Promise<void> => {
+      return;
       await dispatch('create', item);
       commit('set');
     },

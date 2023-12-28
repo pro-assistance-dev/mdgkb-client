@@ -72,9 +72,13 @@ export default defineComponent({
       });
       Provider.store.commit('pagination/setCurPage', pageNum);
       Provider.store.commit('filter/setOffset', pageNum - 1);
-      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
+      // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       if (load) {
-        await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
+        if (action !== 'ftsp') {
+          await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
+        } else {
+          await Provider.store.dispatch(`${storeModule}/${action}`, { qid: undefined, ftsp: Provider.filterQuery.value });
+        }
       }
       const table = document.querySelector('.el-table__body-wrapper');
       const list = document.querySelector('#list');

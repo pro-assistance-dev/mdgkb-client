@@ -57,7 +57,7 @@ export default defineComponent({
       } else {
         Provider.setDefaultSortModel();
       }
-      await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
+      // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };
 

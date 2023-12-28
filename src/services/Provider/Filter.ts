@@ -35,6 +35,7 @@ const Filter = (() => {
 
   function setSortModel(model: SortModel): void {
     filterQuery.value.sortModel = model;
+    filterQuery.value.sortModels.push(model);
   }
 
   function setSortModels(...models: SortModel[]): void {
@@ -64,7 +65,12 @@ const Filter = (() => {
     filterQuery.value.spliceFilterModel(id);
   }
 
+  function setQid(qid: string) {
+    filterQuery.value.id = qid;
+  }
+
   return {
+    setQid,
     sortList,
     filterQuery,
 

@@ -35,6 +35,11 @@ const Provider = (() => {
     next ? next() : await Router.toAdmin(StringsService.toKebabCase(Store.getStoreModule()));
   }
 
+  async function loadItems(): Promise<void> {
+    const qid = Router.getQid();
+    await Store.store.dispatch(Store.getDispatchModuleAndAction(), { qid: qid, ftsp: Filter.filterQuery });
+  }
+
   async function loadItem(col?: string | FilterQuery): Promise<void> {
     const { beforeWindowUnload, formUpdated } = useConfirmLeavePage();
     if (Router.id()) {
