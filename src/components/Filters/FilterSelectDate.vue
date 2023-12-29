@@ -21,11 +21,11 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
-import { useStore } from 'vuex';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
+import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FilterSelectDate',
@@ -46,7 +46,6 @@ export default defineComponent({
   emits: ['load'],
   setup(props, { emit }) {
     const { table, col } = toRefs(props);
-    const store = useStore();
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
     filterModel.value.operator = Operators.Eq;
     const selectedDateFilter: Ref<string> = ref('');
@@ -84,12 +83,12 @@ export default defineComponent({
       }
     };
 
-    const addFilterModel = (value: number) => {
+    const addFilterModel = async (value: number) => {
       fillDates(value);
       if (!filterModel.value.date1) {
-        store.commit('filter/spliceFilterModel', filterModel.value.id);
+        await Provider.spliceFilterModel(filterModel.value.id);
       } else {
-        store.commit('filter/setFilterModel', filterModel.value);
+        await Provider.spliceFilterModel(filterModel.value.id);
       }
       emit('load', value);
     };

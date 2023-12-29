@@ -1,6 +1,7 @@
 import { Module } from 'vuex';
 
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import FTSP from '@/services/classes/filters/FTSP';
 import RootState from '@/store/types';
 
 import getters from './getters';
@@ -14,6 +15,8 @@ export const state: State = {
   filterQuery: new FilterQuery(),
   sortModels: [],
   setDefaultSortModel: false,
+  filterExists: true,
+  ftsp: new FTSP(),
 };
 
 const namespaced = true;

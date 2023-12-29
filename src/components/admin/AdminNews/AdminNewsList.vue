@@ -161,7 +161,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
 import News from '@/classes/News';
 import ChartsModal from '@/components/admin/AdminNews/ChartsModal.vue';
@@ -202,10 +202,23 @@ export default defineComponent({
     const newsMain = computed(() => Provider.store.getters['news/main']);
     const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
     const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
+    const filterExists: ComputedRef<boolean> = computed(() => Provider.store.getters['filter/filterExists']);
 
     const addNews = () => {
       Provider.router.push('/admin/news/new');
     };
+
+    watch(
+      () => filterExists.value,
+      async () => {
+        console.log(filterExists.value);
+        if (!filterExists.value) {
+          Provider.store.commit('filter/filterExists', true);
+          await loadNews();
+        }
+      }
+    );
+
     const sortList: Ref<SortModel[]> = ref([]);
     const edit = async (id: string): Promise<void> => {
       const item = news.value.find((i: News) => i.id === id);

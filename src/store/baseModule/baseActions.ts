@@ -10,6 +10,7 @@ import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
+import Provider from '@/services/Provider/Provider';
 import IBasicState from '@/store/baseModule/baseState';
 import RootState from '@/store/types';
 export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType extends IBasicState<T>>(
@@ -59,15 +60,27 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         console.warn('noFilterSetInQuery');
         return;
       }
-      params.ftsp.toFTSP();
-      const ftsp = FTSP.FromFQ(params.ftsp);
-      const p: IBodyfulParams<{ qid: string; ftsp: FilterQuery }> = {
-        payload: { qid: '', ftsp: ftsp as FilterQuery },
+      const ftsp = FTSP.GetFTSPOrQID(params.ftsp);
+
+      const p: IBodyfulParams<unknown> = {
+        payload: typeof ftsp === 'string' ? { qid: ftsp, ftsp: undefined } : { qid: '', ftsp: ftsp },
         isFormData: true,
         query: 'ftsp',
       };
       // если фильтр естьFilterQuery
-      const res: HttpResponse<T> = (await httpClient.post<{ qid: string; ftsp: FilterQuery }, HttpResponse<T>>(p)) as HttpResponse<T>;
+      const res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
+      // if (!res || !res.ftsp || !res.ftsp.id) {
+      if (!res || !res.ftsp || !res.ftsp.id) {
+        commit('filter/filterExists', false, { root: true });
+        await Provider.router.replace({ query: {} });
+        return;
+      }
+      commit('filter/setFTSP', res.ftsp, { root: true });
+      try {
+        await Provider.router.replace({ query: { qid: res.ftsp.id } });
+      } catch (error) {
+        console.log(error);
+      }
       if (Array.isArray(res.data)) {
         commit('setAll', res.data);
       } else {

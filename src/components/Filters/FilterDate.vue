@@ -23,14 +23,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref, toRefs } from 'vue';
-import { useStore } from 'vuex';
 
 import FilterPopover from '@/components/Filters/FilterPopover.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
-
+import Provider from '@/services/Provider/Provider';
 export default defineComponent({
-  name: 'FilterSelectForm',
+  name: 'FilterDate',
   components: { FilterPopover },
   props: {
     label: {
@@ -46,20 +45,22 @@ export default defineComponent({
       default: '',
     },
   },
-  setup(props) {
+  emits: ['load'],
+  setup(props, { emit }) {
     const { table, col } = toRefs(props);
-    const store = useStore();
-    // const filterList: IOption[] = OperatorsOptions;
-    const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date));
+    const defaultModel = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date);
+    const filterModel = ref(defaultModel);
     const value: Ref<string> = ref('');
 
-    const addFilterModel = () => {
-      store.commit('filter/setFilterModel', filterModel.value);
+    const addFilterModel = async () => {
+      await Provider.replaceFilterModel(filterModel.value, undefined);
+      emit('load');
     };
 
-    const dropFilterModel = () => {
-      store.commit('filter/spliceFilterModel', filterModel.value.id);
-      filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.Date);
+    const dropFilterModel = async () => {
+      await Provider.spliceFilterModel(filterModel.value.id);
+      filterModel.value = defaultModel;
+      emit('load');
     };
 
     return {

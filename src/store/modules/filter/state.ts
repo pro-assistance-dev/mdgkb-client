@@ -8,4 +8,6 @@ export interface State {
   action: string;
   sortModels: SortModel[];
   setDefaultSortModel: boolean;
+  filterExists: boolean;
+  ftsp: FTSP;
 }

@@ -148,7 +148,6 @@ export default class News {
     if (this.isDraft) {
       return 'Черновик';
     }
-    console.log(this.publishedOn);
 
     if (this.publishedOn > new Date()) {
       return `Опубликуется ${new DateTimeFormat().format(this.publishedOn, {
