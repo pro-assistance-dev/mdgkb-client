@@ -1,21 +1,32 @@
 <template>
   <div class="main-holiday">
-    <div class="description">
-      <StringItem string="Привет наш юный друг!" class="check-title" />
+    <div class="description"></div>
+    <CubeLine margin="20px 0" />
+    <div class="invitation">
+      <StringItem string="Привет наш юный друг!" class="check-title" color="#ffffff" font-size="20px" />
       <StringItem
         string="2 марта 2024 года в Московской больнице состоится большое празднование 'Дня редких заболеваний'."
         class="check-title"
+        margin="20px 0 0 0"
+        color="#ffffff"
       />
       <StringItem
         string="У нас запланированы выступления, различные игры и конкурсы, сахарная вата и классные подарки."
         class="check-title"
+        color="#ffffff"
       />
-      <StringItem string="Что скажешь? Придешь? ;)" margin="20px 0 0 0" class="check-title" />
+      <StringItem string="Что скажешь? Придешь? ;)" margin="20px 0 0 0" class="check-title" color="#ffffff" font-size="20px" />
     </div>
     <div class="survey-list">
       <el-form>
         <CollapseContainer>
-          <CollapseItem background="inherit" background-attention="inherit" title="Я обязательно приду" margin="30px 0px 0 0px">
+          <CollapseItem
+            background="inherit"
+            background-attention="inherit"
+            title="Я обязательно приду"
+            margin="30px 0px 0 0px"
+            title-color="#F6922E"
+          >
             <template #inside-content>
               <div class="content">
                 <StringItem string="Заполни коротко анкету:" class="check-title" />
@@ -41,6 +52,7 @@
             background-attention="inherit"
             title="Я хочу выступать со своим номером"
             margin="0px 0px 0 0px"
+            title-color="#0BAE57"
           >
             <template #inside-content>
               <div class="content">
@@ -83,6 +95,7 @@
             background-attention="inherit"
             title="'Сундучок счастья' расскажи о своей мечте"
             margin="0px 0px 0 0px"
+            title-color="#0671BA"
           >
             <template #inside-content>
               <div class="content">
@@ -125,7 +138,13 @@
               </div>
             </template>
           </CollapseItem>
-          <CollapseItem background="inherit" background-attention="inherit" title="Флешмоб 'Мы вместе'" margin="0px 0px 0 0px">
+          <CollapseItem
+            background="inherit"
+            background-attention="inherit"
+            title="Флешмоб 'Мы вместе'"
+            margin="0px 0px 0 0px"
+            title-color="#EF3B2D"
+          >
             <template #inside-content>
               <div class="content">
                 <StringItem string="Нам срочно нужна твоя помощь!" class="check-title" />
@@ -164,8 +183,10 @@ import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/components/Base/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
 import StringItem from '@/components/Base/StringItem.vue';
+import CubeLine from '@/components/StopComa/CubeLine.vue';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
+
 export default defineComponent({
   name: 'HolidayPage',
   components: {
@@ -173,6 +194,7 @@ export default defineComponent({
     Button,
     CollapseContainer,
     CollapseItem,
+    CubeLine,
   },
   async setup() {
     const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
@@ -204,6 +226,19 @@ export default defineComponent({
   margin: 0 5px;
 }
 
+.invitation {
+  width: 100%;
+  min-height: 100px;
+  margin: auto;
+  text-align: center;
+  background: #ffffff;
+  background: #0671ba;
+  border: 1px solid #b0a4c0;
+  border-radius: 5px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
 .description {
   width: 100%;
   min-height: 100px;
@@ -214,6 +249,14 @@ export default defineComponent({
   border-radius: 5px;
   padding: 20px;
   box-sizing: border-box;
+}
+
+.color-line {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .content {
