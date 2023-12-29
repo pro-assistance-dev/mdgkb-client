@@ -1,5 +1,13 @@
 <template>
-  <div id="line" ref="line" @mouseenter="circulateColors" @mouseleave="stopCirculate">
+  <div
+    id="line"
+    ref="line"
+    :style="{
+      margin: margin,
+    }"
+    @mouseenter="circulateColors"
+    @mouseleave="stopCirculate"
+  >
     <template v-for="(cube, index) in cubes" :key="index">
       <div
         :style="`width:${cube.width}; height:${cube.height}; background-color: ${cube.color}; margin-left: ${gap}px; margin-right: ${gap}px;`"
@@ -10,10 +18,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from '@vue/runtime-core';
+import { computed, defineComponent, onMounted, PropType, ref } from '@vue/runtime-core';
 
 export default defineComponent({
   name: 'CubeLine',
+  props: {
+    margin: {
+      type: String as PropType<string>,
+      default: '0',
+    },
+  },
   setup() {
     interface ICubes {
       width: string;
@@ -125,5 +139,9 @@ export default defineComponent({
 .cube {
   border-radius: 2px;
   transition: background-color 100ms;
+}
+.container {
+  width: 100%;
+  margin: 20px 0;
 }
 </style>

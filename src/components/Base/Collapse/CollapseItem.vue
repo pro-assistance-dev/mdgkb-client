@@ -26,7 +26,7 @@
         <div class="inside-icon">
           <slot name="icon" />
         </div>
-        <div v-if="title" class="title-in">
+        <div v-if="title" class="title-in" :style="{ color: titleColor }">
           {{ title }}
         </div>
         <div v-else class="title-in">
@@ -84,6 +84,7 @@ export default defineComponent({
     margin: { type: String as PropType<string>, default: '10px 8px 2px 2px' },
     padding: { type: String as PropType<string>, default: '0 10px' },
     selectable: { type: Boolean as PropType<boolean>, default: false },
+    titleColor: { type: String as PropType<string>, default: '#343e5c' },
   },
   emits: ['changeActiveId'],
 
