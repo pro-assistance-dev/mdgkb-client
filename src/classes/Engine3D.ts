@@ -3,6 +3,8 @@ import { Mesh, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'th
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
+import MapBuilding from './MapBuilding';
+
 export default class Engine3D {
   scene: Scene = Engine3D.initScene();
   camera: PerspectiveCamera = Engine3D.initCamera();
@@ -55,6 +57,15 @@ export default class Engine3D {
     this.raycaster.setFromCamera(this.pointer, this.camera);
 
     const intersects = this.raycaster.intersectObjects(this.scene.children);
+
+    intersects.forEach((obj) => {
+      console.log(obj.object);
+      // @ts-ignore
+      if ((obj.object as MapBuilding).onPointerOver) {
+        // @ts-ignore
+        (obj.object as MapBuilding).onPointerOver();
+      }
+    });
     for (let i = 0; i < intersects.length; i++) {
       (intersects[0].object as Mesh).material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
     }
@@ -67,7 +78,8 @@ export default class Engine3D {
     window.addEventListener('resize', instance.onWindowResize.bind(instance), false);
     target.value.appendChild(instance.renderer.domElement);
     instance.animate();
-    window.addEventListener('click', instance.onPointerMove.bind(instance));
+    // window.addEventListener('click', instance.onPointerMove.bind(instance));
+    window.addEventListener('pointermove', instance.onPointerMove.bind(instance));
     return instance;
   }
 
