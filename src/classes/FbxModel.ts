@@ -1,7 +1,8 @@
 import * as Three from 'three';
+import { Object3D, Scene } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 export default class FbxModel {
-  static AddObjectToScene(modelPath: string, scene: any) {
+  static AddObjectToScene(modelPath: string, scene: Scene) {
     let o;
     new FBXLoader().load(
       modelPath,
@@ -14,8 +15,8 @@ export default class FbxModel {
     return o;
   }
 
-  static HandleObject(object: any, scene: any) {
-    object.traverse(function (child: any) {
+  static HandleObject(object: Object3D, scene: Scene) {
+    object.traverse(function (child: Object3D) {
       if ((child as Three.Mesh).isMesh) {
         // (child as Three.Mesh).material = material;
         if ((child as Three.Mesh).material) {
@@ -26,10 +27,10 @@ export default class FbxModel {
     object.scale.set(0.01, 0.01, 0.01);
     scene.add(object);
   }
-  static HandleXHR(xhr: any) {
+  static HandleXHR(xhr: ProgressEvent) {
     console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
   }
-  static HandleError(error: any) {
+  static HandleError(error: unknown) {
     console.log(error);
   }
 }

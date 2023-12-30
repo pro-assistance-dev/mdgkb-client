@@ -1,13 +1,16 @@
 import * as Three from 'three';
+import { Mesh, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-export default class Engine3D {
-  scene = Engine3D.initScene();
-  camera = Engine3D.initCamera();
-  renderer = Engine3D.initRenderer();
-  controls: any;
+import { Ref } from 'vue';
 
-  pointer = new Three.Vector2();
-  raycaster = new Three.Raycaster();
+export default class Engine3D {
+  scene: Scene = Engine3D.initScene();
+  camera: PerspectiveCamera = Engine3D.initCamera();
+  renderer: Renderer = Engine3D.initRenderer();
+  controls?: OrbitControls;
+
+  pointer: Vector2 = new Three.Vector2();
+  raycaster: Raycaster = new Three.Raycaster();
 
   private initControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -46,19 +49,18 @@ export default class Engine3D {
     this.renderer.render(this.scene, this.camera);
   }
 
-  onPointerMove(e: any) {
+  onPointerMove(e: MouseEvent) {
     this.pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
     this.pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
     this.raycaster.setFromCamera(this.pointer, this.camera);
 
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     for (let i = 0; i < intersects.length; i++) {
-      (intersects[0].object as any).material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
-      console.log(intersects);
+      (intersects[0].object as Mesh).material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
     }
   }
 
-  static CreateInstance(target: any) {
+  static CreateInstance(target: Ref) {
     const instance = new Engine3D();
     instance.initControls();
 
@@ -71,7 +73,9 @@ export default class Engine3D {
 
   private animate() {
     requestAnimationFrame(this.animate.bind(this));
-    this.controls.update();
+    if (this.controls) {
+      this.controls.update();
+    }
     this.render();
   }
 
