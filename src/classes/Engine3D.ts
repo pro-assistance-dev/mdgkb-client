@@ -4,7 +4,7 @@ export default class Engine3D {
   scene = Engine3D.initScene();
   camera = Engine3D.initCamera();
   renderer = Engine3D.initRenderer();
-  controls?;
+  controls: any;
 
   pointer = new Three.Vector2();
   raycaster = new Three.Raycaster();
@@ -53,12 +53,12 @@ export default class Engine3D {
 
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     for (let i = 0; i < intersects.length; i++) {
-      intersects[0].object.material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+      (intersects[0].object as any).material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
       console.log(intersects);
     }
   }
 
-  static CreateInstance(target: unknown) {
+  static CreateInstance(target: any) {
     const instance = new Engine3D();
     instance.initControls();
 
