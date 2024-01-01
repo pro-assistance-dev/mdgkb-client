@@ -1,16 +1,14 @@
 import * as Three from 'three';
-import { MeshStandardMaterial } from 'three';
 export default class MapBuilding extends Three.Mesh {
   customProp = 'customProp';
+  isHover = false;
   constructor(object: Three.Mesh) {
     super(object.geometry, object.material);
   }
   onPointerOver() {
-    console.log('move');
-
-    (this.material as MeshStandardMaterial).color.set('red');
+    this.material = new Three.MeshStandardMaterial({ color: 'red' });
   }
   onPointerOut() {
-    (this.material as MeshStandardMaterial).color.set('white');
+    this.material = new Three.MeshStandardMaterial({ color: 'white' });
   }
 }

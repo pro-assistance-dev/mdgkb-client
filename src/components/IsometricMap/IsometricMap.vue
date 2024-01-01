@@ -15,4 +15,10 @@ onMounted(() => {
 });
 </script>
 
-<style></style>
+<style lang="scss">
+#map {
+  width: 800px;
+  width: 800px;
+  position: static;
+}
+</style>

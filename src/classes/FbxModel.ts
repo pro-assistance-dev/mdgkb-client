@@ -23,6 +23,7 @@ export default class FbxModel {
     object.traverse(function (child: Object3D) {
       const childU = new MapBuilding(child as Mesh);
       (child as MapBuilding).onPointerOver = childU.onPointerOver;
+      (child as MapBuilding).onPointerOut = childU.onPointerOut;
       if ((child as Three.Mesh).isMesh) {
         // (child as Three.Mesh).material = material;
         if ((child as Three.Mesh).material) {

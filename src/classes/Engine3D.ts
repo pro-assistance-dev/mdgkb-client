@@ -1,5 +1,5 @@
 import * as Three from 'three';
-import { Mesh, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
+import { PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
@@ -13,11 +13,19 @@ export default class Engine3D {
 
   pointer: Vector2 = new Three.Vector2();
   raycaster: Raycaster = new Three.Raycaster();
+  hoveredObjects: Map<string, MapBuilding> = new Map();
+  hoveredObject?: MapBuilding;
 
   private initControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enabled = true;
     this.controls.enableDamping = true;
-    this.controls.target.set(0, 1, 0);
+    this.controls.enablePan = false;
+    // this.controls.enableZoom = false;
+    // this.controls.tick = () => controls.update();
+    // this.controls = new Three.Vector3(this.camera, this.renderer.domElement);
+    // this.controls.enableDamping = true;
+    // this.controls.target.set(0, 1, 0);
   }
 
   private static initScene() {
@@ -25,7 +33,7 @@ export default class Engine3D {
 
     scene.add(new Three.AxesHelper(5));
 
-    const light = new Three.PointLight(0xffffff, 50);
+    const light = new Three.PointLight(0xffffff, 500);
     light.position.set(0.8, 1.4, 1.0);
     scene.add(light);
 
@@ -35,14 +43,17 @@ export default class Engine3D {
   }
 
   private static initCamera() {
-    const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(10, 5.4, -2.0);
+    const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 90);
+    camera.position.set(15, 15, 15);
     return camera;
   }
 
   private static initRenderer() {
     const renderer = new Three.WebGLRenderer();
+    renderer.shadowMap.enabled = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
+    // renderer.setSize(800, 800);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
     return renderer;
   }
@@ -51,35 +62,53 @@ export default class Engine3D {
     this.renderer.render(this.scene, this.camera);
   }
 
-  onPointerMove(e: MouseEvent) {
-    this.pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-    this.pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+  private setPointerCoordinates(e: MouseEvent) {
+    const xOffset = e.clientX - this.renderer.domElement.offsetLeft;
+    const yOffset = e.clientY - this.renderer.domElement.offsetTop;
+
+    const containerWidth = this.renderer.domElement.clientWidth;
+    const containerHeight = this.renderer.domElement.clientHeight;
+
+    this.pointer.x = (xOffset / containerWidth) * 2 - 1;
+    this.pointer.y = -(yOffset / containerHeight) * 2 + 1;
     this.raycaster.setFromCamera(this.pointer, this.camera);
+  }
+
+  onPointerMove(e: MouseEvent) {
+    this.setPointerCoordinates(e);
 
     const intersects = this.raycaster.intersectObjects(this.scene.children);
+    // console.log(intersects);
+    if (intersects.length === 0) {
+      this.hoveredObject?.onPointerOut();
+      this.hoveredObject = undefined;
+      return;
+    }
+    const firstObject = intersects[0].object;
+    // @ts-ignore
+    this.hoverHandle(firstObject);
+  }
 
-    intersects.forEach((obj) => {
-      console.log(obj.object);
-      // @ts-ignore
-      if ((obj.object as MapBuilding).onPointerOver) {
-        // @ts-ignore
-        (obj.object as MapBuilding).onPointerOver();
-      }
-    });
-    for (let i = 0; i < intersects.length; i++) {
-      (intersects[0].object as Mesh).material = new Three.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+  private hoverHandle(obj: MapBuilding) {
+    if (obj.uuid === this.hoveredObject?.uuid) {
+      return;
+    }
+    if (obj.onPointerOver) {
+      obj.onPointerOver();
+      this.hoveredObject?.onPointerOut();
+      this.hoveredObject = obj;
     }
   }
 
   static CreateInstance(target: Ref) {
     const instance = new Engine3D();
-    instance.initControls();
 
-    window.addEventListener('resize', instance.onWindowResize.bind(instance), false);
+    // window.addEventListener('resize', instance.onWindowResize.bind(instance), false);
     target.value.appendChild(instance.renderer.domElement);
     instance.animate();
     // window.addEventListener('click', instance.onPointerMove.bind(instance));
     window.addEventListener('pointermove', instance.onPointerMove.bind(instance));
+    instance.initControls();
     return instance;
   }
 
@@ -94,7 +123,8 @@ export default class Engine3D {
   private onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    // this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(200, 200);
     this.render();
   }
 }
