@@ -1,16 +1,14 @@
-import * as Three from 'three';
-import { Mesh, Object3D, Scene } from 'three';
+import { Object3D, Scene } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
-import MapBuilding from './MapBuilding';
+import BuildingModel from './BuildingModel';
 export default class FbxModel {
   static AddObjectToScene(modelPath: string, scene: Scene) {
     let o;
     new FBXLoader().load(
       modelPath,
       (object) => {
-        // @ts-ignore
-        FbxModel.HandleObject(object as Mesh, scene);
+        FbxModel.HandleObject(object, scene);
       },
       FbxModel.HandleXHR,
       FbxModel.HandleError
@@ -18,24 +16,17 @@ export default class FbxModel {
     return o;
   }
 
-  static HandleObject(object: Mesh, scene: Scene) {
-    // object = new MapBuilding(object);
-    object.traverse(function (child: Object3D) {
-      const childU = new MapBuilding(child as Mesh);
-      (child as MapBuilding).onPointerOver = childU.onPointerOver;
-      (child as MapBuilding).onPointerOut = childU.onPointerOut;
-      if ((child as Three.Mesh).isMesh) {
-        // (child as Three.Mesh).material = material;
-        if ((child as Three.Mesh).material) {
-          ((child as Three.Mesh).material as Three.MeshBasicMaterial).transparent = false;
-        }
-      }
-      return child;
-    });
+  static HandleObject(object: Object3D, scene: Scene) {
+    const o = new BuildingModel();
+    // console.log(object);
 
+    object.traverse(function (child: Object3D) {
+      o.extendObject(child as BuildingModel);
+    });
     object.scale.set(0.01, 0.01, 0.01);
     scene.add(object);
   }
+
   static HandleXHR(xhr: ProgressEvent) {
     console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
   }

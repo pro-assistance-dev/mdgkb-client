@@ -3,7 +3,7 @@ import { PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
-import MapBuilding from './MapBuilding';
+import BuildingModel from '@/classes/BuildingModel';
 
 export default class Engine3D {
   scene: Scene = Engine3D.initScene();
@@ -13,8 +13,8 @@ export default class Engine3D {
 
   pointer: Vector2 = new Three.Vector2();
   raycaster: Raycaster = new Three.Raycaster();
-  hoveredObjects: Map<string, MapBuilding> = new Map();
-  hoveredObject?: MapBuilding;
+  hoveredObjects: Map<string, BuildingModel> = new Map();
+  hoveredObject?: BuildingModel;
 
   private initControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -85,11 +85,12 @@ export default class Engine3D {
       return;
     }
     const firstObject = intersects[0].object;
+    console.log(intersects);
     // @ts-ignore
     this.hoverHandle(firstObject);
   }
 
-  private hoverHandle(obj: MapBuilding) {
+  private hoverHandle(obj: BuildingModel) {
     if (obj.uuid === this.hoveredObject?.uuid) {
       return;
     }
