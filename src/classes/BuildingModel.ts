@@ -1,4 +1,6 @@
 import * as Three from 'three';
+type CallbackFunction = (...args: unknown[]) => void | Promise<void>;
+import { MapEventsTypes } from '@/interfaces/MapEventsTypes';
 export default class BuildingModel extends Three.Mesh {
   customProp = 'customProp';
   isHover = false;
@@ -6,6 +8,13 @@ export default class BuildingModel extends Three.Mesh {
     super();
     // this.add(object);
   }
+
+  bindEvents(events: Map<MapEventsTypes, CallbackFunction>) {
+    events.forEach((value, key) => {
+      this.addEventListener(key, value);
+    });
+  }
+
   onPointerOver() {
     this.material = new Three.MeshStandardMaterial({ color: 'red' });
   }
