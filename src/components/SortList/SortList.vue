@@ -57,8 +57,9 @@ export default defineComponent({
       get(): ISortModel {
         return Provider.store.getters['filter/sortModel'];
       },
-      set(sortModel: ISortModel): void {
+      async set(sortModel: ISortModel): Promise<void> {
         Provider.store.commit('filter/replaceSortModel', sortModel);
+        await Provider.router.replace({ query: {} });
       },
     });
     const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
@@ -71,7 +72,7 @@ export default defineComponent({
       await Provider.store.dispatch(`${storeModule}/${storeAction}`, Provider.store.getters['filter/filterQuery']);
     };
 
-    const setDefaultSort = () => {
+    const setDefaultSort = async () => {
       // const defaultSort: ISortModel | undefined = props.storeMode
       //   ? defaultSortModel.value
       //   : props.models.find((sortModel: ISortModel) => sortModel.default);
@@ -79,6 +80,7 @@ export default defineComponent({
       if (defaultSort) {
         selectedModel.value = defaultSort.label;
         Provider.store.commit('filter/replaceSortModel', defaultSort);
+        // await Provider.router.replace({ query: {} });
       }
       defaultSortOn.value = true;
     };
@@ -98,9 +100,10 @@ export default defineComponent({
       emit('load');
     });
 
-    const setSort = () => {
+    const setSort = async () => {
       // Provider.filterQuery.value.pagination = new Pagination();
       Provider.filterQuery.value.pagination.allLoaded = false;
+      // await Provider.router.replace({ query: {} });
       Provider.store.commit('pagination/setCurPage', 1);
       Provider.store.commit('filter/setOffset', 0);
       emit('load');

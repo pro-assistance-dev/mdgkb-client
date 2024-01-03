@@ -189,7 +189,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/isometric-map',
     name: 'IsometricMap',
-    meta: { title: 'Изометрическая карта больницы' },
+    meta: { layout: 'EmptyLayout', title: 'Изометрическая карта больницы' },
     component: IsometricMap,
   },
   {

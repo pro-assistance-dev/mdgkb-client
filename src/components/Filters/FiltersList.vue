@@ -37,7 +37,8 @@ export default defineComponent({
       selectedFilterModel.value = emptyFilterModel.value;
     };
     onBeforeMount((): void => {
-      const findedModel = props.models?.find((m: FilterModel) => Provider.filterQuery.value.findFilterModel(m));
+      const findedModel = Provider.findFilterModel(props.models);
+      console.log(findedModel);
       if (findedModel) {
         selectedFilterModel.value = findedModel;
         return;
@@ -47,10 +48,10 @@ export default defineComponent({
 
     const setFilter = async () => {
       if (selectedFilterModel.value && selectedFilterModel.value.model) {
-        Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
+        await Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
         selectedId.value = selectedFilterModel.value.id;
       } else {
-        Provider.spliceFilterModel(selectedId.value);
+        await Provider.spliceFilterModel(selectedId.value);
       }
       Provider.dropPagination();
       // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });

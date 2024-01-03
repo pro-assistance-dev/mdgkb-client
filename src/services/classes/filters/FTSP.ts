@@ -11,36 +11,38 @@ export default class FTSP {
   s: SortModel[] = [];
   p: Pagination = new Pagination();
 
-  setQid(qid: string) {
-    this.id = qid;
+  constructor(i?: FTSP) {
+    if (!i) {
+      return;
+    }
+    this.f = i.f;
+    this.s = i.s;
+    this.p = i.p;
+    this.id = i.id;
+  }
+  static GetQidFromUrl(): string | null {
+    return new URLSearchParams(window.location.search).get('qid');
+  }
+
+  static GetFTSPOrQID(filterQuery: FilterQuery): FTSP | string {
+    return FTSP.GetQidFromUrl() ?? FTSP.FromFQ(filterQuery);
   }
 
   static FromFQ(filterQuery: FilterQuery): FTSP {
     const item = new FTSP();
-    const nonEmptyFm: FilterModel[] = [];
-    filterQuery.filterModels.forEach((fm: FilterModel) => {
-      const entries = Object.entries(fm); // 1️⃣
-      const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
-      const output = Object.fromEntries(nonEmptyOrNull); //
-      nonEmptyFm.push(output as FilterModel);
-    });
-    item.f = nonEmptyFm;
-
-    const nonEmptySm: SortModel[] = [];
-    filterQuery.sortModels.forEach((sm: SortModel) => {
-      const entries = Object.entries(sm);
-
-      const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
-      const output = Object.fromEntries(nonEmptyOrNull); //
-      nonEmptySm.push(output as SortModel);
-    });
-    item.s = nonEmptySm;
-
-    const entries = Object.entries(filterQuery.pagination);
-    const nonEmptyOrNull = entries.filter(([_, val]) => val !== '' && val !== null); // 2️⃣
-    const pagin = Object.fromEntries(nonEmptyOrNull); //
-    item.p = pagin as Pagination;
-
+    item.f = filterQuery.filterModels.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
+    item.s = filterQuery.sortModels.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
+    item.p = FTSP.EmptyEntiries(filterQuery.pagination) as Pagination;
     return item;
+  }
+
+  private static EmptyEntiries(sm: any): unknown {
+    const entries = Object.entries(sm);
+    const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
+    return Object.fromEntries(nonEmptyOrNull); //
+  }
+
+  findFilterModel(m: FilterModel): FilterModel | undefined {
+    return this.f.find((f: FilterModel) => m.id === f.id);
   }
 }

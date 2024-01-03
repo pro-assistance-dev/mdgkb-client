@@ -1,12 +1,19 @@
 import { GetterTree } from 'vuex';
 
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import FTSP from '@/services/classes/filters/FTSP';
 import SortModel from '@/services/classes/SortModel';
 import RootState from '@/store/types';
 
 import { State } from './state';
 
 const getters: GetterTree<State, RootState> = {
+  ftsp(state): FTSP {
+    return state.ftsp;
+  },
+  filterExists(state): boolean {
+    return state.filterExists;
+  },
   trigger(state): string {
     return state.trigger;
   },

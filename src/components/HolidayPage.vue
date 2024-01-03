@@ -3,7 +3,7 @@
     <div class="description"></div>
     <CubeLine margin="20px 0" />
     <div class="invitation">
-      <StringItem string="Привет наш юный друг!" class="check-title" color="#ffffff" font-size="20px" />
+      <StringItem string="Привет, наш юный друг!" class="check-title" color="#ffffff" font-size="20px" />
       <StringItem
         string="2 марта 2024 года в Московской больнице состоится большое празднование 'Дня редких заболеваний'."
         class="check-title"

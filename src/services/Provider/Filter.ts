@@ -5,13 +5,26 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
 import Store from '@/services/Provider/Store';
 
+import FTSP from '../classes/filters/FTSP';
+
 const Filter = (() => {
   const sortList: Ref<SortModel[]> = ref([]);
   const filterQuery: ComputedRef<FilterQuery> = computed(() => Store.store.getters['filter/filterQuery']);
+  const ftsp: ComputedRef<FTSP> = computed(() => Store.store.getters['filter/ftsp']);
 
   function setSortList(...models: SortModel[]): void {
     sortList.value = models;
     setDefaultSortModel();
+  }
+
+  function findFilterModel(filterModels: FilterModel[]): FilterModel | undefined {
+    let fmFromFilterQuery = filterModels.find((f: FilterModel) => filterQuery.value.findFilterModel(f));
+    if (fmFromFilterQuery) {
+      return fmFromFilterQuery;
+    }
+
+    fmFromFilterQuery = filterModels.find((f: FilterModel) => ftsp.value.findFilterModel(f));
+    return fmFromFilterQuery;
   }
 
   function setDefaultSortModel(): void {
@@ -52,17 +65,8 @@ const Filter = (() => {
     models.forEach((model: FilterModel) => filterQuery.value.setFilterModel(model));
   }
 
-  function replaceFilterModel(newFilterModel: FilterModel, previousFilterModelId: string | undefined) {
-    filterQuery.value.spliceFilterModel(previousFilterModelId);
-    filterQuery.value.setFilterModel(newFilterModel);
-  }
-
   function setFilterModel(f: FilterModel) {
     filterQuery.value.setFilterModel(f);
-  }
-
-  function spliceFilterModel(id: string | undefined) {
-    filterQuery.value.spliceFilterModel(id);
   }
 
   function setQid(qid: string) {
@@ -73,7 +77,7 @@ const Filter = (() => {
     setQid,
     sortList,
     filterQuery,
-
+    ftsp,
     setSortList,
     setDefaultSortModel,
     resetFilterQuery,
@@ -81,10 +85,9 @@ const Filter = (() => {
     setSortModel,
     setSortModels,
     setSortModelsForOneTable,
-    replaceFilterModel,
     setFilterModel,
+    findFilterModel,
     setFilterModels,
-    spliceFilterModel,
   };
 })();
 

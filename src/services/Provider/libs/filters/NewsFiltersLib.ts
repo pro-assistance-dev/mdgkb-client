@@ -13,6 +13,7 @@ const NewsFiltersLib = (() => {
 
     onlyPublished.date1 = now;
     onlyPublished.operator = Operators.Lt;
+    onlyPublished.id = 'e36998d9-ce2b-43a0-aa19-80f1383c4620';
     return onlyPublished;
   }
 
@@ -20,6 +21,7 @@ const NewsFiltersLib = (() => {
     const sf = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).slug, DataTypes.String);
     sf.value1 = slug;
     sf.operator = Operators.Ne;
+    sf.id = '78f9ff4f-d36c-4150-8759-df548d08edcc';
     return sf;
   }
 
@@ -27,6 +29,7 @@ const NewsFiltersLib = (() => {
     const filterModel = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).isDraft, DataTypes.Boolean);
     filterModel.boolean = false;
     filterModel.label = 'Без черновиков';
+    filterModel.id = 'e1bb3270-1850-4434-822c-2bc07de7a2ed';
     return filterModel;
   }
 
@@ -34,6 +37,7 @@ const NewsFiltersLib = (() => {
     const filterModel = FilterModel.CreateFilterModel(News, ClassHelper.GetPropertyName(News).isDraft, DataTypes.Boolean);
     filterModel.boolean = true;
     filterModel.label = 'Только черновики';
+    filterModel.id = '0ac0d44f-099e-4fdd-9021-6ba78331abff';
     return filterModel;
   }
 
@@ -42,6 +46,7 @@ const NewsFiltersLib = (() => {
     filterModel.operator = Operators.In;
     filterModel.col = ClassHelper.GetPropertyName(NewsToTag).tagId as string;
     filterModel.set = tagsIdSet;
+    filterModel.id = '76083832-4500-4252-ad43-69cde8c3be56';
     return filterModel;
   }
 
@@ -50,6 +55,7 @@ const NewsFiltersLib = (() => {
     filterModel.date1 = date1;
     filterModel.date1 = date2;
     filterModel.operator = Operators.Btw;
+    filterModel.id = '17b9c235-2e83-4b48-8070-b084c80d9e3f';
     return filterModel;
   }
 

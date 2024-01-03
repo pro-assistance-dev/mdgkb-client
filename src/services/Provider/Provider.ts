@@ -3,6 +3,7 @@ import { NavigationGuardNext } from 'vue-router';
 
 import ISchema from '@/interfaces/schema/ISchema';
 import router from '@/router';
+import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
 import Filter from '@/services/Provider/Filter';
@@ -56,6 +57,16 @@ const Provider = (() => {
     watch(Store.store.getters[Store.getStoreModule() + '/item'], formUpdated, { deep: true });
   }
 
+  async function replaceFilterModel(newFilterModel: FilterModel, previousFilterModelId: string | undefined) {
+    Filter.filterQuery.value.spliceFilterModel(previousFilterModelId);
+    Filter.filterQuery.value.setFilterModel(newFilterModel);
+    await Provider.router.replace({ query: {} });
+  }
+
+  async function spliceFilterModel(id: string | undefined) {
+    Filter.filterQuery.value.spliceFilterModel(id);
+    await Provider.router.replace({ query: {} });
+  }
   async function createAdmin(): Promise<void> {
     await Router.toAdmin(`${StringsService.toKebabCase(Store.getStoreModule())}/new`);
   }
@@ -115,6 +126,8 @@ const Provider = (() => {
     ...Filter,
     router: r,
     store: s,
+    replaceFilterModel,
+    spliceFilterModel,
   };
 })();
 
