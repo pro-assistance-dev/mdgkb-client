@@ -1,5 +1,5 @@
 <template>
-  <div ref="target"></div>
+  <div ref="target" class="map-container"></div>
 </template>
 
 <script setup lang="ts">
@@ -14,17 +14,19 @@ const target = ref();
 const scene = new THREE.Scene();
 scene.add(new THREE.AxesHelper(5));
 
-const light = new THREE.PointLight(0xffffff, 50);
-light.position.set(0.8, 1.4, 1.0);
+const light = new THREE.PointLight(0xffffff, 100000);
+// light.position.set(0.8, 1.4, 1.0);
+light.position.set(0, 1.4, 300);
 scene.add(light);
 
 const ambientLight = new THREE.AmbientLight();
 scene.add(ambientLight);
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(10, 5.4, -2.0);
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 5, 0);
 
 const renderer = new THREE.WebGLRenderer();
+// renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -37,6 +39,7 @@ controls.target.set(0, 1, 0);
 const fbxLoader = new FBXLoader();
 fbxLoader.load(
   'models/Moroz_map.fbx',
+  // 'models/Map_bilding_and_roads_v2_fix.fbx',
 
   (object) => {
     object.traverse(function (child) {
