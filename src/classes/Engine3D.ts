@@ -1,5 +1,5 @@
 import * as Three from 'three';
-import { PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
+import { Group, Object3D, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
@@ -80,6 +80,10 @@ export default class Engine3D {
     this.raycaster.setFromCamera(this.pointer, this.camera);
   }
 
+  getManager(): unknown {
+    return this.scene.children.find((c: Object3D) => (c as Group).isGroup);
+  }
+
   onPointerMove(e: MouseEvent) {
     this.setPointerCoordinates(e);
 
@@ -91,7 +95,6 @@ export default class Engine3D {
       return;
     }
     const firstObject = intersects[0].object;
-    console.log(intersects);
     // @ts-ignore
     this.hoverHandle(firstObject);
   }

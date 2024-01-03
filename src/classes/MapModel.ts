@@ -1,45 +1,29 @@
 import * as Three from 'three';
 
-import BuildingModel from './BuildingModel';
+import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
 
 export default class MapModel extends Three.Group {
-  buildingHovered = false;
+  buildings: Three.Group = new Three.Group();
+  nodes: Three.Group = new Three.Group();
   constructor(o: Three.Object3D) {
     super();
     this.add(o);
-    this.wrapBuildings();
   }
 
-  buildingHover() {
-    this.buildingHovered = true;
-  }
+  splitChildrenToGroups() {
+    this.children.forEach((c: Three.Object3D) => {
+      const cGroup = c as Three.Group;
+      switch (cGroup.name) {
+        case MapGroupsTypes.Buildings:
+          this.buildings = cGroup;
+          break;
 
-  private wrapBuildings() {
-    const b = new BuildingModel();
-    const c = this.getMapObject().children;
-    c.forEach((cc, i) => {
-      b.extendObject(c[i] as BuildingModel);
+        case MapGroupsTypes.Nodes:
+          this.nodes = cGroup;
+          break;
+        default:
+          break;
+      }
     });
-    // console.log(c.length);
-
-    // this.children[0].children.forEach((c: Three.Object3D, i: number, a: Three.Object3D[]) => {
-    //   // @ts-ignore
-    //   if (!c.isGroup) {
-    //     return;
-    //   }
-    //   const bb = new BuildingModel(c);
-    //   this.children[0].children[i] = bb;
-    //   // c.add(bb);
-    //   // b.push(bb);
-    //   // return new BuildingModel(c);
-    // });
-    // this.children = this.mapObject.children.map((c: Three.Object3D) => {
-    //   // @ts-ignore
-    //   return new BuildingModel(c);
-    // });
-  }
-
-  getMapObject(): Three.Object3D {
-    return this.children[0];
   }
 }

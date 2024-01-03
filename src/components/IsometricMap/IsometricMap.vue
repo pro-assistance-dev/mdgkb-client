@@ -1,18 +1,22 @@
 <template>
   <div id="map" ref="target"></div>
+  {{ manager }}
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
+import BuildingModel from '@/classes/BuildingModel';
 import Engine3D from '@/classes/Engine3D';
 import FbxModel from '@/classes/FbxModel';
 const target = ref();
-
-onMounted(() => {
+const manager = ref(new BuildingModel());
+onMounted(async () => {
   const instance = Engine3D.CreateInstance(target);
-  // FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene);
-  FbxModel.AddObjectToScene('models/Map_v4_1.fbx', instance.scene);
+  console.log(1);
+  await FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene);
+  manager.value = instance.getManager();
+  console.log(manager.value);
 });
 </script>
 
