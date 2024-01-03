@@ -11,7 +11,8 @@ const target = ref();
 
 onMounted(() => {
   const instance = Engine3D.CreateInstance(target);
-  FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene);
+  // FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene);
+  FbxModel.AddObjectToScene('models/Map_bilding_and_roads_v2.fbx', instance.scene);
 });
 </script>
 

@@ -44,7 +44,7 @@ export default class Engine3D {
 
   private static initCamera() {
     const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 90);
-    camera.position.set(15, 15, 15);
+    camera.position.set(0, 10, 0);
     return camera;
   }
 
