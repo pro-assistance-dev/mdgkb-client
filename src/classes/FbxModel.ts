@@ -1,20 +1,25 @@
 import { Object3D, Scene } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
-import BuildingModel from './BuildingModel';
+import BuildingModel from '@/classes/BuildingModel';
+import MapModel from '@/classes/MapModel';
+
 export default class FbxModel {
-  static async AddObjectToScene(modelPath: string, scene: Scene) {
+  static async AddObjectToScene(modelPath: string, scene: Scene): Promise<unknown> {
     const loader = new FBXLoader();
-    const data = await loader.loadAsync(modelPath, this.HandleXHR);
-    FbxModel.HandleObject(data, scene);
+    const mainObject = await loader.loadAsync(modelPath, this.HandleXHR);
+    FbxModel.HandleMainObject(mainObject, scene);
+    return mainObject;
   }
 
-  static HandleObject(object: Object3D, scene: Scene) {
+  static HandleMainObject(object: Object3D, scene: Scene) {
     const o = new BuildingModel();
+    const m = new MapModel();
 
     object.traverse(function (child: Object3D) {
       o.extendObject(child as BuildingModel);
     });
+    m.extendObject(object as MapModel);
     object.scale.set(0.01, 0.01, 0.01);
     scene.add(object);
   }

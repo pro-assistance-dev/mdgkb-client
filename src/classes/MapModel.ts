@@ -5,9 +5,14 @@ import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
 export default class MapModel extends Three.Group {
   buildings: Three.Group = new Three.Group();
   nodes: Three.Group = new Three.Group();
-  constructor(o: Three.Object3D) {
+  constructor() {
     super();
-    this.add(o);
+  }
+
+  extendObject(c: MapModel) {
+    c.buildings = this.buildings;
+    c.nodes = this.nodes;
+    c.splitChildrenToGroups = this.splitChildrenToGroups;
   }
 
   splitChildrenToGroups() {
