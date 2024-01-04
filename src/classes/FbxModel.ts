@@ -15,7 +15,7 @@ export default class FbxModel {
   static HandleMainObject(object: Object3D, scene: Scene) {
     const o = new BuildingModel();
     const m = new MapModel();
-
+    console.log(object);
     object.traverse(function (child: Object3D) {
       o.extendObject(child as BuildingModel);
     });
