@@ -12,12 +12,14 @@ export default class BuildingModel extends Three.Mesh {
 
   bindEvents(events: Map<MapEventsTypes, CallbackFunction>) {
     events.forEach((value, key) => {
-      console.log(value, key);
       this.addEventListener(key, value.bind(this));
     });
   }
 
   onPointerOver() {
+    if (this.name === 'Mesh30' || this.name === 'Mesh1') {
+      return;
+    }
     this.click();
     this.material = new Three.MeshStandardMaterial({ color: 'red' });
   }
@@ -27,11 +29,7 @@ export default class BuildingModel extends Three.Mesh {
 
   click() {
     console.log(this);
-    this.hasEventListener(MapEventsTypes.BuildingClick as string as keyof Three.Object3DEventMap, () => {
-      console.log(111);
-    });
-    // this.dispatchEvent({ type: MapEventsTypes.BuildingClick as string as keyof Three.Object3DEventMap });
-    this.dispatchEvent({ type: MapEventsTypes.BuildingClick as string as keyof Three.Object3DEventMap });
+    this.dispatchEvent({ type: 'buildingClick' as string as keyof Three.Object3DEventMap });
   }
 
   extendObject(c: BuildingModel) {
