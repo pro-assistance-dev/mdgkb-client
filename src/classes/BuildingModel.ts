@@ -17,7 +17,7 @@ export default class BuildingModel extends Three.Mesh {
   }
 
   onPointerOver() {
-    if (this.name === 'Mesh30' || this.name === 'Mesh1') {
+    if (this.name === 'Mesh30' || this.name === 'Mesh1' || this.name === 'Mesh146') {
       return;
     }
     this.click();

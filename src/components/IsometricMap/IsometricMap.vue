@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import * as Three from 'three';
+import { Object3D } from 'three';
 import { onMounted, ref } from 'vue';
 
 import BuildingModel from '@/classes/BuildingModel';
@@ -18,15 +18,19 @@ const clickEvent = () => {
 };
 onMounted(async () => {
   const instance = Engine3D.CreateInstance(target);
-  const mainObject: MapModel = (await FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene)) as MapModel;
+  const mainObject: MapModel = (await FbxModel.AddObjectToScene('models/Map_v4.fbx', instance.scene)) as MapModel;
   mainObject.splitChildrenToGroups();
-  mainObject.children[1].children.forEach((b: Three.Object3D) => {
-    const bb = b.children[0] as BuildingModel;
-    const m = new Map();
-    m.set('buildingClick', clickEvent.bind(this));
-    // @ts-ignore
-    if (bb.bindEvents && bb.name !== 'Mesh30') {
-      bb.bindEvents(m);
+  const m = new Map();
+  m.set('buildingClick', clickEvent.bind(this));
+  mainObject.traverse((c: Object3D) => {
+    if (c.name.includes('Building')) {
+      c.children.forEach((element) => {
+        if (element.name.includes('Mesh')) {
+          element.bindEvents(m);
+        }
+      });
+      console.log(c);
+      // c.children[0].children[2].bindEvents(m);
     }
   });
 
