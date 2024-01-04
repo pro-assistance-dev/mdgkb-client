@@ -33,8 +33,10 @@ export default class Engine3D {
 
     scene.add(new Three.AxesHelper(5));
 
-    const light = new Three.PointLight(0xffffff, 500);
-    light.position.set(0.8, 1.4, 1.0);
+    // const light = new Three.PointLight(0xffffff, 500);
+    // light.position.set(0.8, 1.4, 1.0);
+    const light = new Three.PointLight(0xffffff, 100000);
+    light.position.set(0, 1.4, 300);
     scene.add(light);
 
     const ambientLight = new Three.AmbientLight();
@@ -43,15 +45,19 @@ export default class Engine3D {
   }
 
   private static initCamera() {
-    const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 90);
-    camera.position.set(15, 15, 15);
+    // const camera = new Three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 90);
+    // camera.position.set(0, 10, 0);
+    const camera = new Three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 4, 0);
     return camera;
   }
 
   private static initRenderer() {
-    const renderer = new Three.WebGLRenderer();
+    const renderer = new Three.WebGLRenderer({ antialias: true });
     renderer.shadowMap.enabled = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor('white', 1);
+    renderer.clearColor;
     // renderer.setSize(800, 800);
     renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);

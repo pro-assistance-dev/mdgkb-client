@@ -14,7 +14,7 @@ const manager = ref(new BuildingModel());
 onMounted(async () => {
   const instance = Engine3D.CreateInstance(target);
   console.log(1);
-  await FbxModel.AddObjectToScene('models/Moroz_map.fbx', instance.scene);
+  await FbxModel.AddObjectToScene('models/Map_v4.fbx', instance.scene);
   manager.value = instance.getManager();
   console.log(manager.value);
 });
