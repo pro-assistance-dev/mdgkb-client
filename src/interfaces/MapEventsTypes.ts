@@ -1,7 +1,9 @@
-export enum MapEventsTypes {
-  BuildingHover = 'BuildingHover',
-  BuildingClick = 'BuildingClick',
+export enum MapBuildingsEventsTypes {
+  Hover = 'Hover',
+  Click = 'Click',
+}
 
-  EnterHover = 'EnterHover',
-  EnterClick = 'EnterClick',
+export enum MapEntersEventsTypes {
+  Click = 'Click',
+  Hover = 'Hover',
 }

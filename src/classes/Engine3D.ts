@@ -3,7 +3,14 @@ import { Group, Object3D, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
-import BuildingModel from '@/classes/BuildingModel';
+interface IHoverable extends Object3D {
+  onPointerOver(): void;
+  onPointerOut(): void;
+}
+
+interface IClickable extends Object3D {
+  onPointerClick(): void;
+}
 
 export default class Engine3D {
   scene: Scene = Engine3D.initScene();
@@ -13,8 +20,10 @@ export default class Engine3D {
 
   pointer: Vector2 = new Three.Vector2();
   raycaster: Raycaster = new Three.Raycaster();
-  hoveredObjects: Map<string, BuildingModel> = new Map();
-  hoveredObject?: BuildingModel;
+  hoveredObject?: IHoverable;
+
+  hoverables: IHoverable[] = [];
+  clickables: IClickable[] = [];
 
   private initControls() {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -33,8 +42,6 @@ export default class Engine3D {
 
     scene.add(new Three.AxesHelper(5));
 
-    // const light = new Three.PointLight(0xffffff, 500);
-    // light.position.set(0.8, 1.4, 1.0);
     const light = new Three.PointLight(0xffffff, 100000);
     light.position.set(0, 1.4, 300);
     scene.add(light);
@@ -84,29 +91,34 @@ export default class Engine3D {
     return this.scene.children.find((c: Object3D) => (c as Group).isGroup);
   }
 
+  private getFirstIntersect<T>(objects: Object3D[]): undefined | T {
+    const intersects = this.raycaster.intersectObjects(objects);
+    if (intersects.length > 0) {
+      return intersects[0].object as T;
+    }
+  }
+
   onPointerMove(e: MouseEvent) {
     this.setPointerCoordinates(e);
 
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
-    // console.log(intersects);
-    if (intersects.length === 0) {
+    const obj = this.getFirstIntersect<IHoverable>(this.hoverables);
+    if (!obj) {
       this.hoveredObject?.onPointerOut();
       this.hoveredObject = undefined;
       return;
     }
-    const firstObject = intersects[0].object;
-    // @ts-ignore
-    this.hoverHandle(firstObject);
-  }
-
-  private hoverHandle(obj: BuildingModel) {
     if (obj.uuid === this.hoveredObject?.uuid) {
       return;
     }
-    if (obj.onPointerOver) {
-      obj.onPointerOver();
-      this.hoveredObject?.onPointerOut();
-      this.hoveredObject = obj;
+    obj.onPointerOver();
+    this.hoveredObject?.onPointerOut();
+    this.hoveredObject = obj;
+  }
+
+  onPointerClick(e: MouseEvent) {
+    const obj = this.getFirstIntersect<IClickable>(this.clickables);
+    if (obj) {
+      obj.onPointerClick();
     }
   }
 
@@ -116,10 +128,25 @@ export default class Engine3D {
     // window.addEventListener('resize', instance.onWindowResize.bind(instance), false);
     target.value.appendChild(instance.renderer.domElement);
     instance.animate();
-    // window.addEventListener('click', instance.onPointerMove.bind(instance));
-    window.addEventListener('pointermove', instance.onPointerMove.bind(instance));
     instance.initControls();
+    instance.bindEvents();
     return instance;
+  }
+
+  fillObjects() {
+    this.scene.traverse((o: unknown) => {
+      if ((o as IHoverable).onPointerOut && (o as IHoverable).onPointerOver) {
+        this.hoverables.push(o as IHoverable);
+      }
+      if ((o as IClickable).onPointerClick) {
+        this.clickables.push(o as IClickable);
+      }
+    });
+    console.log(this.hoverables);
+  }
+  private bindEvents() {
+    window.addEventListener('pointermove', this.onPointerMove.bind(this));
+    window.addEventListener('click', this.onPointerClick.bind(this));
   }
 
   private animate() {

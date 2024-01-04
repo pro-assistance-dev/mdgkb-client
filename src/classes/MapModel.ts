@@ -1,6 +1,12 @@
 import * as Three from 'three';
+import { Object3D } from 'three';
 
+import { CallbackFunction } from '@/interfaces/elements/Callback';
+import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
+
+import BuildingModel from './BuildingModel';
+import MapNode from './MapNode';
 
 export default class MapModel extends Three.Group {
   buildings: Three.Group = new Three.Group();
@@ -12,23 +18,30 @@ export default class MapModel extends Three.Group {
   extendObject(c: MapModel) {
     c.buildings = this.buildings;
     c.nodes = this.nodes;
-    c.splitChildrenToGroups = this.splitChildrenToGroups;
+    c.bindEvents = this.bindEvents;
+    c.getBuildingsGroup = this.getBuildingsGroup;
+    c.getBuildings = this.getBuildings;
   }
 
-  splitChildrenToGroups() {
-    this.children.forEach((c: Three.Object3D) => {
-      const cGroup = c as Three.Group;
-      switch (cGroup.name) {
-        case MapGroupsTypes.Buildings:
-          this.buildings = cGroup;
-          break;
+  getNodesGroup(): Object3D {
+    return this.children.find((c: Object3D) => c.name === MapGroupsTypes.Points) as Object3D;
+  }
 
-        case MapGroupsTypes.Nodes:
-          this.nodes = cGroup;
-          break;
-        default:
-          break;
-      }
+  getNodes(): MapNode[] {
+    return this.getNodesGroup().children as unknown as MapNode[];
+  }
+
+  getBuildingsGroup(): Object3D {
+    return this.children.find((c: Object3D) => c.name === MapGroupsTypes.Buildings) as Object3D;
+  }
+
+  getBuildings(): BuildingModel[] {
+    return this.getBuildingsGroup().children as BuildingModel[];
+  }
+
+  bindEvents(buildingsEvents: Map<MapBuildingsEventsTypes, CallbackFunction>): void {
+    this.getBuildings().forEach((b: BuildingModel) => {
+      b.bindEvents(buildingsEvents);
     });
   }
 }
