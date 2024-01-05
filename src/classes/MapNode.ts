@@ -4,8 +4,10 @@ import ClassHelper from '@/services/ClassHelper';
 
 export default class MapNode extends Object3D {
   isEntry?: string;
+  mapNodeName = '';
   neighbors: MapNode[] = [];
   neighborsUuid: string[] = [];
+  neighborsNames: string[] = [];
 
   constructor(i?: MapNode) {
     super();
@@ -21,5 +23,17 @@ export default class MapNode extends Object3D {
     c.isEntry = this.isEntry;
     c.neighbors = this.neighbors;
     c.neighborsUuid = this.neighborsUuid;
+    c.splitNameToNeighbors = this.splitNameToNeighbors;
+    c.splitNameToNeighbors();
+  }
+
+  splitNameToNeighbors() {
+    const names = this.name.split('_').splice(0, 1);
+    if (names[0]) {
+      this.mapNodeName = names[0];
+    }
+    if (names.length > 1) {
+      this.neighborsNames.push(...names.splice(1));
+    }
   }
 }

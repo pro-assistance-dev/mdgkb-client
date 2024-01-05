@@ -116,10 +116,15 @@ export default class Engine3D {
   }
 
   onPointerClick(e: MouseEvent) {
-    const obj = this.getFirstIntersect<IClickable>(this.clickables);
-    if (obj) {
-      obj.onPointerClick();
-    }
+    // const obj = this.getFirstIntersect<IClickable>(this.clickables);
+    // @ts-ignore
+    const intersects = this.raycaster.intersectObjects(this.clickables) as IClickable[];
+    console.log(intersects, this.clickables);
+    // @ts-ignore
+    intersects.forEach((i) => i.object.onPointerClick());
+    // if (obj) {
+    //   obj.onPointerClick();
+    // }
   }
 
   static CreateInstance(target: Ref) {
@@ -142,8 +147,9 @@ export default class Engine3D {
         this.clickables.push(o as IClickable);
       }
     });
-    console.log(this.hoverables);
+    console.log(this.clickables);
   }
+
   private bindEvents() {
     window.addEventListener('pointermove', this.onPointerMove.bind(this));
     window.addEventListener('click', this.onPointerClick.bind(this));

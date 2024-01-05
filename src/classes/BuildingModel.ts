@@ -8,7 +8,7 @@ export default class BuildingModel extends Three.Mesh {
   isHoverable = true;
   isClickable = true;
   isActive = false;
-
+  number = '';
   constructor() {
     super();
     // this.add(object);
@@ -16,8 +16,16 @@ export default class BuildingModel extends Three.Mesh {
 
   bindEvents(events: Map<MapBuildingsEventsTypes, CallbackFunction>) {
     events.forEach((value, key) => {
-      this.addEventListener(key, value.bind(this));
+      const mesh = this.getMesh();
+      if (mesh) {
+        mesh.addEventListener(key, value.bind(this));
+      }
+      // this.addEventListener(key, value.bind(this));
     });
+  }
+
+  setNumber(): void {
+    this.number = this.name.split('_')[1];
   }
 
   getMesh(): Mesh {
@@ -37,6 +45,7 @@ export default class BuildingModel extends Three.Mesh {
   }
 
   click() {
+    console.log('clock');
     this.dispatchEvent({
       type: MapBuildingsEventsTypes.Click as string as keyof Three.Object3DEventMap,
       id: '81299614-b64f-4ba7-9cfa-3210569a1909',
@@ -52,18 +61,16 @@ export default class BuildingModel extends Three.Mesh {
     if (mesh) {
       mesh.onPointerOver = this.onPointerOver;
       mesh.onPointerOut = this.onPointerOut;
-      mesh.isHoverable = this.isHoverable;
+      // mesh.isHoverable = this.isHoverable;
       mesh.onPointerClick = this.onPointerClick;
       mesh.click = this.click;
     }
 
-    c.isHoverable = this.isHoverable;
-    c.customProp = this.customProp;
-    c.isClickable = this.isClickable;
-    c.onPointerOver = this.onPointerOver;
-    c.onPointerOut = this.onPointerOut;
-    c.onPointerClick = this.onPointerClick;
     c.click = this.click;
     c.bindEvents = this.bindEvents;
+
+    c.setNumber = this.setNumber;
+    c.number = this.number;
+    c.setNumber();
   }
 }
