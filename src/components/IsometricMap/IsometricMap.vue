@@ -42,7 +42,9 @@ const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction
 
 onMounted(async () => {
   const instance = Engine3D.CreateInstance(target);
-  const model = (await FbxModel.AddObjectToScene('models/Map_v4.fbx', instance.scene)) as Object3D;
+
+
+  const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx', instance.scene)) as Object3D;
   const mainObject = model.children[0] as MapModel;
   new MapExtender().extendObject(mainObject);
   mainObject.bindEvents(initBuildingsEventsMap());
