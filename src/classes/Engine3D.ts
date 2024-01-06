@@ -35,12 +35,15 @@ export default class Engine3D {
 
     // const light = new Three.PointLight(0xffffff, 500);
     // light.position.set(0.8, 1.4, 1.0);
-    const light = new Three.PointLight(0xffffff, 100000);
-    light.position.set(0, 1.4, 300);
+    const light = new Three.AmbientLight(0xffffff, 2);
+    light.position.set(0, 1.4, 100);
+    // const color = 0xFFFFFF;  // белый
+    // const near = 10;
+    // const far = 100;
+    // scene.fog = new Three.Fog(color, near, far);
     scene.add(light);
-
-    const ambientLight = new Three.AmbientLight();
-    scene.add(ambientLight);
+    // const ambientLight = new Three.AmbientLight();
+    // scene.add(ambientLight);
     return scene;
   }
 
