@@ -2,18 +2,19 @@ import { ActionTree } from 'vuex';
 
 import MapNode from '@/classes/MapNode';
 import MapRoute from '@/classes/MapRoute';
+import IStartEndNode from '@/interfaces/IStartEndNode';
 import HttpClient from '@/services/HttpClient';
 import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
 import { State } from './index';
 
-const httpClient = new HttpClient('doctors');
+const httpClient = new HttpClient('map-routes');
 
 const actions: ActionTree<State, RootState> = {
   ...getBaseActions(httpClient),
-  getRoute: async ({ commit }, params: { startNodeId: string; endNodeId: string }): Promise<void> => {
-    const route = await httpClient.get<MapRoute>({ query: `${params.startNodeId}/${params.endNodeId}` });
+  getRoute: async ({ commit }, nodes: IStartEndNode): Promise<void> => {
+    const route = await httpClient.get<MapRoute>({ query: `${nodes.startNodeId}/${nodes.endNodeId}` });
     commit('set', route);
   },
   create: async (_, nodes: MapNode[]): Promise<void> => {

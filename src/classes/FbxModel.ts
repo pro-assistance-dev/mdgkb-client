@@ -1,26 +1,21 @@
 import { Object3D, Scene } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
-import BuildingModel from './BuildingModel';
 export default class FbxModel {
-  static async AddObjectToScene(modelPath: string, scene: Scene) {
+  static async AddObjectToScene(modelPath: string, scene: Scene): Promise<unknown> {
     const loader = new FBXLoader();
-    const data = await loader.loadAsync(modelPath, this.HandleXHR);
-    FbxModel.HandleObject(data, scene);
+    const mainObject = await loader.loadAsync(modelPath, this.HandleXHR);
+    FbxModel.HandleMainObject(mainObject, scene);
+    return mainObject;
   }
 
-  static HandleObject(object: Object3D, scene: Scene) {
-    const o = new BuildingModel();
-
-    object.traverse(function (child: Object3D) {
-      o.extendObject(child as BuildingModel);
-    });
+  static HandleMainObject(object: Object3D, scene: Scene) {
     object.scale.set(0.01, 0.01, 0.01);
     scene.add(object);
   }
 
   static HandleXHR(xhr: ProgressEvent) {
-    console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
+    // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
   }
   static HandleError(error: unknown) {
     console.log(error);
