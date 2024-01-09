@@ -1,5 +1,5 @@
 import * as Three from 'three';
-import { Group, Object3D, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2 } from 'three';
+import { Group, Object3D, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { Ref } from 'vue';
 
@@ -42,7 +42,6 @@ export default class Engine3D {
 
     scene.add(new Three.AxesHelper(5));
 
-
     // const light = new Three.PointLight(0xffffff, 500);
     // light.position.set(0.8, 1.4, 1.0);
     const light = new Three.AmbientLight(0xffffff, 2);
@@ -56,6 +55,13 @@ export default class Engine3D {
     // const ambientLight = new Three.AmbientLight();
     // scene.add(ambientLight);
     return scene;
+  }
+
+  buildLineFromPoints(points: Vector3[]): void {
+    const g = new Three.BufferGeometry().setFromPoints(points);
+    const m = new Three.LineBasicMaterial({ color: 0xff0000 });
+    const line = new Three.Line(g, m);
+    this.scene.add(line);
   }
 
   private static initCamera() {
@@ -126,7 +132,7 @@ export default class Engine3D {
     // const obj = this.getFirstIntersect<IClickable>(this.clickables);
     // @ts-ignore
     const intersects = this.raycaster.intersectObjects(this.clickables) as IClickable[];
-    console.log(intersects, this.clickables);
+    // console.log(intersects, this.clickables);
     // @ts-ignore
     intersects.forEach((i) => i.object.onPointerClick());
     // if (obj) {
@@ -142,6 +148,7 @@ export default class Engine3D {
     instance.animate();
     instance.initControls();
     instance.bindEvents();
+    instance.camera.updateProjectionMatrix();
     return instance;
   }
 
@@ -154,7 +161,7 @@ export default class Engine3D {
         this.clickables.push(o as IClickable);
       }
     });
-    console.log(this.clickables);
+    // console.log(this.clickables);
   }
 
   private bindEvents() {

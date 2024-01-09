@@ -9,6 +9,8 @@ export default class MapRoute {
   endNodeId?: MapNode;
   endNode?: string;
   nodes: MapNode[] = [];
+  @ClassHelper.GetClassConstructor(MapNode)
+  mapRouteNodes: MapNode[] = [];
 
   constructor(i?: MapNode) {
     ClassHelper.BuildClass(this, i);

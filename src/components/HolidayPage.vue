@@ -1,6 +1,6 @@
 <template>
-  <div class="main-holiday">
-    <div class="description"></div>
+  <div id="personal" class="main-holiday">
+    <!-- <div class="description"></div> -->
     <CubeLine margin="20px 0" />
     <div class="invitation">
       <StringItem string="Привет, наш юный друг!" class="check-title" color="#ffffff" font-size="20px" />
@@ -199,7 +199,21 @@ export default defineComponent({
   async setup() {
     const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
     const blockButton = ref(false);
+
+    const part1 = ref(true);
+    const part2 = ref(false);
+    const part3 = ref(false);
+    const part4 = ref(false);
+
     const submit = async () => {
+      if (!item.value.canPart2()) {
+        ElMessage({
+          message: 'Заполни, пожалуйста, первую часть анкеты',
+          type: 'warning',
+        });
+        scroll('#personal');
+        return;
+      }
       await Provider.store.dispatch('holidayForms/createAndReset');
       ElMessage({
         message: 'Заявка успешно отправлена',
@@ -210,6 +224,10 @@ export default defineComponent({
     };
 
     return {
+      part1,
+      part2,
+      part3,
+      part4,
       item,
       blockButton,
       submit,

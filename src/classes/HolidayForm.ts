@@ -30,4 +30,8 @@ export default class HolidayForm {
   constructor(i?: HolidayForm) {
     ClassHelper.BuildClass(this, i);
   }
+
+  canPart2(): boolean {
+    return !!this.fio && !!this.parentFio && !!this.phone && !!this.representative;
+  }
 }
