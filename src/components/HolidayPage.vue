@@ -38,7 +38,7 @@
                     <el-input v-model="item.parentFio" />
                   </el-form-item>
                   <el-form-item label="Телефон:">
-                    <el-input v-model="item.phone" />
+                    <el-input v-model="item.phone" placeholder="+7(___) ___ __ __" @input="(e) => (item.phone = PhoneService.Format(e))" />
                   </el-form-item>
                   <el-form-item label="С кем ты придешь:">
                     <el-input v-model="item.representative" />
@@ -184,6 +184,7 @@ import CollapseContainer from '@/components/Base/Collapse/CollapseContainer.vue'
 import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
 import StringItem from '@/components/Base/StringItem.vue';
 import CubeLine from '@/components/StopComa/CubeLine.vue';
+import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
@@ -231,6 +232,7 @@ export default defineComponent({
       item,
       blockButton,
       submit,
+      PhoneService,
     };
   },
 });
