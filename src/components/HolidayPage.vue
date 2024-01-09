@@ -40,6 +40,9 @@
                   <el-form-item label="Телефон:">
                     <el-input v-model="item.phone" placeholder="+7(___) ___ __ __" @input="(e) => (item.phone = PhoneService.Format(e))" />
                   </el-form-item>
+                  <el-form-item label="Укажи свой email для связи:">
+                    <el-input v-model="item.email" />
+                  </el-form-item>
                   <el-form-item label="С кем ты придешь:">
                     <el-input v-model="item.representative" />
                   </el-form-item>
@@ -56,7 +59,8 @@
           >
             <template #inside-content>
               <div class="content">
-                <StringItem string="Я подготовлю:" class="check-title" />
+                <StringItem v-if="countShow > 2" string="Укажи, пожалуйста, только два номера" class="check-title-red" />
+                <StringItem string="Я подготовлю номер (не больше двух):" class="check-title" />
                 <div>
                   <el-form-item label="Песню:">
                     <el-input v-model="item.song" />
@@ -130,10 +134,6 @@
                       </el-form-item>
                     </el-checkbox-group>
                   </div>
-
-                  <el-form-item label="Укажи свой email для связи:">
-                    <el-input v-model="item.email" />
-                  </el-form-item>
                 </div>
               </div>
             </template>
@@ -206,6 +206,18 @@ export default defineComponent({
     const part3 = ref(false);
     const part4 = ref(false);
 
+    const countShow = computed(() => {
+      let count = 0;
+      const i = item.value;
+      const a = [i.dance, i.song, i.poem, i.customShow];
+      a.forEach((s: string) => {
+        if (s) {
+          count++;
+        }
+      });
+      return count;
+    });
+
     const submit = async () => {
       if (!item.value.canPart2()) {
         ElMessage({
@@ -226,6 +238,7 @@ export default defineComponent({
 
     return {
       part1,
+      countShow,
       part2,
       part3,
       part4,
@@ -292,6 +305,10 @@ export default defineComponent({
   color: #343e5c;
 }
 
+.check-title-red {
+  font-size: 15px;
+  color: #f6922e;
+}
 .el-form-item {
   height: auto;
   margin-bottom: 10px;

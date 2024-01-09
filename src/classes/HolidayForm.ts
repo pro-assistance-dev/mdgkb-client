@@ -32,6 +32,6 @@ export default class HolidayForm {
   }
 
   canPart2(): boolean {
-    return !!this.fio && !!this.parentFio && !!this.phone && !!this.representative;
+    return !!this.fio && !!this.parentFio && !!this.phone && !!this.representative && !!this.email;
   }
 }
