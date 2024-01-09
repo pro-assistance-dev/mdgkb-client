@@ -176,6 +176,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import HolidayForm from '@/classes/HolidayForm';
@@ -187,7 +188,6 @@ import CubeLine from '@/components/StopComa/CubeLine.vue';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
-
 export default defineComponent({
   name: 'HolidayPage',
   components: {
@@ -218,6 +218,16 @@ export default defineComponent({
       return count;
     });
 
+    const sendForm = async () => {
+      await Provider.store.dispatch('holidayForms/createAndReset');
+      ElMessage({
+        message: 'Заявка успешно отправлена',
+        type: 'success',
+      });
+      scroll();
+      Provider.router.push('/');
+    };
+
     const submit = async () => {
       if (!item.value.canPart2()) {
         ElMessage({
@@ -227,13 +237,24 @@ export default defineComponent({
         scroll('#personal');
         return;
       }
-      await Provider.store.dispatch('holidayForms/createAndReset');
-      ElMessage({
-        message: 'Заявка успешно отправлена',
-        type: 'success',
-      });
-      scroll();
-      Provider.router.push('/');
+      if (!item.value.part3Filled()) {
+        ElMessageBox.confirm('Сундучок счастья заполнен не до конца. Может быть вернёшься и заполнишь?', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Отправить',
+          cancelButtonText: 'Вернуться',
+        })
+          .then(async () => {
+            await sendForm();
+          })
+          .catch((action: string) => {
+            ElMessage({
+              type: 'warning',
+              message: 'Заполни свои желания',
+            });
+          });
+      } else {
+        await sendForm();
+      }
     };
 
     return {
