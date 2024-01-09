@@ -209,7 +209,7 @@ export default defineComponent({
     const countShow = computed(() => {
       let count = 0;
       const i = item.value;
-      const a = [i.dance, i.song, i.poem, i.customShow];
+      const a = [i.dance, i.song, i.poem, i.customShow, i.music];
       a.forEach((s: string) => {
         if (s) {
           count++;
