@@ -38,7 +38,6 @@ export default defineComponent({
     };
     onBeforeMount((): void => {
       const findedModel = Provider.findFilterModel(props.models);
-      console.log(findedModel);
       if (findedModel) {
         selectedFilterModel.value = findedModel;
         return;

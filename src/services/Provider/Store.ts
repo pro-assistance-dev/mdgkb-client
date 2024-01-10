@@ -4,7 +4,6 @@ import StringsService from '@/services/Strings';
 import store from '../../store';
 
 const Store = (() => {
-  const s = store;
   let getAction = '';
   let storeModule = '';
   function initPagination(options?: IPaginationOptions): void {
@@ -41,7 +40,7 @@ const Store = (() => {
   }
 
   async function loadItems(): Promise<void> {
-    return await Store.store.dispatch(`${Store.getStoreModule()}/${getGetAction()}`, s.getters['filter/filterQuery']);
+    return await store.dispatch(`${Store.getStoreModule()}/${getGetAction()}`, store.getters['filter/filterQuery']);
   }
 
   async function create(): Promise<void> {
@@ -62,7 +61,7 @@ const Store = (() => {
   }
 
   return {
-    store: s,
+    store,
     setGetAction,
     getGetAction,
     setModule,

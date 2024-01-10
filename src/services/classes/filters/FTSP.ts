@@ -1,5 +1,6 @@
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Pagination from '@/services/classes/filters/Pagination';
+import ClassHelper from '@/services/ClassHelper';
 
 import SortModel from '../SortModel';
 import FilterQuery from './FilterQuery';
@@ -7,18 +8,15 @@ import FilterQuery from './FilterQuery';
 export default class FTSP {
   id?: string;
 
+  @ClassHelper.GetClassConstructor(FilterModel)
   f: FilterModel[] = [];
+  @ClassHelper.GetClassConstructor(SortModel)
   s: SortModel[] = [];
+  @ClassHelper.GetClassConstructor(Pagination)
   p: Pagination = new Pagination();
 
   constructor(i?: FTSP) {
-    if (!i) {
-      return;
-    }
-    this.f = i.f;
-    this.s = i.s;
-    this.p = i.p;
-    this.id = i.id;
+    ClassHelper.BuildClass(this, i);
   }
   static GetQidFromUrl(): string | null {
     return new URLSearchParams(window.location.search).get('qid');

@@ -1,7 +1,7 @@
 <template>
   <div style="height: 400">
     <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
-    <IsometricMapRouter @select-start-node="selectStartNode" @select-end-node="selectEndNode" />
+    <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" />
     <div id="map" ref="target"></div>
   </div>
 </template>
@@ -14,7 +14,10 @@ import Engine3D from '@/classes/Engine3D';
 import FbxModel from '@/classes/FbxModel';
 import MapExtender from '@/classes/MapExtender';
 import MapModel from '@/classes/MapModel';
+import MapNode from '@/classes/MapNode';
+import MapNodeRequestObject from '@/classes/MapNodeRequestObject';
 import MapRoute from '@/classes/MapRoute';
+import MapRouter from '@/classes/MapRouter';
 // import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
 import IsometricMapRouter from '@/components/IsometricMap/IsometricMapRouter.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
@@ -22,13 +25,10 @@ import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import Provider from '@/services/Provider/Provider';
 const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
-const routerModalOpened: Ref<boolean> = ref(true);
+const mapRouter: Ref<MapRouter> = ref(new MapRouter());
 
 const mapModel: Ref<MapModel> = ref(new MapModel());
 const engine: Ref<Engine3D> = ref(new Engine3D());
-
-const selectedStartName: Ref<string> = ref('');
-const selectedEndName: Ref<string> = ref('');
 
 const route: ComputedRef<MapRoute> = computed(() => Provider.store.getters['mapRoutes/item']);
 
@@ -38,7 +38,7 @@ const buildingClick = async (event: { id: string }) => {
 };
 
 const getRoute = async () => {
-  await Provider.store.dispatch('mapRoutes/getRoute', { startNodeId: selectedStartName.value, endNodeId: selectedEndName.value });
+  await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.value.getNodesForRequest());
   engine.value.buildLineFromPoints(mapModel.value.getRouteVector(route.value));
 };
 
@@ -60,29 +60,13 @@ onMounted(async () => {
   const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx', engine.value.scene)) as Object3D;
   mapSetup(model.children[0] as MapModel);
   engine.value.fillObjects();
+  createRoutes();
 });
 
-// const createRoutes() => {
-//   // const nodes = mainObject.getNodes();
-//   // const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
-//   // await Provider.store.dispatch('mapNodes/upload', requestNodes);
-// }
-
-const selectStartNode = async (nodeName: string) => {
-  selectedStartName.value = nodeName;
-  await buildRoute();
-};
-
-const selectEndNode = async (nodeName: string) => {
-  selectedEndName.value = nodeName;
-  await buildRoute();
-};
-
-const buildRoute = async () => {
-  if (!selectedStartName.value || !selectedEndName.value) {
-    return;
-  }
-  await getRoute();
+const createRoutes = async () => {
+  const nodes = mapModel.value.getNodes();
+  const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
+  await Provider.store.dispatch('mapNodes/upload', requestNodes);
 };
 </script>
 

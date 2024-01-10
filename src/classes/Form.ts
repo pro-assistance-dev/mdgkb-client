@@ -6,10 +6,8 @@ import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
-import Chat from '@/services/classes/Chat';
 import ClassHelper from '@/services/ClassHelper';
 
-import CandidateApplication from './CandidateApplication';
 import Child from './Child';
 import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
@@ -61,8 +59,8 @@ export default class Form {
 
   @ClassHelper.GetClassConstructor(PostgraduateApplication)
   postgraduateApplication?: PostgraduateApplication;
-  @ClassHelper.GetClassConstructor(CandidateApplication)
-  candidateApplication?: CandidateApplication;
+  // @ClassHelper.GetClassConstructor(CandidateApplication)
+  // candidateApplication?: CandidateApplication;
   @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplication?: ResidencyApplication;
   @ClassHelper.GetClassConstructor(VisitsApplication)
@@ -76,8 +74,8 @@ export default class Form {
   formValueFilesForDelete: string[] = [];
 
   chatId?: string;
-  @ClassHelper.GetClassConstructor(Chat)
-  chat = new Chat();
+  // @ClassHelper.GetClassConstructor(Chat)
+  // chat = new Chat();
 
   constructor(i?: Form) {
     ClassHelper.BuildClass(this, i);
@@ -152,9 +150,9 @@ export default class Form {
     if (form.postgraduateApplication) {
       this.postgraduateApplication = new PostgraduateApplication(form.postgraduateApplication);
     }
-    if (form.candidateApplication) {
-      this.candidateApplication = new CandidateApplication(form.candidateApplication);
-    }
+    // if (form.candidateApplication) {
+    //   this.candidateApplication = new CandidateApplication(form.candidateApplication);
+    // }
     if (form.residencyApplication) {
       this.residencyApplication = new ResidencyApplication(form.residencyApplication);
     }
@@ -170,9 +168,9 @@ export default class Form {
     if (form.formValueFiles) {
       this.formValueFiles = form.formValueFiles.map((item: FormValueFile) => new FormValueFile(item));
     }
-    if (form.chat) {
-      this.chat = new Chat(form.chat);
-    }
+    // if (form.chat) {
+    //   this.chat = new Chat(form.chat);
+    // }
     this.chatId = form.chatId;
     this.withApprovingDate = form.withApprovingDate;
   }
@@ -418,9 +416,9 @@ export default class Form {
     if (this.postgraduateApplication) {
       return 'Аспирантура';
     }
-    if (this.candidateApplication) {
-      return 'Кандидатский минимум';
-    }
+    // if (this.candidateApplication) {
+    //   return 'Кандидатский минимум';
+    // }
     if (this.visitsApplication) {
       return 'Заявка на посещение';
     }
@@ -443,9 +441,9 @@ export default class Form {
     if (this.postgraduateApplication) {
       return `/postgraduate?mode=programs`;
     }
-    if (this.candidateApplication) {
-      return `/postgraduate?mode=candidate`;
-    }
+    // if (this.candidateApplication) {
+    //   return `/postgraduate?mode=candidate`;
+    // }
     if (this.visitsApplication) {
       return `/application-car/8ccf8e9b-b487-493e-b451-60b193181f07`;
     }
@@ -467,9 +465,9 @@ export default class Form {
     if (this.postgraduateApplication) {
       return this.postgraduateApplication.postgraduateCourse.getMainSpecialization().name;
     }
-    if (this.candidateApplication) {
-      return 'Кандидатский минимум';
-    }
+    // if (this.candidateApplication) {
+    //   return 'Кандидатский минимум';
+    // }
     if (this.visitsApplication) {
       return this.visitsApplication.division?.name;
     }
@@ -492,9 +490,9 @@ export default class Form {
     if (this.postgraduateApplication) {
       return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse?.getMainSpecialization().slug}`;
     }
-    if (this.candidateApplication) {
-      return `/postgraduate?mode=candidate`;
-    }
+    // if (this.candidateApplication) {
+    //   return `/postgraduate?mode=candidate`;
+    // }
     if (this.visitsApplication) {
       return `/divisions/${this.visitsApplication.division?.slug}`;
     }

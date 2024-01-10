@@ -211,7 +211,6 @@ export default defineComponent({
     watch(
       () => filterExists.value,
       async () => {
-        console.log(filterExists.value);
         if (!filterExists.value) {
           Provider.store.commit('filter/filterExists', true);
           await loadNews();
