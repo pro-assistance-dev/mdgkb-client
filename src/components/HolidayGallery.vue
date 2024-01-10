@@ -315,7 +315,7 @@ a {
 
 #active {
   /*расположение блока с переключателями*/
-  margin: 2% 0 0;
+  margin: 20px 0 10px 0;
   text-align: center;
 }
 
