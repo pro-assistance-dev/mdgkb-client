@@ -20,6 +20,7 @@ export default class MapExtender {
   }
 
   extendObject(mapForExtend: MapModel) {
+    // console.log(mapForExtend);
     let extender = this.extendersMap.get(MapModelsTypes.Map);
     extender?.extendObject(mapForExtend);
 

@@ -67,9 +67,8 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         isFormData: true,
         query: 'ftsp',
       };
-      // если фильтр естьFilterQuery
+      // если фильтр есть
       const res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
-      // if (!res || !res.ftsp || !res.ftsp.id) {
       if (!res || !res.ftsp || !res.ftsp.id) {
         commit('filter/filterExists', false, { root: true });
         await Provider.router.replace({ query: {} });

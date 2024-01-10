@@ -3,6 +3,7 @@ import { RouteLocationNormalizedLoaded } from 'vue-router';
 import router from '../../router';
 
 const Router = (() => {
+  const r = router;
   function id() {
     return route().params['id'];
   }
@@ -47,6 +48,7 @@ const Router = (() => {
     route,
     getPath,
     routerPushBlank,
+    router,
   };
 })();
 

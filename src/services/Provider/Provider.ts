@@ -1,8 +1,9 @@
+import { ElLoading } from 'element-plus';
 import { computed, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
+import { CallbackFunction } from '@/interfaces/elements/Callback';
 import ISchema from '@/interfaces/schema/ISchema';
-import router from '@/router';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
@@ -10,7 +11,6 @@ import Filter from '@/services/Provider/Filter';
 import Router from '@/services/Provider/Router';
 import StringsService from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import store from '@/store';
 
 import Store from './Store';
 
@@ -18,8 +18,6 @@ const Provider = (() => {
   const mounted: Ref<boolean> = ref(false);
   const form = ref();
   const schema: Ref<ISchema> = computed(() => Store.store.getters['meta/schema']);
-  const r = router;
-  const s = store;
   const saveButtonClicked: Ref<boolean> = ref(false);
 
   function dropPagination(): void {
@@ -107,7 +105,14 @@ const Provider = (() => {
     };
   }
 
+  async function loadingDecor(fn: CallbackFunction) {
+    const loading = ElLoading.service({ lock: true, text: 'Загрузка' });
+    await fn();
+    loading.close();
+  }
+
   return {
+    loadingDecor,
     dropPagination,
     saveButtonClicked,
     mounted,
@@ -124,8 +129,6 @@ const Provider = (() => {
     ...Store,
     ...Router,
     ...Filter,
-    router: r,
-    store: s,
     replaceFilterModel,
     spliceFilterModel,
   };

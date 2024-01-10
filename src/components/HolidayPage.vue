@@ -1,5 +1,5 @@
 <template>
-  <div class="main-holiday">
+  <div id="personal" class="main-holiday">
     <div class="description">
       <HolidayGallery />
     </div>
@@ -40,7 +40,10 @@
                     <el-input v-model="item.parentFio" />
                   </el-form-item>
                   <el-form-item label="Телефон:">
-                    <el-input v-model="item.phone" />
+                    <el-input v-model="item.phone" placeholder="+7(___) ___ __ __" @input="(e) => (item.phone = PhoneService.Format(e))" />
+                  </el-form-item>
+                  <el-form-item label="Укажи свой email для связи:">
+                    <el-input v-model="item.email" />
                   </el-form-item>
                   <el-form-item label="С кем ты придешь:">
                     <el-input v-model="item.representative" />
@@ -58,7 +61,8 @@
           >
             <template #inside-content>
               <div class="content">
-                <StringItem string="Я подготовлю:" class="check-title" />
+                <StringItem v-if="countShow > 2" string="Укажи, пожалуйста, только два номера" class="check-title-red" />
+                <StringItem string="Я подготовлю номер (не больше двух):" class="check-title" />
                 <div>
                   <el-form-item label="Песню:">
                     <el-input v-model="item.song" />
@@ -132,10 +136,6 @@
                       </el-form-item>
                     </el-checkbox-group>
                   </div>
-
-                  <el-form-item label="Укажи свой email для связи:">
-                    <el-input v-model="item.email" />
-                  </el-form-item>
                 </div>
               </div>
             </template>
@@ -179,6 +179,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
+import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import HolidayForm from '@/classes/HolidayForm';
@@ -188,9 +189,9 @@ import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
 import StringItem from '@/components/Base/StringItem.vue';
 import HolidayGallery from '@/components/HolidayGallery.vue';
 import CubeLine from '@/components/StopComa/CubeLine.vue';
+import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
-
 export default defineComponent({
   name: 'HolidayPage',
   components: {
@@ -204,7 +205,25 @@ export default defineComponent({
   async setup() {
     const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
     const blockButton = ref(false);
-    const submit = async () => {
+
+    const part1 = ref(true);
+    const part2 = ref(false);
+    const part3 = ref(false);
+    const part4 = ref(false);
+
+    const countShow = computed(() => {
+      let count = 0;
+      const i = item.value;
+      const a = [i.dance, i.song, i.poem, i.customShow, i.music];
+      a.forEach((s: string) => {
+        if (s) {
+          count++;
+        }
+      });
+      return count;
+    });
+
+    const sendForm = async () => {
       await Provider.store.dispatch('holidayForms/createAndReset');
       ElMessage({
         message: 'Заявка успешно отправлена',
@@ -214,10 +233,45 @@ export default defineComponent({
       Provider.router.push('/');
     };
 
+    const submit = async () => {
+      if (!item.value.canPart2()) {
+        ElMessage({
+          message: 'Заполни, пожалуйста, первую часть анкеты',
+          type: 'warning',
+        });
+        scroll('#personal');
+        return;
+      }
+      if (!item.value.part3Filled()) {
+        ElMessageBox.confirm('Сундучок счастья заполнен не до конца. Может быть вернёшься и заполнишь?', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: 'Отправить',
+          cancelButtonText: 'Вернуться',
+        })
+          .then(async () => {
+            await sendForm();
+          })
+          .catch((action: string) => {
+            ElMessage({
+              type: 'warning',
+              message: 'Заполни свои желания',
+            });
+          });
+      } else {
+        await sendForm();
+      }
+    };
+
     return {
+      part1,
+      countShow,
+      part2,
+      part3,
+      part4,
       item,
       blockButton,
       submit,
+      PhoneService,
     };
   },
 });
@@ -286,6 +340,10 @@ export default defineComponent({
   color: #343e5c;
 }
 
+.check-title-red {
+  font-size: 15px;
+  color: #f6922e;
+}
 .el-form-item {
   height: auto;
   margin-bottom: 10px;

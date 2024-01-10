@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
 import Provider from '@/services/Provider/Provider';
@@ -66,20 +66,23 @@ export default defineComponent({
       }
     };
     const setPage = async (pageNum: number, load: boolean): Promise<void> => {
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Загрузка',
-      });
-      Provider.store.commit('pagination/setCurPage', pageNum);
-      Provider.store.commit('filter/setOffset', pageNum - 1);
-      // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
-      if (load) {
-        if (action !== 'ftsp') {
-          await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
-        } else {
-          await Provider.store.dispatch(`${storeModule}/${action}`, { qid: undefined, ftsp: Provider.filterQuery.value });
+      Provider.loadingDecor(async () => {
+        Provider.store.commit('pagination/setCurPage', pageNum);
+        Provider.store.commit('filter/setOffset', pageNum - 1);
+        // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
+        if (load) {
+          if (action !== 'ftsp') {
+            await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
+          } else {
+            await Provider.router.replace({ query: {} });
+            await Provider.store.dispatch(`${storeModule}/${action}`, { qid: undefined, ftsp: Provider.filterQuery.value });
+          }
         }
-      }
+        scrollToBack();
+      });
+    };
+
+    const scrollToBack = () => {
       const table = document.querySelector('.el-table__body-wrapper');
       const list = document.querySelector('#list');
       if (table) {
@@ -87,17 +90,14 @@ export default defineComponent({
       } else if (list) {
         list.scrollTo({ top: 0 });
       }
-      loading.close();
     };
 
-    onBeforeUnmount(async () => {
-      Provider.store.commit('pagination/setCurPage', 1);
-      Provider.store.commit('filter/setOffset', 0);
+    onBeforeUnmount(() => {
+      Provider.dropPagination();
     });
 
     onBeforeMount(async () => {
-      const p = Provider.filterQuery.value.pagination.offset / Provider.filterQuery.value.pagination.limit;
-      await setPage(p + 1, false);
+      await setPage(Provider.getPagination().getPageNum(), false);
     });
 
     return {

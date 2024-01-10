@@ -4,21 +4,21 @@
       <div class="route-window-line">
         <div class="route-window-title">Задайте точки для построения маршрута:</div>
         <div class="button-field">
-          <BaseModalButtonClose @click.prevent="close" />
+          <BaseModalButtonClose @click.prevent="mapRouter.close()" />
         </div>
       </div>
       <div class="map-router-container-item">
         <div>
-          <el-button @click="selectedStartMod = true">Выберете точку отправки</el-button>
-          <el-button @click="selectedEndMod = true">Выберете точку отправки</el-button>
+          <el-button @click="mapRouter.openSelectStartInterface()">Выберете точку отправки</el-button>
+          <el-button @click="mapRouter.openSelectEndInterface()">Выберете точку отправки</el-button>
         </div>
-        <RemoteSearch
-          v-if="selectedStartMod || selectedEndMod"
-          key-value="mapObject"
-          placeholder="Введите отправную точку"
-          max-width="100%"
-          @select="selectSearch"
-        />
+        <!-- <RemoteSearch -->
+        <!--   v-if="mapRouter.searchCanOpen()" -->
+        <!--   key-value="mapObject" -->
+        <!--   placeholder="Введите отправную точку" -->
+        <!--   max-width="100%" -->
+        <!--   @select="(e) => mapRouter.selectSearch(e)" -->
+        <!-- /> -->
         <!-- <button class="a-btn" @click="clickPointButton(true)">Откуда</button> -->
       </div>
     </div>
@@ -26,48 +26,38 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, Ref, ref } from 'vue';
+import { defineProps } from 'vue';
 
-import SearchElement from '@/classes/SearchElement';
+import MapRouter from '@/classes/MapRouter';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-const emit = defineEmits(['close', 'selectOnMapMode', 'selectStartNode', 'selectEndNode']);
+// import RemoteSearch from '@/components/RemoteSearch.vue';
+// const emit = defineEmits(['close', 'selectOnMapMode', 'selectStartNode', 'selectEndNode']);
 
-const selectedStartName: Ref<string> = ref('');
-const selectedEndName: Ref<string> = ref('');
+const props = defineProps({
+  mapRouter: { type: MapRouter, required: true },
+});
 
-const selectedStartMod: Ref<boolean> = ref(false);
-const selectedEndMod: Ref<boolean> = ref(false);
-
-const resetSelectMods = () => {
-  selectedStartMod.value = false;
-  selectedEndMod.value = false;
-};
-
-const selectStart = (objectName: string, nodeName: string) => {
-  selectedStartName.value = objectName;
-  selectedStartMod.value = false;
-  emit('selectStartNode', nodeName);
-};
-
-const selectEnd = (objectName: string, nodeName: string) => {
-  selectedEndName.value = objectName;
-  selectedEndMod.value = false;
-  emit('selectEndNode', nodeName);
-};
-
-const selectSearch = (event: SearchElement) => {
-  if (selectedStartMod.value) {
-    selectStart(event.label, event.value);
-    return;
-  }
-  selectEnd(event.label, event.value);
-};
-
-const close = () => {
-  resetSelectMods();
-  emit('close');
-};
+// const selectStart = (objectName: string, nodeName: string) => {
+//   props.mapRouter.selectStart()
+// };
+//
+// const selectEnd = (objectName: string, nodeName: string) => {
+//   props.mapRouter.selectEnd()
+//   emit('selectEndNode', nodeName);
+// };
+//
+// const selectSearch = (event: SearchElement) => {
+//   if (props.mapRouter.selectedStartMod) {
+//     selectStart(event.label, event.value);
+//     return;
+//   }
+//   selectEnd(event.label, event.value);
+// };
+//
+// const close = () => {
+//   resetSelectMods();
+//   emit('close');
+// };
 </script>
 
 <style scoped lang="scss">

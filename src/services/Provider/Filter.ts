@@ -2,6 +2,7 @@ import { computed, ComputedRef, Ref, ref } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Pagination from '@/services/classes/filters/Pagination';
 import SortModel from '@/services/classes/SortModel';
 import Store from '@/services/Provider/Store';
 
@@ -15,6 +16,10 @@ const Filter = (() => {
   function setSortList(...models: SortModel[]): void {
     sortList.value = models;
     setDefaultSortModel();
+  }
+
+  function getPagination(): Pagination {
+    return ftsp.value.id ? ftsp.value.p : filterQuery.value.pagination;
   }
 
   function findFilterModel(filterModels: FilterModel[]): FilterModel | undefined {
@@ -88,6 +93,7 @@ const Filter = (() => {
     setFilterModel,
     findFilterModel,
     setFilterModels,
+    getPagination,
   };
 })();
 

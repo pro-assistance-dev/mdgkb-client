@@ -1,6 +1,7 @@
 import { LocationQuery } from 'vue-router';
 
 import Cursor from '@/services/classes/filters/Cursor';
+import ClassHelper from '@/services/ClassHelper';
 import { Operators } from '@/services/interfaces/Operators';
 
 export default class Pagination {
@@ -11,6 +12,9 @@ export default class Pagination {
   append = false;
   allLoaded = false;
   version = '';
+  constructor(i?: Pagination) {
+    ClassHelper.BuildClass(this, i);
+  }
   setLoadMore(lastCursor: string, column: string, table: string): void {
     this.cursor.value = lastCursor;
     this.cursor.initial = false;
@@ -59,5 +63,8 @@ export default class Pagination {
   }
   resetAllLoaded(): void {
     this.allLoaded = false;
+  }
+  getPageNum(): number {
+    return this.offset / this.limit + 1;
   }
 }
