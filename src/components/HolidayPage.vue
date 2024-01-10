@@ -1,6 +1,8 @@
 <template>
   <div class="main-holiday">
-    <div class="description"></div>
+    <div class="description">
+      <HolidayGallery />
+    </div>
     <CubeLine margin="20px 0" />
     <div class="invitation">
       <StringItem string="Привет, наш юный друг!" class="check-title" color="#ffffff" font-size="20px" />
@@ -156,6 +158,7 @@
                 <StringItem string="Твоя ручка окажется на общей картине. Вот увидишь! ;)" class="check-title" margin="20px 0 0 0" />
                 <StringItem string="Волшебная коробка с ладошками находится около елки" class="check-title" margin="20px 0 0 0" />
               </div>
+              <div class="footer"></div>
             </template>
           </CollapseItem>
         </CollapseContainer>
@@ -183,6 +186,7 @@ import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/components/Base/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
 import StringItem from '@/components/Base/StringItem.vue';
+import HolidayGallery from '@/components/HolidayGallery.vue';
 import CubeLine from '@/components/StopComa/CubeLine.vue';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
@@ -195,6 +199,7 @@ export default defineComponent({
     CollapseContainer,
     CollapseItem,
     CubeLine,
+    HolidayGallery,
   },
   async setup() {
     const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
@@ -240,14 +245,16 @@ export default defineComponent({
 }
 
 .description {
+  position: relative;
   width: 100%;
   min-height: 100px;
+
   margin: auto;
   text-align: center;
   background: #ffffff;
   border: 1px solid #b0a4c0;
   border-radius: 5px;
-  padding: 20px;
+  padding: 10px 0;
   box-sizing: border-box;
 }
 
@@ -265,6 +272,13 @@ export default defineComponent({
   // background: #ffffff;
   padding: 20px;
   box-sizing: border-box;
+  background-repeat: repeat;
+}
+
+.footer {
+  width: 100%;
+  background: url(../assets/img/for_holiday/photo_x.jpg);
+  height: 300px;
 }
 
 .check-title {
@@ -343,6 +357,49 @@ export default defineComponent({
 :deep(.el-input__prefix) {
   left: auto;
   right: 10px;
+}
+
+.doctor-img {
+  position: relative;
+  z-index: 1;
+  img {
+    border-radius: 5px;
+    height: auto;
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .doctor-img {
+    position: relative;
+    z-index: 1;
+    img {
+      border-radius: 5px;
+      height: auto;
+      width: 380px;
+    }
+  }
+  #active label {
+    /*стиль отдельного переключателя*/
+    border-radius: 15px; /*скругление углов*/
+    display: inline-block; /*расположение в строку*/
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    background: #bbb;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .doctor-img {
+    position: relative;
+    z-index: 1;
+    img {
+      border-radius: 5px;
+      height: auto;
+      width: 280px;
+    }
+  }
 }
 
 @media screen and (max-width: 400px) {
