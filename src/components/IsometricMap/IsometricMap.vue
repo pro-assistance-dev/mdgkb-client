@@ -2,6 +2,9 @@
   <div style="height: 400">
     <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
     <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" />
+    <div class="map-menu">
+      <IsometricMapSelect />
+    </div>
     <div id="map" ref="target"></div>
   </div>
 </template>
@@ -20,6 +23,7 @@ import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 // import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
 import IsometricMapRouter from '@/components/IsometricMap/IsometricMapRouter.vue';
+import IsometricMapSelect from '@/components/IsometricMap/IsometricMapSelect.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import Provider from '@/services/Provider/Provider';
@@ -71,6 +75,19 @@ const createRoutes = async () => {
 </script>
 
 <style lang="scss">
+.map-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  height: 20px;
+  margin-top: 60px;
+}
+
 #map {
   width: 800px;
   width: 800px;

@@ -39,10 +39,10 @@
         <!--          </el-option-group>-->
         <!--        </div>-->
       </el-select>
-      <div class="button-box">
+      <!-- <div class="button-box">
         <button v-if="showRouterButton" class="route-b" @click="$emit('openMapRouter', selectedObject)">Маршрут</button>
         <button v-else class="route-b-2" @click="$emit('openMapRouter', selectedObject)">Маршрут</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
