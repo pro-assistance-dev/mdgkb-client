@@ -3,6 +3,7 @@
     <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
     <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" />
     <div class="map-menu">
+      <IsometricMapSelect_old />
       <IsometricMapSelect />
     </div>
     <div id="map" ref="target"></div>
@@ -69,7 +70,7 @@ onMounted(async () => {
   engine.value.scene.add(mapModel.value);
   mapModel.value.getBuildings().forEach((b: BuildingModel) => {
     const edges = new Three.EdgesGeometry(b.getMesh().geometry);
-    const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0xc3c3c3 }));
+    const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0x838385 }));
     engine.value.scene.add(line);
   });
   engine.value.fillObjects();
