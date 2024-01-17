@@ -9,6 +9,8 @@ export default class BuildingModel extends Three.Mesh {
   isClickable = true;
   isActive = false;
   number = '';
+  displayLines = true;
+  conditionalLines = true;
   constructor() {
     super();
     // this.add(object);
