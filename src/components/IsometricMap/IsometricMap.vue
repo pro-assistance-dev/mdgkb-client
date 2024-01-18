@@ -2,14 +2,20 @@
   <div style="height: 400">
     <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
     <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" />
+    <div class="map-menu">
+      <IsometricMapSelect_old />
+      <IsometricMapSelect />
+    </div>
     <div id="map" ref="target"></div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Object3D } from 'three';
+import * as Three from 'three';
 import { computed, ComputedRef, onMounted, Ref, ref } from 'vue';
 
+import BuildingModel from '@/classes/BuildingModel';
 import Engine3D from '@/classes/Engine3D';
 import FbxModel from '@/classes/FbxModel';
 import MapExtender from '@/classes/MapExtender';
@@ -20,9 +26,11 @@ import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 // import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
 import IsometricMapRouter from '@/components/IsometricMap/IsometricMapRouter.vue';
+import IsometricMapSelect from '@/components/IsometricMap/IsometricMapSelect.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import Provider from '@/services/Provider/Provider';
+
 const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
 const mapRouter: Ref<MapRouter> = ref(new MapRouter());
@@ -59,6 +67,12 @@ onMounted(async () => {
   engine.value = Engine3D.CreateInstance(target);
   const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx', engine.value.scene)) as Object3D;
   mapSetup(model.children[0] as MapModel);
+  engine.value.scene.add(mapModel.value);
+  mapModel.value.getBuildings().forEach((b: BuildingModel) => {
+    const edges = new Three.EdgesGeometry(b.getMesh().geometry);
+    const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0x838385 }));
+    engine.value.scene.add(line);
+  });
   engine.value.fillObjects();
   createRoutes();
 });
@@ -71,6 +85,19 @@ const createRoutes = async () => {
 </script>
 
 <style lang="scss">
+.map-menu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  height: 20px;
+  margin-top: 60px;
+}
+
 #map {
   width: 800px;
   width: 800px;

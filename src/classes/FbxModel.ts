@@ -30,8 +30,8 @@ export default class FbxModel {
       // }
       // }
     });
-    // console.log(object);
-    scene.add(object);
+    // // console.log(object);
+    // scene.add(object);
     // console.log(scene);
   }
 
