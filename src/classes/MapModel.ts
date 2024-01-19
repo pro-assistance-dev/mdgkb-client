@@ -29,6 +29,7 @@ export default class MapModel extends Three.Group {
     this.getBuildings().forEach((b: BuildingModel) => {
       const edges = new Three.EdgesGeometry(b.getMesh().geometry);
       const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0x838385 }));
+      line.scale.set(0.01, 0.01, 0.01);
       scene.add(line);
     });
   }

@@ -30,6 +30,9 @@ export default class Engine3D {
     this.controls.enabled = true;
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
+    this.controls.maxPolarAngle = Three.MathUtils.degToRad(80);
+    this.controls.maxDistance = 7;
+    this.controls.minDistance = 3;
     // this.controls.enableZoom = false;
     // this.controls.tick = () => controls.update();
     // this.controls = new Three.Vector3(this.camera, this.renderer.domElement);
