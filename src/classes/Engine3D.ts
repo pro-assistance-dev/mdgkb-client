@@ -58,6 +58,7 @@ export default class Engine3D {
   }
 
   buildLineFromPoints(points: Vector3[]): void {
+    console.log(points);
     const g = new Three.BufferGeometry().setFromPoints(points);
     const m = new Three.LineBasicMaterial({ color: 0xff0000 });
     const line = new Three.Line(g, m);

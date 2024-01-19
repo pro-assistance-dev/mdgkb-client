@@ -32,7 +32,9 @@ export default class MapRouter {
   selectEnd(objectName: string, nodeName: string) {
     this.endNodeName = nodeName;
     this.endObjectName = objectName;
-    this.emit('buildRoute');
+    if (this.emit) {
+      this.emit('buildRoute');
+    }
   }
 
   selectSearch(event: SearchElement) {

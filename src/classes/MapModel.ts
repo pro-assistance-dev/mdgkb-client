@@ -1,11 +1,12 @@
 import * as Three from 'three';
-import { Object3D, Vector3 } from 'three';
+import { Object3D, Scene, Vector3 } from 'three';
 
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
 
 import BuildingModel from './BuildingModel';
+import MapExtender from './MapExtender';
 import MapNode from './MapNode';
 import MapRoute from './MapRoute';
 
@@ -15,6 +16,21 @@ export default class MapModel extends Three.Group {
 
   constructor() {
     super();
+  }
+
+  setup(events: Map<MapBuildingsEventsTypes, CallbackFunction>, scene: Scene): void {
+    new MapExtender().extendObject(this);
+    this.bindEvents(events);
+    this.fillNodesNeighbors();
+    this.decorate(scene);
+  }
+
+  decorate(scene: Scene): void {
+    this.getBuildings().forEach((b: BuildingModel) => {
+      const edges = new Three.EdgesGeometry(b.getMesh().geometry);
+      const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0x838385 }));
+      scene.add(line);
+    });
   }
 
   extendObject(c: MapModel) {
@@ -28,6 +44,8 @@ export default class MapModel extends Three.Group {
     c.filterMesh = this.filterMesh;
     c.fillNodesNeighbors = this.fillNodesNeighbors;
     c.getRouteVector = this.getRouteVector;
+    c.setup = this.setup;
+    c.decorate = this.decorate;
   }
 
   getNodesGroup(): Object3D {
