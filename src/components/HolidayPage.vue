@@ -224,7 +224,7 @@ export default defineComponent({
     });
 
     const sendForm = async () => {
-      await Provider.store.dispatch('holidayForms/createAndReset');
+      await Provider.store.dispatch('holidayForms/create');
       ElMessage({
         message: 'Заявка успешно отправлена',
         type: 'success',
