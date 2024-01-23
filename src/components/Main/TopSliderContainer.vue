@@ -16,6 +16,8 @@
       class="click-line"
       :style="{
         height: sliderOffHeight,
+        background: titleBackground,
+        color: titleColor,
       }"
       @click="toggleSlider(!isToggle)"
     >
@@ -42,6 +44,16 @@ export default defineComponent({
       default: '220px',
     },
     background: {
+      type: String as PropType<string>,
+      required: false,
+      default: 'inherit',
+    },
+    titleBackground: {
+      type: String as PropType<string>,
+      required: false,
+      default: 'inherit',
+    },
+    titleColor: {
       type: String as PropType<string>,
       required: false,
       default: 'inherit',
@@ -165,6 +177,9 @@ export default defineComponent({
 @media screen and (max-width: 450px) {
   .click-line {
     line-height: 12px;
+  }
+  .top-slider {
+    width: calc(100% - 20px);
   }
 }
 
