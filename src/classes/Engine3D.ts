@@ -30,6 +30,9 @@ export default class Engine3D {
     this.controls.enabled = true;
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
+    this.controls.maxPolarAngle = Three.MathUtils.degToRad(80);
+    this.controls.maxDistance = 7;
+    this.controls.minDistance = 3;
     // this.controls.enableZoom = false;
     // this.controls.tick = () => controls.update();
     // this.controls = new Three.Vector3(this.camera, this.renderer.domElement);
@@ -40,7 +43,7 @@ export default class Engine3D {
   private static initScene() {
     const scene = new Three.Scene();
 
-    scene.add(new Three.AxesHelper(5));
+    // scene.add(new Three.AxesHelper(5));
 
     // const light = new Three.PointLight(0xffffff, 500);
     // light.position.set(0.8, 1.4, 1.0);
@@ -58,6 +61,7 @@ export default class Engine3D {
   }
 
   buildLineFromPoints(points: Vector3[]): void {
+    console.log(points);
     const g = new Three.BufferGeometry().setFromPoints(points);
     const m = new Three.LineBasicMaterial({ color: 0xff0000 });
     const line = new Three.Line(g, m);

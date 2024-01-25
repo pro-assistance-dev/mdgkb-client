@@ -1,4 +1,4 @@
-import { Box3, Object3D, Scene } from 'three';
+import { Object3D, Scene } from 'three';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 export default class FbxModel {
@@ -12,9 +12,6 @@ export default class FbxModel {
   static HandleMainObject(object: Object3D, scene: Scene) {
     object.scale.set(0.01, 0.01, 0.01);
 
-    const box = new Box3().setFromObject(object);
-    // const shift = box.getCenter(object.position);
-    console.log(box);
     object.traverse(function (child) {
       // const center = box.getCenter(new Vector3());
       // if ((child as THREE.Mesh).isMesh) {
@@ -30,8 +27,8 @@ export default class FbxModel {
       // }
       // }
     });
-    // console.log(object);
-    scene.add(object);
+    // // console.log(object);
+    // scene.add(object);
     // console.log(scene);
   }
 

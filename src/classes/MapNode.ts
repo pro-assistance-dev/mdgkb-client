@@ -54,11 +54,15 @@ export default class MapNode extends Object3D {
   }
 
   getGeometryVector(): Vector3 {
-    return this.getMesh().geometry.boundingBox?.min as Vector3;
+    return this.getMesh().geometry.boundingSphere?.center as Vector3;
+    // this.getMesh().geometry.boundingBox?.min as Vector3;
   }
 
   scaleVector(vector: Vector3) {
     const scale = 100;
+    if (!vector) {
+      return;
+    }
     vector.x = vector.x / scale;
     vector.y = vector.y / scale;
     vector.z = vector.z / scale;
@@ -67,6 +71,7 @@ export default class MapNode extends Object3D {
   getPosition(): Vector3 {
     const vector = this.getGeometryVector();
     this.scaleVector(vector);
+    console.log(this);
     return vector;
   }
 }
