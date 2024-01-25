@@ -26,68 +26,56 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { watch } from '@vue/runtime-core';
-import { defineComponent, PropType, ref } from 'vue';
+import { defineEmits, defineProps, PropType, ref } from 'vue';
 
-export default defineComponent({
-  name: 'TopSliderContainer',
-  props: {
-    sliderOffHeight: {
-      type: String as PropType<string>,
-      required: false,
-      default: '53px',
-    },
-    sliderOnHeight: {
-      type: String as PropType<string>,
-      required: false,
-      default: '220px',
-    },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    titleBackground: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    titleColor: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    toggle: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
+const props = defineProps({
+  sliderOffHeight: {
+    type: String as PropType<string>,
+    required: false,
+    default: '53px',
   },
-  emits: ['toggle'],
-  setup(props, { emit }) {
-    const isToggle = ref(true);
-    watch(
-      () => props.toggle,
-      () => {
-        isToggle.value = !isToggle.value;
-      }
-    );
-
-    const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
-    const toggleSlider = (toggle: boolean) => {
-      isToggle.value = !isToggle.value;
-      emit('toggle', toggle);
-    };
-    const hovering = ref(false);
-
-    return {
-      toggleSlider,
-      hovering,
-      mobileWindow,
-      isToggle,
-    };
+  sliderOnHeight: {
+    type: String as PropType<string>,
+    required: false,
+    default: '220px',
+  },
+  background: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  titleBackground: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  titleColor: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  toggle: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
 });
+const emits = defineEmits(['toggle']);
+const isToggle = ref(true);
+watch(
+  () => props.toggle,
+  () => {
+    isToggle.value = !isToggle.value;
+  }
+);
+
+const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+const toggleSlider = (toggle: boolean) => {
+  isToggle.value = !isToggle.value;
+  emits('toggle', toggle);
+};
+const hovering = ref(false);
 </script>
 
 <style lang="scss" scoped>

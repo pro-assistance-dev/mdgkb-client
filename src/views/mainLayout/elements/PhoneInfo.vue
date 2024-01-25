@@ -11,7 +11,7 @@
     <li class="phone">
       <div v-if="scrollOffset < 66" class="menu-right-block">
         <p class="phone"><a class="phone" href="tel:+7 (495) 959-88-00">+7 (495) 959-88-00</a></p>
-        <p class="phone"><a class="phone" href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a></p>
+        <!-- <p class="phone"><a class="phone" href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a></p> -->
       </div>
     </li>
     <li class="info">
@@ -23,7 +23,7 @@
       <div class="info-block">
         <div class="margin-bottom font-weight-600">
           <a href="tel:+7 (495) 959-88-00" rel="noopener noreferrer">+7 (495) 959-88-00</a><br />
-          <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a>
+          <!-- <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a> -->
         </div>
         <div class="call-center margin-bottom">Call-центр принимает звонки круглосуточно и без выходных. По России звонок бесплатный.</div>
         <div class="address margin-bottom font-weight-600">119049 г. Москва, 4-й Добрынинский переулок, дом 1/9</div>

@@ -1,16 +1,14 @@
 <template>
-  <div class="select-window">
-    <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
-    <div v-for="(step, key) in selectedSpep" :key="step" @click="selectStep(step)">
-      {{ key }}
-    </div>
-  </div>
+  <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
+  <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" @load="$emit('load')" />
 </template>
 
 <script lang="ts" setup>
 import { defineEmits, Ref, ref } from 'vue';
 
 import StringItem from '@/components/Base/StringItem.vue';
+
+import MapCheckbox from './MapCheckbox.vue';
 
 const emit = defineEmits(['selectNode', 'close']);
 
@@ -29,7 +27,7 @@ const steps = {
   'Закрыть меню, перейти к карте': undefined,
 };
 
-const selectedSpep: Ref<unknown> = ref(steps);
+const selectedStep: Ref<unknown> = ref(steps);
 
 const selectStep = (step: unknown) => {
   if (!step) {
@@ -39,7 +37,7 @@ const selectStep = (step: unknown) => {
     emit('selectNode', step.nodeName);
     return;
   }
-  selectedSpep.value = step;
+  selectedStep.value = step;
 };
 </script>
 

@@ -25,7 +25,7 @@
           <div>
             Круглосуточный Call-центр<br />
             <a href="tel:+7 (495) 959-88-00" rel="noopener noreferrer">+7 (495) 959-88-00</a><br />
-            <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a>
+            <!-- <a href="tel:+7 (495) 959-88-03" rel="noopener noreferrer">+7 (495) 959-88-03</a> -->
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="4" :lg="4" :xl="4">

@@ -1,27 +1,17 @@
 <template>
-  <TopSliderContainer slider-on-height="500px" title-background="#006BB4" title-color="#ffffff">
+  <TopSliderContainer slider-on-height="500px" title-background="#006BB4" title-color="#ffffff" :toggle="showDestinationStepper">
     <template #title>
       <span>Навигатор</span>
       <svg class="navi-icon">
         <use xlink:href="#Group 805"></use>
       </svg>
     </template>
-    <MapCheckbox label="Экстренная госпитализация" @load="$emit('load')" />
-    <MapCheckbox label="Плановая госпитализация, скп, выписка" @load="$emit('load')" />
-    <MapCheckbox label="КДЦ, 7, 22а" @load="$emit('load')" />
-    <MapCheckbox label="Посещения, передачи, беседы с врачом" @load="$emit('load')" />
-    <MapCheckbox label="Студенты" @load="$emit('load')" />
-    <MapCheckbox label="Доноры крови" @load="$emit('load')" />
-    <MapCheckbox label="Сотрудники МО, анализы, скрининг, забор результатов" @load="$emit('load')" />
-    <MapCheckbox label="Доставка на автомобиле через КПП4" @load="$emit('load')" />
-    <MapCheckbox label="В кассу, за налоговым вычетом и т.д." @load="$emit('load')" />
+    <IsometricMapDestinationStepper @select-node="getRoute" />
   </TopSliderContainer>
   <div style="height: 400">
     <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
-    <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" />
-    <div class="map-menu">
-      <IsometricMapDestinationStepper v-if="showDestinationStepper" @close="showDestinationStepper = false" @select-node="getRoute" />
-    </div>
+    <!-- <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" /> -->
+    <div class="map-menu"></div>
     <div id="map" ref="target"></div>
   </div>
   <Navi />
@@ -42,8 +32,6 @@ import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 import IsometricMapDestinationStepper from '@/components/IsometricMap/IsometricMapDestinationStepper.vue';
 // import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
-import IsometricMapRouter from '@/components/IsometricMap/IsometricMapRouter.vue';
-import MapCheckbox from '@/components/IsometricMap/MapCheckbox.vue';
 import TopSliderContainer from '@/components/Main/TopSliderContainer.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';

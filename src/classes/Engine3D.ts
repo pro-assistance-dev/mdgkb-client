@@ -43,7 +43,7 @@ export default class Engine3D {
   private static initScene() {
     const scene = new Three.Scene();
 
-    scene.add(new Three.AxesHelper(5));
+    // scene.add(new Three.AxesHelper(5));
 
     // const light = new Three.PointLight(0xffffff, 500);
     // light.position.set(0.8, 1.4, 1.0);
