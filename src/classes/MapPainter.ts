@@ -19,6 +19,12 @@ export default abstract class MapPainter {
     return mark;
   }
 
+  static GetLineFromPoints(points: Three.Vector3[]): Three.Line {
+    const g = new Three.BufferGeometry().setFromPoints(points);
+    const m = new Three.LineBasicMaterial({ color: 0xff0000 });
+    return new Three.Line(g, m);
+  }
+
   static GetLabel(label: string): CSS2DObject {
     const div = document.createElement('div');
     div.className = 'label';

@@ -26,8 +26,7 @@ import Engine3D from '@/classes/Engine3D';
 import FbxModel from '@/classes/FbxModel';
 import MapExtender from '@/classes/MapExtender';
 import MapModel from '@/classes/MapModel';
-import MapNode from '@/classes/MapNode';
-import MapNodeRequestObject from '@/classes/MapNodeRequestObject';
+import MapPainter from '@/classes/MapPainter';
 import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 import IsometricMapDestinationStepper from '@/components/IsometricMap/IsometricMapDestinationStepper.vue';
@@ -58,10 +57,9 @@ const getRoute = async (endNode: string) => {
     showDestinationStepper.value = false;
   }
   await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
-  engine.buildLineFromPoints(mapModel.getRouteVector(route.value));
+  engine.add(MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)));
   const mark = mapModel.getMark(mapRouter.endNodeName, false);
-  engine.scene.add(mark);
-  engine.watchObject(mark);
+  engine.addAndWatch(mark);
 };
 
 const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
@@ -79,23 +77,22 @@ onMounted(async () => {
   if (mapRouter.startNodeName) {
     showDestinationStepper.value = true;
   }
-  engine = Engine3D.CreateInstance(target);
-  const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx', engine.scene)) as Object3D;
+  engine.init(target);
+  const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx')) as Object3D;
   mapModel = model.children[0] as MapModel;
   new MapExtender().extendObject(mapModel);
-  mapModel.setup(initBuildingsEventsMap(), engine.scene);
-  engine.scene.add(model);
+  mapModel.setup(initBuildingsEventsMap(), engine);
+  engine.add(model);
   engine.fillObjects();
   const mark = mapModel.getMark(mapRouter.startNodeName, true);
-  engine.scene.add(mark);
-  engine.watchObject(mark);
+  engine.addAndWatch(mark);
 });
 
-const createRoutes = async () => {
-  const nodes = mapModel.getNodes();
-  const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
-  await Provider.store.dispatch('mapNodes/upload', requestNodes);
-};
+// const createRoutes = async () => {
+//   const nodes = mapModel.getNodes();
+//   const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
+//   await Provider.store.dispatch('mapNodes/upload', requestNodes);
+// };
 </script>
 
 <style lang="scss">

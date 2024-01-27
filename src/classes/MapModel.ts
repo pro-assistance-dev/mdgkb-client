@@ -82,7 +82,7 @@ export default class MapModel extends Three.Group {
     nodes.forEach((n: MapNode) => n.splitNameToNeighbors());
     nodes.forEach((n: MapNode) => {
       n.neighborsNames.forEach((neighborName: string) => {
-        const neighbor = nodes.find((node: MapNode) => node.mapNodeName === neighborName);
+        const neighbor = this.findNode(neighborName);
         if (neighbor) {
           n.neighbors.push(neighbor);
         }
@@ -92,11 +92,10 @@ export default class MapModel extends Three.Group {
 
   getRouteVector(route: MapRoute): Vector3[] {
     const worldPosition = new Three.Vector3();
-    const nodes = this.getNodes();
     const points: Three.Vector3[] = [];
 
     route.mapRouteNodes.forEach((m: MapNode) => {
-      const findedNode = nodes.find((n: MapNode) => n.mapNodeName === m.mapNodeName);
+      const findedNode = this.findNode(m.mapNodeName);
       if (findedNode) {
         findedNode.worldToLocal(worldPosition);
         points.push(findedNode.getPosition());
@@ -111,12 +110,10 @@ export default class MapModel extends Three.Group {
   }
 
   getMark(nodeName: string, start: boolean): Three.Mesh | undefined {
-    const node = this.findNode(nodeName);
-    if (!node) {
+    const pos = this.findNode(nodeName)?.getPosition();
+    if (!pos) {
       return;
     }
-    const pos = node.getPosition();
-
     const mark = MapPainter.GetMark();
     mark.position.set(pos.x, pos.y + 0.1, pos.z);
 
