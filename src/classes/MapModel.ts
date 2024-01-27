@@ -1,5 +1,7 @@
 import * as Three from 'three';
 import { Object3D, Scene, Vector3 } from 'three';
+// import {TextGeometry} from 'three-addons'
+import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
@@ -47,6 +49,8 @@ export default class MapModel extends Three.Group {
     c.getRouteVector = this.getRouteVector;
     c.setup = this.setup;
     c.decorate = this.decorate;
+    c.getMark = this.getMark;
+    c.findNode = this.findNode;
   }
 
   getNodesGroup(): Object3D {
@@ -104,4 +108,39 @@ export default class MapModel extends Three.Group {
 
     return points;
   }
+
+  findNode(nodeName: string): MapNode | undefined {
+    return this.getNodes().find((n: MapNode) => n.mapNodeName === nodeName);
+  }
+
+  getMark(nodeName: string): Three.Mesh | undefined {
+    const geometry = new Three.BoxGeometry(0.1, 0.1, 0.1);
+    const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
+    const mark = new Three.Mesh(geometry, material);
+
+    const node = this.findNode(nodeName);
+    if (!node) {
+      return;
+    }
+
+    const pos = node.getPosition();
+    mark.position.set(pos.x, pos.y + 0.1, pos.z);
+    const label = createDiv();
+    mark.add(label);
+
+    console.log(mark);
+    return mark;
+  }
 }
+const createDiv = (): any => {
+  const earthDiv = document.createElement('div');
+  earthDiv.className = 'label';
+  earthDiv.textContent = 'Вы здеся';
+
+  // earthDiv.style.backgroundColor = 'transparent';
+
+  const earthLabel = new CSS2DObject(earthDiv);
+  earthLabel.position.set(0, 0.1, 0);
+  earthLabel.center.set(0, 1);
+  return earthLabel;
+};

@@ -1,6 +1,7 @@
 import * as Three from 'three';
 import { Group, Object3D, PerspectiveCamera, Raycaster, Renderer, Scene, Vector2, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import { Ref } from 'vue';
 
 interface IHoverable extends Object3D {
@@ -12,10 +13,15 @@ interface IClickable extends Object3D {
   onPointerClick(): void;
 }
 
+const geometry = new Three.BoxGeometry(0.5, 1, 1);
+const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
+const cube = new Three.Mesh(geometry, material);
+
 export default class Engine3D {
   scene: Scene = Engine3D.initScene();
   camera: PerspectiveCamera = Engine3D.initCamera();
   renderer: Renderer = Engine3D.initRenderer();
+  cssRenderer: CSS2DRenderer = Engine3D.initCssRenderer();
   controls?: OrbitControls;
 
   pointer: Vector2 = new Three.Vector2();
@@ -26,13 +32,15 @@ export default class Engine3D {
   clickables: IClickable[] = [];
 
   private initControls() {
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls = new OrbitControls(this.camera, this.cssRenderer.domElement);
     this.controls.enabled = true;
     this.controls.enableDamping = true;
     this.controls.enablePan = false;
+
     this.controls.maxPolarAngle = Three.MathUtils.degToRad(80);
     this.controls.maxDistance = 7;
     this.controls.minDistance = 3;
+
     // this.controls.enableZoom = false;
     // this.controls.tick = () => controls.update();
     // this.controls = new Three.Vector3(this.camera, this.renderer.domElement);
@@ -42,7 +50,7 @@ export default class Engine3D {
 
   private static initScene() {
     const scene = new Three.Scene();
-
+    // scene.add(cube);
     // scene.add(new Three.AxesHelper(5));
 
     // const light = new Three.PointLight(0xffffff, 500);
@@ -88,8 +96,17 @@ export default class Engine3D {
     return renderer;
   }
 
-  private render() {
+  private static initCssRenderer() {
+    const renderer = new CSS2DRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.top = '0px';
+    return renderer;
+  }
+
+  render() {
     this.renderer.render(this.scene, this.camera);
+    this.cssRenderer.render(this.scene, this.camera);
   }
 
   private setPointerCoordinates(e: MouseEvent) {
@@ -149,6 +166,8 @@ export default class Engine3D {
 
     // window.addEventListener('resize', instance.onWindowResize.bind(instance), false);
     target.value.appendChild(instance.renderer.domElement);
+    target.value.appendChild(instance.cssRenderer.domElement);
+
     instance.animate();
     instance.initControls();
     instance.bindEvents();

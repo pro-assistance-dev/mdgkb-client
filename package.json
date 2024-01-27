@@ -45,6 +45,7 @@
     "remixicon": "^2.5.0",
     "sanitize-html": "^2.4.0",
     "three": "^0.160.0",
+    "three-addons": "^1.2.0",
     "uuid": "^8.3.2",
     "v-calendar": "^3.0.0-alpha.5",
     "vue": "^3.2.37",

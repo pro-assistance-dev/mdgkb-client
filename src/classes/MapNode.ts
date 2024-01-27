@@ -38,14 +38,7 @@ export default class MapNode extends Object3D {
     }
     if (names.length > 1) {
       const neighborsNumbers = names.splice(1);
-
-      if (this.name === 'Node_40_39_41') {
-        console.log(neighborsNumbers);
-      }
       this.neighborsNames.push(...neighborsNumbers);
-    }
-    if (this.name === 'Node_40_39_41') {
-      console.log(this);
     }
   }
 
@@ -54,7 +47,9 @@ export default class MapNode extends Object3D {
   }
 
   getGeometryVector(): Vector3 {
-    return this.getMesh().geometry.boundingSphere?.center as Vector3;
+    const mesh = this.getMesh();
+    mesh.geometry.computeBoundingSphere();
+    return mesh.geometry.boundingSphere?.center as Vector3;
     // this.getMesh().geometry.boundingBox?.min as Vector3;
   }
 
@@ -71,7 +66,6 @@ export default class MapNode extends Object3D {
   getPosition(): Vector3 {
     const vector = this.getGeometryVector();
     this.scaleVector(vector);
-    console.log(this);
     return vector;
   }
 }
