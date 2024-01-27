@@ -1,8 +1,7 @@
 import * as Three from 'three';
 import { Object3D, Scene, Vector3 } from 'three';
-// import {TextGeometry} from 'three-addons'
-import { CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js';
 
+// import {TextGeometry} from 'three-addons'
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
@@ -10,6 +9,7 @@ import { MapGroupsTypes } from '@/interfaces/MapGroupsTypes';
 import BuildingModel from './BuildingModel';
 import MapExtender from './MapExtender';
 import MapNode from './MapNode';
+import MapPainter from './MapPainter';
 import MapRoute from './MapRoute';
 
 export default class MapModel extends Three.Group {
@@ -29,10 +29,7 @@ export default class MapModel extends Three.Group {
 
   decorate(scene: Scene): void {
     this.getBuildings().forEach((b: BuildingModel) => {
-      const edges = new Three.EdgesGeometry(b.getMesh().geometry);
-      const line = new Three.LineSegments(edges, new Three.LineBasicMaterial({ color: 0x838385 }));
-      line.scale.set(0.01, 0.01, 0.01);
-      scene.add(line);
+      scene.add(MapPainter.GetEdge(b));
     });
   }
 
@@ -113,34 +110,19 @@ export default class MapModel extends Three.Group {
     return this.getNodes().find((n: MapNode) => n.mapNodeName === nodeName);
   }
 
-  getMark(nodeName: string): Three.Mesh | undefined {
-    const geometry = new Three.BoxGeometry(0.1, 0.1, 0.1);
-    const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
-    const mark = new Three.Mesh(geometry, material);
-
+  getMark(nodeName: string, start: boolean): Three.Mesh | undefined {
     const node = this.findNode(nodeName);
     if (!node) {
       return;
     }
-
     const pos = node.getPosition();
+
+    const mark = MapPainter.GetMark();
     mark.position.set(pos.x, pos.y + 0.1, pos.z);
-    const label = createDiv();
+
+    const label = MapPainter.GetLabel(start ? 'Вы здесь' : 'Вам сюда');
     mark.add(label);
 
-    console.log(mark);
     return mark;
   }
 }
-const createDiv = (): any => {
-  const earthDiv = document.createElement('div');
-  earthDiv.className = 'label';
-  earthDiv.textContent = 'Вы здеся';
-
-  // earthDiv.style.backgroundColor = 'transparent';
-
-  const earthLabel = new CSS2DObject(earthDiv);
-  earthLabel.position.set(0, 0.1, 0);
-  earthLabel.center.set(0, 1);
-  return earthLabel;
-};

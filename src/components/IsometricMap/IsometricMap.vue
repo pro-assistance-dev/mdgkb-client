@@ -41,9 +41,8 @@ const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
 const showDestinationStepper = ref(false);
 
-import * as THREE from 'three';
-const mapRouter: Ref<MapRouter> = ref(new MapRouter());
-const mapModel: Ref<MapModel> = ref(new MapModel());
+let mapRouter: MapRouter = new MapRouter();
+let mapModel: MapModel = new MapModel();
 let engine: Engine3D = new Engine3D();
 
 const route: ComputedRef<MapRoute> = computed(() => Provider.store.getters['mapRoutes/item']);
@@ -55,16 +54,14 @@ const buildingClick = async (event: { id: string }) => {
 
 const getRoute = async (endNode: string) => {
   if (endNode) {
-    mapRouter.value.endNodeName = endNode;
+    mapRouter.endNodeName = endNode;
     showDestinationStepper.value = false;
   }
-  await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.value.getNodesForRequest());
-  engine.buildLineFromPoints(mapModel.value.getRouteVector(route.value));
-  const mark = mapModel.value.getMark(mapRouter.value.endNodeName);
-  if (mark) {
-    engine.scene.add(mark);
-    watchMark(mark);
-  }
+  await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
+  engine.buildLineFromPoints(mapModel.getRouteVector(route.value));
+  const mark = mapModel.getMark(mapRouter.endNodeName, false);
+  engine.scene.add(mark);
+  engine.watchObject(mark);
 };
 
 const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
@@ -74,36 +71,28 @@ const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction
 };
 
 onBeforeMount(() => {
-  mapRouter.value.selectStart('', Provider.getStringQueryParam('start'));
-  mapRouter.value.selectEnd('', Provider.getStringQueryParam('end'));
+  mapRouter.selectStart('', Provider.getStringQueryParam('start'));
+  mapRouter.selectEnd('', Provider.getStringQueryParam('end'));
 });
 
 onMounted(async () => {
-  if (mapRouter.value.startNodeName) {
+  if (mapRouter.startNodeName) {
     showDestinationStepper.value = true;
   }
   engine = Engine3D.CreateInstance(target);
   const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx', engine.scene)) as Object3D;
-  mapModel.value = model.children[0] as MapModel;
-  new MapExtender().extendObject(mapModel.value);
-  mapModel.value.setup(initBuildingsEventsMap(), engine.scene);
+  mapModel = model.children[0] as MapModel;
+  new MapExtender().extendObject(mapModel);
+  mapModel.setup(initBuildingsEventsMap(), engine.scene);
   engine.scene.add(model);
   engine.fillObjects();
-  const mark = mapModel.value.getMark(mapRouter.value.startNodeName);
-  if (mark) {
-    engine.scene.add(mark);
-    watchMark(mark);
-  }
+  const mark = mapModel.getMark(mapRouter.startNodeName, true);
+  engine.scene.add(mark);
+  engine.watchObject(mark);
 });
 
-const watchMark = (mark: THREE.Mesh) => {
-  mark.lookAt(engine.camera.position);
-  engine.render();
-  window.requestAnimationFrame(() => watchMark(mark));
-};
-
 const createRoutes = async () => {
-  const nodes = mapModel.value.getNodes();
+  const nodes = mapModel.getNodes();
   const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
   await Provider.store.dispatch('mapNodes/upload', requestNodes);
 };

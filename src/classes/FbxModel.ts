@@ -11,25 +11,6 @@ export default class FbxModel {
 
   static HandleMainObject(object: Object3D, scene: Scene) {
     object.scale.set(0.01, 0.01, 0.01);
-
-    object.traverse(function (child) {
-      // const center = box.getCenter(new Vector3());
-      // if ((child as THREE.Mesh).isMesh) {
-      // child.castShadow = true;
-      // child.position.sub(shift);
-      // findedNode.position   child.receiveShadow = true;
-      // child.position.x += child.position.x - center.x;
-      // child.position.y += child.position.y - center.y;
-      // child.position.z += child.position.z - center.z;
-      // (child as THREE.Mesh).material = material
-      // if ((child as THREE.Mesh).material) {
-      //   ((child as THREE.Mesh).material as THREE.MeshBasicMaterial).transparent = false;
-      // }
-      // }
-    });
-    // // console.log(object);
-    // scene.add(object);
-    // console.log(scene);
   }
 
   static HandleXHR(xhr: ProgressEvent) {

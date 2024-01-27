@@ -13,10 +13,6 @@ interface IClickable extends Object3D {
   onPointerClick(): void;
 }
 
-const geometry = new Three.BoxGeometry(0.5, 1, 1);
-const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new Three.Mesh(geometry, material);
-
 export default class Engine3D {
   scene: Scene = Engine3D.initScene();
   camera: PerspectiveCamera = Engine3D.initCamera();
@@ -48,9 +44,17 @@ export default class Engine3D {
     // this.controls.target.set(0, 1, 0);
   }
 
+  watchObject(obj?: Three.Object3D, opts?: { lookAt: boolean }) {
+    if (!obj) {
+      return;
+    }
+    obj.lookAt(this.camera.position);
+    this.render();
+    window.requestAnimationFrame(() => this.watchObject(obj, opts));
+  }
+
   private static initScene() {
     const scene = new Three.Scene();
-    // scene.add(cube);
     // scene.add(new Three.AxesHelper(5));
 
     // const light = new Three.PointLight(0xffffff, 500);

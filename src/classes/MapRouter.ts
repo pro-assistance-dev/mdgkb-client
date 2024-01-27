@@ -24,6 +24,7 @@ export default class MapRouter {
   getNodesForRequest(): IStartEndNode {
     return { startNodeId: this.startNodeName, endNodeId: this.endNodeName };
   }
+
   selectStart(objectName: string, nodeName: string) {
     this.startNodeName = nodeName;
     this.startObjectName = objectName;
