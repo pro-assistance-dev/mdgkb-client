@@ -14,7 +14,7 @@ export default class Calendar {
 
   static InitFull(): Calendar {
     const calendar = Calendar.Init();
-    for (let i = 2022; i < 2024; i++) {
+    for (let i = 2022; i < 2025; i++) {
       calendar.years.push(Year.InitFull(i));
     }
     calendar.initActive();

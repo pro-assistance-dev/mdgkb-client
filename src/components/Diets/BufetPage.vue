@@ -164,7 +164,7 @@ export default defineComponent({
       dailyMenu.value.actualize(todayMenu.value);
       dailyMenuOrder.value.reproduceFromStore();
       checkDailyMenuItemsAvailable();
-      Provider.filterQuery.value.setParams(Form.GetClassName(), 'bufet');
+      Provider.filterQuery.value.setParams('code', 'bufet');
       await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
       initForm();
       await getDishesGroups();

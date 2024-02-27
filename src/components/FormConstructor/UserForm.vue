@@ -30,7 +30,7 @@
   <!--  <el-form-item v-if="activeFields.userAddress" label="Адрес" prop="formValue.user.human.address" :rules="rules.userAddress">-->
   <!--    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>-->
   <!--  </el-form-item>-->
-  <AddressInfoForm :address-info="formValue.user.human.contactInfo.addressInfo" />
+  <AddressInfoForm v-if="activeFields.userAddress" :address-info="formValue.user.human.contactInfo.addressInfo" />
   <el-form-item v-if="activeFields.userSnils" :rules="rules.userSnils" label="СНИЛС" prop="formValue.user.human.snils">
     <el-input
       v-model="formValue.user.human.snils"

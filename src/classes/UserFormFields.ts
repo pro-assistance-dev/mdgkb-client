@@ -64,6 +64,7 @@ export default class UserFormFields {
   static CreateWithPhone(form?: UserFormFields): UserFormFields {
     const newForm = new UserFormFields(form);
     newForm.userPhone = true;
+    console.log(newForm);
     return newForm;
   }
 

@@ -106,7 +106,7 @@ export default defineComponent({
       dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
       Provider.setFilterModel(dayFilter.value);
       Provider.setSortModels(DailyMenusSortsLib.byOrder());
-      await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
+      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
       dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
     };
 

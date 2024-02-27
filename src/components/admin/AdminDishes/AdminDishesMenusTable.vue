@@ -144,7 +144,7 @@ export default defineComponent({
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
     const saveMenu = async (menu: DailyMenu) => {
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', menu);
+      await Provider.store.dispatch('dailyMenus/update', menu);
       menu.editMode = false;
       syncMenus();
     };
@@ -163,7 +163,7 @@ export default defineComponent({
         selectedMenu.value.active = true;
 
         for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/updateWithoutReset', dmi);
+          await Provider.store.dispatch('dailyMenus/update', dmi);
         }
         return;
       }
@@ -187,7 +187,7 @@ export default defineComponent({
             selectedMenu.value.active = true;
 
             for (const dmi of dailyMenus.value) {
-              await Provider.store.dispatch('dailyMenus/updateWithoutReset', dmi);
+              await Provider.store.dispatch('dailyMenus/update', dmi);
             }
           })
           .catch(() => {
@@ -202,7 +202,7 @@ export default defineComponent({
         selectedMenu.value.active = true;
 
         for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/updateWithoutReset', dmi);
+          await Provider.store.dispatch('dailyMenus/update', dmi);
         }
       }
     };
@@ -211,29 +211,29 @@ export default defineComponent({
       selectedMenu.value.active = false;
       for (const dmi of dailyMenus.value) {
         dmi.active = false;
-        await Provider.store.dispatch('dailyMenus/updateWithoutReset', dmi);
+        await Provider.store.dispatch('dailyMenus/update', dmi);
       }
       syncMenus();
     };
 
     const setDailyMenuItemAvailable = async (dailyMenuItem: DailyMenuItem, available: boolean) => {
       dailyMenuItem.available = available;
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
       syncMenus();
     };
 
     const setDailyMenuItemCook = async (dailyMenuItem: DailyMenuItem) => {
       dailyMenuItem.cook = !dailyMenuItem.cook;
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
     };
 
     const updateSelectedMenu = async (): Promise<void> => {
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
       syncMenus();
     };
     const setGroupAvailable = async (dishesGroup: DishesGroup, available: boolean) => {
       dishesGroup.setAvailable(available);
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', selectedMenu.value);
+      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
       syncMenus();
     };
 
@@ -272,7 +272,7 @@ export default defineComponent({
           }
           selectedMenu.value.groupDishes(dishesGroups.value);
           await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
-          await Provider.store.dispatch('dailyMenus/updateWithoutReset');
+          await Provider.store.dispatch('dailyMenus/update');
           syncMenus();
         })
         .catch(() => {
