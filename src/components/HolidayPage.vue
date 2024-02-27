@@ -1,5 +1,9 @@
 <template>
-  <div id="personal" class="main-holiday">
+  <div class="doctor-img">
+    <img src="@/assets/img/for_holiday/photo_red.png" />
+  </div>
+
+  <!-- <div id="personal" class="main-holiday">
     <div class="description">
       <HolidayGallery />
     </div>
@@ -174,7 +178,7 @@
         />
       </el-form>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
@@ -183,25 +187,19 @@ import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import HolidayForm from '@/classes/HolidayForm';
-import Button from '@/components/Base/Button.vue';
-import CollapseContainer from '@/components/Base/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Base/Collapse/CollapseItem.vue';
-import StringItem from '@/components/Base/StringItem.vue';
-import HolidayGallery from '@/components/HolidayGallery.vue';
-import CubeLine from '@/components/StopComa/CubeLine.vue';
 import PhoneService from '@/services/PhoneService';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'HolidayPage',
-  components: {
-    StringItem,
-    Button,
-    CollapseContainer,
-    CollapseItem,
-    CubeLine,
-    HolidayGallery,
-  },
+  // components: {
+  //   StringItem,
+  //   Button,
+  //   CollapseContainer,
+  //   CollapseItem,
+  //   CubeLine,
+  //   HolidayGallery,
+  // },
   async setup() {
     const item: ComputedRef<HolidayForm> = computed<HolidayForm>(() => Provider.store.getters['holidayForms/item']);
     const blockButton = ref(false);
@@ -490,6 +488,17 @@ export default defineComponent({
     color: #a3a9be;
     min-width: 280px;
     font-size: 13px;
+  }
+}
+
+.doctor-img {
+  position: relative;
+  z-index: 1;
+  img {
+    border-radius: 5px;
+    height: auto;
+    width: calc(100% - 20px);
+    margin: 0 10px;
   }
 }
 </style>
