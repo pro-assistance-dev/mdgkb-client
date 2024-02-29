@@ -112,7 +112,6 @@ export default defineComponent({
 }
 
 .tab-content-up {
-  max-height: 500vh;
   overflow-y: scroll;
   overflow: hidden;
   background: #ffffff;
