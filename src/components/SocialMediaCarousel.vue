@@ -17,7 +17,7 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import SocialMedia from '@/classes/SocialMedia';
 import SocialMediaCard from '@/components/SocialMediaCard.vue';
-import ArraysService from '@/services/Arrays';
+import Arrays from '@/services/Arrays';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -34,7 +34,7 @@ export default defineComponent({
     const carouselRef = ref();
 
     onBeforeMount(async () => {
-      ArraysService.shuffle(props.socialMedias);
+      Arrays.Shuffle(props.socialMedias);
       carousel.value = makeCarousel<SocialMedia>(props.socialMedias, 5);
     });
 

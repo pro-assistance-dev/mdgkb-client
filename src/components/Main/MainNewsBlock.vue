@@ -49,8 +49,9 @@ export default defineComponent({
     const recentNewsList = computed(() => Provider.store.getters['news/mainPageRecentNewsList']);
 
     const createFilterModels = () => {
-      Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
-      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
+      // TODO: Filters
+      // Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
+      // Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
     };
 
     const load = async () => {

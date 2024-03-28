@@ -2,19 +2,19 @@
   <el-tooltip class="box-item" effect="dark" :content="title" placement="top-start">
     <button type="button" class="menu-item" :class="{ 'is-active': isActive ? isActive() : null }" @click="() => action()">
       <el-popover v-if="type === 'emoji'" :visible="visible" placement="bottom" width="auto" trigger="click">
-        <template #reference>
-          <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" @click="emojiesToggleHandler" />
-        </template>
+        <!-- <template #reference> -->
+        <!--   <component :is="req()" @click="emojiesToggleHandler" /> -->
+        <!-- </template> -->
         <EmojiPicker :native="true" @select="emojiSelectHandler" />
       </el-popover>
 
-      <component :is="require(`vue-remix-icons/icons/ri-${icon}.js`).default" v-else />
+      <!-- <component :is="" v-else /> -->
     </button>
   </el-tooltip>
 </template>
 
 <script lang="ts">
-import 'vue3-emoji-picker/dist/style.css';
+// import 'vue3-emoji-picker/dist/style.css';
 
 import { defineComponent, ref } from 'vue';
 import EmojiPicker from 'vue3-emoji-picker';
@@ -53,10 +53,13 @@ export default defineComponent({
   setup(props) {
     const visible = ref(false);
 
-    const req = () => {
-      const comp = `ri-${props.icon}.js`;
-      return () => require(`vue-remix-icons/icons/${comp}`);
-    };
+    // const getImage = () => {
+    //   return new URL(`vue-remix-icons/icons/ri-${props.icon}.js`);
+    // };
+    // const req = () => {
+    //   const comp = `ri-${props.icon}.js`;
+    //   return () => import(`vue-remix-icons/icons/${comp}`);
+    // };
 
     interface Emoji {
       i: string;
@@ -71,7 +74,7 @@ export default defineComponent({
       visible.value = !visible.value;
     };
 
-    return { req, emojiSelectHandler, visible, emojiesToggleHandler };
+    return { emojiSelectHandler, visible, emojiesToggleHandler };
   },
 });
 </script>

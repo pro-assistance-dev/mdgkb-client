@@ -53,7 +53,7 @@
         </div>
         <el-divider />
         <div class="title-icon">
-          <BaseIcon width="120" height="120" color="#ffffff" :background:="chooseRandomBrandColor()" :icon-name="medicalProfile.icon">
+          <BaseIcon width="120" height="120" color="#ffffff" :icon-name="medicalProfile.icon">
             <HelpProfileIcon :svg-code="medicalProfile.svgCode" />
           </BaseIcon>
         </div>
@@ -81,7 +81,7 @@ import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
 import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
-import chooseRandomBrandColor from '@/services/brandColors';
+// import chooseRandomBrandColor from '@/services/brandColors';
 export default defineComponent({
   name: 'MedicalProfileList',
   components: { SharesBlock, BaseIcon, HelpProfileIcon, EyeOutlined },
@@ -101,7 +101,7 @@ export default defineComponent({
       return `${host}/medical-profiles/${route.params['id']}`;
     };
 
-    return { chooseRandomBrandColor, mounted, medicalProfile, getUrl };
+    return { mounted, medicalProfile, getUrl };
   },
 });
 </script>

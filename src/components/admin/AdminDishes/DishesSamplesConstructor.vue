@@ -87,7 +87,7 @@ import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstruc
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
-import sort from '@/services/sort';
+// import sort from '@/services/sort';
 import StringsService from '@/services/Strings';
 
 export default defineComponent({
@@ -182,7 +182,7 @@ export default defineComponent({
     };
 
     const saveGroupsOrder = () => {
-      sort(dishesGroups.value);
+      // sort(dishesGroups.value);
       dishesGroups.value.forEach(async (d: DishesGroup) => {
         await Provider.store.dispatch('dishesGroups/update', d);
       });

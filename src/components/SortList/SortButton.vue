@@ -34,7 +34,7 @@ export default defineComponent({
     const Asc = Orders.Asc;
     const Desc = Orders.Desc;
     const sortModel = ref();
-    // const sortModel = ref(SortModel.CreateSortModel(table.value, col.value));
+    // const sortModel = ref(SortModel.Create(table.value, col.value));
 
     const sort = async () => {
       store.commit('filter/setOffset', 0);

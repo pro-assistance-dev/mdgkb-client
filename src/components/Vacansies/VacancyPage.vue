@@ -63,7 +63,7 @@ import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue'
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-import MessageError from '../../services/classes/messages/MessageError';
+import Message from '@/services/classes/Message';
 
 export default defineComponent({
   name: 'VacancyPage',
@@ -90,7 +90,7 @@ export default defineComponent({
     const openRespondForm = async () => {
       await findEmail();
       if (emailExists.value) {
-        MessageError.Show('Вы уже откликались на эту вакансию');
+        Message.Error('Вы уже откликались на эту вакансию');
         return;
       }
       await showFormFunc();

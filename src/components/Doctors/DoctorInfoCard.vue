@@ -12,7 +12,7 @@
         <Rating :comments="doctor.doctorComments" />
         <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()" target="_blank">
           <div class="mos-doctor-img">
-            <img src="@/assets/img/mos-doctor.webp" alt="mos-doctor" />
+            <img src="src/assets/img/mos-doctor.webp" alt="mos-doctor" />
             <span>Московский</span>
             <span>врач</span>
           </div>

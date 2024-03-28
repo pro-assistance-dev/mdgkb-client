@@ -55,13 +55,13 @@
 <script lang="ts">
 import { PropType } from 'vue';
 
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 
 export default {
   name: 'ContactBlock',
   props: {
     contactInfo: {
-      type: Object as PropType<ContactInfo>,
+      type: Object as PropType<Contact>,
       required: true,
     },
   },

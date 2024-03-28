@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import ChatMessage from '@/services/classes/ChatMessage';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 import { getDefaultState } from '@/store/modules/news';
 
 import { State } from './index';

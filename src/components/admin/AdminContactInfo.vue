@@ -3,7 +3,7 @@
     <div class="flex-between">
       <label class="el-form-item__label">Телефоны</label>
       <div class="add-button">
-        <el-button type="success" size="mini" @click.prevent="contactInfo.addTelephoneNumber()"> Добавить </el-button>
+        <el-button type="success" size="mini" @click.prevent="contactInfo.addPhone()"> Добавить </el-button>
       </div>
     </div>
 
@@ -77,10 +77,10 @@ import { computed, defineComponent, PropType, WritableComputedRef } from 'vue';
 import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 
 export default defineComponent({
-  name: 'AdminContactInfo',
+  name: 'AdminContact',
   components: { TableButtonGroup },
   props: {
     storeModule: { type: String as PropType<string>, required: true },
@@ -88,7 +88,7 @@ export default defineComponent({
   },
   setup(props) {
     const store = useStore();
-    const contactInfo: WritableComputedRef<ContactInfo> = computed(
+    const contactInfo: WritableComputedRef<Contact> = computed(
       () => store.getters[`${props.storeModule}/${props.storeGetter}`].contactInfo
     );
     return {

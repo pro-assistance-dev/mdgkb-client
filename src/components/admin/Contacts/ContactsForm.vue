@@ -17,7 +17,7 @@
   <div class="contact-container" :style="{ background: contactInfo.telephoneNumbers.length ? '' : '#F9FAFB' }">
     <div class="bottom-buttons">
       <div class="title" :style="{ color: !contactInfo.telephoneNumbers.length ? '#c4c4c4' : '#303133' }">Телефоны</div>
-      <button class="admin-add" @click.prevent="contactInfo.addTelephoneNumber()">+ Добавить</button>
+      <button class="admin-add" @click.prevent="contactInfo.addPhone()">+ Добавить</button>
     </div>
 
     <div v-for="(telephoneNumber, i) in contactInfo.telephoneNumbers" :key="telephoneNumber" class="contact-container-item">
@@ -115,13 +115,13 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 
 export default defineComponent({
   name: 'ContactsForm',
   props: {
     contactInfo: {
-      type: Object as PropType<ContactInfo>,
+      type: Object as PropType<Contact>,
       required: true,
     },
     full: {

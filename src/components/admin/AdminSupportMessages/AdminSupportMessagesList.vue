@@ -44,7 +44,6 @@ import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } fro
 import { NavigationGuardNext } from 'vue-router';
 
 import SupportMessage from '@/classes/SupportMessage';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
@@ -60,7 +59,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminSupportMessagesList',
-  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper, Pagination },
+  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper },
   setup() {
     const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());

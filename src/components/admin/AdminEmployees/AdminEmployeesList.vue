@@ -72,7 +72,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
-import OrderedList from '@/components/admin/AdminEmployees/OrderedList.vue';
+// import OrderedList from '@/components/admin/AdminEmployees/OrderedList.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -87,7 +87,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminEmployeeList',
-  components: { OrderedList, AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
+  components: { AdminListWrapper, TableButtonGroup, RemoteSearch, SortList, FiltersList },
   setup() {
     const selectedMode: Ref<ListMode> = ref(modes[0]);
     const employees = computed(() => Provider.store.getters['employees/items']);

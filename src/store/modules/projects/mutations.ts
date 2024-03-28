@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 
 import Project from '@/classes/Project';
 import ProjectItem from '@/classes/ProjectItem';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

@@ -15,22 +15,22 @@
           </p>
           <div class="info-container-left-icons">
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/4.svg`).default" />
+              <Prof />
               <h4>31</h4>
               <span>профиль медицинской помощи</span>
             </div>
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/2.svg`).default" />
+              <Division />
               <h4>48</h4>
               <span>отделений</span>
             </div>
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/3.svg`).default" />
+              <Doc />
               <h4>700</h4>
               <span>врачей</span>
             </div>
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/1.svg`).default" />
+              <MedSpec />
               <h4>45</h4>
               <span>медицинких специаль-<br />ностей</span>
             </div>
@@ -47,10 +47,10 @@
             indicator-position="inside"
           >
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" alt="main-info" />
+              <img src="src/assets/img/main-page/templates/main-info.webp" alt="main-info" />
             </el-carousel-item>
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" alt="main-info" />
+              <img src="src/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" alt="main-info" />
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -59,17 +59,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-export default defineComponent({
-  name: 'MainPage',
-  setup() {
-    const carouselRef = ref();
-    return {
-      carouselRef,
-    };
-  },
-});
+<script setup lang="ts">
+import MedSpec from '@/assets/img/main-page/icons/1.svg';
+import Doc from '@/assets/img/main-page/icons/3.svg';
+import Prof from '@/assets/img/main-page/icons/4.svg';
+import Division from '@/assets/img/main-page/icons/2.svg';
+const carouselRef = ref();
 </script>
 
 <style lang="scss" scoped>

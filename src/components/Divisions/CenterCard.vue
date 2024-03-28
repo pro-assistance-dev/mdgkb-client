@@ -4,7 +4,7 @@
       <div class="flex-column left-side">
         <div class="doctor-img" @click="$router.push({ name: `CenterPage`, params: { id: center.id, slug: center.slug } })">
           <!--          <img v-if="doctor.employee.human.photoMini.fileSystemPath" :src="doctor.employee.human.photoMini.getImageUrl()" alt="alt" @error="errorImg" />-->
-          <img src="@/assets/img/building-default.webp" alt="building" />
+          <img src="src/assets/img/building-default.webp" alt="building" />
           <div class="favor">
             <FavouriteIcon :domain-id="center.id" domain-name="center" />
           </div>

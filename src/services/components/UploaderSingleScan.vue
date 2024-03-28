@@ -38,9 +38,9 @@ import { ElMessageBox } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import FileInfo from '@/classes/FileInfo';
-import IFile from '@/interfaces/files/IFile';
-import IFilesList from '@/interfaces/files/IFIlesList';
+import FileInfo from '@/services/classes/FileInfo';
+import IFile from '@/services/interfaces/IFile';
+import IFilesList from '@/services/interfaces/IFIlesList';
 import Cropper from '@/services/classes/Cropper';
 import ImageCropper from '@/services/components/ImageCropper.vue';
 
@@ -83,7 +83,7 @@ export default defineComponent({
   emits: ['crop', 'removeFile'],
 
   setup(props, { emit }) {
-    const fileList: Ref<IFilesList[]> = ref([]);
+    const fileList: Ref<any[]> = ref([]);
     const heightWeight = computed(() => {
       return {
         '--height': `${props.height}px`,
@@ -94,7 +94,7 @@ export default defineComponent({
     const cropperOpened = ref(false);
     let uploader = ref();
 
-    const toggleUpload = (file: IFile) => {
+    const toggleUpload = (file: any) => {
       showUpload.value = !showUpload.value;
       props.fileInfo.uploadNewFile(file);
       fileList.value = [];
@@ -106,7 +106,7 @@ export default defineComponent({
       }
     };
 
-    const openCropper = (file: IFile) => {
+    const openCropper = (file: any) => {
       const ratio = props.cropRatio ? props.defaultRatio : 0;
       store.commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
       cropperOpened.value = true;
@@ -128,7 +128,7 @@ export default defineComponent({
         });
     };
 
-    const crop = (file: IFile) => {
+    const crop = (file: any) => {
       props.fileInfo.setFile(file);
       fileList.value = [];
       if (props.fileInfo.fileSystemPath) {
@@ -136,9 +136,7 @@ export default defineComponent({
       }
       showUpload.value = false;
       cropperOpened.value = false;
-      if (props.emitCrop) {
-        emit('crop');
-      }
+      emit('crop');
     };
 
     onBeforeMount(() => {
@@ -164,6 +162,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.hideUpload {
+  .el-upload {
+    display: none;
+  }
+}
 .avatar-uploader-cover {
   display: flex;
   justify-content: center;

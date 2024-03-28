@@ -6,7 +6,7 @@ import Schedule from '@/classes/Schedule';
 import ScheduleItem from '@/classes/ScheduleItems';
 import Timetable from '@/classes/Timetable';
 import TimetableDay from '@/classes/TimetableDay';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
 import { State } from './index';

@@ -92,7 +92,8 @@ export default defineComponent({
   setup() {
     const cache = new Cache();
     cache.name = 'startModal';
-    const isClose = ref(cache.getFromCache(3) || false);
+    // const isClose = ref(cache.getFromCache(3) || false);
+    const isClose = ref(true);
 
     const clickHandler = () => {
       isClose.value = true;

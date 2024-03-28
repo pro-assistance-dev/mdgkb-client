@@ -1,4 +1,4 @@
-import { LocationQueryValue, RouteLocationNormalizedLoaded } from 'vue-router';
+import { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import router from '../../router';
 
@@ -31,16 +31,10 @@ const Router = (() => {
     }
     await router.push(`/admin/${safePath}`);
   }
-
   function getStringQueryParam(param: string): string {
-    const p = getQueryParam(param);
-    const pString = p && p.toString() !== 'undefined' ? p : '';
-    return String(pString);
+    return String(route().query[param]);
   }
 
-  function getQueryParam(param: string): LocationQueryValue | LocationQueryValue[] {
-    return route().query[param];
-  }
   function getNumberQueryParam(param: string): number {
     return Number(route().query[param] ?? 0);
   }

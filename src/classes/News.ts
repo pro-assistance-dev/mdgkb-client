@@ -82,7 +82,7 @@ export default class News {
       return this.previewImage.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
-    return require(`../assets/news/img${numberOfImg}.webp`);
+    return `src/assets/news/img${numberOfImg}.webp`;
   }
 
   getStrippedContent(): string {

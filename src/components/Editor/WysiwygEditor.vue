@@ -6,7 +6,7 @@
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
       <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
-    <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
+    <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div>
   </div>
 </template>
 

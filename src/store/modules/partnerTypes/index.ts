@@ -1,8 +1,8 @@
 import { Module } from 'vuex';
 
 import PartnerType from '@/classes/PartnerType';
-import getBaseDefaultState from '@/store/baseModule/baseIndex';
-import IBasicState from '@/store/baseModule/baseState';
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
+import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 import actions from './actions';

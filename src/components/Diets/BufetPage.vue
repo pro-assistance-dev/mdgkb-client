@@ -47,7 +47,7 @@
 
           <template #tags>asd </template>
 
-          <template #contact><ContactsBlock :contact-info="ContactInfo.CreateBufetContacts()" /> </template>
+          <template #contact><ContactsBlock :contact-info="Contact.CreateBufetContacts()" /> </template>
 
           <template #buttons>
             <div class="right-block">
@@ -114,7 +114,7 @@ import DishCard from '@/components/Diets/DishCard.vue';
 import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
 import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/services/Provider/libs/sorts/DishesGroupsSortsLib';
@@ -231,7 +231,7 @@ export default defineComponent({
       schema: Provider.schema,
       cartIsOpen,
       toggleModalCart,
-      ContactInfo,
+      Contact,
     };
   },
 });

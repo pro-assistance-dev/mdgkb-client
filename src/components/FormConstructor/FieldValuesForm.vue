@@ -13,7 +13,7 @@
 
     <div v-else class="table-container" :style="hideColumnsCommentAndFile() ? { margin: '0 15%' } : ''">
       <div>
-        <EditorContent :content="form.description" />
+        <EditorContentRenderer :content="form.description" />
       </div>
 
       <el-table :data="fields" :header-cell-style="headerCellStyle">
@@ -75,13 +75,13 @@ import Field from '@/classes/Field';
 import FileInfo from '@/classes/FileInfo';
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
-import EditorContent from '@/components/EditorContent.vue';
+import EditorContentRenderer from '@/components/EditorContentRenderer.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
 
 export default defineComponent({
   name: 'FieldValuesForm',
-  components: { FieldValuesFormItem, EditorContent, FileUploader },
+  components: { FieldValuesFormItem, EditorContentRenderer, FileUploader },
   props: {
     form: {
       type: Object as PropType<Form>,

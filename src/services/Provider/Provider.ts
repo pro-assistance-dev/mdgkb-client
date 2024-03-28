@@ -1,9 +1,8 @@
 import { ElLoading } from 'element-plus';
-import { computed, Ref, ref, watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
 
-import { CallbackFunction } from '@/interfaces/elements/Callback';
-import ISchema from '@/interfaces/schema/ISchema';
+// import { CallbackFunction } from '@/interfaces/elements/elements/Callback';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
@@ -17,7 +16,6 @@ import Store from './Store';
 const Provider = (() => {
   const mounted: Ref<boolean> = ref(false);
   const form = ref();
-  const schema: Ref<ISchema> = computed(() => Store.store.getters['meta/schema']);
   const saveButtonClicked: Ref<boolean> = ref(false);
 
   function dropPagination(): void {
@@ -100,23 +98,32 @@ const Provider = (() => {
       edit: editAdmin,
       remove: Store.remove,
       mounted: mounted,
-      schema: schema,
       sortList: Filter.sortList,
     };
   }
 
-  async function loadingDecor(fn: CallbackFunction) {
+  async function loadingDecor(fn: any) {
     const loading = ElLoading.service({ lock: true, text: 'Загрузка' });
     await fn();
     loading.close();
   }
 
+  type func = () => Promise<void> | void;
+
+  async function withHeadLoader(f: func) {
+    Store.store.commit(`admin/setHeadSpinner`, true);
+    await f();
+    setTimeout(() => {
+      Store.store.commit(`admin/setHeadSpinner`, false);
+    }, 800);
+  }
+
   return {
+    withHeadLoader,
     loadingDecor,
     dropPagination,
     saveButtonClicked,
     mounted,
-    schema,
     form,
     getAll,
     setStoreModule,

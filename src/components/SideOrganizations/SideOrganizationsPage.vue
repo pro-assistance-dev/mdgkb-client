@@ -131,7 +131,7 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import Email from '@/services/classes/Email';
 import PostAddress from '@/services/classes/PostAddress';
-import TelephoneNumber from '@/services/classes/TelephoneNumber';
+import Phone from '@/services/classes/Phone';
 
 export default defineComponent({
   name: 'SideOrganizationsPage',
@@ -184,7 +184,7 @@ export default defineComponent({
     };
   },
   methods: {
-    checkArrayLength(arr: TelephoneNumber[] | PostAddress[] | Email[]) {
+    checkArrayLength(arr: Phone[] | PostAddress[] | Email[]) {
       const arrIds = arr.map((item) => item.id);
       return typeof arrIds[0] === 'string';
     },

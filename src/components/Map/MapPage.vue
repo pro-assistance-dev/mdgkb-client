@@ -1,6 +1,6 @@
 <template>
   <div class="map-container">
-    <map-svg :buildings="buildings"></map-svg>
+    <!-- <map-svg :buildings="buildings"></map-svg> -->
   </div>
 </template>
 
@@ -8,13 +8,8 @@
 import { computed, defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
-import MapSvg from './MapSvg';
-
 export default defineComponent({
   name: 'MapPage',
-  components: {
-    MapSvg,
-  },
 
   async setup() {
     const store = useStore();

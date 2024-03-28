@@ -1,12 +1,12 @@
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class SideOrganization {
   id?: string;
   name?: string;
   description = '';
-  @ClassHelper.GetClassConstructor(ContactInfo)
-  contactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructor(Contact)
+  contactInfo = new Contact();
 
   constructor(i?: SideOrganization) {
     ClassHelper.BuildClass(this, i);

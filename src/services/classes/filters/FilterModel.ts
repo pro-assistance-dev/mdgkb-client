@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Ref, ref } from 'vue';
 
+import ClassHelper from '@/services//ClassHelper';
+import Arrays from '@/services/Arrays';
 import { ClassNameGetter } from '@/services/interfaces/Class';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
@@ -27,6 +29,37 @@ export default class FilterModel {
   joinTablePk = '';
   joinTableId = '';
   joinTableIdCol = '';
+
+  constructor(i?: FilterModel) {
+    ClassHelper.BuildClass(this, i);
+  }
+
+  eq(s?: FilterModel): boolean {
+    if (!s) {
+      return false;
+    }
+    if (this.type === DataTypes.Join) {
+      return s.model === this.model && s.operator === this.operator && this.joinTableModel === s.joinTableModel;
+    }
+    return s.model === this.model && s.col === this.col && s.operator === this.operator;
+  }
+
+  valueEq(s?: FilterModel): boolean {
+    if (!this || !s || !this.eq(s)) {
+      return false;
+    }
+
+    if (this.type === DataTypes.Boolean) {
+      return this.boolean === s?.boolean;
+    }
+    if (this.type === DataTypes.String) {
+      return this.value1 === s?.value1;
+    }
+    if (this.type === DataTypes.Join) {
+      return this.set.length ? Arrays.Eq(this.set, s.set) : false;
+    }
+    return false;
+  }
 
   toUrlQuery(): string {
     const t = this.type ? `"type":"${this.type}"` : '';
@@ -69,6 +102,24 @@ export default class FilterModel {
 
   isSetFilter(): boolean {
     return this.operator === Operators.In;
+  }
+
+  static Create(model: ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
+    const filterModel = new FilterModel();
+    filterModel.model = model.GetClassName();
+    filterModel.col = (col as string) ?? '';
+    filterModel.type = type;
+    if (filterModel.type === DataTypes.Number) {
+      filterModel.value1 = '0';
+    }
+    if (filterModel.type === DataTypes.String) {
+      filterModel.value1 = '';
+    }
+    if (filterModel.type === DataTypes.Boolean) {
+      filterModel.value1 = 'false';
+      filterModel.operator = Operators.Eq;
+    }
+    return filterModel;
   }
 
   static CreateFilterModel(model: string | ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
@@ -125,7 +176,6 @@ export default class FilterModel {
     joinTableIdCol?: string
   ): FilterModel {
     const filterModel = new FilterModel();
-    filterModel.id = uuidv4();
     filterModel.model = model;
     filterModel.joinTableModel = joinTableModel;
     filterModel.joinTablePk = joinTablePk;

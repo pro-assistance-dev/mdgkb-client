@@ -98,7 +98,7 @@ export default defineComponent({
       await store.dispatch('meta/getSchema');
       store.commit(
         'filter/replaceSortModel',
-        SortModel.CreateSortModel(schema.value.nmoCourse.tableName, schema.value.nmoCourse.name, Orders.Asc, 'По алфавиту', true)
+        SortModel.Create(schema.value.nmoCourse.tableName, schema.value.nmoCourse.name, Orders.Asc, 'По алфавиту', true)
       );
       filterModel.value = FilterModel.CreateFilterModel(schema.value.nmoCourse.tableName, schema.value.nmoCourse.isNmo, DataTypes.Boolean);
       filterQuery.value.pagination.cursorMode = false;

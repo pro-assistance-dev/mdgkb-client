@@ -27,102 +27,102 @@
           <div class="image">
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01785.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01785.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01818.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01818.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01826.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01826.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01856.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01856.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01862.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01862.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01869.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01869.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01889.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01889.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01932.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01932.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01934.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01934.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01961.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01961.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC01994.jpg" />
+                <img src="src/assets/img/for_holiday/DSC01994.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02031.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02031.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02066.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02066.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02118.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02118.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02130.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02130.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02167.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02167.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02186.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02186.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02234.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02234.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02296.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02296.jpg" />
               </div>
             </article>
             <article>
               <div class="doctor-img">
-                <img src="@/assets/img/for_holiday/DSC02303.jpg" />
+                <img src="src/assets/img/for_holiday/DSC02303.jpg" />
               </div>
             </article>
           </div>

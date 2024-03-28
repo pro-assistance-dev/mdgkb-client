@@ -1,7 +1,7 @@
 import { GetterTree } from 'vuex';
 
 import PartnerType from '@/classes/PartnerType';
-import getBaseGetters from '@/store/baseModule/baseGetters';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './index';

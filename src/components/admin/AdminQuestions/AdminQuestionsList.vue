@@ -62,7 +62,6 @@ import { NavigationGuardNext } from 'vue-router';
 
 import Question from '@/classes/Question';
 import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import SortListV2 from '@/components/SortList/SortListV2.vue';
@@ -78,7 +77,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminQuestionsList',
-  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminQuestionStatus, AdminListWrapper, Pagination },
+  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminQuestionStatus, AdminListWrapper },
   setup() {
     const questions: Ref<Question[]> = computed(() => Provider.store.getters['questions/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());

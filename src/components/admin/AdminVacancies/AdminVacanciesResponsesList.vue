@@ -15,7 +15,6 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 
 import VacancyResponse from '@/classes/VacancyResponse';
 import AdminVacancyResponsesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
-import Pagination from '@/components/admin/Pagination.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -26,7 +25,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminVacanciesResponsesList',
-  components: { Pagination, AdminListWrapper, AdminVacancyResponsesTable, SortList },
+  components: { AdminListWrapper, AdminVacancyResponsesTable, SortList },
 
   setup() {
     const vacancyResponses: ComputedRef<VacancyResponse[]> = computed(() => Provider.store.getters['vacancyResponses/items']);

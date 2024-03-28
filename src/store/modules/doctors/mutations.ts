@@ -2,7 +2,7 @@ import { MutationTree } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import DoctorComment from '@/classes/DoctorComment';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
 import { State } from './index';

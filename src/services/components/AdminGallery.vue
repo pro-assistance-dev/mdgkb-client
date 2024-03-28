@@ -1,5 +1,5 @@
 <template>
-  <draggable class="groups" :list="fileList" item-key="id" handle=".move" @end="sort(fileList)">
+  <draggable class="groups" :list="fileList" item-key="id" handle=".move" @end="Arrays.Sort(fileList)">
     <template #item="{ element, index }">
       <div class="item">
         <div class="move">
@@ -7,9 +7,7 @@
             <svg class="icon-move">
               <use xlink:href="#move"></use>
             </svg>
-            <button class="admin-del2" @click.prevent="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)">
-              Удалить
-            </button>
+            <button class="admin-del2" @click.prevent="remove(element)">Удалить</button>
           </div>
           <UploaderSingleScan
             :file-info="element.fileInfo"
@@ -17,6 +15,7 @@
             :default-ratio="defaultRatio"
             @remove-file="$classHelper.RemoveFromClassByIndex(index, fileList, fileListForDelete)"
             @ratio="(e) => (element.ratio = e)"
+            @crop="crop(element)"
           />
         </div>
         <div class="item-description">
@@ -28,41 +27,45 @@
   <Move />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
-import Move from '@/assets/svg/AdminGallery/Move.svg';
+import Move from '@/services/assets/svg/Move.svg';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import IFiler from '@/services/interfaces/IFiler';
-import sort from '@/services/sort';
-
-export default defineComponent({
-  name: 'AdminGallery',
-  components: { draggable, UploaderSingleScan, Move },
-  props: {
-    fileList: {
-      type: Array as PropType<IFiler[]>,
-      reguired: true,
-      default: () => [],
-    },
-    fileListForDelete: {
-      type: Array as PropType<string[]>,
-      default: () => [],
-    },
-    defaultRatio: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
+import Arrays from '@/services/Arrays';
+import ClassHelper from '@/services/ClassHelper';
+const props = defineProps({
+  fileList: {
+    type: Array as PropType<IFiler[]>,
+    reguired: true,
+    default: () => [],
   },
-  emits: ['addImage', 'ratio`'],
-  setup() {
-    return {
-      sort,
-    };
+  fileListForDelete: {
+    type: Array as PropType<string[]>,
+    default: () => [],
+  },
+  defaultRatio: {
+    type: Number,
+    required: false,
+    default: 1,
+  },
+  upload: {
+    type: Boolean,
+    required: false,
+    default: true,
   },
 });
+const emits = defineEmits(['addImage', 'ratio', 'remove']);
+const crop = async (filer: IFiler) => {
+  emits('addImage', filer);
+};
+
+const remove = async (filer: IFiler) => {
+  ClassHelper.RemoveFromClassById(filer.id, props.fileList, []);
+  emits('remove', filer);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -145,8 +148,8 @@ export default defineComponent({
 
 .item-description {
   position: absolute;
-  bottom: 0px;
-  left: 0px;
+  bottom: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;

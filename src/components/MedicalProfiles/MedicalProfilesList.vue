@@ -25,60 +25,34 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+<script setup lang="ts">
+const medicalProfiles: ComputedRef<MedicalProfile[]> = Store.Items('medicalProfiles');
+const mounted: Ref<boolean> = ref(false);
+const filter = ref('');
 
-import MedicalProfile from '@/classes/MedicalProfile';
-import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
-import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
-import Provider from '@/services/Provider/Provider';
+onBeforeMount(async () => {
+  await Provider.store.dispatch('medicalProfiles/getAll');
+  setColors();
+  mounted.value = true;
+});
 
-export default defineComponent({
-  name: 'MainMedicalProfiles',
-  components: {
-    BaseIcon,
-    HelpProfileIcon,
-  },
-  setup() {
-    const medicalProfiles: ComputedRef<MedicalProfile[]> = computed(() => Provider.store.getters['medicalProfiles/items']);
-    const mounted: Ref<boolean> = ref(false);
-    const filter = ref('');
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('medicalProfiles/getAll');
-      setColors();
-      mounted.value = true;
+const setColors = (): void => {
+  const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
+  let i = 0;
+  medicalProfiles.value.forEach((item) => {
+    item.background = colors[i];
+    i === colors.length - 1 ? (i = 0) : i++;
+  });
+};
+
+const list = computed((): MedicalProfile[] => {
+  if (filter.value) {
+    return medicalProfiles.value.filter((i: MedicalProfile) => {
+      if (i.name) return i.name.toLowerCase().includes(filter.value.toLowerCase());
     });
-
-    const setColors = (): void => {
-      const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
-      let i = 0;
-      medicalProfiles.value.forEach((item) => {
-        item.background = colors[i];
-        i === colors.length - 1 ? (i = 0) : i++;
-      });
-    };
-    const getIcon = (i: number): string => {
-      return `/src/assets/medicine/${i + 1}.webp`;
-    };
-
-    const list = computed((): MedicalProfile[] => {
-      if (filter.value) {
-        return medicalProfiles.value.filter((i: MedicalProfile) => {
-          if (i.name) return i.name.toLowerCase().includes(filter.value.toLowerCase());
-        });
-      } else {
-        return medicalProfiles.value;
-      }
-    });
-
-    return {
-      list,
-      filter,
-      getIcon,
-      medicalProfiles,
-      mounted,
-    };
-  },
+  } else {
+    return medicalProfiles.value;
+  }
 });
 </script>
 

@@ -6,7 +6,7 @@ import NewsComment from '@/classes/NewsComment';
 import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import getBaseGetters from '@/store/baseModule/baseGetters';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './index';

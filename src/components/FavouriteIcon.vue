@@ -1,18 +1,6 @@
 <template>
-  <Component
-    :is="require(`@/assets/doctors/svg/heartfill.svg`).default"
-    v-if="isFavourite"
-    id="heartfill-svg"
-    class="heart"
-    @click.stop="removeFromUser"
-  ></Component>
-  <Component
-    :is="require(`@/assets/doctors/svg/heartstroke.svg`).default"
-    v-else
-    id="heartstroke-svg"
-    class="heart"
-    @click.stop="add"
-  ></Component>
+  <Component v-if="isFavourite" id="heartfill-svg" class="heart" @click.stop="removeFromUser"></Component>
+  <Component v-else id="heartstroke-svg" class="heart" @click.stop="add"></Component>
 </template>
 
 <script lang="ts">

@@ -8,7 +8,7 @@
         data-test="chief-photo"
         @error="employee.human.photo.errorImg"
       />
-      <img v-else data-test="chief-alt-photo" src="@/assets/img/doctor-default.webp" alt="avatar" />
+      <img v-else data-test="chief-alt-photo" src="src/assets/img/doctor-default.webp" alt="avatar" />
       <div data-test="chief-name" class="doctor-name">
         <router-link class="recent-news-item" :to="`/doctors/${employee.human.slug}`" style="padding-left: 0">
           {{ employee.human.getFullName() }}

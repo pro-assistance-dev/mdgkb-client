@@ -18,11 +18,11 @@ export default class FileInfo {
   }
 
   getImageUrl(): string {
-    return this.url ? this.url : `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+    return this.url ? this.url : `${import.meta.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
   }
 
   getFileUrl(): string {
-    return this.url ? this.url : `${process.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
+    return this.url ? this.url : `${import.meta.env.VUE_APP_STATIC_URL}/${this.fileSystemPath}`;
   }
 
   getFileListObject(): IFilesList {

@@ -5,12 +5,11 @@ import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
 import NewsLike from '@/classes/NewsLike';
 import INewsWithCount from '@/interfaces/INewsWithCount';
-import axiosInstance from '@/services/Axios';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import HttpClient from '@/services/HttpClient';
+import getBaseActions from '@/services/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
-import getBaseActions from '../../baseModule/baseActions';
 import { State } from './index';
 
 const httpClient = new HttpClient('news');
@@ -80,15 +79,15 @@ const actions: ActionTree<State, RootState> = {
     const items = await httpClient.get<NewsComment[]>({ query: `comments/${id}` });
     commit('setComments', items);
   },
-  sendToTg: async (_, message: string): Promise<void> => {
-    if (!process.env.VUE_APP_TG_TOKEN || process.env.VUE_APP_TG_CHAT_ID) {
-      console.log('env tg');
-    }
-    await axiosInstance({
-      url: `https://api.telegram.org/bot${process.env.VUE_APP_TG_TOKEN}/sendMessage?chat_id=${process.env.VUE_APP_TG_CHAT_ID}&text=${message}&parse_mode=HTML`,
-      method: 'post',
-    });
-  },
+  // sendToTg: async (_, message: string): Promise<void> => {
+  //   if (!process.env.VUE_APP_TG_TOKEN || process.env.VUE_APP_TG_CHAT_ID) {
+  //     console.log('env tg');
+  //   }
+  //   await axiosInstance({
+  //     url: `https://api.telegram.org/bot${process.env.VUE_APP_TG_TOKEN}/sendMessage?chat_id=${process.env.VUE_APP_TG_CHAT_ID}&text=${message}&parse_mode=HTML`,
+  //     method: 'post',
+  //   });
+  // },
 };
 
 export default actions;

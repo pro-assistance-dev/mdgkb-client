@@ -76,7 +76,6 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import buildNameNumbers from '@/services/buildNameNumbers';
@@ -90,7 +89,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
+  components: { TableButtonGroup, AdminListWrapper, SortList },
   setup() {
     const postgraduateCourses: Ref<PostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);

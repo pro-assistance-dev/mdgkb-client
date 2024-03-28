@@ -79,7 +79,7 @@ import Division from '@/classes/Division';
 import Form from '@/classes/Form';
 import Vacancy from '@/classes/Vacancy';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
-import CardHeader from '@/components/admin/CardHeader.vue';
+// import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
@@ -92,7 +92,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { DatePicker, SortableInputsList, CardHeader, AdminVacancyResponcesTable, RemoteSearch },
+  components: { DatePicker, SortableInputsList, AdminVacancyResponcesTable, RemoteSearch },
   setup() {
     const route = useRoute();
     const form = ref();

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "ESNext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -9,9 +9,9 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true,
-//    "esModuleInterop": true,
+    //    "noUnusedLocals": true,
+    //    "noUnusedParameters": true,
+    //    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
@@ -37,9 +37,10 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "src/components", "src/custom.d.ts",
+    "src/components",
+    "src/custom.d.ts",
     "src/vue3-emoji-picker.d.ts",
-    "src/index.d.ts",
+    "src/index.d.ts"
   ],
   "exclude": [
     "node_modules"

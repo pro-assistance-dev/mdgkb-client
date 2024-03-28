@@ -1,8 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import CustomSection from '@/classes/CustomSection';
-import FileInfo from '@/classes/FileInfo';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
+import FileInfo from '@/services/classes/FileInfo';
 import PageComment from '@/services/classes/page/PageComment';
 import PageDocument from '@/services/classes/page/PageDocument';
 import PageImage from '@/services/classes/page/PageImage';
@@ -36,8 +35,8 @@ export default class Page {
   pageDocuments: PageDocument[] = [];
   @ClassHelper.GetClassConstructor(PageComment)
   pageComments: PageComment[] = [];
-  contactInfo: ContactInfo = new ContactInfo();
-  contactInfoId?: string;
+  contact: Contact = new Contact();
+  contactId?: string;
   role: Role = new Role();
   roleId?: string;
 
@@ -97,20 +96,20 @@ export default class Page {
     const selectedMenu = this.pageSideMenus.find((m: PageSideMenu) => m.selected);
     return selectedMenu ? selectedMenu : new PageSideMenu();
   }
-
-  addCustomSectionsToSideMenu(customSections: CustomSection[]): void {
-    customSections.forEach((c: CustomSection) => {
-      const menu = new PageSideMenu();
-      menu.id = c.id;
-      menu.name = c.name;
-      if (typeof c.order !== 'undefined') {
-        this.pageSideMenus.splice(c.order, 0, menu);
-      } else {
-        this.pageSideMenus.push(menu);
-      }
-    });
-  }
-
+  //
+  // addCustomSectionsToSideMenu(customSections: CustomSection[]): void {
+  //   customSections.forEach((c: CustomSection) => {
+  //     const menu = new PageSideMenu();
+  //     menu.id = c.id;
+  //     menu.name = c.name;
+  //     if (typeof c.order !== 'undefined') {
+  //       this.pageSideMenus.splice(c.order, 0, menu);
+  //     } else {
+  //       this.pageSideMenus.push(menu);
+  //     }
+  //   });
+  // }
+  //
   getPageSideMenus(): PageSideMenu[] {
     if (this.showContacts && !this.pageSideMenus.find((el) => el.id === 'contacts')) {
       const contactSideMenu = new PageSideMenu();

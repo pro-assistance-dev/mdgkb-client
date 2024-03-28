@@ -60,7 +60,7 @@ export default defineComponent({
     };
 
     const createSortModels = (): SortModel[] => {
-      return [SortModel.CreateSortModel(schema.value.teacher.tableName, schema.value.teacher.fullName, Orders.Asc, 'По алфавиту', true)];
+      return [SortModel.Create(schema.value.teacher.tableName, schema.value.teacher.fullName, Orders.Asc, 'По алфавиту', true)];
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {

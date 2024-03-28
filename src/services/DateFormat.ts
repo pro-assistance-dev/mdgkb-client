@@ -1,4 +1,6 @@
-import Time from '@/services/Time';
+const SetDays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+const SetDaysMobile = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+const SetShortDays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
 
 interface CustomDateTimeFormatOptions {
   localeMatcher?: string;
@@ -46,7 +48,7 @@ export default class DateTimeFormat {
     if (!date) {
       return '';
     }
-    return Time.SetShortDays[date.getDay()];
+    return SetShortDays[date.getDay()];
   }
 
   getCurrentWeekPeriod(options?: CustomDateTimeFormatOptions): string {
@@ -54,5 +56,47 @@ export default class DateTimeFormat {
     const startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay() + 1);
     const endOfWeek = new Date(now.getFullYear(), now.getMonth(), startOfWeek.getDate() + 7);
     return this.getPeriod(startOfWeek, endOfWeek, options ? options : { month: '2-digit', day: 'numeric', year: undefined });
+  }
+
+  getDurationInDay(time1: string, time2: string): number {
+    const timeStart = new Date();
+    const timeEnd = new Date();
+    const valueStart = DateTimeFormat.SplitHourTime(time1);
+    const valueEnd = DateTimeFormat.SplitHourTime(time2);
+
+    timeStart.setHours(valueStart[0], valueStart[1], 0, 0);
+    timeEnd.setHours(valueEnd[0], valueEnd[1], 0, 0);
+
+    const diff = timeEnd.getTime() - timeStart.getTime();
+
+    return diff / 1000 / 60; // millisecond
+  }
+
+  static HourTimeinMunutes(time: string): number {
+    const parts = DateTimeFormat.SplitHourTime(time);
+    return parts[0] * 60 + parts[1];
+  }
+  static SplitHourTime(time: string): number[] {
+    const parts = time.split(':');
+    return [Number(parts[0]), Number(parts[1])];
+  }
+  static AddMinutesToHM(hm: string, minutes: number): string {
+    const d = new Date();
+    const hmArr = DateTimeFormat.SplitHourTime(hm);
+    d.setHours(hmArr[0], hmArr[1], 0, 0);
+    const newD = new Date(d.getTime() + minutes * 60000);
+    const h = newD.getHours();
+    const m = newD.getMinutes();
+    return `${h}:${m}`;
+  }
+
+  getMonthsDiff(dateFrom: Date, dateTo: Date): number {
+    return dateTo.getMonth() - dateFrom.getMonth() + 12 * (dateTo.getFullYear() - dateFrom.getFullYear());
+  }
+
+  stringToDate(value: string): Date {
+    const parts = value.split('.');
+    const date = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+    return date;
   }
 }

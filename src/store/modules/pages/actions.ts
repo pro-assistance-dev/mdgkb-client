@@ -2,8 +2,8 @@ import { ActionTree } from 'vuex';
 
 import Page from '@/services/classes/page/Page';
 import HttpClient from '@/services/HttpClient';
-import getBaseActions from '@/store/baseModule/baseActions';
-import IBasicState from '@/store/baseModule/baseState';
+import getBaseActions from '@/services/store/baseModule/baseActions';
+import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';
 
 export interface State extends IBasicState<Page> {

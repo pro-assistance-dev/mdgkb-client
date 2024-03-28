@@ -18,7 +18,7 @@
             @mouseenter="hovering = true"
             @mouseleave="hovering = false"
           >
-            <img alt="mdgkb-logo-mini" src="@/assets/img/mdgkb-logo-mini.webp" />
+            <img alt="mdgkb-logo-mini" src="src/assets/img/mdgkb-logo-mini.webp" />
           </button>
           <!-- </el-row> -->
         </div>
@@ -60,7 +60,7 @@ export default defineComponent({
     const rememberedOffset = ref(0);
     const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
     const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
-    const devTitle = process.env.VUE_APP_MODE;
+    // const devTitle = process.env.VUE_APP_MODE;
     const hovering = ref(false);
 
     const nav = async (to: string) => {
@@ -115,7 +115,7 @@ export default defineComponent({
       tabletWindow,
       mobileWindow,
       showSearchDrawer,
-      devTitle,
+      // devTitle,
       hovering,
     };
   },

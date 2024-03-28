@@ -106,7 +106,7 @@ import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
 import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import YandexMapComponent from '@/components/YandexMapComponent.vue';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 
 export default defineComponent({
   name: 'ContactsBlock',
@@ -118,7 +118,7 @@ export default defineComponent({
     YandexMapComponent,
   },
   props: {
-    contactInfo: { type: Object as PropType<ContactInfo>, required: true },
+    contactInfo: { type: Object as PropType<Contact>, required: true },
     full: {
       type: Boolean,
       default: false,

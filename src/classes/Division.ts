@@ -16,7 +16,7 @@ import Timetable from '@/classes/Timetable';
 import TreatDirection from '@/classes/TreatDirection';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Division {
@@ -54,8 +54,8 @@ export default class Division {
   buildingId?: string;
   @ClassHelper.GetClassConstructor(DivisionPaidService)
   divisionPaidServices: DivisionPaidService[] = [];
-  hospitalizationContactInfo?: ContactInfo;
-  hospitalizationContactInfoId?: string;
+  hospitalizationContact?: Contact;
+  hospitalizationContactId?: string;
   hospitalizationDoctorId?: string;
   hospitalizationDoctor?: Doctor;
   @ClassHelper.GetClassConstructor(MedicalProfileDivision)
@@ -63,8 +63,8 @@ export default class Division {
   @ClassHelper.GetClassConstructor(DivisionVideo)
   divisionVideos: DivisionVideo[] = [];
   divisionVideosForDelete: string[] = [];
-  @ClassHelper.GetClassConstructor(ContactInfo)
-  contactInfo: ContactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructor(Contact)
+  contactInfo: Contact = new Contact();
   contactInfoId?: string;
   @ClassHelper.GetClassConstructor(TreatDirection)
   treatDirection: TreatDirection = new TreatDirection();

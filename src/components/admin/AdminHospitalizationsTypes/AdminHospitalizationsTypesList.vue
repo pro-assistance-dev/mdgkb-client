@@ -32,7 +32,6 @@
 import { computed, defineComponent, Ref } from 'vue';
 
 import SupportMessage from '@/classes/SupportMessage';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -40,7 +39,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminHospitalizationsTypesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination },
+  components: { TableButtonGroup, AdminListWrapper },
   setup() {
     const hospitalizationsTypes: Ref<SupportMessage[]> = computed(() => Provider.store.getters['hospitalizationsTypes/items']);
 

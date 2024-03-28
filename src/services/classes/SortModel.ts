@@ -2,6 +2,7 @@ import { LocationQuery } from 'vue-router';
 
 import { Orders } from '@/services/interfaces/Orders';
 
+import ClassHelper from '../ClassHelper';
 import { ClassNameGetter } from '../interfaces/Class';
 
 export default class SortModel {
@@ -13,15 +14,13 @@ export default class SortModel {
   default = false;
   selected = false;
 
-  static CreateSortModel(
-    model: string | ClassNameGetter,
-    col: unknown,
-    order: Orders = Orders.Asc,
-    label?: string,
-    defaultModel?: boolean
-  ): SortModel {
+  constructor(i?: SortModel) {
+    ClassHelper.BuildClass(this, i);
+  }
+
+  static Create(model: ClassNameGetter, col: unknown, order: Orders = Orders.Asc, label?: string, defaultModel?: boolean): SortModel {
     const m = new SortModel();
-    m.model = typeof model === 'string' ? model : model.GetClassName();
+    m.model = model.GetClassName();
     m.col = (col as string) ?? '';
     m.order = order ?? Orders.Asc;
     m.label = label ?? '';
@@ -37,6 +36,9 @@ export default class SortModel {
     return this.order === Orders.Desc;
   }
 
+  eq(s: SortModel): boolean {
+    return s.model === this.model && s.col === this.col && s.order === this.order;
+  }
   toUrlQuery(): string {
     const model = this.model ? `"model":"${this.model}"` : '';
     const col = this.col ? `"col":"${this.col}"` : '';

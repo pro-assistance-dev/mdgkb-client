@@ -18,8 +18,8 @@
     <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">-->
     <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.employee.human.getFullName() }}-->
     <!--            </div>-->
-    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">-->
-    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}-->
+    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContact">-->
+    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationContact.emails[0] }}-->
     <!--            </div>-->
     <!--          </div>-->
     <!--        </div>-->

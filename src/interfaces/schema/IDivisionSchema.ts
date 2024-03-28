@@ -1,7 +1,7 @@
 import IBaseSchema from '@/interfaces/schema/IBaseSchema';
 
 export default interface IDivisionSchema extends IBaseSchema {
-  hospitalizationContactInfoId: string;
+  hospitalizationContactId: string;
   commentsCount: string;
   name: string;
   isCenter: string;

@@ -42,7 +42,6 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import User from '@/classes/User';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
@@ -53,7 +52,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminUsersList',
-  components: { TableButtonGroup, Pagination, AdminListWrapper, SortList },
+  components: { TableButtonGroup, AdminListWrapper, SortList },
 
   setup() {
     const users: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['users/items']);

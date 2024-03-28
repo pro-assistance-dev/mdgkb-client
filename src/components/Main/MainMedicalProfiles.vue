@@ -1,10 +1,5 @@
 <template>
-  <component
-    :is="'MainContainer'"
-    header-title="Профили медицинской помощи"
-    footer-button-title="Все профили"
-    footer-button-link="/medical-profiles"
-  >
+  <MainContainer header-title="Профили медицинской помощи" footer-button-title="Все профили" footer-button-link="/medical-profiles">
     <div v-if="mounted" class="main-medical-profiles">
       <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
@@ -16,14 +11,13 @@
             {{ item.name }}
           </div>
           <div class="icon">
-            <BaseIcon width="90" height="90" :icon-name="item.icon">
+            <BaseIcon width="90" height="90" :name="item.icon">
               <HelpProfileIcon :svg-code="item.svgCode" />
             </BaseIcon>
           </div>
         </div>
       </div>
     </div>
-
     <div v-if="mounted" class="main-medical-profiles-mobile1">
       <div v-for="item in medicalProfiles.splice(0, 6)" :key="item.name">
         <div
@@ -99,55 +93,29 @@
         </div>
       </div>
     </div>
-  </component>
+  </MainContainer>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+<script lang="ts" setup>
+const medicalProfiles: ComputedRef<MedicalProfile[]> = Store.Items('medicalProfiles');
+const mounted: Ref<boolean> = ref(false);
 
-import MedicalProfile from '@/classes/MedicalProfile';
-import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
-import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
-import MainContainer from '@/components/Main/MainContainer.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Provider from '@/services/Provider/Provider';
-
-export default defineComponent({
-  name: 'MainMedicalProfiles',
-  components: {
-    MainContainer,
-    BaseIcon,
-    HelpProfileIcon,
-  },
-  setup() {
-    const medicalProfiles: ComputedRef<MedicalProfile[]> = computed(() => Provider.store.getters['medicalProfiles/items']);
-    const mounted: Ref<boolean> = ref(false);
-    onBeforeMount(async () => {
-      const filterQuery = new FilterQuery();
-      filterQuery.pagination.limit = 6;
-      await Provider.store.dispatch('medicalProfiles/getAll', { filterQuery, withCache: true });
-      setColors();
-      mounted.value = true;
-    });
-
-    const setColors = (): void => {
-      const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
-      let i = 0;
-      medicalProfiles.value.forEach((item) => {
-        item.background = colors[i];
-        i === colors.length - 1 ? (i = 0) : i++;
-      });
-    };
-    const getIcon = (i: number): string => {
-      return `/src/assets/medicine/${i + 1}.webp`;
-    };
-    return {
-      getIcon,
-      medicalProfiles,
-      mounted,
-    };
-  },
+onBeforeMount(async () => {
+  const ftsp = new FTSP();
+  ftsp.p = 6;
+  await Store.FTSP('medicalProfiles', { ftsp: ftsp, withCache: true });
+  setColors();
+  mounted.value = true;
 });
+
+const setColors = (): void => {
+  const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
+  let i = 0;
+  medicalProfiles.value.forEach((item) => {
+    item.background = colors[i];
+    i === colors.length - 1 ? (i = 0) : i++;
+  });
+};
 </script>
 
 <style lang="scss" scoped>

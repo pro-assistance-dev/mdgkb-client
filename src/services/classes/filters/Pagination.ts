@@ -67,4 +67,10 @@ export default class Pagination {
   getPageNum(): number {
     return this.offset / this.limit + 1;
   }
+
+  drop() {
+    this.offset = 0;
+    this.limit = 25;
+    ClassHelper.BuildClass(this);
+  }
 }

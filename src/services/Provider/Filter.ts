@@ -1,4 +1,4 @@
-import { computed, ComputedRef, Ref, ref } from 'vue';
+import { computed, ComputedRef } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -9,17 +9,12 @@ import Store from '@/services/Provider/Store';
 import FTSP from '../classes/filters/FTSP';
 
 const Filter = (() => {
-  const sortList: Ref<SortModel[]> = ref([]);
+  let sortList: SortModel[] = [];
   const filterQuery: ComputedRef<FilterQuery> = computed(() => Store.store.getters['filter/filterQuery']);
   const ftsp: ComputedRef<FTSP> = computed(() => Store.store.getters['filter/ftsp']);
 
-  function setSortList(...models: SortModel[]): void {
-    sortList.value = models;
-    setDefaultSortModel();
-  }
-
   function getPagination(): Pagination {
-    return ftsp.value.id ? ftsp.value.p : filterQuery.value.pagination;
+    return ftsp.value.p;
   }
 
   function findFilterModel(filterModels: FilterModel[]): FilterModel | undefined {
@@ -32,39 +27,20 @@ const Filter = (() => {
     return fmFromFilterQuery;
   }
 
-  function setDefaultSortModel(): void {
-    if (filterQuery.value.sortModel) {
-      return;
-    }
-    const defaultSortModel = sortList.value.find((sortModel: SortModel) => sortModel.default);
-    if (defaultSortModel) {
-      filterQuery.value.sortModel = defaultSortModel;
-    }
-  }
-
   function resetFilterQuery(): void {
     filterQuery.value.reset();
-    sortList.value = [];
+    sortList = [];
   }
 
   function setLimit(limit: number): void {
     filterQuery.value.pagination.limit = limit;
   }
 
-  function setSortModel(model: SortModel): void {
-    filterQuery.value.sortModel = model;
-    filterQuery.value.sortModels.push(model);
-  }
-
-  function setSortModels(...models: SortModel[]): void {
-    models.forEach((model: SortModel) => setSortModel(model));
-  }
-
-  function setSortModelsForOneTable(table: string, ...cols: string[]) {
-    cols.forEach((col: string) => {
-      setSortModel(SortModel.CreateSortModel(table, col));
-    });
-  }
+  // function setSortModelsForOneTable(table: string, ...cols: string[]) {
+  //   cols.forEach((col: string) => {
+  //     setSortModel(SortModel.Create(table, col));
+  //   });
+  // }
 
   function setFilterModels(...models: FilterModel[]): void {
     models.forEach((model: FilterModel) => filterQuery.value.setFilterModel(model));
@@ -83,13 +59,8 @@ const Filter = (() => {
     sortList,
     filterQuery,
     ftsp,
-    setSortList,
-    setDefaultSortModel,
     resetFilterQuery,
     setLimit,
-    setSortModel,
-    setSortModels,
-    setSortModelsForOneTable,
     setFilterModel,
     findFilterModel,
     setFilterModels,

@@ -2,7 +2,7 @@ import Division from '@/classes/Division';
 import VacancyDuty from '@/classes/VacancyDuty';
 import VacancyRequirement from '@/classes/VacancyRequirement';
 import VacancyResponse from '@/classes/VacancyResponse';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';
@@ -11,8 +11,8 @@ export default class Vacancy {
   id?: string;
   title = '';
   slug = '';
-  @ClassHelper.GetClassConstructor(ContactInfo)
-  contactInfo: ContactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructor(Contact)
+  contactInfo: Contact = new Contact();
   contactInfoId?: string;
   specialization = '';
   salaryComment = '';

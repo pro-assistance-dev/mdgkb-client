@@ -1,6 +1,6 @@
 <template>
   <div class="doctor-img">
-    <img src="@/assets/img/for_holiday/photo_red.png" />
+    <img src="src/assets/img/for_holiday/photo_red.png" />
   </div>
 
   <!-- <div id="personal" class="main-holiday">

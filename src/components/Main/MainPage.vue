@@ -5,7 +5,7 @@
   <div class="hidden"><MainSpecialServices /></div>
   <MainDoctors />
   <MainMedicalProfiles />
-  <MainEvents />
+  <!-- <MainEvents /> -->
   <MainArticles />
   <MainReviews />
   <!-- <MainCertificates /> -->
@@ -46,7 +46,7 @@ export default defineComponent({
     MainDoctors,
     MainReviews,
     MainMedicalProfiles,
-    MainEvents,
+    // MainEvents,
     MainArticles,
     // MainCertificates,
     MainSocialMedia,

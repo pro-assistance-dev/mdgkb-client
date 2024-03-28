@@ -1,9 +1,9 @@
+import Arrays from '@/services/Arrays';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Pagination from '@/services/classes/filters/Pagination';
 import ClassHelper from '@/services/ClassHelper';
 
 import SortModel from '../SortModel';
-import FilterQuery from './FilterQuery';
 
 export default class FTSP {
   id?: string;
@@ -18,29 +18,46 @@ export default class FTSP {
   constructor(i?: FTSP) {
     ClassHelper.BuildClass(this, i);
   }
-  static GetQidFromUrl(): string | null {
-    return new URLSearchParams(window.location.search).get('qid');
-  }
 
-  static GetFTSPOrQID(filterQuery: FilterQuery): FTSP | string {
-    return FTSP.GetQidFromUrl() ?? FTSP.FromFQ(filterQuery);
-  }
-
-  static FromFQ(filterQuery: FilterQuery): FTSP {
-    const item = new FTSP();
-    item.f = filterQuery.filterModels.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
-    item.s = filterQuery.sortModels.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
-    item.p = FTSP.EmptyEntiries(filterQuery.pagination) as Pagination;
-    return item;
+  clearForHTTP(): void {
+    this.f = this.f.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
+    this.s = this.s.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
+    this.p = FTSP.EmptyEntiries(this.p) as Pagination;
   }
 
   private static EmptyEntiries(sm: any): unknown {
     const entries = Object.entries(sm);
     const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
-    return Object.fromEntries(nonEmptyOrNull); //
+    return Object.fromEntries(nonEmptyOrNull);
   }
 
   findFilterModel(m: FilterModel): FilterModel | undefined {
     return this.f.find((f: FilterModel) => m.id === f.id);
+  }
+
+  getFirstSortModel(): SortModel | undefined {
+    return Arrays.GetLast(this.s);
+  }
+
+  setSortModel(sortModel: SortModel): void {
+    this.s[0] = sortModel;
+  }
+
+  replaceF(curF?: FilterModel, prevF?: FilterModel): void {
+    this.removeF(prevF);
+    if (curF) {
+      this.f.push(curF);
+    }
+  }
+
+  removeF(model?: FilterModel): void {
+    const index = this.f.findIndex((f: FilterModel) => f.eq(model));
+    ClassHelper.RemoveFromClassByIndex(index, this.f);
+    console.log(index);
+  }
+  reset(): void {
+    this.f = [];
+    this.s = [];
+    this.p = new Pagination();
   }
 }

@@ -1,25 +1,21 @@
 <template>
-  <el-dialog
-    :model-value="open"
-    title="Настройка изображения"
-    :close-on-click-modal="false"
-    :close-on-press-escape="false"
-    @close="$emit('close')"
-  >
+  <el-dialog :model-value="open" title="Настройка изображения" :close-on-click-modal="false" :close-on-press-escape="false">
     <div class="background-container">
       <div class="tools-line">
         <div class="line-block">
-          <el-form-item label="Задайте пропорции фото:">
-            <el-select v-model="resolution" label="Пропорции изображения" @change="selectResolution">
-              <el-option label="2:3 (формат A4)" :value="2 / 3" />
-              <el-option label="4:3 (для карточек новостей)" :value="4 / 3" />
-              <el-option label="1:1 (для фото сотрудников)" :value="1" />
-              <el-option label="3:2" :value="3 / 2" />
-              <el-option label="16:9" :value="16 / 9" />
-              <el-option label="3:4 (вертикальное изображение)" :value="3 / 4" />
-              <el-option label="Задать пропорции вручную" :value="0" />
-            </el-select>
-          </el-form-item>
+          <el-form>
+            <el-form-item label="Задайте пропорции фото:">
+              <el-select v-model="resolution" label="Пропорции изображения" @change="selectResolution">
+                <el-option label="2:3 (формат A4)" :value="2 / 3" />
+                <el-option label="4:3 (для карточек новостей)" :value="4 / 3" />
+                <el-option label="1:1 (для фото сотрудников)" :value="1" />
+                <el-option label="3:2" :value="3 / 2" />
+                <el-option label="16:9" :value="16 / 9" />
+                <el-option label="3:4 (вертикальное изображение)" :value="3 / 4" />
+                <el-option label="Задать пропорции вручную" :value="0" />
+              </el-select>
+            </el-form-item>
+          </el-form>
         </div>
       </div>
       <Cropper
@@ -38,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import 'vue-advanced-cropper/dist/style.css';
+// import 'vue-advanced-cropper/dist/style.css';
 
 import { computed, defineComponent, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
@@ -189,6 +185,11 @@ export default defineComponent({
 
 :deep(.el-select .el-input__suffix) {
   top: -3px;
+}
+
+:deep(.el-form-item) {
+  display: block;
+  margin-bottom: 16px;
 }
 
 @media only screen and (max-width: 480px) {
