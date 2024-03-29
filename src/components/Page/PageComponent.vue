@@ -22,7 +22,7 @@
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #body>
         <div class="body-in">
-          <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact-info="page.contactInfo" full />
+          <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact="page.contact" full />
           <PageSection
             v-else
             :title="selectedMenu.name"

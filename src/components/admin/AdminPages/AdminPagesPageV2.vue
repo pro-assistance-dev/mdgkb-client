@@ -58,7 +58,7 @@
           <div v-if="page.showContacts" style="margin-bottom: 20px">
             <CollapseItem title="Контакты">
               <template #inside-content>
-                <!-- <ContactsForm :contact-info="page.contactInfo" full /> -->
+                <ContactForm :contact="page.contact" full />
               </template>
             </CollapseItem>
           </div>
@@ -126,7 +126,6 @@ import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watc
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
-import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';

@@ -46,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from 'vue';
+import { PropType } from 'vue';
 
 import Contact from '@/services/classes/Contact';
 import EmailForm from '@/services/components/EmailForm.vue';
@@ -226,5 +226,4 @@ const removePhone = async (id: string) => {
 :deep(.el-form-item) {
   margin-bottom: 10px;
 }
-
 </style>

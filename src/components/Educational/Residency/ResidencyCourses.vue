@@ -31,9 +31,9 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
+      // Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
+      // Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
+      // Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
       await loadCourses();
     };
 

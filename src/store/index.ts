@@ -1,5 +1,6 @@
 import Vuex, { StoreOptions } from 'vuex';
 
+import * as lib from '@/services/store/index';
 import { admin } from '@/store/modules/admin';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
@@ -185,6 +186,7 @@ const s: StoreOptions<RootState> = {
     holidayForms,
     mapRoutes,
     mapNodes,
+    ...lib,
   },
 };
 

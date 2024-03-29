@@ -77,7 +77,7 @@ export default defineComponent({
   setup() {
     const searchInput = ref();
     const searchString: Ref<string> = ref('');
-    let groups: Ref<string[]> = ref([]);
+    const groups: Ref<string[]> = ref([]);
     const router = useRouter();
     const results: Ref<SearchElement[]> = ref([]);
     const curPage: Ref<number> = ref(0);
@@ -96,7 +96,7 @@ export default defineComponent({
     const closeDrawer = () => Provider.store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('search/searchGroups');
+      // await Provider.store.dispatch('search/searchGroups');
       await searchModel.value.reproduceFromRoute();
       await search();
       // await selectSearchGroup(undefined);

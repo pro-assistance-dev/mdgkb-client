@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import Contact from '@/services/classes/Contact';
 import FileInfo from '@/services/classes/FileInfo';
+import CustomSection from '@/services/classes/page/CustomSection';
 import PageComment from '@/services/classes/page/PageComment';
 import PageDocument from '@/services/classes/page/PageDocument';
 import PageImage from '@/services/classes/page/PageImage';
@@ -97,18 +98,18 @@ export default class Page {
     return selectedMenu ? selectedMenu : new PageSideMenu();
   }
   //
-  // addCustomSectionsToSideMenu(customSections: CustomSection[]): void {
-  //   customSections.forEach((c: CustomSection) => {
-  //     const menu = new PageSideMenu();
-  //     menu.id = c.id;
-  //     menu.name = c.name;
-  //     if (typeof c.order !== 'undefined') {
-  //       this.pageSideMenus.splice(c.order, 0, menu);
-  //     } else {
-  //       this.pageSideMenus.push(menu);
-  //     }
-  //   });
-  // }
+  addCustomSectionsToSideMenu(customSections: CustomSection[]): void {
+    customSections.forEach((c: CustomSection) => {
+      const menu = new PageSideMenu();
+      menu.id = c.id;
+      menu.name = c.name;
+      if (typeof c.order !== 'undefined') {
+        this.pageSideMenus.splice(c.order, 0, menu);
+      } else {
+        this.pageSideMenus.push(menu);
+      }
+    });
+  }
   //
   getPageSideMenus(): PageSideMenu[] {
     if (this.showContacts && !this.pageSideMenus.find((el) => el.id === 'contacts')) {

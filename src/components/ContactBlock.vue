@@ -1,5 +1,5 @@
 <template>
-  <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id">
+  <div v-for="phone in contact.phones" :key="phone.id">
     <div class="contact-h3">
       <div v-if="phone.number" class="item">
         <svg class="icon-phone">
@@ -9,7 +9,7 @@
       <div class="item">{{ phone.number }}</div>
     </div>
   </div>
-  <div v-for="email in contactInfo.emails" :key="email.id">
+  <div v-for="email in contact.emails" :key="email.id">
     <div class="contact-h3">
       <div v-if="email.address" class="item">
         <svg class="icon-email">
@@ -60,7 +60,7 @@ import Contact from '@/services/classes/Contact';
 export default {
   name: 'ContactBlock',
   props: {
-    contactInfo: {
+    contact: {
       type: Object as PropType<Contact>,
       required: true,
     },

@@ -5,7 +5,7 @@
   <div :class="{ flex: full }">
     <div style="width: 100%; margin-right: 30px; flex: 1">
       <div :class="{ 'card-item': full, 'margin-top': full, 'contact-data': full }">
-        <div v-if="contactInfo.time.length" class="contact-data-list-item">
+        <div v-if="contact.time.length" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
               <svg
@@ -17,10 +17,10 @@
                 <use xlink:href="#time"></use>
               </svg>
             </div>
-            <div class="item">{{ contactInfo.time }}</div>
+            <div class="item">{{ contact.time }}</div>
           </div>
         </div>
-        <div v-if="contactInfo.postAddresses[0].address" class="contact-data-list-item">
+        <div v-if="contact.postAddresses[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
               <svg
@@ -33,11 +33,11 @@
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="postAddress in contactInfo.postAddresses" :key="postAddress.id" class="item">{{ postAddress.address }}</div>
+              <div v-for="postAddress in contact.postAddresses" :key="postAddress.id" class="item">{{ postAddress.address }}</div>
             </div>
           </div>
         </div>
-        <div v-if="contactInfo.telephoneNumbers[0].number" class="contact-data-list-item">
+        <div v-if="contact.phones[0].number" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
               <svg
@@ -50,7 +50,7 @@
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item" style="white-space: nowrap">
+              <div v-for="phone in contact.phones" :key="phone.id" class="item" style="white-space: nowrap">
                 <div>
                   <a class="phone" :href="'tel:' + phone.number">{{ phone.number }}</a>
                 </div>
@@ -59,7 +59,7 @@
             </div>
           </div>
         </div>
-        <div v-if="contactInfo.emails[0].address" class="contact-data-list-item">
+        <div v-if="contact.emails[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
               <svg
@@ -72,23 +72,23 @@
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="email in contactInfo.emails" :key="email.id" class="item">
+              <div v-for="email in contact.emails" :key="email.id" class="item">
                 {{ email.address }} <span v-if="email.description">: {{ email.description }} </span>
               </div>
-              <div v-for="webSite in contactInfo.websites" :key="webSite.id" class="item">
+              <div v-for="webSite in contact.websites" :key="webSite.id" class="item">
                 {{ webSite.address }} <span v-if="webSite.description">: {{ webSite.description }} </span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="full && contactInfo.description" class="contact-comments" style="margin-top: 20px">
-        {{ contactInfo.description }}
+      <div v-if="full && contact.description" class="contact-comments" style="margin-top: 20px">
+        {{ contact.description }}
       </div>
     </div>
-    <div v-if="full && contactInfo.latitude && contactInfo.longitude" class="map-data">
+    <div v-if="full && contact.latitude && contact.longitude" class="map-data">
       <div class="map-container">
-        <YandexMapComponent :coords="contactInfo.getCoords()" />
+        <YandexMapComponent :coords="contact.getCoords()" />
       </div>
     </div>
   </div>
@@ -118,7 +118,7 @@ export default defineComponent({
     YandexMapComponent,
   },
   props: {
-    contactInfo: { type: Object as PropType<Contact>, required: true },
+    contact: { type: Object as PropType<Contact>, required: true },
     full: {
       type: Boolean,
       default: false,

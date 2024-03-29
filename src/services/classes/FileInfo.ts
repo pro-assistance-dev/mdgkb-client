@@ -84,4 +84,13 @@ export default class FileInfo implements IFileInfo {
   getFileInfos(): FileInfo[] {
     return [this];
   }
+
+  isPdf(): boolean {
+    return this.getExtension(this.originalName) === 'pdf';
+  }
+
+  getExtension(filename: string): string {
+    const parts = filename.split('.');
+    return parts[parts.length - 1];
+  }
 }

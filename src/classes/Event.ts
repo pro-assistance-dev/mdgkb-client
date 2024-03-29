@@ -14,6 +14,7 @@ export default class Event {
   endDate = new Date();
 
   constructor(i?: Event) {
+    let a = 1;
     ClassHelper.BuildClass(this, i);
   }
 }
