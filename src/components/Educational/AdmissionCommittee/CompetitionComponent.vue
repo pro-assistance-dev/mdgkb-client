@@ -6,7 +6,6 @@
     <!--     <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span -->
     <!--   > -->
     <!--   <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
-    -->
     <!-- </div> -->
     <el-collapse v-model="activeName" accordion @change="collapseChange">
       <!--      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">-->
