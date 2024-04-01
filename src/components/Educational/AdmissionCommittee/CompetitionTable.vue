@@ -19,22 +19,22 @@
             </div>
           </td>
         </tr>
-        <tr v-for="(application, j) in leaveOnlyNeededApplications(course)" :key="application.id">
-          <td :class="getPassClass(course, j + 1)">
-            {{ j + 1 }}
-          </td>
-          <td :class="getPassClass(course, j + 1)">{{ application.formValue.user.human.snils }}</td>
-          <td :class="getPassClass(course, j + 1)">{{ application.getPointsSum() }}</td>
-          <td :class="getPassClass(course, j + 1)">{{ application.pointsEntrance }}</td>
-          <td :class="getPassClass(course, j + 1)">{{ application.calculateAchievementsPoints(true) }}</td>
-          <td :class="getPassClass(course, j + 1)">
-            {{ course.applicationPassCompetition(j + 1) ? 'Приглашается на заключение договора' : 'В режиме ожидания' }}
-          </td>
-          <td :class="getPassClass(course, j + 1)">
-            {{ course.applicationPassCompetition(j + 1) ? 'Заявление до 24.08.22 \n Заключение договора до 26.08.22' : '' }}
-          </td>
-          <td :class="getPassClass(course, j + 1)"></td>
-        </tr>
+        <!-- <tr v-for="(application, j) in leaveOnlyNeededApplications(course)" :key="application.id"> -->
+        <!--   <td :class="getPassClass(course, j + 1)"> -->
+        <!--     {{ j + 1 }} -->
+        <!--   </td> -->
+        <!--   <td :class="getPassClass(course, j + 1)">{{ application.formValue.user.human.snils }}</td> -->
+        <!--   <td :class="getPassClass(course, j + 1)">{{ application.getPointsSum() }}</td> -->
+        <!--   <td :class="getPassClass(course, j + 1)">{{ application.pointsEntrance }}</td> -->
+        <!--   <td :class="getPassClass(course, j + 1)">{{ application.calculateAchievementsPoints(true) }}</td> -->
+        <!--   <td :class="getPassClass(course, j + 1)"> -->
+        <!--     {{ course.applicationPassCompetition(j + 1) ? 'Приглашается на заключение договора' : 'В режиме ожидания' }} -->
+        <!--   </td> -->
+        <!--   <td :class="getPassClass(course, j + 1)"> -->
+        <!--     {{ course.applicationPassCompetition(j + 1) ? 'Заявление до 24.08.22 \n Заключение договора до 26.08.22' : '' }} -->
+        <!--   </td> -->
+        <!--   <td :class="getPassClass(course, j + 1)"></td> -->
+        <!-- </tr> -->
       </template>
     </tbody>
   </table>
