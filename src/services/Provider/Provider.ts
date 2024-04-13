@@ -8,7 +8,7 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
 import Filter from '@/services/Provider/Filter';
 import Router from '@/services/Provider/Router';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 import Store from './Store';
@@ -29,7 +29,7 @@ const Provider = (() => {
     } else {
       await Store.create();
     }
-    next ? next() : await Router.toAdmin(StringsService.toKebabCase(Store.getStoreModule()));
+    next ? next() : await Router.toAdmin(Strings.ToKebabCase(Store.getStoreModule()));
   }
 
   async function loadItems(): Promise<void> {
@@ -64,11 +64,11 @@ const Provider = (() => {
     await Provider.router.replace({ query: {} });
   }
   async function createAdmin(): Promise<void> {
-    await Router.toAdmin(`${StringsService.toKebabCase(Store.getStoreModule())}/new`);
+    await Router.toAdmin(`${Strings.ToKebabCase(Store.getStoreModule())}/new`);
   }
 
   async function editAdmin(id: string): Promise<void> {
-    await Router.toAdmin(`${StringsService.toKebabCase(Store.getStoreModule())}/${id}`);
+    await Router.toAdmin(`${Strings.ToKebabCase(Store.getStoreModule())}/${id}`);
   }
 
   function setStoreModule(module: string | undefined = ''): void {
@@ -81,7 +81,7 @@ const Provider = (() => {
     if (Router.id() || pathParts[pathParts.length - 1] === 'new') {
       pathLen = 2;
     }
-    Store.setModule(StringsService.toCamelCase(pathParts[pathParts.length - pathLen]));
+    Store.setModule(Strings.ToCamelCase(pathParts[pathParts.length - pathLen]));
   }
 
   async function getAll(module?: string): Promise<void> {

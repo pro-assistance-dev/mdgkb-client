@@ -34,6 +34,7 @@ import Filter from '@/assets/svg/Filter.svg';
 import Outlined from '@/assets/svg/Outlined.svg';
 import Plus from '@/assets/svg/Plus.svg';
 import Save from '@/assets/svg/Save.svg';
+import Settings from '@/assets/svg/Settings.svg';
 
 defineOptions({ inheritAttrs: false });
 
@@ -72,6 +73,7 @@ const iconComponent = {
   outlined: Outlined,
   plus: Plus,
   save: Save,
+  settings: Settings,
 };
 // const dynSvg = computed(() => import(`@/assets/svg/${props.}`))
 const emit = defineEmits(['click']);

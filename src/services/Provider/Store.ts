@@ -1,5 +1,5 @@
 import { IPaginationOptions } from '@/services/Hooks/Hooks';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 import store from '../../store';
 
@@ -57,7 +57,7 @@ const Store = (() => {
   }
 
   async function remove(id: string): Promise<void> {
-    return await store.dispatch(`${StringsService.toKebabCase(getStoreModule())}/remove`, id);
+    return await store.dispatch(`${Strings.ToKebabCase(getStoreModule())}/remove`, id);
   }
 
   return {

@@ -6,7 +6,7 @@ import Arrays from '@/services/Arrays';
 import { ClassNameGetter } from '@/services/interfaces/Class';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default class FilterModel {
   id?: string;
@@ -20,6 +20,7 @@ export default class FilterModel {
   boolean = false;
   number = 0;
   type: DataTypes = DataTypes.String;
+  @ClassHelper.GetClassConstructor(String)
   set: string[] = [];
   isSet = false;
 
@@ -39,7 +40,11 @@ export default class FilterModel {
       return false;
     }
     if (this.type === DataTypes.Join) {
-      return s.model === this.model && s.operator === this.operator && this.joinTableModel === s.joinTableModel;
+      const eq = s.model === this.model && s.operator === this.operator && this.joinTableModel === s.joinTableModel;
+      if (s.operator === Operators.In) {
+        return eq && Arrays.Eq(this.set, s.set);
+      }
+      return eq;
     }
     return s.model === this.model && s.col === this.col && s.operator === this.operator;
   }
@@ -195,8 +200,8 @@ export default class FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
 
-    filterModel.model = StringsService.toCamelCase(firstClass.GetClassName());
-    filterModel.joinTableModel = StringsService.toCamelCase(secondClass.GetClassName());
+    filterModel.model = Strings.ToCamelCase(firstClass.GetClassName());
+    filterModel.joinTableModel = Strings.ToCamelCase(secondClass.GetClassName());
     filterModel.type = DataTypes.Join;
     return filterModel;
   }
@@ -229,5 +234,18 @@ export default class FilterModel {
 
   toRef(): Ref<FilterModel> {
     return ref(this);
+  }
+
+  setDate1(date?: Date): void {
+    this.date1 = date;
+  }
+
+  setDate2(date?: Date): void {
+    this.date2 = date;
+  }
+
+  dropDates(): void {
+    this.setDate1();
+    this.setDate2();
   }
 }

@@ -19,10 +19,12 @@ export default class FTSP {
     ClassHelper.BuildClass(this, i);
   }
 
-  clearForHTTP(): void {
-    this.f = this.f.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
-    this.s = this.s.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
-    this.p = FTSP.EmptyEntiries(this.p) as Pagination;
+  clearForHTTP(): FTSP {
+    const f = new FTSP(this);
+    f.f = this.f.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
+    f.s = this.s.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
+    f.p = FTSP.EmptyEntiries(this.p) as Pagination;
+    return f;
   }
 
   private static EmptyEntiries(sm: any): unknown {
@@ -42,7 +44,6 @@ export default class FTSP {
   setSortModel(sortModel: SortModel): void {
     this.s[0] = sortModel;
   }
-
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);
     if (curF) {
@@ -53,8 +54,8 @@ export default class FTSP {
   removeF(model?: FilterModel): void {
     const index = this.f.findIndex((f: FilterModel) => f.eq(model));
     ClassHelper.RemoveFromClassByIndex(index, this.f);
-    console.log(index);
   }
+
   reset(): void {
     this.f = [];
     this.s = [];

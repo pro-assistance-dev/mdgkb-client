@@ -1,7 +1,7 @@
 import Contact from '@/services/classes/Contact';
 import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default class Human {
   id?: string;
@@ -54,9 +54,9 @@ export default class Human {
   }
 
   capitalizeName(): void {
-    this.name = StringsService.capitalizeString(this.name);
-    this.surname = StringsService.capitalizeString(this.surname);
-    this.patronymic = StringsService.capitalizeString(this.patronymic);
+    this.name = Strings.CapitalizeString(this.name);
+    this.surname = Strings.CapitalizeString(this.surname);
+    this.patronymic = Strings.CapitalizeString(this.patronymic);
   }
 
   trimName(): void {

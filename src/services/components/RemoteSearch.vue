@@ -1,32 +1,28 @@
 <template>
-  <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }" @submit.prevent="onEnter">
-    <el-form-item style="margin: 0">
-      <el-autocomplete
-        ref="searchForm"
-        v-model="queryString"
-        :value-key="'label'"
-        style="width: 100%; margin-right: 10px"
-        popper-class="wide-dropdown"
-        :placeholder="placeholder"
-        :fetch-suggestions="find"
-        :trigger-on-focus="showSuggestions"
-        @select="handleSelect"
-        @input="handleInput"
-      >
-        <template #suffix>
-          <i class="el-icon-search"> </i>
-        </template>
-      </el-autocomplete>
-    </el-form-item>
-  </el-form>
+  <el-autocomplete
+    ref="searchForm"
+    v-model="queryString"
+    :value-key="'label'"
+    style="width: 100%; margin-right: 10px"
+    popper-class="wide-dropdown"
+    :placeholder="placeholder"
+    :fetch-suggestions="find"
+    :trigger-on-focus="showSuggestions"
+    @select="handleSelect"
+    @input="handleInput"
+  >
+    <template #suffix>
+      <i class="el-icon-search" />
+    </template>
+  </el-autocomplete>
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
+import { watch } from 'vue';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 
-import SearchGroup from '@/services/classes/SearchGroup';
 import FilterModel from '@/services/classes/filters/FilterModel';
+import SearchGroup from '@/services/classes/SearchGroup';
 import SearchModel from '@/services/classes/SearchModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearch from '@/services/interfaces/ISearchObject';

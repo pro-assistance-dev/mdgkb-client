@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import DateInput from '@/services/components/DateInput.vue';
+
 import Message from '../classes/Message';
 
 const props = defineProps({
@@ -22,7 +23,18 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['update:start', 'update:end', 'setStart', 'setEnd']);
-
+watch(
+  () => [props.start, props.end],
+  () => {
+    console.log('watchDate');
+    if (!props.start) {
+      startDate.value = undefined;
+    }
+    if (!props.end) {
+      endDate.value = undefined;
+    }
+  }
+);
 const startDate = ref(props.start);
 const endDate = ref(props.end);
 
@@ -52,7 +64,8 @@ const setEnd = (date: Date) => {
 
 .date-range {
   display: flex;
-  max-width: 300px;
-  justify-content: left;
+  justify-content: space-between;
+  max-width: 100%;
+  // margin: 0 auto;
 }
 </style>

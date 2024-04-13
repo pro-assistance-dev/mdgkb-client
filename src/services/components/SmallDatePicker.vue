@@ -73,26 +73,42 @@ export default defineComponent({
   width: 100%;
 }
 
-:deep(.el-input__inner) {
+:deep(.el-input) {
+  border: none;
+}
+
+:deep(.el-date-editor.el-input, .el-date-editor.el-input__wrapper) {
   height: 34px;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: $site_dark_gray;
-  padding-left: 20px;
+  // padding-left: 20px;
   padding-right: 0;
   border: none;
   width: 100%;
 }
+
+:deep(.el-input__wrapper) {
+  box-shadow: none;
+}
+
+:deep(.el-input__wrapper:hover) {
+  box-shadow: none;
+}
+
+// :deep(.el-input__inner) {
+//   padding-left: 10px;
+// }
 
 :deep(.el-input__prefix) {
   left: 0;
   top: -3px;
 }
 
-:deep(.el-input--prefix .el-input__inner) {
-  padding-left: 23px;
-}
+// :deep(.el-input--prefix .el-input__inner) {
+//   padding-left: 23px;
+// }
 
 :deep(.el-input__suffix) {
   top: -3px;

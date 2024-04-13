@@ -246,12 +246,12 @@ export default defineComponent({
         title: 'Добавить ссылку',
         action: () => setLink(),
       },
-      {
-        type: 'emoji',
-        icon: 'emotion-happy-line',
-        title: 'Добавить emoji',
-        action: (content?: string) => props.editor.chain().focus().insertContent(content).run(),
-      },
+      // {
+      //   type: 'emoji',
+      //   icon: 'emotion-happy-line',
+      //   title: 'Добавить emoji',
+      //   action: (content?: string) => props.editor.chain().focus().insertContent(content).run(),
+      // },
       {
         type: 'divider',
       },

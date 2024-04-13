@@ -1,9 +1,10 @@
-import HttpEngine from '@/services/Axios';
 import FileInfo from '@/services/classes/FileInfo';
+import HttpEngine from '@/services/Axios';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 
 import LocalStore from './classes/LocalStore';
 import LocalStoreKeys from './interfaces/LocalStoreKeys';
+import HttpHeaders, { HttpHeadersValues, HttpHeadersKeys } from './types/HttpHeaders';
 
 const baseUrl = import.meta.env.VITE_APP_BASE_URL ?? '';
 const apiVersion = import.meta.env.VITE_APP_API_V1 ?? '';
@@ -11,11 +12,11 @@ const apiHost = import.meta.env.VITE_APP_API_HOST ?? '';
 
 export default class HttpClient {
   endpoint: string;
-  headers: Record<string, string>;
+  headers: HttpHeaders;
 
   constructor(endpoint = '') {
     this.endpoint = endpoint;
-    this.headers = { 'Content-Type': 'application/json' };
+    this.headers = { [HttpHeadersKeys.ContentType]: HttpHeadersValues.ApplicationJson };
   }
 
   newWebSocket(query: string): WebSocket {
@@ -50,16 +51,21 @@ export default class HttpClient {
     return 'file';
   }
 
-  private getHeaders(headers: unknown): unknown {
-    const token = LocalStore.Get(LocalStoreKeys.AccessToken);
-    if (headers && token) {
-      //@ts-ignore
-      headers.token = token;
+  private getHeaders(headers?: HttpHeaders): HttpHeaders {
+    const token = LocalStore.Get<string>(LocalStoreKeys.AccessToken);
+    if (!headers) {
+      headers = this.headers;
+    }
+    if (token) {
+      headers[HttpHeadersKeys.Token] = token;
     }
     return headers ?? this.headers;
   }
 
-  private returnResponse<ReturnType>(params: IBodilessParams | IBodyfulParams, res: any): ReturnType | void {
+  private returnResponse<ReturnType, PayloadType>(
+    params: IBodilessParams | IBodyfulParams<PayloadType> | undefined,
+    res: any
+  ): ReturnType | void {
     if (!res) {
       return;
     }

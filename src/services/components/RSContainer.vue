@@ -16,16 +16,16 @@
           position: mobileWindow ? 'absolute' : '',
           top: mobileWindow ? '10px' : '',
           right: mobileWindow ? '0px' : '',
-          width: mobileWindow ? '220px' : '100%',
+          width: mobileWindow ? '100%' : '100%',
           zIndex: mobileWindow ? '4' : '',
           padding: mobileWindow ? '10px 20px 26px 0px' : '0',
-          marginRight: mobileWindow ? (collapsed1 ? '0' : '-250px') : '0',
+          marginRight: mobileWindow ? (collapsed1 ? '0' : '-200%') : '0',
           transition: mobileWindow ? '0.3s' : '',
           background: mobileWindow ? '#F5f5f5' : '',
           borderTopLeftRadius: mobileWindow ? '5px' : '',
           borderBottomLeftRadius: mobileWindow ? '5px' : '',
-          boxShadow: mobileWindow ? 'rgba(0, 0, 0, 0.35) 0px 5px 5px' : '',
-          height: mobileWindow ? '370px' : '',
+          boxShadow: mobileWindow ? 'rgba(0, 0, 0, 0.35) 0px 5px 5px' : 'rgba(0, 0, 0, 0.35) 0px 5px 5px',
+          height: mobileWindow ? '50vh' : '50vh',
         }"
       >
         <div v-if="mobileWindow" class="title">
@@ -136,14 +136,14 @@ export default defineComponent({
     mobileWidth: {
       type: String as PropType<string>,
       required: false,
-      default: '1330px',
+      default: '6000px',
     },
   },
   setup(props) {
     const mounted = ref(false);
     const collapsed1: Ref<boolean> = ref(false);
     const collapsed2: Ref<boolean> = ref(false);
-    const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
+    const mobileWindow = ref(window.matchMedia('(max-width: 6000px)').matches);
 
     const handClick = () => {
       collapsed1.value = false;
@@ -169,7 +169,7 @@ export default defineComponent({
           case '768px':
             return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
         }
-        return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
+        return (mobileWindow.value = window.matchMedia('(max-width: 6000px)').matches);
       });
       mounted.value = true;
     });
@@ -189,6 +189,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
+
+.filter-block {
+  box-sizing: border-box;
+  overflow: hidden;
+  overflow-y: auto;
+  max-width: 600px;
+}
 
 .hidden {
   display: none;
