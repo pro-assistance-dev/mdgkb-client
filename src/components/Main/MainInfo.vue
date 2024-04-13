@@ -15,24 +15,32 @@
           </p>
           <div class="info-container-left-icons">
             <div class="info-container-left-icons-item">
-              <Prof />
+              <svg class="icon">
+                <use xlink:href="#1"></use>
+              </svg>
               <h4>31</h4>
               <span>профиль медицинской помощи</span>
             </div>
             <div class="info-container-left-icons-item">
-              <Division />
+              <svg class="icon">
+                <use xlink:href="#4"></use>
+              </svg>
+              <h4>45</h4>
+              <span>медицинких специаль-<br />ностей</span>
+            </div>
+            <div class="info-container-left-icons-item">
+              <svg class="icon">
+                <use xlink:href="#2"></use>
+              </svg>
               <h4>48</h4>
               <span>отделений</span>
             </div>
             <div class="info-container-left-icons-item">
-              <Doc />
+              <svg class="icon">
+                <use xlink:href="#3"></use>
+              </svg>
               <h4>700</h4>
               <span>врачей</span>
-            </div>
-            <div class="info-container-left-icons-item">
-              <MedSpec />
-              <h4>45</h4>
-              <span>медицинких специаль-<br />ностей</span>
             </div>
           </div>
         </div>
@@ -57,6 +65,13 @@
       </div>
     </div>
   </div>
+  <div class="hidden">
+    <Prof />
+    <Division />
+    <Doc />
+    <MedSpec />
+  </div>
+  
 </template>
 
 <script setup lang="ts">
@@ -68,6 +83,11 @@ const carouselRef = ref();
 </script>
 
 <style lang="scss" scoped>
+
+.hidden {
+  display: none;
+}
+
 .info-main-container {
   background-color: white;
 }
