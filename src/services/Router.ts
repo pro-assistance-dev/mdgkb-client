@@ -28,7 +28,11 @@ export default abstract class Router {
     return arr[arr.length - 1];
   }
 
-  static async ToAdmin(path: string): Promise<void> {
+  static async ToAdmin(path?: string): Promise<void> {
+    if (!path) {
+      await router.push(`/admin`);
+      return;
+    }
     let safePath = path;
     if (safePath[0] === '/') {
       safePath = path.substring(1);

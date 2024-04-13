@@ -20,6 +20,7 @@ export default defineComponent({
     minWidth: { type: String as PropType<string>, required: false, default: '' },
     margin: { type: String as PropType<string>, required: false, default: '' },
     customClass: { type: String as PropType<string>, required: false, default: '' },
+    justifyContent: { type: String as PropType<string>, required: false, default: 'center' },
   },
   emits: ['click'],
   setup(props) {
@@ -33,6 +34,7 @@ export default defineComponent({
       maxWidth: props.width,
       minWidth: props.minWidth,
       margin: props.margin,
+      justifyContent: props.justifyContent,
     };
     return { styleObject };
   },
@@ -44,7 +46,6 @@ export default defineComponent({
   max-width: 100%;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   background: inherit;
 }

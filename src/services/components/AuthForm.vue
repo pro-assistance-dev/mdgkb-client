@@ -11,11 +11,14 @@
         <el-form-item v-if="form.password.show(form.status)" prop="password" label="Введите пароль">
           <el-input ref="passwordRef" v-model="form.password.password" placeholder="Пароль" type="password" />
         </el-form-item>
+        <el-form-item v-if="form.passwordRepeat.show(form.status)" prop="passwordRepeat" label="Повторите пароль">
+          <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
+        </el-form-item>
         <div class="btn-group">
           <Button
             v-for="btn in buttons"
-            :colorSwap="true"
             :key="btn.getStatus()"
+            :color-swap="true"
             :text="btn.label"
             :button="btn.disabled"
             :button-class="btn.isSubmit ? 'btn-active' : 'btn'"
@@ -32,6 +35,7 @@ import AuthButton from '@/services/classes/AuthButton';
 import AuthForm from '@/services/classes/AuthForm';
 import Message from '@/services/classes/Message';
 import Provider from '@/services/Provider/Provider';
+
 import AuthStatuses from '../interfaces/AuthStatuses';
 
 const form: ComputedRef<AuthForm> = computed(() => Provider.store.getters['auth/form']);
@@ -128,6 +132,12 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
+.wer {
+  height: 20px;
+  width: 20px;
+  background: red;
+}
+
 .auth-card {
   // width: 320px;
 }

@@ -10,10 +10,10 @@
     <!-- width: `calc(100% - ${margin.prototype.slice()}`
       width: 'calc(100% - $margin.prototype.slice())' -->
     <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="handleItemClick">
-      <use xlink:href="#arrow-down"></use>
+      <use xlink:href="#arrow-down" />
     </svg>
     <svg v-else-if="isCollaps && !collapsed" class="icon-arrow" @click="handleItemClick">
-      <use xlink:href="#arrow-up"></use>
+      <use xlink:href="#arrow-up" />
     </svg>
     <label :for="tabId" @click="handleItemClick">
       <div
@@ -63,11 +63,11 @@
   <!-- <Arrows /> -->
   <svg width="0" height="0" class="hidden">
     <symbol id="arrow-down" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-      <path d="M5 6L10 11L15 6L17 7L10 14L3 7L5 6Z"></path>
+      <path d="M5 6L10 11L15 6L17 7L10 14L3 7L5 6Z" />
     </symbol>
 
     <symbol id="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-      <path d="M15 14L10 9L5 14L3 13L10 6L17 13L15 14Z"></path>
+      <path d="M15 14L10 9L5 14L3 13L10 6L17 13L15 14Z" />
     </symbol>
   </svg>
 </template>
@@ -147,6 +147,7 @@ export default defineComponent({
     height: auto;
     align-items: center;
     font-weight: bold;
+    cursor: pointer;
   }
 }
 

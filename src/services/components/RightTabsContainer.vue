@@ -174,7 +174,8 @@ export default defineComponent({
   width: calc(100% - 110px);
   height: calc(100% - 10px);
   background: $custom-background;
-  // overflow-y: scroll;
+  overflow: hidden;
+  overflow-y: auto;
   // padding-right: 3px;
 }
 

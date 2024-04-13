@@ -152,7 +152,7 @@ export default defineComponent({
         ? {
             width: props.width,
             minHeight: '40px',
-            height: '40px',
+            height: 'auto',
             maxWidth: props.maxWidth,
             minWidth: props.minWidth,
             margin: props.baseBoxMargin,
