@@ -11,8 +11,7 @@
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
                   <div class="icon">
-                    <BaseIcon width="50" height="50" :color="getColor(subMenu.background)"
-                      :icon-name="subMenu.iconName">
+                    <BaseIcon :width="50" :height="50" :color="getColor(subMenu.background)">
                       <HelpProfileIcon :svg-code="subMenu.svgCode" />
                     </BaseIcon>
                   </div>
