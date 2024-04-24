@@ -73,8 +73,8 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import HospitalizationsFiltersLib from '@/services/Provider/libs/filters/HospitalizationsFiltersLib';
-import HospitalizationsSortsLib from '@/services/Provider/libs/sorts/HospitalizationsSortsLib';
+import HospitalizationsFiltersLib from '@/libs/filters/HospitalizationsFiltersLib';
+import HospitalizationsSortsLib from '@/libs/sorts/HospitalizationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

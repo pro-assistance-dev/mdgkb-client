@@ -12,7 +12,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import createSortModels from '@/services/CreateSortModels';
 import ISortModel from '@/services/interfaces/ISortModel';
 import { Orders } from '@/services/interfaces/Orders';
-import NmoCoursesSortsLib from '@/services/Provider/libs/sorts/NmoCoursesSortsLib';
+import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

@@ -51,7 +51,6 @@ import { map } from '@/store/modules/map';
 import { mapNodes } from '@/store/modules/mapNodes';
 import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
-import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
@@ -99,7 +98,6 @@ const s: StoreOptions<RootState> = {
   actions: {},
   mutations: {},
   modules: {
-    valueTypes,
     pageSections,
     auth,
     banners,
@@ -114,7 +112,6 @@ const s: StoreOptions<RootState> = {
     admin,
     timetables,
     map,
-    menus,
     pages,
     vacancies,
     vacancyResponses,

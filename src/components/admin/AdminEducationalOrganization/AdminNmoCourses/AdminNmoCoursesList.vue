@@ -60,7 +60,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import NmoCoursesSortsLib from '@/services/Provider/libs/sorts/NmoCoursesSortsLib';
+import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';

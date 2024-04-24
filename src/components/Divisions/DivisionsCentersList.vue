@@ -18,8 +18,8 @@ import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
-import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

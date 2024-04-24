@@ -45,8 +45,8 @@ import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import DailyMenusFiltersLib from '@/services/Provider/libs/filters/DailyMenusFiltersLib';
-import DailyMenusSortsLib from '@/services/Provider/libs/sorts/DailyMenus';
+import DailyMenusFiltersLib from '@/libs/filters/DailyMenusFiltersLib';
+import DailyMenusSortsLib from '@/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 export default defineComponent({

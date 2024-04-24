@@ -49,7 +49,7 @@ import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
+import SpecializationsFiltersLib from '@/libs/filters/SpecializationsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';

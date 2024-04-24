@@ -100,8 +100,8 @@
 import News from '@/classes/News';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 
 const news = Store.Items('news');
 const searchResult = Store.Item('news');

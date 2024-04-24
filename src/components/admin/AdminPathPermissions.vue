@@ -93,7 +93,7 @@ import Role from '@/services/classes/Role';
 import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import PathPermissionsSortsLib from '@/services/Provider/libs/sorts/PathPermissionsSortsLib';
+import PathPermissionsSortsLib from '@/libs/sorts/PathPermissionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

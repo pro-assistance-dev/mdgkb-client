@@ -8,9 +8,9 @@ import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
+import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
-
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: SortModelBuildersLib;
@@ -30,7 +30,7 @@ const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
-      Provider.store.commit('admin/showLoading');
+      Store.Commit('admin/showLoading');
       Provider.ftsp.value.reset();
       // await Provider.store.dispatch('meta/getSchema');
       if (options?.sortsLib) {
@@ -44,13 +44,18 @@ const Hooks = (() => {
       // await Proider.filterQuery.value.fromUrlQuery(Provider.route().query);
       // Provider.setDefaultSortModel();
       Provider.setStoreModule(undefined);
-      Provider.setGetAction(options?.getAction);
-      Provider.initPagination(options?.pagination);
+      // Provider.setGetAction(options?.getAction);
+      // Provider.initPagination(options?.pagination);
+      //
+      Store.Commit('filter/setStoreModule', options?.pagination?.storeModule);
+      Store.Commit('filter/setAction', options?.pagination?.action);
+      Store.Commit('pagination/setCurPage', 1);
+
       await f();
       if ((options?.adminHeader, options?.adminHeader)) {
-        Provider.store.commit('admin/setHeaderParams', options.adminHeader);
+        Store.Commit('admin/setHeaderParams', options.adminHeader);
       }
-      Provider.store.commit('admin/closeLoading');
+      Store.Commit('admin/closeLoading');
       Provider.mounted.value = true;
     });
   };
@@ -61,7 +66,7 @@ const Hooks = (() => {
     return onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       const func = submitFunction ? submitFunction : submit;
       showConfirmModal(func(), next);
-      Provider.resetState();
+      // Provider.resetState();
     });
   };
   const submit = (submitFunction?: CallableFunction) => {
@@ -76,7 +81,7 @@ const Hooks = (() => {
         if (submitFunction) {
           await submitFunction();
         } else {
-          await Provider.submit();
+          // await Provider.submit();
         }
         ElMessage({ message: 'Сохранено', type: 'success' });
       } catch (error) {

@@ -18,35 +18,38 @@
           right: mobileWindow ? '0px' : '',
           width: mobileWindow ? '100%' : '100%',
           zIndex: mobileWindow ? '4' : '',
-          padding: mobileWindow ? '10px 20px 26px 0px' : '0',
+          padding: mobileWindow ? '0px 0px 26px 0px' : '0',
           marginRight: mobileWindow ? (collapsed1 ? '0' : '-200%') : '0',
           transition: mobileWindow ? '0.3s' : '',
           background: mobileWindow ? '#F5f5f5' : '',
           borderTopLeftRadius: mobileWindow ? '5px' : '',
           borderBottomLeftRadius: mobileWindow ? '5px' : '',
           boxShadow: mobileWindow ? 'rgba(0, 0, 0, 0.35) 0px 5px 5px' : 'rgba(0, 0, 0, 0.35) 0px 5px 5px',
-          height: mobileWindow ? '50vh' : '50vh',
+          height: mobileWindow ? '60vh' : '60vh',
         }"
       >
         <div v-if="mobileWindow" class="title">
-          <svg
-            class="icon-filter"
-            :style="{
-              stroke: '#B0A4C0',
-              paddingLeft: '10px',
-            }"
-          >
-            <use xlink:href="#filter"></use>
-          </svg>
-          <svg
-            class="icon-close"
-            :style="{
-              marginRight: '-10px',
-            }"
-            @click="handClick1()"
-          >
-            <use xlink:href="#close"></use>
-          </svg>
+          <div class="title-line">
+            <svg
+              class="icon-filter"
+              :style="{
+                stroke: '#B0A4C0',
+                paddingLeft: '10px',
+              }"
+            >
+              <use xlink:href="#filter"></use>
+            </svg>
+            <svg
+              class="icon-close"
+              :style="{
+                marginRight: '5px',
+              }"
+              @click="handClick1()"
+            >
+              <use xlink:href="#close"></use>
+            </svg>
+          </div>
+          <slot name="title-tools" />
         </div>
         <slot name="filter" />
       </div>
@@ -59,7 +62,7 @@
           right: mobileWindow ? '0px' : '',
           width: mobileWindow ? '77px' : '',
           zIndex: mobileWindow ? '4' : '',
-          padding: mobileWindow ? '10px 10px 26px 0px' : '0 0 0 10px',
+          padding: mobileWindow ? '0px 0px 26px 0px' : '0 0 0 10px',
           marginRight: mobileWindow ? (collapsed2 ? '-2px' : '-130px') : '0',
           transition: mobileWindow ? '0.3s' : '',
           background: mobileWindow ? '#F5f5f5' : '',
@@ -70,18 +73,20 @@
         }"
       >
         <div v-if="mobileWindow" class="title">
-          <svg
-            class="icon-download"
-            :style="{
-              stroke: '#B0A4C0',
-              paddingLeft: '10px',
-            }"
-          >
-            <use xlink:href="#download"></use>
-          </svg>
-          <svg class="icon-close" @click="handClick2()">
-            <use xlink:href="#close"></use>
-          </svg>
+          <div class="title-line">
+            <svg
+              class="icon-download"
+              :style="{
+                stroke: '#B0A4C0',
+                paddingLeft: '10px',
+              }"
+            >
+              <use xlink:href="#download"></use>
+            </svg>
+            <svg class="icon-close" @click="handClick2()">
+              <use xlink:href="#close"></use>
+            </svg>
+          </div>
         </div>
         <slot name="download" />
       </div>
@@ -115,6 +120,11 @@
       </div>
     </div>
   </div>
+    <svg width="0" height="0" class="hidden">
+      <symbol id="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 10.5857L16.95 5.63574L18.364 7.04974L13.414 11.9997L18.364 16.9497L16.95 18.3637L12 13.4137L7.04999 18.3637L5.63599 16.9497L10.586 11.9997L5.63599 7.04974L7.04999 5.63574L12 10.5857Z"></path>
+      </symbol>
+    </svg>
 </template>
 
 <script lang="ts">
@@ -190,10 +200,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
 
+.hidden {
+  display: none;
+}
+
 .filter-block {
   box-sizing: border-box;
   overflow: hidden;
-  overflow-y: auto;
   max-width: 600px;
 }
 
@@ -256,6 +269,7 @@ export default defineComponent({
   height: 24px;
   cursor: pointer;
   fill: #343e5c;
+  fill: red;
 }
 
 .icon-close:hover {
@@ -271,10 +285,19 @@ export default defineComponent({
 }
 
 .title {
-  height: 40px;
+  position: sticky;
+  top: 0px;
+  z-index: 10;
+  margin-bottom: 0px;
+  background: #f5f5f5;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+} 
+
+.title-line {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  height: 40px;
 }
 </style>

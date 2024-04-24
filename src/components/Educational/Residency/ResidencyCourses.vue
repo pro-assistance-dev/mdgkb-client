@@ -11,8 +11,8 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import PageWrapper from '@/components/PageWrapper.vue';
 import createSortModels from '@/services/CreateSortModels';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

@@ -42,7 +42,7 @@ import FormStatus from '@/classes/FormStatus';
 import VacancyResponse from '@/classes/VacancyResponse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 

@@ -13,8 +13,8 @@ import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
-import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
+import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

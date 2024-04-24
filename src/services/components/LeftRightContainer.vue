@@ -5,6 +5,7 @@
         class="mainblock-left"
         :style="{
           minWidth: leftWidth,
+          maxWidth: leftWidth,
           background: background,
           display: leftWidth !== '0px' ? 'block' : 'none',
         }"

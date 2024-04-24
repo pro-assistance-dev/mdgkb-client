@@ -1,5 +1,11 @@
 <template>
-  <el-dialog :model-value="open" title="Настройка изображения" :close-on-click-modal="false" :close-on-press-escape="false">
+  <el-dialog
+    :model-value="open"
+    title="Настройка изображения"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    :show-close="false"
+  >
     <div class="background-container">
       <div class="tools-line">
         <div class="line-block">
@@ -22,95 +28,88 @@
         ref="cropperRef"
         :src="cropper.src"
         :stencil-props="{ aspectRatio: cropper.ratio }"
-        style="max-height: 50vh"
+        style="max-height: 50vh; min-height: 50vh"
         @change="onChange"
       />
 
       <div class="dialog-footer">
-        <el-button :loading="loading" type="success" @click="save">Сохранить</el-button>
+        <el-button :loading="loading" type="success" @click="save"> Сохранить </el-button>
       </div>
     </div>
   </el-dialog>
 </template>
 
-<script lang="ts">
-// import 'vue-advanced-cropper/dist/style.css';
+<script lang="ts" setup>
+import 'vue-advanced-cropper/dist/style.css';
 
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { computed, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 
 import ICanvasResult from '@/services/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/services/interfaces/canvas/ICoordinates';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ImageCropper',
-  components: { Cropper },
-  props: {
-    open: {
-      type: Boolean,
-      required: true,
-    },
-    defaultRatio: {
-      type: Number,
-      required: false,
-      default: 1,
-    },
+const props = defineProps({
+  open: {
+    type: Boolean,
+    required: true,
   },
-  emits: ['crop', 'close'],
-  setup(props, { emit }) {
-    const cropper = computed(() => Provider.store.getters[`cropper/cropper`]);
-    const resolution: Ref<number> = ref(props.defaultRatio);
-
-    cropper.value.ratio = resolution.value;
-
-    const selectResolution = async () => {
-      if (resolution.value === 0) {
-        cropper.value.ratio = 0;
-      } else {
-        cropper.value.ratio = resolution.value;
-      }
-    };
-
-    const coordinates: Ref<ICoordinates> = ref({
-      width: 0,
-      height: 0,
-      left: 0,
-      top: 0,
-    });
-
-    const loading = ref(false);
-    const resultImage = ref('');
-    const cropperRef = ref();
-
-    const save = async () => {
-      loading.value = true;
-      const canvas = cropperRef.value.getResult();
-      if (cropper.value.ratio === 0) {
-        resolution.value = coordinates.value.width / coordinates.value.height;
-      }
-      if (canvas) {
-        canvas.canvas.toBlob((blob: Blob) => {
-          emit('crop', { blob: blob, src: canvas.canvas?.toDataURL() });
-        });
-      }
-
-      loading.value = false;
-    };
-
-    const cancel = () => {
-      resultImage.value = '';
-      emit('close');
-    };
-
-    const onChange = (res: ICanvasResult) => {
-      coordinates.value = res.coordinates;
-      resultImage.value = res.canvas?.toDataURL();
-    };
-
-    return { save, cancel, onChange, resultImage, cropperRef, loading, cropper, selectResolution, resolution };
+  defaultRatio: {
+    type: Number,
+    required: false,
+    default: 1,
   },
 });
+const emits = defineEmits(['crop', 'close']);
+
+const cropper = computed(() => Provider.store.getters[`cropper/cropper`]);
+const resolution: Ref<number> = ref(props.defaultRatio);
+
+cropper.value.ratio = resolution.value;
+
+const selectResolution = async () => {
+  if (resolution.value === 0) {
+    cropper.value.ratio = 0;
+  } else {
+    cropper.value.ratio = resolution.value;
+  }
+};
+
+const coordinates: Ref<ICoordinates> = ref({
+  width: 0,
+  height: 0,
+  left: 0,
+  top: 0,
+});
+
+const loading = ref(false);
+const resultImage = ref('');
+const cropperRef = ref();
+
+const save = async () => {
+  loading.value = true;
+  const canvas = cropperRef.value.getResult();
+  if (cropper.value.ratio === 0) {
+    resolution.value = coordinates.value.width / coordinates.value.height;
+  }
+  if (canvas) {
+    canvas.canvas.toBlob((blob: Blob) => {
+      emits('crop', { blob: blob, src: canvas.canvas?.toDataURL() });
+    });
+  }
+
+  loading.value = false;
+};
+
+const cancel = () => {
+  resultImage.value = '';
+  emits('close');
+};
+
+const onChange = (res: ICanvasResult) => {
+  coordinates.value = res.coordinates;
+  resultImage.value = res.canvas?.toDataURL();
+};
 </script>
 
 <style lang="scss" scoped>

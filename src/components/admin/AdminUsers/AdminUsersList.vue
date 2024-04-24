@@ -46,7 +46,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import UsersSortsLib from '@/services/Provider/libs/sorts/UsersSortsLib';
+import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

@@ -14,11 +14,11 @@ import Message from '../classes/Message';
 const props = defineProps({
   start: {
     type: Date,
-    required: true,
+    default: undefined,
   },
   end: {
     type: Date,
-    required: true,
+    default: undefined,
   },
 });
 

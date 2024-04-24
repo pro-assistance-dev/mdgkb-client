@@ -83,9 +83,9 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import DailyMenuOrdersFiltersLib from '@/services/Provider/libs/filters/DailyMenuOrdersFiltersLib';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
-import DailyMenuOrdersSortsLib from '@/services/Provider/libs/sorts/DailyMenuOrdersSortsLib';
+import DailyMenuOrdersFiltersLib from '@/libs/filters/DailyMenuOrdersFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import DailyMenuOrdersSortsLib from '@/libs/sorts/DailyMenuOrdersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

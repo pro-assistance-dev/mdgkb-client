@@ -30,8 +30,8 @@ import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
-import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
+import DoctorsSortsLib from '@/libs/sorts/DoctorsSortsLib';
+import HeadsSortsLib from '@/libs/sorts/HeadsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 

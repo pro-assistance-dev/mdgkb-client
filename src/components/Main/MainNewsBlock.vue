@@ -33,8 +33,8 @@ import NewsCard from '@/components/News/NewsCard.vue';
 import NewsSmallList from '@/components/News/NewsSmallList.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

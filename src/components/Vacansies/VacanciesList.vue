@@ -20,8 +20,8 @@ import VacanciesFilters from '@/components/Vacansies/VacanciesFilters.vue';
 import VacancyCard from '@/components/Vacansies/VacancyCard.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
-import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
+import VacanciesFiltersLib from '@/libs/filters/VacanciesFiltersLib';
+import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

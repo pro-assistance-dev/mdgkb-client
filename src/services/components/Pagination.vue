@@ -1,7 +1,7 @@
 <template>
-  <div :key="count" style="text-align: center; width: 100%">
+  <div :key="count" style="display: flex; justify-content: center; width: 100%">
     <el-pagination
-      style="margin: 10px 0"
+      style="margin: 10px 50px"
       :current-page="curPage"
       background
       layout="prev, pager, next"

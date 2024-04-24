@@ -30,7 +30,7 @@ export default abstract class Arrays {
   }
 
   static Eq<ArrayType>(arr1: ArrayType[], arr2: ArrayType[]): boolean {
-    return arr1.length === arr2.length && arr1?.every((el: ArrayType, i: number) => arr1[i] === arr2[i]);
+    return arr1.length === arr2.length && arr1?.every((el: ArrayType, i: number) => arr1[i] == arr2[i]);
   }
 
   static SwipeById(arr: IWithId[], el1: IWithId, el2: IWithId): void {

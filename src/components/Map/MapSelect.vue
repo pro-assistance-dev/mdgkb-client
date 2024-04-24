@@ -57,8 +57,8 @@ import Gate from '@/classes/Gate';
 import IMapObject from '@/interfaces/IMapObject';
 import IOption from '@/interfaces/schema/IOption';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
-import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

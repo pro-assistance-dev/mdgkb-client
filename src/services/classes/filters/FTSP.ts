@@ -19,6 +19,13 @@ export default class FTSP {
     ClassHelper.BuildClass(this, i);
   }
 
+  createFrom(ftsp: string): void {
+    const restored = new FTSP(JSON.parse(ftsp));
+    console.log(restored);
+
+    this.f = restored.f;
+  }
+
   clearForHTTP(): FTSP {
     const f = new FTSP(this);
     f.f = this.f.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
@@ -60,5 +67,8 @@ export default class FTSP {
     this.f = [];
     this.s = [];
     this.p = new Pagination();
+  }
+  resetF(): void {
+    this.f = []
   }
 }

@@ -9,10 +9,11 @@
 </template>
 
 <script setup lang="ts">
-import InfoItem from '@/services/components/InfoItem.vue';
-import Button from '@/services/components/Button.vue';
-import StringItem from '@/services/components/StringItem.vue';
 import { PropType, ref } from 'vue';
+
+import Button from '@/services/components/Button.vue';
+import InfoItem from '@/services/components/InfoItem.vue';
+import StringItem from '@/services/components/StringItem.vue';
 
 const props = defineProps({
   selected: {
@@ -45,5 +46,4 @@ const select = (item?: string) => {
   margin: 2px 10px 0 0;
   font-size: 14px;
 }
-
 </style>

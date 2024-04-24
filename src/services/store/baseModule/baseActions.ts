@@ -64,14 +64,13 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
 
       const f = ftsp.clearForHTTP();
       // if qid exists - set query with only id, or send ftsp
-      console.log(ftsp);
       const p: IBodyfulParams<unknown> = {
         // payload: qid ? { qid: qid, ftsp: undefined } : { qid: '', ftsp: ftsp },
         payload: { ftsp: f },
         isFormData: true,
         query: 'ftsp',
       };
-      let res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
+      const res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
       // if qid wrong - repeat query with new ftsp
       // if (!res || !res.ftsp || !res.ftsp.id) {
       //   commit('filter/filterExists', false, { root: true });

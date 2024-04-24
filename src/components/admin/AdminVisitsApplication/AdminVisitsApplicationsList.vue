@@ -96,9 +96,9 @@ import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
-import VisitsApplicationsFiltersLib from '@/services/Provider/libs/filters/VisitsApplicationsFiltersLib';
-import VisitsApplicationsSortsLib from '@/services/Provider/libs/sorts/VisitsApplicationsSortsLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import VisitsApplicationsFiltersLib from '@/libs/filters/VisitsApplicationsFiltersLib';
+import VisitsApplicationsSortsLib from '@/libs/sorts/VisitsApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

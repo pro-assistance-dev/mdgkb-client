@@ -56,6 +56,12 @@ const setSort = async (s: SortModel | undefined) => {
 </script>
 
 <style lang="scss" scoped>
+:deep(.el-select__wrapper) {
+  min-height: 38px;
+  margin-top: 7px;
+}
+
+
 .anticon {
   margin: 4px 4px 2px 4px;
   font-size: 13px;
@@ -72,7 +78,7 @@ const setSort = async (s: SortModel | undefined) => {
 :deep(.el-input__inner) {
   border-radius: 5px;
   padding-left: 10px;
-  height: 34px;
+  height: 40px;
   // width: 100%;
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;

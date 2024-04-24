@@ -25,26 +25,26 @@ interface GetOptions {
 import { computed, ComputedRef } from 'vue';
 
 export default abstract class Store {
-  static async dispatch(request: string, opts?: GetAllOptions) {
+  static async Dispatch(request: string, opts?: GetAllOptions) {
     await getStore().dispatch(request, opts);
   }
-  static getters(module: string) {
+  static Getters(module: string) {
     return computed(() => getStore().getters[module]);
   }
 
-  static commit(request: string, data?: unknown) {
+  static Commit(request: string, data?: unknown) {
     getStore().commit(request, data);
   }
 
   static async FTSP(module: string, opts: GetAllOptions) {
-    await Store.dispatch(`${module}/${Methods.FTSP}`, opts);
+    await Store.Dispatch(`${module}/${Methods.FTSP}`, opts);
   }
   static Items(module: string, getter = 'items'): ComputedRef {
-    return Store.getters(`${module}/${getter}`);
+    return Store.Getters(`${module}/${getter}`);
   }
 
   static Count(module: string): ComputedRef {
-    return Store.getters(`${module}/count`);
+    return Store.Getters(`${module}/count`);
   }
 
   static Item(module: string, getter = 'item'): ComputedRef {
@@ -52,7 +52,7 @@ export default abstract class Store {
   }
 
   static async GetAll(module: string, opts?: GetAllOptions) {
-    await Store.dispatch(`${module}/${Methods.GetAll}`, opts);
+    await Store.Dispatch(`${module}/${Methods.GetAll}`, opts);
   }
 
   static async Get(module: string, id: string) {
@@ -60,12 +60,15 @@ export default abstract class Store {
   }
 
   static async Update(module: string, data: unknown) {
-    console.log(getStore());
     await getStore().dispatch(`${module}/${Methods.Update}`, data);
   }
 
   static async Create(module: string, data: unknown) {
     await getStore().dispatch(`${module}/${Methods.Create}`, data);
+  }
+
+  static AppendToAll(module: string, data: unknown) {
+    getStore().commit(`${module}/appendToAll`, data);
   }
 
   static async Remove(module: string, data: unknown) {

@@ -149,8 +149,8 @@ import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
-import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
+import VacanciesFiltersLib from '@/libs/filters/VacanciesFiltersLib';
+import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

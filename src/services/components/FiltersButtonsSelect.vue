@@ -1,42 +1,22 @@
 <template>
   <StringItem :string="defaultLabel" font-size="14px" padding="0" margin="20px 0 0 10px" />
-  <InfoItem
-    margin="5px 0 0 0px"
-    :with-open-window="false"
-    :with-icon="false"
-    height="auto"
-    background="#F5F5F5"
-    border-color="#C4C4C4"
-    padding="7px"
-    :with-hover="false"
-  >
+  <InfoItem margin="5px 0 0 0px" :with-open-window="false" height="auto" background="#F5F5F5" border-color="#C4C4C4"
+    padding="7px" :with-hover="false">
     <!-- <InfoItem margin="0" :with-open-window="false" :with-icon="false" height="auto" background="#F5F5F5" border-color="#C4C4C4" padding="7px" :with-hover="false"> -->
     <template #title>
       <!-- <StringItem :string="defaultLabel" font-size="14px" padding="0" margin="-5px 0 0 0" /> -->
     </template>
 
-    <GridContainer max-width="100%" grid-gap="7px" grid-template-columns="repeat(auto-fit, minmax(100%, 1fr))" margin="0px">
-      <Button
-        v-for="(model, index) in models"
-        :key="index"
-        button-class="filter-button"
-        :text="model.label"
-        :with-icon="false"
-        :is-toggle="model.valueEq(filterModel)"
-        :toggle-mode="true"
-        :inverse="inverse"
-        background-hover="DFF2F8"
-        height="auto"
-        @click="setFilter(model.valueEq(filterModel) ? undefined : model)"
-      >
-      </Button>
+    <GridContainer max-width="100%" grid-gap="7px" grid-template-columns="repeat(auto-fit, minmax(100%, 1fr))"
+      margin="0px">
+      <Button v-for="(model, index) in models" :key="index" button-class="filter-button" :text="model.label"
+        :is-toggle="model.valueEq(filterModel)" :toggle-mode="true" :inverse="inverse" background-hover="DFF2F8"
+        height="auto" @click="selectFilter(model.valueEq(filterModel) ? undefined : model)" />
     </GridContainer>
   </InfoItem>
 </template>
 
 <script lang="ts" setup>
-import { PropType, Ref, ref } from 'vue';
-
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Button from '@/services/components/Button.vue';
 import GridContainer from '@/services/components/GridContainer.vue';
@@ -56,22 +36,34 @@ const props = defineProps({
   inverse: { type: Boolean as PropType<boolean>, required: false, default: false },
 });
 const emits = defineEmits(['load']);
+const ftsp = Store.Item('filter', 'ftsp');
+const restore = Store.Item('filter', 'restore');
 
+
+watch(
+  () => restore.value,
+  () => {
+    console.log(props.models, ftsp.value.f);
+    const finded = props.models.find((m: FilterModel) => {
+      return ftsp.value.f.some((f: FilterModel) => {
+        return m.valueEq(f);
+      });
+    });
+    setFilter(finded);
+  }
+);
 const filterModel: Ref<FilterModel | undefined> = ref(undefined);
-
-// onBeforeMount((): void => {
-//   const findedModel = props.models?.find((m: FilterModel) => Provider.filterQuery.value.findFilterModel(m));
-//   if (findedModel) {
-//     selectedFilterModel.value = findedModel;
-//     return;
-//   }
-//   setDefaultFilterModel();
-// });
 
 const setFilter = async (model?: FilterModel) => {
   Provider.ftsp.value.replaceF(model, filterModel.value);
   filterModel.value = model;
+  Provider.dropPagination();
+  Provider.getPagination().drop();
   await Provider.router.replace({ query: {} });
+};
+
+const selectFilter = async (model?: FilterModel) => {
+  await setFilter(model);
   emits('load');
 };
 </script>

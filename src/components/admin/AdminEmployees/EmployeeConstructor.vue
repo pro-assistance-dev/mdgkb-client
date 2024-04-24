@@ -144,7 +144,7 @@ import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Human from '@/services/classes/Human';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
-import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

@@ -68,7 +68,7 @@ import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import EducationalManager from '@/classes/EducationalManager';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import EducationOrganizationManagersSortsLib from '@/services/Provider/libs/sorts/EducationanlManagersSortsLib';
+import EducationOrganizationManagersSortsLib from '@/libs/sorts/EducationanlManagersSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

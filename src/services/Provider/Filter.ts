@@ -1,17 +1,17 @@
-import { computed, ComputedRef } from 'vue';
+import { ComputedRef } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
 import SortModel from '@/services/classes/SortModel';
-import Store from '@/services/Provider/Store';
+import Store from '@/services/Store';
 
 import FTSP from '../classes/filters/FTSP';
 
 const Filter = (() => {
   let sortList: SortModel[] = [];
-  const filterQuery: ComputedRef<FilterQuery> = computed(() => Store.store.getters['filter/filterQuery']);
-  const ftsp: ComputedRef<FTSP> = computed(() => Store.store.getters['filter/ftsp']);
+  const filterQuery: ComputedRef<FilterQuery> = Store.Getters('filter/filterQuery');
+  const ftsp: ComputedRef<FTSP> = Store.Getters('filter/ftsp');
 
   function getPagination(): Pagination {
     return ftsp.value.p;

@@ -1,0 +1,10 @@
+<svg width="0" height="0" class="hidden">
+    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="filter">
+        <path d="M26.6641 9.33398L13.4961 9.33398M18.6641 22.6673H6.66406" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round"></path>
+        <path d="M22.6641 26.668C24.8732 26.668 26.6641 24.8771 26.6641 22.668C26.6641 20.4588 24.8732 18.668 22.6641 18.668C20.4549 18.668 18.6641 20.4588 18.6641 22.668C18.6641 24.8771 20.4549 26.668 22.6641 26.668Z"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M9.33203 13.334C11.5412 13.334 13.332 11.5431 13.332 9.33398C13.332 7.12485 11.5412 5.33398 9.33203 5.33398C7.12289 5.33398 5.33203 7.12485 5.33203 9.33398C5.33203 11.5431 7.12289 13.334 9.33203 13.334Z"
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    </symbol>
+</svg>

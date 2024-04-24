@@ -76,7 +76,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
+import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 

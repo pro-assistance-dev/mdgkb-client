@@ -14,10 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, Ref, ComputedRef, computed, PropType, onBeforeMount } from 'vue';
-import Provider from '@/services/Provider/Provider';
+import { computed, ComputedRef, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
+
 import CustomSection from '@/services/classes/page/CustomSection';
 import MenuContainer from '@/services/components/MenuContainer.vue';
+import Provider from '@/services/Provider/Provider';
 
 const componentKey = ref(0);
 const mounted = ref(false);
@@ -31,7 +32,7 @@ const props = defineProps({
   },
 });
 
-const component = ref(props.components[props.components[0]]);
+const component = shallowRef(props.components[props.components[0]]);
 
 const setMenuFromRoute = () => {
   let menu = Provider.route().query.menu as string;

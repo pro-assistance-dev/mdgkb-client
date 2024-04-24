@@ -47,4 +47,10 @@ export default class AuthButton {
   getStatus(): AuthStatuses {
     return this.toStatus;
   }
+  off(): void {
+    this.disabled = false;
+  }
+  on(): void {
+    this.disabled = true;
+  }
 }

@@ -2,7 +2,6 @@
   <InfoItem
     margin="0"
     :with-open-window="false"
-    :with-icon="false"
     height="98px"
     background="#F5F5F5"
     border-color="#C4C4C4"
@@ -13,7 +12,7 @@
       <template #title>
         <StringItem :string="defaultLabel" font-size="10px" padding="0" color="#c4c4c4" />
       </template>
-      <DateInputRange v-model:start="startDate" v-model:end="endDate" @setStart="setStart" @setEnd="setEnd" />
+      <DateInputRange v-model:start="startDate" v-model:end="endDate" @set-start="setStart" @set-end="setEnd" />
       <Button
         button-class="filter-button"
         text="Сбросить"
@@ -36,8 +35,8 @@ import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   model: {
-    type: Array as PropType<FilterModel[]>,
-    default: () => [],
+    type: Object as PropType<FilterModel>,
+    required: true,
   },
   defaultLabel: {
     type: String as PropType<string>,

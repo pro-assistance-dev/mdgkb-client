@@ -22,7 +22,7 @@ import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

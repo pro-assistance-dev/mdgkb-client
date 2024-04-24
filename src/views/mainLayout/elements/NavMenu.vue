@@ -11,7 +11,8 @@
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
                   <div class="icon">
-                    <BaseIcon width="50" height="50" :color="getColor(subMenu.background)" :icon-name="subMenu.iconName">
+                    <BaseIcon width="50" height="50" :color="getColor(subMenu.background)"
+                      :icon-name="subMenu.iconName">
                       <HelpProfileIcon :svg-code="subMenu.svgCode" />
                     </BaseIcon>
                   </div>
@@ -50,7 +51,7 @@ export default defineComponent({
   },
   setup() {
     const mounted = ref(false);
-    const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/menus']);
+    const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/items']);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
     const clickOutsideMenu = (e: MouseEvent) => {
@@ -66,7 +67,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('menus/getAll');
+      await Provider.store.dispatch('menus/ftsp');
       setColors();
       window.addEventListener('click', clickOutsideMenu);
       setActiveMenu();
@@ -278,6 +279,7 @@ li .dropmenu {
 }
 
 .index-about-column {
+
   &:hover,
   &:active,
   &:focus {

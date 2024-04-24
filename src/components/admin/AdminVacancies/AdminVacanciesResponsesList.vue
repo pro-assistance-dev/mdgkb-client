@@ -19,7 +19,7 @@ import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import VacancyResponsesSortsLib from '@/services/Provider/libs/sorts/VacancyResponsesSortsLib';
+import VacancyResponsesSortsLib from '@/libs/sorts/VacancyResponsesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

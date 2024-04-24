@@ -29,8 +29,8 @@ import FiltersList from '@/components/Filters/FiltersList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
-import PagesFiltersLib from '@/services/Provider/libs/filters/PagesFiltersLib';
-import PagesSortsLib from '@/services/Provider/libs/sorts/PagesSortsLib';
+import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
+import PagesSortsLib from '@/libs/sorts/PagesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

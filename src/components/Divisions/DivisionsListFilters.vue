@@ -43,7 +43,7 @@ import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({

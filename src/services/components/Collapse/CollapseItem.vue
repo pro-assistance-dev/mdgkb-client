@@ -81,8 +81,8 @@ export default defineComponent({
   name: 'CollapseItem',
   // components: { Arrows },
   props: {
-    tabId: { type: Number as PropType<number>, required: false, default: 0 },
-    activeId: { type: Number as PropType<number>, default: 0 },
+    tabId: { type: String as PropType<number>, required: false, default: '' },
+    activeId: { type: String as PropType<number>, default: '' },
     isCollaps: { type: Boolean as PropType<boolean>, default: true },
     title: { type: String as PropType<string>, default: '' },
     showToolsOnHover: { type: Boolean as PropType<boolean>, default: true },

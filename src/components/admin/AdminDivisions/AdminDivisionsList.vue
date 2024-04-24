@@ -48,7 +48,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

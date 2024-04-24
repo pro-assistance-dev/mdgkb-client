@@ -33,8 +33,8 @@ import NewsFilters from '@/components/News/NewsFilters.vue';
 import Pagination from '@/services/classes/filters/Pagination';
 import Hooks from '@/services/Hooks/Hooks';
 import { Operators } from '@/services/interfaces/Operators';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'NewsList',

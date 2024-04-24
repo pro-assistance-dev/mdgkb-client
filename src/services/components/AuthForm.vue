@@ -38,8 +38,8 @@ import Provider from '@/services/Provider/Provider';
 
 import AuthStatuses from '../interfaces/AuthStatuses';
 
-const form: ComputedRef<AuthForm> = computed(() => Provider.store.getters['auth/form']);
-const auth: ComputedRef<AuthForm> = computed(() => Provider.store.getters['auth/auth']);
+const form: ComputedRef<AuthForm> = Store.Item('auth', 'form');
+const auth: ComputedRef<AuthForm> = Store.Item('auth', 'auth');
 
 const emailRef = ref();
 const passwordRef = ref();
@@ -68,21 +68,21 @@ const refresh = async () => {
 };
 
 const authButtonClick = async (authButton: AuthButton): Promise<void> => {
-  authButton.disabled = true;
+  authButton.off();
   if (!authButton.isSubmit) {
-    authButton.disabled = false;
+    authButton.on();
     return form.value.setStatus(authButton.getStatus());
   }
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
     Message.Error(errors.join(', '));
-    authButton.disabled = false;
+    authButton.on();
     return;
   }
 
   try {
-    await Provider.store.dispatch(`auth/${form.value.getAction()}`);
+    Store.Dispatch(`auth/${form.value.getAction()}`);
     Message.Success(form.value.getSuccessMessage());
   } catch (error) {
     return;
@@ -106,7 +106,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
     default:
       break;
   }
-  authButton.disabled = false;
+  authButton.on();
   emits('action');
 };
 

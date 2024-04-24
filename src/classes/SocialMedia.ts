@@ -13,7 +13,7 @@ export default class SocialMedia {
     if (!i) {
       return;
     }
-    this.description = StringsService.removeEmoji(i.description);
+    // this.description = StringsService.removeEmoji(i.description);
     this.image = i.image;
     this.link = i.link;
     this.type = i.type;
@@ -38,7 +38,7 @@ export default class SocialMedia {
   }
   setTitle(title: string): void {
     if (title !== '') {
-      this.title = StringsService.removeEmoji(title);
+      // this.title = StringsService.removeEmoji(title);
       return;
     }
     if (this.type === SocialTypes.YouTube) {

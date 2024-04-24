@@ -77,8 +77,8 @@ import SortList from '@/components/SortList/SortListV2.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import EmployeesSortsLib from '@/services/Provider/libs/sorts/EmployeesSortsLib';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
+import EmployeesSortsLib from '@/libs/sorts/EmployeesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

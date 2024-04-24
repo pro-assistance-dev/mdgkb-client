@@ -53,7 +53,6 @@ export default class FilterModel {
     if (!this || !s || !this.eq(s)) {
       return false;
     }
-
     if (this.type === DataTypes.Boolean) {
       return this.boolean === s?.boolean;
     }

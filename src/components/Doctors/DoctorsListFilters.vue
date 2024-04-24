@@ -87,7 +87,7 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import DoctorsSortsLib from '@/services/Provider/libs/sorts/DoctorsSortsLib';
+import DoctorsSortsLib from '@/libs/sorts/DoctorsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 

@@ -82,7 +82,7 @@ import buildNameNumbers from '@/services/buildNameNumbers';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
+import PostgraduateCoursesSortsLib from '@/libs/sorts/PostgraduateCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';

@@ -31,7 +31,7 @@ import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortListV2.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import PreparationsSortsLib from '@/services/Provider/libs/sorts/PreparationsSortsLib';
+import PreparationsSortsLib from '@/libs/sorts/PreparationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

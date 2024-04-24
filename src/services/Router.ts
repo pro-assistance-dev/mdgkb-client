@@ -1,6 +1,6 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
-import router from '../router';
+import router from '@/router';
 
 export default abstract class Router {
   static async To(route: string) {

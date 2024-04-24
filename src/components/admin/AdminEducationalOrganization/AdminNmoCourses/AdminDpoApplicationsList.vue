@@ -55,9 +55,9 @@ import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 // import FiltersList from '@/components/Filters/FiltersList.vue';
 import { Orders } from '@/services/interfaces/Orders';
-import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
-import DpoApplicationsSortsLib from '@/services/Provider/libs/sorts/DpoApplicationsSortsLib';
+import DpoApplicationsFiltersLib from '@/libs/filters/DpoApplicationsFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import DpoApplicationsSortsLib from '@/libs/sorts/DpoApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

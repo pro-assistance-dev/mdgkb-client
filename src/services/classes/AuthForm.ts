@@ -14,7 +14,7 @@ export default class AuthForm {
 
   getErrors(): string[] {
     if (this.isRefresh()) {
-      if(!this.comparePasswords()) {
+      if (!this.comparePasswords()) {
         return ['Пароли не совпадают, проверьте ввод!'];
       }
       return this.password.getErrors();
@@ -24,7 +24,7 @@ export default class AuthForm {
     }
 
     if (this.isRegister()) {
-      if(!this.comparePasswords()) {
+      if (!this.comparePasswords()) {
         return ['Пароли не совпадают, проверьте ввод!'];
       }
       return this.email.getErrors();
@@ -33,7 +33,6 @@ export default class AuthForm {
     return [...this.email.getErrors(), ...this.password.getErrors()];
   }
 
-  
   comparePasswords(): boolean {
     return this.password.password === this.passwordRepeat.text ? true : false;
   }

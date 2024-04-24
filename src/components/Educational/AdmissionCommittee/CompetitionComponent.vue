@@ -47,8 +47,8 @@ import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/
 import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import UserService from '@/services/User';
