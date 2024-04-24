@@ -6,8 +6,7 @@
   "extends": [
     "./.eslintrc-auto-import.json",
     "plugin:vue/vue3-recommended",
-    "eslint:recommended",
-    "prettier"
+    "eslint:recommended"
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {
@@ -23,9 +22,12 @@
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "@typescript-eslint/no-unused-vars": 0,
+    "vue/no-v-html": 0,
+    "vue/multiline-html-element-content-newlin": 0,
+    "vue/singleline-html-element-content-newline": 0,
+    "vue/max-attributes-per-line": 0,
     "no-undef": "warn",
-    "prefer-const": "warn",
-    "no-unused-vars": "warn"
+    "prefer-const": "warn"
   },
   "overrides": [
     {

@@ -1,4 +1,4 @@
-import { FTSP } from '@/Main';
+import FTSP from '@/Main';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class FTSPPreset {

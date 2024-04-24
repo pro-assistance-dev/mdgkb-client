@@ -45,6 +45,7 @@ import WaitElement from './WaitElement';
 import WebSocketClient from './WebSocketClient';
 
 export {
+  FTSP,
   Arrays,
   Axios,
   brandColors,
@@ -65,7 +66,6 @@ export {
   Dragger,
   Email,
   Favourite,
-  FTSP,
   GetExtension,
   Hooks,
   HttpClient,

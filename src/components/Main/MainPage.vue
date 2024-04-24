@@ -2,9 +2,11 @@
   <!-- <MainHeaderButtons /> -->
   <MainInfo />
   <MainNewsBlock />
-  <div class="hidden"><MainSpecialServices /></div>
+  <div class="hidden">
+    <MainSpecialServices />
+  </div>
   <MainDoctors />
-  <MainMedicalProfiles />
+  <!-- <MainMedicalProfiles /> -->
   <!-- <MainEvents /> -->
   <MainArticles />
   <MainReviews />

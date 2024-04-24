@@ -84,7 +84,6 @@ import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
-import { valueTypes } from '@/store/modules/valueTypes';
 import { visitingRules } from '@/store/modules/visitingRules';
 import { visitsApplications } from '@/store/modules/visitsApplications';
 
