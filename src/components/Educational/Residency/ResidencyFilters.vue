@@ -1,25 +1,5 @@
 <template>
   <FiltersWrapper v-if="mounted">
-    <template v-if="condition" #header-left-top>
-      <RemoteSearch
-        :max-width="360"
-        :key-value="schema.residencyCourse.key"
-        :table="schema.residencyCourse.tableName"
-        :col="schema.residencyCourse.name"
-        placeholder="Начните вводить название специальности"
-        @select="selectSearch"
-        @load="$emit('load')"
-      />
-      <FilterSelect
-        placeholder="Выбрать год начала"
-        :options="schema.educationYear.options"
-        :table="schema.residencyCourse.tableName"
-        :col="schema.residencyCourse.startYearId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        @load="$emit('load')"
-      />
-    </template>
     <template #header-right>
       <ModeChoice path="residency" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
     </template>
@@ -37,7 +17,6 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -77,9 +56,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.specialization);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.educationYear);
-      Provider.schema.value.educationYear.options.forEach((o) => (o.label = new Date(o.label).getFullYear().toString()));
     });
 
     const resetFilter = () => {
@@ -93,7 +69,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      schema: Provider.schema,
       sortList: Provider.sortList,
       mounted: Provider.mounted,
     };
@@ -109,6 +84,7 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
@@ -118,6 +94,7 @@ export default defineComponent({
 h2 {
   margin: 0;
 }
+
 /* .card-header {
   text-align: center;
 }
@@ -160,14 +137,17 @@ h2 {
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 /* .card-header {
   text-align: center;
 }

@@ -1,18 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import Comment from '@/classes/Comment';
-import NewsComment from '@/classes/NewsComment';
 import RootState from '@/store/types';
 
-import State from './state';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  comments(state): Comment[] {
-    return state.comments;
-  },
-  comment(state): NewsComment {
-    return state.comment;
-  },
+  ...getBaseGetters(),
   count(state): number {
     return state.count;
   },

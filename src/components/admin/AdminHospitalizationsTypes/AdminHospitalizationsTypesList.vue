@@ -44,7 +44,7 @@ export default defineComponent({
     const hospitalizationsTypes: Ref<SupportMessage[]> = computed(() => Provider.store.getters['hospitalizationsTypes/items']);
 
     const loadHospitalizationsTypes = async () => {
-      await Provider.getAll('hospitalizationsTypes');
+      await Store.GetAll('hospitalizationsTypes');
     };
 
     const load = async () => {

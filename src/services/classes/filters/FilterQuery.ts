@@ -115,25 +115,24 @@ export default class FilterQuery {
     this.value = value;
   }
 
-  setCursorPagination(schema: unknown, object: Record<string, unknown>): void {
-    const s = schema as Record<string, unknown>;
+  setCursorPagination(_: unknown, object: Record<string, unknown>): void {
     // const sortModel = this.sortModels.find((s: SortModel) => s.id);
     if (!this.sortModel) {
       return;
     }
-    for (const p in s) {
-      if (s[p] === this.sortModel.col) {
-        if (p === 'sortColumn') {
-          continue;
-        }
-        this.pagination.cursor.column = this.sortModel.col;
-        this.pagination.cursor.value = String(object[p]);
-        this.pagination.cursor.operation = this.sortModel.isAsc() ? Operators.Gt : Operators.Lt;
-        this.pagination.cursorMode = true;
-        this.pagination.cursor.initial = false;
-        break;
-      }
-    }
+    // for (const p in s) {
+    //   if (s[p] === this.sortModel.col) {
+    //     if (p === 'sortColumn') {
+    //       continue;
+    //     }
+    //     this.pagination.cursor.column = this.sortModel.col;
+    //     this.pagination.cursor.value = String(object[p]);
+    //     this.pagination.cursor.operation = this.sortModel.isAsc() ? Operators.Gt : Operators.Lt;
+    //     this.pagination.cursorMode = true;
+    //     this.pagination.cursor.initial = false;
+    //     break;
+    //   }
+    // }
   }
 
   setSortModel(sortModel: SortModel) {

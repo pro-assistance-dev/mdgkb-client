@@ -22,15 +22,9 @@
                   <svg class="icon-edit" @click.stop="editDishesGroup(element)">
                     <use xlink:href="#profile-edit" />
                   </svg>
-                  <el-popconfirm
-                    confirm-button-text="Да"
-                    cancel-button-text="Отмена"
-                    icon="el-icon-info"
-                    icon-color="red"
-                    title="Вы уверены, что хотите удалить категорию?"
-                    @confirm="removeDishesGroup(element.id)"
-                    @cancel="() => {}"
-                  >
+                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
+                    icon-color="red" title="Вы уверены, что хотите удалить категорию?"
+                    @confirm="removeDishesGroup(element.id)" @cancel="() => { }">
                     <template #reference>
                       <button class="tools-button">
                         <svg class="icon-delete">
@@ -42,13 +36,15 @@
                 </template>
                 <template #inside-title>
                   <div class="title-in">
-                    <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
+                    <el-badge :value="element.dishSamples.length"
+                      :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
                       {{ element.name }}
                     </el-badge>
                   </div>
                 </template>
                 <template #inside-content>
-                  <DishesConstructorList :dishes-samples="element.dishSamples" @openDishSampleConstructor="openDishSampleConstructor" />
+                  <DishesConstructorList :dishes-samples="element.dishSamples"
+                    @openDishSampleConstructor="openDishSampleConstructor" />
                 </template>
               </CollapseItem>
             </div>
@@ -56,12 +52,14 @@
         </draggable>
       </div>
       <div v-else class="column">
-        <DishesConstructorList :dishes-samples="dishSamplesFlat" @openDishSampleConstructor="openDishSampleConstructor" />
+        <DishesConstructorList :dishes-samples="dishSamplesFlat"
+          @openDishSampleConstructor="openDishSampleConstructor" />
       </div>
     </div>
     <div class="menusGroup">
       <DishConstructorInfo v-if="!dishSampleConstructorVisible" @selectLastDish="openDishSampleConstructor" />
-      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
+      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id"
+        :close-function="closeDishSampleConstructorVisible" />
     </div>
   </div>
   <AddToMenu />
@@ -228,7 +226,6 @@ export default defineComponent({
       addDishesGroup,
       dishesGroups,
       mounted: Provider.mounted,
-      schema: Provider.schema,
 
       isCallBackModalOpen,
     };
@@ -457,12 +454,12 @@ $margin: 20px 0;
   background: #d6ecf4;
 }
 
-.dish-item:active > .item-button {
+.dish-item:active>.item-button {
   display: flex;
   background: #d6ecf4;
 }
 
-.dish-item:hover > .item-button {
+.dish-item:hover>.item-button {
   display: flex;
 }
 
@@ -487,6 +484,7 @@ $margin: 20px 0;
   align-items: center;
   font-weight: bold;
 }
+
 .drug-icon {
   cursor: pointer;
 }

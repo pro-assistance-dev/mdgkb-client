@@ -13,7 +13,6 @@ export const state: State = {
   socialMedia: [],
   addresses: [],
   kladrAPI: new KladrApi(),
-  // schema: new Schema
 };
 
 const namespaced = true;

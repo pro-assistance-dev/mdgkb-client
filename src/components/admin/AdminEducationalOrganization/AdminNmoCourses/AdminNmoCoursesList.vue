@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" show-header>
+  <AdminListWrapper show-header>
     <template #header>
       <SortList class="filters-block" :models="sortModels" @load="loadCourses" />
     </template>
@@ -7,7 +7,8 @@
       <el-table-column label="Название" width="400" class-name="sticky-left">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small" placeholder="Заголовок"></el-input>
+            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small"
+              placeholder="Заголовок"></el-input>
           </div>
           <div v-else>
             {{ scope.row.name }}
@@ -44,7 +45,8 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
+            @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -112,7 +114,6 @@ export default defineComponent({
     });
 
     return {
-      ...Provider.getAdminLib(),
       isEditMode,
       nmoCourses,
       loadCourses,

@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-if="mounted">
     <template #filters>
-      <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
+      <!-- <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" /> -->
     </template>
     <DivisionsList :divisions="divisions" @load="loadMore" />
   </PageWrapper>
@@ -14,7 +14,6 @@ import Division from '@/classes/Division';
 import DivisionsList from '@/components/Divisions/DivisionsList.vue';
 import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -39,8 +38,8 @@ export default defineComponent({
     const count: Ref<number> = ref(1);
 
     const load = async () => {
-      Provider.setSortModels(DivisionsSortsLib.byName());
-      Provider.setSortList(...createSortModels(DivisionsSortsLib));
+      // Provider.setSortModels(DivisionsSortsLib.byName());
+      // Provider.setSortList(...createSortModels(DivisionsSortsLib));
       onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
       onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
@@ -84,10 +83,6 @@ export default defineComponent({
       await loadDivisions();
     };
 
-    const loadFilters = async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-    };
 
     return {
       divisions,
@@ -99,7 +94,6 @@ export default defineComponent({
       load,
       loadMore,
       loadDivisions,
-      loadFilters,
     };
   },
 });
@@ -113,33 +107,42 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
+
   .right-side {
     // max-width: $right-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;
@@ -163,6 +166,7 @@ h2 {
   display: flex;
   justify-content: center;
 }
+
 .filters {
   position: sticky;
   top: 79px;
@@ -294,6 +298,7 @@ h2 {
     display: flex;
     margin-right: 5px;
   }
+
   .item-4 {
     width: 158px;
     display: flex;

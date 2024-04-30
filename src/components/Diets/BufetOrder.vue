@@ -11,14 +11,8 @@
       </div>
     </div>
     <div class="table-main">
-      <el-form
-        ref="userForm"
-        v-model="dailyMenuOrder"
-        :model="dailyMenuOrder"
-        label-width="150px"
-        style="max-width: 700px"
-        label-position="left"
-      >
+      <el-form ref="userForm" v-model="dailyMenuOrder" :model="dailyMenuOrder" label-width="150px"
+        style="max-width: 700px" label-position="left">
         <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
         <FieldValuesForm :form="dailyMenuOrder.formValue" />
       </el-form>
@@ -96,7 +90,6 @@ export default defineComponent({
       createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });
@@ -204,6 +197,7 @@ input[type='text'] {
   margin: 0 10px;
   color: #343e5c;
 }
+
 .active-item {
   display: flex;
   align-items: center;
@@ -219,7 +213,7 @@ input[type='text'] {
   height: 100vh;
 }
 
-.main > div {
+.main>div {
   object-fit: cover;
 }
 

@@ -1,32 +1,10 @@
 <template>
   <FiltersWrapper v-if="mounted" :header-right-max-width="350">
     <template v-if="condition" #header-left-top>
-      <RemoteSearch
-        :max-width="360"
-        :key-value="schema.postgraduateCourse.key"
-        :table="schema.postgraduateCourse.tableName"
-        :col="schema.postgraduateCourse.name"
-        placeholder="Начните вводить название специальности"
-        @select="selectSearch"
-        @load="$emit('load')"
-      />
-      <!--        <FilterSelect-->
-      <!--          placeholder="Выбрать специализацию"-->
-      <!--          :options="schema.specialization.options"-->
-      <!--          :table="schema.nmoCourse.tableName"-->
-      <!--          :col="schema.specialization.id"-->
-      <!--          :data-type="DataTypes.Join"-->
-      <!--          :operator="Operators.Eq"-->
-      <!--          :join-table="schema.dpoCourseSpecialization.tableName"-->
-      <!--          :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"-->
-      <!--          :join-table-pk="schema.nmoCourse.id"-->
-      <!--          :join-table-id="schema.dpoCourseSpecialization.specializationId"-->
-      <!--          :join-table-id-col="schema.dpoCourseSpecialization.specializationId"-->
-      <!--          @load="$emit('load')"-->
-      <!--        />-->
     </template>
     <template #header-right>
-      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
+      <ModeChoice :max-width="350" path="postgraduate" :modes="modes"
+        @selectMode="(value) => $emit('selectMode', value)" />
     </template>
     <template v-if="condition" #footer>
       <SortList :models="sortList" :store-mode="true" @load="$emit('load')" />
@@ -41,7 +19,6 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -80,9 +57,6 @@ export default defineComponent({
       await Provider.router.push(`/postgraduate-courses/${event.value}`);
     };
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.specialization);
-    });
 
     const resetFilter = () => {
       Provider.store.commit(`filter/resetQueryFilter`);
@@ -95,7 +69,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      schema: Provider.schema,
       sortList: Provider.sortList,
       mounted: Provider.mounted,
     };
@@ -111,6 +84,7 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
@@ -120,22 +94,28 @@ export default defineComponent({
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;
@@ -162,30 +142,38 @@ h2 {
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;

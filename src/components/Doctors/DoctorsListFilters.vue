@@ -1,67 +1,10 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <ModeButtons
-        :second-mode-active="!doctorsMode"
-        :store-mode="false"
-        :first-mode="'Врачи'"
-        :second-mode="'Руководство'"
-        @changeMode="$emit('changeMode', !doctorsMode)"
-      />
+      <ModeButtons :second-mode-active="!doctorsMode" :store-mode="false" :first-mode="'Врачи'"
+        :second-mode="'Руководство'" @changeMode="$emit('changeMode', !doctorsMode)" />
     </template>
     <template v-if="doctorsMode" #header-left-top>
-      <RemoteSearch :key-value="schema.doctor.key" :max-width="300" placeholder="Начните вводить ФИО врача" @select="selectSearch" />
-      <FilterSelect
-        placeholder="Медицинское направление"
-        :max-width="300"
-        :options="schema.medicalProfile.options"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.medicalProfileId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        @load="$emit('load')"
-      />
-      <FilterSelect
-        :max-width="200"
-        placeholder="Отделение"
-        :options="schema.division.options"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.divisionId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        @load="$emit('load')"
-      />
-    </template>
-    <template v-if="doctorsMode" #header-left-bottom>
-      <FilterCheckbox
-        label='Обладатели статуса "Московский врач"'
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.mosDoctorLink"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.NotNull"
-        @load="$emit('load')"
-      />
-      <FilterCheckbox
-        label="С отзывами"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.commentsCount"
-        :data-type="DataTypes.Number"
-        :operator="Operators.Gt"
-        @load="$emit('load')"
-      />
-      <FilterCheckbox
-        label="Избранное"
-        :table="schema.doctor.tableName"
-        :col="schema.doctor.id"
-        :data-type="DataTypes.Join"
-        :operator="Operators.Eq"
-        :join-table="schema.doctorUser.tableName"
-        :join-table-fk="schema.doctorUser.doctorId"
-        :join-table-pk="schema.doctor.id"
-        :join-table-id="TokenService.getUserId()"
-        :join-table-id-col="schema.doctorUser.userId"
-        @load="$emit('load')"
-      />
     </template>
 
     <template v-if="doctorsMode" #footer>
@@ -115,8 +58,6 @@ export default defineComponent({
     });
 
     const loadFilters = async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.medicalProfile);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
     };
 
     const createSortModels = (): SortModel[] => {
@@ -134,7 +75,6 @@ export default defineComponent({
       Operators,
       DataTypes,
       medicalProfiles,
-      schema: Provider.schema,
       doctors,
       doctorsMode,
     };

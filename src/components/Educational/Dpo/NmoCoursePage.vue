@@ -21,7 +21,6 @@ export default defineComponent({
     const nmoCourse: Ref<NmoCourse> = computed<NmoCourse>(() => Provider.store.getters['nmoCourses/item']);
 
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.nmoCourse.id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('nmoCourses/get', Provider.filterQuery.value);
     };
 
@@ -45,6 +44,7 @@ $card-margin-size: 30px;
   display: flex;
   justify-content: space-between;
 }
+
 .title-icon {
   text-align: center;
   float: left;
@@ -100,6 +100,7 @@ h3 {
   color: black;
   text-align: center;
 }
+
 h3 {
   font-size: 20px;
 }
@@ -128,14 +129,17 @@ h3 {
   flex-direction: column;
   padding: 10px;
   cursor: pointer;
+
   .item-title {
     font-weight: 600;
   }
+
   .item-footer {
     display: flex;
     justify-content: space-between;
     margin-top: 5px;
   }
+
   .icon {
     user-select: none;
     display: flex;
@@ -143,15 +147,18 @@ h3 {
     transition: all 0.2s;
     margin-right: 3px;
   }
+
   .anticon {
     padding-right: 5px;
     font-size: 16px;
   }
 }
+
 h4 {
   color: black;
   margin: 15px 0 0 10px;
 }
+
 .item-footer {
   color: #a1a7bd;
 }
@@ -159,9 +166,11 @@ h4 {
 :deep(.cell-row) {
   cursor: pointer;
 }
+
 .el-divider {
   margin: 10px 0 0;
 }
+
 // :deep(.cell) {
 // padding: 0 !important;
 // }
@@ -170,6 +179,7 @@ h4 {
   margin-bottom: 15px;
   text-align: center;
   width: 248px;
+
   button {
     width: 100%;
     background-color: #2754eb;
@@ -179,6 +189,7 @@ h4 {
     font-size: 14px;
     border: none;
     transition: background-color 0.25s ease;
+
     &:hover {
       cursor: pointer;
       background-color: darken(#2754eb, 10%);
@@ -224,6 +235,7 @@ h4 {
   letter-spacing: 2px;
   color: white;
   border: 1px solid rgb(black, 0.05);
+
   &:hover {
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
@@ -232,6 +244,7 @@ h4 {
 
 .right-block {
   width: 100%;
+
   .card-item {
     margin-bottom: 20px;
   }
@@ -250,6 +263,7 @@ h4 {
   .medical-profile-page-container {
     display: block;
   }
+
   .side-container {
     display: flex;
     flex-direction: column;
@@ -267,6 +281,7 @@ h4 {
     margin-bottom: 15px;
     text-align: center;
     width: 32%;
+
     button {
       width: 100%;
       background-color: #2754eb;
@@ -276,12 +291,14 @@ h4 {
       font-size: 14px;
       border: none;
       transition: background-color 0.25s ease;
+
       &:hover {
         cursor: pointer;
         background-color: darken(#2754eb, 10%);
       }
     }
   }
+
   .button-block {
     display: flex;
     justify-content: space-between;
@@ -295,6 +312,7 @@ h4 {
     margin-bottom: 15px;
     text-align: center;
     width: 100%;
+
     button {
       width: 100%;
       background-color: #2754eb;
@@ -304,6 +322,7 @@ h4 {
       font-size: 14px;
       border: none;
       transition: background-color 0.25s ease;
+
       &:hover {
         cursor: pointer;
         background-color: darken(#2754eb, 10%);
@@ -327,6 +346,7 @@ h4 {
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
@@ -336,6 +356,7 @@ h4 {
   :deep(.card-item) {
     padding: 15px 5px;
   }
+
   h3 {
     font-size: 18px;
   }

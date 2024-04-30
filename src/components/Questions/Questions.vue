@@ -44,7 +44,7 @@ export default defineComponent({
       Provider.store.commit('filter/setStoreModule', 'questions');
       Provider.setFilterModels(QuestionsFiltersLib.onlyPublished());
       Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
-      await Provider.getAll('questions');
+      await Store.GetAll('questions');
     };
 
     Hooks.onBeforeMount(load);
@@ -54,7 +54,7 @@ export default defineComponent({
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.offset = questions.value.length;
       Provider.filterQuery.value.pagination.append = true;
-      await Provider.getAll('questions');
+      await Store.GetAll('questions');
     };
 
     return {

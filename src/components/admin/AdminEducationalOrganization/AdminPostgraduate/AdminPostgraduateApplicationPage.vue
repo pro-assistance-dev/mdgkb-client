@@ -4,7 +4,8 @@
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <div v-if="application.postgraduateCourse.id">
-            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists"
+              @findEmail="findEmail" />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -13,20 +14,13 @@
             <template #header>
               <span>Информация о программе</span>
             </template>
-            <el-form-item
-              v-if="isEditMode && !application.postgraduateCourseId"
-              label="Выберите программу"
+            <el-form-item v-if="isEditMode && !application.postgraduateCourseId" label="Выберите программу"
               prop="postgraduateCourseId"
-              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
-            >
-              <el-select
-                v-model="application.postgraduateCourse"
-                value-key="id"
-                placeholder="Выберите программу"
-                style="width: 100%"
-                @change="courseChangeHandler"
-              >
-                <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item">
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
+              <el-select v-model="application.postgraduateCourse" value-key="id" placeholder="Выберите программу"
+                style="width: 100%" @change="courseChangeHandler">
+                <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()"
+                  :value="item">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -85,7 +79,6 @@ export default defineComponent({
 
     const loadCourses = async () => {
       store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
       await store.dispatch('postgraduateCourses/getAll');
     };
 
@@ -189,6 +182,7 @@ export default defineComponent({
     margin-bottom: 20px;
   }
 }
+
 table {
   height: 100%;
   border-collapse: collapse;
@@ -209,10 +203,12 @@ th {
 th:last-child {
   border-right: 1px solid #dcdfe6;
 }
+
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
+
 .flex {
   display: flex;
   align-items: center;

@@ -1,27 +1,8 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination show-header>
+  <AdminListWrapper pagination show-header>
     <template #header>
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
-    </template>
-    <template #header-bottom>
-      <FilterCheckbox
-        :table="schema.visitsApplication.tableName"
-        :col="schema.visitsApplication.withCar"
-        label="Только заявки на въезд"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.Eq"
-        :filter-value="true"
-        @load="loadApplications"
-      />
-      <FilterCheckbox
-        :table="schema.visitsApplication.tableName"
-        :col="schema.visitsApplication.withCar"
-        label="Только заявки на посещение"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.Eq"
-        :filter-value="false"
-        @load="loadApplications"
-      />
+      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()"
+        @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
@@ -39,7 +20,10 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+            month: '2-digit', hour: 'numeric', minute:
+              'numeric'
+          }) }}
         </template>
       </el-table-column>
       <el-table-column label="Даты посещения" align="center" width="150">
@@ -78,17 +62,10 @@
   </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+<script lang="ts" setup>
 
 import FormStatus from '@/classes/FormStatus';
 import VisitsApplication from '@/classes/VisitsApplication';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
-import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
-import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
-import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
@@ -100,69 +77,49 @@ import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import VisitsApplicationsFiltersLib from '@/libs/filters/VisitsApplicationsFiltersLib';
 import VisitsApplicationsSortsLib from '@/libs/sorts/VisitsApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminVisitsApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterMultipleSelect, FilterCheckbox },
 
-  setup() {
-    const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const visitsApplications: ComputedRef<VisitsApplication[]> = computed(() => Provider.store.getters['visitsApplications/items']);
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
-    const create = () => Provider.router.push(`${Provider.route().path}/new`);
-    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
+const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
+const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+const visitsApplications: ComputedRef<VisitsApplication[]> = Store.Items('visitsApplications')
+// const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
 
-    const loadApplications = async () => {
-      await Provider.store.dispatch('visitsApplications/getAll', Provider.filterQuery.value);
-    };
+const create = () => Provider.router.push(`${Provider.route().path}/new`);
+const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
-    const load = async () => {
-      Provider.setSortList(...createSortModels(VisitsApplicationsSortsLib));
-      Provider.setSortModels(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc));
-      await loadApplications();
-      await loadFilters();
-      filterByStatus.value = VisitsApplicationsFiltersLib.byStatus();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Заявления на посещение',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-        applicationsCount,
-      });
-    };
+const loadApplications = async () => {
+  await Store.FTSP('visitsApplications')
+};
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'visitsApplications', action: 'getAll' },
-    });
+const load = async () => {
+  // Provider.setSortList(...createSortModels(VisitsApplicationsSortsLib));
+  FTSP.Get().setS(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc))
+  await loadApplications();
+  await loadFilters();
+  filterByStatus.value = VisitsApplicationsFiltersLib.byStatus();
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Заявления на посещение',
+    buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+  });
+};
 
-    const filtersToOptions = (): IOption[] => {
-      const options: IOption[] = [];
-      formStatuses.value.forEach((i: FormStatus) => {
-        if (i.id) {
-          options.push({ value: i.id, label: i.label });
-        }
-      });
-      return options;
-    };
-
-    const loadFilters = async () => {
-      const filterQuery = new FilterQuery();
-      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
-    };
-
-    return {
-      filterByStatus,
-      visitsApplications,
-      mounted: Provider.mounted,
-      sortList: Provider.sortList,
-      schema: Provider.schema,
-      edit,
-      loadApplications,
-      filtersToOptions,
-      DataTypes,
-      Operators,
-    };
-  },
+Hooks.onBeforeMount(load, {
+  pagination: { storeModule: 'visitsApplications', action: 'ftsp' },
 });
+
+const filtersToOptions = (): IOption[] => {
+  const options: IOption[] = [];
+  formStatuses.value.forEach((i: FormStatus) => {
+    if (i.id) {
+      options.push({ value: i.id, label: i.label });
+    }
+  });
+  return options;
+};
+
+const loadFilters = async () => {
+  const filterQuery = new FilterQuery();
+  filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
+  await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+};
 </script>

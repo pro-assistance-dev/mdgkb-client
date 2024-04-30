@@ -70,7 +70,6 @@ export default defineComponent({
   setup() {
     return {
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });
@@ -89,6 +88,7 @@ export default defineComponent({
   position: relative;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+
   img {
     position: absolute;
     top: 50%;
@@ -200,6 +200,7 @@ export default defineComponent({
     position: relative;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+
     img {
       position: absolute;
       top: 50%;

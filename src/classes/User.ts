@@ -10,7 +10,6 @@ import Form from '@/classes/Form';
 import Question from '@/classes/Question';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import VacancyResponse from '@/classes/VacancyResponse';
-import IOption from '@/interfaces/schema/IOption';
 import Human from '@/services/classes/Human';
 import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';

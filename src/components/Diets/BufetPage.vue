@@ -15,12 +15,8 @@
             <div class="time">{{ dailyMenu.name === 'Завтрак' ? '8:00-12:00' : '12:00-17.00' }}</div>
           </div>
           <div class="menu-list">
-            <div
-              v-for="dishesGroup in dailyMenu.getNotEmptyGroups()"
-              :key="dishesGroup.id"
-              class="item"
-              @click="$scroll('#' + dishesGroup.getTransliteIdFromName())"
-            >
+            <div v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id" class="item"
+              @click="$scroll('#' + dishesGroup.getTransliteIdFromName())">
               <div>
                 {{ dishesGroup.name }}
               </div>
@@ -47,7 +43,9 @@
 
           <template #tags>asd </template>
 
-          <template #contact><ContactsBlock :contact-info="Contact.CreateBufetContacts()" /> </template>
+          <template #contact>
+            <ContactsBlock :contact-info="Contact.CreateBufetContacts()" />
+          </template>
 
           <template #buttons>
             <div class="right-block">
@@ -73,17 +71,13 @@
           <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
-          <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для выбора</div>
+          <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для
+            выбора</div>
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard
-                v-for="dish in dishesGroup.getAvailableDishes()"
-                :key="dish.id"
-                :daily-menu-item="dish"
-                :dishes-group-name="dishesGroup.name"
-                :daily-menu-name="dailyMenu.name"
-              />
+              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish"
+                :dishes-group-name="dishesGroup.name" :daily-menu-name="dailyMenu.name" />
             </div>
           </template>
         </div>
@@ -228,7 +222,6 @@ export default defineComponent({
       dishesGroups,
       dailyMenu,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       cartIsOpen,
       toggleModalCart,
       Contact,
@@ -239,6 +232,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 @import '@/assets/styles/elements/base-style.scss';
+
 .container-bufet {
   position: relative;
   width: 100%;
@@ -296,6 +290,7 @@ input[type='text'] {
   padding: 10px 10px;
   color: #343e5c;
   border-radius: $normal-border-radius;
+
   &:hover {
     cursor: pointer;
     color: #ffffff;
@@ -312,6 +307,7 @@ input[type='text'] {
   position: relative;
   border: $normal-border;
   border-radius: $normal-border-radius;
+
   img {
     position: absolute;
     top: 50%;
@@ -336,7 +332,7 @@ input[type='text'] {
   grid-auto-rows: 375px;
 }
 
-.group-items > div {
+.group-items>div {
   object-fit: cover;
 }
 
@@ -354,6 +350,7 @@ input[type='text'] {
   margin: 0;
   padding: 0;
 }
+
 .quantity {
   color: #a1a7bd;
   font-size: 12px;
@@ -371,6 +368,7 @@ input[type='text'] {
   margin-top: 5px;
   height: 50px;
 }
+
 .info-window {
   text-align: center;
   width: auto;
@@ -555,6 +553,7 @@ input[type='text'] {
     font-size: 16px;
     margin-left: 10px;
   }
+
   .menu-shadow {
     // overflow: hidden;
     // overflow-y: auto;

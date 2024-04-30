@@ -3,13 +3,8 @@
     <template #header>
       <RemoteSearch :key-value="'news'" @select="selectSearch" />
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
-      <FilterSelectDate
-        class="filters-block"
-        :table="News.GetClassName()"
-        :col="$classHelper.GetPropertyName(News).publishedOn"
-        placeholder="Дата публикации"
-        @load="loadNews"
-      />
+      <FilterSelectDate class="filters-block" :table="News.GetClassName()"
+        :col="$classHelper.GetPropertyName(News).publishedOn" placeholder="Дата публикации" @load="loadNews" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
@@ -42,53 +37,41 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
+            @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
   </AdminListWrapper>
 
-  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%" @open="loadMain">
+  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%"
+    @open="loadMain">
     <div style="display: flex; width: 100%; justify-content: center; margin-bottom: 20px">
-      <RemoteSearch
-        ref="searchMainNewsRef"
-        :clear-after-select="false"
-        max-width="500px"
-        :key-value="'news'"
-        placeholder="Выберите новость"
-        @select="selectSearchMainNews"
-      />
-      <el-button size="small" type="success" round @click="makeNewsMain(newsMain, 'setMain', true)"> Сделать главной </el-button>
-      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)"
-        >Сделать подглавной #1
+      <RemoteSearch ref="searchMainNewsRef" :clear-after-select="false" max-width="500px" :key-value="'news'"
+        placeholder="Выберите новость" @select="selectSearchMainNews" />
+      <el-button size="small" type="success" round @click="makeNewsMain(newsMain, 'setMain', true)"> Сделать главной
       </el-button>
-      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)"
-        >Сделать подглавной #2
+      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)">Сделать
+        подглавной #1
+      </el-button>
+      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)">Сделать
+        подглавной #2
       </el-button>
     </div>
 
     <div class="main-news-block">
       <div class="main-news-block-left">
-        <MainBigNewsCard v-if="newsMain.id" :news="newsMain" :show-close="true" @close="clearHandler(newsMain, 'setMain', true)" />
+        <MainBigNewsCard v-if="newsMain.id" :news="newsMain" :show-close="true"
+          @close="clearHandler(newsMain, 'setMain', true)" />
       </div>
       <div class="main-news-block-middle">
         <div class="size">
-          <NewsCard
-            v-if="newsSubMain1.id"
-            :news="newsSubMain1"
-            :main="true"
-            :show-close="true"
-            @close="clearHandler(newsSubMain1, 'setSubMain1', false)"
-          />
+          <NewsCard v-if="newsSubMain1.id" :news="newsSubMain1" :main="true" :show-close="true"
+            @close="clearHandler(newsSubMain1, 'setSubMain1', false)" />
         </div>
         <div class="size">
-          <NewsCard
-            v-if="newsSubMain2.id"
-            :news="newsSubMain2"
-            :main="true"
-            :show-close="true"
-            @close="clearHandler(newsSubMain2, 'setSubMain2', false)"
-          />
+          <NewsCard v-if="newsSubMain2.id" :news="newsSubMain2" :main="true" :show-close="true"
+            @close="clearHandler(newsSubMain2, 'setSubMain2', false)" />
         </div>
       </div>
     </div>
@@ -146,8 +129,7 @@ const loadNews = async (): Promise<void> => {
 
 const load = async (): Promise<void> => {
   sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
-  // Provider.store.commit('news/clearNews');
-  // Provider.setSortModels(NewsSortsLib.byPublishedOn());
+  FTSP.Get().setS(NewsSortsLib.byPublishedOn())
   await loadNews();
   Store.Set('admin/setHeaderParams', {
     title: 'Новости',
@@ -307,7 +289,7 @@ $margin: 20px 0;
   width: 270px;
 }
 
-.main-news-block-middle > .size:first-child {
+.main-news-block-middle>.size:first-child {
   margin-bottom: 10px;
 }
 

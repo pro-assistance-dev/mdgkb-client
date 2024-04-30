@@ -1,10 +1,11 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
-      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания"
+        @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения"
+        @load="loadHospitalizations" />
 
-      <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadHospitalizations" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
@@ -49,7 +50,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
+            @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -97,11 +99,9 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
-      Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+      // Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
+      // Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
       filterByDivision.value = HospitalizationsFiltersLib.byDivisions([]);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadHospitalizations();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Госпитализации',
@@ -141,7 +141,6 @@ export default defineComponent({
       edit,
       create,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       selectSearch,
       // genderFilter,
       loadHospitalizations,
@@ -182,6 +181,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;

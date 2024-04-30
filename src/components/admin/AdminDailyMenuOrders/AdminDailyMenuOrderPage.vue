@@ -3,17 +3,9 @@
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="12" :xl="12">
         <el-form ref="form" v-model="dailyMenuOrder" :model="dailyMenuOrder" style="max-width: 700px">
-          <AdminFormValue
-            :show-additional-files="false"
-            :form="dailyMenuOrder.formValue"
-            :validate-email="false"
-            :active-fields="UserFormFields.CreateWithPhone()"
-            :is-edit-mode="isEditMode"
-            status-header="Статус заказа"
-            info-header="Информация о заказе"
-            form-header=""
-            :check-fields="false"
-          />
+          <AdminFormValue :show-additional-files="false" :form="dailyMenuOrder.formValue" :validate-email="false"
+            :active-fields="UserFormFields.CreateWithPhone()" :is-edit-mode="isEditMode" status-header="Статус заказа"
+            info-header="Информация о заказе" form-header="" :check-fields="false" />
         </el-form>
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="12" :xl="12">
@@ -26,13 +18,9 @@
 
             <el-table-column prop="name" label="Количество">
               <template #default="scope">
-                <el-input-number
-                  v-if="isEditMode"
-                  size="mini"
-                  :model-value="scope.row.quantity"
+                <el-input-number v-if="isEditMode" size="mini" :model-value="scope.row.quantity"
                   placeholder="Название документа"
-                  @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, scope.row.dailyMenuItem)"
-                />
+                  @change="(par, par1) => dailyMenuOrder.changeDailyMenuOrderItemQuantity(par, par1, scope.row.dailyMenuItem)" />
                 <div v-else>{{ scope.row.quantity }} шт.</div>
               </template>
             </el-table-column>
@@ -48,7 +36,8 @@
             </el-table-column>
             <el-table-column v-if="isEditMode" width="70" align="center">
               <template #default="scope">
-                <TableButtonGroup :show-remove-button="true" @remove="dailyMenuOrder.removeDailyMenuOrderItem(scope.row)" />
+                <TableButtonGroup :show-remove-button="true"
+                  @remove="dailyMenuOrder.removeDailyMenuOrderItem(scope.row)" />
               </template>
             </el-table-column>
           </el-table>
@@ -62,14 +51,8 @@
           <div v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <h4>{{ dishesGroup.name }}</h4>
             <div v-for="dailyMenuItem in dishesGroup.dailyMenuItems" :key="dailyMenuItem.id" style="margin-bottom: 5px">
-              <el-button
-                v-if="isEditMode"
-                style="margin-right: 10px"
-                size="mini"
-                type="success"
-                icon="el-icon-plus"
-                @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"
-              ></el-button>
+              <el-button v-if="isEditMode" style="margin-right: 10px" size="mini" type="success" icon="el-icon-plus"
+                @click="dailyMenuOrder.increaseDailyMenuOrderItem(dailyMenuItem)"></el-button>
               <span>{{ dailyMenuItem.name }}</span> /
               <span>{{ dailyMenuItem.price }} руб.</span>
             </div>
@@ -142,7 +125,7 @@ export default defineComponent({
       } catch (e) {
         ElMessage.warning('Нет активных меню на сегодня');
       }
-      await Provider.getAll('dishesGroups');
+      await Store.GetAll('dishesGroups');
       dailyMenu.value.dishesGroups = dishesGroups.value;
       dailyMenu.value.initGroups();
       await Provider.loadItem();
@@ -184,7 +167,6 @@ export default defineComponent({
       submit,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });

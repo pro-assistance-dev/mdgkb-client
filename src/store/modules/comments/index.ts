@@ -1,18 +1,20 @@
 import { Module } from 'vuex';
 
-import NewsComment from '@/classes/NewsComment';
 import RootState from '@/store/types';
 
+import IBasicState from '@/services/store/baseModule/baseState';
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import State from './state';
+
+export interface State extends IBasicState<Comment> {
+  positiveMode: boolean;
+}
 
 export const state: State = {
-  comments: [],
+  ...getBaseDefaultState(Comment),
   positiveMode: true,
-  comment: new NewsComment(),
-  count: 0,
 };
 
 const namespaced = true;

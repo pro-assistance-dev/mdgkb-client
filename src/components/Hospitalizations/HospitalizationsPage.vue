@@ -2,19 +2,14 @@
   <PageWrapper title="Госпитализация">
     <div style="width: 90%">
       <el-steps v-if="activeStep < 4" align-center :active="activeStep" finish-status="success" class="steps centered">
-        <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
+        <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step"
+          @click="toStep(i)" />
       </el-steps>
 
       <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="submitStep" />
-      <div v-if="activeStep === 1" class="card-item centered" style="display: flex; flex-direction: column; align-items: center">
+      <div v-if="activeStep === 1" class="card-item centered"
+        style="display: flex; flex-direction: column; align-items: center">
         <div>
-          <FilterSelect
-            placeholder="Отделение"
-            :options="schema.division.options"
-            :table="schema.doctor.tableName"
-            :col="schema.doctor.divisionId"
-            @load="selectDivision"
-          />
           <a @click="activeStep++"> Я не знаю, какое отделение мне нужно </a>
         </div>
       </div>
@@ -23,11 +18,10 @@
         <a @click="activeStep++"> Я не знаю, какая дата мне нужна </a>
       </div>
       <div v-if="activeStep === 3" class="card-item centered">
-        <el-form ref="userForm" v-model="hospitalization" :model="hospitalization" label-position="left" label-width="300px">
-          <UserForm
-            :form="hospitalization.formValue"
-            :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
-          />
+        <el-form ref="userForm" v-model="hospitalization" :model="hospitalization" label-position="left"
+          label-width="300px">
+          <UserForm :form="hospitalization.formValue"
+            :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())" />
           <FieldValuesForm :form="hospitalization.formValue" />
         </el-form>
       </div>
@@ -87,8 +81,6 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.store.dispatch('meta/getSchema');
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
 
       // await Provider.store.dispatch('hospitalizationsTypes/getAll');
     };
@@ -156,8 +148,7 @@ export default defineComponent({
 
     const selectDivision = async (divisionId?: string) => {
       if (divisionId) {
-        Provider.filterQuery.value.setParams(Provider.schema.value.division.id, divisionId);
-        await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
+        await Provider.store.dispatch('divisions/get', divisionId);
         hospitalization.value.divisionId = divisionId;
         hospitalization.value.division = selectedDivision.value;
       }
@@ -166,7 +157,6 @@ export default defineComponent({
 
     return {
       selectDivision,
-      schema: Provider.schema,
       submitStep,
       buttonOff,
       getButtonName,
@@ -187,6 +177,7 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 }
+
 .attention {
   text-indent: 0.5em;
   color: #ff4d3b;
@@ -222,6 +213,7 @@ export default defineComponent({
 
 .application {
   background-color: #31af5e;
+
   &:hover {
     cursor: pointer;
     background-color: darken(#31af5e, 10%);
@@ -230,6 +222,7 @@ export default defineComponent({
 
 .docs {
   background-color: #2754eb;
+
   &:hover {
     cursor: pointer;
     background-color: darken(#2754eb, 10%);
@@ -239,6 +232,7 @@ export default defineComponent({
 .navigate-buttons {
   text-align: center;
   margin: 10px;
+
   .forward-btn {
     margin: 10px;
     text-align: center;
@@ -249,15 +243,18 @@ export default defineComponent({
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
     }
+
     &:disabled {
       background-color: #76cc94;
       cursor: auto;
     }
   }
+
   .back-btn {
     margin: 10px;
     text-align: center;
@@ -267,14 +264,17 @@ export default defineComponent({
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
     }
+
     &:disabled {
       background-color: #76cc94;
       cursor: auto;
     }
+
     background-color: #f49524;
   }
 }

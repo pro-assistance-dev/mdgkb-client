@@ -76,7 +76,6 @@ const loadMore = async () => {
   Provider.filterQuery.value.pagination.version = 'v2';
   Provider.filterQuery.value.pagination.append = true;
   // Provider.filterQuery.value.pagination.cursor.column = ClassHelper.GetPropertyName(News).publishedOn as unknown as string;
-  // Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.news.tableName;
   Provider.filterQuery.value.pagination.cursor.initial = false;
   Provider.filterQuery.value.pagination.cursorMode = true;
 

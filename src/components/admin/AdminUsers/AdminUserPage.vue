@@ -31,7 +31,6 @@ import { useStore } from 'vuex';
 
 import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
-import ISchema from '@/interfaces/schema/ISchema';
 import Role from '@/services/classes/Role';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
@@ -43,7 +42,6 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const isNew: ComputedRef<boolean> = computed(() => !route.params['id']);
     const user: ComputedRef<User> = computed<User>(() => store.getters['users/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
@@ -73,15 +71,12 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('admin/showLoading');
-      await store.dispatch('meta/getSchema');
-      await store.dispatch('meta/getOptions', schema.value.role);
 
       if (route.params['id']) {
         await store.dispatch('users/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: user.value.email, showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('admin/setHeaderParams', { title: 'Добавить пользователя', showBackButton: true, buttons: [{ action: submit }] });
-        user.value.setDefaultRole(schema.value.role.options);
       }
       await store.dispatch('roles/getAll');
       mounted.value = true;
@@ -102,7 +97,6 @@ export default defineComponent({
       user,
       form,
       mounted,
-      schema,
       findEmail,
       isNew,
       roles,

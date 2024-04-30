@@ -103,7 +103,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(SpecializationsFiltersLib.onlyPostgraduate());
-      await Provider.getAll('specializations');
+      await Store.GetAll('specializations');
       Provider.store.commit('candidateApplications/resetItem');
       Provider.store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
       candidateApplication.value.formValue.initFieldsValues();

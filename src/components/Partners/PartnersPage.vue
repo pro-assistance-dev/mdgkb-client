@@ -1,5 +1,6 @@
 <template>
-  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Партнёры" @select-menu="setPartner">
+  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Партнёры"
+    @select-menu="setPartner">
     <template v-for="section in customSections" :key="section" #[section.id]>
       <component :is="section.component"></component>
     </template>
@@ -40,8 +41,9 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.getAll('partnerTypes');
-      await Provider.getAll('partners');
+
+      await Store.GetAll('partnerTypes');
+      await Store.GetAll('partners');
       const sections = partnerTypes.value.map((p: PartnerType) => CustomSection.Create(p.id as string, p.name, 'PartnersList'));
       customSections.value.push(...sections);
       mounted.value = true;
@@ -70,6 +72,7 @@ $card-margin-size: 30px;
   justify-content: center;
   width: 100%;
 }
+
 .el-menu {
   margin-right: 10px;
 }

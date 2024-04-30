@@ -12,7 +12,9 @@
           {{ division.name }}
         </div>
         <div class="line">
-          <div class="line-item"><Rating :comments="division.divisionComments" /></div>
+          <div class="line-item">
+            <Rating :comments="division.divisionComments" />
+          </div>
           <button class="map-button" @click="$router.push(`/map/${division.id}`)">На карте</button>
         </div>
         <div class="spec-list"></div>
@@ -34,13 +36,14 @@
               <div class="hidden-block">
                 <div class="hidden-line">
                   <div class="hidden-item">
-                    <span style="color: #0a216f"><b>сегодня</b></span
-                    >: {{ division.timetable.getTodayWorkday().getTimetable() }}
+                    <span style="color: #0a216f"><b>сегодня</b></span>: {{
+                      division.timetable.getTodayWorkday().getTimetable() }}
                   </div>
                   <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                     Перерыв:
                     <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
+                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{
+                        item.getPeriod() }}</li>
                     </ul>
                   </div>
                 </div>
@@ -64,7 +67,8 @@
           <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item">
             Перерыв:
             <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
-              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{ item.getPeriod() }}&nbsp;</li>
+              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{
+                item.getPeriod() }}&nbsp;</li>
             </ul>
           </div>
         </div>
@@ -83,19 +87,19 @@
       </div>
       <div class="contact-h3">
         <div class="item">
-          <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone">
-            <use xlink:href="#phone"></use>
-          </svg>
+          <!-- <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone"> -->
+          <!--   <use xlink:href="#phone"></use> -->
+          <!-- </svg> -->
         </div>
-        <div class="item">{{ division.contactInfo.telephoneNumbers[0].number }}</div>
       </div>
+      <!-- <div class="item">{{ division.contactInfo.[0].number }}</div> -->
       <div class="contact-h3">
         <div class="item">
-          <svg v-if="division.contactInfo.emails[0].address" class="icon-email">
-            <use xlink:href="#email"></use>
-          </svg>
+          <!-- <svg v-if="division.contactInfo.emails[0].address" class="icon-email"> -->
+          <!--   <use xlink:href="#email"></use> -->
+          <!-- </svg> -->
         </div>
-        <div class="item">{{ division.contactInfo.emails[0].address }}</div>
+        <!-- <div class="item">{{ division.contactInfo.emails[0].address }}</div> -->
       </div>
       <div class="contact-h3">
         <div class="icon-block">
@@ -177,6 +181,7 @@ export default defineComponent({
   transition: all 0.2s;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;
@@ -221,6 +226,7 @@ export default defineComponent({
   height: 24px;
   fill: #31ae5e;
   margin-left: 10px;
+
   &:hover {
     cursor: pointer;
     fill: lighten(#31af5e, 10%);
@@ -233,6 +239,7 @@ export default defineComponent({
   fill: #ffffff;
   stroke: #31ae5e;
   margin-left: 10px;
+
   &:hover {
     cursor: pointer;
     stroke: lighten(#31af5e, 10%);
@@ -245,6 +252,7 @@ export default defineComponent({
   fill: #ffffff;
   stroke: #31ae5e;
   margin-left: 10px;
+
   &:hover {
     cursor: pointer;
     stroke: lighten(#31af5e, 10%);
@@ -313,6 +321,7 @@ export default defineComponent({
   margin-left: 5px;
   padding: 0 15px;
   text-align: center;
+
   &:hover {
     cursor: pointer;
     background-color: #133dcc;
@@ -335,11 +344,13 @@ export default defineComponent({
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
     }
   }
+
   text-align: center;
   padding: 4px 0 0px 0;
   margin-top: 10px;
@@ -362,9 +373,11 @@ export default defineComponent({
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   width: 30px;
   height: 30px;
+
   &:hover {
     transform: scale(1.1);
   }
+
   .anticon {
     font-size: 20px;
     color: #bdc2d1;
@@ -478,6 +491,7 @@ ul.hidden-item-list li {
   margin: 0;
   font-size: 18px;
 }
+
 :deep(.el-rate__text) {
   margin-left: 5px;
 }

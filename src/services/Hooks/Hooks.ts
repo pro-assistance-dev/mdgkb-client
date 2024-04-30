@@ -32,7 +32,6 @@ const Hooks = (() => {
       Provider.mounted.value = false;
       Store.Commit('admin/showLoading');
       Provider.ftsp.value.reset();
-      // await Provider.store.dispatch('meta/getSchema');
       if (options?.sortsLib) {
         const sortModels = createSortModels(options.sortsLib);
         Provider.sortList = sortModels;

@@ -5,29 +5,22 @@
         <template #header>
           <span>Информация о программе</span>
         </template>
-        <el-form-item
-          v-if="isEditMode && !dpoApplication.dpoCourseId"
-          label="Выберите программу"
-          prop="dpoCourseId"
-          :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
-        >
-          <el-select
-            v-model="dpoApplication.nmoCourse"
-            value-key="id"
-            placeholder="Выберите программу"
-            style="width: 100%"
-            @change="courseChangeHandler"
-          >
+        <el-form-item v-if="isEditMode && !dpoApplication.dpoCourseId" label="Выберите программу" prop="dpoCourseId"
+          :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
+          <el-select v-model="dpoApplication.nmoCourse" value-key="id" placeholder="Выберите программу"
+            style="width: 100%" @change="courseChangeHandler">
             <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
         <el-descriptions v-else :column="1" border>
           <el-descriptions-item label="Наименование">{{ dpoApplication.nmoCourse.name }}</el-descriptions-item>
-          <el-descriptions-item label="Тип программы">{{ dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
+          <el-descriptions-item label="Тип программы">{{ dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО'
+            }}</el-descriptions-item>
         </el-descriptions>
       </el-card>
       <div v-if="dpoApplication.nmoCourse.id">
-        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists"
+          @findEmail="findEmail" />
       </div>
       <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
     </el-form>
@@ -44,7 +37,6 @@ import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import ISchema from '@/interfaces/schema/ISchema';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
@@ -68,7 +60,6 @@ export default defineComponent({
     const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
     const dpoApplicationFormValue: ComputedRef<Form> = computed<Form>(() => store.getters['dpoApplications/formValue']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
@@ -95,12 +86,6 @@ export default defineComponent({
 
     const loadDpoCourses = async () => {
       store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
-      store.commit(
-        'filter/replaceSortModel',
-        SortModel.Create(schema.value.nmoCourse.tableName, schema.value.nmoCourse.name, Orders.Asc, 'По алфавиту', true)
-      );
-      filterModel.value = FilterModel.CreateFilterModel(schema.value.nmoCourse.tableName, schema.value.nmoCourse.isNmo, DataTypes.Boolean);
       filterQuery.value.pagination.cursorMode = false;
       setProgramsType();
       await store.dispatch('dpoCourses/getAll', filterQuery.value);
@@ -213,6 +198,7 @@ export default defineComponent({
     margin-bottom: 20px;
   }
 }
+
 table {
   height: 100%;
   border-collapse: collapse;
@@ -233,10 +219,12 @@ th {
 th:last-child {
   border-right: 1px solid #dcdfe6;
 }
+
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
+
 .flex {
   display: flex;
   align-items: center;

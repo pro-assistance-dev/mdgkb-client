@@ -3,13 +3,8 @@
     <div class="card-item filters">
       <div class="filters-block">
         <span>Найти:</span>
-        <RemoteSearch
-          :key-value="'pathPermission'"
-          :model-value="searchString"
-          :show-suggestions="false"
-          :must-be-translated="false"
-          @input="filterList"
-        />
+        <RemoteSearch :key-value="'pathPermission'" :model-value="searchString" :show-suggestions="false"
+          :must-be-translated="false" @input="filterList" />
       </div>
       <div class="filters-block">
         <span>Сортировать:</span>
@@ -42,7 +37,8 @@
               <div class="table-title">
                 <div style="margin-bottom: 10px">
                   <el-select v-model="chosenRole" size="mini" value-key="id" label="Роль">
-                    <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item"> </el-option>
+                    <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item">
+                    </el-option>
                   </el-select>
                 </div>
                 <div>
@@ -61,11 +57,8 @@
                 <el-checkbox v-model="permission.guestAllow" size="mini"> </el-checkbox>
               </td>
               <td v-for="role in filteredRoles" :key="role.id" style="text-align: center">
-                <el-checkbox
-                  size="mini"
-                  :model-value="permission.checkPermissionForRole(role.id)"
-                  @change="permission.setRole($event, role.id)"
-                >
+                <el-checkbox size="mini" :model-value="permission.checkPermissionForRole(role.id)"
+                  @change="permission.setRole($event, role.id)">
                 </el-checkbox>
               </td>
             </tr>
@@ -87,7 +80,6 @@ import SortList from '@/components/SortList/SortList.vue';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import { RoleName } from '@/interfaces/RoleName';
-import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Role from '@/services/classes/Role';
 import SortModel from '@/services/classes/SortModel';
@@ -133,7 +125,6 @@ export default defineComponent({
     const chosenRole: Ref<Role> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
-    const schema: Ref<ISchema> = computed(() => Provider.store.getters['meta/schema']);
 
     const loadPaths = async () => {
       await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
@@ -238,7 +229,6 @@ export default defineComponent({
       selectRolesList,
       addRole,
       addAllRoles,
-      schema,
       filterList,
       searchString,
       filteredPathPermissions,
@@ -257,17 +247,21 @@ export default defineComponent({
   width: auto;
   height: inherit;
 }
+
 thead th {
-  position: -webkit-sticky; /* for Safari */
+  position: -webkit-sticky;
+  /* for Safari */
   position: sticky;
   top: 0;
 }
 
 tbody th {
-  position: -webkit-sticky; /* for Safari */
+  position: -webkit-sticky;
+  /* for Safari */
   position: sticky;
   left: 0;
 }
+
 tr th {
   // font-weight: normal;
   vertical-align: middle;
@@ -277,6 +271,7 @@ thead th:first-child {
   left: 0;
   z-index: 2;
 }
+
 tr th:first-child {
   z-index: 1;
   text-align: start;
@@ -292,33 +287,41 @@ tbody th {
 .el-checkbox {
   z-index: 0;
 }
+
 td,
 th {
   border: 1px solid #ebeef5;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
+
 tr:hover {
   background-color: #f5f5f5;
 }
+
 .table-title {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   padding: 5px;
+
   h4 {
     margin: 0;
   }
+
   .el-button {
     width: auto;
   }
 }
+
 th {
   vertical-align: baseline;
 }
+
 // page container
 .flex-column {
   display: flex;
@@ -326,6 +329,7 @@ th {
   overflow: hidden;
   height: 100%;
 }
+
 // scroll
 ::-webkit-scrollbar {
   display: block;
@@ -346,15 +350,18 @@ th {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: rgba(85, 85, 85, 0.25);
 }
+
 // filters
 .filters {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+
   &-block {
     margin-right: 10px;
     display: flex;
     align-items: center;
+
     span {
       margin: 0 10px;
     }

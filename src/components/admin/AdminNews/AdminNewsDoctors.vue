@@ -1,8 +1,5 @@
 <template>
   <el-card>
-    <el-space>
-      <RemoteSearch :key-value="schema.doctor.key" @select="selectSearch" />
-    </el-space>
     <el-table :data="news.newsDoctors">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
@@ -47,7 +44,6 @@ export default defineComponent({
     return {
       news,
       remove,
-      schema: Provider.schema,
       selectSearch,
     };
   },

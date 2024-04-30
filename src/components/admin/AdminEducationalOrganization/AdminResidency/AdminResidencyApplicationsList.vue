@@ -1,10 +1,11 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination show-header>
+  <AdminListWrapper pagination show-header>
     <template #header>
       <!-- TODO: пофиксить ошибку на бэке -->
       <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
       <FilterSelectV2 :filter-models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
-      <FilterSelectV2 :filter-models="createFilterPaidModels()" placeholder="Основа обучения" @load="loadApplications" />
+      <FilterSelectV2 :filter-models="createFilterPaidModels()" placeholder="Основа обучения"
+        @load="loadApplications" />
     </template>
     <template #header-bottom>
       <FilterCheckboxV2 :filter-model="onlyAdmissionFilter" @load="loadApplications" />
@@ -20,7 +21,8 @@
       </el-table-column>
       <el-table-column label="Подано" min-width="150">
         <template #default="scope">
-          {{ scope.row.admissionCommittee ? `Приемная кампания ${scope.row.residencyCourse?.startYear.year.getFullYear()}` : `Ординатура` }}
+          {{ scope.row.admissionCommittee ? `Приемная кампания
+          ${scope.row.residencyCourse?.startYear.year.getFullYear()}` : `Ординатура` }}
         </template>
       </el-table-column>
       <el-table-column label="Номер заявления" align="center" width="150">
@@ -49,7 +51,8 @@
       </el-table-column>
       <el-table-column label="Дата принятия заявления" align="center" width="150">
         <template #default="scope">
-          {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Не указана' }}
+          {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) :
+            'Неуказана' }}
         </template>
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
@@ -112,19 +115,11 @@
   </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
+<script lang="ts" setup>
 import { NavigationGuardNext } from 'vue-router';
 
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
-import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
-import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
-import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
-import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
@@ -135,125 +130,101 @@ import ResidencyApplicationsFiltersLib from '@/libs/filters/ResidencyApplication
 import ResidencyApplicationsSortsLib from '@/libs/sorts/ResidencyApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminResidencyApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus, FilterCheckboxV2, FilterMultipleSelect, FilterSelectV2 },
+const residencyApplications: ComputedRef<ResidencyApplication[]> = Store.Items('residencyApplications')
 
-  setup() {
-    const residencyApplications: ComputedRef<ResidencyApplication[]> = computed<ResidencyApplication[]>(
-      () => Provider.store.getters['residencyApplications/items']
-    );
+const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses')
+const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
+const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
+// const applicationsCount: ComputedRef<number> = computed(() =>
+//   Provider.store.getters['admin/applicationsCount']('residency_applications')
+// );
 
-    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
-    const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
-    const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-    const applicationsCount: ComputedRef<number> = computed(() =>
-      Provider.store.getters['admin/applicationsCount']('residency_applications')
-    );
+const isEditMode: Ref<boolean> = ref(false);
+const isNotEditMode: Ref<boolean> = ref(true);
 
-    const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: Ref<boolean> = ref(true);
+const loadApplications = async () => {
+  await Store.FTSP('residencyApplications')
+};
 
-    const loadApplications = async () => {
-      await Provider.store.dispatch('residencyApplications/getAll', { filterQuery: Provider.filterQuery.value });
-    };
+const enableEditMode = () => {
+  if (isEditMode.value) {
+    return;
+  }
+  isEditMode.value = true;
+  isNotEditMode.value = false;
+};
 
-    const enableEditMode = () => {
-      if (isEditMode.value) {
-        return;
-      }
-      isEditMode.value = true;
-      isNotEditMode.value = false;
-    };
+const save = async (next?: NavigationGuardNext) => {
+  if (!isEditMode.value) {
+    return;
+  }
+  saveButtonClick.value = true;
+  await Provider.store.dispatch('residencyApplications/updateMany');
+  isEditMode.value = false;
+  isNotEditMode.value = true;
+  if (next) next();
+};
+const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
 
-    const save = async (next?: NavigationGuardNext) => {
-      if (!isEditMode.value) {
-        return;
-      }
-      saveButtonClick.value = true;
-      await Provider.store.dispatch('residencyApplications/updateMany');
-      isEditMode.value = false;
-      isNotEditMode.value = true;
-      if (next) next();
-    };
-    const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
+const load = async () => {
+  // TODO: Пофиксить ошибку на бэке
+  // Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
+  // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
+  FTSP.Get().setS(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc))
+  await loadApplications();
+  await loadFilters();
+  onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
+  filterByStatus.value = ResidencyApplicationsFiltersLib.byStatus();
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Заявки на обучение в ординатуре',
+    buttons: [
+      { text: 'Редактировать', type: 'success', action: enableEditMode, condition: isNotEditMode },
+      { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
+      { text: 'Подать заявление', type: 'primary', action: create },
+    ],
+    pagination: { storeModule: 'residencyApplications', action: 'ftsp' },
+  });
+  await Provider.store.dispatch('residencyApplications/subscribeCreate');
+};
 
-    const load = async () => {
-      // TODO: Пофиксить ошибку на бэке
-      Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-      Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
-      await loadApplications();
-      await loadFilters();
-      onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
-      filterByStatus.value = ResidencyApplicationsFiltersLib.byStatus();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Заявки на обучение в ординатуре',
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: enableEditMode, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-          { text: 'Подать заявление', type: 'primary', action: create },
-        ],
-        applicationsCount,
-      });
-      await Provider.store.dispatch('residencyApplications/subscribeCreate');
-    };
-
-    watch(isEditMode, () => {
-      confirmLeave.value = isEditMode.value;
-    });
-
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'residencyApplications', action: 'getAll' },
-    });
-
-    onBeforeUnmount(async () => {
-      await Provider.store.dispatch('residencyApplications/unsubscribeCreate');
-    });
-
-    const create = () => Provider.router.push(`${Provider.route().path}/new`);
-    // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
-
-    const filtersToOptions = (): IOption[] => {
-      const options: IOption[] = [];
-      formStatuses.value.forEach((i: FormStatus) => {
-        if (i.id) {
-          options.push({ value: i.id, label: i.label });
-        }
-      });
-      return options;
-    };
-
-    const loadFilters = async () => {
-      const filterQuery = new FilterQuery();
-      filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
-    };
-
-    const createFilterMainModels = (): FilterModel[] => {
-      return [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
-    };
-
-    const createFilterPaidModels = (): FilterModel[] => {
-      return [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
-    };
-
-    return {
-      filterByStatus,
-      filtersToOptions,
-      onlyAdmissionFilter,
-      mounted: Provider.mounted,
-
-      residencyApplications,
-      edit,
-      sortList: Provider.sortList,
-      loadApplications,
-      isEditMode,
-      createFilterMainModels,
-      createFilterPaidModels,
-    };
-  },
+watch(isEditMode, () => {
+  confirmLeave.value = isEditMode.value;
 });
+
+Hooks.onBeforeMount(load, {
+  pagination: { storeModule: 'residencyApplications', action: 'ftsp' },
+});
+
+onBeforeUnmount(async () => {
+  await Provider.store.dispatch('residencyApplications/unsubscribeCreate');
+});
+
+const create = () => Provider.router.push(`${Provider.route().path}/new`);
+// const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
+const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
+
+const filtersToOptions = (): IOption[] => {
+  const options: IOption[] = [];
+  formStatuses.value.forEach((i: FormStatus) => {
+    if (i.id) {
+      options.push({ value: i.id, label: i.label });
+    }
+  });
+  return options;
+};
+
+const loadFilters = async () => {
+  const filterQuery = new FilterQuery();
+  filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
+  await Store.GetAll('formStatuses')
+};
+
+const createFilterMainModels = (): FilterModel[] => {
+  return [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
+};
+
+const createFilterPaidModels = (): FilterModel[] => {
+  return [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
+};
 </script>

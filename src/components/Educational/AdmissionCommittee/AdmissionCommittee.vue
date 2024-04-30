@@ -54,7 +54,7 @@ export default defineComponent({
     const loadPrograms = async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
+      // Provider.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
       Provider.filterQuery.value.pagination.cursorMode = false;
       await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
     };
@@ -69,11 +69,13 @@ export default defineComponent({
   background: #f6f6f6;
   text-align: center;
 }
+
 .title-button-container {
   position: absolute;
   right: 0;
   margin-left: 10px;
 }
+
 @media screen and (max-width: 1024px) {
   .title-button-container {
     position: unset;

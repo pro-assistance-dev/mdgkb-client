@@ -4,45 +4,12 @@
       <FiltersWrapper>
         <template #header-right>
           <div :style="{ display: 'flex', flexDirection: 'column' }">
-            <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
-            <router-link to="/service-quality-assessment" style="text-align: center"
-              >Независимая оценка качества оказания услуг</router-link
-            >
+            <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить
+              отзыв</button>
+            <router-link to="/service-quality-assessment" style="text-align: center">Независимая оценка качества
+              оказания услуг</router-link>
           </div>
           <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
-        </template>
-        <template #header-left-bottom>
-          <FilterCheckbox
-            label="Свои отзывы"
-            :table="schema.comment.tableName"
-            :col="schema.comment.userId"
-            :data-type="DataTypes.String"
-            :operator="Operators.Eq"
-            :filter-value="TokenService.getUserId()"
-            @load="loadComments"
-          />
-
-          <FilterCheckbox
-            label="С высоким рейтингом"
-            :table="schema.comment.tableName"
-            :col="schema.comment.rating"
-            :data-type="DataTypes.Number"
-            :operator="Operators.Gt"
-            :filter-value="'3'"
-            @load="loadComments"
-          />
-          <FilterCheckbox
-            label="С низким рейтингом"
-            :table="schema.comment.tableName"
-            :col="schema.comment.rating"
-            :data-type="DataTypes.Number"
-            :operator="Operators.Lt"
-            :filter-value="'3'"
-            @load="loadComments"
-          />
-        </template>
-        <template #header-left-top>
-          <FilterSelectDate :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
         </template>
       </FiltersWrapper>
     </template>
@@ -95,7 +62,7 @@ export default defineComponent({
     const comments: Ref<Comment[]> = computed<Comment[]>(() => Provider.store.getters['comments/comments']);
     const showDialog: Ref<boolean> = ref(false);
     const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-
+    const mounted = ref(false)
     const openLoginModal = () => {
       if (!isAuth.value) {
         Provider.store.commit('auth/openModal', 'login');
@@ -105,8 +72,9 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 6;
-      Provider.setSortModels(CommentsSortsLib.byPublishedOn());
+      // Provider.setSortModels(CommentsSortsLib.byPublishedOn());
       await loadComments();
+      mounted.value = true
     };
 
     const loadComments = async () => {
@@ -133,8 +101,7 @@ export default defineComponent({
       showDialog,
       openLoginModal,
       isAuth,
-      mounted: Provider.mounted,
-      schema: Provider.schema,
+      mounted,
     };
   },
 });
@@ -144,6 +111,7 @@ export default defineComponent({
 .leave-review-button {
   // width: 100%;
 }
+
 button {
   margin: 10px 0;
   font-size: 16px;
@@ -153,6 +121,7 @@ button {
   height: auto;
   color: white;
   border: 1px solid rgb(black, 0.05);
+
   &:hover {
     cursor: pointer;
     background-color: darken(#2754ec, 10%);
@@ -168,6 +137,7 @@ button {
 :deep(.el-dialog__title) {
   font-weight: bold;
 }
+
 h3 {
   margin: 0;
   text-align: center;
@@ -177,10 +147,12 @@ h3 {
   .comments-list-container {
     flex-direction: column;
     align-items: center;
+
     &-left {
       max-width: 100%;
       margin: 0;
     }
+
     button {
       max-width: 300px;
     }

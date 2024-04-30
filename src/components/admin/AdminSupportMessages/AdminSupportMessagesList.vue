@@ -88,7 +88,7 @@ export default defineComponent({
     };
 
     const loadSupportMessages = async () => {
-      await Provider.getAll('supportMessages');
+      await Store.GetAll('supportMessages');
     };
 
     const load = async () => {

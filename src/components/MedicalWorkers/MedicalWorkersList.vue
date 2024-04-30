@@ -57,12 +57,11 @@ export default defineComponent({
 
     const loadDoctors = async () => {
       Provider.filterQuery.value.pagination.append = false;
-      await Provider.getAll('doctors');
+      await Store.GetAll('doctors');
     };
 
     const loadHeads = async () => {
-      console.log('Heads');
-      Provider.setSortModel(HeadsSortsLib.byOrder());
+      // Provider.setSortModel(HeadsSortsLib.byOrder());
       await Provider.store.dispatch('heads/getAll', Provider.filterQuery.value);
       console.log('end');
     };
@@ -70,7 +69,7 @@ export default defineComponent({
     const load = async () => {
       Provider.filterQuery.value.pagination.limit = 8;
       if (doctorsMode.value) {
-        Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
+        // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
         await loadDoctors();
         return;
       }
@@ -82,7 +81,7 @@ export default defineComponent({
     const loadMore = async () => {
       Provider.filterQuery.value.pagination.append = true;
       Provider.filterQuery.value.pagination.offset = doctorsMode.value ? doctors.value.length : heads.value.length;
-      await Provider.getAll(doctorsMode.value ? 'doctors' : 'heads');
+      await Store.GetAll(doctorsMode.value ? 'doctors' : 'heads');
     };
 
     const changeMode = async (doctorsModeActive: boolean) => {
@@ -125,33 +124,42 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
+
   .right-side {
     // max-width: $right-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;
@@ -175,6 +183,7 @@ h2 {
   display: flex;
   justify-content: center;
 }
+
 .filters {
   position: sticky;
   top: 79px;

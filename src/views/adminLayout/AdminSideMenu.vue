@@ -1,6 +1,7 @@
 <template>
   <div v-if="mounted" class="admin-side-menu">
-    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened @select="closeDrawer">
+    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened
+      @select="closeDrawer">
       <template v-for="item in menus" :key="item.title">
         <el-sub-menu v-if="item?.children?.length" :index="item.title">
           <template #title>
@@ -11,7 +12,8 @@
             </div>
           </template>
 
-          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
+          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to"
+            @click="$router.push(children.to)">
             <div class="menu-item-container">
               {{ children.title }}
               <el-badge v-if="children.count && children.count > 0" :value="children.count" type="danger"></el-badge>
@@ -60,8 +62,8 @@ export default defineComponent({
     );
 
     onBeforeMount(async () => {
-      await store.dispatch('auth/getUserPathPermissions');
-      store.commit('admin/filterMenus', userPermissions.value);
+      // await store.dispatch('auth/getUserPathPermissions');
+      // store.commit('admin/filterMenus', userPermissions.value);
       await store.dispatch('admin/updateApplicationsCounts');
       // await store.dispatch('meta/getApplicationsCounts');
       // store.commit('admin/setApplicationsCounts', applicationsCounts.value);
@@ -123,24 +125,30 @@ $background-color: whitesmoke;
     font-size: unset;
   }
 }
+
 .el-menu,
 .el-menu-item {
   border: none;
 }
+
 .row-menu-title {
   margin-right: 20px;
 }
+
 .sub-menu-container {
   position: relative;
+
   .el-badge {
     position: absolute;
     top: -10px;
     left: -10px;
   }
 }
+
 .menu-item-container {
   display: flex;
   align-items: center;
+
   .el-badge {
     margin-left: 5px;
   }

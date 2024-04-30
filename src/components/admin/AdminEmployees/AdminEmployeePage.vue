@@ -4,7 +4,8 @@
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical" class="vertical-block">
           <div class="status-panel" :style="collapsed ? 'margin-top: -166px' : 'margin-top: 0'">
-            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами</div>
+            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами
+            </div>
             <div v-else class="panel-title" @click.prevent="handClick">Скрыть панель управления статусами</div>
             <div class="panel-body">
               <div class="line">
@@ -21,7 +22,8 @@
                 <div class="line-item">
                   <div v-if="employee.doctor" class="yes">ДА</div>
                   <div v-else class="no">НЕТ</div>
-                  <button v-if="employee.doctor" class="revoke" @click.prevent="employee.resetDoctor()">Отозвать</button>
+                  <button v-if="employee.doctor" class="revoke"
+                    @click.prevent="employee.resetDoctor()">Отозвать</button>
                   <button v-else class="appoint" @click.prevent="employee.setDoctor()">Назначить</button>
                 </div>
               </div>
@@ -43,20 +45,12 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan
-              :file-info="employee.human.photo"
-              :height="300"
-              @remove-file="employee.human.removePhoto()"
-              @ratio="(e) => (element.ratio = e)"
-            />
+            <UploaderSingleScan :file-info="employee.human.photo" :height="300"
+              @remove-file="employee.human.removePhoto()" @ratio="(e) => (element.ratio = e)" />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan
-              :file-info="employee.human.photoMini"
-              :height="300"
-              :width="300"
-              @remove-file="employee.human.removePhotoMini()"
-            />
+            <UploaderSingleScan :file-info="employee.human.photoMini" :height="300" :width="300"
+              @remove-file="employee.human.removePhotoMini()" />
           </el-card>
         </el-container>
       </el-col>
@@ -106,7 +100,6 @@ export default defineComponent({
       employee,
       form,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       handClick,
       collapsed,
     };
@@ -153,6 +146,7 @@ $margin: 20px 0;
   align-items: center;
   justify-content: space-between;
 }
+
 .column-item {
   width: 40%;
   margin-left: 0px;
@@ -357,6 +351,7 @@ $margin: 20px 0;
   align-items: center;
   justify-content: space-between;
 }
+
 .column-item {
   width: 40%;
   margin-left: 0px;
@@ -524,14 +519,17 @@ $margin: 20px 0;
   .column-block {
     display: block;
   }
+
   .column-item {
     width: 100%;
     margin-left: 0px;
   }
+
   .column-item2 {
     width: 100%;
     margin-left: 0px;
   }
+
   .column-item3 {
     width: 100%;
     margin-left: 0px;
@@ -548,6 +546,7 @@ $margin: 20px 0;
     width: calc(100% - 42px);
     margin: 0px 10px 20px 10px;
   }
+
   .admin-del {
     position: absolute;
     top: 23px;
@@ -559,6 +558,7 @@ $margin: 20px 0;
     cursor: pointer;
     padding: 1px 0px;
   }
+
   .background-container {
     margin: 0 10px 20px 10px;
   }

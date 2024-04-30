@@ -98,7 +98,7 @@ export default defineComponent({
       } else {
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       }
-      await Provider.getAll('formStatusGroups');
+      await Store.GetAll('formStatusGroups');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formPattern, formUpdated, { deep: true });
     };

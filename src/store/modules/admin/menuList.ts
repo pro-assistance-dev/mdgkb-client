@@ -11,21 +11,21 @@ const menuList: IAdminMenu[] = [
         to: '/admin/news',
         icon: 'el-icon-tickets',
       },
-      {
-        title: 'События',
-        to: '/admin/events',
-        icon: 'el-icon-tickets',
-      },
-      {
-        title: 'Слайдер новостей',
-        to: '/admin/news-slides',
-        icon: 'el-icon-film',
-      },
-      {
-        title: 'Рекламные баннеры',
-        to: '/admin/banners',
-        icon: 'el-icon-film',
-      },
+      // {
+      //   title: 'События',
+      //   to: '/admin/events',
+      //   icon: 'el-icon-tickets',
+      // },
+      // {
+      //   title: 'Слайдер новостей',
+      //   to: '/admin/news-slides',
+      //   icon: 'el-icon-film',
+      // },
+      // {
+      //   title: 'Рекламные баннеры',
+      //   to: '/admin/banners',
+      //   icon: 'el-icon-film',
+      // },
     ],
   },
   {
@@ -61,16 +61,16 @@ const menuList: IAdminMenu[] = [
         icon: 'el-icon-guide',
         tableName: 'visits_applications',
       },
-      {
-        title: 'Госпитализации',
-        to: '/admin/hospitalizations',
-        icon: 'el-icon-guide',
-        tableName: 'hospitalizations',
-      },
-      {
-        title: 'Список записей',
-        to: '/admin/appointments',
-      },
+      // {
+      //   title: 'Госпитализации',
+      //   to: '/admin/hospitalizations',
+      //   icon: 'el-icon-guide',
+      //   tableName: 'hospitalizations',
+      // },
+      // {
+      //   title: 'Список записей',
+      //   to: '/admin/appointments',
+      // },
     ],
   },
   {
@@ -78,43 +78,43 @@ const menuList: IAdminMenu[] = [
     to: '/',
     icon: 'el-icon-question',
     children: [
-      {
-        title: 'Здания',
-        to: '/admin/buildings',
-      },
-      {
-        title: 'Входы',
-        to: '/admin/gates',
-      },
+      // {
+      //   title: 'Здания',
+      //   to: '/admin/buildings',
+      // },
+      // {
+      //   title: 'Входы',
+      //   to: '/admin/gates',
+      // },
       {
         title: 'Отделения',
         to: '/admin/divisions',
       },
     ],
   },
-  {
-    title: 'Проекты, партнеры, профили, организации',
-    to: '/',
-    icon: 'el-icon-collection',
-    children: [
-      {
-        title: 'Наши партнеры',
-        to: '/admin/partners',
-      },
-      {
-        title: 'Наши проекты',
-        to: '/admin/projects',
-      },
-      {
-        title: 'Медицинские профили',
-        to: '/admin/medical-profiles',
-      },
-      {
-        title: 'Организации здравоохранения',
-        to: '/admin/side-organizations',
-      },
-    ],
-  },
+  // {
+  //   title: 'Проекты, партнеры, профили, организации',
+  //   to: '/',
+  //   icon: 'el-icon-collection',
+  //   children: [
+  //     {
+  //       title: 'Наши партнеры',
+  //       to: '/admin/partners',
+  //     },
+  //     {
+  //       title: 'Наши проекты',
+  //       to: '/admin/projects',
+  //     },
+  //     {
+  //       title: 'Медицинские профили',
+  //       to: '/admin/medical-profiles',
+  //     },
+  //     {
+  //       title: 'Организации здравоохранения',
+  //       to: '/admin/side-organizations',
+  //     },
+  //   ],
+  // },
   {
     title: 'Образование',
     to: '/',
@@ -124,10 +124,10 @@ const menuList: IAdminMenu[] = [
         title: 'Программы ординатуры',
         to: '/admin/residency-courses',
       },
-      {
-        title: 'Программы НМО',
-        to: '/admin/nmo-courses',
-      },
+      // {
+      //   title: 'Программы НМО',
+      //   to: '/admin/nmo-courses',
+      // },
       {
         title: 'Программы аспирантуры',
         to: '/admin/postgraduate-courses',
@@ -163,23 +163,23 @@ const menuList: IAdminMenu[] = [
     to: '/',
     icon: 'el-icon-user',
     children: [
-      {
-        title: 'Общие правила посещения',
-        to: '/admin/common-visiting-rules',
-      },
-      {
-        title: 'Подготовка к исследованиям',
-        to: '/admin/preparations',
-      },
-      {
-        title: 'FAQ',
-        to: '/admin/faqs',
-      },
-      {
-        title: 'Правила для доноров',
-        to: '/admin/donor-rules',
-        icon: 'el-icon-plus',
-      },
+      // {
+      //   title: 'Общие правила посещения',
+      //   to: '/admin/common-visiting-rules',
+      // },
+      // {
+      //   title: 'Подготовка к исследованиям',
+      //   to: '/admin/preparations',
+      // },
+      // {
+      //   title: 'FAQ',
+      //   to: '/admin/faqs',
+      // },
+      // {
+      //   title: 'Правила для доноров',
+      //   to: '/admin/donor-rules',
+      //   icon: 'el-icon-plus',
+      // },
     ],
   },
   {
@@ -187,47 +187,47 @@ const menuList: IAdminMenu[] = [
     to: '/',
     icon: 'el-icon-data-board',
     children: [
-      {
-        title: 'Меню',
-        to: '/admin/menus',
-      },
+      // {
+      //   title: 'Меню',
+      //   to: '/admin/menus',
+      // },
       {
         title: 'Страницы',
         to: '/admin/pages',
       },
-      {
-        title: 'Роли',
-        to: '/admin/roles',
-        icon: 'el-icon-user',
-      },
+      // {
+      //   title: 'Роли',
+      //   to: '/admin/roles',
+      //   icon: 'el-icon-user',
+      // },
       {
         title: 'Сотрудники',
         to: '/admin/employees',
         icon: 'el-icon-user',
       },
-      {
-        title: 'Пользователи',
-        to: '/admin/users',
-        icon: 'el-icon-user',
-      },
-      {
-        title: 'Клиентские доступы',
-        to: '/admin/path-permissions',
-        icon: 'el-icon-user',
-      },
-      {
-        title: 'Шаблоны графика работы',
-        to: '/admin/timetable-patterns',
-        icon: 'el-icon-time',
-      },
+      // {
+      //   title: 'Пользователи',
+      //   to: '/admin/users',
+      //   icon: 'el-icon-user',
+      // },
+      // {
+      //   title: 'Клиентские доступы',
+      //   to: '/admin/path-permissions',
+      //   icon: 'el-icon-user',
+      // },
+      // {
+      //   title: 'Шаблоны графика работы',
+      //   to: '/admin/timetable-patterns',
+      //   icon: 'el-icon-time',
+      // },
       {
         title: 'Шаблоны форм для заявок',
         to: '/admin/form-patterns',
       },
-      {
-        title: 'Специальности',
-        to: '/admin/educational/specializations',
-      },
+      // {
+      //   title: 'Специальности',
+      //   to: '/admin/educational/specializations',
+      // },
       {
         title: 'Группы статусов заявок',
         to: '/admin/form-status-groups',
@@ -243,34 +243,34 @@ const menuList: IAdminMenu[] = [
         to: '/admin/daily-menu-orders',
         icon: 'el-icon-user',
       },
-      {
-        title: 'Тех.поддержка',
-        to: '/admin/support-messages',
-        icon: 'el-icon-user',
-      },
-      {
-        title: 'Типы госпитализации',
-        to: '/admin/hospitalizations-types',
-        icon: 'el-icon-user',
-      },
+      // {
+      //   title: 'Тех.поддержка',
+      //   to: '/admin/support-messages',
+      //   icon: 'el-icon-user',
+      // },
+      // {
+      //   title: 'Типы госпитализации',
+      //   to: '/admin/hospitalizations-types',
+      //   icon: 'el-icon-user',
+      // },
     ],
   },
-  {
-    title: 'В разработке',
-    to: '/',
-    icon: 'el-icon-warning',
-    children: [
-      {
-        title: 'Создать слоты для записи',
-        to: '/admin/appointments/constructor',
-      },
-      {
-        title: 'Платные услуги',
-        to: '/admin/paid-programs-groups',
-        icon: 'el-icon-money',
-      },
-    ],
-  },
+  // {
+  //   title: 'В разработке',
+  //   to: '/',
+  //   icon: 'el-icon-warning',
+  //   children: [
+  //     {
+  //       title: 'Создать слоты для записи',
+  //       to: '/admin/appointments/constructor',
+  //     },
+  //     {
+  //       title: 'Платные услуги',
+  //       to: '/admin/paid-programs-groups',
+  //       icon: 'el-icon-money',
+  //     },
+  //   ],
+  // },
 ];
 
 export default menuList;

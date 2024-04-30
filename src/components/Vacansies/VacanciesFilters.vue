@@ -1,28 +1,6 @@
 <template>
   <FiltersWrapper v-if="mounted">
     <template #header-left-top>
-      <RemoteSearch
-        :max-width="400"
-        placeholder="Начните вводить наименование вакансии"
-        :key-value="schema.vacancy.key"
-        @select="selectSearch"
-      />
-      <FilterSelect
-        placeholder="Выберите отделение"
-        :options="schema.division.options"
-        :table="schema.vacancy.tableName"
-        :col="schema.vacancy.divisionId"
-        :operator="Operators.Eq"
-        :data-type="DataTypes.String"
-        @load="$emit('load')"
-      />
-      <FilterSelectDate
-        class="filters-block"
-        :table="schema.vacancy.tableName"
-        :col="schema.vacancy.date"
-        placeholder="Дата публикации"
-        @load="$emit('load')"
-      />
     </template>
     <template #footer>
       <SortList :max-width="400" show-label :models="sortList" @load="$emit('load')" />
@@ -56,7 +34,6 @@ export default defineComponent({
     return {
       selectSearch,
       sortList: Provider.sortList,
-      schema: Provider.schema,
       mounted: Provider.mounted,
       Operators,
       DataTypes,

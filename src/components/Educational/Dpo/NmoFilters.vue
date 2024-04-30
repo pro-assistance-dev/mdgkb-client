@@ -1,59 +1,5 @@
 <template>
   <FiltersWrapper v-if="mounted">
-    <template v-if="condition" #header-left-top>
-      <RemoteSearch
-        :max-width="360"
-        placeholder="Начните вводить название программы"
-        :key-value="schema.nmoCourse.key"
-        :table="schema.nmoCourse.tableName"
-        :col="schema.nmoCourse.name"
-        @select="selectSearch"
-        @load="$emit('load')"
-      />
-      <FilterSelect
-        placeholder="Все программы"
-        :options="nmoOptions"
-        :table="schema.nmoCourse.tableName"
-        :col="schema.nmoCourse.isNmo"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        :filterable="false"
-        @load="$emit('load')"
-      />
-      <FilterSelect
-        placeholder="Для кого читается курс"
-        :options="schema.specialization.options"
-        :table="schema.nmoCourse.tableName"
-        :col="schema.specialization.id"
-        :data-type="DataTypes.Join"
-        :operator="Operators.Eq"
-        :join-table="schema.dpoCourseSpecialization.tableName"
-        :join-table-fk="schema.dpoCourseSpecialization.dpoCourseId"
-        :join-table-pk="schema.nmoCourse.id"
-        :join-table-id="schema.dpoCourseSpecialization.specializationId"
-        :join-table-id-col="schema.dpoCourseSpecialization.specializationId"
-        @load="$emit('load')"
-      />
-    </template>
-    <template #header-right>
-      <ModeChoice path="dpo" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
-    </template>
-    <template v-if="condition" #header-left-bottom>
-      <FilterCheckbox
-        label="Только актуальные"
-        :options="nmoOptions"
-        :table="schema.nmoCourse.tableName"
-        :col="schema.nmoCourse.minStart"
-        :data-type="DataTypes.Date"
-        :operator="Operators.Gt"
-        :filter-value="new Date()"
-        :filterable="false"
-        @load="$emit('load')"
-      />
-    </template>
-    <template v-if="condition" #footer>
-      <SortList :models="sortList" :max-width="400" show-label :store-mode="true" @load="$emit('load')" />
-    </template>
   </FiltersWrapper>
 </template>
 
@@ -66,7 +12,6 @@ import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import SortList from '@/components/SortList/SortList.vue';
-import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -115,10 +60,6 @@ export default defineComponent({
       Provider.store.commit('filter/setDefaultSortModel');
     };
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.specialization);
-    });
-
     return {
       nmoOptions,
       resetFilter,
@@ -126,7 +67,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      schema: Provider.schema,
       sortList: Provider.sortList,
       mounted: Provider.mounted,
     };
@@ -142,30 +82,38 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;

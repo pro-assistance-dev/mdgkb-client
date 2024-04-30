@@ -37,10 +37,9 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.setSortModels(VacanciesSortsLib.byTitle());
-      Provider.setSortList(...createSortModels(VacanciesSortsLib));
+      // Provider.setSortModels(VacanciesSortsLib.byTitle());
+      // Provider.setSortList(...createSortModels(VacanciesSortsLib));
       Provider.setFilterModel(VacanciesFiltersLib.onlyActive());
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadVacancies();
     };
 
@@ -70,6 +69,7 @@ export default defineComponent({
   justify-content: space-evenly;
   width: 100%;
 }
+
 h2 {
   margin-top: 0;
   text-align: center;

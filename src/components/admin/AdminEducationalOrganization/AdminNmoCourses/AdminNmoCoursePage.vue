@@ -5,13 +5,9 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <SetEntity
-                :search-key="Employee.GetClassName()"
-                label="Выбрать руководителя"
-                :entity-name="nmoCourse.mainTeacher.human.getFullName()"
-                @select-search="selectMainTeacherSearch"
-                @reset="nmoCourse.resetMainTeacher()"
-              />
+              <SetEntity :search-key="Employee.GetClassName()" label="Выбрать руководителя"
+                :entity-name="nmoCourse.mainTeacher.human.getFullName()" @select-search="selectMainTeacherSearch"
+                @reset="nmoCourse.resetMainTeacher()" />
             </el-card>
             <el-card>
               <el-form-item prop="title" label="Название:">
@@ -24,69 +20,6 @@
                 <WysiwygEditor v-model="nmoCourse.description" />
               </el-form-item>
             </el-card>
-            <!--          TODO: не удалять - удалили временно - до уточнения-->
-            <!--            <el-card>-->
-            <!--              <template #header> Расписание курсов </template>-->
-            <!--              <el-button @click="nmoCourse.addDates()"> Добавить даты </el-button>-->
-            <!--              <el-form-item prop="publishedOn">-->
-            <!--                -->
-            <!--                <el-table :data="nmoCourse.nmoCoursesDates">-->
-            <!--                  <el-table-column label="Начало" sortable>-->
-            <!--                    <template #default="scope">-->
-            <!--                      <DatePicker v-model="scope.row.start" />-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                  <el-table-column label="Начало" sortable>-->
-            <!--                    <template #default="scope">-->
-            <!--                      <DatePicker v-model="scope.row.end" />-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                  <el-table-column width="50" fixed="right" align="center">-->
-            <!--                    <template #default="scope">-->
-            <!--                      <TableButtonGroup-->
-            <!--                        :show-remove-button="true"-->
-            <!--                        @remove="-->
-            <!--                          $classHelper.RemoveFromClassByIndex(scope.$index, nmoCourse.nmoCoursesDates, nmoCourse.nmoCoursesDatesForDelete)-->
-            <!--                        "-->
-            <!--                      />-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                </el-table>-->
-            <!--              </el-form-item>-->
-            <!--            </el-card>-->
-            <!--            TODO: не удалять - удалили только временно - оставили на будущее-->
-            <!--            <el-card>-->
-            <!--              <template #header> Преподаватели </template>-->
-            <!--              <el-form-item prop="listeners">-->
-            <!--                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />-->
-            <!--                <el-table :data="nmoCourse.nmoCourseTeachers">-->
-            <!--                  <el-table-column label="ФИО" sortable>-->
-            <!--                    <template #default="scope">-->
-            <!--                      {{ scope.row.teacher.doctor.employee.human.getFullName() }}-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                  <el-table-column label="Руководитель программы" sortable>-->
-            <!--                    <template #default="scope">-->
-            <!--                      <el-checkbox v-model="scope.row.main" @change="nmoCourse.setMainTeacher(scope.$index)" />-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                  <el-table-column width="50" fixed="right" align="center">-->
-            <!--                    <template #default="scope">-->
-            <!--                      <TableButtonGroup-->
-            <!--                        :show-remove-button="true"-->
-            <!--                        @remove="-->
-            <!--                          $classHelper.RemoveFromClassByIndex(-->
-            <!--                            scope.$index,-->
-            <!--                            nmoCourse.nmoCourseTeachers,-->
-            <!--                            nmoCourse.nmoCourseTeachersForDelete-->
-            <!--                          )-->
-            <!--                        "-->
-            <!--                      />-->
-            <!--                    </template>-->
-            <!--                  </el-table-column>-->
-            <!--                </el-table>-->
-            <!--              </el-form-item>-->
-            <!--            </el-card>-->
           </el-container>
         </el-col>
         <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
@@ -97,7 +30,8 @@
                 <el-form-item v-if="nmoCourse.isNmo" prop="listeners" label="Ссылка НМО">
                   <el-input v-model="nmoCourse.linkNmo" placeholder="Ссылка НМО" />
                 </el-form-item>
-                <el-select v-model="nmoCourse.formPattern" value-key="id" placeholder="Шаблон формы" @change="changeFormPatternHandler()">
+                <el-select v-model="nmoCourse.formPattern" value-key="id" placeholder="Шаблон формы"
+                  @change="changeFormPatternHandler()">
                   <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
@@ -130,12 +64,9 @@
             </el-card>
             <el-card>
               <template #header> Выбрать специальности, для которых читается программа </template>
-              <el-checkbox
-                v-for="specialization in specializations"
-                :key="specialization.id"
+              <el-checkbox v-for="specialization in specializations" :key="specialization.id"
                 :model-value="nmoCourse.findSpecialization(specialization.id)"
-                @change="nmoCourse.addSpecialization(specialization)"
-              >
+                @change="nmoCourse.addSpecialization(specialization)">
                 {{ specialization.name }}
               </el-checkbox>
             </el-card>
@@ -213,7 +144,6 @@ export default defineComponent({
       Employee,
       specializations,
       selectMainTeacherSearch,
-      schema: Provider.schema,
       mounted: Provider.mounted,
       nmoCourse,
       form: Provider.form,

@@ -37,7 +37,6 @@ export default defineComponent({
 
     const loadMore = async () => {
       // const lastCursor = managers.value[managers.value.length - 1].name;
-      // filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.division.name, schema.value.division.tableName);
       await store.dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     };
 
@@ -62,6 +61,7 @@ export default defineComponent({
   flex-wrap: wrap;
   padding: 10px;
 }
+
 .card-container {
   height: 350px;
   margin: 0 auto;

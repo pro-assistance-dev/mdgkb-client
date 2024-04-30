@@ -21,14 +21,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-edit-button="true"
-            :show-remove-button="true"
-            :show-more-button="true"
-            @remove="remove(scope.row.id)"
-            @edit="edit(scope.row.id)"
-            @showMore="loginAs(scope.row.email)"
-          />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" :show-more-button="true"
+            @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" @showMore="loginAs(scope.row.email)" />
         </template>
       </el-table-column>
     </el-table>
@@ -105,7 +99,6 @@ export default defineComponent({
       edit,
       isEditMode,
       sortList: Provider.sortList,
-      schema: Provider.schema,
       loadUsers,
     };
   },

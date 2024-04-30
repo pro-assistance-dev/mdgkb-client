@@ -17,7 +17,6 @@ import { useStore } from 'vuex';
 import Teacher from '@/classes/Teacher';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 export default defineComponent({
   name: 'TeachersList',
@@ -26,13 +25,10 @@ export default defineComponent({
     const store = useStore();
     const teachers: Ref<Teacher[]> = computed<Teacher[]>(() => store.getters['teachers/items']);
 
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
-      const lastCursor = teachers.value[teachers.value.length - 1].employee.human.getFullName();
-      filterQuery.value.pagination.setLoadMore(lastCursor, schema.value.teacher.fullName, schema.value.teacher.tableName);
       await store.dispatch('teachers/getAll', { filterQuery: filterQuery.value });
     };
 
@@ -57,6 +53,7 @@ export default defineComponent({
   flex-wrap: wrap;
   padding: 10px;
 }
+
 .card-container {
   height: 350px;
   margin: 0 auto;

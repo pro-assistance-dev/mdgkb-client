@@ -7,10 +7,10 @@
     <VerticalCollapseContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
       <template #main>
         <div v-if="!dailyMenus.length" class="menu-shadow">
-          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню </el-button>
+          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню
+          </el-button>
           <el-button v-if="menusCopies.length" round type="warning" plain style="scale: 1.2" @click="paste">
-            Вставить меню из буфера</el-button
-          >
+            Вставить меню из буфера</el-button>
         </div>
       </template>
       <template #inside-title> Книга блюд </template>
@@ -168,7 +168,6 @@ export default defineComponent({
       selectDay,
       dishesGroups,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       createNewDailyMenus,
       fillCalendar,
     };
@@ -356,6 +355,7 @@ $margin: 20px 0;
   color: #2754eb;
   cursor: pointer;
 }
+
 .calendar-button:hover {
   color: darken(#2754eb, 20%);
 }
@@ -451,7 +451,7 @@ $margin: 20px 0;
   height: 30px;
 }
 
-.tabs > div {
+.tabs>div {
   height: 26px;
   object-fit: cover;
 }
@@ -590,7 +590,7 @@ h4 {
   margin-left: -1px;
 }
 
-.tabs-item:hover > .line {
+.tabs-item:hover>.line {
   display: none;
 }
 
@@ -689,17 +689,20 @@ h4 {
   border-radius: 5px;
   background: #f9fafb;
 }
+
 .arrow-box {
   width: 20px;
   background: #00b5a4;
   margin-right: 6px;
   padding-top: 70px;
 }
+
 .arrow-box-title {
   font-size: 14px;
   color: #ffffff;
   transform: rotate(-90deg);
 }
+
 .arrow-box-button {
   width: 20px;
   background: #00b5a4;

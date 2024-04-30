@@ -16,14 +16,10 @@
           </el-card>
 
           <el-card>
-            <SetEntity
-              :link="`/admin/doctors/${division.chief.employee.human.slug}`"
-              :search-key="Doctor.GetClassName()"
-              label="Выбрать заведующего"
-              :entity-name="division.chief.employee.human.getFullName()"
-              @select-search="selectDoctorSearch"
-              @reset="division.removeChief()"
-            />
+            <SetEntity :link="`/admin/doctors/${division.chief.employee.human.slug}`"
+              :search-key="Doctor.GetClassName()" label="Выбрать заведующего"
+              :entity-name="division.chief.employee.human.getFullName()" @select-search="selectDoctorSearch"
+              @reset="division.removeChief()" />
           </el-card>
 
           <AdminDivisionVisitingRules />
@@ -38,11 +34,8 @@
                 <button class="admin-add" @click.prevent="division.addImage()">+ Добавить</button>
               </div>
               <div v-if="division.divisionImages.length" class="background-container">
-                <AdminGallery
-                  :default-ratio="4 / 3"
-                  :file-list="division.divisionImages"
-                  :file-list-for-delete="division.divisionImagesForDelete"
-                />
+                <AdminGallery :default-ratio="4 / 3" :file-list="division.divisionImages"
+                  :file-list-for-delete="division.divisionImagesForDelete" />
               </div>
             </template>
           </CollapseItem>
@@ -60,31 +53,26 @@
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Здание" prop="buildingId">
-              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание"
+                @change="changeBuildingHandler">
                 <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
             <template v-if="division.buildingId && buildingOption">
               <el-form-item label="Этаж" prop="floorId">
-                <el-select
-                  v-model="division.floorId"
-                  placeholder="Выберите этаж"
-                  :disabled="division.buildingId ? false : true"
-                  @change="changeDivisionAddress"
-                >
+                <el-select v-model="division.floorId" placeholder="Выберите этаж"
+                  :disabled="division.buildingId ? false : true" @change="changeDivisionAddress">
                   <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id">
                     {{ item.number }}
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Вход" prop="entranceId">
-                <el-select
-                  v-model="division.entranceId"
-                  placeholder="Выберите вход"
+                <el-select v-model="division.entranceId" placeholder="Выберите вход"
                   :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
-                  @change="changeDivisionAddress"
-                >
-                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
+                  @change="changeDivisionAddress">
+                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number"
+                    :value="item.id" />
                 </el-select>
               </el-form-item>
               <el-form-item>
@@ -98,7 +86,6 @@
 
           <el-card>
             <div class="flex-between">
-              <RemoteSearch placeholder="Найдите доктора" :key-value="schema.doctor.key" @select="addDoctor" />
             </div>
 
             <el-table :data="division.doctorsDivisions">
@@ -119,14 +106,9 @@
               </el-table-column>
               <el-table-column width="50" fixed="right" align="center">
                 <template #default="scope">
-                  <TableButtonGroup
-                    :show-more-button="true"
-                    :show-remove-button="true"
-                    @remove="
-                      $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
-                    "
-                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)"
-                  />
+                  <TableButtonGroup :show-more-button="true" :show-remove-button="true" @remove="
+                    $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
+                    " @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)" />
                 </template>
               </el-table-column>
             </el-table>
@@ -135,11 +117,12 @@
         </el-container>
         <el-container>
           <el-card>
-            <el-button size="mini" type="success" style="margin: 20px" @click="division.addDivisionVideo()"> Добавить видео </el-button>
+            <el-button size="mini" type="success" style="margin: 20px" @click="division.addDivisionVideo()"> Добавить
+              видео
+            </el-button>
             <div v-for="(video, i) in division.divisionVideos" :key="video">
               <el-input v-model="video.youTubeVideoId" /><el-button
-                @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)"
-              >
+                @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)">
                 Удалить
               </el-button>
             </div>
@@ -274,6 +257,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/base-style.scss';
+
 .el-container {
   .el-card {
     margin-bottom: 20px;
@@ -303,6 +287,7 @@ export default defineComponent({
 .content-card {
   height: 450px;
 }
+
 .flex-between {
   display: flex;
   justify-content: space-between;
@@ -361,6 +346,7 @@ export default defineComponent({
     cursor: pointer;
     padding: 1px 0px;
   }
+
   .background-container {
     margin: 0 10px 20px 10px;
   }

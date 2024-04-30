@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination>
+  <AdminListWrapper pagination>
     <!-- <template #header>
       <FiltersList :models="createFilterModels()" @load="loadApplications" />
     </template> -->
@@ -14,7 +14,10 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+            month: '2-digit', hour: 'numeric', minute:
+              'numeric'
+          }) }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -109,8 +112,8 @@ export default defineComponent({
       // await setFilter();
       await loadFilters();
       setType();
-      Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
-      Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
+      // Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
+      // Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
       Provider.store.commit('admin/setHeaderParams', {
         title: title,
