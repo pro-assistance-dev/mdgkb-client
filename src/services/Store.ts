@@ -7,6 +7,7 @@ enum Methods {
   FTSP = 'ftsp',
   Create = 'create',
   Update = 'update',
+  UpdateAll = 'updateAll',
   Remove = 'remove',
 }
 
@@ -77,5 +78,8 @@ export default abstract class Store {
 
   static Set(moduleAndGetter: string, data: unknown): void {
     getStore().commit(`${moduleAndGetter}`, data);
+  }
+  static async UpdateAll(module: string) {
+    await getStore().dispatch(`${module}/${Methods.UpdateAll}`);
   }
 }

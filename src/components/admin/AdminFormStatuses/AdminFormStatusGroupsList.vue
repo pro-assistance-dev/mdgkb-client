@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <AdminListWrapper>
     <el-table v-if="formStatusGroups" :data="formStatusGroups">
       <el-table-column label="Название">
         <template #default="scope">
@@ -13,85 +13,59 @@
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-edit-button="true"
-            :show-open-button="true"
-            :show-remove-button="true"
-            @remove="remove(scope.row.id)"
-            @edit="openDialog(scope.row.id)"
-            @open="edit(scope.row.id)"
-          />
+          <TableButtonGroup :show-edit-button="true" :show-open-button="true" :show-remove-button="true"
+            @remove="remove(scope.row.id)" @edit="openDialog(scope.row.id)" @open="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
-  </component>
+  </AdminListWrapper>
   <AdminFormStatusGroupDialog />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import FormStatusGroup from '@/classes/FormStatusGroup';
-import AdminFormStatusGroupDialog from '@/components/admin/AdminFormStatuses/AdminFormStatusGroupDialog.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminFormStatusGroupsList',
-  components: { TableButtonGroup, AdminListWrapper, AdminFormStatusGroupDialog },
+const formStatusGroups: ComputedRef<FormStatusGroup[]> = Store.Items('formStatusGroups')
+const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroup')
+const mounted: Ref<boolean> = ref(false);
 
-  setup() {
-    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
-    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
-    const mounted: Ref<boolean> = ref(false);
+const load = async () => {
+  await Store.FTSP('formStatusGroups');
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Группы статусов заявок',
+    buttons: [{ text: 'Создать группу', type: 'primary', action: create }],
+  });
+  mounted.value = true;
+};
 
-    const load = async () => {
-      await Provider.store.dispatch('formStatusGroups/getAll');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Группы статусов заявок',
-        buttons: [{ text: 'Создать группу', type: 'primary', action: create }],
-      });
-      mounted.value = true;
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
+const remove = async (id: string) => {
+  await Store.Remove('formStatusGroups', id);
+};
 
-    const remove = async (id: string) => {
-      await Provider.store.dispatch('formStatusGroups/remove', id);
-    };
+const edit = async (id: string) => {
+  Provider.router.push({ name: 'AdminFormStatusesList', params: { groupId: id } });
+};
 
-    const edit = async (id: string) => {
-      Provider.router.push({ name: 'AdminFormStatusesList', params: { groupId: id } });
-    };
+const create = () => {
+  Store.Commit('formStatusGroups/setDialogTitle', 'Добавить группу');
+  Store.Commit('formStatusGroups/resetItem');
+  Store.Commit('formStatusGroups/toggleDialog', true);
+};
 
-    const create = () => {
-      Provider.store.commit('formStatusGroups/setDialogTitle', 'Добавить группу');
-      Provider.store.commit('formStatusGroups/resetItem');
-      Provider.store.commit('formStatusGroups/toggleDialog', true);
-    };
-
-    const openDialog = async (id?: string) => {
-      if (id) {
-        await Provider.store.dispatch('formStatusGroups/get', id);
-        Provider.store.commit('formStatusGroups/setDialogTitle', formStatusGroup.value.name);
-      } else {
-        Provider.store.commit('formStatusGroups/setDialogTitle', 'Добавить группу');
-        Provider.store.commit('formStatusGroups/resetItem');
-      }
-      Provider.store.commit('formStatusGroups/toggleDialog', true);
-    };
-
-    return {
-      formStatusGroups,
-      remove,
-      mounted,
-      openDialog,
-      edit,
-    };
-  },
-});
+const openDialog = async (id?: string) => {
+  if (id) {
+    await Store.Get('formStatusGroups', id);
+    Store.Commit('formStatusGroups/setDialogTitle', formStatusGroup.value.name);
+  } else {
+    Store.Commit('formStatusGroups/setDialogTitle', 'Добавить группу');
+    Store.Commit('formStatusGroups/resetItem');
+  }
+  Store.Commit('formStatusGroups/toggleDialog', true);
+};
 </script>
 
 <style lang="scss" scoped>

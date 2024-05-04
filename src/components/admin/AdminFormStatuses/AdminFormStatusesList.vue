@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted">
+  <AdminListWrapper>
     <el-table v-if="formStatuses" :data="formStatuses">
       <el-table-column label="Название" sortable>
         <template #default="scope">
@@ -18,36 +18,25 @@
               {{ item.childFormStatus.label }}
             </div>
           </div>
-          <el-select
-            v-else
-            v-model="scope.row.formStatusToFormStatuses"
-            value-key="childFormStatusId"
-            multiple
-            placeholder="Выберите статусы"
-            style="width: 100%"
-            @remove-tag="(i) => scope.row.removeFormStatusToFormStatuses(i)"
-          >
-            <el-option
-              v-for="item in formStatusesByGroupId(scope.row.formStatusGroupId)"
-              :key="item.id"
-              :label="item.childFormStatus.label"
-              :value="item"
-            />
+          <el-select v-else v-model="scope.row.formStatusToFormStatuses" value-key="childFormStatusId" multiple
+            placeholder="Выберите статусы" style="width: 100%"
+            @remove-tag="(i) => scope.row.removeFormStatusToFormStatuses(i)">
+            <el-option v-for="item in formStatusesByGroupId(scope.row.formStatusGroupId)" :key="item.id"
+              :label="item.childFormStatus.label" :value="item" />
           </el-select>
         </template>
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
+            @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
-  </component>
+  </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import FormStatus from '@/classes/FormStatus';
 import FormStatusGroup from '@/classes/FormStatusGroup';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
@@ -56,76 +45,58 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminFormStatusesList',
-  components: { TableButtonGroup, AdminListWrapper },
+const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroups');
+const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = Store.Getters('formStatuses/formStatusToFormStatuses')
+const isEditMode: Ref<boolean> = ref(false);
+const isNotEditMode: Ref<boolean> = ref(true);
 
-  setup() {
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
-    const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = computed<FormStatusToFormStatus[]>(
-      () => Provider.store.getters['formStatuses/formStatusToFormStatuses']
-    );
-    const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: Ref<boolean> = ref(true);
+const create = (): void => {
+  Provider.router.push({ name: 'AdminFormStatusPageCreate', params: { groupId: Provider.route().params['groupId'] } });
+};
 
-    const create = (): void => {
-      Provider.router.push({ name: 'AdminFormStatusPageCreate', params: { groupId: Provider.route().params['groupId'] } });
-    };
-    const remove = async (id: string): Promise<void> => {
-      await Provider.store.dispatch('formStatuses/remove', id);
-    };
-    const edit = (id: string): void => {
-      Provider.router.push({ name: 'AdminFormStatusPageUpdate', params: { groupId: Provider.route().params['groupId'], id } });
-    };
-    const updateAll = async (): Promise<void> => {
-      await Provider.store.dispatch('formStatuses/updateAll');
-      isEditMode.value = false;
-      isNotEditMode.value = true;
-    };
-    const openEditMode = () => {
-      isEditMode.value = true;
-      isNotEditMode.value = false;
-    };
+const remove = async (id: string): Promise<void> => {
+  await Provider.store.dispatch('formStatuses/remove', id);
+};
 
-    const load = async () => {
-      if (Provider.route().params['groupId']) {
-        await Provider.store.dispatch('formStatuses/getAllByGroupId', Provider.route().params['groupId']);
-      } else {
-        await Provider.store.dispatch('formStatuses/getAll');
-      }
-      await Provider.store.dispatch('formStatusGroups/get', Provider.route().params['groupId']);
-      Provider.store.commit('formStatuses/seedFormStatusToFormStatuses');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм',
-        showBackButton: true,
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: openEditMode, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: updateAll, condition: isEditMode },
-          { text: 'Добавить', type: 'primary', action: create },
-        ],
-      });
-    };
+const edit = (id: string): void => {
+  Provider.router.push({ name: 'AdminFormStatusPageUpdate', params: { groupId: Provider.route().params['groupId'], id } });
+};
 
-    const formStatusesByGroupId = (groupId: string): FormStatusToFormStatus[] => {
-      console.log(formStatusToFormStatuses);
-      return formStatusToFormStatuses.value.filter((fs: FormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
-    };
+const updateAll = async (): Promise<void> => {
+  await Store.UpdateAll('formStatuses')
+  isEditMode.value = false;
+  isNotEditMode.value = true;
+};
+const openEditMode = () => {
+  isEditMode.value = true;
+  isNotEditMode.value = false;
+};
 
-    Hooks.onBeforeMount(load);
+const load = async () => {
+  // if (Provider.route().params['groupId']) {
+  //   await Provider.store.dispatch('formStatuses/getAllByGroupId', Provider.route().params['groupId']);
+  // } else {
+  await Store.FTSP('formStatuses');
+  // }
+  await Store.Get('formStatusGroups', Provider.route().params['groupId']);
+  Store.Commit('formStatuses/seedFormStatusToFormStatuses');
+  Store.Commit('admin/setHeaderParams', {
+    title: Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм',
+    showBackButton: true,
+    buttons: [
+      { text: 'Редактировать', type: 'success', action: openEditMode, condition: isNotEditMode },
+      { text: 'Сохранить', type: 'success', action: updateAll, condition: isEditMode },
+      { text: 'Добавить', type: 'primary', action: create },
+    ],
+  });
+};
 
-    return {
-      mounted: Provider.mounted,
-      formStatuses,
-      create,
-      remove,
-      edit,
-      isEditMode,
-      formStatusToFormStatuses,
-      formStatusesByGroupId,
-    };
-  },
-});
+const formStatusesByGroupId = (groupId: string): FormStatusToFormStatus[] => {
+  return formStatusToFormStatuses.value.filter((fs: FormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
+};
+
+Hooks.onBeforeMount(load);
 </script>
 
 <style lang="scss" scoped>

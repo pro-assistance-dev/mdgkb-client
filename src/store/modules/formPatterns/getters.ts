@@ -1,17 +1,12 @@
 import { GetterTree } from 'vuex';
 
-import Form from '@/classes/Form';
 import RootState from '@/store/types';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 
-import { State } from './state';
+import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
-  items(state): Form[] {
-    return state.items;
-  },
-  item(state): Form {
-    return state.item;
-  },
+  ...getBaseGetters(),
 };
 
 export default getters;

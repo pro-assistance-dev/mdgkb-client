@@ -128,29 +128,29 @@ const menuList: IAdminMenu[] = [
       //   title: 'Программы НМО',
       //   to: '/admin/nmo-courses',
       // },
-      {
-        title: 'Программы аспирантуры',
-        to: '/admin/postgraduate-courses',
-      },
-      {
-        title: 'Заявки ДПО',
-        to: '/admin/nmo/applications',
-        tableName: 'dpo_applications',
-      },
-      {
-        title: 'Заявки НМО',
-        to: '/admin/nmo/applications',
-        tableName: 'nmo_applications',
-      },
-      {
-        title: 'Заявки на обучение в аспирантуре',
-        to: '/admin/postgraduate-applications',
-        tableName: 'postgraduate_applications',
-      },
-      {
-        title: 'Заявки на сдачу кандидатского экзамена',
-        to: '/admin/candidate-applications',
-      },
+      // {
+      //   title: 'Программы аспирантуры',
+      //   to: '/admin/postgraduate-courses',
+      // },
+      // {
+      //   title: 'Заявки ДПО',
+      //   to: '/admin/nmo/applications',
+      //   tableName: 'dpo_applications',
+      // },
+      // {
+      //   title: 'Заявки НМО',
+      //   to: '/admin/nmo/applications',
+      //   tableName: 'nmo_applications',
+      // },
+      // {
+      //   title: 'Заявки на обучение в аспирантуре',
+      //   to: '/admin/postgraduate-applications',
+      //   tableName: 'postgraduate_applications',
+      // },
+      // {
+      //   title: 'Заявки на сдачу кандидатского экзамена',
+      //   to: '/admin/candidate-applications',
+      // },
       {
         title: 'Заявки ординатуры',
         to: '/admin/residency-applications',
@@ -233,16 +233,16 @@ const menuList: IAdminMenu[] = [
         to: '/admin/form-status-groups',
         icon: 'el-icon-user',
       },
-      {
-        title: 'Буфет',
-        to: '/admin/dishes',
-        icon: 'el-icon-user',
-      },
-      {
-        title: 'Буфет. Заказы',
-        to: '/admin/daily-menu-orders',
-        icon: 'el-icon-user',
-      },
+      // {
+      //   title: 'Буфет',
+      //   to: '/admin/dishes',
+      //   icon: 'el-icon-user',
+      // },
+      // {
+      //   title: 'Буфет. Заказы',
+      //   to: '/admin/daily-menu-orders',
+      //   icon: 'el-icon-user',
+      // },
       // {
       //   title: 'Тех.поддержка',
       //   to: '/admin/support-messages',
