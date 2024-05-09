@@ -1,18 +1,22 @@
 <template>
-  <el-dropdown v-if="!isAuth">
-    <el-button v-if="showButtonName" icon="el-icon-user" round>Войти</el-button>
-    <el-button v-else class="menu-item" icon="el-icon-user"></el-button>
-    <template #dropdown>
-      <el-dropdown-menu>
-        <el-dropdown-item @click="login"><LoginOutlined />Войти</el-dropdown-item>
-        <el-dropdown-item @click="register"><UserAddOutlined />Зарегистрироваться</el-dropdown-item>
-      </el-dropdown-menu>
-    </template>
-  </el-dropdown>
-  <el-dropdown v-else-if="isAuth && isLaptopWindowWidth">
+  <template v-if="!isAuth">
+    <el-button @click="login" v-if="showButtonName" icon="el-icon-user" round>Войти</el-button>
+    <!-- <el-button v-else class="menu-item" icon="el-icon-user"></el-button> -->
+    <!-- <template #dropdown> -->
+    <!--   <el-dropdown-menu> -->
+    <!--     <el-dropdown-item @click="login"> -->
+    <!--       <LoginOutlined />Войти -->
+    <!--     </el-dropdown-item> -->
+    <!--     <el-dropdown-item @click="register"> -->
+    <!--       <UserAddOutlined />Зарегистрироваться -->
+    <!--     </el-dropdown-item> -->
+    <!--   </el-dropdown-menu> -->
+    <!-- </template> -->
+    <!-- </el-dropdown> -->
+    <!-- <el-dropdown v-else-if="isAuth && isLaptopWindowWidth"> -->
     <!-- <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/profile')"></el-button> -->
-    <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/choice-list')"></el-button>
-  </el-dropdown>
+    <!-- <el-button class="menu-item" icon="el-icon-user" @click.stop="$router.push('/choice-list')"></el-button> -->
+  </template>
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>
       Профиль
@@ -27,86 +31,74 @@
           <!-- TODO: переделать на серверный запрос  -->
           <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
         </el-dropdown-item>
-        <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting" @click="$router.push(`/admin/${curUser.role.startPage}`)"
-          >Кабинет администратора</el-dropdown-item
-        >
-        <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
+        <el-dropdown-item v-if="UserService.isAdmin()" icon="el-icon-setting"
+          @click="$router.push(`/admin/${curUser.role.startPage}`)">Кабинет администратора</el-dropdown-item>
+        <el-dropdown-item @click="logout">
+          <LogoutOutlined />Выйти
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, Ref, ref } from 'vue';
 
 import User from '@/classes/User';
 import { authGuard } from '@/router';
 import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 
-export default defineComponent({
-  name: 'LoginDropdownMenu',
-  components: { LoginOutlined, LogoutOutlined, UserAddOutlined },
-  props: { showButtonName: { type: Boolean, default: false } },
+const props = defineProps({ showButtonName: { type: Boolean, default: false } })
+const authModal = Store.Getters('auth/modal')
 
-  async setup() {
-    const login = () => Provider.store.commit('auth/openModal', 'login');
-    const register = () => Provider.store.commit('auth/openModal', 'register');
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
-    const curUser: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
-    const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
+const login = () => {
+  console.log(authModal)
+  authModal.value.open()
+}
 
-    const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
-    };
+const register = () => Provider.store.commit('auth/openModal', 'register');
+const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+const curUser: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
+const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
 
-    const logout = async () => {
-      await Provider.store.dispatch('auth/logout');
-      const curRoute = Provider.route().name;
-      const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
-      if (rr && rr.meta && rr.meta.protected) {
-        authGuard();
-      }
-      if (authOnly.value) {
-        Provider.store.commit('auth/showWarning', true);
-        Provider.store.commit('auth/openModal', 'login');
-      }
-    };
+const loadUser = async () => {
+  await Provider.store.dispatch('users/get', userId.value);
+};
 
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-    const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 560px)').matches);
+const logout = async () => {
+  await Provider.store.dispatch('auth/logout');
+  const curRoute = Provider.route().name;
+  const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
+  if (rr && rr.meta && rr.meta.protected) {
+    authGuard();
+  }
+  if (authOnly.value) {
+    Provider.store.commit('auth/showWarning', true);
+    Provider.store.commit('auth/openModal', 'login');
+  }
+};
 
-    onBeforeMount(async () => {
-      await loadUser();
-    });
+const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
+const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 560px)').matches);
 
-    onMounted(() => {
-      window.addEventListener('resize', () => {
-        isLaptopWindowWidth.value = window.matchMedia('(max-width: 560px)').matches;
-      });
-    });
-
-    const toProfile = async (): Promise<void> => {
-      if (isLaptopWindowWidth.value) {
-        await Provider.router.push('/profile');
-      }
-    };
-
-    return {
-      toProfile,
-      UserService,
-      logout,
-      isAuth,
-      login,
-      register,
-      isLaptopWindowWidth,
-      user,
-      curUser,
-    };
-  },
+onBeforeMount(async () => {
+  await loadUser();
 });
+
+onMounted(() => {
+  window.addEventListener('resize', () => {
+    isLaptopWindowWidth.value = window.matchMedia('(max-width: 560px)').matches;
+  });
+});
+
+const toProfile = async (): Promise<void> => {
+  if (isLaptopWindowWidth.value) {
+    await Provider.router.push('/profile');
+  }
+};
+
 </script>
 
 <style lang="scss" scoped>
@@ -114,9 +106,11 @@ export default defineComponent({
   cursor: pointer;
   color: #409eff;
 }
+
 .anticon {
   margin-right: 5px;
 }
+
 .menu-item {
   padding: 23px;
   height: 58px;
@@ -129,12 +123,15 @@ export default defineComponent({
   border: none;
   border-radius: 0px;
 }
+
 .menu-item:hover {
   background-color: #ffffff;
 }
+
 .el-button:hover {
   color: inherit;
 }
+
 :deep(.el-button) {
   border: none;
   background-color: #e4e5e7;
@@ -143,6 +140,7 @@ export default defineComponent({
     font-size: 24px;
   }
 }
+
 .el-badge {
   position: absolute;
   top: 5px;

@@ -1,19 +1,14 @@
 <template>
-  <div v-if="show" class="blur" @click="$emit('close')" ></div>
-  <div v-if="show" class="modal-w"
-    :style="{
-      maxWidth: width,
-      width: width,
-      margin: margin,
-      padding: padding,
-      top: top,
-    }" 
-    @close="$emit('close')" 
-    :show-close="true" 
-    :before-close="beforeClose"
-    >
+  <div v-if="show" class="blur" @click="$emit('close')"></div>
+  <div v-if="show" class="modal-w" :style="{
+    maxWidth: width,
+    width: width,
+    margin: margin,
+    padding: padding,
+    top: top,
+  }" @close="$emit('close')" :show-close="true" :before-close="beforeClose">
     <div v-if="showClose" class="icon-box" @click="$emit('close')">
-      <IconClose hover-color="#5E6CE7" size="20px"/>
+      <IconClose hover-color="#5E6CE7" size="20px" />
     </div>
     <slot />
   </div>
@@ -41,7 +36,7 @@ export default defineComponent({
       type: String as PropType<string>,
       default: '760px',
     },
-    
+
     margin: {
       type: String as PropType<string>,
       default: 'auto',
@@ -124,7 +119,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/elements/collapse.scss';
 @import '@/assets/styles/base-style.scss';
 
 .blur {
@@ -151,7 +145,7 @@ export default defineComponent({
   z-index: 1001;
   border-radius: 5px;
   overflow: hidden;
-  max-height:70vh;
+  max-height: 70vh;
 }
 
 .base-title {

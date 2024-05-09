@@ -1,5 +1,6 @@
 <template>
-  <el-dialog v-if="show" top="10vh" :model-value="show" :width="width" :show-close="true" :before-close="beforeClose" @close="$emit('close')">
+  <el-dialog v-if="show" top="10vh" :model-value="show" :width="width" :show-close="true" :before-close="beforeClose"
+    @close="$emit('close')">
     <template #title>
       {{ title }}
     </template>
@@ -94,8 +95,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/elements/collapse.scss';
-
 .dialog-header {
   display: flex;
   justify-content: space-between;
