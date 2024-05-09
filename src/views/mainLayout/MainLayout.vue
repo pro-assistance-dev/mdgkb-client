@@ -70,12 +70,18 @@ const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/Foote
 const cache = new Cache();
 cache.name = 'startModal';
 const modal = Store.Getters('auth/modal')
+const form = Store.Getters('auth/form')
 // const isClose = ref(cache.getFromCache(3) || false);
 const isClose = ref(true);
 
 const clickHandler = () => {
   isClose.value = true;
   cache.cache(isClose.value);
+};
+const authAct = async () => {
+  if (form.value.isLogin()) {
+    modal.value.close()
+  }
 };
 </script>
 

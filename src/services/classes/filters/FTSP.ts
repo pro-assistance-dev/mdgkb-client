@@ -56,9 +56,17 @@ export default class FTSP {
     return Arrays.GetLast(this.s);
   }
 
+  setS(sortModel: SortModel): void {
+    this.s[0] = sortModel;
+  }
+
+  setF(...f: FilterModel[]): void {
+    this.f.push(...f);
+  }
   setSortModel(sortModel: SortModel): void {
     this.s[0] = sortModel;
   }
+
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);
     if (curF) {

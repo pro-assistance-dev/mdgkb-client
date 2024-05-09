@@ -13,15 +13,18 @@
         <el-button>
           <div class="user-info">
             <div class="user-info-container">
-              <span>{{ user.email }}</span>
-              <span v-if="user.role.label">{{ user.role.label }}</span>
-              <span v-else>{{ user.role.name }}</span>
+              <span>{{ Администратор }}</span>
+              <!-- <span v-if="user.role.label">{{ user.role.label }}</span> -->
+              <!-- <span v-else>{{ user.role.name }}</span> -->
             </div>
-            <i class="el-icon-user"></i></div
-        ></el-button>
+            <i class="el-icon-user"></i>
+          </div>
+        </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
+            <el-dropdown-item @click="logout">
+              <LogoutOutlined />Выйти
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -108,10 +111,12 @@ $button-background-color: #fff;
   :deep(.el-sub-menu__title) {
     background-color: $header-background-color;
   }
+
   :deep(.el-sub-menu__icon-arrow) {
     font-size: unset;
   }
 }
+
 .admin-header,
 .left-panel,
 .right-panel {
@@ -138,6 +143,7 @@ $button-background-color: #fff;
 .user-info {
   display: flex;
   align-items: center;
+
   &-container {
     display: flex;
     flex-direction: column;
