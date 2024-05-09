@@ -87,7 +87,7 @@ const inputHandler = (value: string) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 :deep(.el-input__wrapper) {
   box-shadow: none;

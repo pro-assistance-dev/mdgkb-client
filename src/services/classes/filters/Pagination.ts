@@ -15,7 +15,6 @@ export default class Pagination {
   constructor(i?: Pagination) {
     ClassHelper.BuildClass(this, i);
   }
-
   setLoadMore(lastCursor: string, column: string, table: string): void {
     this.cursor.value = lastCursor;
     this.cursor.initial = false;

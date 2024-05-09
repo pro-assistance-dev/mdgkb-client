@@ -113,7 +113,7 @@ const onChange = (res: ICanvasResult) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .dialog-footer {
   margin-top: 20px;

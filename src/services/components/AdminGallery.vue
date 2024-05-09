@@ -69,7 +69,7 @@ const remove = async (filer: IFiler) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .groups {
   width: 100%;
@@ -96,7 +96,7 @@ const remove = async (filer: IFiler) => {
   object-fit: cover;
   position: relative;
   width: auto;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-darker-border;
   transition: 0.3s;
 }
@@ -139,8 +139,8 @@ const remove = async (filer: IFiler) => {
   align-items: center;
   height: 30px;
   background: #f9fafb;
-  border-top-left-radius: $normal-border-radius;
-  border-top-right-radius: $normal-border-radius;
+  border-top-left-radius: $border-radius;
+  border-top-right-radius: $border-radius;
   border-bottom: $normal-darker-border;
   cursor: pointer;
   transition: 0.3s;
@@ -155,8 +155,8 @@ const remove = async (filer: IFiler) => {
   align-items: center;
   height: 28px;
   background: #f9fafb;
-  border-bottom-left-radius: $normal-border-radius;
-  border-bottom-right-radius: $normal-border-radius;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
   border-top: $normal-darker-border;
   width: 100%;
 }

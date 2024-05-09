@@ -118,7 +118,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .mainblock {
   position: relative;
@@ -146,7 +146,7 @@ export default defineComponent({
   min-width: 91px;
   height: 91px;
   margin-right: 10px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   display: flex;
   justify-content: center;
@@ -184,7 +184,7 @@ export default defineComponent({
     min-width: 42px;
     height: 42px;
     margin-right: 8px;
-    border-radius: $normal-border-radius;
+    border-radius: $border-radius;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
     display: flex;
     justify-content: center;

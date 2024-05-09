@@ -4,16 +4,11 @@
         {{ label }}
       </label>
     <div class="field">
-      <div class="left-field"><slot /></div>
-      <input 
-        class="text-field__input" 
-        type="text" :name="label" 
-        :id="label" 
-        :placeholder="placeholder" 
-        :readonly="readonly"
-        :disabled="disabled"
-        v-model="model"
-      >
+      <div class="left-field"><slot name="left" /></div>
+      <select class="text-field__input" >
+        <option value disabled selected>{{ placeholder }}</option>
+        <slot />
+      </select>
       <div class="right-field"><slot name="right" /></div>
     </div>
   </div>
@@ -45,6 +40,10 @@ const props = defineProps({
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+option {
+  padding: 0;
 }
 
 .field {
@@ -99,6 +98,7 @@ const props = defineProps({
   border: $input-border;
   margin: $input-margin;
   padding: $input-padding;
+  padding: 0;
 }
 
 .text-field__input::placeholder {
@@ -112,9 +112,29 @@ const props = defineProps({
   outline: 0;
 }
 
-.text-field__input:disabled,
-.text-field__input[readonly] {
-  background-color: $input-readonly-background;
-  opacity: 1;
-}
+// .text-field__input:disabled,
+// .text-field__input[readonly] {
+//   background-color: $input-readonly-background;
+//   opacity: 1;
+// }
+
+
+.text-field__input::-ms-expand { display: none; } 
+ .text-field__input:hover { 
+  
+  border-color: #888; } 
+ .text-field__input:focus { 
+    // border-color: #aaa; 
+    // box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    // box-shadow: 0 0 0 3px -moz-mac-focusring; 
+    // color: #222;
+    // outline: none; 
+} 
+ .text-field__input option { 
+  
+  font-weight:normal; } 
+//  *[dir="rtl"] .text-field__input, :root:lang(ar) .text-field__input, :root:lang(iw) .text-field__input { 
+//     background-position: left .7em top 50%, 0 0; 
+//     padding: .6em .8em .5em 1.4em; 
+// }
 </style>

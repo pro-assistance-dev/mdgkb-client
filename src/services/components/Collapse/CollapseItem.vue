@@ -1,12 +1,9 @@
 <template>
-  <div
-    class="tab"
-    :style="{
-      margin: margin,
-      height: isCollaps && collapsed ? '60px' : '',
-      'box-shadow': selectable && activeId === tabId ? '0px 0px 1px 2px #1979cf' : '',
-    }"
-  >
+  <div class="tab" :style="{
+    margin: margin,
+    height: isCollaps && collapsed ? '60px' : '',
+    'box-shadow': selectable && activeId === tabId ? '0px 0px 1px 2px #1979cf' : '',
+  }">
     <!-- width: `calc(100% - ${margin.prototype.slice()}`
       width: 'calc(100% - $margin.prototype.slice())' -->
     <svg v-if="isCollaps && collapsed" class="icon-arrow" @click="handleItemClick">
@@ -16,36 +13,25 @@
       <use xlink:href="#arrow-up" />
     </svg>
     <label :for="tabId" @click="handleItemClick">
-      <div
-        :style="{
-          cursor: isCollaps ? 'pointer' : 'default',
-          background: changeColor ? background : backgroundAttention,
-          padding: padding,
-          borderRadius: '5px',
-        }"
-        class="tab-name"
-      >
+      <div :style="{
+        cursor: isCollaps ? 'pointer' : 'default',
+        background: changeColor ? background : backgroundAttention,
+        padding: padding,
+        borderRadius: '5px',
+      }" class="tab-name">
         <div class="inside-icon">
           <slot name="icon" />
         </div>
-        <div
-          v-if="title"
-          class="title-in"
-          :style="{
-            marginRight: isCollaps ? '50px' : '0',
-            width: isCollaps ? 'calc(100% - 50px)' : '100%',
-          }"
-        >
+        <div v-if="title" class="title-in" :style="{
+          marginRight: isCollaps ? '50px' : '0',
+          width: isCollaps ? 'calc(100% - 50px)' : '100%',
+        }">
           {{ title }}
         </div>
-        <div
-          v-else
-          class="title-in"
-          :style="{
-            marginRight: isCollaps ? '50px' : '0',
-            width: isCollaps ? 'calc(100% - 50px)' : '100%',
-          }"
-        >
+        <div v-else class="title-in" :style="{
+          marginRight: isCollaps ? '50px' : '0',
+          width: isCollaps ? 'calc(100% - 50px)' : '100%',
+        }">
           <slot name="inside-title" />
         </div>
         <div class="tools-bar" :class="{ 'hidden-part': showToolsOnHover }">
@@ -55,8 +41,7 @@
     </label>
     <div
       :style="{ maxHeight: isCollaps ? '' : '1000000vh', background: changeColor ? background : backgroundAttention }"
-      :class="collapsed ? 'tab-content-down' : 'tab-content-up'"
-    >
+      :class="collapsed ? 'tab-content-down' : 'tab-content-up'">
       <slot name="inside-content" />
     </div>
   </div>
@@ -124,7 +109,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .hidden {
   display: none;
@@ -134,7 +119,6 @@ export default defineComponent({
   position: relative;
   width: calc(100% - 10px);
   border: $light-pink-border;
-  border-radius: $normal-border-radius;
   background: #ffffff;
   margin: 10px 8px 2px 2px;
   cursor: pointer;
@@ -180,15 +164,15 @@ export default defineComponent({
   padding-right: 5px;
 }
 
-.tab input:checked ~ .icon-arrow {
+.tab input:checked~.icon-arrow {
   transform: rotate(180deg);
 }
 
-.tab input:checked ~ .tab-content-down {
+.tab input:checked~.tab-content-down {
   max-height: 100vh;
 }
 
-.tab input:checked ~ .tab-content-up {
+.tab input:checked~.tab-content-up {
   max-height: 0;
 }
 
@@ -272,12 +256,12 @@ export default defineComponent({
   padding-left: 4px;
 }
 
-.tab-name:active > .tools-bar {
+.tab-name:active>.tools-bar {
   visibility: visible;
   opacity: 1;
 }
 
-.tab-name:hover > .tools-bar {
+.tab-name:hover>.tools-bar {
   visibility: visible;
   opacity: 1;
 }

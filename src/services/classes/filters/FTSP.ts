@@ -29,6 +29,8 @@ export default class FTSP {
 
   createFrom(ftsp: string): void {
     const restored = new FTSP(JSON.parse(ftsp));
+    console.log(restored);
+
     this.f = restored.f;
   }
 
@@ -56,14 +58,6 @@ export default class FTSP {
 
   setSortModel(sortModel: SortModel): void {
     this.s[0] = sortModel;
-  }
-
-  setS(sortModel: SortModel): void {
-    this.s[0] = sortModel;
-  }
-
-  setF(...f: FilterModel[]): void {
-    this.f.push(...f);
   }
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);

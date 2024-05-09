@@ -1,50 +1,39 @@
 <template>
   <div :key="count" style="display: flex; justify-content: center; width: 100%">
-    <div class="pag-container"
-      :style="{
-        justifyContent: justifyContent,
-      }"
-    >
+    <div class="pag-container" :style="{
+      justifyContent: justifyContent,
+    }">
       <div class="pag-number">
-        <PButton 
-          :button-class="curPage === 1 ? 'not-active-pag-button' : 'pag-button'"
-          icon="arrow-left" 
-          @click="curPage === 1 ? () => undefined : currentChange(curPage -1)" 
-        />
+        <PButton :button-class="curPage === 1 ? 'not-active-pag-button' : 'pag-button'" icon="arrow-left"
+          @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)" />
         <ul class="pag-ul">
-          <li><PButton :button-class="curPage === 1 ? 'active-pag-button' : 'pag-button'" text="1" @click="currentChange(1)" /></li>
-          <li 
-            @mouseenter="hoveringL = true" 
-            @mouseleave="hoveringL = false"
-          >
-            <PButton 
-              v-if="pagArr.length > 8 && curPage > 4"
-              button-class="pag-button"
+          <li>
+            <PButton :button-class="curPage === 1 ? 'active-pag-button' : 'pag-button'" text="1"
+              @click="currentChange(1)" />
+          </li>
+          <li @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
+            <PButton v-if="pagArr.length > 8 && curPage > 4" button-class="pag-button"
               :icon="hoveringL ? 'double-arrow-left' : 'ellipsis'"
-              @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)"
-              />
+              @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)" />
           </li>
           <li v-for="num in pagArr3" :key="num.id">
-            <PButton v-if="num < pagArr.length && num > 1" :button-class="num === curPage ? 'active-pag-button' : 'pag-button'" :text="num" @click="currentChange(num)"/>
+            <PButton v-if="num < pagArr.length && num > 1"
+              :button-class="num === curPage ? 'active-pag-button' : 'pag-button'" :text="num"
+              @click="currentChange(num)" />
           </li>
-          <li 
-            @mouseenter="hoveringR = true" 
-            @mouseleave="hoveringR = false"
-          >
-            <PButton 
-              v-if="pagArr.length > 8 && curPage < pagArr.length - 3"
-              button-class="pag-button"
+          <li @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
+            <PButton v-if="pagArr.length > 8 && curPage < pagArr.length - 3" button-class="pag-button"
               :icon="hoveringR ? 'double-arrow-right' : 'ellipsis'"
-              @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)"
-              />
+              @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)" />
           </li>
-          <li><PButton :button-class="pagArr.length === curPage ? 'active-pag-button' : 'pag-button'" :text="pagArr.length" @click="currentChange(pagArr.length)" /></li>
+          <li>
+            <PButton v-if="pagArr.length > 1"
+              :button-class="pagArr.length === curPage ? 'active-pag-button' : 'pag-button'" :text="pagArr.length"
+              @click="currentChange(pagArr.length)" />
+          </li>
         </ul>
-        <PButton 
-          :button-class="curPage === pageCount ? 'not-active-pag-button' : 'pag-button'"
-          icon="arrow-right"
-          @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)"
-        />
+        <PButton :button-class="curPage === pageCount ? 'not-active-pag-button' : 'pag-button'" icon="arrow-right"
+          @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)" />
       </div>
     </div>
   </div>
@@ -73,23 +62,24 @@ const hoveringR = ref(false);
 const emit = defineEmits(['cancel', 'save']);
 const storeModule: string = Provider.store.getters['filter/storeModule'];
 const action: string = Provider.store.getters['filter/action'];
-const count: ComputedRef<number> = computed(() => Provider.store.getters[`${storeModule}/count`]);
+
+const count: ComputedRef<number> = Store.Getters(`${storeModule}/count`)
 const pageCount: ComputedRef<number> = computed(() =>
   Math.ceil(count.value / Provider.filterQuery.value.pagination.limit) > 0
     ? Math.ceil(count.value / Provider.filterQuery.value.pagination.limit)
     : 1
 );
 
-const pagArr = Array.from({ length: pageCount.value }, (_, i) => i+1);
-const curPage: ComputedRef<number> = computed(() => Provider.store.getters['pagination/curPage']);
-const pagArr2: Ref<Number[]> = ref([]);
-const rangeArr = () => {
-  if (pagArr.length < 8 ) {
-    const pagArr2 = Array.from({ length: pageCount.value - 2 }, (_, i) => i+2);
-    return pagArr2;
-  };
+const pagArr = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1));
+const curPage: ComputedRef<number> = Store.Getters('pagination/curPage')
 
-  const pagArr2 = ref(Array.from({ length: 5 }, (_, i) => curPage.value-2+i));
+const rangeArr = () => {
+  if (pagArr.value.length < 8) {
+    const pagArr2 = Array.from({ length: pageCount.value - 2 }, (_, i) => i + 2);
+    return pagArr2;
+  }
+
+  const pagArr2 = ref(Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i));
   return pagArr2;
 };
 
@@ -137,11 +127,12 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   });
 };
 
-const pagArr3 = rangeArr();
+const pagArr3 = computed(() => rangeArr());
 watch(
-  () => curPage.value, 
-  () => {pagArr3.value = Array.from({ length: 5}, (_, i) => curPage.value-2+i);
-});
+  () => curPage.value,
+  () => {
+    pagArr3.value = Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i);
+  });
 
 const scrollToBack = () => {
   const table = document.querySelector('.el-table__body-wrapper');
@@ -163,7 +154,6 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
-
 .pag-container {
   display: flex;
   align-items: center;
@@ -205,6 +195,7 @@ onBeforeMount(async () => {
   color: #409EFF;
   fill: #409EFF;
 }
+
 .pag-button:active {
   background: #409EFF;
   color: #ffffff;

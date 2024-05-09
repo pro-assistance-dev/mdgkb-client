@@ -251,7 +251,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .inside-class {
   font-weight: normal;
@@ -275,7 +275,7 @@ export default defineComponent({
 
 .body {
   border: $light-pink-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   position: relative;
   display: flex;
   justify-content: left;
@@ -311,7 +311,7 @@ export default defineComponent({
 }
 
 .open-window {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   justify-content: center;
   // align-items: flex-start;
   flex-direction: column;

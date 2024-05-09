@@ -11,6 +11,8 @@ import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPType
 import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import RootState from '@/services/interfaces/types';
+import Provider from '@/services/Provider/Provider';
+
 import IBasicState from './baseState';
 
 export default function getBaseActions<T extends IWithId & IFileInfosGetter, StateType extends IBasicState<T>>(
@@ -56,15 +58,16 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         commit('setAllWithCount', res);
       }
     },
-    ftsp: async ({ commit }, options?: GetAllOptions) => {
-      const ftsp: FTSP = options?.ftsp ?? FTSP.Get()
-      // const qid = new URLSearchParams(window.location.search).get('qid');
+    ftsp: async ({ commit, rootGetters }, options?: GetAllOptions) => {
+      const ftsp: FTSP = options?.ftsp ?? rootGetters['filter/ftsp'];
+      const qid = new URLSearchParams(window.location.search).get('qid');
 
       const f = ftsp.clearForHTTP();
       // if qid exists - set query with only id, or send ftsp
       const p: IBodyfulParams<unknown> = {
         // payload: qid ? { qid: qid, ftsp: undefined } : { qid: '', ftsp: ftsp },
         payload: { ftsp: f },
+        isFormData: true,
         query: 'ftsp',
       };
       const res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
@@ -81,11 +84,11 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
 
       // commit('filter/setFTSP', res.ftsp, { root: true });
-      // try {
-      //   await Provider.router.replace({ query: { qid: res.ftsp.id } });
-      // } catch (error) {
-      //   console.log(error);
-      // }
+      try {
+        await Provider.router.replace({ query: { qid: res.ftsp.id } });
+      } catch (error) {
+        console.log(error);
+      }
 
       if (Array.isArray(res.data)) {
         commit('setAll', res.data);
