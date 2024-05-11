@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import EducationYear from '@/classes/EducationYear';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';

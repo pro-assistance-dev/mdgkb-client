@@ -1,6 +1,6 @@
 import CandidateApplicationSpecialization from '@/classes/CandidateApplicationSpecialization';
 import CandidateExam from '@/classes/CandidateExam';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Specialization from '@/classes/Specialization';
 import ClassHelper from '@/services/ClassHelper';
 

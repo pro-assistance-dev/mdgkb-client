@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Contact from '@/services/classes/Contact';
 import Human from '@/services/classes/Human';
 import StringsService from '@/services/Strings';

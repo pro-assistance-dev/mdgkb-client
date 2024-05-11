@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ClassHelper from '@/services/ClassHelper';
