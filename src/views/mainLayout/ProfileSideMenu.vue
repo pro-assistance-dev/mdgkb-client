@@ -5,7 +5,7 @@
       <template v-for="item in menuList" :key="item.name">
         <li v-if="item.liCondition()">
           <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
-            <component :is="require(`@/assets/profile/icons/${item.icon}.svg`).default" class="icon-profile" />
+            <component :is="getIcon(item.icon)" class="icon-profile" />
             <div class="item-list-name">
               {{ item.name }}
               <span v-if="item.notificationCondition()" class="sup-cymbol-counter">
@@ -20,123 +20,108 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-
+<script lang="ts" setup>
 import Arrow from '@/assets/profile/icons/Arrow.svg';
-import Education from '@/assets/profile/icons/Education.svg';
-import Home from '@/assets/profile/icons/Home.svg';
-import Question from '@/assets/profile/icons/Question.svg';
-import Settings from '@/assets/profile/icons/Settings.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
-import VacancyResponse from '../../classes/VacancyResponse';
 
-export default defineComponent({
-  name: 'ProfileSideMenu',
-  components: { UserInfoMini, Arrow, Home, Education, Question, Settings },
-  setup() {
-    const activeRoute: Ref<string> = ref('');
-    const route = useRoute();
-    watch(route, () => {
-      setActiveMenu();
-    });
-    console.log('git_test');
-    const setActiveMenu = () => {
-      if (!Provider.route().meta.profile) {
-        return;
-      }
-      activeRoute.value = Provider.route().meta.profile as string;
-    };
-    console.log('committest');
-    onBeforeMount(() => {
-      setActiveMenu();
-    });
-
-    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
-    const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
-    const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
-
-    const menuList = [
-      {
-        name: 'Мой профиль',
-        icon: 'Home',
-        to: '/profile',
-        route: 'my',
-        liCondition: () => true,
-        notificationCondition: () => false,
-        notificationCount: () => 0,
-      },
-      {
-        name: 'Заказы еды',
-        icon: 'Education',
-        to: '/profile/daily-menu-orders',
-        route: 'daily-menu-orders',
-        liCondition: () => user.value.dailyMenuOrders.length,
-        notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
-      },
-      {
-        name: 'Заявки ординатура',
-        icon: 'Education',
-        to: '/profile/residency-applications',
-        route: 'education',
-        liCondition: () => user.value.residencyApplications.length,
-        notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
-      },
-      {
-        name: 'Отклики на вакансии',
-        icon: 'Education',
-        to: '/profile/vacancy-responses',
-        route: 'vacancy',
-        liCondition: () => user.value.vacancyResponses.length,
-        notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
-      },
-      // {
-      //   name: 'Вопросы-ответы',
-      //   icon: 'Question',
-      //   to: '/profile/question-answer',
-      //   route: 'question-answer',
-      //   liCondition: () => user.value.questions.length > 0,
-      //   notificationCondition: () => user.value.hasNewAnswers(),
-      //   notificationCount: () => user.value.countNewAnswers(),
-      // },
-      // {
-      //   name: 'Мои комментарии',
-      //   icon: 'Question',
-      //   to: '/profile/user-comments',
-      //   route: 'user-comments',
-      //   liCondition: () => user.value.hasComments(),
-      //   notificationCondition: () => false,
-      //   notificationCount: () => 0,
-      // },
-      {
-        name: 'Настройки',
-        icon: 'Settings',
-        to: '/profile/settings',
-        route: 'settings',
-        liCondition: () => true,
-        notificationCondition: () => false,
-        notificationCount: () => 0,
-      },
-    ];
-
-    return {
-      user,
-      hasNewAnswers,
-      countNewAnswers,
-      activeRoute,
-      menuList,
-    };
-  },
+const activeRoute: Ref<string> = ref('');
+watch(Router.Route(), () => {
+  setActiveMenu();
 });
+console.log('git_test');
+const setActiveMenu = () => {
+  if (!Provider.route().meta.profile) {
+    return;
+  }
+  activeRoute.value = Provider.route().meta.profile as string;
+};
+const modules = import.meta.glob('@/assets/profile/icons/*.svg');
+const getIcon = (icon: string) => {
+  const path = '/src/assets/profile/icons/' + icon + '.svg';
+  const comp = defineAsyncComponent(() => modules[path]());
+  return comp
+
+}
+console.log('committest');
+onBeforeMount(() => {
+  setActiveMenu();
+});
+
+const user: Ref<User> = Store.Item('users')
+const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
+const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
+
+const menuList = [
+  {
+    name: 'Мой профиль',
+    icon: 'Home',
+    to: '/profile',
+    route: 'my',
+    liCondition: () => true,
+    notificationCondition: () => false,
+    notificationCount: () => 0,
+  },
+  {
+    name: 'Заказы еды',
+    icon: 'Education',
+    to: '/profile/daily-menu-orders',
+    route: 'daily-menu-orders',
+    liCondition: () => user.value.dailyMenuOrders.length,
+    notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
+  },
+  {
+    name: 'Заявки ординатура',
+    icon: 'Education',
+    to: '/profile/residency-applications',
+    route: 'education',
+    liCondition: () => user.value.residencyApplications.length,
+    notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
+  },
+  {
+    name: 'Отклики на вакансии',
+    icon: 'Education',
+    to: '/profile/vacancy-responses',
+    route: 'vacancy',
+    liCondition: () => user.value.vacancyResponses.length,
+    notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
+  },
+  // {
+  //   name: 'Вопросы-ответы',
+  //   icon: 'Question',
+  //   to: '/profile/question-answer',
+  //   route: 'question-answer',
+  //   liCondition: () => user.value.questions.length > 0,
+  //   notificationCondition: () => user.value.hasNewAnswers(),
+  //   notificationCount: () => user.value.countNewAnswers(),
+  // },
+  // {
+  //   name: 'Мои комментарии',
+  //   icon: 'Question',
+  //   to: '/profile/user-comments',
+  //   route: 'user-comments',
+  //   liCondition: () => user.value.hasComments(),
+  //   notificationCondition: () => false,
+  //   notificationCount: () => 0,
+  // },
+  {
+    name: 'Настройки',
+    icon: 'Settings',
+    to: '/profile/settings',
+    route: 'settings',
+    liCondition: () => true,
+    notificationCondition: () => false,
+    notificationCount: () => 0,
+  },
+];
+
 </script>
 
 <style lang="scss" scoped>
@@ -213,6 +198,7 @@ export default defineComponent({
   height: 50px;
   width: 100%;
   color: #343e5c;
+
   &-name {
     position: relative;
   }
