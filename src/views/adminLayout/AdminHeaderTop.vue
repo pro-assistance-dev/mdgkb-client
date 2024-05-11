@@ -34,38 +34,20 @@
   <div class="spacer"></div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { LogoutOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import User from '@/classes/User';
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
+const auth = Store.Getters('auth/auth')
 
-export default defineComponent({
-  name: 'AdminHeaderTop',
-  components: { LogoutOutlined, AdminSearchMenu },
+const collapseSideMenu = () => Store.Commit('admin/collapseSideMenu');
+const openDrawer = () => Store.Commit('admin/openDrawer');
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
-    const openDrawer = () => store.commit('admin/openDrawer');
-    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
-    const logout = async () => {
-      await store.dispatch('auth/logout');
-      await router.push('/');
-    };
-
-    return {
-      collapseSideMenu,
-      openDrawer,
-      logout,
-      user,
-    };
-  },
-});
+const logout = async () => {
+  auth.value.logout()
+  await Router.To('/');
+};
 </script>
 
 <style lang="scss" scoped>

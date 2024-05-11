@@ -63,6 +63,7 @@ export default class FTSP {
   setF(...f: FilterModel[]): void {
     this.f.push(...f);
   }
+
   setSortModel(sortModel: SortModel): void {
     this.s[0] = sortModel;
   }

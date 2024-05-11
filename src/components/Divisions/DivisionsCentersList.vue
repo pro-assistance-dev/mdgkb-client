@@ -7,12 +7,8 @@
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Division from '@/classes/Division';
-import DivisionsList from '@/components/Divisions/DivisionsList.vue';
-import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
@@ -21,82 +17,58 @@ import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DivisionsCentersList',
-  components: {
-    DivisionsList,
-    DivisionsListFilters,
-    PageWrapper,
-  },
-  emits: ['selectMode'],
-  setup() {
-    const modes: Ref<IOption[]> = ref([]);
-    const mode: Ref<string> = ref('divisions');
-    const divisions: Ref<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
-    const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
-    const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
-    const count: Ref<number> = ref(1);
+const modes: Ref<IOption[]> = ref([]);
+const mode: Ref<string> = ref('divisions');
+const divisions: Ref<Division[]> = Store.Items('divisions')
+const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
+const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
+const count: Ref<number> = ref(1);
+const mounted = ref(false)
+const load = async () => {
+  // Provider.setSortModels(DivisionsSortsLib.byName());
+  // Provider.setSortList(...createSortModels(DivisionsSortsLib));
+  onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
+  onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
-    const load = async () => {
-      // Provider.setSortModels(DivisionsSortsLib.byName());
-      // Provider.setSortList(...createSortModels(DivisionsSortsLib));
-      onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
-      onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
+  if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
+    Provider.setFilterModel(onlyDivisionsFilterModel.value);
+  } else {
+    Provider.setFilterModel(onlyCentersFilterModel.value);
+  }
 
-      if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
-        Provider.setFilterModel(onlyDivisionsFilterModel.value);
-      } else {
-        Provider.setFilterModel(onlyCentersFilterModel.value);
-      }
+  Provider.store.commit('filter/setStoreModule', 'divisions');
+  await loadDivisions();
+  modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
+  mounted.value = true
+};
 
-      Provider.store.commit('filter/setStoreModule', 'divisions');
-      await loadDivisions();
-      await loadFilters();
-      modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
+const loadDivisions = async () => {
+  Provider.filterQuery.value.pagination.append = false;
+  Provider.filterQuery.value.pagination.limit = mode.value === 'divisions' ? 6 : 8;
+  if (!mode.value) {
+    Provider.filterQuery.value.pagination.limit = 6;
+  }
+  await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
+};
 
-    const loadDivisions = async () => {
-      Provider.filterQuery.value.pagination.append = false;
-      Provider.filterQuery.value.pagination.limit = mode.value === 'divisions' ? 6 : 8;
-      if (!mode.value) {
-        Provider.filterQuery.value.pagination.limit = 6;
-      }
-      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
-    };
+const loadMore = async () => {
+  Provider.filterQuery.value.pagination.append = true;
+  Provider.filterQuery.value.pagination.offset = divisions.value.length;
+  await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
+};
 
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = divisions.value.length;
-      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
-    };
-
-    const selectMode = async (selectedMode: string) => {
-      mode.value = selectedMode;
-      if (mode.value === 'divisions' && count.value !== 1) {
-        Provider.replaceFilterModel(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value.id);
-      } else if (mode.value === 'centers' && count.value !== 1) {
-        Provider.replaceFilterModel(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value.id);
-      }
-      count.value--;
-      await loadDivisions();
-    };
-
-
-    return {
-      divisions,
-      createSortModels,
-      modes,
-      mode,
-      selectMode,
-      mounted: Provider.mounted,
-      load,
-      loadMore,
-      loadDivisions,
-    };
-  },
-});
+const selectMode = async (selectedMode: string) => {
+  mode.value = selectedMode;
+  if (mode.value === 'divisions' && count.value !== 1) {
+    Provider.replaceFilterModel(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value.id);
+  } else if (mode.value === 'centers' && count.value !== 1) {
+    Provider.replaceFilterModel(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value.id);
+  }
+  count.value--;
+  await loadDivisions();
+};
 </script>
 
 <style scoped lang="scss">
