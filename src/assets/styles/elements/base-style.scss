@@ -16,6 +16,7 @@ $additional_dark_pink: #CA6F6F;
 
 // site colors
 $site_pink :#ED286D;
+$site_light_pink: #B0A4C0;
 $site_light_green: #44D29E;
 $site_blue: #2754EB;
 $site_dark_gray: #343D5C;
@@ -31,7 +32,10 @@ $site_pale_green: #B5E3C7;
 $site_pale_yellow: #FBDFBA;
 
 $active_color_menu: #01528a;
+
 $base-background: #ffffff;
+$menu-background: $base-background;
+$custom-background: #DFF2F8;
 
 // font
 $title-font: Comfortaa, Arial, Helvetica, sans-serif;
@@ -42,25 +46,58 @@ $base-font: Roboto, Arial, Helvetica, sans-serif;
 $base-font-weight: regular;
 $base-font-bold-weight: bold;
 
+$base-font-size: 14px;
+$base-font-small-size: 12px;
+$base-font-large-size: 16px;
+$base-font-color: #5F6A99;
+
 $doctor-text-font-size: 13px;
 // $doctor-text-font-color: #5d6477;
 $doctor-text-font-weight: lighter;
 $doctor-text-line-height: 110%;
 $doctor-text-letter-spacing: 0.1em;
 
-
 // block
-$normal-border-radius: 5px;
+$border-radius: 5px;
+$small-border-radius: 3px;
+$big-border-radius: 10px;
 
 $normal-border:1px solid #e9e9e9;
 $normal-darker-border:1px solid #c3c3c3;
 $dark-border:1px solid #999999;
-
-$small-border-radius: 3px;
+$light-pink-border: 1px solid #B0A4C0;
+$custom-border: 1px solid #343D5C;
 
 $normal-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
 rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
 
+//content
+$base-content-color: #F5FAFF;
+
 //icon 
-$width: 20px;
-$height: 20px;
+$icon-width: 20px;
+$icon-height: 20px;
+$icon-color: #5F6A99;
+$icon-hover-color: #5F6A99;
+$icon-transition: 0.2s;
+
+//base-browser-input
+$input-height: 52px;
+$input-background: #F5FAFF;
+$input-border: none;
+$input-border-radius: 0px;
+$input-font-color: $base-font-color;
+$input-font-size: $base-font-large-size;
+$input-font: $base-font;
+$input-margin: 0;
+$input-padding: 0;
+$input-width: 100%;
+
+$input-label-color: $base-font-color;
+$input-label-margin: 0 0 5px 0;
+
+$input-readonly-background: #f5f5f5;
+
+//PInput
+$p-input-margin: 0;
+$p-input-padding: 0 20px;

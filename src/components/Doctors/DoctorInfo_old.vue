@@ -122,7 +122,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/doctor-info.scss';
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .moscow-doctor {
   height: 60px;
 }
@@ -140,7 +140,7 @@ export default defineComponent({
 }
 
 .mos-doctor-img {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   padding: 10px 15px;
   width: 150px;

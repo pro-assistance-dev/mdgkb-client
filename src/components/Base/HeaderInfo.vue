@@ -112,7 +112,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .mainblock {
   display: flex;
@@ -134,7 +134,7 @@ export default defineComponent({
   align-items: center;
   justify-content: center;
   margin-right: 30px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   background: $base-background;
   padding: 25px 0;
@@ -157,7 +157,7 @@ export default defineComponent({
   align-items: start;
   justify-content: right;
   width: 100%;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   background: $base-background;
 }
@@ -259,7 +259,7 @@ export default defineComponent({
     align-items: start;
     justify-content: right;
     width: calc(100% - 34px);
-    border-radius: $normal-border-radius;
+    border-radius: $border-radius;
     border: $normal-border;
     padding: 16px;
     background: $base-background;

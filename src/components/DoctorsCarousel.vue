@@ -62,7 +62,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .title-in {
   display: flex;

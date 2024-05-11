@@ -162,7 +162,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .info-block {
   max-height: 165px;
@@ -190,26 +190,26 @@ export default defineComponent({
 }
 
 .icon-phone {
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: #2754eb;
 }
 
 .icon-email {
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: #2754eb;
 }
 
 .icon-time {
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: #2754eb;
 }
 
 .icon-map-marker {
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: #2754eb;
 }
 

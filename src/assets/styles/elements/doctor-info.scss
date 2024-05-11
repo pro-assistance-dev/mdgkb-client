@@ -1,4 +1,4 @@
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 :deep(.el-rate__icon) {
   margin: 0;
@@ -100,7 +100,7 @@
 }
 
 .mos-doctor-img {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   padding: 10px 15px;
   width: 150px;

@@ -215,7 +215,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .container-160 {
   height: 160px;
@@ -322,7 +322,7 @@ button {
   justify-content: left;
   width: 410px;
   font-size: 14px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   color: $site_gray;
 }
 
@@ -346,7 +346,7 @@ button {
   justify-content: left;
   width: 150px;
   font-size: 14px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin-left: 30px;
   color: $site_gray;
 }

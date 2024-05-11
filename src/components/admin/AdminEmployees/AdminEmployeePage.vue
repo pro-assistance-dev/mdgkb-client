@@ -108,7 +108,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .background-container {
@@ -116,7 +116,7 @@ $margin: 20px 0;
   padding: 10px;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-darker-border;
 }
 
@@ -124,7 +124,7 @@ $margin: 20px 0;
   width: auto;
   padding: 10px 10px 0 10px;
   background: #f1f2f7;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-darker-border;
   margin-left: -10px;
   margin-right: -10px;
@@ -481,7 +481,7 @@ $margin: 20px 0;
   width: calc(100% - 30px);
   height: 60px;
   border: $normal-darker-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin: 10px 0 0 0;
   padding: 0px 15px 5px 15px;
   background: #f1f2f7;

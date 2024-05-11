@@ -121,7 +121,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .map-router-container {
   display: flex;
@@ -244,14 +244,14 @@ export default defineComponent({
   height: 70px;
   margin-top: 10px;
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
 }
 
 .route-window {
   width: 100%;
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
   margin-top: 10px;
   padding-bottom: 15px;
@@ -305,7 +305,7 @@ export default defineComponent({
 .item-box {
   width: calc(100% - 40px);
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin: 10px 20px;
 }
 </style>

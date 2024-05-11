@@ -86,7 +86,7 @@ const authAct = async () => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .blur {
   position: absolute;

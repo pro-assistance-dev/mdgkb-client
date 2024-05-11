@@ -73,14 +73,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .tab {
   position: relative;
   width: 100%;
   overflow: hidden;
   border: 1px solid rgb(black, 0.1);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: #ffffff;
   margin-top: 10px;
 
