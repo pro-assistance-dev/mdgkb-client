@@ -1,5 +1,5 @@
 import Division from '@/classes/Division';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import HospitalizationType from '@/classes/HospitalizationType';
 import { ReferralTypes } from '@/interfaces/ReferralTypes';

@@ -1,6 +1,6 @@
 import Doctor from '@/classes/Doctor';
 import Event from '@/classes/Event';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsComment from '@/classes/NewsComment';
 import NewsDivision from '@/classes/NewsDivision';
 import NewsDoctor from '@/classes/NewsDoctor';

@@ -1,5 +1,5 @@
 import FieldValue from '@/classes/FieldValue';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class FieldValueFile {

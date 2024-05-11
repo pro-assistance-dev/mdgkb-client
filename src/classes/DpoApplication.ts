@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import NmoCourse from '@/classes/NmoCourse';
 import ClassHelper from '@/services/ClassHelper';

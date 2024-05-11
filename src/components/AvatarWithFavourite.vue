@@ -12,7 +12,7 @@
 import { defineComponent, PropType } from 'vue';
 import { RouteLocationRaw } from 'vue-router';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 
 export default defineComponent({

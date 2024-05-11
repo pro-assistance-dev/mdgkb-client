@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
 import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';

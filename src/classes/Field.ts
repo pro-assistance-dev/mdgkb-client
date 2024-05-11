@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import MaskToken from '@/classes/MaskToken';
 import ValueType from '@/services/classes/ValueType';
 import ClassHelper from '@/services/ClassHelper';

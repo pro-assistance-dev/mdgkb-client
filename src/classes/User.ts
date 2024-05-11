@@ -5,7 +5,7 @@ import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import Question from '@/classes/Question';
 import ResidencyApplication from '@/classes/ResidencyApplication';

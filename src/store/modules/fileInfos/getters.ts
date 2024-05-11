@@ -1,6 +1,6 @@
 import { GetterTree } from 'vuex';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 

@@ -7,7 +7,7 @@ import Doctor from '@/classes/Doctor';
 import Education from '@/classes/Education';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Experience from '@/classes/Experience';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Head from '@/classes/Head';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';

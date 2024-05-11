@@ -1,6 +1,6 @@
 import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCoursePracticePlaceGroup from '@/classes/ResidencyCoursePracticePlaceGroup';

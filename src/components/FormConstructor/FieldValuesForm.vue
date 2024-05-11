@@ -72,7 +72,7 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropT
 import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import EditorContentRenderer from '@/components/EditorContentRenderer.vue';

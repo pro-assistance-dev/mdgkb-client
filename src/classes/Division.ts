@@ -6,7 +6,7 @@ import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
 import DoctorDivision from '@/classes/DoctorDivision';
 import Entrance from '@/classes/Entrance';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Floor from '@/classes/Floor';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import NewsDivision from '@/classes/NewsDivision';

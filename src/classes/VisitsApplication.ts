@@ -1,5 +1,5 @@
 import Division from '@/classes/Division';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import Visit from '@/classes/Visit';

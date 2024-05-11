@@ -1,5 +1,5 @@
 import Diploma from '@/classes/Diploma';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';

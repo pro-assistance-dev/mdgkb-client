@@ -2,7 +2,7 @@ import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';
