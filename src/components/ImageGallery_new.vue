@@ -87,7 +87,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .gallery-container {
   margin-top: 30px;
   img {
@@ -153,7 +153,7 @@ export default defineComponent({
 }
 
 .foto-field {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-darker-border;
   max-height: 200px;
   // max-width: 360px;

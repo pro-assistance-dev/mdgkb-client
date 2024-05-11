@@ -90,7 +90,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .el-descriptions__label {
   font-size: 15px;
@@ -166,7 +166,7 @@ h3 {
   justify-content: center;
   width: 100%;
   height: 60px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: 1px solid rgb(black, 0.1);
   margin: 20px 20px 20px 0;
   background: #ffffff;

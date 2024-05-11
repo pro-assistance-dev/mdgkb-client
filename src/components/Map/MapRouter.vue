@@ -263,7 +263,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .map-router-container {
   display: flex;
   flex-direction: column;
@@ -353,7 +353,7 @@ export default defineComponent({
   height: 70px;
   margin-top: 10px;
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
 }
 
@@ -361,7 +361,7 @@ export default defineComponent({
   width: 100%;
   // border: 1px solid rgb(black, 0.2);
   border: 1px solid lighten(#133dcc, 30%);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
   margin-top: 10px;
   // padding-bottom: 15px;

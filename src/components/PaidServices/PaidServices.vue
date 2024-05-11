@@ -63,7 +63,7 @@ export default defineComponent({
 });
 </script>
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .show-more-link {
   font-family: $title-font;
   letter-spacing: $doctor-text-letter-spacing;

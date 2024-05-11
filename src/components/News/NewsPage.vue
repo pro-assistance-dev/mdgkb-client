@@ -31,7 +31,7 @@
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
-        <NewsPageFooter v-if="news" :news="news" />
+        <!-- <NewsPageFooter v-if="news" :news="news" /> -->
         <el-divider />
         <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
@@ -40,8 +40,7 @@
   <Close />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineAsyncComponent, defineComponent, Ref, ref, watch } from 'vue';
+<script setup lang="ts">
 
 import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
@@ -59,63 +58,42 @@ const SuggestionNews = defineAsyncComponent({
   delay: 100,
 });
 
-export default defineComponent({
-  name: 'NewsList',
-  components: { NewsPageFooter, SuggestionNews, EventRegistration, Comments, CarouselImages, Close },
+let comment = ref(new NewsComment());
+const commentInput = ref();
+const mounted: Ref<boolean> = ref(false);
+const slug = computed(() => Provider.route().params['slug']);
+const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
+const modalOpen: Ref<boolean> = ref(false);
+const mobileWindow = ref(
+  window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
+);
 
-  async setup() {
-    let comment = ref(new NewsComment());
-    const commentInput = ref();
-    const mounted: Ref<boolean> = ref(false);
-    const slug = computed(() => Provider.route().params['slug']);
-    const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
-    const modalOpen: Ref<boolean> = ref(false);
-    const mobileWindow = ref(
-      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
-    );
-
-    watch(slug, async () => {
-      if (slug.value) {
-        await load();
-      }
-    });
-
-    const load = async () => {
-      await Provider.store.dispatch('news/get', slug.value);
-      Provider.store.dispatch('news/getComments', slug.value);
-      mounted.value = true;
-      window.scrollTo(0, 0);
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const newsContent = computed(() =>
-      news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
-    );
-
-    const commentForm = ref();
-    const editCommentForm = ref();
-    const rules = ref(CommentRules);
-
-    const openModalWindow = async () => {
-      modalOpen.value = true;
-    };
-
-    return {
-      rules,
-      comment,
-      news,
-      mounted,
-      newsContent,
-      commentInput,
-      commentForm,
-      editCommentForm,
-      modalOpen,
-      openModalWindow,
-      mobileWindow,
-    };
-  },
+watch(slug, async () => {
+  if (slug.value) {
+    await load();
+  }
 });
+
+const load = async () => {
+  await Provider.store.dispatch('news/get', slug.value);
+  Provider.store.dispatch('news/getComments', slug.value);
+  mounted.value = true;
+  window.scrollTo(0, 0);
+};
+
+Hooks.onBeforeMount(load);
+
+const newsContent = computed(() =>
+  news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
+);
+
+const commentForm = ref();
+const editCommentForm = ref();
+const rules = ref(CommentRules);
+
+const openModalWindow = async () => {
+  modalOpen.value = true;
+};
 </script>
 
 <style scoped lang="scss">

@@ -194,7 +194,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .el-container {
   .el-card {
@@ -232,7 +232,7 @@ export default defineComponent({
   padding: 10px;
   margin: 0 20px 20px 20px;
   background: #dff2f8;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: 1px solid #c3c3c3;
 }
 

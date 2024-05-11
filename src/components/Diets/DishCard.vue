@@ -94,7 +94,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .card {
   width: 170px;
@@ -269,7 +269,7 @@ export default defineComponent({
   font-size: 12px;
   font-weight: $title-font-weight;
   padding: 0 7px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   color: #ffffff;
   background: $site_dark_gray;

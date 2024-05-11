@@ -66,7 +66,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 #ppvr {
   // position: absolute;
 }
@@ -75,7 +75,7 @@ $card-content-outpadding: 24px;
 
 .card-container {
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   width: 100%;
 
   .floor-number {

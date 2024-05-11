@@ -83,7 +83,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .tools-button {
   position: relative;
@@ -143,7 +143,7 @@ input {
   display: block;
   background: #ffffff;
   border: $normal-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   box-shadow: $normal-shadow;
 }
 </style>

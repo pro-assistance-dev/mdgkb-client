@@ -72,11 +72,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
 
 .menu {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   background: $base-background;
 }

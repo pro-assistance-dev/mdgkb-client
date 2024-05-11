@@ -36,9 +36,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$height: 300px;
+$icon-height: 300px;
 .main-page-footer {
-  height: $height;
+  height: $icon-height;
   display: flex;
   overflow: hidden;
   align-items: center;

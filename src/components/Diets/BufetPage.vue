@@ -231,7 +231,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .container-bufet {
   position: relative;
@@ -289,7 +289,7 @@ input[type='text'] {
   align-items: center;
   padding: 10px 10px;
   color: #343e5c;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
 
   &:hover {
     cursor: pointer;
@@ -306,7 +306,7 @@ input[type='text'] {
   margin-right: 16px;
   position: relative;
   border: $normal-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
 
   img {
     position: absolute;
@@ -447,7 +447,7 @@ input[type='text'] {
   width: 155px;
   height: 155px;
   border: $normal-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: #e3e3e3;
 }
 

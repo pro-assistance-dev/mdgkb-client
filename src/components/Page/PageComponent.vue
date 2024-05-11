@@ -124,7 +124,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/elements/ordinatura.scss';
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 $content-max-width: 1000px;
 $card-margin-size: 30px;
 
