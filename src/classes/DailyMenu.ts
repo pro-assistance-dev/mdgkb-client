@@ -40,7 +40,7 @@ export default class DailyMenu {
         item.highlight = false;
       }, 1000);
     });
-    this.initGroups();
+    this.groupDishes(groups);
   }
 
   setNamesForGroups(groups: DishesGroup[]): void {

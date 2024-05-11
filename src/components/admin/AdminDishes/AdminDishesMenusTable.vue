@@ -18,11 +18,8 @@
           </colgroup>
           <thead>
             <tr>
-              <td
-                v-for="(h, i) in ['Блюдо', 'Количество', 'Вес', 'Цена', 'Калории']"
-                :key="h"
-                :style="{ 'text-align': i > 1 ? 'center' : '' }"
-              >
+              <td v-for="(h, i) in ['Блюдо', 'Количество', 'Вес', 'Цена', 'Калории']" :key="h"
+                :style="{ 'text-align': i > 1 ? 'center' : '' }">
                 {{ h }}
               </td>
             </tr>
@@ -32,37 +29,28 @@
               <td colspan="6" style="background: #f1f2f7">
                 <div class="schedule-name">
                   <div class="table-tools">
-                    <svg
-                      :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
-                      class="table-icon active-fill"
-                      @click="removeFromMenu(dishesGroup)"
-                    >
+                    <svg :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
+                      class="table-icon active-fill" @click="removeFromMenu(dishesGroup)">
                       <use xlink:href="#delete" />
                     </svg>
-                    <svg
-                      v-if="dishesGroup.containAvailableItems()"
-                      class="table-icon active-fill eye"
-                      @click="setGroupAvailable(dishesGroup, false)"
-                    >
+                    <svg v-if="dishesGroup.containAvailableItems()" class="table-icon active-fill eye"
+                      @click="setGroupAvailable(dishesGroup, false)">
                       <use xlink:href="#eye" />
                     </svg>
-                    <svg
-                      v-if="!dishesGroup.containAvailableItems()"
-                      class="table-icon hidden-fill eye"
-                      @click="setGroupAvailable(dishesGroup, true)"
-                    >
+                    <svg v-if="!dishesGroup.containAvailableItems()" class="table-icon hidden-fill eye"
+                      @click="setGroupAvailable(dishesGroup, true)">
                       <use xlink:href="#eye-closed" />
                     </svg>
                   </div>
                   <h4
                     :class="{ visible: dishesGroup.containAvailableItems(), hidden: !dishesGroup.containAvailableItems() }"
-                    style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
-                  >
+                    style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
                     {{ dishesGroup.name }}
                   </h4>
                 </div>
               </td>
-              <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }">
+              <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id"
+                :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }">
                 <td style="font-size: 12px">
                   <div class="table-tools">
                     <svg class="table-icon hidden-fill" @click="removeFromMenu(dishesGroup, dish)">
@@ -74,16 +62,18 @@
                     <svg v-if="!dish.available" class="table-icon eye" @click="setDailyMenuItemAvailable(dish, true)">
                       <use xlink:href="#eye-closed" />
                     </svg>
-                    <svg :class="[dish.cook ? 'active-stroke' : 'hidden-stroke', 'table-icon', 'food']" @click="setDailyMenuItemCook(dish)">
+                    <svg :class="[dish.cook ? 'active-stroke' : 'hidden-stroke', 'table-icon', 'food']"
+                      @click="setDailyMenuItemCook(dish)">
                       <use xlink:href="#food"></use>
                     </svg>
                   </div>
                 </td>
-                <td :class="[dish.available ? 'visible' : 'hidden']" style="font-size: 12px">
+                <td :class="[]" style="font-size: 12px">
                   {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
                 </td>
                 <td style="text-align: center">
-                  <el-input-number v-model="dish.quantity" :disabled="!dish.available" size="mini" @change="updateSelectedMenu" />
+                  <el-input-number v-model="dish.quantity" :disabled="!dish.available" size="mini"
+                    @change="updateSelectedMenu" />
                 </td>
                 <td style="text-align: center">
                   <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-size: 13px">
@@ -91,10 +81,12 @@
                   </h4>
                 </td>
                 <td style="text-align: center; font-weight: bold">
-                  <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-weight: bold">{{ dish.price }}.00р.</h4>
+                  <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-weight: bold">{{ dish.price }}.00р.
+                  </h4>
                 </td>
                 <td style="text-align: center">
-                  <h4 :class="[dish.available ? 'visible2' : 'hidden']" style="font-size: 13px">{{ dish.caloric }}ккал</h4>
+                  <h4 :class="[dish.available ? 'visible2' : 'hidden']" style="font-size: 13px">{{ dish.caloric }}ккал
+                  </h4>
                 </td>
               </tr>
             </template>
@@ -329,9 +321,12 @@ $margin: 20px 0;
   height: auto;
   border-collapse: collapse;
   width: 100%;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 
   thead {
     text-transform: uppercase;
@@ -391,6 +386,7 @@ h4 {
   fill: #343e5c;
   width: 16px;
   height: 16px;
+
   &:hover {
     fill: #379fff;
   }
@@ -416,10 +412,12 @@ h4 {
   margin-left: 8px;
   width: 18px;
   height: 18px;
+
   &:hover {
     stroke: #379fff;
   }
 }
+
 .eye {
   margin-left: 10px;
 }

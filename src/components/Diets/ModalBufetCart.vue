@@ -10,11 +10,8 @@
     <template #left>
       <div class="line-title">Ваш заказ</div>
       <div class="scroll">
-        <TableCard
-          v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
-          :key="dailyMenuOrderItem.id"
-          :daily-menu-order-item="dailyMenuOrderItem"
-        />
+        <TableCard v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems" :key="dailyMenuOrderItem.id"
+          :daily-menu-order-item="dailyMenuOrderItem" />
       </div>
       <div class="line-button">
         <button class="clear-cart" @click="clearOrder">
@@ -36,15 +33,8 @@
       <div class="line-item"></div>
 
       <div class="info">
-        <el-form
-          ref="userForm"
-          v-model="dailyMenuOrder"
-          class="phone"
-          :model="dailyMenuOrder"
-          label-width="150px"
-          style="max-width: 320px"
-          label-position="left"
-        >
+        <el-form ref="userForm" v-model="dailyMenuOrder" class="phone" :model="dailyMenuOrder" label-width="150px"
+          style="max-width: 320px" label-position="left">
           <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
           <FieldValuesForm :form="dailyMenuOrder.formValue" />
         </el-form>
@@ -53,7 +43,7 @@
         <div class="line-title">К оплате</div>
         <div class="total-price">{{ totalPrice }}₽.</div>
       </div>
-      <button class="green" @click="createOrder">Заказать</button>
+      <button class="green" @click="createOrder">Заказать1</button>
     </template>
   </CartContainer>
   <Close />
@@ -102,10 +92,10 @@ export default defineComponent({
     watch(dailyMenuOrder.value, checkDailyMenuOrderIsEmpty);
 
     const createOrder = async () => {
-      dailyMenuOrder.value.formValue.validate();
-      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
-        return;
-      }
+      // dailyMenuOrder.value.formValue.validate();
+      // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+      //   return;
+      // }
       if (dailyMenuOrder.value.getPriceSum() < 150) {
         return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
       }

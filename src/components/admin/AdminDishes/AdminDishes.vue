@@ -1,7 +1,7 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper v-if="mounted">
     <template #header>
-      <CalendarComponent @select-day="selectDay" @back-to-today="fillCalendar" @move="fillCalendar" />
+      <!-- <CalendarComponent @select-day="selectDay" @back-to-today="fillCalendar" @move="fillCalendar" /> -->
     </template>
     <template #sort />
     <VerticalCollapseContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
@@ -15,7 +15,8 @@
       </template>
       <template #inside-title> Книга блюд </template>
       <template #inside-content-left>
-        <DishBook v-if="!dishesConstructorVisible" :menu="selectedMenu" @edit-dish-sample="openDishesConstructor" />
+        <DishBook v-if="!dishesConstructorVisible && mounted" :menu="selectedMenu"
+          @edit-dish-sample="openDishesConstructor" />
       </template>
       <template #inside-content-right>
         <AdminDishesMenusTable />
@@ -25,21 +26,14 @@
     <el-dialog v-model="dishesConstructorVisible" :width="1280" :destroy-on-close="true" center>
       <DishesSamplesConstructor :selected-sample="selectedSample" />
     </el-dialog>
-  </component>
+  </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import AdminDishesMenusTable from '@/components/admin/AdminDishes/AdminDishesMenusTable.vue';
-import DishBook from '@/components/admin/AdminDishes/DishBook.vue';
-import DishesSamplesConstructor from '@/components/admin/AdminDishes/DishesSamplesConstructor.vue';
-import CalendarComponent from '@/components/CalendarComponent.vue';
-import VerticalCollapseContainer from '@/components/Main/Collapse/VerticalCollapseContainer.vue';
 import Calendar from '@/services/classes/calendar/Calendar';
 import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -48,131 +42,109 @@ import Hooks from '@/services/Hooks/Hooks';
 import DailyMenusFiltersLib from '@/libs/filters/DailyMenusFiltersLib';
 import DailyMenusSortsLib from '@/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
-export default defineComponent({
-  name: 'AdminDishes',
-  components: {
-    DishesSamplesConstructor,
-    AdminListWrapper,
 
-    VerticalCollapseContainer,
-    DishBook,
-    AdminDishesMenusTable,
+const dishesConstructorVisible: Ref<boolean> = ref(false);
+const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
+const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
+const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
+const dayFilter: Ref<FilterModel> = ref(new FilterModel());
+const selectedSample: Ref<DishSample | undefined> = ref(undefined);
+const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+const mounted = ref(false)
+const load = async () => {
+  // await Provider.store.dispatch('search/searchGroups');
+  await Provider.store.dispatch('dishesGroups/getAll');
 
-    CalendarComponent,
-  },
-  setup() {
-    const dishesConstructorVisible: Ref<boolean> = ref(false);
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-    const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
-    const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
-    const dayFilter: Ref<FilterModel> = ref(new FilterModel());
-    const selectedSample: Ref<DishSample | undefined> = ref(undefined);
-    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+  dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
+  // const ftsp = new FTSP()
+  // ftsp.setF(dayFilter.value)
+  // await Store.FTSP('dailyMenus', { ftsp: ftsp, withCache: true })
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Меню буфета',
+    buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
+  });
+  await selectDay(calendar.value.getToday())
+  // await fillCalendar()
+  mounted.value = true
+};
 
-    const load = async () => {
-      dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
-      // await Provider.store.dispatch('search/searchGroups');
-      await Provider.store.dispatch('dishesGroups/getAll');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Меню буфета',
-        buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
-      });
-    };
+const paste = async () => {
+  menusCopies.value.forEach((m: DailyMenu) => {
+    m.initGroups();
+    dailyMenus.value.push(m);
+  });
+  for (const menu of menusCopies.value) {
+    await Provider.store.dispatch('dailyMenus/create', menu);
+  }
+};
 
-    const paste = async () => {
-      menusCopies.value.forEach((m: DailyMenu) => {
-        m.initGroups();
-        dailyMenus.value.push(m);
-      });
-      for (const menu of menusCopies.value) {
-        await Provider.store.dispatch('dailyMenus/create', menu);
-      }
-    };
+const openDishesConstructor = (dishSample?: DishSample) => {
+  Provider.store.commit('admin/showLoading');
+  selectedSample.value = dishSample;
+  dishesConstructorVisible.value = true;
+  Provider.store.commit('admin/closeLoading');
+};
 
-    const openDishesConstructor = (dishSample?: DishSample) => {
-      Provider.store.commit('admin/showLoading');
-      selectedSample.value = dishSample;
-      dishesConstructorVisible.value = true;
-      Provider.store.commit('admin/closeLoading');
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
+const getTodayMenus = async () => {
+  const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
+  dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
+  const ftsp = new FTSP()
+  ftsp.setF(dayFilter.value)
+  ftsp.setS(DailyMenusSortsLib.byOrder())
+  await Store.FTSP('dailyMenus', { ftsp: ftsp })
+  dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
+};
 
-    const getTodayMenus = async () => {
-      const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
-      dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-      Provider.setFilterModel(dayFilter.value);
-      Provider.setSortModels(DailyMenusSortsLib.byOrder());
-      // await Provider.store.dispatch('dailyMenus/getAll', Provider.filterQuery.value);
-      dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
-    };
+const fillCalendar = async () => {
+  const period = calendar.value.getActivePeriod();
+  if (period.length === 0) {
+    return;
+  }
+  const fq = new FilterQuery();
+  fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
+  await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
+  period.forEach((day: Day) => {
+    const menu = periodMenus.value.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
+    if (!menu) {
+      return;
+    }
+    day.events.push(new CalendarEvent());
+  });
+};
 
-    const fillCalendar = async () => {
-      const period = calendar.value.getActivePeriod();
-      if (period.length === 0) {
-        return;
-      }
-      const fq = new FilterQuery();
-      fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
-      await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
-      period.forEach((day: Day) => {
-        const menu = periodMenus.value.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
-        if (!menu) {
-          return;
-        }
-        day.events.push(new CalendarEvent());
-      });
-    };
+const findMenu = () => {
+  if (dailyMenus.value.length < 1) {
+    return;
+  }
+  Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+  selectedMenu.value.initGroups();
+};
 
-    const findMenu = () => {
-      if (dailyMenus.value.length < 1) {
-        return;
-      }
-      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
-      selectedMenu.value.initGroups();
-    };
+const selectDay = async (): Promise<void> => {
+  await getTodayMenus();
+  if (dailyMenus.value.length === 0) {
+    return;
+  }
+  findMenu();
+  await fillCalendar();
+};
 
-    const selectDay = async (): Promise<void> => {
-      await getTodayMenus();
-      if (dailyMenus.value.length === 0) {
-        return;
-      }
-      findMenu();
-      await fillCalendar();
-    };
+const createNewDailyMenus = async () => {
+  const date = calendar.value.getDateWithOffset();
+  const breakfast = DailyMenu.CreateBreakfast(calendar.value.getDateWithOffset());
+  const lunch = DailyMenu.CreateDinner(date);
+  await Provider.store.dispatch('dailyMenus/create', breakfast);
+  await Provider.store.dispatch('dailyMenus/create', lunch);
+  dailyMenus.value.push(breakfast, lunch);
+  breakfast.dishesGroups = dishesGroups.value;
+  lunch.dishesGroups = dishesGroups.value;
+  Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+};
 
-    const createNewDailyMenus = async () => {
-      const date = calendar.value.getDateWithOffset();
-      const breakfast = DailyMenu.CreateBreakfast(calendar.value.getDateWithOffset());
-      const lunch = DailyMenu.CreateDinner(date);
-      await Provider.store.dispatch('dailyMenus/create', breakfast);
-      await Provider.store.dispatch('dailyMenus/create', lunch);
-      dailyMenus.value.push(breakfast, lunch);
-      breakfast.dishesGroups = dishesGroups.value;
-      lunch.dishesGroups = dishesGroups.value;
-      Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
-    };
-
-    return {
-      menusCopies,
-      paste,
-      selectedSample,
-      openDishesConstructor,
-      dailyMenus,
-      calendar,
-      dishesConstructorVisible,
-      selectedMenu,
-      selectDay,
-      dishesGroups,
-      mounted: Provider.mounted,
-      createNewDailyMenus,
-      fillCalendar,
-    };
-  },
-});
 </script>
 
 <style lang="scss" scoped>

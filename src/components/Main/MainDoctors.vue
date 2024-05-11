@@ -1,15 +1,9 @@
 <template>
   <MainContainer header-title="Наши специалисты" header-button-title="Все врачи" header-button-link="/doctors">
-    <el-carousel
-      v-if="mounted"
-      ref="carouselRef"
-      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
-      :interval="5000"
-      indicator-position="outside"
-      height="350px"
-    >
-      <el-carousel-item v-for="(doctorsFromCarousel, i) in carousel" :key="i">
-        <DoctorInfoCard v-for="item in doctorsFromCarousel" :key="item.id" :doctor="item" />
+    <el-carousel v-if="mounted" ref="carouselRef" v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      :interval="5000" indicator-position="outside" height="350px">
+      <el-carousel-item v-for="(doctors, i) in carousel" :key="i">
+        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
       </el-carousel-item>
     </el-carousel>
   </MainContainer>

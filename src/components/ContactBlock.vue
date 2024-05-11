@@ -1,24 +1,24 @@
 <template>
-  <!-- <div v-for="phone in contact.phones" :key="phone.id"> -->
-  <!--   <div class="contact-h3"> -->
-  <!--     <div v-if="phone.number" class="item"> -->
-  <!--       <use xlink:href="#phone"></use> -->
-  <!--       <svg class="icon-phone"> -->
-  <!--       </svg> -->
-  <!--     </div> -->
-  <!--     <div class="item">{{ phone.number }}</div> -->
-  <!--   </div> -->
-  <!-- </div> -->
-  <!-- <div v-for="email in contact.emails" :key="email.id"> -->
-  <!--   <div class="contact-h3"> -->
-  <!--     <div v-if="email.address" class="item"> -->
-  <!--       <svg class="icon-email"> -->
-  <!--         <use xlink:href="#email"></use> -->
-  <!--       </svg> -->
-  <!--     </div> -->
-  <!--     <div class="item">{{ email.address }}</div> -->
-  <!--   </div> -->
-  <!-- </div> -->
+  <div v-for="phone in contact.phones" :key="phone.id">
+    <div class="contact-h3">
+      <div v-if="phone.number" class="item">
+        <use xlink:href="#phone"></use>
+        <svg class="icon-phone">
+        </svg>
+      </div>
+      <div class="item">{{ phone.number }}</div>
+    </div>
+  </div>
+  <div v-for="email in contact.emails" :key="email.id">
+    <div class="contact-h3">
+      <div v-if="email.address" class="item">
+        <svg class="icon-email">
+          <use xlink:href="#email"></use>
+        </svg>
+      </div>
+      <div class="item">{{ email.address }}</div>
+    </div>
+  </div>
 
   <svg width="0" height="0" class="display-none">
     <symbol id="right-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">

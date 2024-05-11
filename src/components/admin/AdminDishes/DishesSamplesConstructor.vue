@@ -69,7 +69,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
@@ -86,7 +85,7 @@ import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 // import sort from '@/services/sort';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default defineComponent({
   name: 'DishesSamplesConstructor',
@@ -199,7 +198,7 @@ export default defineComponent({
         dishSamplesFlat.value.push(
           ...ds.dishSamples.filter((ds: DishSample) => {
             const n = ds.name.toLowerCase();
-            return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
+            return n.includes(searchSource.toLowerCase()) || n.includes(Strings.Translit(searchSource.toLowerCase()));
           })
         );
       });

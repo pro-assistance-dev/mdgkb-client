@@ -233,16 +233,16 @@ const menuList: IAdminMenu[] = [
         to: '/admin/form-status-groups',
         icon: 'el-icon-user',
       },
-      // {
-      //   title: 'Буфет',
-      //   to: '/admin/dishes',
-      //   icon: 'el-icon-user',
-      // },
-      // {
-      //   title: 'Буфет. Заказы',
-      //   to: '/admin/daily-menu-orders',
-      //   icon: 'el-icon-user',
-      // },
+      {
+        title: 'Буфет',
+        to: '/admin/dishes',
+        icon: 'el-icon-user',
+      },
+      {
+        title: 'Буфет. Заказы',
+        to: '/admin/daily-menu-orders',
+        icon: 'el-icon-user',
+      },
       // {
       //   title: 'Тех.поддержка',
       //   to: '/admin/support-messages',
