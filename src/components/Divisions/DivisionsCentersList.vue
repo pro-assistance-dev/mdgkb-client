@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-if="mounted">
     <template #filters>
-      <!-- <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" /> -->
+      <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
     </template>
     <DivisionsList :divisions="divisions" @load="loadMore" />
   </PageWrapper>
@@ -24,19 +24,21 @@ const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
 const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
 const count: Ref<number> = ref(1);
 const mounted = ref(false)
+
 const load = async () => {
+  FTSP.Get().setS(DivisionsSortsLib.byName())
   // Provider.setSortModels(DivisionsSortsLib.byName());
   // Provider.setSortList(...createSortModels(DivisionsSortsLib));
   onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
   onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
   if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
-    Provider.setFilterModel(onlyDivisionsFilterModel.value);
+    FTSP.Get().setF(onlyDivisionsFilterModel.value);
   } else {
-    Provider.setFilterModel(onlyCentersFilterModel.value);
+    FTSP.Get().setF(onlyCentersFilterModel.value);
   }
 
-  Provider.store.commit('filter/setStoreModule', 'divisions');
+  Store.Commit('filter/setStoreModule', 'divisions');
   await loadDivisions();
   modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
   mounted.value = true
@@ -45,26 +47,26 @@ const load = async () => {
 Hooks.onBeforeMount(load);
 
 const loadDivisions = async () => {
-  Provider.filterQuery.value.pagination.append = false;
-  Provider.filterQuery.value.pagination.limit = mode.value === 'divisions' ? 6 : 8;
+  FTSP.Get().p.append = false;
+  FTSP.Get().p.limit = mode.value === 'divisions' ? 6 : 8;
   if (!mode.value) {
-    Provider.filterQuery.value.pagination.limit = 6;
+    FTSP.Get().p.limit = 6;
   }
-  await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
+  await Store.FTSP('divisions');
 };
 
 const loadMore = async () => {
-  Provider.filterQuery.value.pagination.append = true;
-  Provider.filterQuery.value.pagination.offset = divisions.value.length;
-  await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
+  FTSP.Get().p.append = true;
+  FTSP.Get().p.offset = divisions.value.length;
+  await Store.FTSP('divisions');
 };
 
 const selectMode = async (selectedMode: string) => {
   mode.value = selectedMode;
   if (mode.value === 'divisions' && count.value !== 1) {
-    Provider.replaceFilterModel(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value.id);
+    FTSP.Get().replaceF(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value);
   } else if (mode.value === 'centers' && count.value !== 1) {
-    Provider.replaceFilterModel(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value.id);
+    FTSP.Get().replaceF(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value);
   }
   count.value--;
   await loadDivisions();

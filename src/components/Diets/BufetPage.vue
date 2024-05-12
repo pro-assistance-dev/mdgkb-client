@@ -28,7 +28,7 @@
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
           <template #foto>
             <div class="image-box">
-              <img src="../../assets/img/bufet/image230.webp" alt="eat" />
+              <img src="/src/assets/img/bufet/image230.webp" alt="eat" />
             </div>
           </template>
 

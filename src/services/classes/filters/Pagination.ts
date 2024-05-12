@@ -12,6 +12,7 @@ export default class Pagination {
   append = false;
   allLoaded = false;
   version = '';
+  initial = false;
   constructor(i?: Pagination) {
     ClassHelper.BuildClass(this, i);
   }
