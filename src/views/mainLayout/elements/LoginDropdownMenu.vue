@@ -8,7 +8,6 @@
       <!-- TODO: переделать на серверный запрос  -->
       <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
     </el-button>
-
     <template #dropdown>
       <el-dropdown-menu>
         <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">

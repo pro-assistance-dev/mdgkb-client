@@ -28,7 +28,6 @@ import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
-
 const activeRoute: Ref<string> = ref('');
 watch(Router.Route(), () => {
   setActiveMenu();

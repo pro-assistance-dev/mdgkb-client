@@ -2,7 +2,7 @@
   <div v-if="cartIsOpen" class="menu-shadow">
     <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
   </div>
-  <div v-if="mounted" id="container" class="container-bufet">
+  <div id="container" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'" :title-sticky="true">
       <template v-if="dailyMenu.id" #menu>
         <div class="menu">Меню</div>
@@ -44,7 +44,7 @@
           <template #tags>asd </template>
 
           <template #contact>
-            <ContactsBlock :contact-info="Contact.CreateBufetContacts()" />
+            <ContactsBlock :contact="createBufetContacts()" />
           </template>
 
           <template #buttons>
@@ -89,9 +89,8 @@
   <DoubleArrow />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, h, onBeforeUnmount, Ref, ref, watch } from 'vue';
 
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
@@ -101,7 +100,6 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
-import AdaptiveContainerHorizontal from '@/components/Base/AdaptiveContainerHorizontal.vue';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import DishCard from '@/components/Diets/DishCard.vue';
@@ -109,124 +107,107 @@ import Filter from '@/components/Diets/Filter.vue';
 import Filters from '@/components/Diets/Filters.vue';
 import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 import Contact from '@/services/classes/Contact';
+import PostAddress from '@/services/classes/PostAddress';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/libs/sorts/DishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'BufetPage',
-  components: {
-    Filter,
-    Cart,
-    Heart,
-    DoubleArrow,
-    DishCard,
-    AdaptiveContainerHorizontal,
-    HeaderInfo,
-    Filters,
-    ModalBufetCart,
-    ContactsBlock,
-  },
-  setup() {
-    const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
-    const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const cartIsOpen: Ref<boolean> = ref(false);
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-    let intervalID: number;
-    watch(isAuth, () => {
-      Provider.store.commit('dailyMenuOrders/resetItem');
+
+const createBufetContacts = () => {
+  const contact = new Contact();
+  const address = new PostAddress();
+  address.address = '4-й Добрынинский пер., 4, 1А корпус, 7й этаж';
+  contact.postAddresses[0] = address;
+  return contact;
+}
+const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
+const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
+const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+const cartIsOpen: Ref<boolean> = ref(false);
+const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
+const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+let intervalID: number;
+
+// watch(isAuth, () => {
+//   Provider.store.commit('dailyMenuOrders/resetItem');
+//   Provider.router.push('/bufet');
+//   if (isAuth.value === true) {
+//     console.log(isAuth);
+//     initForm();
+//   }
+// });
+
+const initForm = () => {
+  dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
+  dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
+  dailyMenuOrder.value.formValue.user = new User(user.value);
+};
+
+const load = async () => {
+  console.log(1)
+  await Provider.store.dispatch('dailyMenus/todayMenu');
+  dailyMenu.value.actualize(todayMenu.value);
+  dailyMenuOrder.value.reproduceFromStore();
+  checkDailyMenuItemsAvailable();
+  Provider.filterQuery.value.setParams('code', 'bufet');
+  await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
+  initForm();
+  await getDishesGroups();
+  dailyMenu.value.dishesGroups = dishesGroups.value;
+  dailyMenu.value.initGroups();
+
+  intervalID = window.setInterval(async () => {
+    await Provider.store.dispatch('dailyMenus/todayMenu');
+    dailyMenu.value.actualize(todayMenu.value);
+    dailyMenu.value.dishesGroups = dishesGroups.value;
+    dailyMenu.value.initGroups();
+  }, 5000);
+};
+
+const checkDailyMenuItemsAvailable = () => {
+  setInterval(() => {
+    if (!dailyMenu.value.id) {
+      return;
+    }
+    const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+    if (nonAvailableItems.length === 0) {
+      return;
+    }
+    ElMessageBox({
+      title: 'Некоторые блюда стали недоступны и удалены из корзины',
+      message: h(
+        'p',
+        null,
+        nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
+          return h('div', { key: id }, `${dailyMenuItem.name}`);
+        })
+      ),
+    });
+    if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
       Provider.router.push('/bufet');
-      if (isAuth.value === true) {
-        console.log(isAuth);
-        initForm();
-      }
-    });
+    }
+  }, 2000);
+};
+const getDishesGroups = async () => {
+  const queryFilter = new FilterQuery();
+  queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
+  await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
+};
 
-    const initForm = () => {
-      dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
-      dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
-      dailyMenuOrder.value.formValue.user = new User(user.value);
-    };
+const toggleModalCart = () => {
+  if (dailyMenuOrder.value.isEmpty() && !cartIsOpen.value) {
+    return ElMessage.warning('Необходимо выбрать блюда');
+  }
+  cartIsOpen.value = !cartIsOpen.value;
+};
 
-    const load = async () => {
-      await Provider.store.dispatch('dailyMenus/todayMenu');
-      dailyMenu.value.actualize(todayMenu.value);
-      dailyMenuOrder.value.reproduceFromStore();
-      checkDailyMenuItemsAvailable();
-      Provider.filterQuery.value.setParams('code', 'bufet');
-      await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
-      initForm();
-      await getDishesGroups();
-      dailyMenu.value.dishesGroups = dishesGroups.value;
-      dailyMenu.value.initGroups();
+Hooks.onBeforeMount(load);
 
-      intervalID = window.setInterval(async () => {
-        await Provider.store.dispatch('dailyMenus/todayMenu');
-        dailyMenu.value.actualize(todayMenu.value);
-        dailyMenu.value.dishesGroups = dishesGroups.value;
-        dailyMenu.value.initGroups();
-      }, 5000);
-    };
-
-    const checkDailyMenuItemsAvailable = () => {
-      setInterval(() => {
-        if (!dailyMenu.value.id) {
-          return;
-        }
-        const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
-        if (nonAvailableItems.length === 0) {
-          return;
-        }
-        ElMessageBox({
-          title: 'Некоторые блюда стали недоступны и удалены из корзины',
-          message: h(
-            'p',
-            null,
-            nonAvailableItems.map(({ id, dailyMenuItem: dailyMenuItem }) => {
-              return h('div', { key: id }, `${dailyMenuItem.name}`);
-            })
-          ),
-        });
-        if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
-          Provider.router.push('/bufet');
-        }
-      }, 2000);
-    };
-    const getDishesGroups = async () => {
-      const queryFilter = new FilterQuery();
-      queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
-      await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
-    };
-
-    const toggleModalCart = () => {
-      if (dailyMenuOrder.value.isEmpty() && !cartIsOpen.value) {
-        return ElMessage.warning('Необходимо выбрать блюда');
-      }
-      cartIsOpen.value = !cartIsOpen.value;
-    };
-
-    Hooks.onBeforeMount(load);
-
-    onBeforeUnmount(() => {
-      clearInterval(intervalID);
-    });
-
-    return {
-      initForm,
-      dailyMenuOrder,
-      dishesGroups,
-      dailyMenu,
-      mounted: Provider.mounted,
-      cartIsOpen,
-      toggleModalCart,
-      Contact,
-    };
-  },
+onBeforeUnmount(() => {
+  clearInterval(intervalID);
 });
 </script>
 

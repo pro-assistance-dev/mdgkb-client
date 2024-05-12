@@ -72,6 +72,7 @@ export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
   // if (!TokenService.isAuth()) {
   //   router.push('/');
   // }
+  next()
 };
 
 export const devGuard = (): void => {

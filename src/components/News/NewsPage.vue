@@ -12,7 +12,8 @@
       <div class="card-item">
         <div v-if="news" class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
-          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image"
+            @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <!-- <div class="article-preview">{{ news.previewText }}</div> -->
         </div>
@@ -25,13 +26,15 @@
           </a>
         </div>
 
-        <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
+        <div class="article-body"
+          v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
-          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
+          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`"
+            @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
-        <!-- <NewsPageFooter v-if="news" :news="news" /> -->
+        <NewsPageFooter v-if="news" :news="news" />
         <el-divider />
         <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
       </div>
@@ -152,6 +155,7 @@ $card-margin-size: 30px;
 .icon-close:hover {
   fill: #205bb8;
 }
+
 .news-page-container {
   display: flex;
   justify-content: center;
@@ -190,6 +194,7 @@ h3 {
   color: black;
   text-align: center;
 }
+
 h3 {
   font-size: 20px;
 }
@@ -205,11 +210,13 @@ h3 {
     border-radius: 5px;
     // max-height: $news-content-max-width / 2;
   }
+
   .image-comment {
     color: #b4b9ca;
     margin-left: 5px;
     font-size: 14px;
   }
+
   .article-preview {
     margin: 10px 0;
   }
@@ -221,19 +228,23 @@ h3 {
 
 .news-image-container {
   margin-bottom: $card-margin-size;
+
   img {
     width: 100%;
   }
 }
+
 .action-container {
   margin: 15px 0;
   display: flex;
   justify-content: center;
+
   &-button {
     margin-right: 0;
     border-radius: 10px;
     background-color: #2754eb;
     border-color: #2754eb;
+
     &:hover {
       background-color: darken(#2754eb, 10%);
     }
@@ -270,6 +281,7 @@ h3 {
   img {
     max-width: 100%;
   }
+
   video,
   iframe {
     width: 100%;
@@ -285,7 +297,9 @@ h3 {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+
   :deep(.article-body) {
+
     video,
     iframe {
       min-height: 400px;
@@ -297,7 +311,9 @@ h3 {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+
   :deep(.article-body) {
+
     video,
     iframe {
       min-height: 300px;
@@ -324,6 +340,7 @@ h3 {
   .card-item {
     padding: 10px;
   }
+
   .modal-box {
     position: absolute;
     left: 50%;

@@ -70,13 +70,6 @@ export default class Contact {
     return [Number(this.latitude), Number(this.longitude)];
   }
 
-  static CreateBufetContacts(): Contact {
-    const contact = new Contact();
-    const address = new PostAddress();
-    address.address = '4-й Добрынинский пер., 4, 1А корпус, 7й этаж';
-    contact.postAddresses[0] = address;
-    return contact;
-  }
 
   updateDescription(e: string): void {
     this.description = e;
