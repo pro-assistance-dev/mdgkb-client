@@ -29,7 +29,8 @@ import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 const activeRoute: Ref<string> = ref('');
-watch(Router.Route(), () => {
+watch(() => Router.Route(), () => {
+  console.log("routeChanged")
   setActiveMenu();
 });
 console.log('git_test');

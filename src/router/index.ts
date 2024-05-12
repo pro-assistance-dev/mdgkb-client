@@ -47,32 +47,23 @@ import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 
 import store from '../store/index';
+import Store from '@/services/Store'
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    store.commit('auth/setIsAuth', true);
-  }
-  next();
+  const auth = Store.Getters('auth/auth')
+  auth.value.actualize()
+  next()
 };
 
 export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
-  // if (next) {
-  //   await store.dispatch('auth/setAuth');
-  //   const isAuth: boolean = store.getters['auth/isAuth'];
-  //   store.commit('auth/showWarning', true);
-  //   store.commit('auth/authOnly', true);
-  //   if (!isAuth) {
-  //     store.commit('auth/openModal', 'login');
-  //   }
-  //   next();
-  //   return;
-  // }
-
-  // if (!TokenService.isAuth()) {
-  //   router.push('/');
-  // }
-  next()
+  const auth = Store.Getters('auth/auth')
+  if (!auth.value.isAuth) {
+    const modal = Store.Getters('auth/modal')
+    modal.value.open()
+  }
+  if (!auth.value.isAuth) {
+    router.push('/');
+  }
 };
 
 export const devGuard = (): void => {

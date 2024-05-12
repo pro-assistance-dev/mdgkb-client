@@ -21,8 +21,9 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileInfoPage',
     component: ProfileInfoPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
-      if (next) isAuthorized(next);
+      // authGuard();
+      // if (next) isAuthorized(next);
+      next()
     },
     meta: { protected: true, profile: 'my' },
   },
