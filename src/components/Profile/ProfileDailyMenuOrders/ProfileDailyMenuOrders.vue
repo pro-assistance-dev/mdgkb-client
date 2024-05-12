@@ -48,7 +48,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await loadUser();
+      // await loadUser();
     });
 
     onUnmounted(async () => {
@@ -182,10 +182,12 @@ ul.application-card li {
   .size {
     padding: 0 10px;
   }
+
   .table-container {
     display: block;
     width: 100%;
   }
+
   .box {
     margin-right: 0px;
     background: #ffffff;
@@ -210,9 +212,11 @@ ul.application-card li {
   .size {
     margin-top: 0px;
   }
+
   .hidden {
     display: none;
   }
+
   .title {
     justify-content: right;
   }
@@ -228,6 +232,7 @@ ul.application-card li {
     padding: 0 5px;
     width: calc(100% - 10px);
   }
+
   .size {
     padding: 0 5px;
   }

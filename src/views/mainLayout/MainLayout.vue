@@ -67,6 +67,13 @@ const FooterTop = defineAsyncComponent({
 });
 const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/FooterBottom.vue' /* webpackChunkName: "footerBottom" */));
 
+const auth: ComputedRef<Auth> = Store.Getters('auth/auth')
+onBeforeMount(async () => {
+  if (auth.value.isAuth) {
+    await Store.Get('users', auth.value.user.get().id);
+  }
+  mounted.value = true;
+});
 const cache = new Cache();
 cache.name = 'startModal';
 const modal = Store.Getters('auth/modal')
