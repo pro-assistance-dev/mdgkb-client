@@ -4,19 +4,12 @@
     <ul>
       <template v-for="item in menuList" :key="item.name">
         <li v-if="item.liCondition()" >
-          <router-link 
-            class="item-list" 
-            :to="item.to" 
-            :class="activeRoute === item.route ? 'active' : ''">
-            <!-- <component :is="getIcon(item.icon)" class="icon-profile" /> -->
+          <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
             <ProfileMenuIcons :name="item.icon" />
             <div class="item-list-name">
               {{ item.name }}
-              <!-- <span v-if="item.notificationCondition()" class="sup-cymbol-counter">
-                {{ item.notificationCount() }}
-              </span> -->
+              <!-- <span v-if="item.notificationCondition()" class="sup-cymbol-counter">{{ item.notificationCount() }}</span> -->
             </div>
-            <!-- <Arrow class="icon-arrow" /> -->
           </router-link>
         </li>
       </template>
@@ -25,7 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import Arrow from '@/assets/profile/icons/Arrow.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
@@ -137,42 +129,6 @@ const menuList = [
   margin-right: 30px;
 }
 
-// .icon-profile {
-//   width: 24px;
-//   height: 24px;
-//   padding-right: 10px;
-//   padding-left: 20px;
-// }
-
-// .icon-education {
-//   width: 24px;
-//   height: 24px;
-//   padding-right: 10px;
-//   padding-left: 20px;
-// }
-
-// .icon-question {
-//   width: 24px;
-//   height: 24px;
-//   padding-right: 10px;
-//   padding-left: 20px;
-// }
-
-// .icon-settings {
-//   width: 24px;
-//   height: 24px;
-//   padding-right: 10px;
-//   padding-left: 20px;
-// }
-
-// .icon-arrow {
-//   position: absolute;
-//   width: 18px;
-//   height: 18px;
-//   right: 15px;
-//   fill: #ffffff;
-// }
-
 .profile-menu ul {
   list-style: none;
   transition: color 0.3s ease 0s;
@@ -203,6 +159,7 @@ const menuList = [
   width: 100%;
   color: #343E5C;
   background: #ffffff;
+  opacity: 0.6;
 
   &-name {
     position: relative;
@@ -219,7 +176,8 @@ const menuList = [
 }
 
 .item-list:hover {
-  background: #F0F2F7;
+  // background: #F0F2F7;
+  opacity: 1;
 }
 
 .item {
@@ -230,13 +188,9 @@ const menuList = [
   display: flex;
 }
 
-// a.router-link-active,
-// li.item-list-active > a {
-//   background: #ffffff;
-// }
-
 .active {
   background: #F0F2F7;
+  opacity: 1;
 }
 
 .sup-cymbol-counter {

@@ -4,25 +4,21 @@
       <CollapseItem
         v-for="dailyMenuOrder in user.dailyMenuOrders"
         :key="dailyMenuOrder.id"
-        :title="dailyMenuOrder.getFormattedNumber()"
         :tab-id="dailyMenuOrder.id"
         :collapsed="false"
         :active-id="scope.activeId"
         :show-tools-on-hover="false"
       >
-        <template #tools>
-          <div class="line-item">
-          <div class="order-date">
-            {{ $dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' }) }}
+        <template #inside-title>
+          {{ dailyMenuOrder.getFormattedNumber() }}
+          <div class="tools-line-item">
+            <StringItem :string="$dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' })" font-weight="normal" />
+            <StringItem
+              v-if="dailyMenuOrder.formValue.formStatus.label"
+              :string="dailyMenuOrder.formValue.formStatus.label"
+              :color="dailyMenuOrder.formValue.formStatus.color"
+            />
           </div>
-          <el-tag
-            v-if="dailyMenuOrder.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${dailyMenuOrder.formValue.formStatus.color}; border-color: ${dailyMenuOrder.formValue.formStatus.color}`"
-            >
-              {{ dailyMenuOrder.formValue.formStatus.label }}
-            </el-tag>
-        </div>
         </template>
         <template #inside-content>
           <div class="margin-container">
@@ -123,8 +119,9 @@ import Button from '@/components/Base/Button.vue';
 import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
+import StringItem from '@/services/components/StringItem.vue';
 
 export default defineComponent({
   name: 'ProfileDailyMenuOrders',
@@ -194,6 +191,15 @@ export default defineComponent({
   font-weight: bold;
   letter-spacing: 1px;
   color: #343e5c;
+}
+
+.tools-line-item {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .item {
