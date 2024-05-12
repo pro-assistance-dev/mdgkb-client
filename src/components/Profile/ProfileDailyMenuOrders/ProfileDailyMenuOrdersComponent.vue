@@ -11,6 +11,7 @@
         :show-tools-on-hover="false"
       >
         <template #tools>
+          <div class="line-item">
           <div class="order-date">
             {{ $dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' }) }}
           </div>
@@ -18,8 +19,10 @@
             v-if="dailyMenuOrder.formValue.formStatus.label"
             size="small"
             :style="`background-color: inherit; color: ${dailyMenuOrder.formValue.formStatus.color}; border-color: ${dailyMenuOrder.formValue.formStatus.color}`"
-            >{{ dailyMenuOrder.formValue.formStatus.label }}</el-tag
-          >
+            >
+              {{ dailyMenuOrder.formValue.formStatus.label }}
+            </el-tag>
+        </div>
         </template>
         <template #inside-content>
           <div class="margin-container">

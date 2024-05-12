@@ -251,6 +251,12 @@ export default defineComponent({
     right: 10px;
   }
 
+
+  :deep(.el-input__suffix-inner) {
+    background: #ffffff;
+    padding: 0 5px 0 0;
+  }
+
   @media screen and (max-width: 910px) {
     .mobile-help {
       display: flex;

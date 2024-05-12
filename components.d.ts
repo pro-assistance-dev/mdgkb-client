@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    2: typeof import('./src/components/Icons/IconHome copy 2.vue')['default']
     AcademicCard: typeof import('./src/components/Educational/AcademicCard.vue')['default']
     AdaptiveContainer: typeof import('./src/components/Base/AdaptiveContainer.vue')['default']
     AdaptiveContainer_new: typeof import('./src/components/Base/AdaptiveContainer_new.vue')['default']
@@ -199,6 +200,7 @@ declare module '@vue/runtime-core' {
     ContactsBlock: typeof import('./src/components/ContactsBlock.vue')['default']
     ContactsForm: typeof import('./src/components/admin/Contacts/ContactsForm.vue')['default']
     ContextWindow: typeof import('./src/services/components/ContextWindow.vue')['default']
+    copy: typeof import('./src/components/Icons/IconHome copy.vue')['default']
     CopyWindow: typeof import('./src/components/admin/AdminDishes/CopyWindow.vue')['default']
     CourseCard: typeof import('./src/components/Educational/Dpo/CourseCard.vue')['default']
     CubeLine: typeof import('./src/components/StopComa/CubeLine.vue')['default']
@@ -375,6 +377,12 @@ declare module '@vue/runtime-core' {
     HospitalizationStageCard: typeof import('./src/components/Hospitalizations/HospitalizationStageCard.vue')['default']
     HospitalizationStages: typeof import('./src/components/Hospitalizations/HospitalizationStages.vue')['default']
     HumanForm: typeof import('./src/components/admin/HumanForm.vue')['default']
+    IconArrowRight: typeof import('./src/components/Icons/IconArrowRight.vue')['default']
+    IconEducation: typeof import('./src/components/Icons/IconEducation.vue')['default']
+    IconHome: typeof import('./src/components/Icons/IconHome.vue')['default']
+    IconQuestion: typeof import('./src/components/Icons/IconQuestion.vue')['default']
+    IconSettings: typeof import('./src/components/Icons/IconSettings.vue')['default']
+    IconUser: typeof import('./src/components/Icons/IconUser.vue')['default']
     ImageCropper: typeof import('./src/services/components/ImageCropper.vue')['default']
     ImageGallery: typeof import('./src/components/ImageGallery.vue')['default']
     ImageGallery_new: typeof import('./src/components/ImageGallery_new.vue')['default']
@@ -496,6 +504,7 @@ declare module '@vue/runtime-core' {
     ProfileEditPage: typeof import('./src/components/Profile/ProfileEditPage.vue')['default']
     ProfileHeader: typeof import('./src/components/Profile/ProfileHeader.vue')['default']
     ProfileInfoPage: typeof import('./src/components/Profile/ProfileInfoPage.vue')['default']
+    ProfileMenuIcons: typeof import('./src/components/Icons/ProfileMenuIcons.vue')['default']
     ProfileQuestionPage: typeof import('./src/components/Profile/ProfileQuestionPage.vue')['default']
     ProfileResidencyApplications: typeof import('./src/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue')['default']
     ProfileResidencyApplicationsCards: typeof import('./src/components/Profile/ProfileResidencyApplications/ProfileResidencyApplicationsCards.vue')['default']
