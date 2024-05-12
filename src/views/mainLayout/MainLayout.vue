@@ -35,7 +35,7 @@
             <div class="profile-page-container">
               <ProfileSideMenu />
               <div class="profile-page-container-main">
-                <ProfileHeader />
+                <!-- <ProfileHeader /> -->
                 <slot />
               </div>
             </div>
