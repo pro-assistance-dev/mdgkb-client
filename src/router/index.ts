@@ -43,10 +43,8 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 
-import store from '../store/index';
 import Store from '@/services/Store'
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
@@ -57,12 +55,15 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
 
 export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
   const auth = Store.Getters('auth/auth')
+  auth.value.actualize()
+  console.log(auth.value)
   if (!auth.value.isAuth) {
     const modal = Store.Getters('auth/modal')
     modal.value.open()
-  }
-  if (!auth.value.isAuth) {
     router.push('/');
+  }
+  if (next) {
+    next()
   }
 };
 

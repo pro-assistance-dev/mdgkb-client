@@ -17,7 +17,7 @@
             </div>
           </el-col>
         </el-row>
-        <!-- <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @loadMore="loadMore" /> -->
+        <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @loadMore="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -44,7 +44,7 @@ const ftsp = FTSP.Get()
 const setDefaultPagination = () => {
   ftsp.p = new Pagination();
   ftsp.p.limit = 6;
-  ftsp.p.cursorMode = true;
+  ftsp.p.append = true;
 };
 
 const loadNews = async () => {
@@ -63,24 +63,13 @@ const load = async () => {
 };
 
 Hooks.onBeforeMount(loadNews);
-// TODO: loadMore
+
 const loadMore = async () => {
   loading.value = true;
-  Provider.filterQuery.value.pagination.setLoadMoreV2(
-    news.value[news.value.length - 1].publishedOn as unknown as string,
-    'publishedOn',
-    'news'
-  );
-  // Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
-  Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
-  Provider.filterQuery.value.pagination.version = 'v2';
-  Provider.filterQuery.value.pagination.append = true;
-  // Provider.filterQuery.value.pagination.cursor.column = ClassHelper.GetPropertyName(News).publishedOn as unknown as string;
-  Provider.filterQuery.value.pagination.cursor.initial = false;
-  Provider.filterQuery.value.pagination.cursorMode = true;
-
-  await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
-  // Provider.store.commit('news/setFilteredNews');
+  ftsp.p.append = true;
+  ftsp.p.offset = news.value.length;
+  ftsp.p.initial = false
+  await Store.FTSP('news');
   loading.value = false;
 };
 

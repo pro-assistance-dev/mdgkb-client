@@ -1,7 +1,7 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <!-- <ModeChoice path="divisions" :modes="modes" @selectMode="selectMode" /> -->
+      <ModeChoice path="divisions" :modes="modes" @selectMode="selectMode" />
     </template>
     <template #header-left-top>
     </template>

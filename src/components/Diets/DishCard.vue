@@ -1,31 +1,21 @@
 <template>
   <div v-if="modalDishIsOpen" class="menu-shadow">
-    <ModalDishCard
-      :daily-menu-item="dailyMenuItem"
-      :dishes-group-name="dishesGroupName"
-      :daily-menu-name="dailyMenuName"
-      @close="toggleModalDishCard"
-    />
+    <ModalDishCard :daily-menu-item="dailyMenuItem" :dishes-group-name="dishesGroupName"
+      :daily-menu-name="dailyMenuName" @close="toggleModalDishCard" />
   </div>
   <el-form>
-    <div
-      :id="dailyMenuItem.id"
-      class="card"
-      :style="{
-        opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
-      }"
-    >
+    <div :id="dailyMenuItem.id" class="card" :style="{
+      opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
+    }">
       <div class="click-container" @click="toggleModalDishCard()">
         <div class="image-box">
-          <div class="favor"><FavouriteIcon :domain-id="123" :domain-name="favouriteDomain" /></div>
-          <img
-            v-if="dailyMenuItem.dishSample.image.fileSystemPath"
-            data-test="eat-photo"
-            :src="dailyMenuItem.dishSample.image.getImageUrl()"
-            alt="doctor-photo"
-            @error="dailyMenuItem.dishSample.image.errorImg($event)"
-          />
-          <img v-else src="../../assets/svg/Buffet/food.webp" alt="eat-photo" />
+          <div class="favor">
+            <FavouriteIcon :domain-id="123" :domain-name="'favouriteDomain'" />
+          </div>
+          <img v-if="dailyMenuItem.dishSample.image.fileSystemPath" data-test="eat-photo"
+            :src="dailyMenuItem.dishSample.image.getImageUrl()" alt="doctor-photo"
+            @error="dailyMenuItem.dishSample.image.errorImg($event)" />
+          <img v-else src="/src/assets/svg/Buffet/food.webp" alt="eat-photo" />
         </div>
         <div class="price">{{ dailyMenuItem.price }} р.</div>
         <div class="name">{{ dailyMenuItem.name }}</div>
@@ -46,9 +36,7 @@
   </el-form>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
@@ -57,40 +45,27 @@ import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DishCard',
-  components: { DishCardButton, FavouriteIcon, ModalDishCard, DishInfoTable },
-  props: {
-    dailyMenuItem: {
-      type: Object as PropType<DailyMenuItem>,
-      required: true,
-    },
-    dishesGroupName: {
-      type: String as PropType<string>,
-      required: true,
-    },
-    dailyMenuName: {
-      type: String as PropType<string>,
-      required: true,
-    },
+const props = defineProps({
+  dailyMenuItem: {
+    type: Object as PropType<DailyMenuItem>,
+    required: true,
   },
-  setup() {
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    let status = 'inStock';
-    const modalDishIsOpen: Ref<boolean> = ref(false);
-
-    const toggleModalDishCard = () => {
-      modalDishIsOpen.value = !modalDishIsOpen.value;
-    };
-
-    return {
-      dailyMenuOrder,
-      status,
-      modalDishIsOpen,
-      toggleModalDishCard,
-    };
+  dishesGroupName: {
+    type: String as PropType<string>,
+    required: true,
   },
-});
+  dailyMenuName: {
+    type: String as PropType<string>,
+    required: true,
+  },
+})
+const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+let status = 'inStock';
+const modalDishIsOpen: Ref<boolean> = ref(false);
+
+const toggleModalDishCard = () => {
+  modalDishIsOpen.value = !modalDishIsOpen.value;
+};
 </script>
 
 <style scoped lang="scss">
@@ -118,6 +93,7 @@ export default defineComponent({
   position: relative;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+
   img {
     position: absolute;
     top: 50%;
@@ -128,6 +104,7 @@ export default defineComponent({
     object-fit: cover;
   }
 }
+
 .name {
   display: flex;
   align-items: start;
@@ -154,6 +131,7 @@ export default defineComponent({
   font-size: 12px;
   color: #343e5c;
 }
+
 .line2 {
   font-size: 12px;
   color: #2754eb;
@@ -227,9 +205,11 @@ export default defineComponent({
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 5px;
   width: 30px;
   height: 30px;
+
   &:hover {
     transform: scale(1.1);
   }
+
   .anticon {
     font-size: 20px;
     color: #bdc2d1;
@@ -251,9 +231,12 @@ export default defineComponent({
 
 .click-container {
   cursor: pointer;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 }
 
 .hidden-parent {
@@ -293,7 +276,7 @@ export default defineComponent({
   color: darken($color: #2754eb, $amount: 20%);
 }
 
-.hidden-parent:hover > .hidden-comment {
+.hidden-parent:hover>.hidden-comment {
   display: block;
 }
 </style>

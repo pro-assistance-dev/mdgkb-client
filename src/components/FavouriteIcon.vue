@@ -1,77 +1,72 @@
 <template>
-  <Component v-if="isFavourite" id="heartfill-svg" class="heart" @click.stop="removeFromUser"></Component>
-  <Component v-else id="heartstroke-svg" class="heart" @click.stop="add"></Component>
+  <Component :is="getIcon('heartfill')" v-if="isFavourite" id="heartfill-svg" class="heart"
+    @click.stop="removeFromUser" />
+  <Component v-else :is="getIcon('heartstroke')" id="heartstroke-svg" class="heart" @click.stop="add" />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, ref, watch } from 'vue';
-import { useStore } from 'vuex';
 
 import FavouriteService from '@/services/Favourite';
 import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'FavouriteIcon',
-  props: {
-    domainName: {
-      type: String,
-      required: true,
-    },
-    domainId: {
-      type: String,
-      required: true,
-    },
+const props = defineProps({
+  domainName: {
+    type: String,
+    required: true,
   },
-  setup(props) {
-    const store = useStore();
-    const isFavourite = ref(FavouriteService.isFavourite(props.domainName, props.domainId));
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+  domainId: {
+    type: String,
+    required: true,
+  },
+})
+const isFavourite = ref(FavouriteService.isFavourite(props.domainName, props.domainId));
+const auth = Store.Getters('auth/auth')
 
-    const add = async () => {
-      if (!checkAuth()) {
-        return;
-      }
-      await store.dispatch('users/addToUser', { domain: props.domainName, id: props.domainId });
-      isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
-    };
+const modules = import.meta.glob('@/assets/doctors/svg/*.svg');
+const getIcon = (icon: string) => {
+  const path = '/src/assets/doctors/svg/' + icon + '.svg';
+  const comp = defineAsyncComponent(() => modules[path]());
+  return comp
+}
 
-    const removeFromUser = async () => {
-      if (!checkAuth()) {
-        return;
-      }
-      await store.dispatch('users/removeFromUser', { domain: props.domainName, id: props.domainId });
-      isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
-    };
+const add = async () => {
+  if (!checkAuth()) {
+    return;
+  }
+  await Store.Dispatch('users/addToUser', { domain: props.domainName, id: props.domainId });
+  isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
+};
 
-    const clearFav = () => (isFavourite.value = false);
+const removeFromUser = async () => {
+  if (!checkAuth()) {
+    return;
+  }
+  await Store.Dispatch('users/removeFromUser', { domain: props.domainName, id: props.domainId });
+  isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
+};
 
-    const checkAuth = (): boolean => {
-      const token = TokenService.getAccessToken();
-      if (!token) {
-        ElMessage({
-          message: 'Пожалуйста, авторизируйтесь',
-          type: 'warning',
-        });
-        return false;
-      }
-      return true;
-    };
-    watch(isAuth, () => {
-      if (!isAuth.value) {
-        clearFav();
-      } else {
-        isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
-      }
+const clearFav = () => (isFavourite.value = false);
+
+const checkAuth = (): boolean => {
+  const token = TokenService.getAccessToken();
+  if (!token) {
+    ElMessage({
+      message: 'Пожалуйста, авторизируйтесь',
+      type: 'warning',
     });
-
-    return {
-      isFavourite,
-      removeFromUser,
-      add,
-    };
-  },
+    return false;
+  }
+  return true;
+};
+watch(() => auth.value.isAuth, () => {
+  if (!auth.value.isAuth) {
+    clearFav();
+  } else {
+    isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
+  }
 });
+
 </script>
 
 <style lang="scss" scoped>
