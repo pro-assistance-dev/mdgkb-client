@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DivisionInfoBlock',
@@ -26,7 +26,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 * {
   padding: 0px;

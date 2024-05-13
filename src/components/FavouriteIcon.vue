@@ -70,6 +70,7 @@ watch(() => auth.value.isAuth, () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 * {
   padding: 0;
   margin: 0;

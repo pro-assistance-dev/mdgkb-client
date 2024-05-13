@@ -29,11 +29,10 @@ const props = defineProps({
   text: { type: String as PropType<string>, default: '', required: false },
   label: { type: String as PropType<string>, default: '', required: false },
   placeholder: { type: String as PropType<string>, default: '', required: false },
-  value: { type: String as PropType<string>, default: '', required: false },
   readonly: { type: Boolean as PropType<Boolean>, default: false, required: false },
   disabled: { type: Boolean as PropType<Boolean>, default: false, required: false },
   margin: { type: String as PropType<string>, required: false, default: '' },
-  padding: { type: String as PropType<string>, required: false, default: '' },
+  padding: { type: String as PropType<string>, default: '', required: false },
 });
 
 </script>
@@ -53,7 +52,8 @@ const props = defineProps({
   justify-content: left;
   align-items: center;
   background: $input-background;
-  border-radius: $border-radius;
+  border-radius: $p-input-border-radius;
+  border: $p-input-border;
   padding: $p-input-padding;
   margin: $p-input-margin;
   overflow: hidden;

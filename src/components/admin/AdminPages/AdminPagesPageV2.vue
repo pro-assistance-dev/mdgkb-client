@@ -127,7 +127,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import draggable from 'vuedraggable';
 
 import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Role from '@/services/classes/Role';
@@ -244,6 +244,7 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .wrapper {
   display: flex;
   box-sizing: border-box;

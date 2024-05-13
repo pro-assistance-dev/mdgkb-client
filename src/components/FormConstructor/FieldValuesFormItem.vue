@@ -133,6 +133,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-form-item__content) {
   line-height: 1.3;
 }

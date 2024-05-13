@@ -28,6 +28,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .review-card-container {
   display: flex;
   flex-direction: column;

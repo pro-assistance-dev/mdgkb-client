@@ -63,6 +63,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-form-item__content) {
   width: 100%;
 }

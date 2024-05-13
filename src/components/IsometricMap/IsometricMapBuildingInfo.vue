@@ -41,7 +41,7 @@ const building: ComputedRef<Building> = computed<Building>(() => Provider.store.
 // };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 #ppvr {
   // position: absolute;

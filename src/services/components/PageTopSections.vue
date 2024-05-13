@@ -69,6 +69,7 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/elements/collapse.scss';
 @import '@/assets/styles/base-style.scss';
 

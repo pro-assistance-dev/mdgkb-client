@@ -41,6 +41,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-table) {
   width: 100%;
   height: 100%;

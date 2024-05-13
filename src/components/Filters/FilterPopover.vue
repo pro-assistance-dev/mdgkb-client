@@ -73,6 +73,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .anticon {
   margin: 4px 4px 2px 4px;
   font-size: 13px;

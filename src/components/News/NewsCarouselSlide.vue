@@ -85,6 +85,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .slide-container {
   background-position: center left;
   background-repeat: no-repeat;

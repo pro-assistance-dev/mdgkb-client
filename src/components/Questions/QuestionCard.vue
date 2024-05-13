@@ -44,6 +44,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-card__body {
   .questoin-date {
     margin-top: 5px;

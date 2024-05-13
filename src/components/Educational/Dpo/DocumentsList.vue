@@ -66,6 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 // @import '@/assets/styles/elements/doctor-info-card.scss';
 
 h3 {
@@ -186,8 +187,8 @@ h4 {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
   background: #eff2f6;
 }
@@ -245,8 +246,8 @@ h4 {
     font-family: Roboto, Verdana, sans-serif;
     font-size: 14px;
     border-radius: 40px;
-    border: 1px solid #a3a9be;
-    color: #a3a9be;
+    border: 1px solid $base-light-font-color;
+    color: $base-light-font-color;
     align-items: center;
     background: #eff2f6;
   }

@@ -56,6 +56,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .give-button {
   cursor: pointer;
   display: flex;
@@ -63,7 +64,7 @@ export default defineComponent({
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 5px;
-  // border: 1px solid #a3a9be;
+  // border: 1px solid $base-light-font-color;
   color: #ffffff;
   align-items: center;
   background: #2754eb;
@@ -253,7 +254,7 @@ h4 {
   display: flex;
   width: 18px;
   height: 18px;
-  stroke: #a3a9be;
+  stroke: $base-light-font-color;
   fill: none;
   margin-right: 10px;
 }
@@ -268,7 +269,7 @@ h4 {
   display: flex;
   width: 22px;
   height: 22px;
-  stroke: #a3a9be;
+  stroke: $base-light-font-color;
   fill: none;
   margin-right: 10px;
 }

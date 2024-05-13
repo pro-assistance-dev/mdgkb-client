@@ -57,7 +57,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .slot-container {
   text-align: center;
   width: 450px;

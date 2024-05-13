@@ -49,6 +49,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/ordinatura.scss';
 /* .el-descriptions__label {
   font-size: 15px;

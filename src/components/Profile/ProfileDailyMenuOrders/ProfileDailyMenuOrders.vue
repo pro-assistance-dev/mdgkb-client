@@ -5,9 +5,9 @@
         <div class="box">
           <h2>
             Мои заказы
-            <div v-if="user.dailyMenuOrders.some((el) => el.formValue.viewedByUser)" class="sup-cymbol-counter">
+            <!-- <div v-if="user.dailyMenuOrders.some((el) => el.formValue.viewedByUser)" class="sup-cymbol-counter">
               {{ user.dailyMenuOrders.filter((d) => d.formValue.viewedByUser).length }}
-            </div>
+            </div> -->
           </h2>
         </div>
       </div>
@@ -66,6 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 h2,
 h3 {
   color: #343e5c;

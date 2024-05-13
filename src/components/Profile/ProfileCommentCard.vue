@@ -71,6 +71,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .user-avatar {
   display: flex;
   flex-direction: column;

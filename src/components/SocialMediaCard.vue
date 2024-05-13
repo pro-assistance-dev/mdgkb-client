@@ -40,6 +40,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .icon {
   width: 25px;
   height: 25px;

@@ -53,6 +53,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .card-item-container {
   width: 300px;
   height: auto;

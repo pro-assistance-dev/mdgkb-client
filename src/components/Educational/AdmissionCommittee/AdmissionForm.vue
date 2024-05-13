@@ -265,6 +265,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .form-item-error {
   color: #f56c6c;
   font-size: 12px;

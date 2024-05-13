@@ -57,7 +57,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .middle-header {
   font-weight: 400;
   font-size: 18px;

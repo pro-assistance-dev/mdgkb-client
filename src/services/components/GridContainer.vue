@@ -55,6 +55,7 @@ export default defineComponent({
 @import '@/assets/styles/base-style.scss';
 
 .grid-block {
+  box-sizing: border-box;
   display: grid;
   margin-left: auto;
   margin-right: auto;

@@ -41,6 +41,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .size {
   // max-width: 900px;
   padding: 0 10px;

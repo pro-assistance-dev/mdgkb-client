@@ -124,7 +124,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .wer {
   height: 20px;
   width: 20px;

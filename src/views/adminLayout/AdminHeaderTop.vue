@@ -51,6 +51,7 @@ const logout = async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $header-background-color: whitesmoke;
 $header-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
 $header-height: 61px;

@@ -5,8 +5,8 @@
       </label>
     <div class="field">
       <div class="left-field"><slot name="left" /></div>
-      <select class="text-field__input" >
-        <option value disabled selected>{{ placeholder }}</option>
+      <select class="text-field__input" v-model="model">
+        <option disabled >{{ placeholder }}</option>
         <slot />
       </select>
       <div class="right-field"><slot name="right" /></div>
@@ -52,7 +52,8 @@ option {
   justify-content: left;
   align-items: center;
   background: $input-background;
-  border-radius: $border-radius;
+  border-radius: $p-input-border-radius;
+  border: $p-input-border;
   padding: $p-input-padding;
   margin: $p-input-margin;
   overflow: hidden;

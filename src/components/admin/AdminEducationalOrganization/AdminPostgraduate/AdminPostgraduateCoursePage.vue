@@ -287,6 +287,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .files-block {
   display: flex;
   justify-content: space-around;

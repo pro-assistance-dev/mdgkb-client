@@ -190,7 +190,8 @@ onBeforeMount(async () => {
 const isEditPhoneModalOpen: Ref<boolean> = ref(false);
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .size {
   padding: 0 20px 0 0;
 }
@@ -252,8 +253,8 @@ h5 {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
 }
 
@@ -264,7 +265,7 @@ h5 {
 .icon-edit {
   width: 16px;
   height: 16px;
-  stroke: #a3a9be;
+  stroke: $base-light-font-color;
   fill: none;
   margin-right: 10px;
 }
@@ -338,7 +339,7 @@ h5 {
 .icon-email {
   width: 20px;
   height: 20px;
-  fill: #a3a9be;
+  fill: $base-light-font-color;
   stroke: none;
   margin-right: 10px;
 }
@@ -346,7 +347,7 @@ h5 {
 .icon-phone {
   width: 20px;
   height: 20px;
-  fill: #a3a9be;
+  fill: $base-light-font-color;
   margin-right: 10px;
 }
 
@@ -356,7 +357,7 @@ h5 {
   align-items: center;
   height: 20px;
   margin-bottom: 15px;
-  color: #a3a9be;
+  color: $base-light-font-color;
 }
 
 .contact-phone {
@@ -367,7 +368,7 @@ h5 {
   align-items: center;
   height: 20px;
   margin-bottom: 15px;
-  color: #a3a9be;
+  color: $base-light-font-color;
 }
 
 .contact-phone-el {
@@ -394,7 +395,7 @@ h5 {
   align-items: center;
   height: 20px;
   margin-bottom: 15px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding-top: 10px;
 }
 
@@ -442,7 +443,7 @@ ul.parent-info-list li:last-child {
 .item-title {
   display: flex;
   width: 40%;
-  color: #a3a9be;
+  color: $base-light-font-color;
 }
 
 .item-data {
@@ -637,8 +638,8 @@ ul.parent-info-list li:last-child {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
 
   &:hover {
@@ -655,8 +656,8 @@ ul.parent-info-list li:last-child {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
 
   &:hover {

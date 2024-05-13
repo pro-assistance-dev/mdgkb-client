@@ -21,7 +21,8 @@ const allLoaded = Store.Getters('filter/allLoaded')
 const text = computed(() => (props.loading ? 'Загрузка...' : 'Показать ещё'));
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .load-more {
   display: flex;
   justify-content: center;

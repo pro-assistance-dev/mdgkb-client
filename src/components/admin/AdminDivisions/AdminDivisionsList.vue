@@ -81,6 +81,7 @@ const update = async (division: Division) => await Store.Update('divisions', div
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

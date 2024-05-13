@@ -71,6 +71,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .contact-form {
   margin: 20px 100px 20px 10px;
 }

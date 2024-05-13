@@ -36,7 +36,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $card-border-radius: 15px;
 $card-content-padding: 15px;
 $card-content-outpadding: 0px;

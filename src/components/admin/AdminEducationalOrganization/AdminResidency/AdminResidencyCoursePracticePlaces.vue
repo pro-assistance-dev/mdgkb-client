@@ -125,6 +125,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex-between {
   display: flex;
   align-items: center;

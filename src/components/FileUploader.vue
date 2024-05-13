@@ -83,6 +83,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .file-name {
   margin-left: 5px;
   display: flex;

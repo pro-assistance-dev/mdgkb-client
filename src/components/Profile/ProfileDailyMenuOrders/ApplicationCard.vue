@@ -103,6 +103,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 h4 {
   font-family: 'Open Sans', sans-serif;
   letter-spacing: 0.1ex;

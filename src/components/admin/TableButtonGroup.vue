@@ -97,6 +97,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .table-button {
   padding: 5px;
   margin: 0;

@@ -52,8 +52,8 @@ import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import VacancyResponse from '@/classes/VacancyResponse';
 import Button from '@/components/Base/Button.vue';
-import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -100,6 +100,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .main-component {
   position: relative;
 }

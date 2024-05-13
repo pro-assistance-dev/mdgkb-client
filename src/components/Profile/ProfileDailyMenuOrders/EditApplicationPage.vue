@@ -132,6 +132,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .card-item {
   margin-bottom: 10px;
 }

@@ -275,7 +275,7 @@ export default defineComponent({
 .admin-del {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 10px;
   transition: 0.3s;
   cursor: pointer;

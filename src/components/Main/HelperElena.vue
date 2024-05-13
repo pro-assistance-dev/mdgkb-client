@@ -34,6 +34,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .helper {
   margin-top: 20px;
   background: #ffffff;

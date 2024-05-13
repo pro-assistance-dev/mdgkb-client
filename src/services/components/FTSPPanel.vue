@@ -96,7 +96,7 @@ onBeforeMount(async () => {
 .admin-del {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
   margin-left: -6px;

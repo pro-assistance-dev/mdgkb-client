@@ -174,7 +174,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .calendar {
   margin-bottom: 40px;
 }

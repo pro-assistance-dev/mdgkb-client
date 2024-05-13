@@ -217,6 +217,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .questions-container {
   text-align: center;
 }

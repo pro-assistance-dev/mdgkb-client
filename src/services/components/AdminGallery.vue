@@ -184,7 +184,7 @@ const remove = async (filer: IFiler) => {
 .admin-del2 {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }

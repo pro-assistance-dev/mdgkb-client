@@ -132,7 +132,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .size {
   // max-width: 900px;
   padding: 0 20px 0 0;
@@ -159,8 +160,8 @@ export default defineComponent({
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
   margin-right: 20px;
   background: #efefef;
@@ -178,8 +179,8 @@ export default defineComponent({
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
   margin-right: 20px;
   background: #efefef;
@@ -271,7 +272,7 @@ h5 {
 .icon-back {
   width: 16px;
   height: 16px;
-  fill: #a3a9be;
+  fill: $base-light-font-color;
 }
 
 .icon-save {

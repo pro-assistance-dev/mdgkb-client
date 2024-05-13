@@ -141,6 +141,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .project-page-container {
   display: flex;
   flex-direction: column;

@@ -24,7 +24,7 @@
 import { defineComponent, PropType } from 'vue';
 
 import Doctor from '@/classes/Doctor';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'DoctorEducation',
@@ -34,7 +34,7 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 * {
   padding: 0px;

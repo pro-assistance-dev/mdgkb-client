@@ -46,7 +46,7 @@ const update = async () => {
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -151,7 +151,7 @@ const update = async () => {
 
 :deep(.el-form-item__label) {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;

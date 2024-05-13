@@ -35,7 +35,7 @@
             <div class="profile-page-container">
               <ProfileSideMenu />
               <div class="profile-page-container-main">
-                <ProfileHeader />
+                <!-- <ProfileHeader /> -->
                 <slot />
               </div>
             </div>
@@ -92,7 +92,7 @@ const authAct = async () => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 
 .blur {

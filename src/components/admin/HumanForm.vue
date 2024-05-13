@@ -1,5 +1,21 @@
 <template>
-  <div :class="{ 'human-form-container': withStyles }">
+  
+  <GridContainer max-width="1024px" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
+    <PInput v-model="human.surname" label="ФАМИЛИЯ" placeholder="Введите фамилию" />
+    <PInput v-model="human.name" label="ИМЯ" placeholder="Введите имя"  />
+    <PInput v-model="human.patronymic" label="ОТЧЕСТВО" placeholder="Введите отчество"/>
+    <PSelect v-model="human.isMale" label="ПОЛ" placeholder="Выберите пол">
+      <option :value="true">Мужчина</option>
+      <option :value="false">Женщина</option>
+    </PSelect>
+    <PInput v-model="human.placeBirth" label="МЕСТО РОЖДЕНИЯ" placeholder="Введите страну"/>
+    <PInputData v-model="human.dateBirth" label="ДАТА РОЖДЕНИЯ" placeholder="Введите дату"/>
+    <PInput v-model="human.citizenship" label="ГРАЖДАНСТВО" placeholder="Введите гражданство"/>
+    <PInput v-model="human.snils" label="СНИЛС" placeholder="Введите СНИЛС"/>
+    <PInput v-model="human.address" label="АДРЕС" placeholder="Введите адрес"/>
+  </GridContainer>
+
+  <!-- <div :class="{ 'human-form-container': withStyles }">
     <div class="mobile-help">
       <div class="line-item">
         <div class="item-block">
@@ -75,7 +91,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script lang="ts">
@@ -85,6 +101,10 @@ import { useStore } from 'vuex';
 
 import DatePicker from '@/components/DatePicker.vue';
 import Human from '@/services/classes/Human';
+import GridContainer from '@/services/components/GridContainer.vue';
+import PInput from '@/services/components/PInput.vue';
+import PInputData from '@/services/components/PInputData.vue';
+import PSelect from '@/services/components/PSelect.vue';
 
 export default defineComponent({
   name: 'HumanForm',
@@ -123,7 +143,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .human-form-container {
   h2,
   h3 {
@@ -147,7 +168,7 @@ export default defineComponent({
   .item-title {
     display: flex;
     width: 100%;
-    color: #a3a9be;
+    color: $base-light-font-color;
     margin-bottom: 3px;
   }
 
@@ -240,7 +261,7 @@ export default defineComponent({
   }
 
   :deep(.el-form-item__label) {
-    color: #a3a9be;
+    color: $base-light-font-color;
     padding: 0 !important;
     text-transform: uppercase;
     margin-left: 5px;
@@ -249,6 +270,12 @@ export default defineComponent({
   :deep(.el-input__prefix) {
     left: auto;
     right: 10px;
+  }
+
+
+  :deep(.el-input__suffix-inner) {
+    background: #ffffff;
+    padding: 0 5px 0 0;
   }
 
   @media screen and (max-width: 910px) {

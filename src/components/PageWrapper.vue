@@ -20,6 +20,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .page-wrapper-container {
   display: flex;
   flex-direction: column;

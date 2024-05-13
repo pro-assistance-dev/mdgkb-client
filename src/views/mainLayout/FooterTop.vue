@@ -50,6 +50,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-carousel__item) {
   display: flex;
   align-items: center;

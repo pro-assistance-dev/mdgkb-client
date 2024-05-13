@@ -90,6 +90,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex-column {
   display: flex;
   flex-direction: column;

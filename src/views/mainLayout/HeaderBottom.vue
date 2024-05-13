@@ -122,7 +122,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .navbar {
   background: #f0f2f7;
   border-top: 1px solid #dfe4ee;

@@ -50,6 +50,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .code {
   margin-right: 10px;
   font-size: 16px;

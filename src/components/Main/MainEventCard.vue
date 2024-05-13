@@ -43,6 +43,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .event-card-container {
   display: flex;
   flex-direction: column;

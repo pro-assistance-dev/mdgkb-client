@@ -3,16 +3,13 @@
     <UserInfoMini />
     <ul>
       <template v-for="item in menuList" :key="item.name">
-        <li v-if="item.liCondition()">
+        <li v-if="item.liCondition()" >
           <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
-            <component :is="getIcon(item.icon)" class="icon-profile" />
+            <ProfileMenuIcons :name="item.icon" />
             <div class="item-list-name">
               {{ item.name }}
-              <span v-if="item.notificationCondition()" class="sup-cymbol-counter">
-                {{ item.notificationCount() }}
-              </span>
+              <!-- <span v-if="item.notificationCondition()" class="sup-cymbol-counter">{{ item.notificationCount() }}</span> -->
             </div>
-            <Arrow class="icon-arrow" />
           </router-link>
         </li>
       </template>
@@ -21,12 +18,12 @@
 </template>
 
 <script lang="ts" setup>
-import Arrow from '@/assets/profile/icons/Arrow.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
+import ProfileMenuIcons from '@/components/Icons/ProfileMenuIcons.vue';
 
 const activeRoute: Ref<string> = ref('');
 watch(() => Router.Route(), () => {
@@ -125,47 +122,12 @@ const menuList = [
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .profile-menu {
   min-width: 272px;
   background: #ffffff;
   height: 73vh;
   margin-right: 30px;
-}
-
-.icon-profile {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-education {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-question {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-settings {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-arrow {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  right: 15px;
-  fill: #ffffff;
 }
 
 .profile-menu ul {
@@ -191,13 +153,14 @@ const menuList = [
 
 .item-list {
   position: sticky;
-  fill: #2754eb;
   display: flex;
   justify-content: left;
   align-items: center;
   height: 50px;
   width: 100%;
-  color: #343e5c;
+  color: #343E5C;
+  background: #ffffff;
+  // opacity: 0.6;
 
   &-name {
     position: relative;
@@ -214,9 +177,8 @@ const menuList = [
 }
 
 .item-list:hover {
-  fill: #ffffff;
-  color: #ffffff;
-  background: #2754eb;
+  background: #F0F2F7;
+  // opacity: 1;
 }
 
 .item {
@@ -227,20 +189,9 @@ const menuList = [
   display: flex;
 }
 
-// a.router-link-active,
-// li.item-list-active > a {
-//   background: #ffffff;
-// }
-
 .active {
-  color: #ffffff;
-  fill: #ffffff;
-  background: #2754eb;
-
-  .sup-cymbol-counter {
-    background: #ffffff;
-    color: #2754eb;
-  }
+  background: #F0F2F7;
+  // opacity: 1;
 }
 
 .sup-cymbol-counter {
@@ -252,8 +203,8 @@ const menuList = [
   height: 16px;
   border-radius: 50%;
   font-weight: bold;
-  background: #2754eb;
-  color: #ffffff;
+  background: #ffffff;
+  color: #01528A;
   align-items: center;
   justify-content: center;
   padding: 1px;

@@ -32,6 +32,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .move-buttons {
   :deep(.el-button) {
     padding: 5px;

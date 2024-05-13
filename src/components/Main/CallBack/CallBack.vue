@@ -107,7 +107,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -246,6 +247,6 @@ input {
   padding: 8px 14px;
   width: 120px;
   color: white;
-  background-color: #a3a9be;
+  background-color: $base-light-font-color;
 }
 </style>

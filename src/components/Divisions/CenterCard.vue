@@ -69,5 +69,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/doctor-info-card.scss';
 </style>

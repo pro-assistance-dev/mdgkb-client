@@ -37,6 +37,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .donor-card {
   width: 400px;
   border-radius: 15px;

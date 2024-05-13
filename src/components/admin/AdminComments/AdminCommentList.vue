@@ -64,6 +64,7 @@ const createFilterModels = (): FilterModel[] => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .comments-container {
   display: flex;
   flex-direction: column;
