@@ -1,19 +1,15 @@
 <template>
   <div class="wrapper">
     <template v-for="rule in donorRules" :key="rule.id">
-      <DonorRuleCard :donor-rule="rule" @addToUser="addToUser(rule)" @showRule="showRule(rule)" @removeFromUser="removeFromUser(rule)" />
+      <DonorRuleCard :donor-rule="rule" @addToUser="addToUser(rule)" @showRule="showRule(rule)"
+        @removeFromUser="removeFromUser(rule)" />
     </template>
   </div>
 
   <el-dialog v-model="visible" width="40%" :top="'5vh'" lock-scroll="true">
     <div class="scale-image-container">
-      <img
-        v-if="currentRule.image.fileSystemPath"
-        class="scale-image"
-        :src="currentRule.image.getImageUrl()"
-        alt="donor-rule"
-        @error="errorImg"
-      />
+      <img v-if="currentRule.image.fileSystemPath" class="scale-image" :src="currentRule.image.getImageUrl()"
+        alt="donor-rule" @error="errorImg" />
     </div>
   </el-dialog>
 </template>
@@ -39,7 +35,7 @@ export default defineComponent({
 
   setup() {
     const store = useStore();
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+    // const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const currentRule: Ref<DonorRule> = ref(new DonorRule());
     const visible: Ref<boolean> = ref(false);
 
@@ -52,7 +48,7 @@ export default defineComponent({
         });
         return;
       }
-      rule.addFavourite(userId.value);
+      // rule.addFavourite(userId.value);
       await store.dispatch('donorRules/addToUser', rule.donorRulesUsers[0]);
     };
     const removeFromUser = async (rule: DonorRule) => {
@@ -88,6 +84,7 @@ export default defineComponent({
 h2 {
   text-align: center;
 }
+
 .wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -98,6 +95,7 @@ h2 {
   width: 100%;
   height: 100%;
 }
+
 .scale-image {
   width: 100%;
   height: 100%;
