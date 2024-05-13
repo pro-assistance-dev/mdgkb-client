@@ -27,6 +27,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $header-background-color: whitesmoke;
 
 :deep(.admin-drawer) {

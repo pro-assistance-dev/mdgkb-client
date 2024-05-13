@@ -21,6 +21,7 @@ const currentRoute = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .login-menu {
   margin-right: 40px;
 }

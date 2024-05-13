@@ -48,6 +48,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .list-row {
   display: flex;
   align-items: center;

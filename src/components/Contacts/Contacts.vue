@@ -54,7 +54,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .map-container {
   height: 100%;
   margin: 10px 0 20px 0;

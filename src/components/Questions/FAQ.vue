@@ -57,6 +57,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-collapse-item) {
   margin-bottom: 20px;
   width: 100%;

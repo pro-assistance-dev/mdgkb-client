@@ -39,7 +39,7 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
 import FileInfo from '@/services/classes/FileInfo.ts';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({

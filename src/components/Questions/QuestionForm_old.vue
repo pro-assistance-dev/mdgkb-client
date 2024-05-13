@@ -137,6 +137,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-drawer__header) {
   margin: 0;
 }

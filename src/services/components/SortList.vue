@@ -56,6 +56,7 @@ const setSort = async (s: SortModel | undefined) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-select__wrapper) {
   min-height: 38px;
   margin-top: 7px;

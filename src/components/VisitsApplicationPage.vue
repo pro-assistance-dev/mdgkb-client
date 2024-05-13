@@ -155,6 +155,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .form-container {
   margin: 0 10px;
 

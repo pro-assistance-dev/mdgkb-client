@@ -65,6 +65,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .button-container {
   background: #f6f6f6;
   text-align: center;

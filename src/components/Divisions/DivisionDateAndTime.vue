@@ -58,7 +58,7 @@ import { Calendar } from 'v-calendar';
 import { computed, defineComponent, PropType, ref } from 'vue';
 
 import Division from '@/classes/Division';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
@@ -107,7 +107,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/calendar-style.scss';
 * {

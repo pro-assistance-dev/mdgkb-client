@@ -34,5 +34,6 @@ const iconComponent = {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 </style>

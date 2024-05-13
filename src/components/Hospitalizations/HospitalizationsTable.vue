@@ -164,6 +164,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .hospitalization-table-wrapper {
   background: white;
   border: 1px solid #dcdfe6;

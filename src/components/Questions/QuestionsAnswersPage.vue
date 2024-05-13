@@ -69,6 +69,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
 .ques-answ-container {
   display: flex;

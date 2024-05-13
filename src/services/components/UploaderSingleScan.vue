@@ -133,6 +133,7 @@ onBeforeMount(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .inside {
   display: block;
   margin: 0 auto;

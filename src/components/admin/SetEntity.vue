@@ -36,6 +36,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .name {
@@ -61,7 +62,7 @@ $margin: 20px 0;
 
 .search-label {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
@@ -74,7 +75,7 @@ $margin: 20px 0;
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }

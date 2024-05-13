@@ -28,6 +28,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .status-container {
   display: flex;
   flex-wrap: wrap;

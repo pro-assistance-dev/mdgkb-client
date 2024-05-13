@@ -38,18 +38,19 @@ $menu-background: $base-background;
 $custom-background: #DFF2F8;
 
 // font
-$title-font: Comfortaa, Arial, Helvetica, sans-serif;
+$title-font: 'Open Sans', sans-serif, Arial, Helvetica;
 $title-font-weight: regular;
 $title-font-bold-weight: bold;
 
-$base-font: Roboto, Arial, Helvetica, sans-serif;
+$base-font: 'Open Sans', sans-serif, Arial, Helvetica;
 $base-font-weight: regular;
 $base-font-bold-weight: bold;
 
 $base-font-size: 14px;
 $base-font-small-size: 12px;
 $base-font-large-size: 16px;
-$base-font-color: #5F6A99;
+$base-font-color: #343D5C;
+$base-light-font-color: #A3A9BE;
 
 $doctor-text-font-size: 13px;
 // $doctor-text-font-color: #5d6477;
@@ -77,27 +78,28 @@ $base-content-color: #F5FAFF;
 //icon 
 $icon-width: 20px;
 $icon-height: 20px;
-$icon-color: #5F6A99;
-$icon-hover-color: #5F6A99;
+$icon-color: #343D5C;
+$icon-hover-color: #343D5C;
 $icon-transition: 0s;
 
 //base-browser-input
-$input-height: 52px;
-$input-background: #F5FAFF;
+$input-height: 30px;
+$input-background: #FFFFFF;
 $input-border: none;
-$input-border-radius: 0px;
 $input-font-color: $base-font-color;
-$input-font-size: $base-font-large-size;
+$input-font-size: $base-font-size;
 $input-font: $base-font;
 $input-margin: 0;
 $input-padding: 0;
 $input-width: 100%;
 
-$input-label-color: $base-font-color;
-$input-label-margin: 0 0 5px 0;
+$input-label-color: #A3A9BE;
+$input-label-margin: 0 0 15px 5px;
 
 $input-readonly-background: #f5f5f5;
 
 //PInput
-$p-input-margin: 0;
+$p-input-margin: 0 0 0px 0;
 $p-input-padding: 0 20px;
+$p-input-border-radius: 30px;
+$p-input-border: 1px solid #DCDFE6;

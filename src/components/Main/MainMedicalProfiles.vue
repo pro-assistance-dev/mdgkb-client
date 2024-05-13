@@ -119,6 +119,7 @@ const setColors = (): void => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .main-medical-profiles {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;

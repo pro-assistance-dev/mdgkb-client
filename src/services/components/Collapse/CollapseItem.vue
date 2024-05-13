@@ -118,7 +118,8 @@ export default defineComponent({
 .tab {
   position: relative;
   width: calc(100% - 10px);
-  border: $light-pink-border;
+  border: $normal-border;
+  border-radius: $border-radius;
   background: #ffffff;
   margin: 10px 8px 2px 2px;
   cursor: pointer;
@@ -148,7 +149,7 @@ export default defineComponent({
   -webkit-transition: max-height 0.03s;
   -o-transition: max-height 0.03s;
   transition: max-height 0.03s;
-  color: #343e5c;
+  color: $base-font-color;
   padding: 0 5px;
 }
 
@@ -160,8 +161,7 @@ export default defineComponent({
   -webkit-transition: max-height 0.5s;
   -o-transition: max-height 0.5s;
   transition: max-height 0.5s;
-  color: #343e5c;
-  padding-right: 5px;
+  color: $base-font-color;
 }
 
 .tab input:checked~.icon-arrow {
@@ -274,7 +274,7 @@ export default defineComponent({
   display: flex;
   font-family: 'Open Sans', sans-serif;
   font-size: 16px;
-  color: #303133;
+  color: $base-font-color;
   height: auto;
   align-items: center;
   font-weight: normal;

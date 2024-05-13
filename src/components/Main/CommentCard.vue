@@ -33,6 +33,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .comment-header {
   display: flex;
   align-items: center;

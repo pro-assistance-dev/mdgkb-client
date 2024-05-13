@@ -36,7 +36,7 @@ import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
 import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
 import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
 import ImageGalleryDivision from '@/components/ImageGallery_new.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
@@ -81,7 +81,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 
 .card {

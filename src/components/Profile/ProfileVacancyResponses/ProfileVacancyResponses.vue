@@ -52,6 +52,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 h2,
 h3 {
   color: #343e5c;

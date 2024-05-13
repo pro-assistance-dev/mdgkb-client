@@ -116,7 +116,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 // $left-side-max-width: 370px;
 // $right-side-max-width: 1000px;
 

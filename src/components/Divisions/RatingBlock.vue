@@ -35,6 +35,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-rate__icon) {
   margin: 0;
   font-size: 20px;

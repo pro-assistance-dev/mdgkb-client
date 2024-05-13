@@ -52,7 +52,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -108,7 +108,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;

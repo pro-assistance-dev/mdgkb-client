@@ -82,7 +82,7 @@ import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
 import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 // import sort from '@/services/sort';
 import Strings from '@/services/Strings';

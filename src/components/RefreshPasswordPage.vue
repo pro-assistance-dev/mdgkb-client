@@ -49,7 +49,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
 $news-content-max-width: 1000px;
 $card-margin-size: 30px;

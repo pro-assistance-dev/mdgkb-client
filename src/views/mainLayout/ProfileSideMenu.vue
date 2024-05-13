@@ -122,6 +122,7 @@ const menuList = [
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .profile-menu {
   min-width: 272px;
   background: #ffffff;
@@ -159,7 +160,7 @@ const menuList = [
   width: 100%;
   color: #343E5C;
   background: #ffffff;
-  opacity: 0.6;
+  // opacity: 0.6;
 
   &-name {
     position: relative;
@@ -176,8 +177,8 @@ const menuList = [
 }
 
 .item-list:hover {
-  // background: #F0F2F7;
-  opacity: 1;
+  background: #F0F2F7;
+  // opacity: 1;
 }
 
 .item {
@@ -190,7 +191,7 @@ const menuList = [
 
 .active {
   background: #F0F2F7;
-  opacity: 1;
+  // opacity: 1;
 }
 
 .sup-cymbol-counter {

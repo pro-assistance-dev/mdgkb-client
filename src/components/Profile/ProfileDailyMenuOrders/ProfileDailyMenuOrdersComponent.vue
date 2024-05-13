@@ -5,18 +5,18 @@
         v-for="dailyMenuOrder in user.dailyMenuOrders"
         :key="dailyMenuOrder.id"
         :tab-id="dailyMenuOrder.id"
-        :collapsed="false"
         :active-id="scope.activeId"
         :show-tools-on-hover="false"
       >
         <template #inside-title>
-          {{ dailyMenuOrder.getFormattedNumber() }}
-          <div class="tools-line-item">
-            <StringItem :string="$dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' })" font-weight="normal" />
+          <StringItem :string="dailyMenuOrder.getFormattedNumber()" font-weight="normal" min-width="90px"/>
+          <div class="flex-line">
+            <StringItem :string="$dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' })" font-weight="normal" font-size="14px" color="$base-light-font-color"/>
             <StringItem
               v-if="dailyMenuOrder.formValue.formStatus.label"
               :string="dailyMenuOrder.formValue.formStatus.label"
               :color="dailyMenuOrder.formValue.formStatus.color"
+              font-size="14px"
             />
           </div>
         </template>
@@ -118,7 +118,7 @@ import User from '@/classes/User';
 import Button from '@/components/Base/Button.vue';
 import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
-import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 import StringItem from '@/services/components/StringItem.vue';
@@ -179,6 +179,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .main-component {
   position: relative;
 }
@@ -193,10 +195,10 @@ export default defineComponent({
   color: #343e5c;
 }
 
-.tools-line-item {
+.flex-line {
   box-sizing: border-box;
   width: 100%;
-  margin: 0 0 0 20px;
+  margin: 0 0 0 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -238,7 +240,7 @@ export default defineComponent({
   align-items: center;
   justify-content: left;
   font-size: 14px;
-  color: #343e5c;
+  color: $base-font-color;
   margin-right: 10px;
 }
 
@@ -248,7 +250,7 @@ export default defineComponent({
   justify-content: left;
   width: 100%;
   height: 20px;
-  color: #a1a7bd;
+  color: $base-font-color;
   font-size: 11px;
   letter-spacing: 1px;
 }

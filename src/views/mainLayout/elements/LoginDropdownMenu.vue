@@ -88,6 +88,7 @@ const toProfile = async (): Promise<void> => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-dropdown-link {
   cursor: pointer;
   color: #409eff;

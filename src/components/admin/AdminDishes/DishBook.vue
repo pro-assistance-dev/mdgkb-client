@@ -80,7 +80,7 @@ import Save from '@/assets/svg/Buffet/Save.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 const props = defineProps({

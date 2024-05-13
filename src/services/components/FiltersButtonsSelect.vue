@@ -69,6 +69,7 @@ const selectFilter = async (model?: FilterModel) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .filter-button {
   width: auto;
   height: 23px;

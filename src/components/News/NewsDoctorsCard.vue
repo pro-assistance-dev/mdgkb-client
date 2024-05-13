@@ -72,6 +72,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-divider {
   margin: 10px 0;
 }

@@ -63,6 +63,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .main-page-reviews {
   display: flex;
   justify-content: space-between;

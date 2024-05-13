@@ -392,6 +392,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .divider {
   width: 2px;
   height: 1.25rem;

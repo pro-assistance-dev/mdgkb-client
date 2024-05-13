@@ -147,7 +147,7 @@ import SetEntity from '@/components/admin/SetEntity.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import RemoteSearch from '@/components/RemoteSearch.vue';
 import ClassHelper from '@/services/ClassHelper';
 import AdminGallery from '@/services/components/AdminGallery.vue';
@@ -341,7 +341,7 @@ export default defineComponent({
     right: 36px;
     border: none;
     background: inherit;
-    color: #a3a9be;
+    color: $base-light-font-color;
     transition: 0.3s;
     cursor: pointer;
     padding: 1px 0px;

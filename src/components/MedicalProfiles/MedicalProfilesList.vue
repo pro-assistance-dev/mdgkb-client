@@ -57,6 +57,7 @@ const list = computed((): MedicalProfile[] => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .filter-form {
   margin: 10px 0;
 }

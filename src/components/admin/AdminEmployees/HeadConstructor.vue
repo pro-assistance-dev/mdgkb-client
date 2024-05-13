@@ -45,8 +45,8 @@ import { computed, defineComponent, Ref } from 'vue';
 import Employee from '@/classes/Employee';
 import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
-import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -68,6 +68,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .background-container {
@@ -209,7 +210,7 @@ $margin: 20px 0;
 
 :deep(.el-form-item__label) {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
@@ -266,7 +267,7 @@ $margin: 20px 0;
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -278,7 +279,7 @@ $margin: 20px 0;
 .admin-del2 {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -366,7 +367,7 @@ $margin: 20px 0;
     right: 36px;
     border: none;
     background: inherit;
-    color: #a3a9be;
+    color: $base-light-font-color;
     transition: 0.3s;
     cursor: pointer;
     padding: 1px 0px;

@@ -126,6 +126,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex-row {
   justify-content: left;
   display: block;

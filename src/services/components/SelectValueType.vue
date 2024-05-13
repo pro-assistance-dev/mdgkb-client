@@ -32,6 +32,7 @@ const select = (t: ValueTypes) => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .red {
   background: red;
 }

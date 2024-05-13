@@ -86,7 +86,7 @@ const inputHandler = (value: string) => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 
 :deep(.el-input__wrapper) {

@@ -19,6 +19,7 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex {
   display: flex;
   justify-content: space-between;

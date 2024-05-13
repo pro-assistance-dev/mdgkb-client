@@ -186,7 +186,8 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .editor {
   margin: 10px 0 10px 0;
   border: 1px solid #d1d5db;

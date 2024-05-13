@@ -275,7 +275,9 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .main-holiday {
   width: calc(100% - 10px);
   height: 100%;
@@ -394,7 +396,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item__label) {
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
@@ -402,12 +404,12 @@ export default defineComponent({
   height: 30px;
 }
 :deep(.el-checkbox__label) {
-  color: #a3a9be;
+  color: $base-light-font-color;
   min-width: 280px;
 }
 
 :deep(.el-checkbox__label) {
-  color: #a3a9be;
+  color: $base-light-font-color;
 }
 
 :deep(.el-input__prefix) {
@@ -481,11 +483,11 @@ export default defineComponent({
   }
 
   :deep(.el-checkbox__label) {
-    color: #a3a9be;
+    color: $base-light-font-color;
     font-size: 13px;
   }
   :deep(.el-checkbox__label) {
-    color: #a3a9be;
+    color: $base-light-font-color;
     min-width: 280px;
     font-size: 13px;
   }

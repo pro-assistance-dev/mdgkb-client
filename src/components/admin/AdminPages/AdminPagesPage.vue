@@ -66,7 +66,7 @@ import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSide
 import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
 import Role from '@/services/classes/Role';
 import Hooks from '@/services/Hooks/Hooks';
@@ -169,6 +169,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/collapse.scss';
 .el-container {
   .el-card {

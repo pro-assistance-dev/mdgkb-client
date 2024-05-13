@@ -41,7 +41,7 @@ const selectStep = (step: unknown) => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 
 .select-window {

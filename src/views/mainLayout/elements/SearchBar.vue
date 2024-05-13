@@ -94,6 +94,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $border-color: #e3e8f0;
 $text-color: #a7adc2;
 $bg-color: #ff4d3b;

@@ -61,6 +61,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @media screen and (max-width: 980px) {
   .hidden {
     display: none;

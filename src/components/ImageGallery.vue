@@ -31,7 +31,7 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import DivisionImage from '@/classes/DivisionImage';
 import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsImage from '@/classes/NewsImage';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'ImageGallery',

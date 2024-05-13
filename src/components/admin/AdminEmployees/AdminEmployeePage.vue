@@ -262,7 +262,7 @@ $margin: 20px 0;
 
 :deep(.el-form-item__label) {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
@@ -319,7 +319,7 @@ $margin: 20px 0;
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -331,7 +331,7 @@ $margin: 20px 0;
 .admin-del2 {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -553,7 +553,7 @@ $margin: 20px 0;
     right: 36px;
     border: none;
     background: inherit;
-    color: #a3a9be;
+    color: $base-light-font-color;
     transition: 0.3s;
     cursor: pointer;
     padding: 1px 0px;
