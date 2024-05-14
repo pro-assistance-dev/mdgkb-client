@@ -150,7 +150,7 @@ export default defineComponent({
 
     const load = async () => {
       await Provider.store.dispatch('educationYears/getAll');
-      await Provider.store.dispatch('specializations/getAll');
+      // await Provider.store.dispatch('specializations/getAll');
       await Provider.store.dispatch('formPatterns/getAll');
       await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
     };

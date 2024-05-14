@@ -3,29 +3,15 @@
   <DonorRulesCardList :donor-rules="donorRules" />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import DonorRule from '@/classes/DonorRule';
-import DonorRulesCardList from '@/components/DonorRules/DonorRulesCardList.vue';
 
-export default defineComponent({
-  name: 'DonorRulesPage',
-  components: { DonorRulesCardList },
-  setup() {
-    const store = useStore();
-    const donorRules: ComputedRef<DonorRule[]> = computed(() => store.getters['donorRules/donorRules']);
+const donorRules: ComputedRef<DonorRule[]> = Store.Items('donorRules')
 
-    onBeforeMount(async () => {
-      await store.dispatch('donorRules/getAll');
-    });
-
-    return {
-      donorRules,
-    };
-  },
+onBeforeMount(async () => {
+  await Store.GetAll('donorRules');
 });
+
 </script>
 
 <style lang="scss" scoped>
