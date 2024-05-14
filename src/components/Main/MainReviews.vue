@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="'MainContainer'"
+    :is="MainContainer"
     v-if="mounted"
     header-title="Отзывы"
     footer-button-title="Все отзывы"
@@ -19,47 +19,34 @@
   </component>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+<script lang="ts" setup>
 
-import Comment from '@/classes/Comment';
-import CommentCard from '@/components/Comments/CommentCard.vue';
-import MainContainer from '@/components/Main/MainContainer.vue';
-import ReviewCard from '@/components/Main/ReviewCard.vue';
+  import Comment from '@/classes/Comment';
+  import CommentCard from '@/components/Comments/CommentCard.vue';
+  import MainContainer from '@/components/Main/MainContainer.vue';
+  import ReviewCard from '@/components/Main/ReviewCard.vue';
+  import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib.ts';
 
-export default defineComponent({
-  name: 'MainReviews',
-  components: { MainContainer, ReviewCard, CommentCard },
+  const showDialog: Ref<boolean> = ref(false);
+  const mounted = ref(false);
+  const reviews: ComputedRef<Comment[]> =  Store.Items('comments');
+  const dialogComment: Ref<Comment | undefined> = ref();
 
-  setup() {
-    const store = useStore();
-    const showDialog: Ref<boolean> = ref(false);
-    const mounted = ref(false);
-    const reviews: ComputedRef<Comment[]> = computed(() => store.getters['comments/comments']);
-    const dialogComment: Ref<Comment | undefined> = ref();
+  const showMore = (item: Comment) => {
+    dialogComment.value = item;
+    showDialog.value = true;
+  };
 
-    const showMore = (item: Comment) => {
-      dialogComment.value = item;
-      showDialog.value = true;
-    };
+  console.log(reviews);
 
-    onBeforeMount(async (): Promise<void> => {
-      console.log('1');
-      await store.dispatch('comments/getAllMain');
-      console.log('2');
-      mounted.value = true;
-    });
-
-    return {
-      mounted,
-      reviews,
-      showDialog,
-      showMore,
-      dialogComment,
-    };
-  },
-});
+  onBeforeMount(async () => {
+    const ftsp = new FTSP();
+    ftsp.p.limit = 4;
+    ftsp.setF(CommentsFiltersLib.onlyPositive(),CommentsFiltersLib.onlyPublished());
+    await Store.FTSP('comments', { ftsp: ftsp, withCache: true });
+    mounted.value = true;
+  });
+    
 </script>
 
 <style lang="scss" scoped>

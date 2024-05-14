@@ -16,7 +16,7 @@ const CommentsFiltersLib = (() => {
   }
 
   function onlyPositive(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModel(Comment, ClassHelper.GetPropertyName(Comment).positive, DataTypes.Date);
+    const filterModel = FilterModel.CreateFilterModel(Comment, ClassHelper.GetPropertyName(Comment).positive, DataTypes.Boolean);
     filterModel.value1 = 'true';
     filterModel.boolean = true;
     return filterModel;
