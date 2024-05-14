@@ -24,11 +24,10 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import Paste from '@/assets/svg/Buffet/Paste.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
-import Button from '@/components/Base/Button.vue';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'PasteWindow',
-  components: { Button, ClickWindow, Paste },
+  components: { ClickWindow, Paste },
   emits: ['onClick'],
   setup(_, { emit }) {
     const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);

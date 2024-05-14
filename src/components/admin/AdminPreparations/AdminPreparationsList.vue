@@ -28,8 +28,6 @@ import { computed, defineComponent, Ref } from 'vue';
 
 import Preparation from '@/classes/Preparation';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import PreparationsSortsLib from '@/libs/sorts/PreparationsSortsLib';
@@ -38,7 +36,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPreparationsList',
-  components: { AdminListWrapper, TableButtonGroup, SortList, RemoteSearch },
+  components: { AdminListWrapper, TableButtonGroup },
   setup() {
     const preparations: Ref<Preparation[]> = computed(() => Provider.store.getters['preparations/items']);
 

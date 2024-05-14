@@ -65,7 +65,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -85,7 +84,6 @@ export default defineComponent({
   components: {
     AdminListWrapper,
     TableButtonGroup,
-    SortList,
     FilterMultipleSelect,
     FilterSelectV2,
     TableFormStatus,

@@ -30,7 +30,6 @@ import { defineProps } from 'vue';
 
 import MapRouter from '@/classes/MapRouter';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-// import RemoteSearch from '@/components/RemoteSearch.vue';
 // const emit = defineEmits(['close', 'selectOnMapMode', 'selectStartNode', 'selectEndNode']);
 
 const props = defineProps({
@@ -62,12 +61,15 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .map-router-container {
   display: flex;
   flex-direction: column;
+
   &-item {
     margin-bottom: 0;
     display: flex;
+
     button {
       width: 85px;
       border-radius: 20px;
@@ -76,24 +78,30 @@ const props = defineProps({
       margin-left: 10px;
       color: white;
     }
+
     .a-btn {
       background-color: #f3911c;
+
       &:hover {
         background-color: darken(#f3911c, 10%);
       }
     }
+
     .b-btn {
       background-color: #006bb5;
+
       &:hover {
         background-color: darken(#006bb5, 10%);
       }
     }
   }
 }
+
 :deep(.select-d .el-input__inner) {
   border-radius: 20px;
   background: #0aa249;
 }
+
 :deep(.select-d .el-input__inner) {
   color: #ffffff;
 }
@@ -113,6 +121,7 @@ const props = defineProps({
   border-radius: 20px;
   background: #ffffff;
 }
+
 :deep(.route-button .el-input__inner) {
   color: $site_dark_gray;
 }

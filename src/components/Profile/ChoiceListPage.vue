@@ -1,66 +1,29 @@
 <template>
   <div class="container">
-    <Button
-      text="Поиск"
-      color="#343D5C"
-      width="260px"
-      height="40px"
-      font-size="18px"
-      margin-top="10px"
-      @click.stop="$router.push('/profile')"
-    />
-    <Button
-      text="Мой профиль"
-      color="#006BB4"
-      width="260px"
-      height="40px"
-      font-size="18px"
-      margin-top="10px"
-      @click.stop="$router.push('/profile')"
-    />
-    <Button
-      text="Заказ еды"
-      color="#0AA249"
-      width="260px"
-      height="40px"
-      font-size="18px"
-      margin-top="10px"
-      @click.stop="$router.push('/profile/daily-menu-orders')"
-    />
-    <Button
-      text="Настройки"
-      color="#F3911C"
-      width="260px"
-      height="40px"
-      font-size="18px"
-      margin-top="10px"
-      @click.stop="$router.push('/profile/settings')"
-    />
-    <Button
-      v-if="UserService.isAdmin()"
-      color="#343D5C"
-      text="Кабинет администратора"
-      width="260px"
-      height="40px"
-      font-size="18px"
-      margin-top="10px"
-      @click="$router.push(`/admin/${curUser.role.startPage}`)"
-    />
-    <Button text="Выйти" color="#E62C21" width="260px" height="40px" font-size="18px" margin-top="10px" @click="logout" />
+    <Button text="Поиск" color="#343D5C" width="260px" height="40px" font-size="18px" margin-top="10px"
+      @click.stop="$router.push('/profile')" />
+    <Button text="Мой профиль" color="#006BB4" width="260px" height="40px" font-size="18px" margin-top="10px"
+      @click.stop="$router.push('/profile')" />
+    <Button text="Заказ еды" color="#0AA249" width="260px" height="40px" font-size="18px" margin-top="10px"
+      @click.stop="$router.push('/profile/daily-menu-orders')" />
+    <Button text="Настройки" color="#F3911C" width="260px" height="40px" font-size="18px" margin-top="10px"
+      @click.stop="$router.push('/profile/settings')" />
+    <Button v-if="UserService.isAdmin()" color="#343D5C" text="Кабинет администратора" width="260px" height="40px"
+      font-size="18px" margin-top="10px" @click="$router.push(`/admin/${curUser.role.startPage}`)" />
+    <Button text="Выйти" color="#E62C21" width="260px" height="40px" font-size="18px" margin-top="10px"
+      @click="logout" />
   </div>
 </template>
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 
-import Button from '@/components/Base/Button.vue';
 import { authGuard } from '@/router';
 import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'ProfileInfoPage',
-  components: { Button },
   async setup() {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
@@ -96,6 +59,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .container {
   width: 100%;
   height: 100%;

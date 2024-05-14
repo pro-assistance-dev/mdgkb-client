@@ -148,7 +148,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import ClassHelper from '@/services/ClassHelper';
 import AdminGallery from '@/services/components/AdminGallery.vue';
 import Hooks from '@/services/Hooks/Hooks';
@@ -164,7 +163,6 @@ export default defineComponent({
     ScheduleConstructor,
     AdminGallery,
     AdminDivisionVisitingRules,
-    RemoteSearch,
     SetEntity,
     WysiwygEditor,
     CollapseItem,

@@ -14,12 +14,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SetEntity',
-  components: { RemoteSearch },
   emits: ['selectSearch', 'reset'],
   props: {
     link: { type: String as PropType<string>, required: true },
@@ -44,6 +42,7 @@ $margin: 20px 0;
     cursor: pointer;
   }
 }
+
 .container {
   position: relative;
   width: calc(100% - 20px);

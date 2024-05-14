@@ -178,7 +178,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PageSection from '@/services/classes/page/PageSection';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -188,7 +187,6 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminPostgraduateCoursePage',
   components: {
-    RemoteSearch,
     WysiwygEditor,
     TableButtonGroup,
     FileUploader,
@@ -288,6 +286,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .files-block {
   display: flex;
   justify-content: space-around;

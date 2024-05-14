@@ -14,8 +14,6 @@ import { defineComponent } from 'vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -23,7 +21,7 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'VacanciesFilters',
-  components: { RemoteSearch, SortList, FilterSelect, FiltersWrapper, FilterSelectDate },
+  components: { FilterSelect, FiltersWrapper, FilterSelectDate },
   emits: ['load'],
 
   setup() {

@@ -5,15 +5,16 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 
 const QuestionsFiltersLib = (() => {
-  function onlyNew(): FilterModel {
-    const filterModel = FilterModel.CreateFilterModel(Question, ClassHelper.GetPropertyName(Question).isNew, DataTypes.Boolean);
+  function onlyNew(value: boolean): FilterModel {
+    const filterModel = FilterModel.Create(Question, ClassHelper.GetPropertyName(Question).isNew, DataTypes.Boolean);
     filterModel.operator = Operators.Eq;
+    filterModel.boolean = value
     filterModel.label = 'Только новые';
     return filterModel;
   }
 
   function onlyPublished(): FilterModel {
-    const onlyPublished = FilterModel.CreateFilterModel(Question, ClassHelper.GetPropertyName(Question).published, DataTypes.Boolean);
+    const onlyPublished = FilterModel.Create(Question, ClassHelper.GetPropertyName(Question).published, DataTypes.Boolean);
     onlyPublished.boolean = true;
     onlyPublished.operator = Operators.Eq;
     onlyPublished.label = 'Только опубликованные';

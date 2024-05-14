@@ -12,7 +12,8 @@
             <label for="scales">Выделить всё</label>
           </div>
           <div v-for="dailyMenu in dailyMenus" :key="dailyMenu" class="line">
-            <input id="scales" v-model="dailyMenu.selectedForCopy" type="checkbox" :name="dailyMenu.name" @click="setCopy(dailyMenu)" />
+            <input id="scales" v-model="dailyMenu.selectedForCopy" type="checkbox" :name="dailyMenu.name"
+              @click="setCopy(dailyMenu)" />
             <label for="scales">{{ dailyMenu.name }} </label>
           </div>
           <Button text="Копировать" :margin-top="'5px'" @click="copy" />
@@ -30,12 +31,11 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 import Copy from '@/assets/svg/Buffet/Copy.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
-import Button from '@/components/Base/Button.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'CopyWindow',
-  components: { Button, ClickWindow, Copy },
+  components: { ClickWindow, Copy },
   emits: ['copy'],
   setup(_, { emit }) {
     const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);

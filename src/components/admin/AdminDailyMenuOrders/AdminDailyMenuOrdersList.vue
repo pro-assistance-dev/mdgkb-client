@@ -2,7 +2,8 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <RemoteSearch key-value="dailyMenuOrder" placeholder="Введите номер заказа" @select="selectSearch" />
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()"
+        @load="loadApplications" />
       <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadApplications" />
     </template>
     <template #sort>
@@ -76,8 +77,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
 import IOption from '@/interfaces/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -91,7 +90,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDailyMenuOrdersList',
-  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect, FilterCheckboxV2 },
+  components: { AdminListWrapper, TableButtonGroup, TableFormStatus, FilterMultipleSelect, FilterCheckboxV2 },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
@@ -183,6 +182,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;

@@ -16,13 +16,10 @@
               </el-form-item>
 
               <el-form-item>
-                <SetEntity
-                  :search-key="positionModelName"
-                  label="Выбрать заведующего"
+                <SetEntity :search-key="positionModelName" label="Выбрать заведующего"
                   :entity-name="employee.doctor.position?.name"
                   @select-search="(e) => employee.doctor.setPosition(e.value, e.label)"
-                  @reset="employee.doctor.resetPosition()"
-                />
+                  @reset="employee.doctor.resetPosition()" />
               </el-form-item>
             </div>
           </template>
@@ -42,24 +39,17 @@
       </el-container>
       <el-container direction="vertical">
         <div class="margin-container">
-          <RemoteSearch
-            :must-be-translated="true"
-            :key-value="divisionModelName"
-            placeholder="Начните вводить название отделения"
-            @select="addDivision"
-          />
+          <RemoteSearch :must-be-translated="true" :key-value="divisionModelName"
+            placeholder="Начните вводить название отделения" @select="addDivision" />
           <CollapseItem :active-id="scope.activeId" title="Отделения" :tab-id="2017" :is-collaps="false">
             <template #inside-title> </template>
             <template #inside-content>
               <div class="background-container">
                 <div v-for="(doctorDivision, i) in employee.doctor.doctorsDivisions" :key="doctorDivision">
                   {{ doctorDivision.division.name }}
-                  <el-button
-                    @click="
-                      $classHelper.RemoveFromClassByIndex(i, employee.doctor.doctorsDivisions, employee.doctor.doctorsDivisionsForDelete)
-                    "
-                    >Удалить</el-button
-                  >
+                  <el-button @click="
+                    $classHelper.RemoveFromClassByIndex(i, employee.doctor.doctorsDivisions, employee.doctor.doctorsDivisionsForDelete)
+                    ">Удалить</el-button>
                 </div>
               </div>
             </template>
@@ -82,7 +72,6 @@ import SetEntity from '@/components/admin/SetEntity.vue';
 import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import ClassHelper from '@/services/ClassHelper';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
@@ -91,7 +80,6 @@ import StringsService from '@/services/Strings';
 export default defineComponent({
   name: 'DoctorConstructor',
   components: {
-    RemoteSearch,
     CollapseItem,
     CollapseContainer,
     TimetableConstructorV2New,
@@ -150,6 +138,7 @@ $margin: 20px 0;
   align-items: center;
   justify-content: space-between;
 }
+
 .column-item {
   width: 40%;
   margin-left: 0px;
@@ -354,6 +343,7 @@ $margin: 20px 0;
   align-items: center;
   justify-content: space-between;
 }
+
 .column-item {
   width: 40%;
   margin-left: 0px;
@@ -392,14 +382,17 @@ $margin: 20px 0;
   .column-block {
     display: block;
   }
+
   .column-item {
     width: 100%;
     margin-left: 0px;
   }
+
   .column-item2 {
     width: 100%;
     margin-left: 0px;
   }
+
   .column-item3 {
     width: 100%;
     margin-left: 0px;
@@ -416,6 +409,7 @@ $margin: 20px 0;
     width: calc(100% - 42px);
     margin: 0px 10px 20px 10px;
   }
+
   .admin-del {
     position: absolute;
     top: 23px;
@@ -427,6 +421,7 @@ $margin: 20px 0;
     cursor: pointer;
     padding: 1px 0px;
   }
+
   .background-container {
     margin: 0 10px 20px 10px;
   }
