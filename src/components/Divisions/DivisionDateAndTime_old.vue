@@ -99,8 +99,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/calendar-style.scss';
 * {
   padding: 0px;
@@ -211,7 +211,7 @@ ul.button-block li {
   justify-content: center;
   background: $base-background;
   border: 1px #31af5e solid;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   color: $main_green;
 }
 

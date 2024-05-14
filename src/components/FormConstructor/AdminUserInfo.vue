@@ -1,7 +1,9 @@
 <template>
   <el-descriptions :column="1" border>
-    <el-descriptions-item v-if="activeFields.userEmail" label="Электронная почта">{{ formValue.user.email }}</el-descriptions-item>
-    <el-descriptions-item v-if="activeFields.userName || activeFields.userSurname || activeFields.userPatronymic" label="ФИО">
+    <el-descriptions-item v-if="activeFields.userEmail" label="Электронная почта">{{ formValue.user.email
+      }}</el-descriptions-item>
+    <el-descriptions-item v-if="activeFields.userName || activeFields.userSurname || activeFields.userPatronymic"
+      label="ФИО">
       {{ formValue.user.human.getFullName() }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userSnils" label="СНИЛС">
@@ -19,12 +21,12 @@
     <el-descriptions-item v-if="activeFields.userPhone" label="Телефон">
       {{ formValue.user.phone }}
     </el-descriptions-item>
-    <el-descriptions-item v-if="activeFields.userPostIndex" label="Почтовый индекс">
-      {{ formValue.user.human.contactInfo.addressInfo.zip }}
-    </el-descriptions-item>
-    <el-descriptions-item v-if="activeFields.userAddress" label="Адрес">
-      {{ formValue.user.human.contactInfo.addressInfo.getFullAddress() }}
-    </el-descriptions-item>
+    <!-- <el-descriptions-item v-if="activeFields.userPostIndex" label="Почтовый индекс"> -->
+    <!--   {{ formValue.user.human.contact.addressInfo.zip }} -->
+    <!-- </el-descriptions-item> -->
+    <!-- <el-descriptions-item v-if="activeFields.userAddress" label="Адрес"> -->
+    <!--   {{ formValue.user.human.contact.addressInfo.getFullAddress() }} -->
+    <!-- </el-descriptions-item> -->
     <el-descriptions-item v-if="activeFields.userCitizenship" label="Гражданство">
       {{ formValue.user.human.citizenship }}
     </el-descriptions-item>
@@ -36,7 +38,8 @@
     </el-descriptions-item>
 
     <!-- Child info -->
-    <el-descriptions-item v-if="activeFields.childName || activeFields.childSurname || activeFields.childPatronymic" label="ФИО пациента">
+    <el-descriptions-item v-if="activeFields.childName || activeFields.childSurname || activeFields.childPatronymic"
+      label="ФИО пациента">
       {{ formValue?.child?.human.getFullName() }}
     </el-descriptions-item>
     <el-descriptions-item v-if="activeFields.childDateBirth" label="Дата рождения пациента">

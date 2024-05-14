@@ -1,5 +1,5 @@
-import FileInfo from '@/classes/FileInfo';
-import ContactInfo from '@/services/classes/ContactInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
+import Contact from '@/services/classes/Contact';
 import Human from '@/services/classes/Human';
 import StringsService from '@/services/Strings';
 
@@ -36,7 +36,7 @@ const sourceItem = {
   dateBirth: new Date(),
   contactInfo: {
     id: 'id',
-  } as ContactInfo | undefined,
+  } as Contact | undefined,
   slug: 'slug',
   postIndex: 'postIndex',
   address: 'address',
@@ -79,7 +79,7 @@ describe('Class Human', () => {
       dateBirth: new Date(),
       contactInfo: {
         id: 'id',
-      } as ContactInfo | undefined,
+      } as Contact | undefined,
       slug: 'slug',
       postIndex: 'postIndex',
       address: 'address',
@@ -106,7 +106,7 @@ describe('Class Human', () => {
     expect(human.photoMini.id).toBeUndefined();
     expect(human.isMale).toBeTruthy();
     expect(human.dateBirth.getDate()).toEqual(new Date().getDate());
-    expect(human.contactInfo).toBeInstanceOf(ContactInfo);
+    expect(human.contactInfo).toBeInstanceOf(Contact);
     expect(human.contactInfo.id).toBeUndefined();
     expect(human.slug).toBe(EmptyVariables.emptyString);
     expect(human.postIndex).toBe(EmptyVariables.emptyString);
@@ -129,7 +129,7 @@ describe('Class Human', () => {
     expect(human.photoMini.id).toEqual('id');
     expect(human.isMale).toBeTruthy();
     expect(human.dateBirth.getDate()).toEqual(item.dateBirth.getDate());
-    expect(human.contactInfo).toBeInstanceOf(ContactInfo);
+    expect(human.contactInfo).toBeInstanceOf(Contact);
     expect(human.contactInfo.id).toEqual('id');
     expect(human.slug).toBe(item.slug);
     expect(human.postIndex).toBe(item.postIndex);

@@ -48,7 +48,7 @@ import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -132,6 +132,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .card-item {
   margin-bottom: 10px;
 }

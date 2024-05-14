@@ -24,12 +24,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-check-button="true"
-            :show-more-button="true"
-            @showMore="$router.push(`/admin/support-messages/${scope.row.id}`)"
-            @check="changeNewStatus(scope.row)"
-          />
+          <TableButtonGroup :show-check-button="true" :show-more-button="true"
+            @showMore="$router.push(`/admin/support-messages/${scope.row.id}`)" @check="changeNewStatus(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -44,23 +40,21 @@ import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } fro
 import { NavigationGuardNext } from 'vue-router';
 
 import SupportMessage from '@/classes/SupportMessage';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
-import SortListV2 from '@/components/SortList/SortListV2.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import SupportMessagesFiltersLib from '@/services/Provider/libs/filters/SupportMessagesFiltersLib';
-import SupportMessagesSortsLib from '@/services/Provider/libs/sorts/SupportMessagesSortsLib';
+import SupportMessagesFiltersLib from '@/libs/filters/SupportMessagesFiltersLib';
+import SupportMessagesSortsLib from '@/libs/sorts/SupportMessagesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminSupportMessagesList',
-  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper, Pagination },
+  components: { FilterCheckboxV2, TableButtonGroup, AdminListWrapper },
   setup() {
     const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
@@ -89,7 +83,7 @@ export default defineComponent({
     };
 
     const loadSupportMessages = async () => {
-      await Provider.getAll('supportMessages');
+      await Store.GetAll('supportMessages');
     };
 
     const load = async () => {
@@ -132,6 +126,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

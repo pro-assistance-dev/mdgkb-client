@@ -3,15 +3,17 @@ import { Module } from 'vuex';
 import Form from '@/classes/Form';
 import RootState from '@/store/types';
 
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
+import IBasicState from '@/services/store/baseModule/baseState';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export interface State extends IBasicState<Form> { }
 
 export const getDefaultState = (): State => {
   return {
-    items: [],
-    item: new Form(),
+    ...getBaseDefaultState(Form),
   };
 };
 

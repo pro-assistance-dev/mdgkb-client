@@ -1,10 +1,10 @@
 <template>
   <div class="main-page-footer">
     <div class="main-page-footer-left">
-      <img src="@/assets/img/main-page/templates/footer.webp" alt="footer-img" />
+      <img src="src/assets/img/main-page/templates/footer.webp" alt="footer-img" />
     </div>
     <div class="main-page-footer-right">
-      <img src="@/assets/img/main-page/templates/footer.webp" alt="footer-img" />
+      <img src="src/assets/img/main-page/templates/footer.webp" alt="footer-img" />
       <div class="main-page-footer-right-container">
         <div class="main-page-footer-right-container-title">Вы можете записаться на прием к online или заказав обратный звонок</div>
         <div class="main-page-footer-right-container-buttons">
@@ -36,9 +36,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-$height: 300px;
+@import '@/assets/styles/base-style.scss';
+$icon-height: 300px;
 .main-page-footer {
-  height: $height;
+  height: $icon-height;
   display: flex;
   overflow: hidden;
   align-items: center;

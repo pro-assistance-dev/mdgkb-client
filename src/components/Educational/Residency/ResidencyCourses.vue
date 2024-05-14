@@ -11,8 +11,8 @@ import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCo
 import PageWrapper from '@/components/PageWrapper.vue';
 import createSortModels from '@/services/CreateSortModels';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -31,9 +31,9 @@ export default defineComponent({
     const load = async () => {
       Provider.resetFilterQuery();
       Provider.filterQuery.value.pagination.limit = 100;
-      Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
+      // Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
+      // Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
+      // Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
       await loadCourses();
     };
 
@@ -49,6 +49,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/ordinatura.scss';
 /* .el-descriptions__label {
   font-size: 15px;

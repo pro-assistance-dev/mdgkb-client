@@ -4,7 +4,7 @@ import CandidateApplication from '@/classes/CandidateApplication';
 import CandidateExam from '@/classes/CandidateExam';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

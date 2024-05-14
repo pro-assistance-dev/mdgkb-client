@@ -71,8 +71,8 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileDailyMenuOrders',
     component: ProfileDailyMenuOrders,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
-      isAuthorized(next);
+      authGuard(next);
+      // isAuthorized(next);
     },
     meta: { protected: true, profile: 'daily-menu-orders' },
   },

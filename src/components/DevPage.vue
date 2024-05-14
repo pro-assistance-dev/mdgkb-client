@@ -19,7 +19,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
 $news-content-max-width: 1000px;
 $card-margin-size: 30px;
@@ -99,8 +100,8 @@ h4 {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
   background: #ffffff;
 }

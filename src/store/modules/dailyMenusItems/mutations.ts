@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
 import DailyMenuItem from '@/classes/DailyMenuItem';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

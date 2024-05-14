@@ -49,6 +49,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .custom-checkbox {
   // Тут мы просто центрируем чекбокс и текст
   display: flex;

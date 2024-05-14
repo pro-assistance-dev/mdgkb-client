@@ -21,14 +21,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-edit-button="true"
-            :show-remove-button="true"
-            :show-more-button="true"
-            @remove="remove(scope.row.id)"
-            @edit="edit(scope.row.id)"
-            @showMore="loginAs(scope.row.email)"
-          />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" :show-more-button="true"
+            @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" @showMore="loginAs(scope.row.email)" />
         </template>
       </el-table-column>
     </el-table>
@@ -42,18 +36,16 @@
 import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import User from '@/classes/User';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import UsersSortsLib from '@/services/Provider/libs/sorts/UsersSortsLib';
+import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminUsersList',
-  components: { TableButtonGroup, Pagination, AdminListWrapper, SortList },
+  components: { TableButtonGroup, AdminListWrapper },
 
   setup() {
     const users: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['users/items']);
@@ -106,7 +98,6 @@ export default defineComponent({
       edit,
       isEditMode,
       sortList: Provider.sortList,
-      schema: Provider.schema,
       loadUsers,
     };
   },
@@ -114,6 +105,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

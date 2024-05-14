@@ -1,8 +1,8 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper show-header pagination>
     <template #header>
-      <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadQuestions" />
-      <SortListV2 class="filters-block" :store-mode="false" @load="loadQuestions" />
+      <SortList @load="loadQuestions" />
+      <FiltersButtonsSelect @load="loadQuestions" :models="[onlyNewFilter]" />
     </template>
     <el-table v-if="questions" :data="questions">
       <el-table-column label="Тема вопроса" sortable>
@@ -41,122 +41,97 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-check-button="true"
-            :show-more-button="true"
-            @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
-            @check="changeNewStatus(scope.row)"
-          />
+          <TableButtonGroup :show-check-button="true" :show-more-button="true"
+            @showMore="$router.push(`/admin/questions/${scope.row.id}`)" @check="changeNewStatus(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
-    <template #footer>
-      <Pagination />
-    </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
+<script lang="ts" setup>
 import { NavigationGuardNext } from 'vue-router';
 
 import Question from '@/classes/Question';
-import AdminQuestionStatus from '@/components/admin/AdminQuestions/AdminQuestionStatus.vue';
-import Pagination from '@/components/admin/Pagination.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
-import SortListV2 from '@/components/SortList/SortListV2.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import QuestionsFiltersLib from '@/services/Provider/libs/filters/QuestionsFiltersLib';
-import QuestionsSortsLib from '@/services/Provider/libs/sorts/QuestionsSortsLib';
+import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
+import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminQuestionsList',
-  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminQuestionStatus, AdminListWrapper, Pagination },
-  setup() {
-    const questions: Ref<Question[]> = computed(() => Provider.store.getters['questions/items']);
-    const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
-    const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: Ref<boolean> = ref(true);
-    const { saveButtonClick } = useConfirmLeavePage();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](' questions'));
-    let sourceSSE: EventSource | undefined = undefined;
-    const edit = () => {
-      if (isEditMode.value) {
-        return;
-      }
-      isEditMode.value = true;
-      isNotEditMode.value = false;
-    };
+const questions: Ref<Question[]> = Store.Items('questions')
+const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
+const isEditMode: Ref<boolean> = ref(false);
+const isNotEditMode: Ref<boolean> = ref(true);
+const { saveButtonClick } = useConfirmLeavePage();
+const applicationsCount: ComputedRef<number> = Store.Getters('admin/applicationsCount');
 
-    const save = async (next?: NavigationGuardNext) => {
-      if (!isEditMode.value) {
-        return;
-      }
-      saveButtonClick.value = true;
-      await Provider.store.dispatch('questions/updateMany');
-      isEditMode.value = false;
-      isNotEditMode.value = true;
-      if (next) next();
-    };
+let sourceSSE: EventSource | undefined = undefined;
 
-    const loadQuestions = async () => {
-      await Provider.getAll('questions');
-    };
+const mounted = ref(false)
 
-    const load = async () => {
-      Provider.setSortModels(QuestionsSortsLib.byDate(Orders.Desc));
-      Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
-      await loadQuestions();
-      onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Вопросы',
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-        ],
-        applicationsCount,
-      });
-    };
+const edit = () => {
+  if (isEditMode.value) {
+    return;
+  }
+  isEditMode.value = true;
+  isNotEditMode.value = false;
+};
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'questions', action: 'getAll' },
-    });
+const save = async (next?: NavigationGuardNext) => {
+  if (!isEditMode.value) {
+    return;
+  }
+  saveButtonClick.value = true;
+  await Store.Dispatch('questions/updateMany');
+  isEditMode.value = false;
+  isNotEditMode.value = true;
+  if (next) next();
+};
 
-    const publish = async (question: Question) => {
-      question.publish();
-      await Provider.store.dispatch('questions/publish', question.id);
-    };
+const loadQuestions = async () => {
+  await Store.FTSP('questions');
+};
 
-    onBeforeUnmount(async () => {
-      sourceSSE?.close();
-    });
+const load = async () => {
+  FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc))
+  Provider.sortList.push(...createSortModels(QuestionsSortsLib, Orders.Desc));
+  await loadQuestions();
+  onlyNewFilter.value = QuestionsFiltersLib.onlyNew(true);
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Вопросы',
+    buttons: [
+      { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
+      { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
+    ],
+  });
+  mounted.value = true
+};
 
-    const changeNewStatus = async (question: Question) => {
-      question.changeNewStatus();
-      await Provider.store.dispatch('questions/changeNewStatus', question);
-    };
-    return {
-      questions,
-      loadQuestions,
-      publish,
-      changeNewStatus,
-      mounted: Provider.mounted,
-      onlyNewFilter,
-      isEditMode,
-      schema: Provider.schema,
-    };
-  },
+Hooks.onBeforeMount(load, {
+  pagination: { storeModule: 'questions', action: 'ftsp' },
 });
+
+const publish = async (question: Question) => {
+  question.publish();
+  await Store.Dispatch('questions/publish', question.id);
+};
+
+onBeforeUnmount(async () => {
+  sourceSSE?.close();
+});
+
+const changeNewStatus = async (question: Question) => {
+  question.changeNewStatus();
+  await Store.Dispatch('questions/changeNewStatus', question);
+};
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

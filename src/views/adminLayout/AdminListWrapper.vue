@@ -27,28 +27,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-import Pagination from '@/components/admin/Pagination.vue';
-
-export default defineComponent({
-  name: 'AdminListWrapper',
-  components: { Pagination },
-  props: {
-    showHeader: {
-      type: Boolean,
-      default: false,
-    },
-    pagination: {
-      type: Boolean,
-      default: false,
-    },
+<script setup lang="ts">
+const props = defineProps({
+  showHeader: {
+    type: Boolean,
+    default: false,
+  },
+  pagination: {
+    type: Boolean,
+    default: false,
   },
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-table) {
   width: 100%;
   height: 100%;
@@ -58,9 +51,11 @@ export default defineComponent({
   flex-direction: column;
   box-sizing: border-box;
 }
+
 :deep(.el-table__row) {
   position: relative;
 }
+
 :deep(.el-table__header-wrapper) {
   position: sticky;
   top: 0;
@@ -68,6 +63,7 @@ export default defineComponent({
   z-index: 2;
   border-bottom: 1px solid #ebeef5;
 }
+
 :deep(.el-table__body-wrapper) {
   height: 100% !important;
   overflow: auto;
@@ -82,34 +78,42 @@ export default defineComponent({
   height: calc(100% - 30px);
   padding: 10px;
   box-sizing: border-box;
+
   &-main {
     flex-shrink: 1;
     overflow: hidden;
     height: 100%;
   }
+
   .filters {
     margin-bottom: 10px;
+
     &-header-top {
       display: flex;
       justify-content: space-between;
     }
+
     &-header-bottom {
       margin-top: 5px;
     }
+
     &-sort {
       width: 100%;
       display: flex;
       justify-content: flex-end;
     }
+
     &-row {
       display: flex;
       align-items: center;
+
       :deep(.el-form-item),
       :deep(.el-form-item__content) {
         margin: 0;
       }
     }
   }
+
   ::-webkit-scrollbar {
     display: block;
     width: 8px;
@@ -133,18 +137,22 @@ export default defineComponent({
 :deep(.filters-block) {
   margin-right: 10px;
 }
+
 :deep(.sticky-right),
 :deep(.sticky-left) {
   position: sticky !important;
   background: white;
 }
+
 :deep(.sticky-right) {
   right: 0;
 }
+
 :deep(.sticky-left) {
   left: 0;
   z-index: 99;
 }
+
 :deep(.el-input-number) {
   z-index: 0;
 }

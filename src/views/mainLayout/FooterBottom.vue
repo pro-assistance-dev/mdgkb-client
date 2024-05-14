@@ -4,7 +4,7 @@
       <el-row align="middle" justify="center">
         <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4">
           <div class="image flex-center">
-            <img src="@/assets/img/mdgkb-logo-vert.webp" alt="mdgkb-logo" />
+            <img src="src/assets/img/mdgkb-logo-vert.webp" alt="mdgkb-logo" />
           </div>
         </el-col>
         <el-col :xl="2">
@@ -102,7 +102,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-icon-view {
   &:hover {
     cursor: pointer;

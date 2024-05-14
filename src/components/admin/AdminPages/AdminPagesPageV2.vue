@@ -58,7 +58,7 @@
           <div v-if="page.showContacts" style="margin-bottom: 20px">
             <CollapseItem title="Контакты">
               <template #inside-content>
-                <ContactsForm :contact-info="page.contactInfo" full />
+                <ContactForm :contact="page.contact" full />
               </template>
             </CollapseItem>
           </div>
@@ -66,7 +66,7 @@
         <div v-else>
           <el-card style="margin-bottom: 20px">
             <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
-            <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
+            <!-- <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" /> -->
             <div>
               <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
             </div>
@@ -119,17 +119,15 @@
   </el-form>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Close, Grid, Plus } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
-import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Role from '@/services/classes/Role';
@@ -140,144 +138,113 @@ import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminPagesPageV2',
-  components: {
-    CollapseItem,
-    WysiwygEditor,
-    draggable,
-    ContactsForm,
-    AdminDocumentsForm,
-    Close,
-    Grid,
-    Plus,
-  },
-  setup() {
-    const form = ref();
-    const rules = {
-      title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
-    };
-    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-    const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
-    const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
-    const activeMenuId: ComputedRef<string> = computed(() => Provider.store.getters['pages/activeMenuId']);
-    // const activeMenu: Ref<number> = ref(999);
+const form = ref();
+const rules = {
+  title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
+};
+const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
+const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
+const activeMenuId: ComputedRef<string> = computed(() => Provider.store.getters['pages/activeMenuId']);
+// const activeMenu: Ref<number> = ref(999);
+const mounted = ref(false);
+const openPage = () => {
+  const route = Provider.router.resolve(page.value.getLink());
+  window.open(route.href, '_blank');
+};
 
-    const openPage = () => {
-      const route = Provider.router.resolve(page.value.getLink());
-      window.open(route.href, '_blank');
-    };
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    const loadNewsItem = async () => {
-      const buttons = [
-        { action: submit, text: 'Сохранить' },
-        { action: submitAndExit, text: 'Сохранить и выйти' },
-      ];
-      if (Provider.route().params['slug']) {
-        await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: page.value.title,
-          showBackButton: true,
-          buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
-        });
-      } else {
-        Provider.store.commit('pages/resetState');
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить страницу',
-          showBackButton: true,
-          buttons: buttons,
-        });
-      }
-      await Provider.store.dispatch('roles/getAll');
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(page, formUpdated, { deep: true });
-    };
-
-    Hooks.onBeforeMount(loadNewsItem);
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
+const loadNewsItem = async () => {
+  const buttons = [
+    { action: submit, text: 'Сохранить' },
+    { action: submitAndExit, text: 'Сохранить и выйти' },
+  ];
+  if (Provider.route().params['slug']) {
+    await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
+    Provider.store.commit('admin/setHeaderParams', {
+      title: page.value.title,
+      showBackButton: true,
+      buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
     });
-
-    const submit = async () => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!Provider.route().params['slug']) {
-        await Provider.store.dispatch('pages/create', page.value);
-        await Provider.router.push('/admin/pages');
-        return;
-      }
-      await Provider.store.dispatch('pages/updateAndSet', page.value);
-      ElMessage({ message: 'Успешно сохранено', type: 'success' });
-    };
-
-    const submitAndExit = async (next?: NavigationGuardNext) => {
-      await submit();
-      next ? next() : await Provider.router.push('/admin/pages');
-    };
-
-    const addSideMenu = () => {
-      showMainSettings.value = false;
-      const id = page.value.addSideMenu();
-      selectSideMenu(id);
-    };
-
-    const selectSideMenu = (id: string) => {
-      showMainSettings.value = false;
-      Provider.store.commit('pages/setActiveMenuId', id);
-    };
-
-    const showMainSettings: Ref<boolean> = ref(true);
-    const selectMainSettings = () => {
-      showMainSettings.value = true;
-      Provider.store.commit('pages/setActiveMenuId', '999999');
-    };
-
-    const addPageSection = async () => {
-      await pageSideMenu.value.addPageSection();
-      const main = document.querySelector('.el-main');
-      if (main) {
-        main.scrollTop = main.scrollHeight;
-      }
-    };
-
-    const removePageSideMenu = (index: number) => {
-      ClassHelper.RemoveFromClassByIndex(index, page.value.pageSideMenus, page.value.pageSideMenusForDelete);
-      Provider.store.commit('pages/setActiveMenuId', '999999');
-      showMainSettings.value = true;
-    };
-
-    onBeforeUnmount(() => {
-      Provider.store.commit('pages/setActiveMenuId', '999999');
+  } else {
+    Provider.store.commit('pages/resetState');
+    Provider.store.commit('admin/setHeaderParams', {
+      title: 'Добавить страницу',
+      showBackButton: true,
+      buttons: buttons,
     });
+  }
+  await Provider.store.dispatch('roles/getAll');
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(page, formUpdated, { deep: true });
+  mounted.value = true;
+};
 
-    return {
-      addSideMenu,
-      sort,
-      mounted: Provider.mounted,
-      submit,
-      page,
-      form,
-      roles,
-      rules,
-      selectSideMenu,
-      pageSideMenu,
-      selectMainSettings,
-      showMainSettings,
-      addPageSection,
-      removePageSideMenu,
-      activeMenuId,
-    };
-  },
+Hooks.onBeforeMount(loadNewsItem);
+
+onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  showConfirmModal(submit, next);
+});
+
+const submit = async () => {
+  saveButtonClick.value = true;
+  if (!validate(form)) {
+    saveButtonClick.value = false;
+    return;
+  }
+  if (!Provider.route().params['slug']) {
+    await Provider.store.dispatch('pages/create', page.value);
+    await Provider.router.push('/admin/pages');
+    return;
+  }
+  await Provider.store.dispatch('pages/updateAndSet', page.value);
+  ElMessage({ message: 'Успешно сохранено', type: 'success' });
+};
+
+const submitAndExit = async (next?: NavigationGuardNext) => {
+  await submit();
+  next ? next() : await Provider.router.push('/admin/pages');
+};
+
+const addSideMenu = () => {
+  showMainSettings.value = false;
+  const id = page.value.addSideMenu();
+  selectSideMenu(id);
+};
+
+const selectSideMenu = (id: string) => {
+  showMainSettings.value = false;
+  Provider.store.commit('pages/setActiveMenuId', id);
+};
+
+const showMainSettings: Ref<boolean> = ref(true);
+const selectMainSettings = () => {
+  showMainSettings.value = true;
+  Provider.store.commit('pages/setActiveMenuId', '999999');
+};
+
+const addPageSection = async () => {
+  await pageSideMenu.value.addPageSection();
+  const main = document.querySelector('.el-main');
+  if (main) {
+    main.scrollTop = main.scrollHeight;
+  }
+};
+
+const removePageSideMenu = (index: number) => {
+  ClassHelper.RemoveFromClassByIndex(index, page.value.pageSideMenus, page.value.pageSideMenusForDelete);
+  Provider.store.commit('pages/setActiveMenuId', '999999');
+  showMainSettings.value = true;
+};
+
+onBeforeUnmount(() => {
+  Provider.store.commit('pages/setActiveMenuId', '999999');
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .wrapper {
   display: flex;
   box-sizing: border-box;

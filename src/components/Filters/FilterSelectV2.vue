@@ -59,6 +59,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 // @import '@/assets/elements/filterForm.scss';
 
 :deep(.el-input__inner) {

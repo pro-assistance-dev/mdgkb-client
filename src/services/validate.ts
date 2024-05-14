@@ -1,8 +1,9 @@
 import { ElNotification } from 'element-plus';
 import { Ref } from 'vue';
 
-import IForm from '@/interfaces/elements/IForm';
-import MessageError from '@/services/classes/messages/MessageError';
+import IForm from '@/services/interfaces/IForm';
+
+import Message from './classes/Message';
 
 export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fieldsList?: string[]): boolean {
   let validationResult = true;
@@ -12,10 +13,9 @@ export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fiel
         return;
       }
       if (hideErrorList) {
-        ElNotification.error('Пожалуйста, проверьте правильность введенных данных');
+        Message.Error('Пожалуйста, проверьте правильность введенных данных');
       } else {
-        console.log(errorFields);
-        ElNotification.error(new MessageError(errorFields));
+        Message.Error(Message.FormMessage(errorFields));
       }
       validationResult = false;
       return validationResult;

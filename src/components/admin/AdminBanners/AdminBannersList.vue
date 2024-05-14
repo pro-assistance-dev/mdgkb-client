@@ -11,13 +11,9 @@
           <el-table-column label="Наименование" prop="name"> </el-table-column>
           <el-table-column width="50" fixed="right" align="center">
             <template #default="scope">
-              <TableButtonGroup
-                :show-edit-button="true"
-                :show-remove-button="true"
+              <TableButtonGroup :show-edit-button="true" :show-remove-button="true"
                 :popconfirm-title="`Вы уверены что хотите удалить баннер '${scope.row.name}'?`"
-                @edit="edit(scope.row.id)"
-                @remove="remove(scope.row.id)"
-              />
+                @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
             </template>
           </el-table-column>
         </el-table>
@@ -26,52 +22,40 @@
   </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TableMover from '@/components/admin/TableMover.vue';
+<script lang="ts" setup>
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdminBannersList',
-  components: { TableButtonGroup, TableMover },
+const mounted = ref(false)
+const banners = computed(() => Provider.store.getters['banners/items']);
+const isEditMode = ref(false);
 
-  setup() {
-    const banners = computed(() => Provider.store.getters['banners/items']);
-    const isEditMode = ref(false);
+const load = async () => {
+  await Store.GetAll('banners')
+  mounted.value = true
+}
+Hooks.onBeforeMount(load, {
+  adminHeader: {
+    title: 'Рекламные баннеры',
 
-    Hooks.onBeforeMount(Provider.loadItems, {
-      adminHeader: {
-        title: 'Рекламные баннеры',
-
-        buttons: [
-          {
-            text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
-            action: computed(() => (isEditMode.value ? saveOrder : () => (isEditMode.value = !isEditMode.value))),
-          },
-          { text: 'Добавить баннер', type: 'primary', action: Provider.createAdmin },
-        ],
+    buttons: [
+      {
+        text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+        action: computed(() => (isEditMode.value ? saveOrder : () => (isEditMode.value = !isEditMode.value))),
       },
-    });
-
-    const saveOrder = async () => {
-      await Provider.store.dispatch('banners/updateMany', banners.value);
-      isEditMode.value = false;
-    };
-
-    return {
-      banners,
-      isEditMode,
-      saveOrder,
-      ...Provider.getAdminLib(),
-    };
+      { text: 'Добавить баннер', type: 'primary', action: Provider.createAdmin },
+    ],
   },
 });
+
+const saveOrder = async () => {
+  await Provider.store.dispatch('banners/updateMany', banners.value);
+  isEditMode.value = false;
+};
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {
@@ -102,9 +86,11 @@ $margin: 20px 0;
     border: none;
   }
 }
+
 .table-buttons {
   display: flex;
   align-items: center;
+
   :deep(.el-button) {
     margin-right: 10px;
   }

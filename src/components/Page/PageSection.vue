@@ -67,7 +67,7 @@
 import { defineComponent, PropType, ref } from 'vue';
 
 import ImageGallery from '@/components/ImageGallery.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import PageSection from '@/services/classes/page/PageSection';
 import getExtention from '@/services/GetExtension';
 import scroll from '@/services/Scroll';
@@ -118,7 +118,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 h3 {
   font-family: 'Open Sans', sans-serif;
@@ -237,8 +237,8 @@ h4 {
   font-family: Roboto, Verdana, sans-serif;
   font-size: 14px;
   border-radius: 40px;
-  border: 1px solid #a3a9be;
-  color: #a3a9be;
+  border: 1px solid $base-light-font-color;
+  color: $base-light-font-color;
   align-items: center;
   background: #eff2f6;
 }

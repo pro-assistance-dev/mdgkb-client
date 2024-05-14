@@ -3,7 +3,7 @@ import { MutationTree } from 'vuex';
 import Building from '@/classes/Building';
 import Entrance from '@/classes/Entrance';
 import Floor from '@/classes/Floor';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

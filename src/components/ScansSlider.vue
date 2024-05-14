@@ -43,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
 import makeCarousel from '@/services/MakeCarousel';
 
@@ -82,8 +82,8 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 * {
   padding: 0px;

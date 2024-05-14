@@ -189,7 +189,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .add-comment {
   // margin: 50px 0 50px 0;
 }

@@ -43,8 +43,8 @@ import Email from '@/services/classes/Email';
 import EmailRules from '@/services/classes/EmailRules';
 import PostAddress from '@/services/classes/PostAddress';
 import PostAddressRules from '@/services/classes/PostAddressRules';
-import TelephoneNumber from '@/services/classes/TelephoneNumber';
-import TelephoneNumberRules from '@/services/classes/TelephoneNumberRules';
+import Phone from '@/services/classes/Phone';
+import PhoneRules from '@/services/classes/PhoneRules';
 import Website from '@/services/classes/Website';
 import WebsiteRules from '@/services/classes/WebsiteRules';
 
@@ -80,7 +80,7 @@ export default defineComponent({
         return PostAddressRules;
       }
       if (props.listName === 'telephoneNumbers') {
-        return TelephoneNumberRules;
+        return PhoneRules;
       }
       if (props.listName === 'websites') {
         return WebsiteRules;
@@ -100,7 +100,7 @@ export default defineComponent({
         sideOrganization.value.contactInfo.postAddresses?.push(new PostAddress());
       }
       if (props.listName === 'telephoneNumbers') {
-        sideOrganization.value.contactInfo.telephoneNumbers?.push(new TelephoneNumber());
+        sideOrganization.value.contactInfo.telephoneNumbers?.push(new Phone());
       }
       if (props.listName === 'websites') {
         sideOrganization.value.contactInfo.websites?.push(new Website());
@@ -136,6 +136,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-form-item {
   margin: 0;
 }

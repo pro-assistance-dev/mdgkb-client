@@ -8,7 +8,7 @@
         @error="errorImg"
         @click="$emit('showRule')"
       />
-      <img v-else src="@/assets/img/310x310.webp" alt="doctor-photo" />
+      <img v-else src="src/assets/img/310x310.webp" alt="doctor-photo" />
       <div class="star-icon-container">
         <el-icon v-if="donorRule.isFavourite()" class="favor" @click="$emit('removeFromUser')"><StarFilled /></el-icon>
         <el-icon v-else @click="$emit('addToUser')"><Star /></el-icon>
@@ -37,6 +37,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .donor-card {
   width: 400px;
   border-radius: 15px;

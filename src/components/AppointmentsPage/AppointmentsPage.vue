@@ -17,7 +17,7 @@
             <!-- <a href="tel:+7 (495) 959-88-03">+7 (495) 959-88-03</a> -->
           </p>
           <p>
-            <img src="@/assets/img/wheelchair.png" alt="" /> При записи на прием к врачу или диагностическое исследование маломобильного
+            <img src="src/assets/img/wheelchair.png" alt="" /> При записи на прием к врачу или диагностическое исследование маломобильного
             пациента сообщите о его особенностях оператору.
           </p>
         </div>
@@ -175,7 +175,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .middle-header {
   font-weight: 400;
   font-size: 18px;

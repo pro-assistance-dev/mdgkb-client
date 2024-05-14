@@ -1,6 +1,6 @@
 import Field from '@/classes/Field';
 import FieldValueFile from '@/classes/FieldValueFile';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class FieldValue {

@@ -223,6 +223,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $primary: #2754eb;
 $danger: #e62c21;
 $warning: #f3911c;

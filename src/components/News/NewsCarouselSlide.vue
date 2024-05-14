@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsSlide from '@/classes/NewsSlide';
 
 export default defineComponent({
@@ -85,6 +85,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .slide-container {
   background-position: center left;
   background-repeat: no-repeat;

@@ -16,7 +16,7 @@ export const state: State = {
   sortModels: [],
   setDefaultSortModel: false,
   filterExists: true,
-  ftsp: new FTSP(),
+  ftsp: FTSP.Get(),
 };
 
 const namespaced = true;

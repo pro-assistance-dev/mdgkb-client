@@ -33,6 +33,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 h3 {
   margin-top: 0;
   text-align: center;

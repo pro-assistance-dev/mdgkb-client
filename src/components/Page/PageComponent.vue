@@ -22,7 +22,7 @@
       </template>
       <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #body>
         <div class="body-in">
-          <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact-info="page.contactInfo" full />
+          <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact="page.contact" full />
           <PageSection
             v-else
             :title="selectedMenu.name"
@@ -123,8 +123,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/ordinatura.scss';
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 $content-max-width: 1000px;
 $card-margin-size: 30px;
 

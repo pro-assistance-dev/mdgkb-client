@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 

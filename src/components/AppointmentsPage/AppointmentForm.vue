@@ -16,7 +16,8 @@
     <template v-else>
       <el-form-item>
         <el-select v-model="appointment.childId" placeholder="Выберите ребёнка">
-          <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id" :label="child.human.getFullName()">
+          <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id"
+            :label="child.human.getFullName()">
           </el-option>
         </el-select>
       </el-form-item>
@@ -38,7 +39,6 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import { useStore } from 'vuex';
 
 import Appointment from '@/classes/Appointment';
-import ISchema from '@/interfaces/schema/ISchema';
 
 export default defineComponent({
   name: 'AppointmentForm',
@@ -52,12 +52,9 @@ export default defineComponent({
     const mount = ref(false);
     const appointment: ComputedRef<Appointment> = computed(() => store.getters['appointments/item']);
     const isAuth = computed(() => store.getters['auth/isAuth']);
-    const schema: Ref<ISchema> = computed(() => store.getters['meta/schema']);
     const createChildMode: Ref<boolean> = ref(false);
 
     onBeforeMount(async () => {
-      await store.dispatch('meta/getSchema');
-      await store.dispatch('meta/getOptions', schema.value.specialization);
       // if (!isAuth.value) {
       //   appointment.value.child = new Child();
       // }
@@ -79,7 +76,6 @@ export default defineComponent({
 
     return {
       createChildMode,
-      schema,
       isAuth,
       chosenDay,
       appointment,
@@ -91,7 +87,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .middle-header {
   font-weight: 400;
   font-size: 18px;
@@ -102,9 +99,11 @@ export default defineComponent({
   margin-top: 10px;
   text-align: center;
 }
+
 .green-button {
   background: #31af5e;
   color: white;
+
   &:hover {
     background: darken(#31af5e, 5%);
     color: white;
@@ -114,9 +113,11 @@ export default defineComponent({
 .card-item {
   margin-top: 10px;
 }
+
 .flex-row {
   justify-content: space-between;
 }
+
 .calendar-zone {
   width: 450px;
 }
@@ -130,11 +131,11 @@ export default defineComponent({
 .gray-border {
   border: 1px solid #f0f2f7;
 }
+
 .appointment-container {
   display: flex;
   justify-content: space-between;
 }
 
-.white-block {
-}
+.white-block {}
 </style>

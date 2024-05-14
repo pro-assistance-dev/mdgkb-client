@@ -47,6 +47,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .text-align-center {
   text-align: center;
 }

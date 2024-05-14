@@ -1,10 +1,10 @@
 import { Module } from 'vuex';
 
 import HolidayForm from '@/classes/HolidayForm';
-import IBasicState from '@/store/baseModule/baseState';
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
+import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';
 
-import getBaseDefaultState from '../../baseModule/baseIndex';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';

@@ -28,6 +28,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .card-space {
   padding-bottom: 20px;
 }

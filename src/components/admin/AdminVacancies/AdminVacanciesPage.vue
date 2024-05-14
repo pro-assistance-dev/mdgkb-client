@@ -43,20 +43,14 @@
           </el-form-item>
 
           <el-form-item>
-            <SortableInputsList
-              :sortable-list="vacancy.vacancyDuties"
-              :sortable-list-for-delete="vacancy.vacancyDutiesForDelete"
-              title="Должностные обязанности"
-              @add-element="vacancy.addDuty()"
-            />
+            <SortableInputsList :sortable-list="vacancy.vacancyDuties"
+              :sortable-list-for-delete="vacancy.vacancyDutiesForDelete" title="Должностные обязанности"
+              @add-element="vacancy.addDuty()" />
           </el-form-item>
           <el-form-item>
-            <SortableInputsList
-              :sortable-list="vacancy.vacancyRequirements"
-              :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete"
-              title="Требования к кандидату"
-              @add-element="vacancy.addRequirement()"
-            />
+            <SortableInputsList :sortable-list="vacancy.vacancyRequirements"
+              :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete" title="Требования к кандидату"
+              @add-element="vacancy.addRequirement()" />
           </el-form-item>
         </el-card>
 
@@ -79,10 +73,9 @@ import Division from '@/classes/Division';
 import Form from '@/classes/Form';
 import Vacancy from '@/classes/Vacancy';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
-import CardHeader from '@/components/admin/CardHeader.vue';
+// import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import DatePicker from '@/components/DatePicker.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -92,7 +85,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { DatePicker, SortableInputsList, CardHeader, AdminVacancyResponcesTable, RemoteSearch },
+  components: { DatePicker, SortableInputsList, AdminVacancyResponcesTable },
   setup() {
     const route = useRoute();
     const form = ref();
@@ -162,6 +155,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .el-container {
   .el-card {
     margin-bottom: 20px;

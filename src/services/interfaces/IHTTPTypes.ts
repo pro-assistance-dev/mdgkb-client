@@ -1,8 +1,9 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
+import HttpHeaders from '../types/HttpHeaders';
 
 export interface IBodilessParams {
   query?: string;
-  headers?: Headers;
+  headers?: HttpHeaders;
   isBlob?: boolean;
   downloadFileName?: string;
 }
@@ -12,7 +13,6 @@ export interface IBodyfulParams<PayloadType> {
   query?: string;
   isBlob?: boolean;
   downloadFileName?: string;
-  headers?: Headers;
-  isFormData?: boolean;
+  headers?: HttpHeaders;
   fileInfos?: FileInfo[];
 }

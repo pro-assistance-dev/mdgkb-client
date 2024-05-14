@@ -11,7 +11,10 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue?.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue?.createdAt, {
+            month: '2-digit', hour: 'numeric', minute:
+              'numeric'
+          }) }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -44,14 +47,13 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPostgraduateApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
+  components: { TableButtonGroup, AdminListWrapper, TableFormStatus },
 
   setup() {
     const postgraduateApplications: ComputedRef<PostgraduateApplication[]> = computed(

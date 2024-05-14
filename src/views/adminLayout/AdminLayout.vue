@@ -55,6 +55,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .admin-main-container {
   height: calc(100vh - 61px);
 }

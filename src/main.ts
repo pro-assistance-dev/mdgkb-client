@@ -1,21 +1,21 @@
 // eslint-disable-next-line simple-import-sort/imports
-import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/ElementPlus';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
-import ru from 'element-plus/es/locale/lang/ru';
-import { createApp } from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-
+// import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/ElementPlus';
 import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 
+import ru from 'element-plus/es/locale/lang/ru';
 import sanitizeHTML from 'sanitize-html';
+import { createApp } from 'vue';
+import VueSocialSharing from 'vue-social-sharing';
 
 import carouselSwipe from '@/services/CarouselSwipe';
+import { DataTypes } from '@/services/interfaces/DataTypes';
+import { Operators } from '@/services/interfaces/Operators';
 import scroll from '@/services/Scroll';
-import VueSocialSharing from 'vue-social-sharing';
+
+import App from './App.vue';
+import router from './router';
+import store from './store';
 
 const app = createApp(App);
 // import YmapPlugin from 'vue-yandex-maps';
@@ -47,8 +47,8 @@ app.component('FontAwesomeIcon', FontAwesomeIcon);
 app.use(store);
 app.use(router);
 // app.use(YmapPlugin);
-app.use(setupElementPlusComponents, { locale: ru });
-app.use(setupElementPlusPlugins);
+// app.use(setupElementPlusComponents, { locale: ru });
+// app.use(setupElementPlusPlugins);
 app.use(Maska);
 // locale.use(lang);
 Provider.router = router;
@@ -56,3 +56,7 @@ Provider.store = store;
 router.isReady().then(() => {
   app.mount('#app');
 });
+
+export function getStore() {
+  return store;
+}

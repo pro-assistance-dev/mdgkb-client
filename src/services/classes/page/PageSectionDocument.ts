@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/FileInfo';
-import IFile from '@/interfaces/files/IFile';
+import FileInfo from '@/services/classes/FileInfo';
+import IFile from '@/services/interfaces/IFile';
 
 export default class PageSectionDocument {
   id?: string;

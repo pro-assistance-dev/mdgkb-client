@@ -49,7 +49,7 @@ import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import SpecializationsFiltersLib from '@/services/Provider/libs/filters/SpecializationsFiltersLib';
+import SpecializationsFiltersLib from '@/libs/filters/SpecializationsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -103,7 +103,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       Provider.resetFilterQuery();
       Provider.setFilterModels(SpecializationsFiltersLib.onlyPostgraduate());
-      await Provider.getAll('specializations');
+      await Store.GetAll('specializations');
       Provider.store.commit('candidateApplications/resetItem');
       Provider.store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
       candidateApplication.value.formValue.initFieldsValues();
@@ -129,6 +129,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-form-item__label) {
   line-height: 1.2;
 }

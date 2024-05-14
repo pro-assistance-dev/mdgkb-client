@@ -58,6 +58,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $header-bottom-height: 20px;
 $header-bottom-background-color: whitesmoke;
 // $header-shadow: 0 0 10px 0 rgb(0 0 0 / 20%);

@@ -12,7 +12,6 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import IOption from '@/interfaces/schema/IOption';
 
 export default defineComponent({
   name: 'ModeChoice',
@@ -41,7 +40,7 @@ export default defineComponent({
     onBeforeMount(() => {
       let routeMode = route.query.mode;
       if (typeof routeMode === 'string') {
-        const mode = props.modes?.find((opt: IOption) => opt.value === routeMode);
+        const mode = props.modes?.find((opt: unknown) => opt.value === routeMode);
         if (mode) {
           selectedMode.value = mode.label;
           emit('selectMode', mode.value);
@@ -64,6 +63,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.el-form-item__content) {
   width: 100%;
 }

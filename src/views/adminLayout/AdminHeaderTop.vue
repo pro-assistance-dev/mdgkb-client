@@ -2,7 +2,7 @@
   <div class="admin-header fixed">
     <div class="left-panel">
       <!-- To open drawer -->
-      <el-button icon="el-icon-menu" class="hidden-md-and-up" @click="openDrawer"></el-button>
+      <!-- <el-button icon="el-icon-menu" class="hidden-md-and-up" @click="openDrawer"></el-button> -->
       <!-- To open collapse side menu -->
       <el-button icon="el-icon-menu" class="hidden-sm-and-down" @click="collapseSideMenu"></el-button>
       <h3>Панель управления МДГКБ</h3>
@@ -13,15 +13,18 @@
         <el-button>
           <div class="user-info">
             <div class="user-info-container">
-              <span>{{ user.email }}</span>
-              <span v-if="user.role.label">{{ user.role.label }}</span>
-              <span v-else>{{ user.role.name }}</span>
+              <span>{{ Администратор }}</span>
+              <!-- <span v-if="user.role.label">{{ user.role.label }}</span> -->
+              <!-- <span v-else>{{ user.role.name }}</span> -->
             </div>
-            <i class="el-icon-user"></i></div
-        ></el-button>
+            <i class="el-icon-user"></i>
+          </div>
+        </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="logout"><LogoutOutlined />Выйти</el-dropdown-item>
+            <el-dropdown-item @click="logout">
+              <LogoutOutlined />Выйти
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -31,41 +34,24 @@
   <div class="spacer"></div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { LogoutOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import User from '@/classes/User';
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
+const auth = Store.Getters('auth/auth')
 
-export default defineComponent({
-  name: 'AdminHeaderTop',
-  components: { LogoutOutlined, AdminSearchMenu },
+const collapseSideMenu = () => Store.Commit('admin/collapseSideMenu');
+const openDrawer = () => Store.Commit('admin/openDrawer');
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const collapseSideMenu = () => store.commit('admin/collapseSideMenu');
-    const openDrawer = () => store.commit('admin/openDrawer');
-    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
-    const logout = async () => {
-      await store.dispatch('auth/logout');
-      await router.push('/');
-    };
-
-    return {
-      collapseSideMenu,
-      openDrawer,
-      logout,
-      user,
-    };
-  },
-});
+const logout = async () => {
+  auth.value.logout()
+  await Router.To('/');
+};
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $header-background-color: whitesmoke;
 $header-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
 $header-height: 61px;
@@ -108,10 +94,12 @@ $button-background-color: #fff;
   :deep(.el-sub-menu__title) {
     background-color: $header-background-color;
   }
+
   :deep(.el-sub-menu__icon-arrow) {
     font-size: unset;
   }
 }
+
 .admin-header,
 .left-panel,
 .right-panel {
@@ -138,6 +126,7 @@ $button-background-color: #fff;
 .user-info {
   display: flex;
   align-items: center;
+
   &-container {
     display: flex;
     flex-direction: column;

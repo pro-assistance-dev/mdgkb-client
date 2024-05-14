@@ -47,6 +47,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 :deep(.desktop-preview) {
   max-width: 1920px;
   width: 100%;

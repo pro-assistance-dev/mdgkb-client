@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination show-header>
+  <AdminListWrapper pagination show-header>
     <template #header>
       <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
       <FiltersList :models="createFilterModels()" @load="loadCourses" />
@@ -7,7 +7,8 @@
     <el-table :data="residencyCourses">
       <el-table-column label="Код специализации" min-width="200" class-name="sticky-left">
         <template #default="scope">
-          <div v-for="residencyCoursesSpecialization in scope.row.residencyCoursesSpecializations" :key="residencyCoursesSpecialization.id">
+          <div v-for="residencyCoursesSpecialization in scope.row.residencyCoursesSpecializations"
+            :key="residencyCoursesSpecialization.id">
             {{ residencyCoursesSpecialization.specialization.code }}
           </div>
         </template>
@@ -70,99 +71,83 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
+            @edit="Router.ToAdmin('residency-courses/' + scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
   </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+<script lang="ts" setup>
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminResidencyCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, FiltersList },
-  setup() {
-    const residencyCourses: Ref<ResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
-    const isEditMode: Ref<boolean> = ref(false);
+const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses')
+const isEditMode: Ref<boolean> = ref(false);
 
-    const save = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      await Provider.store.dispatch('residencyCourses/updateMany');
-      isEditMode.value = false;
-      if (next) next();
-    };
+const save = async (next?: NavigationGuardNext) => {
+  saveButtonClick.value = true;
+  await Provider.store.dispatch('residencyCourses/updateMany');
+  isEditMode.value = false;
+  if (next) next();
+};
 
-    const loadCourses = async () => {
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-    };
+const loadCourses = async () => {
+  await Store.FTSP('residencyCourses')
+};
 
-    const load = async () => {
-      await loadCourses();
-      window.addEventListener('beforeunload', beforeWindowUnload);
-    };
+const load = async () => {
+  await loadCourses();
+  window.addEventListener('beforeunload', beforeWindowUnload);
+};
 
-    Hooks.onBeforeMount(load, {
-      adminHeader: {
-        title: 'Сотрудники',
-        buttons: [
-          {
-            text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
-            action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
-          },
-          { text: 'Добавить программу', type: 'primary', action: Provider.createAdmin },
-        ],
+Hooks.onBeforeMount(load, {
+  adminHeader: {
+    title: 'Программы ординатуры',
+    buttons: [
+      {
+        text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+        action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
       },
-      sortsLib: ResidencyCoursesSortsLib,
-      getAction: 'getAll',
-    });
-    const createResidencySortModels = (): SortModel[] => {
-      return createSortModels(ResidencyCoursesSortsLib);
-    };
-
-    const { confirmLeave, saveButtonClick, beforeWindowUnload, showConfirmModal } = useConfirmLeavePage();
-    watch(isEditMode, () => {
-      confirmLeave.value = isEditMode.value;
-    });
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(save, next);
-    });
-
-    const createFilterModels = (): FilterModel[] => {
-      return [
-        ResidencyCoursesFiltersLib.onlyThisYear(),
-        ResidencyCoursesFiltersLib.notThisYear(),
-        ResidencyCoursesFiltersLib.beforeThisYear(),
-      ];
-    };
-
-    return {
-      ...Provider.getAdminLib(),
-      isEditMode,
-      residencyCourses,
-      loadCourses,
-      createResidencySortModels,
-      save,
-      createFilterModels,
-    };
+      { text: 'Добавить программу', type: 'primary', action: Provider.createAdmin },
+    ],
   },
+  sortsLib: ResidencyCoursesSortsLib,
+  getAction: 'ftsp',
+  pagination: { storeModule: 'residencyCourses', action: 'ftsp' },
 });
+
+const createResidencySortModels = (): SortModel[] => {
+  return createSortModels(ResidencyCoursesSortsLib);
+};
+
+watch(isEditMode, () => {
+  confirmLeave.value = isEditMode.value;
+});
+
+// onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+//   showConfirmModal(save, next);
+// });
+
+const createFilterModels = (): FilterModel[] => {
+  return [
+    ResidencyCoursesFiltersLib.onlyThisYear(),
+    ResidencyCoursesFiltersLib.notThisYear(),
+    ResidencyCoursesFiltersLib.beforeThisYear(),
+  ];
+};
 </script>
 
 <style scoped></style>

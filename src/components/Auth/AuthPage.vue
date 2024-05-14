@@ -197,7 +197,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .card-content {
   width: 60%;
   margin: 50px auto 65px auto;

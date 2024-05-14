@@ -2,10 +2,12 @@
   <!-- <MainHeaderButtons /> -->
   <MainInfo />
   <MainNewsBlock />
-  <div class="hidden"><MainSpecialServices /></div>
+  <div class="hidden">
+    <MainSpecialServices />
+  </div>
   <MainDoctors />
-  <MainMedicalProfiles />
-  <MainEvents />
+  <!-- <MainMedicalProfiles /> -->
+  <!-- <MainEvents /> -->
   <MainArticles />
   <MainReviews />
   <!-- <MainCertificates /> -->
@@ -46,7 +48,7 @@ export default defineComponent({
     MainDoctors,
     MainReviews,
     MainMedicalProfiles,
-    MainEvents,
+    // MainEvents,
     MainArticles,
     // MainCertificates,
     MainSocialMedia,
@@ -59,6 +61,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @media screen and (max-width: 980px) {
   .hidden {
     display: none;

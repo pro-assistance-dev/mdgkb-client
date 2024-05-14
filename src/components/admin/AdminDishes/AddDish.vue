@@ -79,7 +79,7 @@ import Save from '@/assets/svg/Buffet/Save.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -128,6 +128,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

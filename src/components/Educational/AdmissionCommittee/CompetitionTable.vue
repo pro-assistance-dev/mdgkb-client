@@ -100,6 +100,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/colors.scss';
 .pass {
   background-color: $site_pale_green;

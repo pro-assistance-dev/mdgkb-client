@@ -38,8 +38,8 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
-import FileInfo from '@/classes/FileInfo';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import FileInfo from '@/services/classes/FileInfo.ts';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({
@@ -87,7 +87,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .gallery-container {
   margin-top: 30px;
   img {
@@ -153,7 +153,7 @@ export default defineComponent({
 }
 
 .foto-field {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-darker-border;
   max-height: 200px;
   // max-width: 360px;

@@ -129,6 +129,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .text-center {
   text-align: center;
   justify-content: center;

@@ -48,7 +48,8 @@
         </template>
         <template v-if="selectedDiet && !selectedAge">
           <div class="field-2">
-            <button v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" class="field-item-2" @click="selectAge(dietAge)">
+            <button v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" class="field-item-2"
+              @click="selectAge(dietAge)">
               {{ dietAge.name }}
             </button>
           </div>
@@ -61,7 +62,8 @@
           </h3>
           <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" />
           <div v-if="motherDiet && selectedAge">
-            <h3 v-if="motherDiet" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">{{ motherDiet.siteName }}</h3>
+            <h3 v-if="motherDiet" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">{{
+              motherDiet.siteName }}</h3>
             <DietPage v-if="selectedDiet && selectedAge && motherDiet" :timetable="motherDiet.dietAges[0].timetable" />
             <div></div>
           </div>
@@ -214,12 +216,13 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .container-160 {
   height: 160px;
 }
+
 .header-choice {
   height: 100px;
   background: #ffffff;
@@ -322,7 +325,7 @@ button {
   justify-content: left;
   width: 410px;
   font-size: 14px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   color: $site_gray;
 }
 
@@ -346,7 +349,7 @@ button {
   justify-content: left;
   width: 150px;
   font-size: 14px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin-left: 30px;
   color: $site_gray;
 }
@@ -515,6 +518,7 @@ button {
   .diet-router {
     font-size: 12px;
   }
+
   .diet-router-no-link {
     font-size: 12px;
   }

@@ -106,6 +106,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .group-header {
   width: 100%;
   display: flex;

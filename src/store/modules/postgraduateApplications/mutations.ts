@@ -4,7 +4,7 @@ import Form from '@/classes/Form';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import User from '@/classes/User';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

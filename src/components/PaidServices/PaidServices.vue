@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import IWithPaidService from '@/interfaces/IWithPaidService';
 
 export default defineComponent({
@@ -62,8 +62,8 @@ export default defineComponent({
   },
 });
 </script>
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .show-more-link {
   font-family: $title-font;
   letter-spacing: $doctor-text-letter-spacing;

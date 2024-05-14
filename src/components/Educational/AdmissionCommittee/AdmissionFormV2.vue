@@ -195,8 +195,8 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import { Orders } from '@/services/interfaces/Orders';
-import residencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import residencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
@@ -442,6 +442,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .form-item-error {
   color: #f56c6c;
   font-size: 12px;

@@ -14,27 +14,22 @@
     </el-form-item>
   </div>
 
-  <div class="contact-container" :style="{ background: contactInfo.telephoneNumbers.length ? '' : '#F9FAFB' }">
+  <div class="contact-container" :style="{ background: contactInfo.phones.length ? '' : '#F9FAFB' }">
     <div class="bottom-buttons">
-      <div class="title" :style="{ color: !contactInfo.telephoneNumbers.length ? '#c4c4c4' : '#303133' }">Телефоны</div>
+      <div class="title" :style="{ color: !contactInfo.phones.length ? '#c4c4c4' : '#303133' }">Телефоны</div>
       <button class="admin-add" @click.prevent="contactInfo.addTelephoneNumber()">+ Добавить</button>
     </div>
 
-    <div v-for="(telephoneNumber, i) in contactInfo.telephoneNumbers" :key="telephoneNumber" class="contact-container-item">
-      <button
-        class="admin-del"
-        @click.prevent="$classHelper.RemoveFromClassByIndex(i, contactInfo.telephoneNumbers, contactInfo.telephoneNumbersForDelete)"
-      >
-        Удалить
-      </button>
+    <div v-for="(phone, i) in contactInfo.phones" :key="phone" class="contact-container-item">
+      <button class="admin-del" @click.prevent="$classHelper.RemoveFromClassByIndex(i, contactInfo.phones, [])">Удалить</button>
       <div class="list-number">
         {{ i + 1 }}
       </div>
       <el-form-item label="Номер телефона:">
-        <el-input v-model="telephoneNumber.number" />
+        <el-input v-model="phone.number" />
       </el-form-item>
       <el-form-item label="Описание:">
-        <el-input v-model="telephoneNumber.description" />
+        <el-input v-model="phone.description" />
       </el-form-item>
     </div>
   </div>
@@ -140,7 +135,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .admin-add {
   border: none;
@@ -160,7 +155,7 @@ export default defineComponent({
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -265,7 +260,7 @@ export default defineComponent({
 
 :deep(.el-form-item__label) {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;

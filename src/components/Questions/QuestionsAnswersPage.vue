@@ -3,13 +3,8 @@
     <template #filters>
       <FiltersWrapper :header-right-max-width="300">
         <template #header-right>
-          <ModeButtons
-            :store-mode="false"
-            :store-module="'comments'"
-            :first-mode="'FAQ'"
-            :second-mode="'Вопрос-ответ'"
-            @changeMode="setFaqMode"
-          />
+          <ModeButtons :store-mode="false" :store-module="'comments'" :first-mode="'FAQ'" :second-mode="'Вопрос-ответ'"
+            @changeMode="setFaqMode" />
         </template>
         <template #header-left-top>
           <div>
@@ -22,56 +17,35 @@
       <FAQ v-if="faqMode" />
       <Questions v-else />
     </div>
-    <QuestionForm />
+    <QuestionForm :opened="opened" />
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import FAQ from '@/components/Questions/FAQ.vue';
 import QuestionForm from '@/components/Questions/QuestionForm.vue';
 import Questions from '@/components/Questions/Questions.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'QuestionsAnswersPage',
+const faqMode: Ref<boolean> = ref(true);
+const opened: Ref<boolean> = ref(false);
+const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто задаваемые вопросы' : 'Вопросы и ответы'));
 
-  components: {
-    FAQ,
-    Questions,
-    ModeButtons,
-    QuestionForm,
-    PageWrapper,
-    FiltersWrapper,
-  },
-
-  setup() {
-    const faqMode: Ref<boolean> = ref(true);
-    const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто задаваемые вопросы' : 'Вопросы и ответы'));
-
-    const setFaqMode = (faqModeCondition: boolean) => {
-      faqMode.value = faqModeCondition;
-    };
-    const openQuestion = () => Provider.store.commit('questions/openQuestion');
-
-    return {
-      setFaqMode,
-      faqMode,
-      openQuestion,
-      title,
-    };
-  },
-});
+const setFaqMode = (faqModeCondition: boolean) => {
+  faqMode.value = faqModeCondition;
+};
+const openQuestion = () => opened.value = !opened.value;
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
+
 .ques-answ-container {
   display: flex;
+
   &-left {
     margin-right: 30px;
     flex-shrink: 0;
@@ -80,6 +54,7 @@ $side-cotainer-max-width: 300px;
     top: 79px;
     height: 100%;
   }
+
   &-right {
     margin-top: 10px;
     display: flex;
@@ -87,6 +62,7 @@ $side-cotainer-max-width: 300px;
     width: 100%;
   }
 }
+
 button {
   font-size: 16px;
   border-radius: 10px;
@@ -96,6 +72,7 @@ button {
   height: auto;
   color: white;
   border: 1px solid rgb(black, 0.05);
+
   &:hover {
     cursor: pointer;
     background-color: darken(#2754ec, 10%);

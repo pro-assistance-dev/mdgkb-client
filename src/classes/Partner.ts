@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import PartnerType from '@/classes/PartnerType';
 import ClassHelper from '@/services/ClassHelper';
 

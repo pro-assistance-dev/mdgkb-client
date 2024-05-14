@@ -51,25 +51,24 @@ export default class ClassHelper {
     return prop !== null && typeof prop !== 'undefined' && prop !== Object(prop);
   }
 
-  static RemoveFromClassByIndex(index: number, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
-    console.log('index: ', index);
-    const idForDelete = arrayFromDelete[index].id;
-    if (idForDelete) {
-      arrayForDelete.push(idForDelete);
-    }
-    arrayFromDelete.splice(index, 1);
+  static RemoveFromClassByIndex(index: number, arrayFromDelete: IWithId[], arrayForDelete?: string[]): void {
+    ClassHelper.RemoveFromClass(index, arrayFromDelete, arrayForDelete);
   }
 
-  static RemoveFromClassById(id: string | undefined, arrayFromDelete: IWithId[], arrayForDelete: string[]): void {
+  static RemoveFromClassById(id: string | undefined, arrayFromDelete: IWithId[], arrayForDelete?: string[]): string | undefined {
     if (!id) {
       return;
     }
     const index = arrayFromDelete.findIndex((i: IWithId) => i.id === id);
+    ClassHelper.RemoveFromClass(index, arrayFromDelete, arrayForDelete);
+  }
+
+  private static RemoveFromClass(index: number, arrayFromDelete: IWithId[], arrayForDelete?: string[]): void {
     if (index < 0) {
       return;
     }
     const idForDelete = arrayFromDelete[index].id;
-    if (idForDelete) {
+    if (idForDelete && arrayForDelete) {
       arrayForDelete.push(idForDelete);
     }
     arrayFromDelete.splice(index, 1);
@@ -90,8 +89,11 @@ export default class ClassHelper {
 
   static InitClassInstance(passedClass: ClassType, arg?: ClassType): ClassType {
     const item = passedClass.constructor(arg);
-    // ClassHelper.BuildClass(passedClass, arg);
-    passedClass.id = ClassHelper.CreateUUID();
+    ClassHelper.BuildClass(item);
+    item.id = ClassHelper.CreateUUID();
     return item;
+  }
+  static ExistsWithId(arr: IWithId[], id?: string): boolean {
+    return arr.some((a: IWithId) => a.id === id);
   }
 }

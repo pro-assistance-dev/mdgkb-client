@@ -4,7 +4,7 @@ import Form from '@/classes/Form';
 import User from '@/classes/User';
 import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
 import { State } from './index';

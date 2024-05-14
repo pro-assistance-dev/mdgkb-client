@@ -50,6 +50,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .avatar-block {
   padding: 40px 0 20px 0;
 }
@@ -80,7 +81,7 @@ export default defineComponent({
   font-family: 'Open sans', sans-serif, Arial;
   justify-content: center;
   align-items: center;
-  color: #a3a9be;
+  color: $base-light-font-color;
   height: 20px;
   margin-bottom: 30px;
 }
@@ -151,7 +152,7 @@ h4 {
     display: flex;
     justify-content: left;
     align-items: center;
-    color: #a3a9be;
+    color: $base-light-font-color;
     height: 20px;
     margin-bottom: 0;
   }

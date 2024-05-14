@@ -63,7 +63,7 @@ import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue'
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-import MessageError from '../../services/classes/messages/MessageError';
+import Message from '@/services/classes/Message';
 
 export default defineComponent({
   name: 'VacancyPage',
@@ -90,7 +90,7 @@ export default defineComponent({
     const openRespondForm = async () => {
       await findEmail();
       if (emailExists.value) {
-        MessageError.Show('Вы уже откликались на эту вакансию');
+        Message.Error('Вы уже откликались на эту вакансию');
         return;
       }
       await showFormFunc();
@@ -126,6 +126,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex-row {
   justify-content: left;
   display: block;
@@ -137,11 +138,13 @@ export default defineComponent({
 .justify-center {
   justify-content: center;
 }
+
 .right-button {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
+
 :deep(.avatar-uploader-cover) {
   text-align: unset;
 }
@@ -152,9 +155,11 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 }
+
 :deep(.card-item) {
   font-weight: 16px;
   margin-bottom: 20px;
+
   .btn {
     border-radius: 20px;
     background-color: #31af5e;
@@ -163,12 +168,14 @@ export default defineComponent({
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
     }
   }
 }
+
 .vacancy-title {
   font-size: 21px;
   font-weight: bold;
@@ -194,6 +201,7 @@ export default defineComponent({
   width: auto;
   height: auto;
   margin: 16px 0;
+
   .item {
     font-size: 16px;
   }
@@ -255,6 +263,7 @@ ul li:before {
   margin-left: 5px;
   padding: 3px 18px;
   text-align: center;
+
   &:hover {
     cursor: pointer;
     background-color: #133dcc;
@@ -266,6 +275,7 @@ ul li:before {
   font-family: Roboto, Verdana, sans-serif;
   font-weight: normal;
 }
+
 ul {
   padding-left: 10px;
 }

@@ -95,4 +95,5 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';</style>

@@ -64,6 +64,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .special-services-container {
   display: flex;
   flex-direction: column;

@@ -29,9 +29,9 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsImage from '@/classes/NewsImage';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'ImageGallery',
@@ -63,7 +63,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .gallery-container {
   margin-top: 30px;
   max-width: 1000px;

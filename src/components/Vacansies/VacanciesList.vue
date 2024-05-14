@@ -1,7 +1,7 @@
 <template>
   <PageWrapper v-if="mounted" title="Вакансии">
     <template #filters>
-      <VacanciesFilters @load="loadVacancies" />
+      <!-- <VacanciesFilters @load="loadVacancies" /> -->
     </template>
     <div class="vacansies-container">
       <VacancyCard v-for="item in vacancies" :key="item.id" :vacancy="item" />
@@ -10,9 +10,7 @@
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-
+<script lang="ts" setup>
 import Vacancy from '@/classes/Vacancy';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
@@ -20,56 +18,44 @@ import VacanciesFilters from '@/components/Vacansies/VacanciesFilters.vue';
 import VacancyCard from '@/components/Vacansies/VacancyCard.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import VacanciesFiltersLib from '@/services/Provider/libs/filters/VacanciesFiltersLib';
-import VacanciesSortsLib from '@/services/Provider/libs/sorts/VacanciesSortsLib';
+import VacanciesFiltersLib from '@/libs/filters/VacanciesFiltersLib';
+import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'VacanciesList',
-  components: { VacanciesFilters, VacancyCard, LoadMoreButton, PageWrapper },
+const vacancies: ComputedRef<Vacancy[]> = Store.Items('vacancies')
+const ftsp = FTSP.Get()
+const mounted = ref(false)
+const loadVacancies = async () => {
+  ftsp.p.limit = 8;
+  await Store.FTSP('vacancies');
+};
 
-  setup() {
-    const vacancies: ComputedRef<Vacancy[]> = computed(() => Provider.store.getters['vacancies/items']);
+const load = async () => {
+  ftsp.setS(VacanciesSortsLib.byTitle())
+  // Provider.setSortList(...createSortModels(VacanciesSortsLib));
+  ftsp.setF(VacanciesFiltersLib.onlyActive());
+  await loadVacancies();
+  mounted.value = true
+};
 
-    const loadVacancies = async () => {
-      Provider.filterQuery.value.pagination.limit = 8;
-      await Provider.store.dispatch('vacancies/getAll', { filterQuery: Provider.filterQuery.value });
-    };
+Hooks.onBeforeMount(load);
 
-    const load = async () => {
-      Provider.setSortModels(VacanciesSortsLib.byTitle());
-      Provider.setSortList(...createSortModels(VacanciesSortsLib));
-      Provider.setFilterModel(VacanciesFiltersLib.onlyActive());
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-      await loadVacancies();
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = vacancies.value.length;
-      await Provider.store.dispatch('vacancies/getAll', { filterQuery: Provider.filterQuery.value });
-    };
-
-    return {
-      load,
-      vacancies,
-      mounted: Provider.mounted,
-      loadMore,
-      loadVacancies,
-    };
-  },
-});
+const loadMore = async () => {
+  ftsp.p.append = true;
+  ftsp.p.offset = vacancies.value.length;
+  await Store.FTSP('vacancies');
+};
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .vacansies-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
 }
+
 h2 {
   margin-top: 0;
   text-align: center;

@@ -29,6 +29,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $news-content-max-width: 1300px;
 $news-content-max-height: 300px;
 

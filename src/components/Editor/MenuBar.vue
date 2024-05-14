@@ -41,7 +41,7 @@
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import News from '@/classes/News';
 import FileUploader from '@/components/FileUploader.vue';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
@@ -246,12 +246,12 @@ export default defineComponent({
         title: 'Добавить ссылку',
         action: () => setLink(),
       },
-      {
-        type: 'emoji',
-        icon: 'emotion-happy-line',
-        title: 'Добавить emoji',
-        action: (content?: string) => props.editor.chain().focus().insertContent(content).run(),
-      },
+      // {
+      //   type: 'emoji',
+      //   icon: 'emotion-happy-line',
+      //   title: 'Добавить emoji',
+      //   action: (content?: string) => props.editor.chain().focus().insertContent(content).run(),
+      // },
       {
         type: 'divider',
       },
@@ -392,6 +392,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .divider {
   width: 2px;
   height: 1.25rem;

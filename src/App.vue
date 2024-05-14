@@ -22,6 +22,7 @@ export default defineComponent({
     AdminLayout,
   },
   setup() {
+    const auth: ComputedRef<Auth<User>> = computed(() => Provider.store.getters['auth/auth']);
     const store = useStore();
     const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
@@ -35,9 +36,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
+      auth.value.actualize();
       changeDocumentTitle();
-      await store.dispatch('meta/getSchema');
-      await store.dispatch('auth/setAuth');
       mounted.value = true;
     });
 

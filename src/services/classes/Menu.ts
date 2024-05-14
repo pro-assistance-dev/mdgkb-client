@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/FileInfo';
-import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+// import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import FileInfo from '@/services/classes/FileInfo';
 import Page from '@/services/classes/page/Page';
 import SubMenu from '@/services/classes/SubMenu';
 import ClassHelper from '@/services/ClassHelper';
@@ -64,7 +64,7 @@ export default class Menu {
     return fileInfos;
   }
 
-  addFile(file: IElementPlusFile): void {
+  addFile(file: any): void {
     if (!this.icon.id) {
       this.icon.id = uuidv4();
     }
@@ -94,5 +94,8 @@ export default class Menu {
   }
   containPath(path: string): boolean {
     return this.getLink() === path || !!this.subMenus.find((subMenu: SubMenu) => subMenu.getLink() === path);
+  }
+  static GetClassName(): string {
+    return 'menu';
   }
 }

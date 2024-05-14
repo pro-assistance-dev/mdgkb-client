@@ -1,24 +1,21 @@
 <template>
   <div v-if="mount">
     <div class="select-division">
-      <el-select
-        v-model="selectedObjectId"
-        class="select-d"
-        filterable
-        placeholder="Выберите вход, парковку, здание или отделение"
-        style="width: 380px"
-        @change="selectObject"
-      >
-        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
+      <el-select v-model="selectedObjectId" class="select-d" filterable
+        placeholder="Выберите вход, парковку, здание или отделение" style="width: 380px" @change="selectObject">
+        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)"
+          :key="building">
           <div class="item-box">
             <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color: #a1a7bd">
               Строение {{ building.number }}
             </div>
             <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
-              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
+              <div class="el-select-dropdown__item"
+                style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
                 Этаж {{ floor.number }}
               </div>
-              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
+              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id"
+                :label="division.name">
                 <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
                   division.name
                 }}</span>
@@ -28,7 +25,9 @@
         </template>
         <div class="item-box">
           <el-option v-for="gate in gates" :key="gate.id" :label="gate.name" :value="gate.id">
-            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{ gate.name }}</span>
+            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
+              gate.name
+            }}</span>
           </el-option>
         </div>
         <!--        <div class="item-box">-->
@@ -55,10 +54,9 @@ import Division from '@/classes/Division';
 import Floor from '@/classes/Floor';
 import Gate from '@/classes/Gate';
 import IMapObject from '@/interfaces/IMapObject';
-import IOption from '@/interfaces/schema/IOption';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
-import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 const emit = defineEmits(['openMapRouter', 'selectObject']);
 const buildings = computed(() => Provider.store.getters['buildings/items']);
@@ -100,14 +98,17 @@ onMounted(async () => {
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .map-router-container {
   display: flex;
   flex-direction: column;
+
   &-item {
     margin-bottom: 0;
     display: flex;
+
     button {
       width: 85px;
       border-radius: 20px;
@@ -116,24 +117,30 @@ onMounted(async () => {
       margin-left: 10px;
       color: white;
     }
+
     .a-btn {
       background-color: #f3911c;
+
       &:hover {
         background-color: darken(#f3911c, 10%);
       }
     }
+
     .b-btn {
       background-color: #006bb5;
+
       &:hover {
         background-color: darken(#006bb5, 10%);
       }
     }
   }
 }
+
 :deep(.select-d .el-input__inner) {
   border-radius: 20px;
   background: #0aa249;
 }
+
 :deep(.select-d .el-input__inner) {
   color: #ffffff;
 }
@@ -153,6 +160,7 @@ onMounted(async () => {
   border-radius: 20px;
   background: #ffffff;
 }
+
 :deep(.route-button .el-input__inner) {
   color: $site_dark_gray;
 }
@@ -214,14 +222,14 @@ onMounted(async () => {
   height: 70px;
   margin-top: 10px;
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
 }
 
 .route-window {
   width: 100%;
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: $base-background;
   margin-top: 10px;
   padding-bottom: 15px;
@@ -275,7 +283,7 @@ onMounted(async () => {
 .item-box {
   width: calc(100% - 40px);
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin: 10px 20px;
 }
 </style>

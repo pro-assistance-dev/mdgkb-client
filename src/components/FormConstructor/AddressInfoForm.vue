@@ -183,6 +183,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .error-block-message {
   font-size: 14px;
   // max-width: 350px;

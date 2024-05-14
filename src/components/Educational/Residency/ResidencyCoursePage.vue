@@ -15,16 +15,19 @@
       </template>
       <template #inside-content>
         <div style="padding-left: 30px; padding-right: 20px">
-          <div v-for="practicePlaceGroup in residencyCourse.residencyCoursePracticePlaceGroups" :key="practicePlaceGroup.id" class="groups">
+          <div v-for="practicePlaceGroup in residencyCourse.residencyCoursePracticePlaceGroups"
+            :key="practicePlaceGroup.id" class="groups">
             <div>
               <strong>{{ practicePlaceGroup.name }}</strong>
             </div>
-            <a v-if="practicePlaceGroup.link" :href="practicePlaceGroup.link" target="_blank" style="margin-right: 10px">
+            <a v-if="practicePlaceGroup.link" :href="practicePlaceGroup.link" target="_blank"
+              style="margin-right: 10px">
               {{ practicePlaceGroup.link }}
             </a>
             <ul>
               <li v-for="practicePlace in practicePlaceGroup.residencyCoursePracticePlaces" :key="practicePlace.id">
-                <router-link v-if="practicePlace.division?.name && practicePlace.divisionId" :to="`/divisions/${practicePlace.divisionId}`">
+                <router-link v-if="practicePlace.division?.name && practicePlace.divisionId"
+                  :to="`/divisions/${practicePlace.divisionId}`">
                   {{ practicePlace.division.name }}
                 </router-link>
                 <div v-else>
@@ -49,7 +52,7 @@ import { computed, defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import ResidencyCourseInfo from '@/components/Educational/Residency/ResidencyCourseInfo.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -75,7 +78,6 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.filterQuery.value.setParams(Provider.schema.value.residencyCourse.id, Provider.route().params['id'] as string);
       await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
       if (Provider.route().query.respondForm) {
         await openRespondForm();
@@ -106,11 +108,13 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-container-max-width: 300px;
 $medical-profile-content-max-width: 1000px;
 $card-margin-size: 30px;
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
+
 .title-in {
   display: flex;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
@@ -133,6 +137,7 @@ $card-margin-size: 30px;
   justify-content: space-between;
   align-items: center;
 }
+
 .title-icon {
   text-align: center;
   float: left;
@@ -156,6 +161,7 @@ $card-margin-size: 30px;
   width: 100%;
   margin: $card-margin-size 0;
 }
+
 .right-field {
   width: 100%;
 }
@@ -190,6 +196,7 @@ h3 {
   color: black;
   text-align: center;
 }
+
 h3 {
   font-size: 20px;
 }
@@ -218,14 +225,17 @@ h3 {
   flex-direction: column;
   padding: 10px;
   cursor: pointer;
+
   .item-title {
     font-weight: 600;
   }
+
   .item-footer {
     display: flex;
     justify-content: space-between;
     margin-top: 5px;
   }
+
   .icon {
     user-select: none;
     display: flex;
@@ -233,15 +243,18 @@ h3 {
     transition: all 0.2s;
     margin-right: 3px;
   }
+
   .anticon {
     padding-right: 5px;
     font-size: 16px;
   }
 }
+
 h4 {
   color: black;
   margin: 15px 0 0 10px;
 }
+
 .item-footer {
   color: #a1a7bd;
 }
@@ -249,9 +262,11 @@ h4 {
 :deep(.cell-row) {
   cursor: pointer;
 }
+
 .el-divider {
   margin: 10px 0 0;
 }
+
 // :deep(.cell) {
 // padding: 0 !important;
 // }
@@ -259,6 +274,7 @@ h4 {
   margin: 10px;
   margin-bottom: 15px;
   text-align: center;
+
   button {
     background-color: #2754eb;
     width: 100%;
@@ -268,6 +284,7 @@ h4 {
     font-size: 14px;
     border: none;
     transition: background-color 0.25s ease;
+
     &:hover {
       cursor: pointer;
       background-color: darken(#2754eb, 10%);
@@ -313,11 +330,13 @@ h4 {
   letter-spacing: 2px;
   color: white;
   border: 1px solid rgb(black, 0.05);
+
   &:hover {
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
   }
 }
+
 .info-block {
   margin: 10px 0 10px;
   display: flex;
@@ -345,6 +364,7 @@ h4 {
   .medical-profile-page-container {
     display: block;
   }
+
   .side-container {
     display: flex;
     flex-direction: column;
@@ -371,6 +391,7 @@ h4 {
   .medical-profile-page-container {
     display: block;
   }
+
   .side-container {
     display: flex;
     flex-direction: column;
@@ -402,6 +423,7 @@ h4 {
     display: block;
     margin: 5px;
   }
+
   /* .hidden-mobile {
     display: none;
   }
@@ -427,6 +449,7 @@ h4 {
     letter-spacing: 2px;
     color: white;
     border: 1px solid rgb(black, 0.05);
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
@@ -436,6 +459,7 @@ h4 {
   :deep(.card-item) {
     padding: 15px 5px;
   }
+
   h3 {
     font-size: 18px;
   }
@@ -450,10 +474,12 @@ h4 {
     width: calc(100% - 6px);
     padding: 0 3px;
   }
+
   :deep(.card-item) {
     padding: 15px 2px;
   }
 }
+
 .groups {
   padding: 10px 0;
 }

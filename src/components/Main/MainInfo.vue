@@ -15,24 +15,32 @@
           </p>
           <div class="info-container-left-icons">
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/4.svg`).default" />
+              <svg class="icon">
+                <use xlink:href="#1"></use>
+              </svg>
               <h4>31</h4>
               <span>профиль медицинской помощи</span>
             </div>
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/2.svg`).default" />
+              <svg class="icon">
+                <use xlink:href="#4"></use>
+              </svg>
+              <h4>45</h4>
+              <span>медицинких специаль-<br />ностей</span>
+            </div>
+            <div class="info-container-left-icons-item">
+              <svg class="icon">
+                <use xlink:href="#2"></use>
+              </svg>
               <h4>48</h4>
               <span>отделений</span>
             </div>
             <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/3.svg`).default" />
+              <svg class="icon">
+                <use xlink:href="#3"></use>
+              </svg>
               <h4>700</h4>
               <span>врачей</span>
-            </div>
-            <div class="info-container-left-icons-item">
-              <component :is="require(`@/assets/img/main-page/icons/1.svg`).default" />
-              <h4>45</h4>
-              <span>медицинких специаль-<br />ностей</span>
             </div>
           </div>
         </div>
@@ -47,32 +55,40 @@
             indicator-position="inside"
           >
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" alt="main-info" />
+              <img src="src/assets/img/main-page/templates/main-info.webp" alt="main-info" />
             </el-carousel-item>
             <el-carousel-item>
-              <img src="@/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" alt="main-info" />
+              <img src="src/assets/img/main-page/templates/main-info.webp" style="transform: scaleX(-1)" alt="main-info" />
             </el-carousel-item>
           </el-carousel>
         </div>
       </div>
     </div>
   </div>
+  <div class="hidden">
+    <Prof />
+    <Division />
+    <Doc />
+    <MedSpec />
+  </div>
+  
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-export default defineComponent({
-  name: 'MainPage',
-  setup() {
-    const carouselRef = ref();
-    return {
-      carouselRef,
-    };
-  },
-});
+<script setup lang="ts">
+import MedSpec from '@/assets/img/main-page/icons/1.svg';
+import Doc from '@/assets/img/main-page/icons/3.svg';
+import Prof from '@/assets/img/main-page/icons/4.svg';
+import Division from '@/assets/img/main-page/icons/2.svg';
+const carouselRef = ref();
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
+.hidden {
+  display: none;
+}
+
 .info-main-container {
   background-color: white;
 }

@@ -24,11 +24,10 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import Paste from '@/assets/svg/Buffet/Paste.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
-import Button from '@/components/Base/Button.vue';
 import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'PasteWindow',
-  components: { Button, ClickWindow, Paste },
+  components: { ClickWindow, Paste },
   emits: ['onClick'],
   setup(_, { emit }) {
     const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
@@ -76,7 +75,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .tools-button {
   position: relative;
@@ -100,7 +99,7 @@ export default defineComponent({
   display: block;
   background: #ffffff;
   border: $normal-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   box-shadow: $normal-shadow;
 }
 

@@ -1,0 +1,68 @@
+{
+  "name": "vue-remix-icons",
+  "version": "3.10.0",
+  "description": "Remix Icon is a set of open source neutral style system symbols elaborately crafted for designers and developers. Powered by remixicon.",
+  "author": "2nthony",
+  "license": "Apache-2.0",
+  "funding": "https://github.com/sponsors/2nthony",
+  "repository": "https://github.com/2nthony/vue-remix-icons",
+  "keywords": [
+    "vue",
+    "vue 2",
+    "vue 3",
+    "remixicon",
+    "remix",
+    "icon",
+    "icon library",
+    "icon pack"
+  ],
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.js",
+      "import": "./index.js"
+    },
+    "./*": {
+      "types": "./index.d.ts",
+      "require": "./icons/*",
+      "import": "./icons/*"
+    },
+    "./icons/*": {
+      "types": "./index.d.ts",
+      "require": "./icons/*",
+      "import": "./icons/*"
+    }
+  },
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "icons",
+    "index.js",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "gen": "esno scripts/gen.ts",
+    "echo-remixicon-bump": "esno scripts/echo-remixicon-bump.ts",
+    "echo-remixicon-version": "esno scripts/echo-remixicon-version.ts",
+    "build": "npm run gen",
+    "prepublishOnly": "pnpm run build",
+    "lint": "eslint scripts",
+    "lint-fix": "eslint scripts --fix"
+  },
+  "devDependencies": {
+    "@2nthony/eslint-config": "^1.0.3",
+    "@types/node": "^18.16.3",
+    "eslint": "^8.39.0",
+    "esno": "^0.16.3",
+    "latest-version": "^7.0.0",
+    "pascal-case": "^3.1.2",
+    "remixicon": "^4.2.0",
+    "typescript": "5.0.4",
+    "vue": "^3.2.47"
+  }
+}

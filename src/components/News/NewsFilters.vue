@@ -19,7 +19,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 
 import Tag from '@/classes/Tag';
 import FilterModel from '@/services/classes/filters/FilterModel';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -82,6 +82,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .tag-link {
   margin: 5px;
 }

@@ -1,41 +1,28 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem
-        v-for="residencyApplication in user.residencyApplications"
-        :key="residencyApplication.id"
-        :title="`${residencyApplication.residencyCourse.getFullName()}`"
-        :tab-id="residencyApplication.id"
-        :collapsed="false"
-        :active-id="scope.activeId"
-        :show-tools-on-hover="false"
-      >
+      <CollapseItem v-for="residencyApplication in user.residencyApplications" :key="residencyApplication.id"
+        :title="`${residencyApplication.residencyCourse.getFullName()}`" :tab-id="residencyApplication.id"
+        :collapsed="false" :active-id="scope.activeId" :show-tools-on-hover="false">
         <template #tools>
           <div class="order-date" style="margin-right: 5px">
-            {{ $dateTimeFormatter.format(residencyApplication.formValue.createdAt, { day: '2-digit', month: 'long', year: 'numeric' }) }}
+            {{ $dateTimeFormatter.format(residencyApplication.formValue.createdAt, {
+              day: '2-digit', month: 'long',
+              year: 'numeric'
+            }) }}
           </div>
-          <el-tag
-            v-if="residencyApplication.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${residencyApplication.formValue.formStatus.color}; border-color: ${residencyApplication.formValue.formStatus.color}`"
-            >{{ residencyApplication.formValue.formStatus.label }}</el-tag
-          >
+          <el-tag v-if="residencyApplication.formValue.formStatus.label" size="small"
+            :style="`background-color: inherit; color: ${residencyApplication.formValue.formStatus.color}; border-color: ${residencyApplication.formValue.formStatus.color}`">{{
+              residencyApplication.formValue.formStatus.label }}</el-tag>
         </template>
         <template #inside-content>
           <div class="margin-container">
             <div class="position">
               <div class="flex">
-                <Button
-                  v-for="item in residencyApplication.formValue.getUserActions()"
-                  :key="item.id"
-                  :text="item.childFormStatus.userActionName"
-                  :color="item.childFormStatus.color"
-                  :margin-right="'10px'"
-                  width="120px"
-                  height="36px"
-                  font-size="14px"
-                  @click="updateFormStatus(residencyApplication, item.childFormStatus)"
-                />
+                <Button v-for="item in residencyApplication.formValue.getUserActions()" :key="item.id"
+                  :text="item.childFormStatus.userActionName" :color="item.childFormStatus.color" :margin-right="'10px'"
+                  width="120px" height="36px" font-size="14px"
+                  @click="updateFormStatus(residencyApplication, item.childFormStatus)" />
               </div>
             </div>
 
@@ -57,9 +44,8 @@ import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
-import Button from '@/components/Base/Button.vue';
-import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -67,7 +53,6 @@ export default defineComponent({
   components: {
     CollapseContainer,
     CollapseItem,
-    Button,
   },
   setup() {
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
@@ -116,6 +101,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .main-component {
   position: relative;
 }
@@ -208,6 +195,7 @@ export default defineComponent({
   overflow: hidden;
   margin: 5px;
   position: relative;
+
   img {
     position: absolute;
     top: 50%;
@@ -314,6 +302,7 @@ export default defineComponent({
   .margin-container {
     padding: 10px 5px;
   }
+
   .flex {
     margin-top: 0px;
   }

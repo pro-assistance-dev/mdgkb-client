@@ -12,6 +12,7 @@ export default class Pagination {
   append = false;
   allLoaded = false;
   version = '';
+  initial = false;
   constructor(i?: Pagination) {
     ClassHelper.BuildClass(this, i);
   }
@@ -66,5 +67,11 @@ export default class Pagination {
   }
   getPageNum(): number {
     return this.offset / this.limit + 1;
+  }
+
+  drop() {
+    this.offset = 0;
+    this.limit = 25;
+    ClassHelper.BuildClass(this);
   }
 }

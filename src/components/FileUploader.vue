@@ -25,7 +25,7 @@
 import { ElNotification } from 'element-plus';
 import { defineComponent, PropType, ref } from 'vue';
 
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import IFile from '@/interfaces/files/IFile';
 import getExtension from '@/services/GetExtension';
 
@@ -83,6 +83,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .file-name {
   margin-left: 5px;
   display: flex;

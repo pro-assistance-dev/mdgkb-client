@@ -150,6 +150,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .floors-table {
   .el-button {
     padding: 0 10px;

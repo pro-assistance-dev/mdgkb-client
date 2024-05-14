@@ -10,7 +10,8 @@
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
         <el-row>
-          <el-col v-for="item in news" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
+          <el-col v-for="item in news" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12"
+            :style="{ padding: '10px', display: 'flex' }">
             <div style="margin: 0 auto">
               <NewsCard :news="item" />
             </div>
@@ -22,89 +23,60 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
-
+<script lang="ts" setup>
 import News from '@/classes/News';
-import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import NewsCard from '@/components/News/NewsCard.vue';
-import NewsEventsButtons from '@/components/News/NewsEventsButtons.vue';
-import NewsFilters from '@/components/News/NewsFilters.vue';
-import Pagination from '@/services/classes/filters/Pagination';
 import Hooks from '@/services/Hooks/Hooks';
 import { Operators } from '@/services/interfaces/Operators';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
-export default defineComponent({
-  name: 'NewsList',
-  components: { NewsEventsButtons, NewsCard, NewsFilters, LoadMoreButton },
-  emits: ['add', 'remove'],
-  setup() {
-    const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
-    const mount = ref(false);
-    const loading = ref(false);
+import Pagination from '@/services/classes/filters/Pagination';
 
-    const news: ComputedRef<News[]> = computed(() => Provider.store.getters['news/items']);
+const emits = defineEmits(['add', 'remove'])
 
-    const setDefaultPagination = () => {
-      Provider.filterQuery.value.pagination = new Pagination();
-      Provider.filterQuery.value.pagination.limit = 6;
-      Provider.filterQuery.value.pagination.cursorMode = true;
-    };
-    const loadNews = async () => {
-      Provider.resetFilterQuery();
-      setDefaultPagination();
-      Provider.setSortModels(NewsSortsLib.byPublishedOn());
-      Provider.setFilterModels(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts());
-      await load();
-    };
+const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
+const mount = ref(false);
+const loading = ref(false);
 
-    const load = async () => {
-      setDefaultPagination();
-      Provider.store.commit('news/clearNews');
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
-      Provider.store.commit('news/setFilteredNews');
-      mount.value = true;
-    };
+const news: ComputedRef<News[]> = Store.Items('news')
+const ftsp = FTSP.Get()
 
-    Hooks.onBeforeMount(loadNews);
+const setDefaultPagination = () => {
+  ftsp.p = new Pagination();
+  ftsp.p.limit = 6;
+  ftsp.p.append = true;
+};
 
-    const loadMore = async () => {
-      loading.value = true;
-      Provider.filterQuery.value.pagination.setLoadMoreV2(
-        news.value[news.value.length - 1].publishedOn as unknown as string,
-        'publishedOn',
-        'news'
-      );
-      // Provider.filterQuery.value.pagination.cursor.value = news.value[news.value.length - 1].publishedOn;
-      Provider.filterQuery.value.pagination.cursor.operation = Operators.Lt;
-      Provider.filterQuery.value.pagination.version = 'v2';
-      Provider.filterQuery.value.pagination.append = true;
-      // Provider.filterQuery.value.pagination.cursor.column = ClassHelper.GetPropertyName(News).publishedOn as unknown as string;
-      // Provider.filterQuery.value.pagination.cursor.tableName = Provider.schema.value.news.tableName;
-      Provider.filterQuery.value.pagination.cursor.initial = false;
-      Provider.filterQuery.value.pagination.cursorMode = true;
+const loadNews = async () => {
+  ftsp.reset()
+  setDefaultPagination();
+  ftsp.setS(NewsSortsLib.byPublishedOn())
+  ftsp.setF(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts())
+  await load();
+};
 
-      await Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
-      // Provider.store.commit('news/setFilteredNews');
-      loading.value = false;
-    };
+const load = async () => {
+  setDefaultPagination();
+  Provider.store.commit('news/clearNews');
+  Store.FTSP('news')
+  mount.value = true;
+};
 
-    return {
-      load,
-      loading,
-      allNewsLoaded,
-      loadMore,
-      loadNews,
-      news,
-      mount,
-    };
-  },
-});
+Hooks.onBeforeMount(loadNews);
+
+const loadMore = async () => {
+  loading.value = true;
+  ftsp.p.append = true;
+  ftsp.p.offset = news.value.length;
+  ftsp.p.initial = false
+  await Store.FTSP('news');
+  loading.value = false;
+};
+
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .calendar {
   margin-bottom: 40px;
 }

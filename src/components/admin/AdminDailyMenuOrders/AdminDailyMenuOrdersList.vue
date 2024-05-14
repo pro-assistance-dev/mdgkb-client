@@ -2,7 +2,8 @@
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
       <RemoteSearch key-value="dailyMenuOrder" placeholder="Введите номер заказа" @select="selectSearch" />
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
+      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()"
+        @load="loadApplications" />
       <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadApplications" />
     </template>
     <template #sort>
@@ -76,22 +77,20 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
 import IOption from '@/interfaces/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import DailyMenuOrdersFiltersLib from '@/services/Provider/libs/filters/DailyMenuOrdersFiltersLib';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
-import DailyMenuOrdersSortsLib from '@/services/Provider/libs/sorts/DailyMenuOrdersSortsLib';
+import DailyMenuOrdersFiltersLib from '@/libs/filters/DailyMenuOrdersFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import DailyMenuOrdersSortsLib from '@/libs/sorts/DailyMenuOrdersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDailyMenuOrdersList',
-  components: { AdminListWrapper, TableButtonGroup, SortList, TableFormStatus, RemoteSearch, FilterMultipleSelect, FilterCheckboxV2 },
+  components: { AdminListWrapper, TableButtonGroup, TableFormStatus, FilterMultipleSelect, FilterCheckboxV2 },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
@@ -154,6 +153,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {
@@ -182,6 +182,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;

@@ -7,105 +7,74 @@
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Division from '@/classes/Division';
-import DivisionsList from '@/components/Divisions/DivisionsList.vue';
-import DivisionsListFilters from '@/components/Divisions/DivisionsListFilters.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
-import DivisionsSortsLib from '@/services/Provider/libs/sorts/DivisionsSortsLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DivisionsCentersList',
-  components: {
-    DivisionsList,
-    DivisionsListFilters,
-    PageWrapper,
-  },
-  emits: ['selectMode'],
-  setup() {
-    const modes: Ref<IOption[]> = ref([]);
-    const mode: Ref<string> = ref('divisions');
-    const divisions: Ref<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
-    const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
-    const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
-    const count: Ref<number> = ref(1);
+const modes: Ref<IOption[]> = ref([]);
+const mode: Ref<string> = ref('divisions');
+const divisions: Ref<Division[]> = Store.Items('divisions')
+const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
+const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
+const count: Ref<number> = ref(1);
+const mounted = ref(false)
 
-    const load = async () => {
-      Provider.setSortModels(DivisionsSortsLib.byName());
-      Provider.setSortList(...createSortModels(DivisionsSortsLib));
-      onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
-      onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
+const load = async () => {
+  FTSP.Get().setS(DivisionsSortsLib.byName())
+  // Provider.setSortModels(DivisionsSortsLib.byName());
+  // Provider.setSortList(...createSortModels(DivisionsSortsLib));
+  onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
+  onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
-      if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
-        Provider.setFilterModel(onlyDivisionsFilterModel.value);
-      } else {
-        Provider.setFilterModel(onlyCentersFilterModel.value);
-      }
+  if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
+    FTSP.Get().setF(onlyDivisionsFilterModel.value);
+  } else {
+    FTSP.Get().setF(onlyCentersFilterModel.value);
+  }
 
-      Provider.store.commit('filter/setStoreModule', 'divisions');
-      await loadDivisions();
-      await loadFilters();
-      modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
-    };
+  Store.Commit('filter/setStoreModule', 'divisions');
+  await loadDivisions();
+  modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
+  mounted.value = true
+};
 
-    Hooks.onBeforeMount(load);
+Hooks.onBeforeMount(load);
 
-    const loadDivisions = async () => {
-      Provider.filterQuery.value.pagination.append = false;
-      Provider.filterQuery.value.pagination.limit = mode.value === 'divisions' ? 6 : 8;
-      if (!mode.value) {
-        Provider.filterQuery.value.pagination.limit = 6;
-      }
-      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
-    };
+const loadDivisions = async () => {
+  FTSP.Get().p.append = false;
+  FTSP.Get().p.limit = mode.value === 'divisions' ? 6 : 8;
+  if (!mode.value) {
+    FTSP.Get().p.limit = 6;
+  }
+  await Store.FTSP('divisions');
+};
 
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = divisions.value.length;
-      await Provider.store.dispatch('divisions/getAll', { filterQuery: Provider.filterQuery.value });
-    };
+const loadMore = async () => {
+  FTSP.Get().p.append = true;
+  FTSP.Get().p.offset = divisions.value.length;
+  await Store.FTSP('divisions');
+};
 
-    const selectMode = async (selectedMode: string) => {
-      mode.value = selectedMode;
-      if (mode.value === 'divisions' && count.value !== 1) {
-        Provider.replaceFilterModel(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value.id);
-      } else if (mode.value === 'centers' && count.value !== 1) {
-        Provider.replaceFilterModel(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value.id);
-      }
-      count.value--;
-      await loadDivisions();
-    };
-
-    const loadFilters = async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-    };
-
-    return {
-      divisions,
-      createSortModels,
-      modes,
-      mode,
-      selectMode,
-      mounted: Provider.mounted,
-      load,
-      loadMore,
-      loadDivisions,
-      loadFilters,
-    };
-  },
-});
+const selectMode = async (selectedMode: string) => {
+  mode.value = selectedMode;
+  if (mode.value === 'divisions' && count.value !== 1) {
+    FTSP.Get().replaceF(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value);
+  } else if (mode.value === 'centers' && count.value !== 1) {
+    FTSP.Get().replaceF(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value);
+  }
+  count.value--;
+  await loadDivisions();
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 // $left-side-max-width: 370px;
 // $right-side-max-width: 1000px;
 
@@ -113,33 +82,42 @@ export default defineComponent({
   // display: flex;
   // justify-content: center;
   margin: 0 auto;
+
   .left-side {
     margin-right: 20px;
     // max-width: $left-side-max-width;
   }
+
   .right-side {
     // max-width: $right-side-max-width;
   }
 }
+
 h2 {
   margin: 0;
 }
+
 .card-header {
   text-align: center;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
+
   img {
     width: 150px;
   }
 }
+
 .flex-row {
   display: flex;
 }
+
 .flex-column {
   display: flex;
   flex-direction: column;
 }
+
 .link {
   &:hover {
     cursor: pointer;
@@ -163,6 +141,7 @@ h2 {
   display: flex;
   justify-content: center;
 }
+
 .filters {
   position: sticky;
   top: 79px;
@@ -294,6 +273,7 @@ h2 {
     display: flex;
     margin-right: 5px;
   }
+
   .item-4 {
     width: 158px;
     display: flex;

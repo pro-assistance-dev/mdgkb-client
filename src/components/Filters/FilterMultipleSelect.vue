@@ -1,16 +1,11 @@
 <template>
-  <el-form :gutter="12" label-position="top" :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
+  <el-form :gutter="12" label-position="top"
+    :style="{ width: '100%', maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }">
     <el-form-item>
-      <el-select
-        multiple
-        :model-value="filterModel.set"
-        :filterable="filterable"
-        clearable
-        :placeholder="placeholder"
-        round
-        @change="addFilterModel"
-      >
-        <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label" :value="option.value"></el-option>
+      <el-select multiple :model-value="filterModel.set" :filterable="filterable" clearable :placeholder="placeholder"
+        round @change="addFilterModel">
+        <el-option v-for="(option, optionIndex) in options" :key="optionIndex" :label="option.label"
+          :value="option.value"></el-option>
       </el-select>
     </el-form-item>
   </el-form>
@@ -19,7 +14,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import IOption from '@/interfaces/schema/IOption';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Provider from '@/services/Provider/Provider';
 
@@ -72,6 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 // @import '@/assets/elements/filterForm.scss';
 
 :deep(.el-input__inner) {
@@ -114,5 +109,4 @@ export default defineComponent({
 
 // .filter-form {
 // width: 100%;
-// }
-</style>
+// }</style>

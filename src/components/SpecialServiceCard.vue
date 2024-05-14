@@ -2,8 +2,8 @@
   <div class="spec-serv-card card-hover" @click="toLink">
     <div class="spec-serv-card-img">
       <img v-if="item.fileInfo && item.fileInfo.fileSystemPath" :src="item.fileInfo.getImageUrl()" alt="file-info" />
-      <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" alt="file-info" />
-      <img v-else src="@/assets/img/310x310.webp" alt="file-info" />
+      <!-- <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" alt="file-info" /> -->
+      <img v-else src="src/assets/img/310x310.webp" alt="file-info" />
     </div>
     <div class="spec-serv-card-container">
       <div class="spec-serv-card-title">{{ item.title }}</div>
@@ -40,6 +40,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .spec-serv-card {
   margin-left: 10px;
   background: #ffffff;

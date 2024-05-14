@@ -1,10 +1,10 @@
 import { AxiosInstance } from 'axios';
-import { ElNotification } from 'element-plus';
 
 import TokenService from '@/services/Token';
 import store from '@/store';
 
 import ClassHelper from '../ClassHelper';
+import Message from './Message';
 export default class HttpError {
   private code = 400;
   private err = '';
@@ -40,11 +40,17 @@ export default class HttpError {
       return axiosInstance.request(originalRequest);
     }
     if (error.response.status >= 500) {
-      ElNotification({ message: 'Ошибка на сервере, попробуйте позже', duration: 10000, type: 'error' });
+      if (error.response.data === 'неверный логин или пароль') {
+        Message.Error('Неверный логин или пароль');
+        return;
+      }
+      Message.Error('Ошибка на сервере, попробуйте позже');
     }
     if (error.response.status >= 400 && error.response.status < 500) {
-      const err = new HttpError(error.response.data);
-      ElNotification({ message: err.getErr(), duration: 10000, type: 'error' });
+      const err = new HttpError(error.response.data).getErr();
+      if (err) {
+        Message.Error(err);
+      }
     }
     return Promise.reject(error);
   }

@@ -6,34 +6,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import EducationalAcademic from '@/classes/EducationalAcademic';
-import AcademicCard from '@/components/Educational/AcademicCard.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'PostgraduateAcademics',
-  components: { AcademicCard },
-  setup() {
-    const mounted = ref(false);
-    const educationalAcademics: Ref<EducationalAcademic[]> = computed(() => Provider.store.getters['educationalAcademics/items']);
+const mounted = ref(false);
+const educationalAcademics: Ref<EducationalAcademic[]> = Store.Items('educationalAcademics');
 
-    onBeforeMount(async () => {
-      await Provider.getAll('educationalAcademics');
-      mounted.value = true;
-    });
-
-    return {
-      mounted,
-      educationalAcademics,
-    };
-  },
+onBeforeMount(async () => {
+  await Store.GetAll('educationalAcademics');
+  mounted.value = true;
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex {
   display: flex;
   justify-content: space-between;
@@ -56,6 +42,7 @@ export default defineComponent({
     margin-top: 50px;
     text-align: center;
   }
+
   h2 {
     margin: 0;
   }
@@ -72,9 +59,11 @@ export default defineComponent({
 .el-descriptions__label {
   font-size: 15px;
 }
+
 .flex-row {
   display: flex;
 }
+
 .doctor-img-container {
   margin: 0 10px 10px 0;
 }

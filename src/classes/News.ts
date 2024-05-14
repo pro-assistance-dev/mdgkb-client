@@ -1,6 +1,6 @@
 import Doctor from '@/classes/Doctor';
 import Event from '@/classes/Event';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsComment from '@/classes/NewsComment';
 import NewsDivision from '@/classes/NewsDivision';
 import NewsDoctor from '@/classes/NewsDoctor';
@@ -82,7 +82,7 @@ export default class News {
       return this.previewImage.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
-    return require(`../assets/news/img${numberOfImg}.webp`);
+    return `src/assets/news/img${numberOfImg}.webp`;
   }
 
   getStrippedContent(): string {

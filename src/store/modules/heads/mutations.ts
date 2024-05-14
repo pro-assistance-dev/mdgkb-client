@@ -3,7 +3,7 @@ import { MutationTree } from 'vuex';
 import Head from '@/classes/Head';
 import Timetable from '@/classes/Timetable';
 import TimetableDay from '@/classes/TimetableDay';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
 import { State } from './index';

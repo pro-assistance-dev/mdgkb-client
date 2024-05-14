@@ -218,7 +218,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .flex-row-between {
   display: flex;
@@ -275,7 +275,7 @@ export default defineComponent({
 .admin-del {
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 10px;
   transition: 0.3s;
   cursor: pointer;

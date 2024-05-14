@@ -12,7 +12,7 @@
             <!--              alt="Фото врача"-->
             <!--              @error="errorImg"-->
             <!--            />-->
-            <img src="@/assets/img/doctor-default.webp" alt="doctor-photo" />
+            <img src="src/assets/img/doctor-default.webp" alt="doctor-photo" />
             <div>
               <div class="name">
                 <!--                <div>{{ scope.row.doctor.employee.human.surname }}</div>-->
@@ -30,7 +30,7 @@
     <!-- <template v-for="newsDoctor in newsDoctors" :key="newsDoctor.id">
       <div class="card-row">
         <img v-if="newsDoctor.doctor.fileInfo.fileSystemPath" :src="newsDoctor.doctor.fileInfo.getImageUrl()" alt="alt" @error="errorImg" />
-        <img v-else src="@/assets/img/doctor-default.webp" />
+        <img v-else src="src/assets/img/doctor-default.webp" />
         <div>
           <div class="name">
             <div>{{ newsDoctor.doctor.employee.human.surname }}</div>
@@ -72,6 +72,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-divider {
   margin: 10px 0;
 }

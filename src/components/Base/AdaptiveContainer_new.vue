@@ -144,7 +144,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .mainblock {
   display: flex;
@@ -169,7 +169,7 @@ export default defineComponent({
   z-index: 1;
   max-height: auto;
   transition: 0.3s;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
 }
 
 .mainblock-right {

@@ -40,8 +40,8 @@ const selectStep = (step: unknown) => {
 };
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .select-window {
   position: absolute;
@@ -63,7 +63,7 @@ const selectStep = (step: unknown) => {
 .item-box {
   width: calc(100% - 40px);
   border: 1px solid rgb(black, 0.2);
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   margin: 10px 20px;
 }
 </style>

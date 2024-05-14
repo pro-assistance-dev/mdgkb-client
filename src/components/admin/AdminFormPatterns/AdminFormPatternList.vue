@@ -9,12 +9,8 @@
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup
-              :show-edit-button="true"
-              :show-remove-button="true"
-              @remove="remove(scope.row.id)"
-              @edit="edit(scope.row.id)"
-            />
+            <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
+              @edit="edit(scope.row.id)" />
           </template>
         </el-table-column>
       </el-table>
@@ -22,54 +18,35 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Form from '@/classes/Form';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
-export default defineComponent({
-  name: 'AdminFormPatternList',
-  components: { TableButtonGroup },
+const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns')
 
-  setup() {
-    const router = useRouter();
-    const store = useStore();
-    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
+const create = (): void => {
+  Router.ToAdmin('/form-patterns/new');
+};
+const remove = async (id: string): Promise<void> => {
+  await Store.Remove('formPatterns', id);
+};
 
-    const create = (): void => {
-      router.push('/admin/form-patterns/new');
-    };
-    const remove = async (id: string): Promise<void> => {
-      await store.dispatch('formPatterns/remove', id);
-    };
-    const edit = (id: string): void => {
-      router.push(`/admin/form-patterns/${id}`);
-    };
+const edit = (id: string): void => {
+  Router.ToAdmin(`form-patterns/${id}`);
+};
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await store.dispatch('formPatterns/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Шаблоны форм для заявок',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
-      store.commit('admin/closeLoading');
-    });
-
-    return {
-      formPatterns,
-      create,
-      remove,
-      edit,
-    };
-  },
+onBeforeMount(async () => {
+  Store.Commit('admin/showLoading');
+  await Store.FTSP('formPatterns');
+  Store.Commit('admin/setHeaderParams', {
+    title: 'Шаблоны форм для заявок',
+    buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+  });
+  Store.Commit('admin/closeLoading');
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

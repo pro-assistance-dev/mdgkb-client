@@ -4,7 +4,7 @@ import { Commit } from 'vuex';
 import ChatMessage from '@/services/classes/ChatMessage';
 import ClassHelper from '@/services/ClassHelper';
 
-const apiHost = process.env.VUE_APP_API_HOST ?? '';
+const apiHost = import.meta.env.VITE_APP_API_HOST ?? '';
 export default class WebSocketClient {
   private client?: WebSocket;
   private endpoint = '';
@@ -49,7 +49,8 @@ export default class WebSocketClient {
   }
 
   private buildUrl(): string {
-    return new URL(path.join('ws', this.endpoint, this.query), apiHost.replace('http', 'ws')).toString();
+    const path = `ws/${this.endpoint}/${this.query}`;
+    return new URL(path, apiHost.replace('http', 'ws')).toString();
   }
 
   private connect() {

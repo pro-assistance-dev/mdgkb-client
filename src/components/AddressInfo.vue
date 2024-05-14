@@ -51,7 +51,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .block-line {
   position: relative;
@@ -63,8 +63,8 @@ export default defineComponent({
 .icon-map-marker {
   padding-right: 10px;
   margin-bottom: 2px;
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: $site_dark_gray;
 }
 

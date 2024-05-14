@@ -46,7 +46,7 @@ import Employee from '@/classes/Employee';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import EducationOrganizationAcademicsSortsLib from '@/services/Provider/libs/sorts/EducationOrganizationAcademicsSortsLib';
+import EducationOrganizationAcademicsSortsLib from '@/libs/sorts/EducationOrganizationAcademicsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 

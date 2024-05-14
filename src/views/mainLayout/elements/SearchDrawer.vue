@@ -53,7 +53,7 @@ export default defineComponent({
     const store = useStore();
     const searchInput = ref();
     const searchString: Ref<string> = ref('');
-    let groups: Ref<string[]> = ref([]);
+    const groups: Ref<string[]> = ref([]);
     const router = useRouter();
 
     const searchModel: ComputedRef<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
@@ -68,7 +68,7 @@ export default defineComponent({
     const closeDrawer = () => store.commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
-      await store.dispatch('search/searchGroups');
+      // await store.dispatch('search/searchGroups');
     });
 
     const find = async (query: string) => {
@@ -107,6 +107,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .filters {
   margin-top: 10px;
 }

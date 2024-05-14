@@ -1,8 +1,8 @@
 import Department from '@/classes/Department';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Timetable from '@/classes/Timetable';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -19,7 +19,7 @@ export default class Head {
   departments: Department[] = [];
   departmentsForDelete: string[] = [];
   isMain = false;
-  contactInfo?: ContactInfo = new ContactInfo();
+  contactInfo?: Contact = new Contact();
   contactInfoId?: string;
   order = 1;
 

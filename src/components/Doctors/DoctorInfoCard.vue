@@ -12,7 +12,7 @@
         <Rating :comments="doctor.doctorComments" />
         <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()" target="_blank">
           <div class="mos-doctor-img">
-            <img src="@/assets/img/mos-doctor.webp" alt="mos-doctor" />
+            <img src="src/assets/img/mos-doctor.webp" alt="mos-doctor" />
             <span>Московский</span>
             <span>врач</span>
           </div>
@@ -72,10 +72,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/doctor-info-card.scss';
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 .mos-doctor-img {
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   border: $normal-border;
   padding: 10px 15px;
 }

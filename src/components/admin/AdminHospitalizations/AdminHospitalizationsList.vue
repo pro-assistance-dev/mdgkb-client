@@ -1,10 +1,11 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
-      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания"
+        @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения"
+        @load="loadHospitalizations" />
 
-      <FilterMultipleSelect :filter-model="filterByDivision" :options="schema.division.options" @load="loadHospitalizations" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
@@ -49,7 +50,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
+            @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -63,7 +65,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -73,8 +74,8 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import HospitalizationsFiltersLib from '@/services/Provider/libs/filters/HospitalizationsFiltersLib';
-import HospitalizationsSortsLib from '@/services/Provider/libs/sorts/HospitalizationsSortsLib';
+import HospitalizationsFiltersLib from '@/libs/filters/HospitalizationsFiltersLib';
+import HospitalizationsSortsLib from '@/libs/sorts/HospitalizationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -83,7 +84,6 @@ export default defineComponent({
   components: {
     AdminListWrapper,
     TableButtonGroup,
-    SortList,
     FilterMultipleSelect,
     FilterSelectV2,
     TableFormStatus,
@@ -97,11 +97,9 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
-      Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
+      // Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
+      // Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
       filterByDivision.value = HospitalizationsFiltersLib.byDivisions([]);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
       await loadHospitalizations();
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Госпитализации',
@@ -141,7 +139,6 @@ export default defineComponent({
       edit,
       create,
       mounted: Provider.mounted,
-      schema: Provider.schema,
       selectSearch,
       // genderFilter,
       loadHospitalizations,
@@ -154,6 +151,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {
@@ -182,6 +180,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;

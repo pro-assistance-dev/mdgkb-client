@@ -4,17 +4,6 @@
       <ModeChoice path="divisions" :modes="modes" @selectMode="selectMode" />
     </template>
     <template #header-left-top>
-      <RemoteSearch :key-value="schema.division.key" @select="selectSearch" />
-      <FilterSelect
-        placeholder="Выберите направление"
-        :max-width="300"
-        :options="schema.treatDirection.options"
-        :table="schema.division.tableName"
-        :col="schema.division.treatDirectionId"
-        :data-type="DataTypes.String"
-        :operator="Operators.Eq"
-        @load="$emit('load')"
-      />
     </template>
 
     <template #header-left-bottom>
@@ -37,20 +26,15 @@ import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
-import IOption from '@/interfaces/schema/IOption';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import DivisionsFiltersLib from '@/services/Provider/libs/filters/DivisionsFiltersLib';
+import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionsListFilters',
   components: {
-    RemoteSearch,
-    SortList,
     ModeChoice,
     FilterSelect,
     FiltersWrapper,
@@ -81,13 +65,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       Provider.store.commit('filter/setStoreModule', 'divisions');
-      await loadFilters();
     });
-
-    const loadFilters = async () => {
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.treatDirection);
-      await Provider.store.dispatch('meta/getOptions', Provider.schema.value.division);
-    };
 
     return {
       hospitalizationFilter: DivisionsFiltersLib.withHospitalization().toRef(),
@@ -98,12 +76,12 @@ export default defineComponent({
       selectMode,
       Operators,
       DataTypes,
-      schema: Provider.schema,
-      sortList: Provider.sortList,
       treatDirections,
     };
   },
 });
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+</style>

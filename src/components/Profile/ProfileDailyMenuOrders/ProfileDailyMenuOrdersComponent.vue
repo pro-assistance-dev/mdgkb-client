@@ -1,65 +1,36 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem
-        v-for="dailyMenuOrder in user.dailyMenuOrders"
-        :key="dailyMenuOrder.id"
-        :title="dailyMenuOrder.getFormattedNumber()"
-        :tab-id="dailyMenuOrder.id"
-        :collapsed="false"
-        :active-id="scope.activeId"
-        :show-tools-on-hover="false"
-      >
-        <template #tools>
-          <div class="order-date">
-            {{ $dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' }) }}
+      <CollapseItem v-for="dailyMenuOrder in user.dailyMenuOrders" :key="dailyMenuOrder.id" :tab-id="dailyMenuOrder.id"
+        :active-id="scope.activeId" :show-tools-on-hover="false">
+        <template #inside-title>
+          <StringItem :string="dailyMenuOrder.getFormattedNumber()" font-weight="normal" min-width="90px" />
+          <div class="flex-line">
+            <StringItem
+              :string="$dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' })"
+              font-weight="normal" font-size="14px" color="$base-light-font-color" />
+            <StringItem v-if="dailyMenuOrder.formValue.formStatus.label"
+              :string="dailyMenuOrder.formValue.formStatus.label" :color="dailyMenuOrder.formValue.formStatus.color"
+              font-size="14px" />
           </div>
-          <el-tag
-            v-if="dailyMenuOrder.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${dailyMenuOrder.formValue.formStatus.color}; border-color: ${dailyMenuOrder.formValue.formStatus.color}`"
-            >{{ dailyMenuOrder.formValue.formStatus.label }}</el-tag
-          >
         </template>
         <template #inside-content>
           <div class="margin-container">
-            <CartContainer
-              :width="'auto'"
-              :background="'#F9FAFB'"
-              :border="'1px solid #e9e9e9'"
-              :icon-close="false"
-              :left-background="'#ffffff'"
-              :border-inside="true"
-            >
+            <CartContainer :width="'auto'" :background="'#F9FAFB'" :border="'1px solid #e9e9e9'" :icon-close="false"
+              :left-background="'#ffffff'" :border-inside="true">
               <template #title>
                 <div class="position">
                   <div class="flex">
-                    <Button
-                      v-for="item in dailyMenuOrder.formValue.getUserActions()"
-                      :key="item.id"
-                      :text="item.childFormStatus.userActionName"
-                      :color="item.childFormStatus.color"
-                      :margin-right="'10px'"
-                      width="120px"
-                      height="36px"
-                      font-size="14px"
-                      @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)"
-                    />
-                    <Button
-                      text="Чат(в разработке)"
-                      width="120px"
-                      height="36px"
-                      font-size="12px"
-                      @click="dailyMenuOrder.chatIsOpen = true"
-                    />
+                    <Button v-for="item in dailyMenuOrder.formValue.getUserActions()" :key="item.id"
+                      :text="item.childFormStatus.userActionName" :color="item.childFormStatus.color"
+                      :margin-right="'10px'" width="120px" height="36px" font-size="14px"
+                      @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)" />
+                    <Button text="Чат(в разработке)" width="120px" height="36px" font-size="12px"
+                      @click="dailyMenuOrder.chatIsOpen = true" />
                     <div v-if="dailyMenuOrder.chatIsOpen" class="menu-shadow">
-                      <Chat
-                        v-if="dailyMenuOrder.chatIsOpen"
-                        :chat-id="dailyMenuOrder.formValue.chatId"
-                        :user-name="user.human.getFullName()"
-                        :user-id="user.id"
-                        @close="dailyMenuOrder.chatIsOpen = false"
-                      />
+                      <Chat v-if="dailyMenuOrder.chatIsOpen" :chat-id="dailyMenuOrder.formValue.chatId"
+                        :user-name="user.human.getFullName()" :user-id="user.id"
+                        @close="dailyMenuOrder.chatIsOpen = false" />
                     </div>
                   </div>
                 </div>
@@ -70,7 +41,7 @@
                   <div v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems" :key="dailyMenuOrderItem.id">
                     <div class="left">
                       <div class="image-box">
-                        <img src="@/assets/svg/Buffet/food.webp" alt="eat-photo" />
+                        <img src="src/assets/svg/Buffet/food.webp" alt="eat-photo" />
                       </div>
                       <div class="info">
                         <!-- <div class="small-title">Блюда из овощей</div> -->
@@ -116,19 +87,18 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, r
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
-import Button from '@/components/Base/Button.vue';
 import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
-import CollapseContainer from '@/components/Main/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
+import StringItem from '@/services/components/StringItem.vue';
 
 export default defineComponent({
   name: 'ProfileDailyMenuOrders',
   components: {
     CollapseContainer,
     CollapseItem,
-    Button,
     CartContainer,
     Chat,
   },
@@ -179,6 +149,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .main-component {
   position: relative;
 }
@@ -191,6 +163,15 @@ export default defineComponent({
   font-weight: bold;
   letter-spacing: 1px;
   color: #343e5c;
+}
+
+.flex-line {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 0 0 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .item {
@@ -229,7 +210,7 @@ export default defineComponent({
   align-items: center;
   justify-content: left;
   font-size: 14px;
-  color: #343e5c;
+  color: $base-font-color;
   margin-right: 10px;
 }
 
@@ -239,7 +220,7 @@ export default defineComponent({
   justify-content: left;
   width: 100%;
   height: 20px;
-  color: #a1a7bd;
+  color: $base-font-color;
   font-size: 11px;
   letter-spacing: 1px;
 }
@@ -271,6 +252,7 @@ export default defineComponent({
   overflow: hidden;
   margin: 5px;
   position: relative;
+
   img {
     position: absolute;
     top: 50%;
@@ -376,6 +358,7 @@ export default defineComponent({
   .margin-container {
     padding: 10px 5px;
   }
+
   .flex {
     margin-top: 0px;
   }

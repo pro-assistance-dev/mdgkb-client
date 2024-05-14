@@ -1,8 +1,8 @@
 import { GetterTree } from 'vuex';
 
 import Chat from '@/services/classes/Chat';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import WebSocketClient from '@/services/WebSocketClient';
-import getBaseGetters from '@/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './index';

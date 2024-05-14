@@ -1,7 +1,7 @@
 import { MutationTree } from 'vuex';
 
-import FileInfo from '@/classes/FileInfo';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import FileInfo from '@/services/classes/FileInfo.ts';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { State } from './index';
 

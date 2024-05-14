@@ -4,45 +4,13 @@
       <FiltersWrapper>
         <template #header-right>
           <div :style="{ display: 'flex', flexDirection: 'column' }">
-            <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить отзыв</button>
-            <router-link to="/service-quality-assessment" style="text-align: center"
-              >Независимая оценка качества оказания услуг</router-link
-            >
+            <button class="leave-review-button" @click="auth.isAuth ? (showDialog = true) : openLoginModal()">Оставить
+              отзыв</button>
+            <router-link to="/service-quality-assessment" style="text-align: center">Независимая оценка качества
+              оказания услуг</router-link>
           </div>
-          <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
-        </template>
-        <template #header-left-bottom>
-          <FilterCheckbox
-            label="Свои отзывы"
-            :table="schema.comment.tableName"
-            :col="schema.comment.userId"
-            :data-type="DataTypes.String"
-            :operator="Operators.Eq"
-            :filter-value="TokenService.getUserId()"
-            @load="loadComments"
-          />
-
-          <FilterCheckbox
-            label="С высоким рейтингом"
-            :table="schema.comment.tableName"
-            :col="schema.comment.rating"
-            :data-type="DataTypes.Number"
-            :operator="Operators.Gt"
-            :filter-value="'3'"
-            @load="loadComments"
-          />
-          <FilterCheckbox
-            label="С низким рейтингом"
-            :table="schema.comment.tableName"
-            :col="schema.comment.rating"
-            :data-type="DataTypes.Number"
-            :operator="Operators.Lt"
-            :filter-value="'3'"
-            @load="loadComments"
-          />
-        </template>
-        <template #header-left-top>
-          <FilterSelectDate :table="schema.comment.tableName" :col="schema.comment.publishedOn" @load="loadComments" />
+          <!-- <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" -->
+          <!--   @changeMode="loadComments" /> -->
         </template>
       </FiltersWrapper>
     </template>
@@ -62,9 +30,7 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Comment from '@/classes/Comment';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
@@ -76,74 +42,50 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import CommentsSortsLib from '@/services/Provider/libs/sorts/CommentsSortsLib';
+import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'CommentsList',
-  components: {
-    FilterSelectDate,
-    LoadMoreButton,
-    CommentCard,
-    FilterCheckbox,
-    CommentForm,
-    PageWrapper,
-    FiltersWrapper,
-  },
-  setup() {
-    const comments: Ref<Comment[]> = computed<Comment[]>(() => Provider.store.getters['comments/comments']);
-    const showDialog: Ref<boolean> = ref(false);
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
+const comments: Ref<Comment[]> = Store.Items('comments')
+const showDialog: Ref<boolean> = ref(false);
+const auth = Store.Getters('auth/auth')
+const authModal = Store.Getters('auth/modal')
+const mounted = ref(false)
 
-    const openLoginModal = () => {
-      if (!isAuth.value) {
-        Provider.store.commit('auth/openModal', 'login');
-      }
-    };
+const openLoginModal = () => {
 
-    const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 6;
-      Provider.setSortModels(CommentsSortsLib.byPublishedOn());
-      await loadComments();
-    };
+  if (!auth.value.isAuth) {
+    authModal.value.open()
+  }
+};
 
-    const loadComments = async () => {
-      Provider.filterQuery.value.pagination.allLoaded = false;
-      Provider.store.commit('comments/clearComments');
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-    };
+const load = async () => {
+  FTSP.Get().p.limit = 6
+  FTSP.Get().setS(CommentsSortsLib.byPublishedOn())
+  await loadComments();
+  mounted.value = true
+};
 
-    Hooks.onBeforeMount(load);
+const loadComments = async () => {
+  await Store.FTSP('comments')
+};
 
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = comments.value.length;
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-    };
+Hooks.onBeforeMount(load);
 
-    return {
-      TokenService,
-      Operators,
-      DataTypes,
-      loadComments,
-      loadMore,
-      comments,
-      showDialog,
-      openLoginModal,
-      isAuth,
-      mounted: Provider.mounted,
-      schema: Provider.schema,
-    };
-  },
-});
+const loadMore = async () => {
+  FTSP.Get().p.append = true;
+  FTSP.Get().p.offset = comments.value.length;
+  Store.FTSP('comments')
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .leave-review-button {
   // width: 100%;
 }
+
 button {
   margin: 10px 0;
   font-size: 16px;
@@ -153,6 +95,7 @@ button {
   height: auto;
   color: white;
   border: 1px solid rgb(black, 0.05);
+
   &:hover {
     cursor: pointer;
     background-color: darken(#2754ec, 10%);
@@ -168,6 +111,7 @@ button {
 :deep(.el-dialog__title) {
   font-weight: bold;
 }
+
 h3 {
   margin: 0;
   text-align: center;
@@ -177,10 +121,12 @@ h3 {
   .comments-list-container {
     flex-direction: column;
     align-items: center;
+
     &-left {
       max-width: 100%;
       margin: 0;
     }
+
     button {
       max-width: 300px;
     }

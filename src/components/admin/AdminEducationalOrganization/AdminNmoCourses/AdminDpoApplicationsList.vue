@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination>
+  <AdminListWrapper pagination>
     <!-- <template #header>
       <FiltersList :models="createFilterModels()" @load="loadApplications" />
     </template> -->
@@ -14,7 +14,10 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+            month: '2-digit', hour: 'numeric', minute:
+              'numeric'
+          }) }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -48,22 +51,21 @@ import DpoApplication from '@/classes/DpoApplication';
 import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 // import FiltersList from '@/components/Filters/FiltersList.vue';
 import { Orders } from '@/services/interfaces/Orders';
-import DpoApplicationsFiltersLib from '@/services/Provider/libs/filters/DpoApplicationsFiltersLib';
-import FormStatusesFiltersLib from '@/services/Provider/libs/filters/FormStatusesFiltersLib';
-import DpoApplicationsSortsLib from '@/services/Provider/libs/sorts/DpoApplicationsSortsLib';
+import DpoApplicationsFiltersLib from '@/libs/filters/DpoApplicationsFiltersLib';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import DpoApplicationsSortsLib from '@/libs/sorts/DpoApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
+  components: { TableButtonGroup, AdminListWrapper, TableFormStatus },
 
   setup() {
     const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
@@ -109,8 +111,8 @@ export default defineComponent({
       // await setFilter();
       await loadFilters();
       setType();
-      Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
-      Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
+      // Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
+      // Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
       Provider.store.commit('admin/setHeaderParams', {
         title: title,

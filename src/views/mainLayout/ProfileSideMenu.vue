@@ -3,16 +3,13 @@
     <UserInfoMini />
     <ul>
       <template v-for="item in menuList" :key="item.name">
-        <li v-if="item.liCondition()">
+        <li v-if="item.liCondition()" >
           <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
-            <component :is="require(`@/assets/profile/icons/${item.icon}.svg`).default" class="icon-profile" />
+            <ProfileMenuIcons :name="item.icon" />
             <div class="item-list-name">
               {{ item.name }}
-              <span v-if="item.notificationCondition()" class="sup-cymbol-counter">
-                {{ item.notificationCount() }}
-              </span>
+              <!-- <span v-if="item.notificationCondition()" class="sup-cymbol-counter">{{ item.notificationCount() }}</span> -->
             </div>
-            <Arrow class="icon-arrow" />
           </router-link>
         </li>
       </template>
@@ -20,167 +17,117 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-
-import Arrow from '@/assets/profile/icons/Arrow.svg';
-import Education from '@/assets/profile/icons/Education.svg';
-import Home from '@/assets/profile/icons/Home.svg';
-import Question from '@/assets/profile/icons/Question.svg';
-import Settings from '@/assets/profile/icons/Settings.svg';
+<script lang="ts" setup>
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
+import ProfileMenuIcons from '@/components/Icons/ProfileMenuIcons.vue';
 
-import VacancyResponse from '../../classes/VacancyResponse';
-
-export default defineComponent({
-  name: 'ProfileSideMenu',
-  components: { UserInfoMini, Arrow, Home, Education, Question, Settings },
-  setup() {
-    const activeRoute: Ref<string> = ref('');
-    const route = useRoute();
-    watch(route, () => {
-      setActiveMenu();
-    });
-    console.log('git_test');
-    const setActiveMenu = () => {
-      if (!Provider.route().meta.profile) {
-        return;
-      }
-      activeRoute.value = Provider.route().meta.profile as string;
-    };
-    console.log('committest');
-    onBeforeMount(() => {
-      setActiveMenu();
-    });
-
-    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
-    const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
-    const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
-
-    const menuList = [
-      {
-        name: 'Мой профиль',
-        icon: 'Home',
-        to: '/profile',
-        route: 'my',
-        liCondition: () => true,
-        notificationCondition: () => false,
-        notificationCount: () => 0,
-      },
-      {
-        name: 'Заказы еды',
-        icon: 'Education',
-        to: '/profile/daily-menu-orders',
-        route: 'daily-menu-orders',
-        liCondition: () => user.value.dailyMenuOrders.length,
-        notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
-      },
-      {
-        name: 'Заявки ординатура',
-        icon: 'Education',
-        to: '/profile/residency-applications',
-        route: 'education',
-        liCondition: () => user.value.residencyApplications.length,
-        notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
-      },
-      {
-        name: 'Отклики на вакансии',
-        icon: 'Education',
-        to: '/profile/vacancy-responses',
-        route: 'vacancy',
-        liCondition: () => user.value.vacancyResponses.length,
-        notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
-        notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
-      },
-      // {
-      //   name: 'Вопросы-ответы',
-      //   icon: 'Question',
-      //   to: '/profile/question-answer',
-      //   route: 'question-answer',
-      //   liCondition: () => user.value.questions.length > 0,
-      //   notificationCondition: () => user.value.hasNewAnswers(),
-      //   notificationCount: () => user.value.countNewAnswers(),
-      // },
-      // {
-      //   name: 'Мои комментарии',
-      //   icon: 'Question',
-      //   to: '/profile/user-comments',
-      //   route: 'user-comments',
-      //   liCondition: () => user.value.hasComments(),
-      //   notificationCondition: () => false,
-      //   notificationCount: () => 0,
-      // },
-      {
-        name: 'Настройки',
-        icon: 'Settings',
-        to: '/profile/settings',
-        route: 'settings',
-        liCondition: () => true,
-        notificationCondition: () => false,
-        notificationCount: () => 0,
-      },
-    ];
-
-    return {
-      user,
-      hasNewAnswers,
-      countNewAnswers,
-      activeRoute,
-      menuList,
-    };
-  },
+const activeRoute: Ref<string> = ref('');
+watch(() => Router.Route(), () => {
+  console.log("routeChanged")
+  setActiveMenu();
 });
+console.log('git_test');
+const setActiveMenu = () => {
+  if (!Provider.route().meta.profile) {
+    return;
+  }
+  activeRoute.value = Provider.route().meta.profile as string;
+};
+const modules = import.meta.glob('@/assets/profile/icons/*.svg');
+const getIcon = (icon: string) => {
+  const path = '/src/assets/profile/icons/' + icon + '.svg';
+  const comp = defineAsyncComponent(() => modules[path]());
+  return comp
+
+}
+console.log('committest');
+onBeforeMount(() => {
+  setActiveMenu();
+});
+
+const user: Ref<User> = Store.Item('users')
+const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
+const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
+
+const menuList = [
+  {
+    name: 'Мой профиль',
+    icon: 'Home',
+    to: '/profile',
+    route: 'my',
+    liCondition: () => true,
+    notificationCondition: () => false,
+    notificationCount: () => 0,
+  },
+  {
+    name: 'Заказы еды',
+    icon: 'Education',
+    to: '/profile/daily-menu-orders',
+    route: 'daily-menu-orders',
+    liCondition: () => user.value.dailyMenuOrders.length,
+    notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
+  },
+  {
+    name: 'Заявки ординатура',
+    icon: 'Education',
+    to: '/profile/residency-applications',
+    route: 'education',
+    liCondition: () => user.value.residencyApplications.length,
+    notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
+  },
+  {
+    name: 'Отклики на вакансии',
+    icon: 'Education',
+    to: '/profile/vacancy-responses',
+    route: 'vacancy',
+    liCondition: () => user.value.vacancyResponses.length,
+    notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
+    notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
+  },
+  // {
+  //   name: 'Вопросы-ответы',
+  //   icon: 'Question',
+  //   to: '/profile/question-answer',
+  //   route: 'question-answer',
+  //   liCondition: () => user.value.questions.length > 0,
+  //   notificationCondition: () => user.value.hasNewAnswers(),
+  //   notificationCount: () => user.value.countNewAnswers(),
+  // },
+  // {
+  //   name: 'Мои комментарии',
+  //   icon: 'Question',
+  //   to: '/profile/user-comments',
+  //   route: 'user-comments',
+  //   liCondition: () => user.value.hasComments(),
+  //   notificationCondition: () => false,
+  //   notificationCount: () => 0,
+  // },
+  {
+    name: 'Настройки',
+    icon: 'Settings',
+    to: '/profile/settings',
+    route: 'settings',
+    liCondition: () => true,
+    notificationCondition: () => false,
+    notificationCount: () => 0,
+  },
+];
+
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .profile-menu {
   min-width: 272px;
   background: #ffffff;
   height: 73vh;
   margin-right: 30px;
-}
-
-.icon-profile {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-education {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-question {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-settings {
-  width: 24px;
-  height: 24px;
-  padding-right: 10px;
-  padding-left: 20px;
-}
-
-.icon-arrow {
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  right: 15px;
-  fill: #ffffff;
 }
 
 .profile-menu ul {
@@ -206,13 +153,15 @@ export default defineComponent({
 
 .item-list {
   position: sticky;
-  fill: #2754eb;
   display: flex;
   justify-content: left;
   align-items: center;
   height: 50px;
   width: 100%;
-  color: #343e5c;
+  color: #343E5C;
+  background: #ffffff;
+  // opacity: 0.6;
+
   &-name {
     position: relative;
   }
@@ -228,9 +177,8 @@ export default defineComponent({
 }
 
 .item-list:hover {
-  fill: #ffffff;
-  color: #ffffff;
-  background: #2754eb;
+  background: #F0F2F7;
+  // opacity: 1;
 }
 
 .item {
@@ -241,20 +189,9 @@ export default defineComponent({
   display: flex;
 }
 
-// a.router-link-active,
-// li.item-list-active > a {
-//   background: #ffffff;
-// }
-
 .active {
-  color: #ffffff;
-  fill: #ffffff;
-  background: #2754eb;
-
-  .sup-cymbol-counter {
-    background: #ffffff;
-    color: #2754eb;
-  }
+  background: #F0F2F7;
+  // opacity: 1;
 }
 
 .sup-cymbol-counter {
@@ -266,8 +203,8 @@ export default defineComponent({
   height: 16px;
   border-radius: 50%;
   font-weight: bold;
-  background: #2754eb;
-  color: #ffffff;
+  background: #ffffff;
+  color: #01528A;
   align-items: center;
   justify-content: center;
   padding: 1px;

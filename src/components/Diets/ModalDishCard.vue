@@ -70,14 +70,13 @@ export default defineComponent({
   setup() {
     return {
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .image-box {
   display: block;
@@ -89,6 +88,7 @@ export default defineComponent({
   position: relative;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
+
   img {
     position: absolute;
     top: 50%;
@@ -200,6 +200,7 @@ export default defineComponent({
     position: relative;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+
     img {
       position: absolute;
       top: 50%;

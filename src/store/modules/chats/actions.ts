@@ -2,8 +2,8 @@ import { ActionTree } from 'vuex';
 
 import Chat from '@/services/classes/Chat';
 import HttpClient from '@/services/HttpClient';
+import getBaseActions from '@/services/store/baseModule/baseActions';
 import WebSocketClient from '@/services/WebSocketClient';
-import getBaseActions from '@/store/baseModule/baseActions';
 import RootState from '@/store/types';
 
 import { State } from './index';

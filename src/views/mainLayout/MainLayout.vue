@@ -1,4 +1,5 @@
 <template>
+  <AuthModal v-if="modal.visible" @action="authAct" />
   <AuthPage />
   <SearchDrawer />
   <div style="position: relative">
@@ -12,7 +13,8 @@
       </template>
       <template #title>Сайт работает в тестовом режиме</template>
       <template #info>
-        Вы можете: посмотреть новости, информацию об образовании, сведения о медицинской организации и информацию для пациенов.
+        Вы можете: посмотреть новости, информацию об образовании, сведения о медицинской организации и информацию для
+        пациенов.
       </template>
       <template #button>
         <button class="make-green" @click="clickHandler">Понятно</button>
@@ -33,7 +35,7 @@
             <div class="profile-page-container">
               <ProfileSideMenu />
               <div class="profile-page-container-main">
-                <ProfileHeader />
+                <!-- <ProfileHeader /> -->
                 <slot />
               </div>
             </div>
@@ -54,19 +56,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent, defineComponent, ref } from 'vue';
+<script lang="ts" setup>
 
 import Close from '@/assets/svg/Main/Close.svg';
-import AuthPage from '@/components/Auth/AuthPage.vue';
-import StartModal from '@/components/Base/StartModal.vue';
-import NewsCarousel from '@/components/News/NewsCarousel.vue';
 import Cache from '@/services/Cache';
-import SearchDrawer from '@/views/mainLayout/elements/SearchDrawer.vue';
-import HeaderBottom from '@/views/mainLayout/HeaderBottom.vue';
-import HeaderTop from '@/views/mainLayout/HeaderTop.vue';
-import ProfileHeader from '@/views/mainLayout/ProfileHeader.vue';
-import ProfileSideMenu from '@/views/mainLayout/ProfileSideMenu.vue';
 
 const FooterTop = defineAsyncComponent({
   loader: () => import('@/views/mainLayout/FooterTop.vue' /* webpackChunkName: "footerTop" */),
@@ -74,41 +67,33 @@ const FooterTop = defineAsyncComponent({
 });
 const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/FooterBottom.vue' /* webpackChunkName: "footerBottom" */));
 
-export default defineComponent({
-  name: 'MainLayout',
-  components: {
-    HeaderBottom,
-    HeaderTop,
-    AuthPage,
-    ProfileSideMenu,
-    NewsCarousel,
-    SearchDrawer,
-    ProfileHeader,
-    StartModal,
-    FooterBottom,
-    FooterTop,
-    Close,
-  },
-  setup() {
-    const cache = new Cache();
-    cache.name = 'startModal';
-    const isClose = ref(true);
-
-    const clickHandler = () => {
-      isClose.value = true;
-      cache.cache(isClose.value);
-    };
-
-    return {
-      isClose,
-      clickHandler,
-    };
-  },
+const auth: ComputedRef<Auth> = Store.Getters('auth/auth')
+onBeforeMount(async () => {
+  if (auth.value.isAuth) {
+    await Store.Get('users', auth.value.user.get().id);
+  }
+  mounted.value = true;
 });
+const cache = new Cache();
+cache.name = 'startModal';
+const modal = Store.Getters('auth/modal')
+const form = Store.Getters('auth/form')
+// const isClose = ref(cache.getFromCache(3) || false);
+const isClose = ref(true);
+
+const clickHandler = () => {
+  isClose.value = true;
+  cache.cache(isClose.value);
+};
+const authAct = async () => {
+  if (form.value.isLogin()) {
+    modal.value.close()
+  }
+};
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .blur {
   position: absolute;
@@ -120,14 +105,17 @@ export default defineComponent({
   opacity: 0.4;
   z-index: 100;
 }
+
 .profile-page-container {
   display: flex;
   width: 100%;
+
   &-main {
     max-width: 1034px;
     width: 100%;
   }
 }
+
 .page-container {
   display: flex;
   flex-direction: column;
@@ -135,6 +123,7 @@ export default defineComponent({
   background: #f6f6f6;
   // min-height: calc(100vh - 124px);
 }
+
 .main-carousel-container {
   // margin: 0 auto 30px; // + 20px от контейнера элемента = как в макете - 50px
   position: relative;
@@ -185,6 +174,7 @@ export default defineComponent({
   color: #ffffff;
   border: 1px solid rgb(black, 0.05);
   margin: 20px 0 0 0;
+
   &:hover {
     cursor: pointer;
     background: #47cc77;

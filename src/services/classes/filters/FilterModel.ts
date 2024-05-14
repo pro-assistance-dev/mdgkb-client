@@ -1,10 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Ref, ref } from 'vue';
 
+import ClassHelper from '@/services//ClassHelper';
+import Arrays from '@/services/Arrays';
 import { ClassNameGetter } from '@/services/interfaces/Class';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default class FilterModel {
   id?: string;
@@ -18,6 +20,7 @@ export default class FilterModel {
   boolean = false;
   number = 0;
   type: DataTypes = DataTypes.String;
+  @ClassHelper.GetClassConstructor(String)
   set: string[] = [];
   isSet = false;
 
@@ -27,6 +30,40 @@ export default class FilterModel {
   joinTablePk = '';
   joinTableId = '';
   joinTableIdCol = '';
+
+  constructor(i?: FilterModel) {
+    ClassHelper.BuildClass(this, i);
+  }
+
+  eq(s?: FilterModel): boolean {
+    if (!s) {
+      return false;
+    }
+    if (this.type === DataTypes.Join) {
+      const eq = s.model === this.model && s.operator === this.operator && this.joinTableModel === s.joinTableModel;
+      if (s.operator === Operators.In) {
+        return eq && Arrays.Eq(this.set, s.set);
+      }
+      return eq;
+    }
+    return s.model === this.model && s.col === this.col && s.operator === this.operator;
+  }
+
+  valueEq(s?: FilterModel): boolean {
+    if (!this || !s || !this.eq(s)) {
+      return false;
+    }
+    if (this.type === DataTypes.Boolean) {
+      return this.boolean === s?.boolean;
+    }
+    if (this.type === DataTypes.String) {
+      return this.value1 === s?.value1;
+    }
+    if (this.type === DataTypes.Join) {
+      return this.set.length ? Arrays.Eq(this.set, s.set) : false;
+    }
+    return false;
+  }
 
   toUrlQuery(): string {
     const t = this.type ? `"type":"${this.type}"` : '';
@@ -71,9 +108,8 @@ export default class FilterModel {
     return this.operator === Operators.In;
   }
 
-  static CreateFilterModel(model: string | ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
+  static Create(model: ClassNameGetter | string, col: unknown, type: DataTypes): FilterModel {
     const filterModel = new FilterModel();
-    filterModel.id = uuidv4();
     filterModel.model = typeof model === 'string' ? model : model.GetClassName();
     filterModel.col = (col as string) ?? '';
     filterModel.type = type;
@@ -85,8 +121,14 @@ export default class FilterModel {
     }
     if (filterModel.type === DataTypes.Boolean) {
       filterModel.value1 = 'false';
+      filterModel.operator = Operators.Eq;
     }
     return filterModel;
+  }
+
+  static CreateFilterModel(model: string | ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
+    console.warn('FilterModel.CreateFilterModel is deprecated');
+    return FilterModel.Create(model as ClassNameGetter, col, type);
   }
 
   static CreateFilterModelWithJoin(
@@ -125,7 +167,6 @@ export default class FilterModel {
     joinTableIdCol?: string
   ): FilterModel {
     const filterModel = new FilterModel();
-    filterModel.id = uuidv4();
     filterModel.model = model;
     filterModel.joinTableModel = joinTableModel;
     filterModel.joinTablePk = joinTablePk;
@@ -145,8 +186,8 @@ export default class FilterModel {
     const filterModel = new FilterModel();
     filterModel.id = uuidv4();
 
-    filterModel.model = StringsService.toCamelCase(firstClass.GetClassName());
-    filterModel.joinTableModel = StringsService.toCamelCase(secondClass.GetClassName());
+    filterModel.model = Strings.ToCamelCase(firstClass.GetClassName());
+    filterModel.joinTableModel = Strings.ToCamelCase(secondClass.GetClassName());
     filterModel.type = DataTypes.Join;
     return filterModel;
   }
@@ -179,5 +220,18 @@ export default class FilterModel {
 
   toRef(): Ref<FilterModel> {
     return ref(this);
+  }
+
+  setDate1(date?: Date): void {
+    this.date1 = date;
+  }
+
+  setDate2(date?: Date): void {
+    this.date2 = date;
+  }
+
+  dropDates(): void {
+    this.setDate1();
+    this.setDate2();
   }
 }

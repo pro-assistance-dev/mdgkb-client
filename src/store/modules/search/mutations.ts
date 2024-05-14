@@ -14,7 +14,7 @@ const mutations: MutationTree<State> = {
     state.searchModel = new SearchModel(searchModel);
   },
   setSearchGroups(state, searchGroups: SearchGroup[]): void {
-    state.searchModel.searchGroups = searchGroups.map((item: SearchGroup) => new SearchGroup(item));
+    // state.searchModel.searchGroups = searchGroups.map((item: SearchGroup) => new SearchGroup(item));
   },
 };
 

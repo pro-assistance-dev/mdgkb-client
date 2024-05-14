@@ -1,8 +1,5 @@
 <template>
   <el-card>
-    <el-space>
-      <RemoteSearch :key-value="schema.doctor.key" @select="selectSearch" />
-    </el-space>
     <el-table :data="news.newsDoctors">
       <el-table-column label="ФИО" sortable>
         <template #default="scope">
@@ -24,13 +21,12 @@ import { computed, ComputedRef, defineComponent } from 'vue';
 import Doctor from '@/classes/Doctor';
 import News from '@/classes/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsDoctors',
-  components: { TableButtonGroup, RemoteSearch },
+  components: { TableButtonGroup },
   setup() {
     const news: ComputedRef<News> = computed(() => Provider.store.getters['news/item']);
     const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
@@ -47,7 +43,6 @@ export default defineComponent({
     return {
       news,
       remove,
-      schema: Provider.schema,
       selectSearch,
     };
   },

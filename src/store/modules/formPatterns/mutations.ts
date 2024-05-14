@@ -3,23 +3,11 @@ import { MutationTree } from 'vuex';
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 
-import { getDefaultState } from '.';
-import { State } from './state';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: Form[]) {
-    state.items = items.map((a: Form) => new Form(a));
-  },
-  set(state, item: Form) {
-    state.item = new Form(item);
-  },
-  resetState(state) {
-    Object.assign(state, getDefaultState());
-  },
-  remove(state, id: string) {
-    const index = state.items.findIndex((i: Form) => i.id === id);
-    state.items.splice(index, 1);
-  },
+  ...getBaseMutations(Form),
   resetItem(state) {
     state.item = new Form();
   },

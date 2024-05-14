@@ -6,10 +6,8 @@
     <el-table :data="postgraduateCourses">
       <el-table-column label="Код специализации" min-width="200" class-name="sticky-left">
         <template #default="scope">
-          <div
-            v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
-            :key="postgraduateCoursesSpecialization.id"
-          >
+          <div v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
+            :key="postgraduateCoursesSpecialization.id">
             {{ postgraduateCoursesSpecialization.specialization.code }}
           </div>
         </template>
@@ -56,12 +54,8 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup
-            :show-edit-button="true"
-            :show-remove-button="true"
-            @remove="remove(scope.row.id)"
-            @edit="open(scope.row.getMainSpecialization().slug)"
-          />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
+            @edit="open(scope.row.getMainSpecialization().slug)" />
         </template>
       </el-table-column>
     </el-table>
@@ -76,21 +70,19 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import PostgraduateCoursesSortsLib from '@/services/Provider/libs/sorts/PostgraduateCoursesSortsLib';
+import PostgraduateCoursesSortsLib from '@/libs/sorts/PostgraduateCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, Pagination, SortList },
+  components: { TableButtonGroup, AdminListWrapper, },
   setup() {
     const postgraduateCourses: Ref<PostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);

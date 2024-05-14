@@ -5,52 +5,44 @@
   <div :class="{ flex: full }">
     <div style="width: 100%; margin-right: 30px; flex: 1">
       <div :class="{ 'card-item': full, 'margin-top': full, 'contact-data': full }">
-        <div v-if="contactInfo.time.length" class="contact-data-list-item">
+        <div v-if="contact.time.length" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg
-                class="icon-time"
-                :style="{
-                  fill: iconColor,
-                }"
-              >
+              <svg class="icon-time" :style="{
+                fill: iconColor,
+              }">
                 <use xlink:href="#time"></use>
               </svg>
             </div>
-            <div class="item">{{ contactInfo.time }}</div>
+            <div class="item">{{ contact.time }}</div>
           </div>
         </div>
-        <div v-if="contactInfo.postAddresses[0].address" class="contact-data-list-item">
+        <div v-if="contact.postAddresses.length && contact.postAddresses[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg
-                class="icon-map-marker"
-                :style="{
-                  fill: iconColor,
-                }"
-              >
+              <svg class="icon-map-marker" :style="{
+                fill: iconColor,
+              }">
                 <use xlink:href="#map-marker"></use>
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="postAddress in contactInfo.postAddresses" :key="postAddress.id" class="item">{{ postAddress.address }}</div>
+              <div v-for="postAddress in contact.postAddresses" :key="postAddress.id" class="item">{{
+                postAddress.address }}</div>
             </div>
           </div>
         </div>
-        <div v-if="contactInfo.telephoneNumbers[0].number" class="contact-data-list-item">
+        <div v-if="contact.phones.length && contact.phones[0].number" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg
-                class="icon-phone"
-                :style="{
-                  fill: iconColor,
-                }"
-              >
+              <svg class="icon-phone" :style="{
+                fill: iconColor,
+              }">
                 <use xlink:href="#phone"></use>
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="phone in contactInfo.telephoneNumbers" :key="phone.id" class="item" style="white-space: nowrap">
+              <div v-for="phone in contact.phones" :key="phone.id" class="item" style="white-space: nowrap">
                 <div>
                   <a class="phone" :href="'tel:' + phone.number">{{ phone.number }}</a>
                 </div>
@@ -59,36 +51,33 @@
             </div>
           </div>
         </div>
-        <div v-if="contactInfo.emails[0].address" class="contact-data-list-item">
+        <div v-if="contact.emails.length && contact.emails[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg
-                class="icon-email"
-                :style="{
-                  fill: iconColor,
-                }"
-              >
+              <svg class="icon-email" :style="{
+                fill: iconColor,
+              }">
                 <use xlink:href="#email"></use>
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="email in contactInfo.emails" :key="email.id" class="item">
+              <div v-for="email in contact.emails" :key="email.id" class="item">
                 {{ email.address }} <span v-if="email.description">: {{ email.description }} </span>
               </div>
-              <div v-for="webSite in contactInfo.websites" :key="webSite.id" class="item">
+              <div v-for="webSite in contact.websites" :key="webSite.id" class="item">
                 {{ webSite.address }} <span v-if="webSite.description">: {{ webSite.description }} </span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div v-if="full && contactInfo.description" class="contact-comments" style="margin-top: 20px">
-        {{ contactInfo.description }}
+      <div v-if="full && contact.description" class="contact-comments" style="margin-top: 20px">
+        {{ contact.description }}
       </div>
     </div>
-    <div v-if="full && contactInfo.latitude && contactInfo.longitude" class="map-data">
+    <div v-if="full && contact.latitude && contact.longitude" class="map-data">
       <div class="map-container">
-        <YandexMapComponent :coords="contactInfo.getCoords()" />
+        <YandexMapComponent :coords="contact.getCoords()" />
       </div>
     </div>
   </div>
@@ -106,7 +95,7 @@ import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
 import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import YandexMapComponent from '@/components/YandexMapComponent.vue';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
 
 export default defineComponent({
   name: 'ContactsBlock',
@@ -118,7 +107,7 @@ export default defineComponent({
     YandexMapComponent,
   },
   props: {
-    contactInfo: { type: Object as PropType<ContactInfo>, required: true },
+    contact: { type: Object as PropType<Contact>, required: true },
     full: {
       type: Boolean,
       default: false,
@@ -132,7 +121,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .flex {
   display: flex;
@@ -248,6 +237,7 @@ export default defineComponent({
   border: 1px solid #dee5ef;
   border-radius: 5px;
 }
+
 .map-container {
   width: 100%;
   margin: 0;
@@ -266,10 +256,12 @@ export default defineComponent({
     min-width: 272px;
     max-width: 100%;
   }
+
   .flex {
     display: block;
     justify-content: space-between;
   }
+
   .map-data {
     margin: 15px 13px 0 10px;
     width: calc(100% - 20px);
@@ -279,6 +271,7 @@ export default defineComponent({
 .item-elements {
   flex-direction: column;
 }
+
 .margin-top {
   margin-top: 20px;
 }

@@ -22,15 +22,9 @@
                   <svg class="icon-edit" @click.stop="editDishesGroup(element)">
                     <use xlink:href="#profile-edit" />
                   </svg>
-                  <el-popconfirm
-                    confirm-button-text="Да"
-                    cancel-button-text="Отмена"
-                    icon="el-icon-info"
-                    icon-color="red"
-                    title="Вы уверены, что хотите удалить категорию?"
-                    @confirm="removeDishesGroup(element.id)"
-                    @cancel="() => {}"
-                  >
+                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
+                    icon-color="red" title="Вы уверены, что хотите удалить категорию?"
+                    @confirm="removeDishesGroup(element.id)" @cancel="() => { }">
                     <template #reference>
                       <button class="tools-button">
                         <svg class="icon-delete">
@@ -42,13 +36,15 @@
                 </template>
                 <template #inside-title>
                   <div class="title-in">
-                    <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
+                    <el-badge :value="element.dishSamples.length"
+                      :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
                       {{ element.name }}
                     </el-badge>
                   </div>
                 </template>
                 <template #inside-content>
-                  <DishesConstructorList :dishes-samples="element.dishSamples" @openDishSampleConstructor="openDishSampleConstructor" />
+                  <DishesConstructorList :dishes-samples="element.dishSamples"
+                    @openDishSampleConstructor="openDishSampleConstructor" />
                 </template>
               </CollapseItem>
             </div>
@@ -56,12 +52,14 @@
         </draggable>
       </div>
       <div v-else class="column">
-        <DishesConstructorList :dishes-samples="dishSamplesFlat" @openDishSampleConstructor="openDishSampleConstructor" />
+        <DishesConstructorList :dishes-samples="dishSamplesFlat"
+          @openDishSampleConstructor="openDishSampleConstructor" />
       </div>
     </div>
     <div class="menusGroup">
       <DishConstructorInfo v-if="!dishSampleConstructorVisible" @selectLastDish="openDishSampleConstructor" />
-      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
+      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id"
+        :close-function="closeDishSampleConstructorVisible" />
     </div>
   </div>
   <AddToMenu />
@@ -71,7 +69,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import AddToMenu from '@/assets/svg/Buffet/AddToMenu.svg';
@@ -85,10 +82,10 @@ import AddGroupForm from '@/components/admin/AdminDishes/AddGroupForm.vue';
 import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorInfo.vue';
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
-import sort from '@/services/sort';
-import StringsService from '@/services/Strings';
+// import sort from '@/services/sort';
+import Strings from '@/services/Strings';
 
 export default defineComponent({
   name: 'DishesSamplesConstructor',
@@ -182,7 +179,7 @@ export default defineComponent({
     };
 
     const saveGroupsOrder = () => {
-      sort(dishesGroups.value);
+      // sort(dishesGroups.value);
       dishesGroups.value.forEach(async (d: DishesGroup) => {
         await Provider.store.dispatch('dishesGroups/update', d);
       });
@@ -201,7 +198,7 @@ export default defineComponent({
         dishSamplesFlat.value.push(
           ...ds.dishSamples.filter((ds: DishSample) => {
             const n = ds.name.toLowerCase();
-            return n.includes(searchSource.toLowerCase()) || n.includes(StringsService.translit(searchSource.toLowerCase()));
+            return n.includes(searchSource.toLowerCase()) || n.includes(Strings.Translit(searchSource.toLowerCase()));
           })
         );
       });
@@ -228,7 +225,6 @@ export default defineComponent({
       addDishesGroup,
       dishesGroups,
       mounted: Provider.mounted,
-      schema: Provider.schema,
 
       isCallBackModalOpen,
     };
@@ -237,7 +233,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 $margin: 20px 0;
 
@@ -457,12 +453,12 @@ $margin: 20px 0;
   background: #d6ecf4;
 }
 
-.dish-item:active > .item-button {
+.dish-item:active>.item-button {
   display: flex;
   background: #d6ecf4;
 }
 
-.dish-item:hover > .item-button {
+.dish-item:hover>.item-button {
   display: flex;
 }
 
@@ -487,6 +483,7 @@ $margin: 20px 0;
   align-items: center;
   font-weight: bold;
 }
+
 .drug-icon {
   cursor: pointer;
 }

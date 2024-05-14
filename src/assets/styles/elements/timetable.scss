@@ -1,4 +1,4 @@
-@import '@/assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 
 .block-line {
   display: flex;
@@ -15,8 +15,8 @@
 }
 
 .icon-time {
-  width: $width;
-  height: $height;
+  width: $icon-width;
+  height: $icon-height;
   fill: $site_dark_gray;
 }
 

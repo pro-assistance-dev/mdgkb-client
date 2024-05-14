@@ -12,7 +12,8 @@
       <div class="card-item">
         <div v-if="news" class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
-          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image"
+            @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <!-- <div class="article-preview">{{ news.previewText }}</div> -->
         </div>
@@ -25,9 +26,11 @@
           </a>
         </div>
 
-        <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
+        <div class="article-body"
+          v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
-          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
+          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`"
+            @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
@@ -40,8 +43,7 @@
   <Close />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineAsyncComponent, defineComponent, Ref, ref, watch } from 'vue';
+<script setup lang="ts">
 
 import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
@@ -59,66 +61,46 @@ const SuggestionNews = defineAsyncComponent({
   delay: 100,
 });
 
-export default defineComponent({
-  name: 'NewsList',
-  components: { NewsPageFooter, SuggestionNews, EventRegistration, Comments, CarouselImages, Close },
+let comment = ref(new NewsComment());
+const commentInput = ref();
+const mounted: Ref<boolean> = ref(false);
+const slug = computed(() => Provider.route().params['slug']);
+const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
+const modalOpen: Ref<boolean> = ref(false);
+const mobileWindow = ref(
+  window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
+);
 
-  async setup() {
-    let comment = ref(new NewsComment());
-    const commentInput = ref();
-    const mounted: Ref<boolean> = ref(false);
-    const slug = computed(() => Provider.route().params['slug']);
-    const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
-    const modalOpen: Ref<boolean> = ref(false);
-    const mobileWindow = ref(
-      window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
-    );
-
-    watch(slug, async () => {
-      if (slug.value) {
-        await load();
-      }
-    });
-
-    const load = async () => {
-      await Provider.store.dispatch('news/get', slug.value);
-      Provider.store.dispatch('news/getComments', slug.value);
-      mounted.value = true;
-      window.scrollTo(0, 0);
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const newsContent = computed(() =>
-      news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
-    );
-
-    const commentForm = ref();
-    const editCommentForm = ref();
-    const rules = ref(CommentRules);
-
-    const openModalWindow = async () => {
-      modalOpen.value = true;
-    };
-
-    return {
-      rules,
-      comment,
-      news,
-      mounted,
-      newsContent,
-      commentInput,
-      commentForm,
-      editCommentForm,
-      modalOpen,
-      openModalWindow,
-      mobileWindow,
-    };
-  },
+watch(slug, async () => {
+  if (slug.value) {
+    await load();
+  }
 });
+
+const load = async () => {
+  await Provider.store.dispatch('news/get', slug.value);
+  Provider.store.dispatch('news/getComments', slug.value);
+  mounted.value = true;
+  window.scrollTo(0, 0);
+};
+
+Hooks.onBeforeMount(load);
+
+const newsContent = computed(() =>
+  news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
+);
+
+const commentForm = ref();
+const editCommentForm = ref();
+const rules = ref(CommentRules);
+
+const openModalWindow = async () => {
+  modalOpen.value = true;
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $side-cotainer-max-width: 300px;
 $news-content-max-width: 1000px;
 $card-margin-size: 30px;
@@ -174,6 +156,7 @@ $card-margin-size: 30px;
 .icon-close:hover {
   fill: #205bb8;
 }
+
 .news-page-container {
   display: flex;
   justify-content: center;
@@ -212,6 +195,7 @@ h3 {
   color: black;
   text-align: center;
 }
+
 h3 {
   font-size: 20px;
 }
@@ -227,11 +211,13 @@ h3 {
     border-radius: 5px;
     // max-height: $news-content-max-width / 2;
   }
+
   .image-comment {
     color: #b4b9ca;
     margin-left: 5px;
     font-size: 14px;
   }
+
   .article-preview {
     margin: 10px 0;
   }
@@ -243,19 +229,23 @@ h3 {
 
 .news-image-container {
   margin-bottom: $card-margin-size;
+
   img {
     width: 100%;
   }
 }
+
 .action-container {
   margin: 15px 0;
   display: flex;
   justify-content: center;
+
   &-button {
     margin-right: 0;
     border-radius: 10px;
     background-color: #2754eb;
     border-color: #2754eb;
+
     &:hover {
       background-color: darken(#2754eb, 10%);
     }
@@ -292,6 +282,7 @@ h3 {
   img {
     max-width: 100%;
   }
+
   video,
   iframe {
     width: 100%;
@@ -307,7 +298,9 @@ h3 {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+
   :deep(.article-body) {
+
     video,
     iframe {
       min-height: 400px;
@@ -319,7 +312,9 @@ h3 {
   :deep(.leave-a-review) {
     padding: 20px;
   }
+
   :deep(.article-body) {
+
     video,
     iframe {
       min-height: 300px;
@@ -346,6 +341,7 @@ h3 {
   .card-item {
     padding: 10px;
   }
+
   .modal-box {
     position: absolute;
     left: 50%;

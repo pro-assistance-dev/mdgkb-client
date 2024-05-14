@@ -14,12 +14,10 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import RemoteSearch from '@/components/RemoteSearch.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'SetEntity',
-  components: { RemoteSearch },
   emits: ['selectSearch', 'reset'],
   props: {
     link: { type: String as PropType<string>, required: true },
@@ -36,6 +34,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .name {
@@ -43,6 +42,7 @@ $margin: 20px 0;
     cursor: pointer;
   }
 }
+
 .container {
   position: relative;
   width: calc(100% - 20px);
@@ -61,7 +61,7 @@ $margin: 20px 0;
 
 .search-label {
   font-size: 12px;
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
@@ -74,7 +74,7 @@ $margin: 20px 0;
   right: 36px;
   border: none;
   background: inherit;
-  color: #a3a9be;
+  color: $base-light-font-color;
   transition: 0.3s;
   cursor: pointer;
 }

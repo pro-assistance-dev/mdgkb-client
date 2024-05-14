@@ -25,7 +25,7 @@ import { useStore } from 'vuex';
 
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
-import CollapseItem from '@/components/Main/Collapse/CollapseItem.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import IWithComment from '@/interfaces/IWithComment';
 import scroll from '@/services/Scroll';
 
@@ -58,8 +58,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;

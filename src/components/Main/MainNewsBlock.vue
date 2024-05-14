@@ -33,8 +33,8 @@ import NewsCard from '@/components/News/NewsCard.vue';
 import NewsSmallList from '@/components/News/NewsSmallList.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/services/Provider/libs/sorts/NewsSortsLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -49,8 +49,9 @@ export default defineComponent({
     const recentNewsList = computed(() => Provider.store.getters['news/mainPageRecentNewsList']);
 
     const createFilterModels = () => {
-      Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
-      Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
+      // TODO: Filters
+      // Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
+      // Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
     };
 
     const load = async () => {
@@ -78,6 +79,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .height1 {
   height: 623px;
 }

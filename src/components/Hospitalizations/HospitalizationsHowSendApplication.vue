@@ -18,8 +18,8 @@
     <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationDoctor">-->
     <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationDoctor.employee.human.getFullName() }}-->
     <!--            </div>-->
-    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContactInfo">-->
-    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationContactInfo.emails[0] }}-->
+    <!--            <div v-if="hospitalization.selectedHospitalisation.division.hospitalizationContact">-->
+    <!--              {{ hospitalization.selectedHospitalisation.division.hospitalizationContact.emails[0] }}-->
     <!--            </div>-->
     <!--          </div>-->
     <!--        </div>-->
@@ -55,6 +55,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $card-border-radius: 15px;
 $card-content-padding: 15px;
 $card-content-outpadding: 0px;

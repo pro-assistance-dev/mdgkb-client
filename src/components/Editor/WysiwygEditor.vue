@@ -1,12 +1,15 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
-    <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
+    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor"
+      @fullScreen="toggleDialog" />
+    <editor-content v-if="!showDialog" :editor="editor" class="scroll"
+      :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
-      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
+      <editor-content v-if="showDialog" :editor="editor" class="scroll"
+        :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
-    <!-- <div class="counter">{{ counter }}/&nbsp;{{ limit }}</div> -->
+    <!-- <div class="counter">{{ counter }}&nbsp;{{ limit }}</div> -->
   </div>
 </template>
 
@@ -183,7 +186,8 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .editor {
   margin: 10px 0 10px 0;
   border: 1px solid #d1d5db;
@@ -197,17 +201,21 @@ export default defineComponent({
     border-bottom: 1px solid #d1d5db;
   }
 }
+
 .ProseMirror {
   min-height: 200px;
   padding: 12px 15px;
+
   &:focus-visible {
     outline: none;
     // border-bottom: 1px solid #d1d5db;
   }
-  > p {
+
+  >p {
     margin: 0;
   }
-  > * + * {
+
+  >*+* {
     margin-top: 0.75em;
   }
 
@@ -259,6 +267,7 @@ export default defineComponent({
     border-left: 2px solid rgba(#0d0d0d, 0.1);
   }
 }
+
 /* Table-specific styling */
 .ProseMirror {
   table {
@@ -278,7 +287,7 @@ export default defineComponent({
       box-sizing: border-box;
       position: relative;
 
-      > * {
+      >* {
         margin-bottom: 0;
       }
     }
@@ -325,6 +334,7 @@ export default defineComponent({
   cursor: ew-resize;
   cursor: col-resize;
 }
+
 ul[data-type='taskList'] {
   list-style: none;
   padding: 0;
@@ -336,13 +346,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    > label {
+    >label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    > div {
+    >div {
       flex: 1 1 auto;
     }
   }
@@ -386,5 +396,4 @@ ul[data-type='taskList'] {
 // }
 // .cursor-pointer {
 //   cursor: pointer;
-// }
-</style>
+// }</style>

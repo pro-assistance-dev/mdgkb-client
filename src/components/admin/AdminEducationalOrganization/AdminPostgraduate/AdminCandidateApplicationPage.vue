@@ -13,20 +13,13 @@
             <template #header>
               <span>Информация об экзамене</span>
             </template>
-            <el-form-item
-              v-if="isEditMode && !application.candidateExamId"
-              label="Выберите экзамен"
+            <el-form-item v-if="isEditMode && !application.candidateExamId" label="Выберите экзамен"
               prop="candidateExamId"
-              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
-            >
-              <el-select
-                v-model="application.candidateExam"
-                value-key="id"
-                placeholder="Выберите экзамен"
-                style="width: 100%"
-                @change="courseChangeHandler"
-              >
-                <el-option v-for="item in candidateExams" :key="item.id" :label="'Кандидатский экзамен'" :value="item"> </el-option>
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
+              <el-select v-model="application.candidateExam" value-key="id" placeholder="Выберите экзамен"
+                style="width: 100%" @change="courseChangeHandler">
+                <el-option v-for="item in candidateExams" :key="item.id" :label="'Кандидатский экзамен'" :value="item">
+                </el-option>
               </el-select>
             </el-form-item>
             <el-descriptions v-else :column="1">
@@ -81,7 +74,6 @@ export default defineComponent({
 
     const loadExam = async () => {
       store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('meta/getSchema');
       await store.dispatch('candidateExams/get');
     };
 
@@ -173,11 +165,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-container {
   .el-card {
     margin-bottom: 20px;
   }
 }
+
 table {
   height: 100%;
   border-collapse: collapse;
@@ -198,10 +192,12 @@ th {
 th:last-child {
   border-right: 1px solid #dcdfe6;
 }
+
 .flex-between {
   display: flex;
   justify-content: space-between;
 }
+
 .flex {
   display: flex;
   align-items: center;

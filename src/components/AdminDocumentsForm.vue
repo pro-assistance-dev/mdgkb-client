@@ -80,6 +80,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .flex-row-between {
   display: flex;
   justify-content: space-between;

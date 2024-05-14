@@ -1,7 +1,7 @@
 <template>
   <div id="header-top" class="header-top">
     <div class="container">
-      <img src="@/assets/img/mdgkb-logo.webp" class="header-logo-img" alt="mdgkb-logo" @click="$router.push('/')" />
+      <img src="src/assets/img/mdgkb-logo.webp" class="header-logo-img" alt="mdgkb-logo" @click="$router.push('/')" />
       <div class="search">
         <div class="search-block">
           <SearchBar v-show="currentRoute !== 'SearchPage'" />
@@ -14,27 +14,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
-
-import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
-import SearchBar from '@/views/mainLayout/elements/SearchBar.vue';
-
-export default defineComponent({
-  name: 'HeaderTop',
-  components: { LoginDropdownMenu, SearchBar },
-
-  setup() {
-    const currentRoute = computed(() => {
-      return useRouter().currentRoute.value.name;
-    });
-    return { currentRoute };
-  },
+<script lang="ts" setup>
+const currentRoute = computed(() => {
+  return Router.Route().name;
 });
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .login-menu {
   margin-right: 40px;
 }

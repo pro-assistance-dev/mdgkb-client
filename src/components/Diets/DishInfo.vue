@@ -30,15 +30,15 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .body {
   position: relative;
   width: 938px;
   min-height: 10px;
   border: $normal-border;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   background: #ffffff;
   padding: 16px;
 }

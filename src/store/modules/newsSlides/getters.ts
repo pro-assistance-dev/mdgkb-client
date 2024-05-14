@@ -2,7 +2,7 @@ import { GetterTree } from 'vuex';
 
 import NewsSlide from '@/classes/NewsSlide';
 import NewsSlideButton from '@/classes/NewsSlideButton';
-import getBaseGetters from '@/store/baseModule/baseGetters';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './state';

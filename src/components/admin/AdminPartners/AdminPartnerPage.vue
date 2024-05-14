@@ -117,6 +117,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .partner-page-container {
   display: flex;
   flex-direction: column;

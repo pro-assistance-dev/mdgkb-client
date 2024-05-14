@@ -54,6 +54,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .el-container {
   .el-card {
     margin-bottom: 20px;

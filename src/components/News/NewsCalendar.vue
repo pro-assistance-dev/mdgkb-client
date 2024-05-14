@@ -18,7 +18,7 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 import News from '@/classes/News';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import NewsFiltersLib from '@/services/Provider/libs/filters/NewsFiltersLib';
+import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -81,7 +81,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/calendar-style.scss';
 
 :deep(.newsLabel) {

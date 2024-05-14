@@ -1,10 +1,8 @@
 <template>
   <div v-if="mounted">
     <div class="info">
-      <!-- <span class="info-text" -->
-      <!--   >Для получения информации о конкурсе нажмите -->
-      <!--   <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span -->
-      <!-- > -->
+      <span class="info-text">Для получения информации о конкурсе нажмите
+        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span>
       <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
     </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
@@ -38,84 +36,72 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import CompetitionApplicationsTable from '@/components/Educational/AdmissionCommittee/CompetitionApplicationsTable.vue';
-import CompetitionPlacesTable from '@/components/Educational/AdmissionCommittee/CompetitionPlacesTable.vue';
-import CompetitionRating from '@/components/Educational/AdmissionCommittee/CompetitionRating.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/services/Provider/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/services/Provider/libs/sorts/ResidencyCoursesSortsLib';
+import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import UserService from '@/services/User';
 
-export default defineComponent({
-  name: 'CompetitionComponent',
-  components: {
-    CompetitionPlacesTable,
-    CompetitionApplicationsTable,
-    CompetitionRating,
-    // CompetitionTable,
-  },
-  setup() {
-    const mounted: Ref<boolean> = ref(false);
-    const residencyCoursesSource: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(
-      () => Provider.store.getters['residencyCourses/items']
-    );
-    const activeName = ref('Конкурс');
-    const residencyCourses: Ref<ResidencyCourse[]> = computed(() =>
-      residencyCoursesSource.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
-    );
-    const loadPrograms = async () => {
-      Provider.resetFilterQuery();
-      Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-      Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      Provider.filterQuery.value.pagination.cursorMode = false;
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-    };
+const filterQuery: ComputedRef<FilterQuery> = Store.Getters('filter/filterQuery');
 
-    const collapseChange = () => {
-      if (activeName.value) {
-        setTimeout(() => {
-          scroll(`#${activeName.value}`);
-        }, 500);
-      }
-    };
+const mounted: Ref<boolean> = ref(false);
+const residencyCoursesSource: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(
+  () => Provider.store.getters['residencyCourses/items']
+);
+const activeName = ref('Конкурс');
+const residencyCourses: Ref<ResidencyCourse[]> = computed(() =>
+  residencyCoursesSource.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
+);
+const loadPrograms = async () => {
+  Provider.resetFilterQuery();
+  Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
+  filterQuery.value.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
+  Provider.filterQuery.value.pagination.cursorMode = false;
+  await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+};
 
-    const isFound: Ref<boolean> = ref(true);
+const collapseChange = () => {
+  if (activeName.value) {
+    setTimeout(() => {
+      scroll(`#${activeName.value}`);
+    }, 500);
+  }
+};
 
-    // const found = async () => {
-    //   try {
-    //     let fileName = require(path);
-    //     console.log("file found");
-    //     console.log(fileName)
-    //   } catch (e) {
-    //     console.log("sorry, file not found");
-    //     isFound.value = false;
-    //   }
-    // };
+const isFound: Ref<boolean> = ref(true);
 
-    const initLoad = async () => {
-      await loadPrograms();
-      // await found();
-      mounted.value = true;
-    };
+// const found = async () => {
+//   try {
+//     let fileName = require(path);
+//     console.log("file found");
+//     console.log(fileName)
+//   } catch (e) {
+//     console.log("sorry, file not found");
+//     isFound.value = false;
+//   }
+// };
 
-    Hooks.onBeforeMount(initLoad);
+const initLoad = async () => {
+  await loadPrograms();
+  // await found();
+  mounted.value = true;
+};
 
-    return { residencyCourses, mounted, activeName, collapseChange, isFound, UserService };
-  },
-});
+Hooks.onBeforeMount(initLoad);
+
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '../../../assets/styles/elements/colors.scss';
+
 :deep(.card-item) {
   margin-bottom: 10px;
+
   thead th {
     // font-weight: bold;
     text-align: left;
@@ -124,6 +110,7 @@ export default defineComponent({
     background: #ededed;
     font-size: 14px;
   }
+
   tbody td {
     text-align: left;
     border: none;
@@ -131,26 +118,33 @@ export default defineComponent({
     font-size: 14px;
     vertical-align: top;
   }
+
   tbody tr:nth-child(even) {
     background: #f8f8f8;
   }
+
   tbody tr:hover {
     background-color: #ecf5ff;
   }
 }
+
 h2 {
   text-align: center;
   font-size: 18px;
 }
+
 :deep(.el-collapse-item__header, .el-collapse-item__wrap) {
   border: none;
 }
+
 :deep(.el-collapse-item__header) {
   line-height: 1.2;
 }
+
 :deep(.el-collapse-item__wrap) {
   border-bottom: none;
 }
+
 .info {
   display: flex;
   // height: 50px;

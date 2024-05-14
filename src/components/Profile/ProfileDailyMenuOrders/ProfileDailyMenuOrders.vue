@@ -5,9 +5,9 @@
         <div class="box">
           <h2>
             Мои заказы
-            <div v-if="user.dailyMenuOrders.some((el) => el.formValue.viewedByUser)" class="sup-cymbol-counter">
+            <!-- <div v-if="user.dailyMenuOrders.some((el) => el.formValue.viewedByUser)" class="sup-cymbol-counter">
               {{ user.dailyMenuOrders.filter((d) => d.formValue.viewedByUser).length }}
-            </div>
+            </div> -->
           </h2>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await loadUser();
+      // await loadUser();
     });
 
     onUnmounted(async () => {
@@ -66,6 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 h2,
 h3 {
   color: #343e5c;
@@ -182,10 +183,12 @@ ul.application-card li {
   .size {
     padding: 0 10px;
   }
+
   .table-container {
     display: block;
     width: 100%;
   }
+
   .box {
     margin-right: 0px;
     background: #ffffff;
@@ -210,9 +213,11 @@ ul.application-card li {
   .size {
     margin-top: 0px;
   }
+
   .hidden {
     display: none;
   }
+
   .title {
     justify-content: right;
   }
@@ -228,6 +233,7 @@ ul.application-card li {
     padding: 0 5px;
     width: calc(100% - 10px);
   }
+
   .size {
     padding: 0 5px;
   }

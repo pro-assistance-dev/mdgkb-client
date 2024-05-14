@@ -11,20 +11,14 @@
       </div>
     </div>
     <div class="table-main">
-      <el-form
-        ref="userForm"
-        v-model="dailyMenuOrder"
-        :model="dailyMenuOrder"
-        label-width="150px"
-        style="max-width: 700px"
-        label-position="left"
-      >
+      <el-form ref="userForm" v-model="dailyMenuOrder" :model="dailyMenuOrder" label-width="150px"
+        style="max-width: 700px" label-position="left">
         <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
         <FieldValuesForm :form="dailyMenuOrder.formValue" />
       </el-form>
     </div>
     <div class="footer">
-      <button class="add-to-card" @click="createOrder">Заказать</button>
+      <button class="add-to-card" @click="createOrder">Заказать1</button>
       <div class="footer-info">
         <div class="field1">{{ dailyMenuOrder.getCaloricSum() }} ккал</div>
         <div class="field2">{{ dailyMenuOrder.getPriceSum() }} р.</div>
@@ -67,27 +61,28 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const createOrder = async () => {
-      dailyMenuOrder.value.formValue.validate();
-      if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
-        return;
-      }
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Загрузка',
-      });
-      dailyMenuOrder.value.formValue.clearIds();
+      console.log('createOrder')
+      // dailyMenuOrder.value.formValue.validate();
+      // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
+      //   return;
+      // }
+      // const loading = ElLoading.service({
+      //   lock: true,
+      //   text: 'Загрузка',
+      // });
+      // dailyMenuOrder.value.formValue.clearIds();
       await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
-      ElNotification({
-        dangerouslyUseHTMLString: true,
-        message:
-          '<div />Заказ успешно создан. Для просмотра статуса перейдите в <router-link :to="/profile/education">личный кабинет</router-link></div>',
-        type: 'success',
-        duration: 0,
-      });
-      await Provider.store.commit('dailyMenuOrders/resetItem');
-      dailyMenuOrder.value.removeFromLocalStore();
-      await Provider.router.push('/bufet');
-      loading.close();
+      // ElNotification({
+      //   dangerouslyUseHTMLString: true,
+      //   message:
+      //     '<div />Заказ успешно создан. Для просмотра статуса перейдите в <router-link :to="/profile/education">личный кабинет</router-link></div>',
+      //   type: 'success',
+      //   duration: 0,
+      // });
+      // await Provider.store.commit('dailyMenuOrders/resetItem');
+      // dailyMenuOrder.value.removeFromLocalStore();
+      // await Provider.router.push('/bufet');
+      // loading.close();
     };
 
     return {
@@ -96,14 +91,13 @@ export default defineComponent({
       createOrder,
       dailyMenuOrder,
       mounted: Provider.mounted,
-      schema: Provider.schema,
     };
   },
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .container-bufet {
   position: relative;
@@ -204,6 +198,7 @@ input[type='text'] {
   margin: 0 10px;
   color: #343e5c;
 }
+
 .active-item {
   display: flex;
   align-items: center;
@@ -219,7 +214,7 @@ input[type='text'] {
   height: 100vh;
 }
 
-.main > div {
+.main>div {
   object-fit: cover;
 }
 

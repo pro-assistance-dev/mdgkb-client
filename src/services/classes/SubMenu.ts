@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import FileInfo from '@/classes/FileInfo';
-import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import FileInfo from '@/services/classes/FileInfo';
 import Page from '@/services/classes/page/Page';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -46,7 +45,7 @@ export default class SubMenu {
   isPageLink(): boolean {
     return this.pageId !== undefined && this.pageId !== '';
   }
-  addFile(file: IElementPlusFile): void {
+  addFile(file: any): void {
     if (!this.icon.id) {
       this.icon.id = uuidv4();
     }

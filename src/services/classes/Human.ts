@@ -1,7 +1,7 @@
-import FileInfo from '@/classes/FileInfo';
-import ContactInfo from '@/services/classes/ContactInfo';
+import Contact from '@/services/classes/Contact';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default class Human {
   id?: string;
@@ -19,14 +19,21 @@ export default class Human {
   photoMini: FileInfo = new FileInfo();
   isMale = true;
   dateBirth = new Date();
-  @ClassHelper.GetClassConstructor(ContactInfo)
-  contactInfo: ContactInfo = new ContactInfo();
+  @ClassHelper.GetClassConstructor(Contact)
+  contact: Contact = new Contact();
+  contactId?: string;
   slug = '';
   postIndex = '';
   address = '';
 
+  editNameMode = false;
+
   constructor(i?: Human) {
     ClassHelper.BuildClass(this, i);
+  }
+
+  setEditNameMode(value: boolean): void {
+    this.editNameMode = value;
   }
 
   getFullName(): string {
@@ -36,6 +43,9 @@ export default class Human {
     return `${this.surname} ${this.name} ${this.patronymic}`;
   }
 
+  getInitialsName(): string {
+    return `${this.name.slice(0, 1)}.${this.patronymic.slice(0, 1)}. ${this.surname}`;
+  }
   getGender(full?: boolean): string {
     if (full) {
       return this.isMale ? 'Мужской' : 'Женский';
@@ -44,9 +54,9 @@ export default class Human {
   }
 
   capitalizeName(): void {
-    this.name = StringsService.capitalizeString(this.name);
-    this.surname = StringsService.capitalizeString(this.surname);
-    this.patronymic = StringsService.capitalizeString(this.patronymic);
+    this.name = Strings.CapitalizeString(this.name);
+    this.surname = Strings.CapitalizeString(this.surname);
+    this.patronymic = Strings.CapitalizeString(this.patronymic);
   }
 
   trimName(): void {
@@ -74,5 +84,16 @@ export default class Human {
   removePhotoMini(): void {
     this.photoMini = new FileInfo();
     this.photoMiniId = undefined;
+  }
+
+  setFullName(human: Human): void {
+    this.surname = human.surname;
+    this.name = human.name;
+    this.patronymic = human.patronymic;
+  }
+
+  initContact() {
+    this.contact = Contact.Create();
+    this.contactId = this.contact.id;
   }
 }

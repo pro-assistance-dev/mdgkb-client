@@ -19,6 +19,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/ordinatura.scss';
 $side-cotainer-max-width: 300px;
 $content-max-width: 1000px;

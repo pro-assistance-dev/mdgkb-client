@@ -6,10 +6,10 @@ import NewsComment from '@/classes/NewsComment';
 import NewsParams from '@/classes/NewsParams';
 import Tag from '@/classes/Tag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import IBasicState from '@/store/baseModule/baseState';
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
+import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';
 
-import getBaseDefaultState from '../../baseModule/baseIndex';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';

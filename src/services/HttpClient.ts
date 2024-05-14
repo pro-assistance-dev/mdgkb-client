@@ -1,18 +1,22 @@
-import FileInfo from '@/classes/FileInfo';
-import axiosInstance from '@/services/Axios';
+import FileInfo from '@/services/classes/FileInfo';
+import HttpEngine from '@/services/Axios';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
-import TokenService from '@/services/Token';
 
-const baseUrl = process.env.VUE_APP_BASE_URL ?? '';
-const apiVersion = process.env.VUE_APP_API_V1 ?? '';
-const apiHost = process.env.VUE_APP_API_HOST ?? '';
+import LocalStore from './classes/LocalStore';
+import LocalStoreKeys from './interfaces/LocalStoreKeys';
+import HttpHeaders, { HttpHeadersValues, HttpHeadersKeys } from './types/HttpHeaders';
+
+const baseUrl = import.meta.env.VITE_APP_BASE_URL ?? '';
+const apiVersion = import.meta.env.VITE_APP_API_V1 ?? '';
+const apiHost = import.meta.env.VITE_APP_API_HOST ?? '';
+
 export default class HttpClient {
   endpoint: string;
-  headers: Record<string, string>;
+  headers: HttpHeaders;
 
   constructor(endpoint = '') {
     this.endpoint = endpoint;
-    this.headers = { 'Content-Type': 'application/json' };
+    this.headers = { [HttpHeadersKeys.ContentType]: HttpHeadersValues.ApplicationJson };
   }
 
   newWebSocket(query: string): WebSocket {
@@ -20,16 +24,24 @@ export default class HttpClient {
     return new WebSocket(url);
   }
 
-  private static download(url: string, name: string) {
+  private static download(clientFileName: string | undefined, res: any) {
+    const fileName = HttpClient.getDownloadFileName(clientFileName, res.headers);
+    const url = URL.createObjectURL(res.data);
+
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', name);
+    link.setAttribute('download', fileName);
     link.setAttribute('target', '_blank');
     document.body.appendChild(link);
     link.click();
   }
 
-  private static getDownloadFileName(clientFileName: string | undefined, serverFileName: string | undefined): string {
+  private static getDownloadFileName(clientFileName: string | undefined, headers: any): string {
+    const headerLine = headers['content-disposition'];
+    const startFileNameIndex = headerLine.indexOf('"') + 1;
+    const endFileNameIndex = headerLine.lastIndexOf('"');
+    const serverFileName = headerLine.substring(startFileNameIndex, endFileNameIndex);
+
     if (clientFileName) {
       return clientFileName;
     }
@@ -39,74 +51,66 @@ export default class HttpClient {
     return 'file';
   }
 
-  async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType | void> {
-    const isBlob = params?.isBlob;
-    const headers = params?.headers;
-    const res = await axiosInstance({
-      url: this.buildUrl(params?.query),
-      method: 'get',
-      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
-      responseType: !isBlob ? 'json' : 'blob',
-    });
+  private getHeaders(headers?: HttpHeaders): HttpHeaders {
+    const token = LocalStore.Get<string>(LocalStoreKeys.AccessToken);
+    if (!headers) {
+      headers = this.headers;
+    }
+    if (token) {
+      headers[HttpHeadersKeys.Token] = token;
+    }
+    return headers ?? this.headers;
+  }
+
+  private returnResponse<ReturnType, PayloadType>(
+    params: IBodilessParams | IBodyfulParams<PayloadType> | undefined,
+    res: any
+  ): ReturnType | void {
     if (!res) {
       return;
     }
-    if (!isBlob) {
-      return res.data;
-    }
+    return params?.isBlob ? HttpClient.download(params.downloadFileName, res) : res.data;
+  }
 
-    const headerLine = res.headers['content-disposition'];
-    const startFileNameIndex = headerLine.indexOf('"') + 1;
-    const endFileNameIndex = headerLine.lastIndexOf('"');
-    const filename = headerLine.substring(startFileNameIndex, endFileNameIndex);
-    const url = URL.createObjectURL(res.data);
-    const fileName = HttpClient.getDownloadFileName(params?.downloadFileName, filename);
-
-    return HttpClient.download(url, fileName);
+  async get<ReturnType>(params?: IBodilessParams): Promise<ReturnType | void> {
+    return this.returnResponse(
+      params,
+      await HttpEngine.Get(this.buildUrl(params?.query), this.getHeaders(params?.headers), this.getResponseType(params?.isBlob))
+    );
   }
 
   async post<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType | void> {
-    const { payload, fileInfos, query, headers, isFormData, isBlob, downloadFileName } = params;
-    const { data } = await axiosInstance({
-      url: this.buildUrl(query),
-      method: 'post',
-      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
-      data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
-      responseType: isBlob ? 'blob' : undefined,
-    });
-    if (!isBlob) {
-      return data;
-    }
-    const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
-    const url = URL.createObjectURL(blob);
-    const fileName = HttpClient.getDownloadFileName(downloadFileName, '');
-    return HttpClient.download(url, fileName);
+    return this.returnResponse(
+      params,
+      await HttpEngine.Post(
+        this.buildUrl(params?.query),
+        this.getHeaders(params?.headers),
+        this.getResponseType(params.isBlob),
+        this.createFormDataPayload<PayloadType>(params?.payload, params?.fileInfos)
+      )
+    );
   }
 
-  async put<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
-    const { payload, fileInfos, query, headers, isFormData } = params;
-
-    const { data } = await axiosInstance({
-      url: this.buildUrl(query),
-      method: 'put',
-      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
-      data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
-    });
-
-    return data;
+  async put<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType | void> {
+    return this.returnResponse(
+      params,
+      await HttpEngine.Put(
+        this.buildUrl(params?.query),
+        this.getHeaders(params?.headers),
+        this.createFormDataPayload<PayloadType>(params?.payload, params?.fileInfos)
+      )
+    );
   }
 
-  async delete<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType> {
-    const { payload, fileInfos, query, headers, isFormData } = params;
-
-    const { data } = await axiosInstance({
-      url: this.buildUrl(query),
-      method: 'delete',
-      headers: { ...(headers ?? this.headers), token: TokenService.getAccessToken() },
-      data: !isFormData ? payload : this.createFormDataPayload<PayloadType>(payload, fileInfos),
-    });
-
-    return data;
+  async delete<PayloadType, ReturnType>(params: IBodyfulParams<PayloadType>): Promise<ReturnType | void> {
+    return this.returnResponse(
+      params,
+      await HttpEngine.Delete(
+        this.buildUrl(params?.query),
+        this.getHeaders(params?.headers),
+        this.createFormDataPayload<PayloadType>(params?.payload, params?.fileInfos)
+      )
+    );
   }
 
   async subscribe<PayloadType>(params: IBodyfulParams<PayloadType>): Promise<EventSource> {
@@ -122,6 +126,10 @@ export default class HttpClient {
       return this.endpoint.length <= 0 ? baseUrl + apiVersion + queryString : baseUrl + apiVersion + this.endpoint + '/' + queryString;
     }
     return baseUrl + apiVersion + this.endpoint;
+  }
+
+  private getResponseType(blob?: boolean): 'blob' | 'json' {
+    return blob ? 'blob' : 'json';
   }
 
   private createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: FileInfo[]): FormData {

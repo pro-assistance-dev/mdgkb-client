@@ -31,16 +31,13 @@
                 </el-table-column>
                 <el-table-column width="50" fixed="right" align="center">
                   <template #default="scope">
-                    <TableButtonGroup
-                      :show-remove-button="true"
-                      @remove="
-                        $classHelper.RemoveFromClassByIndex(
-                          scope.$index,
-                          postgraduateCourse.postgraduateCoursePlans,
-                          postgraduateCourse.postgraduateCoursePlansForDelete
-                        )
-                      "
-                    />
+                    <TableButtonGroup :show-remove-button="true" @remove="
+                      $classHelper.RemoveFromClassByIndex(
+                        scope.$index,
+                        postgraduateCourse.postgraduateCoursePlans,
+                        postgraduateCourse.postgraduateCoursePlansForDelete
+                      )
+                      " />
                   </template>
                 </el-table-column>
               </el-table>
@@ -69,16 +66,13 @@
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
-                      <TableButtonGroup
-                        :show-remove-button="true"
-                        @remove="
-                          $classHelper.RemoveFromClassByIndex(
-                            scope.$index,
-                            postgraduateCourse.postgraduateCoursesDates,
-                            postgraduateCourse.postgraduateCoursesDatesForDelete
-                          )
-                        "
-                      />
+                      <TableButtonGroup :show-remove-button="true" @remove="
+                        $classHelper.RemoveFromClassByIndex(
+                          scope.$index,
+                          postgraduateCourse.postgraduateCoursesDates,
+                          postgraduateCourse.postgraduateCoursesDatesForDelete
+                        )
+                        " />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -87,7 +81,6 @@
             <el-card>
               <template #header> Преподаватели </template>
               <el-form-item prop="listeners">
-                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />
                 <el-table :data="postgraduateCourse.postgraduateCoursesTeachers">
                   <el-table-column label="ФИО" sortable>
                     <template #default="scope">
@@ -101,16 +94,13 @@
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
-                      <TableButtonGroup
-                        :show-remove-button="true"
-                        @remove="
-                          $classHelper.RemoveFromClassByIndex(
-                            scope.$index,
-                            postgraduateCourse.postgraduateCoursesTeachers,
-                            postgraduateCourse.postgraduateCoursesTeachersForDelete
-                          )
-                        "
-                      />
+                      <TableButtonGroup :show-remove-button="true" @remove="
+                        $classHelper.RemoveFromClassByIndex(
+                          scope.$index,
+                          postgraduateCourse.postgraduateCoursesTeachers,
+                          postgraduateCourse.postgraduateCoursesTeachersForDelete
+                        )
+                        " />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -119,7 +109,6 @@
             <el-card>
               <template #header> Специализации </template>
               <el-form-item prop="listeners">
-                <!--                <RemoteSearch :key-value="schema.teacher.key" @select="addTeacher" />-->
                 <el-table :data="postgraduateCourse.postgraduateCoursesSpecializations">
                   <el-table-column label="Название" sortable>
                     <template #default="scope">
@@ -128,7 +117,8 @@
                   </el-table-column>
                   <el-table-column label="Выбрать главную" sortable>
                     <template #default="scope">
-                      <el-checkbox v-model="scope.row.main" @change="postgraduateCourse.setMainSpecialization(scope.$index)" />
+                      <el-checkbox v-model="scope.row.main"
+                        @change="postgraduateCourse.setMainSpecialization(scope.$index)" />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -154,25 +144,17 @@
             </el-card>
             <el-card>
               <el-container direction="vertical">
-                <el-select
-                  v-model="postgraduateCourse.formPattern"
-                  value-key="id"
-                  placeholder="Выбрать форму для записи"
-                  label="Шаблон формы"
-                  @change="changeFormPatternHandler()"
-                >
+                <el-select v-model="postgraduateCourse.formPattern" value-key="id"
+                  placeholder="Выбрать форму для записи" label="Шаблон формы" @change="changeFormPatternHandler()">
                   <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
             </el-card>
             <el-card>
               <template #header> Специальности </template>
-              <el-checkbox
-                v-for="specialization in specializations"
-                :key="specialization.id"
+              <el-checkbox v-for="specialization in specializations" :key="specialization.id"
                 :model-value="postgraduateCourse.findSpecialization(specialization.id)"
-                @change="postgraduateCourse.addSpecialization(specialization)"
-              >
+                @change="postgraduateCourse.addSpecialization(specialization)">
                 {{ specialization.name }}
               </el-checkbox>
             </el-card>
@@ -196,8 +178,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import ISchema from '@/interfaces/schema/ISchema';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PageSection from '@/services/classes/page/PageSection';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -207,7 +187,6 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminPostgraduateCoursePage',
   components: {
-    RemoteSearch,
     WysiwygEditor,
     TableButtonGroup,
     FileUploader,
@@ -220,7 +199,6 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const schema: ComputedRef<ISchema> = computed(() => store.getters['meta/schema']);
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
@@ -243,7 +221,6 @@ export default defineComponent({
 
     const loadItem = async () => {
       if (route.params['id']) {
-        filterQuery.value.setParams(schema.value.nmoCourse.slug, route.params['id'] as string);
         await store.dispatch('postgraduateCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
           title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization().name}"`,
@@ -295,7 +272,6 @@ export default defineComponent({
       specializations,
 
       addTeacher,
-      schema,
       mounted,
       submit,
       postgraduateCourse,
@@ -309,6 +285,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .files-block {
   display: flex;
   justify-content: space-around;

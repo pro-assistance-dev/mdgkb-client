@@ -2,7 +2,7 @@ import { GetterTree } from 'vuex';
 
 import Project from '@/classes/Project';
 import ProjectItem from '@/classes/ProjectItem';
-import getBaseGetters from '@/store/baseModule/baseGetters';
+import getBaseGetters from '@/services/store/baseModule/baseGetters';
 import RootState from '@/store/types';
 
 import { State } from './index';

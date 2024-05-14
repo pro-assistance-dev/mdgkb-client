@@ -74,7 +74,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 .filter {
   display: grid;
   grid-auto-flow: column;

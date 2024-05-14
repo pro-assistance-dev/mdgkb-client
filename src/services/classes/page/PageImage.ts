@@ -1,4 +1,4 @@
-import FileInfo from '@/classes/FileInfo';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class PageImage {

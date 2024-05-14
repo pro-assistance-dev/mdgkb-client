@@ -6,7 +6,7 @@ import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import getBaseMutations from '@/store/baseModule/baseMutations';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
 
 import { getDefaultState } from '.';
 import { State } from './index';

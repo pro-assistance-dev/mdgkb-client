@@ -41,14 +41,13 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 
-import Pagination from '@/components/admin/Pagination.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminAppointmentsList',
-  components: { TableButtonGroup, Pagination },
+  components: { TableButtonGroup },
   setup() {
     const appointments = computed(() => Provider.store.getters['appointments/items']);
 
@@ -75,6 +74,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
 
 .flex-column {

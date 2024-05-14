@@ -95,14 +95,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
-@import '@/assets/styles/elements/base-style.scss';
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 
 .body {
   position: relative;
   min-height: 0px;
   max-height: 100vh;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   padding: 16px;
 }
 
@@ -146,7 +146,7 @@ export default defineComponent({
   width: calc(100% - 34px);
   margin-top: 16px;
   margin-right: 24px;
-  border-radius: $normal-border-radius;
+  border-radius: $border-radius;
   padding: 5px;
 }
 

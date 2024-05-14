@@ -173,7 +173,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 * {
   padding: 0px;
   margin: 0px;
@@ -361,7 +362,7 @@ export default defineComponent({
 }
 
 :deep(.el-form-item__label) {
-  color: #a3a9be;
+  color: $base-light-font-color;
   padding: 0 !important;
   margin-left: 5px;
   width: 150px;

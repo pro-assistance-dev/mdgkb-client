@@ -20,6 +20,16 @@ export default class FilterQuery {
   s: SortModel[] = [];
   p: Pagination = new Pagination();
 
+  static Create(filters: FilterModel[], sortModels: SortModel[], pagination?: Pagination): FilterQuery {
+    const item = new FilterQuery();
+    item.filterModels = filters;
+    item.sortModels = sortModels;
+    if (pagination) {
+      item.pagination = pagination;
+    }
+    return item;
+  }
+
   setQid(qid: string) {
     this.id = qid;
   }
@@ -82,7 +92,6 @@ export default class FilterQuery {
     }
 
     const sortModel = new SortModel();
-    await sortModel.fromUrlQuery(obj);
     if (sortModel.model) {
       this.setSortModel(sortModel);
     }
@@ -145,7 +154,6 @@ export default class FilterQuery {
   }
 
   setFilterModel(filterModel: FilterModel) {
-    console.log(this);
     filterModel.isSet = true;
     let item = this.filterModels.find((i: FilterModel) => i.id === filterModel.id);
     if (item) {

@@ -1,10 +1,12 @@
 import Vuex, { StoreOptions } from 'vuex';
 
+import * as lib from '@/services/store/index';
 import { admin } from '@/store/modules/admin';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
-import auth from '@/store/modules/auth';
+// import auth from '@/store/modules/auth';
+import { authStateConstructor } from '@/services/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { calendar } from '@/store/modules/calendar';
@@ -50,7 +52,6 @@ import { map } from '@/store/modules/map';
 import { mapNodes } from '@/store/modules/mapNodes';
 import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
-import { menus } from '@/store/modules/menus';
 import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
@@ -84,10 +85,9 @@ import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
-import { valueTypes } from '@/store/modules/valueTypes';
 import { visitingRules } from '@/store/modules/visitingRules';
 import { visitsApplications } from '@/store/modules/visitsApplications';
-
+import User from '@/classes/User'
 import RootState from './types';
 
 const s: StoreOptions<RootState> = {
@@ -98,9 +98,9 @@ const s: StoreOptions<RootState> = {
   actions: {},
   mutations: {},
   modules: {
-    valueTypes,
     pageSections,
-    auth,
+    // auth,
+    auth: authStateConstructor(User),
     banners,
     cropper,
     buildings,
@@ -113,7 +113,6 @@ const s: StoreOptions<RootState> = {
     admin,
     timetables,
     map,
-    menus,
     pages,
     vacancies,
     vacancyResponses,
@@ -185,6 +184,7 @@ const s: StoreOptions<RootState> = {
     holidayForms,
     mapRoutes,
     mapNodes,
+    ...lib,
   },
 };
 

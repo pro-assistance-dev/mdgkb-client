@@ -9,7 +9,7 @@ export default class Cache {
 
   public cache<DataType>(data: DataType): void {
     const res = { data, time: new Date() };
-    sessionStorage.setItem(this.name, JSON.stringify(res));
+    // sessionStorage.setItem(this.name, JSON.stringify(res));
   }
 
   getFromCache<DataType>(min?: number): DataType | null {

@@ -43,34 +43,27 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import TokenService from '@/services/Token';
 import UserService from '@/services/User';
 
-import store from '../store/index';
+import Store from '@/services/Store'
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
-  const user = localStorage.getItem('user');
-  if (user) {
-    store.commit('auth/setIsAuth', true);
-  }
-  next();
+  const auth = Store.Getters('auth/auth')
+  auth.value.actualize()
+  next()
 };
 
 export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
-  if (next) {
-    await store.dispatch('auth/setAuth');
-    const isAuth: boolean = store.getters['auth/isAuth'];
-    store.commit('auth/showWarning', true);
-    store.commit('auth/authOnly', true);
-    if (!isAuth) {
-      store.commit('auth/openModal', 'login');
-    }
-    next();
-    return;
-  }
-
-  if (!TokenService.isAuth()) {
+  const auth = Store.Getters('auth/auth')
+  auth.value.actualize()
+  console.log(auth.value)
+  if (!auth.value.isAuth) {
+    const modal = Store.Getters('auth/modal')
+    modal.value.open()
     router.push('/');
+  }
+  if (next) {
+    next()
   }
 };
 
@@ -82,11 +75,11 @@ export const devGuard = (): void => {
 
 export const adminGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
   if (to.path != '/main') {
-    try {
-      await store.dispatch('auth/checkPathPermissions', to.matched[0].path);
-    } catch (e) {
-      await router.push('/');
-    }
+    // try {
+    //   await store.dispatch('auth/checkPathPermissions', to.matched[0].path);
+    // } catch (e) {
+    //   await router.push('/');
+    // }
   }
   next();
 };

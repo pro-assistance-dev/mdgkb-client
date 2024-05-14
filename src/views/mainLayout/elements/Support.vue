@@ -10,7 +10,7 @@
       <div class="support">
         <div class="avatar">
           <div class="helper-avatar">
-            <img src="../../../assets/img/avatar-helper-elena.jpg" alt="avatar-helper-elena" />
+            <img src="src/assets/img/avatar-helper-elena.jpg" alt="avatar-helper-elena" />
           </div>
         </div>
         <div class="text">ТЕСТОВЫЙ РЕЖИМ</div>
@@ -154,7 +154,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/styles/elements/base-style.scss';
+@import '@/assets/styles/base-style.scss';
 * {
   text-decoration: none;
   color: white;

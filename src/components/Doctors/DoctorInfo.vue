@@ -10,7 +10,7 @@
             alt="doctor-photo"
             @error="user.human.photo.errorImg($event)"
           />
-          <img v-else data-test="doctor-alt-photo" src="@/assets/img/doctor-default.webp" alt="doctor-photo" />
+          <img v-else data-test="doctor-alt-photo" src="src/assets/img/doctor-default.webp" alt="doctor-photo" />
           <div class="favor">
             <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
@@ -81,7 +81,7 @@
       </div>
       <router-link v-if="doctor.mosDoctorLink" data-test="mos-doctor-link" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
         <div class="mos-doctor-img-container">
-          <img src="@/assets/img/mos-doctor.webp" alt="mos-doctor" />
+          <img src="src/assets/img/mos-doctor.webp" alt="mos-doctor" />
         </div>
         <div>
           <div>Московский</div>
@@ -126,5 +126,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/doctor-info.scss';
 </style>

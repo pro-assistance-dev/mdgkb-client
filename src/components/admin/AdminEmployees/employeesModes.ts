@@ -5,9 +5,9 @@ import Head from '@/classes/Head';
 import SortModel from '@/services/classes/SortModel';
 import { Constructable } from '@/services/ClassHelper';
 import { FilterModelBuilder } from '@/services/interfaces/Filter';
-import EmployeesFiltersLib from '@/services/Provider/libs/filters/EmployeesFiltersLib';
-import EducationAcademicsSortsLib from '@/services/Provider/libs/sorts/EducationOrganizationAcademicsSortsLib';
-import HeadsSortsLib from '@/services/Provider/libs/sorts/HeadsSortsLib';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
+import EducationAcademicsSortsLib from '@/libs/sorts/EducationOrganizationAcademicsSortsLib';
+import HeadsSortsLib from '@/libs/sorts/HeadsSortsLib';
 
 export interface ListMode {
   condition: (e: never) => boolean;
