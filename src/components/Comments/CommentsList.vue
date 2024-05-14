@@ -4,12 +4,13 @@
       <FiltersWrapper>
         <template #header-right>
           <div :style="{ display: 'flex', flexDirection: 'column' }">
-            <button class="leave-review-button" @click="isAuth ? (showDialog = true) : openLoginModal()">Оставить
+            <button class="leave-review-button" @click="auth.isAuth ? (showDialog = true) : openLoginModal()">Оставить
               отзыв</button>
             <router-link to="/service-quality-assessment" style="text-align: center">Независимая оценка качества
               оказания услуг</router-link>
           </div>
-          <!--      <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" @changeMode="loadComments" />-->
+          <!-- <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" -->
+          <!--   @changeMode="loadComments" /> -->
         </template>
       </FiltersWrapper>
     </template>
@@ -29,9 +30,7 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Comment from '@/classes/Comment';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
@@ -47,68 +46,42 @@ import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'CommentsList',
-  components: {
-    FilterSelectDate,
-    LoadMoreButton,
-    CommentCard,
-    FilterCheckbox,
-    CommentForm,
-    PageWrapper,
-    FiltersWrapper,
-  },
-  setup() {
-    const comments: Ref<Comment[]> = computed<Comment[]>(() => Provider.store.getters['comments/comments']);
-    const showDialog: Ref<boolean> = ref(false);
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-    const mounted = ref(false)
-    const openLoginModal = () => {
-      if (!isAuth.value) {
-        Provider.store.commit('auth/openModal', 'login');
-      }
-    };
+const comments: Ref<Comment[]> = Store.Items('comments')
+const showDialog: Ref<boolean> = ref(false);
+const auth = Store.Getters('auth/auth')
+const authModal = Store.Getters('auth/modal')
+const mounted = ref(false)
 
-    const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 6;
-      // Provider.setSortModels(CommentsSortsLib.byPublishedOn());
-      await loadComments();
-      mounted.value = true
-    };
+const openLoginModal = () => {
 
-    const loadComments = async () => {
-      Provider.filterQuery.value.pagination.allLoaded = false;
-      Provider.store.commit('comments/clearComments');
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-    };
+  if (!auth.value.isAuth) {
+    authModal.value.open()
+  }
+};
 
-    Hooks.onBeforeMount(load);
+const load = async () => {
+  FTSP.Get().p.limit = 6
+  FTSP.Get().setS(CommentsSortsLib.byPublishedOn())
+  await loadComments();
+  mounted.value = true
+};
 
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = comments.value.length;
-      await Provider.store.dispatch('comments/getAll', Provider.filterQuery.value);
-    };
+const loadComments = async () => {
+  await Store.FTSP('comments')
+};
 
-    return {
-      TokenService,
-      Operators,
-      DataTypes,
-      loadComments,
-      loadMore,
-      comments,
-      showDialog,
-      openLoginModal,
-      isAuth,
-      mounted,
-    };
-  },
-});
+Hooks.onBeforeMount(load);
+
+const loadMore = async () => {
+  FTSP.Get().p.append = true;
+  FTSP.Get().p.offset = comments.value.length;
+  Store.FTSP('comments')
+};
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .leave-review-button {
   // width: 100%;
 }
