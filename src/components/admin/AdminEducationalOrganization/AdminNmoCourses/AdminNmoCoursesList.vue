@@ -59,7 +59,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import NmoCourse from '@/classes/NmoCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
@@ -69,7 +68,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminNmoCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, SortList },
+  components: { TableButtonGroup, AdminListWrapper, },
   setup() {
     const nmoCourses: Ref<NmoCourse[]> = computed(() => Provider.store.getters['nmoCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);

@@ -22,12 +22,10 @@ import { useStore } from 'vuex';
 
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
-import Button from '@/components/Base/Button.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileSettingsPage',
-  components: { Button },
   setup() {
     const mounted = ref(false);
     const store = useStore();
@@ -57,6 +55,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .give-button {
   cursor: pointer;
   display: flex;
@@ -102,6 +101,7 @@ h3 {
   justify-content: space-evenly;
   padding: 10px;
 }
+
 .card-container {
   height: 350px;
   margin: 0 auto;
@@ -300,8 +300,8 @@ h4 {
   z-index: 1;
 }
 
-.give-button:focus ~ .drop-give-button,
-.give-button:active ~ .drop-give-button,
+.give-button:focus~.drop-give-button,
+.give-button:active~.drop-give-button,
 .drop-give-button:hover {
   display: block;
 }
@@ -338,6 +338,7 @@ ul {
   margin: 0;
   padding: 0;
 }
+
 ul.drop-give-button-item li {
   background: #ffffff;
   border-bottom: 1px solid #dfe4ee;
@@ -374,28 +375,34 @@ ul.drop-give-button-item li:last-child {
   border-radius: 0 0 5px 5px;
   border-bottom: none;
 }
+
 .status-buttons {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
+
   button {
     img {
       height: 25px;
     }
+
     margin-bottom: 2px;
     padding: 3px 7px;
     border-radius: 5px;
     font-size: 12px;
+
     &:hover {
       cursor: pointer;
       filter: brightness(110%);
     }
   }
 }
+
 .buttons-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   button,
   svg {
     margin: 3px 0;
@@ -447,6 +454,7 @@ ul.application-card li {
   height: 50px;
   border-radius: 5px 5px 0 0;
 }
+
 .card-footer {
   padding: 0 5px;
   display: flex;
@@ -470,6 +478,7 @@ ul.application-card li {
   .size {
     padding: 0 10px;
   }
+
   /*   .table-container {
     display: none;
   }
@@ -523,9 +532,11 @@ ul.application-card li {
   .size {
     margin-top: 20px;
   }
+
   .hidden {
     display: none;
   }
+
   .title {
     justify-content: right;
   }

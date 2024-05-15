@@ -1,6 +1,8 @@
 <template>
   <AdminListWrapper show-header pagination>
     <template #header>
+      <SortList @load="loadQuestions" />
+      <FiltersButtonsSelect @load="loadQuestions" :models="[onlyNewFilter]" />
     </template>
     <el-table v-if="questions" :data="questions">
       <el-table-column label="Тема вопроса" sortable>
@@ -96,16 +98,15 @@ const loadQuestions = async () => {
 
 const load = async () => {
   FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc))
-  // Provider.setSortList(...createSortModels(QuestionsSortsLib, Orders.Desc));
+  Provider.sortList.push(...createSortModels(QuestionsSortsLib, Orders.Desc));
   await loadQuestions();
-  onlyNewFilter.value = QuestionsFiltersLib.onlyNew();
+  onlyNewFilter.value = QuestionsFiltersLib.onlyNew(true);
   Provider.store.commit('admin/setHeaderParams', {
     title: 'Вопросы',
     buttons: [
       { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
       { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
     ],
-    applicationsCount,
   });
   mounted.value = true
 };

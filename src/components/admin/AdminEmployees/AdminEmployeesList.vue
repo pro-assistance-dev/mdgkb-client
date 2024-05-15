@@ -1,20 +1,15 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <RemoteSearch
-        :must-be-translated="true"
-        :key-value="'employee'"
-        placeholder="Начните вводить ФИО сотрудника"
-        @select="selectSearch"
-      />
+      <RemoteSearch :must-be-translated="true" :key-value="'employee'" placeholder="Начните вводить ФИО сотрудника"
+        @select="selectSearch" />
       <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
       <el-select :model-value="selectedMode.label" clearable @change="selectMode" @clear="resetFilter">
         <el-option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode.label" />
       </el-select>
       <el-button class="reset" @click="resetFilter">Сбросить фильтры</el-button>
-      <el-button v-if="selectedMode && (selectedMode.isClassOf(Head) || selectedMode.isClassOf(EducationalAcademic))" @click="editOrder"
-        >Редактировать порядок</el-button
-      >
+      <el-button v-if="selectedMode && (selectedMode.isClassOf(Head) || selectedMode.isClassOf(EducationalAcademic))"
+        @click="editOrder">Редактировать порядок</el-button>
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -27,14 +22,8 @@
       </el-table-column>
       <el-table-column label="Должности" sortable>
         <template #default="scope">
-          <el-tag
-            v-for="mode in modes.filter((m) => m.condition(scope.row))"
-            :key="mode.label"
-            size="mini"
-            class="tag"
-            @click="selectMode(mode.label)"
-            >{{ mode.label }}</el-tag
-          >
+          <el-tag v-for="mode in modes.filter((m) => m.condition(scope.row))" :key="mode.label" size="mini" class="tag"
+            @click="selectMode(mode.label)">{{ mode.label }}</el-tag>
         </template>
       </el-table-column>
 
@@ -50,19 +39,16 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
+            @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
   </AdminListWrapper>
 
   <el-dialog v-model="editOrderMode">
-    <OrderedList
-      v-if="editOrderMode"
-      :sort-model="selectedMode.sortModel"
-      :store-module="selectedMode.store"
-      @close="editOrderMode = false"
-    />
+    <OrderedList v-if="editOrderMode" :sort-model="selectedMode.sortModel" :store-module="selectedMode.store"
+      @close="editOrderMode = false" />
   </el-dialog>
 </template>
 
@@ -72,8 +58,6 @@ import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortListV2.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -181,6 +165,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;
@@ -214,6 +199,7 @@ $margin: 20px 0;
   color: blue;
   border-color: blue;
   border-radius: 20px;
+
   &:hover {
     background-color: blue;
     color: white;

@@ -84,7 +84,6 @@
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FiltersList from '@/components/Filters/FiltersList.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';

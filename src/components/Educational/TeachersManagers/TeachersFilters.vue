@@ -16,8 +16,6 @@ import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NmoCourse from '@/classes/NmoCourse';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
@@ -29,8 +27,6 @@ export default defineComponent({
   name: 'TeachersFilters',
   components: {
     FilterReset,
-    RemoteSearch,
-    SortList,
   },
 
   setup() {

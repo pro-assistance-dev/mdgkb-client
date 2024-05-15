@@ -1,31 +1,17 @@
 <template>
-  <el-form ref="commentForm" :key="isAuth" :model="comment" :rules="isAuth ? rules : null">
-    <el-rate v-if="isReviews && withRating" v-model="comment.comment.rating" class="rate" />
-    <el-form-item prop="comment.text">
-      <el-input
-        ref="commentInput"
-        v-model="comment.comment.text"
-        type="textarea"
-        :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
-        maxlength="500"
-        minlength="10"
-        show-word-limit
-        :autosize="{ minRows: 4, maxRows: 6 }"
-        @focus="isAuth ? null : openLoginModal()"
-      />
-    </el-form-item>
-    <div class="button-block">
-      <button type="button" :class="{ 'blue-btn': !isReviews }" @click="isAuth ? sendComment(comment) : openLoginModal()">
-        ОТПРАВИТЬ {{ !isReviews ? 'КОММЕНТАРИЙ' : 'ОТЗЫВ' }}
-      </button>
-    </div>
-  </el-form>
+  <el-rate v-if="isReviews && withRating" v-model="comment.rating" class="rate" />
+  <el-input v-model="comment.text" type="textarea" :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
+    maxlength="500" minlength="10" show-word-limit :autosize="{ minRows: 4, maxRows: 6 }"
+    @focus="isAuth ? null : openLoginModal()" />
+  <div class="button-block">
+    <button type="button" :class="{ 'blue-btn': !isReviews }" @click="auth.isAuth ? sendComment() : openLoginModal()">
+      ОТПРАВИТЬ {{ !isReviews ? 'КОММЕНТАРИЙ' : 'ОТЗЫВ' }}
+    </button>
+  </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import CommentRules from '@/classes/CommentRules';
 import DivisionComment from '@/classes/DivisionComment';
@@ -33,103 +19,84 @@ import DoctorComment from '@/classes/DoctorComment';
 import NewsComment from '@/classes/NewsComment';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'CommentForm',
-  props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-    parentId: {
-      type: String,
-      default: '',
-    },
-    isReviews: {
-      type: Boolean,
-      default: true,
-    },
-    withRating: {
-      type: Boolean,
-      default: true,
-    },
-    fromDialog: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  storeModule: {
+    type: String,
+    required: true,
   },
-  emits: ['closeDialog', 'scroll'],
-
-  setup(prop, { emit }) {
-    const store = useStore();
-    const commentInput = ref();
-    const comment = computed(() => store.getters[`${prop.storeModule}/comment`]);
-    const userId = computed(() => store.getters['auth/user']?.id);
-    const userEmail = computed(() => store.getters['auth/user']?.email);
-    const isAuth = computed(() => store.getters['auth/isAuth']);
-
-    const commentForm = ref();
-    const editCommentForm = ref();
-    const rules = ref(CommentRules);
-
-    const openLoginModal = () => {
-      if (!isAuth.value) {
-        store.commit('auth/openModal', true);
-        commentInput.value.blur();
-      }
-    };
-    const sendComment = async (item: NewsComment | DivisionComment | DoctorComment) => {
-      if (!validate(commentForm)) return;
-      if (prop.parentId) {
-        store.commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
-      }
-      if (userEmail.value) item.comment.user.email = userEmail.value;
-      if (userId.value) item.comment.userId = userId.value;
-      try {
-        await store.dispatch(`${prop.storeModule}/createComment`, item);
-        ElMessage({ message: 'Ваш отзыв отправлен и будет опубликован после модерации', type: 'success' });
-      } catch (e) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      commentForm.value.clearValidate();
-      if (prop.fromDialog) {
-        emit('closeDialog');
-      }
-      emit('scroll');
-    };
-
-    const removeComment = async (commentId: string) => {
-      await store.dispatch(`${prop.storeModule}/removeComment`, commentId);
-    };
-    const editComment = (commentId: string) => {
-      store.commit(`${prop.storeModule}/editComment`, commentId);
-    };
-    const saveCommentChanges = async (item: NewsComment | DivisionComment | DoctorComment) => {
-      if (!validate(editCommentForm)) return;
-      try {
-        await store.dispatch(`${prop.storeModule}/updateComment`, item);
-      } catch (e) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-    };
-
-    return {
-      rules,
-      openLoginModal,
-      removeComment,
-      userId,
-      sendComment,
-      comment,
-      isAuth,
-      commentInput,
-      commentForm,
-      editComment,
-      saveCommentChanges,
-      editCommentForm,
-    };
+  parentId: {
+    type: String,
+    default: '',
   },
-});
+  isReviews: {
+    type: Boolean,
+    default: true,
+  },
+  withRating: {
+    type: Boolean,
+    default: true,
+  },
+  fromDialog: {
+    type: Boolean,
+    default: false,
+  },
+})
+const emit = defineEmits(['closeDialog', 'scroll'])
+
+const commentInput = ref();
+const comment = Store.Item('comments')
+const auth = Store.Getters('auth/auth')
+const authModal = Store.Getters('auth/modal')
+const userId = computed(() => auth.value.user.get().id);
+const userEmail = computed(() => auth.value.user.get().email);
+
+const commentForm = ref();
+const editCommentForm = ref();
+const rules = ref(CommentRules);
+
+const openLoginModal = () => {
+  if (!auth.value.isAuth) {
+    authModal.value.open()
+    commentInput.value.blur();
+  }
+};
+
+const sendComment = async () => {
+  console.log(comment.value)
+  // if (!validate(commentForm)) {
+  //   return;
+  // }
+  comment.value.user.email = userEmail.value;
+  comment.value.userId = userId.value;
+  try {
+    await Store.Create('comments');
+    ElMessage({ message: 'Ваш отзыв отправлен и будет опубликован после модерации', type: 'success' });
+  } catch (e) {
+    ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+    return;
+  }
+  // commentForm.value.clearValidate();
+  if (props.fromDialog) {
+    emit('closeDialog');
+  }
+  emit('scroll');
+};
+
+const removeComment = async (id: string) => {
+  await Store.Remove('comments', id);
+};
+const editComment = async (id: string) => {
+  await Store.commit('comments', id);
+};
+const saveCommentChanges = async (item: Comment) => {
+  // if (!validate(editCommentForm)) return;
+  try {
+    await Store.Update('comments', item);
+  } catch (e) {
+    ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+    return;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -169,8 +136,10 @@ button {
     background-color: darken($site_red, 10%);
   }
 }
+
 .blue-btn {
   background-color: $site_blue;
+
   &:hover {
     background-color: darken($site_blue, 10%);
   }

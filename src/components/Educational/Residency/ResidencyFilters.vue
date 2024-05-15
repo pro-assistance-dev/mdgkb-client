@@ -15,8 +15,6 @@ import { defineComponent, onBeforeMount, PropType } from 'vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -27,10 +25,8 @@ export default defineComponent({
   name: 'ResidencyFilters',
   components: {
     ModeChoice,
-    RemoteSearch,
     FilterSelect,
     FiltersWrapper,
-    SortList,
   },
   props: {
     mode: {

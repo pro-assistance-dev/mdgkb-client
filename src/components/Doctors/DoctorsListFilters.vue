@@ -23,8 +23,6 @@ import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import SortModel from '@/services/classes/SortModel';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -39,8 +37,6 @@ export default defineComponent({
   components: {
     FilterSelect,
     FilterCheckbox,
-    SortList,
-    RemoteSearch,
     ModeButtons,
     FiltersWrapper,
   },

@@ -51,7 +51,6 @@ import DpoApplication from '@/classes/DpoApplication';
 import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import createSortModels from '@/services/CreateSortModels';
@@ -66,7 +65,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDpoApplicationsList',
-  components: { TableButtonGroup, AdminListWrapper, SortList, TableFormStatus },
+  components: { TableButtonGroup, AdminListWrapper, TableFormStatus },
 
   setup() {
     const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);

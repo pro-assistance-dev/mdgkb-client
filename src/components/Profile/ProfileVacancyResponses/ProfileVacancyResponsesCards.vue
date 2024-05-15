@@ -1,41 +1,28 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem
-        v-for="vacancyResponse in user.vacancyResponses"
-        :key="vacancyResponse.id"
-        :title="`${vacancyResponse.vacancy.title}`"
-        :tab-id="vacancyResponse.id"
-        :collapsed="false"
-        :active-id="scope.activeId"
-        :show-tools-on-hover="false"
-      >
+      <CollapseItem v-for="vacancyResponse in user.vacancyResponses" :key="vacancyResponse.id"
+        :title="`${vacancyResponse.vacancy.title}`" :tab-id="vacancyResponse.id" :collapsed="false"
+        :active-id="scope.activeId" :show-tools-on-hover="false">
         <template #tools>
           <div class="order-date" style="margin-right: 5px">
-            {{ $dateTimeFormatter.format(vacancyResponse.formValue.createdAt, { day: '2-digit', month: 'long', year: 'numeric' }) }}
+            {{ $dateTimeFormatter.format(vacancyResponse.formValue.createdAt, {
+              day: '2-digit', month: 'long', year:
+                'numeric'
+            }) }}
           </div>
-          <el-tag
-            v-if="vacancyResponse.formValue.formStatus.label"
-            size="small"
-            :style="`background-color: inherit; color: ${vacancyResponse.formValue.formStatus.color}; border-color: ${vacancyResponse.formValue.formStatus.color}`"
-            >{{ vacancyResponse.formValue.formStatus.label }}</el-tag
-          >
+          <el-tag v-if="vacancyResponse.formValue.formStatus.label" size="small"
+            :style="`background-color: inherit; color: ${vacancyResponse.formValue.formStatus.color}; border-color: ${vacancyResponse.formValue.formStatus.color}`">{{
+              vacancyResponse.formValue.formStatus.label }}</el-tag>
         </template>
         <template #inside-content>
           <div class="margin-container">
             <div class="position">
               <div class="flex">
-                <Button
-                  v-for="item in vacancyResponse.formValue.getUserActions()"
-                  :key="item.id"
-                  :text="item.childFormStatus.userActionName"
-                  :color="item.childFormStatus.color"
-                  :margin-right="'10px'"
-                  width="120px"
-                  height="36px"
-                  font-size="14px"
-                  @click="updateFormStatus(vacancyResponse, item.childFormStatus)"
-                />
+                <Button v-for="item in vacancyResponse.formValue.getUserActions()" :key="item.id"
+                  :text="item.childFormStatus.userActionName" :color="item.childFormStatus.color" :margin-right="'10px'"
+                  width="120px" height="36px" font-size="14px"
+                  @click="updateFormStatus(vacancyResponse, item.childFormStatus)" />
               </div>
             </div>
           </div>
@@ -51,7 +38,6 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount 
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import VacancyResponse from '@/classes/VacancyResponse';
-import Button from '@/components/Base/Button.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
@@ -61,7 +47,6 @@ export default defineComponent({
   components: {
     CollapseContainer,
     CollapseItem,
-    Button,
   },
   setup() {
     const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
@@ -101,6 +86,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .main-component {
   position: relative;
 }
@@ -193,6 +179,7 @@ export default defineComponent({
   overflow: hidden;
   margin: 5px;
   position: relative;
+
   img {
     position: absolute;
     top: 50%;
@@ -299,6 +286,7 @@ export default defineComponent({
   .margin-container {
     padding: 10px 5px;
   }
+
   .flex {
     margin-top: 0px;
   }

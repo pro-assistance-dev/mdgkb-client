@@ -26,8 +26,6 @@ import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
@@ -37,8 +35,6 @@ import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'DivisionsListFilters',
   components: {
-    RemoteSearch,
-    SortList,
     ModeChoice,
     FilterSelect,
     FiltersWrapper,
@@ -87,4 +83,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';</style>
+@import '@/assets/styles/base-style.scss';
+</style>

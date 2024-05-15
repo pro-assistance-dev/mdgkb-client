@@ -75,8 +75,6 @@ import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue'
 import { RouteRecordNormalized } from 'vue-router';
 
 import PathPermission from '@/classes/PathPermission';
-import RemoteSearch from '@/components/RemoteSearch.vue';
-import SortList from '@/components/SortList/SortList.vue';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import { RoleName } from '@/interfaces/RoleName';
@@ -90,10 +88,6 @@ import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminGallery',
-  components: {
-    SortList,
-    RemoteSearch,
-  },
   props: {
     storeModule: {
       type: String as PropType<string>,
@@ -242,6 +236,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 // table
 .table-container {
   overflow: auto;

@@ -24,12 +24,8 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup
-            :show-check-button="true"
-            :show-more-button="true"
-            @showMore="$router.push(`/admin/support-messages/${scope.row.id}`)"
-            @check="changeNewStatus(scope.row)"
-          />
+          <TableButtonGroup :show-check-button="true" :show-more-button="true"
+            @showMore="$router.push(`/admin/support-messages/${scope.row.id}`)" @check="changeNewStatus(scope.row)" />
         </template>
       </el-table-column>
     </el-table>
@@ -46,7 +42,6 @@ import { NavigationGuardNext } from 'vue-router';
 import SupportMessage from '@/classes/SupportMessage';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
-import SortListV2 from '@/components/SortList/SortListV2.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -59,7 +54,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminSupportMessagesList',
-  components: { SortListV2, FilterCheckboxV2, TableButtonGroup, AdminListWrapper },
+  components: { FilterCheckboxV2, TableButtonGroup, AdminListWrapper },
   setup() {
     const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
