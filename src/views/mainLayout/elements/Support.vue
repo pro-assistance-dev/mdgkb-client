@@ -3,88 +3,52 @@
     <input id="support__toggle" type="checkbox" />
     <label
       :style="{ visibility: isDrawerOpen ? 'hidden' : 'visible', 'transition-delay': !isDrawerOpen ? '0.25s' : '' }"
-      class="support__btn"
-      for="support__toggle"
-      @click="toggleDrawer(true)"
-    >
+      class="support__btn" for="support__toggle" @click="toggleDrawer(true)">
       <div class="support">
         <div class="avatar">
           <div class="helper-avatar">
-            <img src="src/assets/img/avatar-helper-elena.jpg" alt="avatar-helper-elena" />
+            <img :src="ElenaImg" alt="avatar-helper-elena" />
           </div>
         </div>
         <div class="text">ТЕСТОВЫЙ РЕЖИМ</div>
         <div class="text-mobile">ТЕСТ РЕЖИМ</div>
       </div>
     </label>
-    <div
-      id="support__box"
-      :style="{ visibility: !isDrawerOpen ? 'hidden' : 'visible' }"
-      class="support__box"
-      @click="(e) => drawerLeaveHandler(e)"
-    >
+    <div id="support__box" :style="{ visibility: !isDrawerOpen ? 'hidden' : 'visible' }" class="support__box"
+      @click="(e) => drawerLeaveHandler(e)">
       <div id="support-zone" class="support-zone" :style="{ right: !isDrawerOpen ? '-100%' : '0' }">
         <div class="support-title">Задать вопрос техподдержке</div>
         <el-form ref="form" :model="supportMessage" label-position="top">
-          <el-form-item
-            v-if="!supportMessage.user?.human?.name"
-            prop="user.human.name"
-            :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
-            label="Ваше имя"
-          >
-            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+          <el-form-item v-if="!supportMessage.user?.human?.name" prop="user.human.name"
+            :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]" label="Ваше имя">
+            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100"
+              show-word-limit></el-input>
           </el-form-item>
-          <el-form-item
-            v-if="!supportMessage.user?.human?.surname"
-            prop="user.human.surname"
-            :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
-            label="Ваша фамилия"
-          >
-            <el-input
-              v-model="supportMessage.user.human.surname"
-              placeholder="Имя"
-              minlength="1"
-              maxlength="100"
-              show-word-limit
-            ></el-input>
+          <el-form-item v-if="!supportMessage.user?.human?.surname" prop="user.human.surname"
+            :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]" label="Ваша фамилия">
+            <el-input v-model="supportMessage.user.human.surname" placeholder="Имя" minlength="1" maxlength="100"
+              show-word-limit></el-input>
           </el-form-item>
-          <el-form-item
-            v-if="!supportMessage.user?.human?.patronymic"
-            prop="user.human.patronymic"
+          <el-form-item v-if="!supportMessage.user?.human?.patronymic" prop="user.human.patronymic"
             :rules="[{ required: true, message: 'Необходимо указать отчество', trigger: 'blur' }]"
-            label="Ваше отчество"
-          >
-            <el-input
-              v-model="supportMessage.user.human.patronymic"
-              placeholder="Имя"
-              minlength="1"
-              maxlength="100"
-              show-word-limit
-            ></el-input>
+            label="Ваше отчество">
+            <el-input v-model="supportMessage.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100"
+              show-word-limit></el-input>
           </el-form-item>
 
-          <el-form-item
-            v-if="!supportMessage.user?.email"
-            prop="user.email"
-            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-            label="Ваш email"
-          >
-            <el-input v-model="supportMessage.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
+          <el-form-item v-if="!supportMessage.user?.email" prop="user.email"
+            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]" label="Ваш email">
+            <el-input v-model="supportMessage.user.email" placeholder="Адрес электронной почты"
+              minlength="1"></el-input>
           </el-form-item>
 
           <el-form-item label="Тема вопроса" prop="theme">
-            <el-input v-model="supportMessage.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
+            <el-input v-model="supportMessage.theme" placeholder="Тема вопроса" minlength="1" maxlength="100"
+              show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="Содержание обращения" prop="originalQuestion">
-            <el-input
-              v-model="supportMessage.question"
-              type="textarea"
-              placeholder="Содержание обращения"
-              minlength="5"
-              maxlength="1000"
-              show-word-limit
-              :autosize="{ minRows: 5, maxRows: 10 }"
-            />
+            <el-input v-model="supportMessage.question" type="textarea" placeholder="Содержание обращения" minlength="5"
+              maxlength="1000" show-word-limit :autosize="{ minRows: 5, maxRows: 10 }" />
           </el-form-item>
 
           <div class="right-button">
@@ -98,7 +62,7 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-
+import ElenaImg from '@/assets/img/avatar-helper-elena.jpg'
 import SupportMessage from '@/classes/SupportMessage';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
@@ -155,6 +119,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 * {
   text-decoration: none;
   color: white;
@@ -190,9 +155,9 @@ body {
   z-index: 101;
 }
 
-.support__btn > span,
-.support__btn > span::before,
-.support__btn > span::after {
+.support__btn>span,
+.support__btn>span::before,
+.support__btn>span::after {
   display: block;
   position: absolute;
   width: 100%;
@@ -200,17 +165,18 @@ body {
   background-color: #343e5c;
 }
 
-.support__btn:hover > span,
-.support__btn:hover > span::before,
-.support__btn:hover > span::after {
+.support__btn:hover>span,
+.support__btn:hover>span::before,
+.support__btn:hover>span::after {
   background-color: #22abe2;
 }
 
-.support__btn > span::before {
+.support__btn>span::before {
   content: '';
   top: -8px;
 }
-.support__btn > span::after {
+
+.support__btn>span::after {
   content: '';
   top: 8px;
 }
@@ -249,17 +215,20 @@ body {
   font-weight: 600;
   text-decoration: none;
 }
+
 .menu__item:hover {
   background-color: #cfd8dc;
 }
 
-#support__toggle:checked ~ .support__box {
+#support__toggle:checked~.support__box {
   visibility: visible;
+
   .support-zone {
     visibility: visible;
     right: 0;
   }
 }
+
 .is-active {
   left: 0;
 }
@@ -268,6 +237,7 @@ body {
 .support-zone {
   transition-duration: 0.25s;
 }
+
 .menu__item {
   transition-duration: 0.25s;
 }
@@ -372,9 +342,11 @@ a.btn:active {
   0% {
     box-shadow: 0px 0px 4px 4px rgba(60, 160, 250, 1);
   }
+
   50% {
     box-shadow: 0px 0px 4px 4px rgba(255, 255, 255, 1);
   }
+
   100% {
     box-shadow: 0px 0px 4px 4px rgba(60, 160, 250, 1);
   }
@@ -395,6 +367,7 @@ a.btn:active {
   margin-right: 10px;
   position: relative;
   border: 1px solid #343e5c;
+
   img {
     position: absolute;
     top: 50%;
@@ -435,8 +408,7 @@ a.btn:active {
   width: 100%;
 }
 
-:deep(.el-button el-button--success) {
-}
+:deep(.el-button el-button--success) {}
 
 .text-mobile {
   display: none;
@@ -482,6 +454,7 @@ a.btn:active {
     margin-right: 5px;
     position: relative;
     border: 1px solid #343e5c;
+
     img {
       position: absolute;
       top: 50%;

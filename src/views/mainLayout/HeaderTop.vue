@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import MdgkbLogo from "@/assets/img/mdgkb-logo.webp"
-// documet.
+
 const currentRoute = computed(() => {
   return Router.Route().name;
 });
