@@ -72,7 +72,6 @@ onBeforeMount(async () => {
   if (auth.value.isAuth) {
     await Store.Get('users', auth.value.user.get().id);
   }
-  mounted.value = true;
 });
 const cache = new Cache();
 cache.name = 'startModal';

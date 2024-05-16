@@ -32,8 +32,9 @@
                 </div>
 
                 <p>{{ manager.doctor.employee.human.getFullName() }}</p>
-                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 8</div>
-                <ContactsBlock :contact-info="manager.doctor.employee.human.contactInfo" />
+                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок
+                  1/9 корпус 8</div>
+                <ContactsBlock :contact="manager.doctor.employee.human.contact" />
                 <div v-if="i !== 2" class="contact-h3">
                   <div class="item">
                     <svg class="icon-time">
@@ -42,7 +43,8 @@
                   </div>
                   <div class="time-block">
                     <span v-if="i === 0" class="item">Прием граждан ведёт во вторник и пятницу с 11:00 до 13:00</span>
-                    <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до 16:00</span>
+                    <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до
+                      16:00</span>
                   </div>
                 </div>
               </div>
@@ -51,19 +53,15 @@
         </el-timeline-item>
       </el-timeline>
       <span class="info-text">
-        <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования" class="info-text"
-          >Положение об отделе постдипломного образования</a
-        ></span
-      >
+        <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования"
+          class="info-text">Положение об отделе постдипломного образования</a></span>
     </el-card>
   </el-container>
   <Time />
   <Arrow />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-
+<script lang="ts" setup>
 import Arrow from '@/assets/svg/StructurePage/Arrow.svg';
 import Time from '@/assets/svg/StructurePage/Time.svg';
 import EducationalManager from '@/classes/EducationalManager';
@@ -71,22 +69,13 @@ import ContactsBlock from '@/components/ContactsBlock.vue';
 import EducationOrganizationManagersSortsLib from '@/libs/sorts/EducationanlManagersSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'StructurePage',
-  components: { ContactsBlock, Time, Arrow },
 
-  setup() {
-    const educationalManagers: ComputedRef<EducationalManager[]> = computed(() => Provider.store.getters['educationalManagers/items']);
-    onBeforeMount(async () => {
-      Provider.setSortModel(EducationOrganizationManagersSortsLib.byOrder());
-      await Provider.store.dispatch('educationalManagers/getAll', Provider.filterQuery.value);
-    });
-
-    return {
-      educationalManagers,
-    };
-  },
+const educationalManagers: ComputedRef<EducationalManager[]> = Store.Items('educationalManagers')
+onBeforeMount(async () => {
+  // Provider.setSortModel(EducationOrganizationManagersSortsLib.byOrder());
+  await Provider.store.dispatch('educationalManagers/getAll', Provider.filterQuery.value);
 });
+
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
@@ -108,6 +97,7 @@ export default defineComponent({
   margin-left: 20px;
   width: 100%;
 }
+
 :deep(.el-timeline-item__wrapper) {
   width: 100%;
 }
@@ -120,6 +110,7 @@ export default defineComponent({
   font-weight: bold;
   margin: 15px 0 0 0;
 }
+
 p {
   margin: 0;
 }
@@ -151,6 +142,7 @@ p {
   height: 20px;
   fill: #2754eb;
 }
+
 .time-block {
   display: block;
 }

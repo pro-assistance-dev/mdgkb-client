@@ -16,9 +16,7 @@
   </PageComponent>
 </template>
 
-<script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import CustomSection from '@/classes/CustomSection';
 import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
@@ -29,43 +27,31 @@ import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLi
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdmissionCommittee',
-  components: {
-    ResidencyCoursesList,
-    CompetitionComponent,
-    // SelectResidencyCourseForm,
-    PageComponent,
-  },
-  setup() {
-    const customSections: Ref<CustomSection[]> = ref([]);
-    const showForm: Ref<boolean> = ref(false);
+const customSections: Ref<CustomSection[]> = ref([]);
+const showForm: Ref<boolean> = ref(false);
 
-    const initLoad = async () => {
-      customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', 'CompetitionComponent', 0));
-      // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
-      // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
-      // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
-      await loadPrograms();
-    };
+const initLoad = async () => {
+  customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', 'CompetitionComponent', 0));
+  // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
+  // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
+  // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
+  await loadPrograms();
+};
 
-    Hooks.onBeforeMount(initLoad);
+Hooks.onBeforeMount(initLoad);
 
-    const loadPrograms = async () => {
-      Provider.resetFilterQuery();
-      Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-      // Provider.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      Provider.filterQuery.value.pagination.cursorMode = false;
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-    };
-
-    return { mounted: Provider.mounted, showForm, customSections };
-  },
-});
+const loadPrograms = async () => {
+  // Provider.resetFilterQuery();
+  // Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
+  // Provider.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
+  // Provider.filterQuery.value.pagination.cursorMode = false;
+  await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+};
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .button-container {
   background: #f6f6f6;
   text-align: center;
