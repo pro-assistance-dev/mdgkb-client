@@ -10,7 +10,7 @@
       </div>
       <div class="avatar">
         <div class="helper-avatar">
-          <img src="../../assets/img/avatar-helper-elena.jpg" alt="avatar-helper-elena" />
+          <img :src="ElenaImg" alt="avatar-helper-elena" />
         </div>
       </div>
     </div>
@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-
+import ElenaImg from '@/assets/img/avatar-helper-elena.jpg'
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({
@@ -35,6 +35,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .helper {
   margin-top: 20px;
   background: #ffffff;
@@ -94,6 +95,7 @@ export default defineComponent({
   text-align: right;
   align-items: center;
 }
+
 .avatar {
   display: flex;
   width: 44%;
@@ -112,6 +114,7 @@ export default defineComponent({
   margin-left: auto;
   margin-right: auto;
   position: relative;
+
   img {
     position: absolute;
     top: 50%;
