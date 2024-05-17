@@ -25,20 +25,21 @@ const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
 const count: Ref<number> = ref(1);
 const mounted = ref(false)
 
+const sortByName = DivisionsSortsLib.byName()
+
 const load = async () => {
-  FTSP.Get().setS(DivisionsSortsLib.byName())
-  // Provider.setSortModels(DivisionsSortsLib.byName());
+  FTSP.Get().setS(sortByName)
   // Provider.setSortList(...createSortModels(DivisionsSortsLib));
   onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
   onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
+  console.log(DivisionsSortsLib.byName())
   if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
     FTSP.Get().setF(onlyDivisionsFilterModel.value);
   } else {
     FTSP.Get().setF(onlyCentersFilterModel.value);
   }
 
-  Store.Commit('filter/setStoreModule', 'divisions');
   await loadDivisions();
   modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
   mounted.value = true

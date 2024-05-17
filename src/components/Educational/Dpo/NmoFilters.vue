@@ -6,7 +6,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType } from 'vue';
 
-import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';

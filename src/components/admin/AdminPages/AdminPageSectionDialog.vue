@@ -1,5 +1,7 @@
 <template>
-  <el-dialog v-if="mounted" v-model="isPageSectionDialogActive" top="0" width="90%" destroy-on-close @close="handleClose">
+  adadsf
+  <el-dialog v-if="mounted" v-model="isPageSectionDialogActive" top="0" width="90%" destroy-on-close
+    @close="handleClose">
     <el-input v-model="pageSection.name" placeholder="Название раздела страницы"></el-input>
     <WysiwygEditor v-model="pageSection.description" />
     <AdminDocumentsForm :document-type="pageSection" />

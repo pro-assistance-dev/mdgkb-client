@@ -3,23 +3,21 @@
     <div class="wrapper" style="margin-right: 20px">
       <div style="min-width: 300px">
         <el-card style="margin-right: 20px; padding-right: 20px">
-          <div :class="{ 'side-menu': true, 'side-menu-active': showMainSettings }" @click="selectMainSettings">Основные настройки</div>
+          <div :class="{ 'side-menu': true, 'side-menu-active': showMainSettings }" @click="selectMainSettings">Основные
+            настройки</div>
           <draggable :list="page.pageSideMenus" item-key="id" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
-                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }" @click="selectSideMenu(element.id)">
+                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }"
+                  @click="selectSideMenu(element.id)">
                   <div>{{ element?.name }}</div>
-                  <el-popconfirm
-                    confirm-button-text="Да"
-                    cancel-button-text="Отмена"
-                    icon="el-icon-info"
-                    icon-color="red"
-                    title="Вы уверен, что хотите удалить это?"
-                    @confirm="removePageSideMenu(index)"
-                    @cancel="() => {}"
-                  >
+                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
+                    icon-color="red" title="Вы уверен, что хотите удалить это?" @confirm="removePageSideMenu(index)"
+                    @cancel="() => { }">
                     <template #reference>
-                      <el-icon><Close /> </el-icon>
+                      <el-icon>
+                        <Close />
+                      </el-icon>
                     </template>
                   </el-popconfirm>
                 </div>
@@ -27,7 +25,9 @@
             </template>
           </draggable>
           <div class="side-menu side-menu-new" @click="addSideMenu">
-            <el-icon><Plus /> </el-icon>
+            <el-icon>
+              <Plus />
+            </el-icon>
           </div>
         </el-card>
       </div>
@@ -66,7 +66,7 @@
         <div v-else>
           <el-card style="margin-bottom: 20px">
             <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
-            <!-- <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" /> -->
+            <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
             <div>
               <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
             </div>
@@ -76,10 +76,13 @@
             <el-card style="margin-bottom: 20px">
               <h1 style="text-align: center">Разделы</h1>
             </el-card>
-            <draggable :list="pageSideMenu.pageSections" item-key="id" handle=".handle" @end="sort(pageSideMenu.pageSections)">
+            <draggable :list="pageSideMenu.pageSections" item-key="id" handle=".handle"
+              @end="sort(pageSideMenu.pageSections)">
               <template #item="{ element, index }">
                 <div class="page-section-row">
-                  <el-icon class="handle"><Grid /></el-icon>
+                  <el-icon class="handle">
+                    <Grid />
+                  </el-icon>
                   <CollapseItem :title="element.name">
                     <template #inside-content>
                       <div style="padding: 20px">
@@ -89,18 +92,14 @@
                       </div>
                     </template>
                   </CollapseItem>
-                  <el-popconfirm
-                    confirm-button-text="Да"
-                    cancel-button-text="Отмена"
-                    icon="el-icon-info"
-                    icon-color="red"
-                    title="Вы уверен, что хотите удалить это?"
-                    class="close"
+                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
+                    icon-color="red" title="Вы уверен, что хотите удалить это?" class="close"
                     @confirm="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
-                    @cancel="() => {}"
-                  >
+                    @cancel="() => { }">
                     <template #reference>
-                      <el-icon><Close /> </el-icon>
+                      <el-icon>
+                        <Close />
+                      </el-icon>
                     </template>
                   </el-popconfirm>
                 </div>
@@ -245,10 +244,12 @@ onBeforeUnmount(() => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .wrapper {
   display: flex;
   box-sizing: border-box;
 }
+
 :deep(.side-menu) {
   cursor: pointer;
   display: flex;
@@ -262,29 +263,36 @@ onBeforeUnmount(() => {
   box-sizing: border-box;
   position: relative;
 }
+
 :deep(.side-menu-row) {
   position: relative;
+
   .handle {
     position: absolute !important;
     cursor: pointer;
     right: -20px;
   }
 }
+
 :deep(.side-menu-new) {
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #67c23a;
+
   .el-icon {
     font-size: 25px !important;
   }
 }
+
 .side-menu-active {
   background-color: lightblue;
 }
+
 .page-section-row {
   padding: 0 20px;
   position: relative;
+
   .handle,
   .close {
     position: absolute;
@@ -292,10 +300,12 @@ onBeforeUnmount(() => {
     font-size: 25px;
     cursor: pointer;
   }
+
   .handle {
     left: -15px;
     top: 10px;
   }
+
   .close {
     right: -15px;
     top: 0;

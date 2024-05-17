@@ -19,7 +19,7 @@ import { useRoute } from 'vue-router';
 
 import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
-import FilterCheckbox from '@/components/Filters/FilterCheckbox.vue';
+import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';

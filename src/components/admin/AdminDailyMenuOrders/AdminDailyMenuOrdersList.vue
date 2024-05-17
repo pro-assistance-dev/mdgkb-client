@@ -4,7 +4,7 @@
       <RemoteSearch key-value="dailyMenuOrder" placeholder="Введите номер заказа" @select="selectSearch" />
       <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()"
         @load="loadApplications" />
-      <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadApplications" />
+      <FilterCheckbox class="filters-block" :filter-model="onlyNewFilter" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" @load="loadItems" />
@@ -74,7 +74,7 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
+import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import IOption from '@/interfaces/IOption';
@@ -90,7 +90,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminDailyMenuOrdersList',
-  components: { AdminListWrapper, TableButtonGroup, TableFormStatus, FilterMultipleSelect, FilterCheckboxV2 },
+  components: { AdminListWrapper, TableButtonGroup, TableFormStatus, FilterMultipleSelect, FilterCheckbox },
   setup() {
     const dailyMenuOrders = computed(() => Provider.store.getters['dailyMenuOrders/items']);
     const filterByStatus: Ref<FilterModel> = ref(new FilterModel());

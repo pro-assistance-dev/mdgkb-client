@@ -13,6 +13,6 @@ export default class EducationalManager {
   }
 
   static GetClassName(): string {
-    return 'educationalManeger';
+    return 'educationalManager';
   }
 }

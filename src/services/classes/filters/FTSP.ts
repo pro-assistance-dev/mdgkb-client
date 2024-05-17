@@ -37,12 +37,15 @@ export default class FTSP {
   clearForHTTP(): FTSP {
     const f = new FTSP(this);
     f.f = this.f.map((fm: FilterModel) => FTSP.EmptyEntiries(fm) as FilterModel);
-    f.s = this.s.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel);
+    f.s = this.s.map((sm: SortModel) => FTSP.EmptyEntiries(sm) as SortModel).filter((sm: unknown) => !!sm);
     f.p = FTSP.EmptyEntiries(this.p) as Pagination;
     return f;
   }
 
   private static EmptyEntiries(sm: any): unknown {
+    if (!sm) {
+      return
+    }
     const entries = Object.entries(sm);
     const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
     return Object.fromEntries(nonEmptyOrNull);
@@ -65,6 +68,7 @@ export default class FTSP {
   }
 
   setSortModel(sortModel: SortModel): void {
+    console.warn('setSortModel is deprecated');
     this.s[0] = sortModel;
   }
 

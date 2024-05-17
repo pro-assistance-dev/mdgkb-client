@@ -72,8 +72,9 @@ import Provider from '@/services/Provider/Provider';
 
 const educationalManagers: ComputedRef<EducationalManager[]> = Store.Items('educationalManagers')
 onBeforeMount(async () => {
-  // Provider.setSortModel(EducationOrganizationManagersSortsLib.byOrder());
-  await Provider.store.dispatch('educationalManagers/getAll', Provider.filterQuery.value);
+  const ftsp = new FTSP()
+  ftsp.setS(EducationOrganizationManagersSortsLib.byOrder());
+  await Store.FTSP('educationalManagers', { ftsp: ftsp })
 });
 
 </script>

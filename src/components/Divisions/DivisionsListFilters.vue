@@ -7,10 +7,10 @@
     </template>
 
     <template #header-left-bottom>
-      <FilterCheckboxV2 :filter-model="hospitalizationFilter" @load="$emit('load')" />
-      <FilterCheckboxV2 :filter-model="withCommentsFilter" @load="$emit('load')" />
-      <FilterCheckboxV2 :filter-model="withAmbulatoryFilter" @load="$emit('load')" />
-      <FilterCheckboxV2 :filter-model="withDiagnosticFilter" @load="$emit('load')" />
+      <FilterCheckbox :filter-model="hospitalizationFilter" @load="$emit('load')" />
+      <FilterCheckbox :filter-model="withCommentsFilter" @load="$emit('load')" />
+      <FilterCheckbox :filter-model="withAmbulatoryFilter" @load="$emit('load')" />
+      <FilterCheckbox :filter-model="withDiagnosticFilter" @load="$emit('load')" />
     </template>
     <template #footer>
       <SortList :models="sortList" @load="$emit('load')" />
@@ -18,11 +18,9 @@
   </FiltersWrapper>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
-
+<script lang="ts" setup>
 import TreatDirection from '@/classes/TreatDirection';
-import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
+import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
@@ -32,54 +30,33 @@ import { Operators } from '@/services/interfaces/Operators';
 import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DivisionsListFilters',
-  components: {
-    ModeChoice,
-    FilterSelect,
-    FiltersWrapper,
-    FilterCheckboxV2,
+const props = defineProps({
+  mode: {
+    type: String as PropType<string>,
+    required: true,
+    default: '',
   },
-  props: {
-    mode: {
-      type: String as PropType<string>,
-      required: true,
-      default: '',
-    },
-    modes: {
-      type: Array as PropType<IOption[]>,
-      required: false,
-      default: () => [],
-    },
+  modes: {
+    type: Array as PropType<IOption[]>,
+    required: false,
+    default: () => [],
   },
-  emits: ['selectMode', 'load'],
-  setup(props, { emit }) {
-    const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
-    const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/divisions/${event.value}`);
-    };
+})
+const emits = defineEmits(['selectMode', 'load'])
+const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
+const selectSearch = async (event: ISearchObject): Promise<void> => {
+  await Provider.router.push(`/divisions/${event.value}`);
+};
 
-    const selectMode = async (value: string) => {
-      emit('selectMode', value);
-    };
+const selectMode = async (value: string) => {
+  emits('selectMode', value);
+};
 
-    onBeforeMount(async () => {
-      Provider.store.commit('filter/setStoreModule', 'divisions');
-    });
 
-    return {
-      hospitalizationFilter: DivisionsFiltersLib.withHospitalization().toRef(),
-      withCommentsFilter: DivisionsFiltersLib.withComments().toRef(),
-      withAmbulatoryFilter: DivisionsFiltersLib.withAmbulatory().toRef(),
-      withDiagnosticFilter: DivisionsFiltersLib.withDiagnostic().toRef(),
-      selectSearch,
-      selectMode,
-      Operators,
-      DataTypes,
-      treatDirections,
-    };
-  },
-});
+const hospitalizationFilter = DivisionsFiltersLib.withHospitalization().toRef()
+const withCommentsFilter = DivisionsFiltersLib.withComments().toRef()
+const withAmbulatoryFilter = DivisionsFiltersLib.withAmbulatory().toRef()
+const withDiagnosticFilter = DivisionsFiltersLib.withDiagnostic().toRef()
 </script>
 
 <style lang="scss" scoped>

@@ -43,12 +43,12 @@ export default defineComponent({
         const mode = props.modes?.find((opt: unknown) => opt.value === routeMode);
         if (mode) {
           selectedMode.value = mode.label;
-          emit('selectMode', mode.value);
+          // emit('selectMode', mode.value);
         }
       } else {
         selectedMode.value = props.modes[0].label;
         routeMode = props.modes[0].value;
-        selectMode(routeMode);
+        // selectMode(routeMode);
       }
     });
 
@@ -64,6 +64,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 :deep(.el-form-item__content) {
   width: 100%;
 }

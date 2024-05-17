@@ -36,6 +36,9 @@ watch(setDefaultSortModel, () => setSort(undefined));
 
 const changeModel = async (sm: SortModel | undefined): Promise<void> => {
   sortModel.value = sm ?? defaultSortModel;
+  if (!sortModel.value) {
+    return
+  }
   Provider.ftsp.value.setSortModel(sortModel.value);
   await Provider.router.replace({ query: {} });
   Provider.ftsp.value.p.drop();
