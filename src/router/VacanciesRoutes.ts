@@ -14,7 +14,7 @@ export default [
     },
   },
   {
-    path: '/vacancies/:slug',
+    path: '/vacancies/:id',
     name: 'VacancyPage',
     component: VacancyPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

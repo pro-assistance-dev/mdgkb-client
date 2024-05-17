@@ -21,7 +21,7 @@
       <div class="margin-container">
         <CollapseItem title="Контакты" :tab-id="1012" :collapsed="false" :active-id="scope.activeId">
           <template #inside-content>
-            <ContactsForm :contact-info="employee.head.contactInfo" />
+            <ContactsForm :contact="employee.head.contactInfo" />
           </template>
         </CollapseItem>
       </div>

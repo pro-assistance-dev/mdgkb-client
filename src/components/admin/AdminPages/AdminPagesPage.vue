@@ -29,7 +29,7 @@
       <div v-if="page.showContacts" style="margin-bottom: 20px">
         <CollapseItem title="Контакты">
           <template #inside-content>
-            <ContactsForm :contact-info="page.contactInfo" full />
+            <ContactsForm :contact="page.contactInfo" full />
           </template>
         </CollapseItem>
       </div>
