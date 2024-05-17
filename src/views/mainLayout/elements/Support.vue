@@ -60,61 +60,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+<script lang="ts" setup>
 import ElenaImg from '@/assets/img/avatar-helper-elena.jpg'
 import SupportMessage from '@/classes/SupportMessage';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'BurgerMobile',
-  emits: ['changeDrawerStatus'],
-  setup(prop, { emit }) {
-    const activePath: Ref<string> = ref('');
-    const supportMessage: ComputedRef<SupportMessage> = computed<SupportMessage>(() => Provider.store.getters['supportMessages/item']);
+const emits = defineEmits(['changeDrawerStatus'])
+const activePath: Ref<string> = ref('');
+const supportMessage: ComputedRef<SupportMessage> = Store.Item('supportMessages')
 
-    const isDrawerOpen: Ref<boolean> = ref(false);
+const isDrawerOpen: Ref<boolean> = ref(false);
 
-    const toggleDrawer = (open?: boolean) => {
-      isDrawerOpen.value = open ? open : !isDrawerOpen.value;
-    };
-    const drawerLeaveHandler = (e: any) => {
-      if (e.target.id !== 'support__box') return;
-      toggleDrawer(false);
-    };
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    watch(user, () => {
-      supportMessage.value.user = user.value;
-    });
-
-    onBeforeMount(async () => {
-      supportMessage.value.user = new User(user.value);
-      activePath.value = Provider.route().path;
-    });
-    watch(
-      () => Provider.route().path,
-      () => {
-        activePath.value = Provider.route().path;
-      }
-    );
-
-    const submit = async () => {
-      supportMessage.value.date = new Date();
-      await Provider.store.dispatch('supportMessages/create', supportMessage.value);
-      Provider.store.commit('supportMessages/resetSupportMessage');
-      supportMessage.value.user = user.value;
-    };
-
-    return {
-      submit,
-      supportMessage,
-      isDrawerOpen,
-      toggleDrawer,
-      drawerLeaveHandler,
-    };
-  },
+const toggleDrawer = (open?: boolean) => {
+  isDrawerOpen.value = open ? open : !isDrawerOpen.value;
+};
+const drawerLeaveHandler = (e: any) => {
+  if (e.target.id !== 'support__box') return;
+  toggleDrawer(false);
+};
+const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
+watch(user, () => {
+  supportMessage.value.user = user.value;
 });
+
+onBeforeMount(async () => {
+  supportMessage.value.user = new User(user.value);
+  activePath.value = Provider.route().path;
+});
+watch(
+  () => Provider.route().path,
+  () => {
+    activePath.value = Provider.route().path;
+  }
+);
+
+const submit = async () => {
+  supportMessage.value.date = new Date();
+  await Provider.store.dispatch('supportMessages/create', supportMessage.value);
+  Provider.store.commit('supportMessages/resetSupportMessage');
+  supportMessage.value.user = user.value;
+};
 </script>
 
 <style lang="scss" scoped>
