@@ -1,7 +1,7 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <ModeChoice path="divisions" :modes="modes" @selectMode="selectMode" />
+      <ModeChoice :modes="modes" @selectMode="selectMode" :mode="mode" />
     </template>
     <template #header-left-top>
     </template>
@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts" setup>
+import LabelValue from '@/services/classes/LabelValue'
 import TreatDirection from '@/classes/TreatDirection';
 import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterSelect from '@/components/Filters/FilterSelect.vue';
@@ -32,18 +33,20 @@ import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   mode: {
-    type: String as PropType<string>,
+    type: LabelValue as PropType<LabelValue>,
     required: true,
     default: '',
   },
   modes: {
-    type: Array as PropType<IOption[]>,
+    type: Array as PropType<LabelValue[]>,
     required: false,
     default: () => [],
   },
 })
+
 const emits = defineEmits(['selectMode', 'load'])
-const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
+// const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
+
 const selectSearch = async (event: ISearchObject): Promise<void> => {
   await Provider.router.push(`/divisions/${event.value}`);
 };

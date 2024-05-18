@@ -8,8 +8,8 @@
 </template>
 
 <script lang="ts" setup>
+import LabelValue from '@/services/classes/LabelValue'
 import Division from '@/classes/Division';
-import PageWrapper from '@/components/PageWrapper.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -17,23 +17,33 @@ import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-const modes: Ref<IOption[]> = ref([]);
-const mode: Ref<string> = ref('divisions');
+const modes: Ref<LabelValue[]> = ref([LabelValue.Create('Отделения', 'divisions'), LabelValue.Create('Центры', 'centers')])
+const mode: Ref<LabelValue> = ref(modes.value[0]);
+
 const divisions: Ref<Division[]> = Store.Items('divisions')
+
 const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
 const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
+
 const count: Ref<number> = ref(1);
 const mounted = ref(false)
 
 const sortByName = DivisionsSortsLib.byName()
 
+const getInitMode = () => {
+  const routeMode = Router.GetStringQueryParam('mode')
+  const findedMode = modes.value.find((opt: LabelValue) => opt.value === routeMode);
+  if (findedMode) {
+    mode.value = findedMode
+  }
+};
+
 const load = async () => {
   FTSP.Get().setS(sortByName)
-  // Provider.setSortList(...createSortModels(DivisionsSortsLib));
+
   onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
   onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
 
-  console.log(DivisionsSortsLib.byName())
   if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
     FTSP.Get().setF(onlyDivisionsFilterModel.value);
   } else {
@@ -41,13 +51,13 @@ const load = async () => {
   }
 
   await loadDivisions();
-  modes.value.push({ value: 'divisions', label: 'Отделения' }, { value: 'centers', label: 'Центры' });
   mounted.value = true
 };
 
 Hooks.onBeforeMount(load);
 
 const loadDivisions = async () => {
+  FTSP.Get().p.offset = 0
   FTSP.Get().p.append = false;
   FTSP.Get().p.limit = mode.value === 'divisions' ? 6 : 8;
   if (!mode.value) {
@@ -64,9 +74,9 @@ const loadMore = async () => {
 
 const selectMode = async (selectedMode: string) => {
   mode.value = selectedMode;
-  if (mode.value === 'divisions' && count.value !== 1) {
+  if (mode.value === 'divisions') {
     FTSP.Get().replaceF(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value);
-  } else if (mode.value === 'centers' && count.value !== 1) {
+  } else if (mode.value === 'centers') {
     FTSP.Get().replaceF(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value);
   }
   count.value--;

@@ -1,51 +1,31 @@
 <template>
-  <PageWrapper v-if="mounted">
+  <PageWrapper>
     <ResidencyCoursesList :free-programs="false" />
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { defineComponent, onBeforeMount } from 'vue';
-
+<script lang="ts" setup>
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
 import createSortModels from '@/services/CreateSortModels';
 import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ResidencyCourses',
-  components: {
-    PageWrapper,
-    ResidencyCoursesList,
-  },
+const loadCourses = async () => {
+  Store.Commit('residencyCourses/clearItems');
+  Store.FTSP('residencyCourses')
+};
 
-  setup() {
-    const loadCourses = async () => {
-      Provider.store.commit('residencyCourses/clearItems');
-      await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
-    };
+const load = async () => {
+  FTSP.Get().reset()
+  FTSP.Get().p.limit = 100
+  FTSP.Get().setF(ResidencyCoursesFiltersLib.notThisYear());
+  FTSP.Get().setS(ResidencyCoursesSortsLib.byName(Orders.Asc));
+  await loadCourses();
+};
 
-    const load = async () => {
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 100;
-      // Provider.setFilterModels(ResidencyCoursesFiltersLib.notThisYear());
-      // Provider.setSortModels(ResidencyCoursesSortsLib.byName(Orders.Asc));
-      // Provider.setSortList(...createSortModels(ResidencyCoursesSortsLib));
-      await loadCourses();
-    };
-
-    onBeforeMount(load);
-
-    return {
-      mounted: Provider.mounted,
-      load,
-      loadCourses,
-    };
-  },
-});
+onBeforeMount(load);
 </script>
 
 <style lang="scss" scoped>
