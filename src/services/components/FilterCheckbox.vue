@@ -1,44 +1,36 @@
 <template>
   <div class="filter-form">
+    <!-- <PCheckBox v-model="filterModel.boolean" :label="filterModel.label" size="mini" @change="setFilterModel" /> -->
     <el-form label-position="top">
       <el-form-item>
-        <el-checkbox :model-value="filterModel.boolean" :label="filterModel.label" size="mini" @change="setFilterModel" />
+        <el-checkbox :model-value="filterModel.boolean" :label="filterModel.label" size="mini"
+          @change="setFilterModel" />
       </el-form-item>
     </el-form>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
+import PCheckBox from '@/services/components/PCheckBox.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
-import Provider from '@/services/Provider/Provider';
+const props = defineProps({
+  filterModel: {
+    type: Object as PropType<FilterModel>,
+    default: () => new FilterModel(),
+    required: true,
+  },
+})
+const emits = defineEmits(['load'])
 
-export default defineComponent({
-  name: 'FilterCheckboxV2',
-  props: {
-    filterModel: {
-      type: Object as PropType<FilterModel>,
-      default: () => new FilterModel(),
-      required: true,
-    },
-  },
-  emits: ['load'],
-  setup(props, { emit }) {
-    const setFilterModel = (value: boolean) => {
-      props.filterModel.setBoolean(value);
-      if (value) {
-        Provider.setFilterModel(props.filterModel);
-      } else {
-        Provider.spliceFilterModel(props.filterModel.id);
-      }
-      emit('load');
-    };
-    return {
-      setFilterModel,
-    };
-  },
-});
+const setFilterModel = (value: boolean) => {
+  props.filterModel.setBoolean(value);
+  if (value) {
+    FTSP.Get().setF(props.filterModel)
+  } else {
+    FTSP.Get().removeF(props.filterModel)
+  }
+  emits('load');
+};
 </script>
 
 <style lang="scss" scoped>
@@ -85,5 +77,4 @@ export default defineComponent({
 
 // .filter-form {
 // width: 100%;
-// }
-</style>
+// }</style>

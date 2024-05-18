@@ -66,7 +66,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('menus/ftsp');
+      await Provider.store.dispatch('menus/ftsp', { ftsp: new FTSP() });
       setColors();
       window.addEventListener('click', clickOutsideMenu);
       setActiveMenu();
@@ -127,6 +127,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 * {
   padding: 0px;
   margin: 0px;

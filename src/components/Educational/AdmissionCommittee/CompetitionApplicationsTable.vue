@@ -38,10 +38,8 @@
         </td>
         <td style="text-align: center">
           <TableFormStatus :form="application.formValue" />
-          <div
-            v-if="application.formValue.formStatus.isRemoved() && application.formValue.modComment?.length"
-            style="font-size: 12px; text-align: center; line-height: 1.1"
-          >
+          <div v-if="application.formValue.formStatus.isRemoved() && application.formValue.modComment?.length"
+            style="font-size: 12px; text-align: center; line-height: 1.1">
             <el-popover trigger="click" width="300px" placement="left-end">
               <template #reference>
                 <a style="text-decoration: underline"> Подробнее</a>
@@ -57,43 +55,35 @@
   </table>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 
-export default defineComponent({
-  name: 'CompetitionApplicationsTable',
-  components: { TableFormStatus },
-  props: {
-    residencyCourses: {
-      type: Array as PropType<ResidencyCourse[]>,
-      default: () => [],
-    },
+const props = defineProps({
+  residencyCourses: {
+    type: Array as PropType<ResidencyCourse[]>,
+    default: () => [],
   },
-  setup(props) {
-    const residencyApplications = (): ResidencyApplication[] => {
-      const applications: ResidencyApplication[] = [];
-      props.residencyCourses.forEach((rc: ResidencyCourse) => applications.push(...rc.residencyApplications));
-      return applications.sort((a: ResidencyApplication, b: ResidencyApplication) => {
-        const elA = a.formValue?.user?.human.getFullName();
-        const elB = b.formValue?.user?.human.getFullName();
-        if (elA < elB) {
-          return -1;
-        }
-        if (elB > elA) {
-          return 1;
-        }
-        return 0;
-      });
-    };
+})
+const residencyApplications = (): ResidencyApplication[] => {
+  const applications: ResidencyApplication[] = [];
+  props.residencyCourses.forEach((rc: ResidencyCourse) => applications.push(...rc.residencyApplications));
+  return applications.sort((a: ResidencyApplication, b: ResidencyApplication) => {
+    const elA = a.formValue?.user?.human.getFullName();
+    const elB = b.formValue?.user?.human.getFullName();
+    if (elA < elB) {
+      return -1;
+    }
+    if (elB > elA) {
+      return 1;
+    }
+    return 0;
+  });
+};
 
-    return { residencyApplications };
-  },
-});
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';</style>
+@import '@/assets/styles/base-style.scss';
+</style>

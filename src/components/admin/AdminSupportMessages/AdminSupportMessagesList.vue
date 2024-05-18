@@ -1,7 +1,7 @@
 <template>
   <component :is="'AdminListWrapper'" v-if="mounted" show-header>
     <template #header>
-      <FilterCheckboxV2 class="filters-block" :filter-model="onlyNewFilter" @load="loadSupportMessages" />
+      <FilterCheckbox class="filters-block" :filter-model="onlyNewFilter" @load="loadSupportMessages" />
     </template>
     <template #sort>
       <SortListV2 class="filters-block" :store-mode="false" @load="loadSupportMessages" />
@@ -41,7 +41,7 @@ import { NavigationGuardNext } from 'vue-router';
 
 import SupportMessage from '@/classes/SupportMessage';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckboxV2 from '@/components/Filters/FilterCheckboxV2.vue';
+import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -54,7 +54,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminSupportMessagesList',
-  components: { FilterCheckboxV2, TableButtonGroup, AdminListWrapper },
+  components: { FilterCheckbox, TableButtonGroup, AdminListWrapper },
   setup() {
     const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
     const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());

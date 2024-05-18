@@ -23,6 +23,8 @@ export default ({ mode }) => {
         },
       },
     },
+    base: '',
+    includeAbsolute: false,
     plugins: [
       vue({
         template: {

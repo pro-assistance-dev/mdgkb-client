@@ -47,7 +47,7 @@
         <el-container direction="vertical">
           <CollapseItem title="Контакты" :tab-id="1012">
             <template #inside-content>
-              <ContactsForm :contact-info="division.contactInfo" />
+              <ContactsForm :contact="division.contactInfo" />
             </template>
           </CollapseItem>
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->

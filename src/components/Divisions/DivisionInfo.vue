@@ -25,7 +25,7 @@
     <template #contact>
       <TimetableComponent :timetable="division.timetable" />
       <AddressInfo :address="division.address" :map-id="division.id" />
-      <ContactsBlock :contact-info="division.contactInfo" :icon-color="'#343e5c'" />
+      <ContactsBlock :contact="division.contactInfo" :icon-color="'#343e5c'" />
     </template>
 
     <template #icons>

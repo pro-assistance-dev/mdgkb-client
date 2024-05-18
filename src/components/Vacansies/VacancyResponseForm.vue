@@ -1,25 +1,20 @@
 <template>
-  <div v-if="mounted" class="contact-form">
-    <el-form ref="form" :model="vacancyResponse" label-position="top" :rules="rules">
-      <UserForm
-        :form="vacancyResponse.formValue"
-        :email-exists="emailExists"
-        :active-fields="UserFormFields.CreateWithAllUserFields()"
-        @findEmail="findEmail"
-      />
+  <el-form>
+
+    <div v-if="mounted" class="contact-form">
+      <UserForm :form="vacancyResponse.formValue" :email-exists="emailExists"
+        :active-fields="UserFormFields.CreateWithAllUserFields()" @findEmail="findEmail" />
       <FieldValuesForm :form="vacancyResponse.formValue" />
       <el-divider />
       <div class="response-child">
         <button class="response btn" @click.prevent="submit()">Отправить форму</button>
       </div>
-    </el-form>
-  </div>
+    </div>
+  </el-form>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
@@ -30,62 +25,46 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'VacancyResponseForm',
-  components: { UserForm, FieldValuesForm },
-  emits: ['close'],
+const emits = defineEmits(['close'])
 
-  setup(_, { emit }) {
-    const filter = ref('');
-    const store = useStore();
-    const mounted = ref(false);
-    const rules = ref(VacancyResponseRules);
-    const form = ref();
-    const vacancyResponse: ComputedRef<VacancyResponse> = computed(() => store.getters['vacancyResponses/item']);
-    const vacancy: ComputedRef<Vacancy> = computed(() => store.getters['vacancies/item']);
-    const user: ComputedRef<User> = computed(() => store.getters['auth/user']);
+const filter = ref('');
+const mounted = ref(false);
+const rules = ref(VacancyResponseRules);
+const form = ref();
+const vacancyResponse: ComputedRef<VacancyResponse> = Store.Item('vacancyResponses')
+const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies')
+const auth: ComputedRef<User> = Store.Getters('auth/auth')
+const user = computed(() => auth.value.user.get())
 
-    const submit = async () => {
-      vacancyResponse.value.formValue.validate();
-      if (!validate(form, true) || !vacancyResponse.value.formValue.validated) {
-        return;
-      }
-      vacancyResponse.value.formValue.clearIds();
-      await store.dispatch('vacancyResponses/create', vacancyResponse.value);
-      ElMessage({
-        type: 'success',
-        message: 'Форма успешно отправлена',
-      });
-      //  ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
-      emit('close');
-    };
+const submit = async () => {
+  vacancyResponse.value.formValue.validate();
+  if (!validate(form, true) || !vacancyResponse.value.formValue.validated) {
+    return;
+  }
+  vacancyResponse.value.formValue.clearIds();
+  await Store.Create('vacancyResponses', vacancyResponse.value);
+  ElMessage({
+    type: 'success',
+    message: 'Форма успешно отправлена',
+  });
+  //  ElNotification({ title: 'Отклик на вакансию', message: 'Форма успешно отправлена', type: 'success' });
+  emits('close');
+};
 
-    onBeforeMount(async () => {
-      store.commit('vacancyResponses/resetItem');
-      store.commit('vacancyResponses/setFormValue', vacancy.value.formPattern);
-      vacancyResponse.value.formValue.initFieldsValues();
-      store.commit('vacancyResponses/setVacancy', vacancy.value);
-      store.commit('vacancyResponses/setUser', user.value);
+onBeforeMount(async () => {
+  Store.Commit('vacancyResponses/resetItem');
+  Store.Commit('vacancyResponses/setFormValue', vacancy.value.formPattern);
+  vacancyResponse.value.formValue.initFieldsValues();
+  Store.Commit('vacancyResponses/setVacancy', vacancy.value);
+  Store.Commit('vacancyResponses/setUser', user.value);
 
-      mounted.value = true;
-    });
-
-    return {
-      user,
-      form,
-      rules,
-      mounted,
-      submit,
-      vacancyResponse,
-      filter,
-      UserFormFields,
-    };
-  },
+  mounted.value = true;
 });
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .flex-row {
   justify-content: left;
   display: block;
@@ -97,11 +76,13 @@ export default defineComponent({
 .justify-center {
   justify-content: center;
 }
+
 .right-button {
   margin-top: 10px;
   display: flex;
   justify-content: flex-end;
 }
+
 :deep(.avatar-uploader-cover) {
   text-align: unset;
 }
@@ -109,6 +90,7 @@ export default defineComponent({
 .mt-1 {
   margin-top: 10px;
 }
+
 .mb-1 {
   margin-bottom: 10px;
 }
@@ -124,6 +106,7 @@ export default defineComponent({
   justify-content: space-between;
   width: 100%;
 }
+
 :deep(.el-date-editor.el-input) {
   width: 100%;
 }
@@ -143,6 +126,7 @@ export default defineComponent({
   padding: 9px 18px;
   text-align: center;
   margin-right: 50px;
+
   &:hover {
     cursor: pointer;
     background-color: #133dcc;

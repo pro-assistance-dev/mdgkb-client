@@ -38,7 +38,7 @@
       <div v-if="vacancy.contactInfo" class="vacancy-block">
         <div><b>Контактная информация:</b></div>
         <div class="vice-doctor-title">
-          <!-- <ContactBlock :contact-info="vacancy.contactInfo" /> -->
+          <ContactBlock :contact="vacancy.contactInfo" />
         </div>
       </div>
       <div class="vacancy-footer">
@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import User from '@/classes/User';
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
@@ -64,61 +63,50 @@ import scroll from '@/services/Scroll';
 
 import Message from '@/services/classes/Message';
 
-  const showForm: Ref<boolean> = ref(false);
-  const mounted: Ref<boolean> = ref(false);
-  const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies');
-  // const user: ComputedRef<User> = Store.Item('auth', 'user');
-  // const emailExists: ComputedRef<boolean> = Store.Items('vacancyResponses/emailExists');
-  // const isAuth: ComputedRef<boolean> = Store.Item('auth/isAuth');
-  const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
-  const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['vacancyResponses/emailExists']);
-  const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+const showForm: Ref<boolean> = ref(false);
+const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies')
+const mounted: Ref<boolean> = ref(false);
+const auth = Store.Getters('auth/auth')
+const modal = Store.Getters('auth/modal')
+const user: ComputedRef<User> = computed(() => auth.value.user.get());
 
-  watch(isAuth, async () => await findEmail());
+const isAuth: ComputedRef<boolean> = computed(() => auth.value.isAuth);
+const emailExists: ComputedRef<boolean> = Store.Getters('vacancyResponses/emailExists')
 
-  const findEmail = async () => {
-    Provider.store.commit('vacancyResponses/setUser', user.value);
-    await Provider.store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
-  };
+watch(isAuth, async () => await findEmail());
 
-  const showFormFunc = async () => (showForm.value = true);
+const findEmail = async () => {
+  Store.Commit('vacancyResponses/setUser', user.value);
+  await Provider.store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
+};
 
-  const openRespondForm = async () => {
-    await findEmail();
-    if (emailExists.value) {
-      Message.Error('Вы уже откликались на эту вакансию');
-      return;
-    }
-    await showFormFunc();
-    scroll('#vacancy-form');
-  };
+const showFormFunc = async () => (showForm.value = true);
 
-  const closeRespondForm = () => {
-    showForm.value = false;
-    scroll();
-  };
+const openRespondForm = async () => {
+  await findEmail();
+  if (emailExists.value) {
+    Message.Error('Вы уже откликались на эту вакансию');
+    return;
+  }
+  await showFormFunc();
+  scroll('#vacancy-form');
+};
 
+const closeRespondForm = () => {
+  showForm.value = false;
+  scroll();
+};
 
-  onBeforeMount(async () => {
-    const ftsp = new FTSP();
-    await Store.FTSP('vacancies', { ftsp: ftsp, withCache: true });
-    mounted.value = true;
-    if (Provider.route().query.respondForm) {
-      await openRespondForm();
-    }
-  });
+onBeforeMount(async () => {
+  await Store.Get('vacancies', Router.Id())
+  await findEmail();
+  mounted.value = true;
+  if (Provider.route().query.respondForm) {
+    await openRespondForm();
+  }
+});
 
-  // onBeforeMount(async () => {
-  //   await Provider.store.dispatch('vacancies/get', Provider.route().params['slug']);
-  //   await findEmail();
-  //   mounted.value = true;
-  //   if (Provider.route().query.respondForm) {
-  //     await openRespondForm();
-  //   }
-  // });
-
-  const register = Store.Commit('admin/showLoading');
-
+const register = () => modal.value.open();
 </script>
 
 <style lang="scss" scoped>

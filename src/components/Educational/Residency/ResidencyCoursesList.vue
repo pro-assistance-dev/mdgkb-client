@@ -12,7 +12,8 @@
           <div class="card-item">
             <div class="item-el">
               <div class="item-content">
-                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link :to="`/residency-courses/${residencyCourse.id}`">
+                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link
+                  :to="`/residency-courses/${residencyCourse.id}`">
                   {{ residencyCourse.getMainSpecialization().name }}
                 </router-link>
                 <!--                <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">-->
@@ -35,9 +36,15 @@
           <col width="15%" />
         </colgroup>
         <thead>
-          <th style="text-align: center"><h4>КОД</h4></th>
-          <th><h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4></th>
-          <th v-if="years" style="text-align: center"><h4>ГОДЫ</h4></th>
+          <th style="text-align: center">
+            <h4>КОД</h4>
+          </th>
+          <th>
+            <h4>НАЗВАНИЕ СПЕЦИАЛИЗАЦИИ</h4>
+          </th>
+          <th v-if="years" style="text-align: center">
+            <h4>ГОДЫ</h4>
+          </th>
         </thead>
         <tbody>
           <tr v-for="residencyCourse in residencyCourses" :key="residencyCourse.id">
@@ -62,43 +69,30 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
-
+<script lang="ts" setup>
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import buildNameNumbers from '@/services/buildNameNumbers';
 import Provider from '@/services/Provider/Provider';
-export default defineComponent({
-  name: 'ResidencyCoursesList',
 
-  props: {
-    paidPrograms: {
-      type: Boolean,
-      default: true,
-    },
-    freePrograms: {
-      type: Boolean,
-      default: true,
-    },
-    cost: {
-      type: Boolean,
-      default: true,
-    },
-    years: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  paidPrograms: {
+    type: Boolean,
+    default: true,
   },
-
-  setup() {
-    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
-
-    return {
-      residencyCourses,
-      buildNameNumbers,
-    };
+  freePrograms: {
+    type: Boolean,
+    default: true,
   },
-});
+  cost: {
+    type: Boolean,
+    default: true,
+  },
+  years: {
+    type: Boolean,
+    default: true,
+  },
+})
+
+const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses')
 </script>
 
 <style lang="scss" scoped>
@@ -116,6 +110,7 @@ export default defineComponent({
   justify-content: space-evenly;
   padding: 10px;
 }
+
 .card-container {
   height: 350px;
   margin: 0 auto;
@@ -205,6 +200,7 @@ h4 {
   top: 0;
   right: 0;
   font-size: 10px;
+
   &:hover {
     cursor: pointer;
     background-color: lighten(#31af5e, 10%);
@@ -288,6 +284,7 @@ ul.application-card li {
   height: 10px;
   border-radius: 5px 5px 0 0;
 }
+
 .card-footer {
   padding: 0 5px;
   display: flex;
@@ -302,6 +299,7 @@ ul.application-card li {
   text-transform: uppercase;
   padding-top: 3px;
   margin-right: 20px;
+
   a {
     color: #ffffff;
     font-size: 12px;
@@ -339,10 +337,12 @@ ul.application-card li {
 .item-content {
   display: block;
 }
+
 @media screen and (max-width: 980px) {
   .size {
     padding: 0 10px;
   }
+
   .table-container {
     display: none;
   }
@@ -351,6 +351,7 @@ ul.application-card li {
     display: block;
     width: 100%;
   }
+
   /* .box {
     margin-right: 0px;
     background: #ffffff;
@@ -366,19 +367,23 @@ ul.application-card li {
     min-height: 20px;
     padding: 0;
   }
+
   .status-buttons {
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
+
     button {
       img {
         height: 25px;
       }
+
       margin-bottom: 2px;
       margin-left: 15px;
       padding: 3px 7px;
       border-radius: 5px;
       font-size: 12px;
+
       &:hover {
         cursor: pointer;
         filter: brightness(110%);
@@ -406,6 +411,7 @@ ul.application-card li {
   ul.application-card li:hover .response-btn {
     display: block;
   }
+
   /*   .mobile-text {
     display: block;
   } 
@@ -428,6 +434,7 @@ ul.application-card li {
     left: 50%;
     transform: translateX(-50%);
     font-size: 10px;
+
     &:hover {
       cursor: pointer;
       background-color: lighten(#31af5e, 10%);
@@ -441,6 +448,7 @@ ul.application-card li {
   .size {
     margin-top: 20px;
   }
+
   /* .hidden {
     display: none;
   }
@@ -460,6 +468,7 @@ ul.application-card li {
     padding: 0 5px;
     width: calc(100% - 10px);
   }
+
   .size {
     padding: 0 5px;
   }
@@ -473,9 +482,11 @@ ul.application-card li {
     margin-right: 5px;
     padding-top: 20px;
   }
+
   .item-el-tag-footer {
     margin-right: 5px;
   }
+
   :deep(p) {
     margin-block-end: 0.8em;
   }

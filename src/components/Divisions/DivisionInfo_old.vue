@@ -23,7 +23,7 @@
               <TimetableComponent :timetable="division.timetable" />
             </div>
             <AddressInfo :address="division.address" :map-id="division.id" />
-            <ContactsBlock :contact-info="division.contactInfo" />
+            <ContactsBlock :contact="division.contactInfo" />
             <div class="contact-h3">
               <div class="icon-block">
                 <svg class="icon-ruble">

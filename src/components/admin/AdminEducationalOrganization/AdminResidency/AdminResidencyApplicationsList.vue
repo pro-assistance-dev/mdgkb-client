@@ -8,7 +8,7 @@
         @load="loadApplications" />
     </template>
     <template #header-bottom>
-      <FilterCheckboxV2 :filter-model="onlyAdmissionFilter" @load="loadApplications" />
+      <FilterCheckbox :filter-model="onlyAdmissionFilter" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />

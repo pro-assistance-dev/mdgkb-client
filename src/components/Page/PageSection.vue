@@ -11,12 +11,8 @@
       </div>
       <div v-if="opened" class="abs">
         <div v-if="pageSections.length" class="list">
-          <div
-            v-for="section in pageSections"
-            :key="section"
-            class="list-item"
-            @click="(opened = false), $scroll('#card-item' + section.id, -95)"
-          >
+          <div v-for="section in pageSections" :key="section" class="list-item"
+            @click="(opened = false), $scroll('#card-item' + section.id, -95)">
             {{ section.name }}
           </div>
         </div>
@@ -33,9 +29,10 @@
         <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
         <ul>
           <li v-for="file in section.pageSectionDocuments" :key="file.id">
-            <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
-              file.getFileName()
-            }}</a>
+            <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
+              :href="file.scan.getFileUrl()">{{
+                file.getFileName()
+              }}</a>
           </li>
         </ul>
         <ImageGallery :images="section.pageSectionImages" />
@@ -52,9 +49,10 @@
               <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
               <ul>
                 <li v-for="file in section.pageSectionDocuments" :key="file.id">
-                  <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
-                    file.getFileName()
-                  }}</a>
+                  <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
+                    :href="file.scan.getFileUrl()">{{
+                      file.getFileName()
+                    }}</a>
                 </li>
               </ul>
               <ImageGallery :images="section.pageSectionImages" />
@@ -143,6 +141,7 @@ h3 {
   justify-content: space-evenly;
   padding: 10px;
 }
+
 .card-container {
   height: 350px;
   margin: 0 auto;

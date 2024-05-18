@@ -16,21 +16,21 @@
         <template #title>
           <h2>КОНКУРС ЧЕЛОВЕК НА МЕСТО</h2>
         </template>
-        <CompetitionPlacesTable :residency-courses="residencyCourses" />
+        <!-- <CompetitionPlacesTable :residency-courses="residencyCourses" /> -->
       </el-collapse-item>
 
       <el-collapse-item id="РЕЙТИНГ" class="card-item" name="РЕЙТИНГ">
         <template #title>
           <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
         </template>
-        <CompetitionRating :residency-courses="residencyCourses" />
+        <!-- <CompetitionRating :residency-courses="residencyCourses" /> -->
       </el-collapse-item>
 
       <el-collapse-item id="АБИТУРИЕНТЫ" class="card-item" name="АБИТУРИЕНТЫ">
         <template #title>
           <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
         </template>
-        <CompetitionApplicationsTable :residency-courses="residencyCourses" />
+        <!-- <CompetitionApplicationsTable :residency-courses="residencyCourses" /> -->
       </el-collapse-item>
     </el-collapse>
   </div>

@@ -89,7 +89,7 @@
           <div class="vice-doctor-regalis">
             <div v-if="head.employee.getAcademicDegreeAndRank()" class="contact-h3">{{ head.employee.getAcademicDegreeAndRank() }}</div>
           </div>
-          <ContactBlock :contact-info="head.contactInfo" />
+          <ContactBlock :contact="head.contactInfo" />
         </div>
         <div class="contact-h3">
           <div class="item">

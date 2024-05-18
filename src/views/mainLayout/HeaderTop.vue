@@ -1,7 +1,7 @@
 <template>
   <div id="header-top" class="header-top">
     <div class="container">
-      <img src="src/assets/img/mdgkb-logo.webp" class="header-logo-img" alt="mdgkb-logo" @click="$router.push('/')" />
+      <img :src="MdgkbLogo" class="header-logo-img" alt="mdgkb-logo" @click="$router.push('/')" />
       <div class="search">
         <div class="search-block">
           <SearchBar v-show="currentRoute !== 'SearchPage'" />
@@ -15,6 +15,8 @@
 </template>
 
 <script lang="ts" setup>
+import MdgkbLogo from "@/assets/img/mdgkb-logo.webp"
+
 const currentRoute = computed(() => {
   return Router.Route().name;
 });
@@ -22,14 +24,17 @@ const currentRoute = computed(() => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .login-menu {
   margin-right: 40px;
 }
+
 .container {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
+
 .header-logo-img {
   margin-left: 0px;
 }
@@ -42,12 +47,14 @@ const currentRoute = computed(() => {
 .el-icon-arrow-down {
   font-size: 12px;
 }
+
 .demonstration {
   display: block;
   color: #8492a6;
   font-size: 14px;
   margin-bottom: 20px;
 }
+
 .search {
   width: 100%;
   text-align: center;
@@ -68,6 +75,7 @@ const currentRoute = computed(() => {
   .container {
     justify-content: space-between;
   }
+
   .search {
     max-width: 300px;
   }
