@@ -1,16 +1,16 @@
 <template>
   <div class="container">
-    <Button text="Поиск" color="#343D5C" width="260px" height="40px" font-size="18px" margin-top="10px"
+    <PButton type="admin" text="Поиск" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile')" />
-    <Button text="Мой профиль" color="#006BB4" width="260px" height="40px" font-size="18px" margin-top="10px"
+    <PButton type="admin" text="Мой профиль" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile')" />
-    <Button text="Заказ еды" color="#0AA249" width="260px" height="40px" font-size="18px" margin-top="10px"
+    <PButton type="admin" text="Заказ еды" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile/daily-menu-orders')" />
-    <Button text="Настройки" color="#F3911C" width="260px" height="40px" font-size="18px" margin-top="10px"
+    <PButton type="admin" text="Настройки" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile/settings')" />
-    <Button v-if="UserService.isAdmin()" color="#343D5C" text="Кабинет администратора" width="260px" height="40px"
-      font-size="18px" margin-top="10px" @click="$router.push(`/admin/${curUser.role.startPage}`)" />
-    <Button text="Выйти" color="#E62C21" width="260px" height="40px" font-size="18px" margin-top="10px"
+    <PButton type="admin" v-if="UserService.isAdmin()" text="Кабинет администратора" width="260px"
+    margin="10px 0 0 0" @click="$router.push(`/admin/${curUser.role.startPage}`)" />
+    <PButton type="admin" text="Выйти" width="260px" margin="10px 0 0 0"
       @click="logout" />
   </div>
 </template>
@@ -23,7 +23,7 @@ import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 
 export default defineComponent({
-  name: 'ProfileInfoPage',
+  name: 'ChoiceListPage',
   async setup() {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);

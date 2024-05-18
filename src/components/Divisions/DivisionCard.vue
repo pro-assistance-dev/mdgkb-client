@@ -15,7 +15,7 @@
           <div class="line-item">
             <Rating :comments="division.divisionComments" />
           </div>
-          <button class="map-button" @click="$router.push(`/map/${division.id}`)">На карте</button>
+          <PButton type="profile" color="c_blue" text="На карте" width="100px" height="26px" @click="$router.push(`/map/${division.id}`)" />
         </div>
         <div class="spec-list"></div>
       </div>

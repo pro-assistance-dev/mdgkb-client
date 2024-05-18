@@ -5,6 +5,10 @@
     </div>
     <div>
       <el-form ref="form" :model="form" :label-position="'top'">
+
+      <!-- <PInput v-if="form.email.show(form.status)" v-model="form.email.email" label="Введите email"  placeholder="Email"/>
+      <PInput v-if="form.password.show(form.status)" label="Введите пароль" v-model="form.password.password" placeholder="Пароль" />
+      <PInput v-if="form.passwordRepeat.show(form.status)" label="Повторите пароль" v-model="form.passwordRepeat.text" placeholder="Пароль" /> -->
         <el-form-item v-if="form.email.show(form.status)" prop="email" label="Введите email">
           <el-input ref="emailRef" v-model="form.email.email" placeholder="Email" :autofocus="true" />
         </el-form-item>
@@ -15,8 +19,8 @@
           <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
-          <Button v-for="btn in buttons" :key="btn.getStatus()" :color-swap="true" :text="btn.label"
-            :button="btn.disabled" :button-class="btn.isSubmit ? 'btn-active' : 'btn'" @click="authButtonClick(btn)" />
+          <PButton type="admin" v-for="btn in buttons" :key="btn.getStatus()" :text="btn.label" 
+          :color="btn.isSubmit ? 'blue' : 'grey'" @click="authButtonClick(btn)" margin="10px 0 0 0"/>
         </div>
       </el-form>
     </div>
@@ -28,6 +32,8 @@ import AuthButton from '@/services/classes/AuthButton';
 import AuthForm from '@/services/classes/AuthForm';
 import Message from '@/services/classes/Message';
 import Provider from '@/services/Provider/Provider';
+import PInput from '@/services/components/PInput.vue';
+import PButton from '@/services/components/PButton.vue';
 
 import AuthStatuses from '../interfaces/AuthStatuses';
 
@@ -36,6 +42,7 @@ const auth: ComputedRef<AuthForm> = Store.Item('auth', 'auth');
 
 const emailRef = ref();
 const passwordRef = ref();
+const visible = ref(false);
 
 const emits = defineEmits(['action']);
 const buttons = computed(() => form.value.getAuthButtons());
@@ -138,34 +145,26 @@ onMounted(() => {
 
 .btn-group {
   display: block;
+  padding-top: 30px;
 }
 
 .btn {
-  color: #409efe;
-  border: none;
-  width: 100%;
-  height: 40px;
-  text-transform: none;
-  // text-transform: uppercase !important;
+  color: $site_gray;
+  background: #ffffff;
+  margin: 10px 0;
 }
 
 .btn:hover {
-  box-shadow: none;
-  color: #006fe1;
+  color: $main_blue;
 }
 
 .btn-active {
   background: #ddf2f9;
-  color: #409efe;
-  border-radius: 5px;
-  width: 100%;
-  height: 40px;
-  margin: 40px 0 10px 0;
+  color: $main_blue;
 }
 
 .btn-active:hover {
-  box-shadow: none;
-  background: #409efe;
+  background: $main_blue;
   color: #ddf2f9;
 }
 

@@ -117,9 +117,7 @@
         </el-container>
         <el-container>
           <el-card>
-            <el-button size="mini" type="success" style="margin: 20px" @click="division.addDivisionVideo()"> Добавить
-              видео
-            </el-button>
+            <PButton type="text" color="success" text="+ Добавить видео" margin="0" @click="division.addDivisionVideo()" />
             <div v-for="(video, i) in division.divisionVideos" :key="video">
               <el-input v-model="video.youTubeVideoId" /><el-button
                 @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)">

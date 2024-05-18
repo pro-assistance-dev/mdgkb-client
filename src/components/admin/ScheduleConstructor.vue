@@ -2,19 +2,12 @@
   <el-card>
     <template #header>
       <div class="flex-row-between">
-        <div>
+        <div class="flex-line">
           <span> Распорядок дня </span>
-          <el-button
-            v-if="schedule && schedule.scheduleItems.length > 0"
-            size="small"
-            type="danger"
-            icon="el-icon-minus"
-            circle
-            @click="removeSchedule"
-          ></el-button>
-          <el-button v-else size="small" type="success" icon="el-icon-plus" circle @click="addSchedule" />
+          <PButton v-if="schedule && schedule.scheduleItems.length > 0" type="text" color="del" text="Удалить" margin="2px 0 0 0" @click="removeSchedule" />
+          <PButton v-else type="text" color="add" text="+ Добавить" margin="2px 0 0 0" @click="addSchedule" />
         </div>
-        <el-button s size="small" type="success" icon="el-icon-plus" @click="addScheduleItem">Добавить элемент </el-button>
+        <PButton type="text" color="success" text="+ Добавить элемент" margin="0" @click="addScheduleItem" />
       </div>
     </template>
     <div v-if="schedule.scheduleItems.length > 0">
@@ -128,5 +121,11 @@ export default defineComponent({
 
 .add-break-checkbox {
   margin-left: 10px;
+}
+
+.flex-line {
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 </style>

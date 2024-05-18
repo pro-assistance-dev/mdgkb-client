@@ -21,17 +21,13 @@
     <div v-html="comment.text"></div>
     <div class="comment-footer">
       <div class="footer-left">
-        <el-tag v-if="!comment.modChecked" type="warning" style="margin-right: 10px">Неотмодерирован</el-tag>
+        <el-tag v-if="!comment.modChecked" type="warning" style="margin-right: 10px">Не отмодерирован</el-tag>
         <el-tag v-if="comment.positive" type="success">Отображается</el-tag>
         <el-tag v-else type="danger">Не отображается</el-tag>
       </div>
       <div class="footer-right">
-        <el-button v-if="!comment.modChecked || !comment.positive" type="success" size="mini" icon="el-icon-success" @click="markPositive"
-          >Отображать</el-button
-        >
-        <el-button v-if="!comment.modChecked || comment.positive" type="danger" size="mini" icon="el-icon-error" @click="markNegative"
-          >Не Отображать</el-button
-        >
+        <PButton v-if="!comment.modChecked || !comment.positive" type="profile" color="success" text="Отображать" margin="0 10px 0 0" @click="markPositive" />
+        <PButton v-if="!comment.modChecked || comment.positive" type="profile" color="danger" text="Не отображать" @click="markNegative" />
       </div>
     </div>
   </el-card>
@@ -103,6 +99,12 @@ export default defineComponent({
 .el-card {
   margin-bottom: 20px;
   // max-width: 1400px;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }
 :deep(.el-card__header) {
   padding: 10px;

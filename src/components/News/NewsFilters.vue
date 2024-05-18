@@ -3,7 +3,7 @@
     <div class="filter-for-tags-title">
       <div class="filter-for-tags-title-child">Фильтры&nbsp;по&nbsp;тэгам</div>
       <div class="filter-for-tags-title-child">
-        <button class="filter-for-tags-reset" @click="resetFilterTags">Сбросить&nbsp;все</button>
+        <PButton type="profile" text="Сбросить все" width="90px" height="20px" font-size="12px" padding="0 5px" @click="resetFilterTags" />
       </div>
     </div>
     <div class="filter-for-tags-button">

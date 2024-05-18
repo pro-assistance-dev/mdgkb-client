@@ -46,17 +46,12 @@
 
   <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%"
     @open="loadMain">
-    <div style="display: flex; width: 100%; justify-content: center; margin-bottom: 20px">
+    <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-bottom: 20px">
       <RemoteSearch ref="searchMainNewsRef" :clear-after-select="false" max-width="500px" :key-value="'news'"
         placeholder="Выберите новость" @select="selectSearchMainNews" />
-      <el-button size="small" type="success" round @click="makeNewsMain(newsMain, 'setMain', true)"> Сделать главной
-      </el-button>
-      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)">Сделать
-        подглавной #1
-      </el-button>
-      <el-button size="small" type="primary" round @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)">Сделать
-        подглавной #2
-      </el-button>
+      <PButton type="profile" color="success" text="Сделать главной" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsMain, 'setMain', true)" />
+      <PButton type="profile" color="primary" text="Сделать подглавной #1" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)" />
+      <PButton type="profile" color="primary" text="Сделать подглавной #2" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)" />
     </div>
 
     <div class="main-news-block">
