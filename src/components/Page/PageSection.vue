@@ -2,9 +2,12 @@
   <div id="container" class="relative-container">
     <div v-if="pageSections.length && showContent" class="sticky-container">
       <div class="top-list">
-        <PButton v-if="!opened && pageSections.length" type="text" color="grey" text="Показать содержание" margin="0" @click="isOpen" />
-        <PButton v-if="opened && pageSections.length" type="text" color="grey" text="Скрыть содержание" margin="0" @click="isOpen" />
-        <PButton v-if="pageSections.length" type="text" color="grey" text="Вверх" margin="0" @click="(opened = false), $scroll('#container', -200)" />
+        <PButton v-if="!opened && pageSections.length" type="text" color="grey" text="Показать содержание" margin="0"
+          @click="isOpen" />
+        <PButton v-if="opened && pageSections.length" type="text" color="grey" text="Скрыть содержание" margin="0"
+          @click="isOpen" />
+        <PButton v-if="pageSections.length" type="text" color="grey" text="Вверх" margin="0"
+          @click="(opened = false), $scroll('#container', -200)" />
         <!-- <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen"></div>
         <div v-if="opened && pageSections.length" class="list-title" @click="isOpen">Скрыть содержание</div>
         <div v-if="pageSections.length" class="list-up" @click="(opened = false), $scroll('#container', -200)">Вверх</div> -->
@@ -64,58 +67,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref } from 'vue';
-
-import ImageGallery from '@/components/ImageGallery.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
+<script lang="ts" setup>
 import PageSection from '@/services/classes/page/PageSection';
 import getExtention from '@/services/GetExtension';
 import scroll from '@/services/Scroll';
 
-export default defineComponent({
-  name: 'PageSection',
-  components: { ImageGallery, CollapseItem },
-  props: {
-    title: {
-      type: String as PropType<string>,
-      required: true,
-    },
-    description: {
-      type: String as PropType<string>,
-      required: true,
-    },
-    pageSections: {
-      type: Array as PropType<PageSection[]>,
-      required: true,
-    },
-    collaps: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    showContent: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
+const props = defineProps({
+  title: {
+    type: String as PropType<string>,
+    required: true,
   },
-  setup() {
-    const mounted = ref(false);
-    const opened = ref(false);
+  description: {
+    type: String as PropType<string>,
+    required: true,
+  },
+  pageSections: {
+    type: Array as PropType<PageSection[]>,
+    required: true,
+  },
+  collaps: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+  showContent: {
+    type: Boolean,
+    default: false,
+    required: false,
+  },
+})
 
-    const isOpen = () => {
-      opened.value = !opened.value;
-    };
-    return {
-      getExtention,
-      mounted,
-      isOpen,
-      opened,
-      scroll,
-    };
-  },
-});
+const opened = ref(false);
+
+const isOpen = () => {
+  opened.value = !opened.value;
+};
 </script>
 
 <style lang="scss" scoped>

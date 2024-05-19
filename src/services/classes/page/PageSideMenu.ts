@@ -42,12 +42,15 @@ export default class PageSideMenu {
 
   infoExists(filterStr: string): boolean {
     const nameEq = Strings.SearchIn(this.name, filterStr)
-    const sectionExists = this.getSections(filterStr).length > 0
+    const sectionExists = this.getPageSections(filterStr).length > 0
 
     return nameEq || sectionExists
   }
 
-  getSections(filterStr: string): PageSection[] {
+  getPageSections(filterStr: string): PageSection[] {
+    if (!filterStr.length) {
+      return this.pageSections
+    }
     return this.pageSections.filter((p: PageSection) => p.infoExists(filterStr))
   }
 }
