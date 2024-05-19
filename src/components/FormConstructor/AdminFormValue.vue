@@ -18,14 +18,10 @@
       </el-descriptions>
       <div class="buttons-block">
         <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
-          <button
-            v-if="item.childFormStatus.modActionName"
-            size="small"
-            :style="`background-color: ${item.childFormStatus.color}; color: white; border: 1px solid ${item.childFormStatus.color}`"
-            @click.prevent="changeFormStatusHandler(item.childFormStatus)"
-          >
-            {{ item.childFormStatus.modActionName }}
-          </button>
+          <PButton v-if="item.childFormStatus.modActionName" type="text" 
+            :color="item.childFormStatus.color === '#92D2D0'? 'yellow' : 'green'" 
+            :text="item.childFormStatus.modActionName" margin="0 10px 0 0" 
+            @click.prevent="changeFormStatusHandler(item.childFormStatus)" />
         </div>
       </div>
     </el-card>

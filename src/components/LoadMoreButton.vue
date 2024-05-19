@@ -1,9 +1,9 @@
 <template>
   <div v-if="!allLoaded" class="load-more">
-    <button class="lm-button" @click="$emit('loadMore')">
-      <div v-if="!loading" class="text">{{ text }}</div>
+    <PButton type="profile" color="c_blue" margin="0 auto" @click="$emit('loadMore')" width="130px">
+      <div v-if="!loading">{{ text }}</div>
       <div v-if="loading" class="loader" style="--b: 5px; width: 26px; --n: 16"></div>
-    </button>
+    </PButton>
   </div>
 </template>
 
@@ -23,46 +23,6 @@ const text = computed(() => (props.loading ? 'Загрузка...' : 'Показ
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-.load-more {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-  text-align: center;
-}
-
-.lm-button {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-decoration: none;
-  border: 1px solid #133dcc;
-  border-radius: 30px;
-  min-width: 170px;
-  background: #ffffff;
-  color: #133dcc;
-  cursor: pointer;
-  height: 40px;
-  font-size: 15px;
-  letter-spacing: 1.1px;
-  transition: 0.2s;
-}
-
-.lm-button:hover {
-  background: #133dcc;
-  color: #ffffff;
-}
-
-.lm-button:hover {
-  background: #133dcc;
-  color: #ffffff;
-}
-
-.lm-button:hover>.loader {
-  --c: #ffffff;
-  /* the color */
-}
 
 .loader {
   --b: 10px;
@@ -71,7 +31,7 @@ const text = computed(() => (props.loading ? 'Загрузка...' : 'Показ
   /* number of dashes*/
   --g: 10deg;
   /* gap  between dashes*/
-  --c: #133dcc;
+  --c: #ffffff;
   /* the color */
 
   width: 30px;

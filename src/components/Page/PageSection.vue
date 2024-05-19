@@ -2,10 +2,12 @@
   <div id="container" class="relative-container">
     <div v-if="pageSections.length && showContent" class="sticky-container">
       <div class="top-list">
-        <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen">Показать содержание</div>
+        <PButton v-if="!opened && pageSections.length" type="text" color="grey" text="Показать содержание" margin="0" @click="isOpen" />
+        <PButton v-if="opened && pageSections.length" type="text" color="grey" text="Скрыть содержание" margin="0" @click="isOpen" />
+        <PButton v-if="pageSections.length" type="text" color="grey" text="Вверх" margin="0" @click="(opened = false), $scroll('#container', -200)" />
+        <!-- <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen"></div>
         <div v-if="opened && pageSections.length" class="list-title" @click="isOpen">Скрыть содержание</div>
-        <div v-if="pageSections.length" class="list-up" @click="(opened = false), $scroll('#container', -200)">Вверх
-        </div>
+        <div v-if="pageSections.length" class="list-up" @click="(opened = false), $scroll('#container', -200)">Вверх</div> -->
       </div>
       <div v-if="opened" class="abs">
         <div v-if="pageSections.length" class="list">
@@ -287,6 +289,7 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: right;
+  padding: 5px 0 0 0;
 }
 
 .background-container {
@@ -302,6 +305,7 @@ h4 {
   border-top-left-radius: 5px;
   border: 1px solid #e9e9e9;
   border-bottom: none;
+  border-top: none;
   margin-bottom: -25px;
   margin-top: 0px;
   z-index: 1;

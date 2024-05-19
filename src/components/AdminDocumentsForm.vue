@@ -29,6 +29,7 @@
     </el-table-column>
     <el-table-column width="70" align="center">
       <template #header>
+        <!-- <PButton type="profile" color="success" text="+" @click="documentType.addDocument()" /> -->
         <el-button type="success" icon="el-icon-plus" size="mini" @click="documentType.addDocument()" />
       </template>
       <template #default="scope">

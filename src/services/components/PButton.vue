@@ -1,5 +1,49 @@
 <template>
-  <button
+  <button 
+    :style="{margin:margin,padding:padding,maxWidth:width,minWidth:width,minHeight:height,maxHeight:height,fontSize:fontSize}" 
+    :class="buttonClass" @click.prevent="changeState"><slot />{{ text }}
+  </button>
+</template>
+
+<script setup lang="ts">
+
+defineOptions({ inheritAttrs: false });
+
+const props = defineProps({
+  text: { type: String as PropType<string>, default: '', required: false },
+  margin: { type: String as PropType<string>, default: '', required: false },
+  padding: { type: String as PropType<string>, default: '', required: false },
+  width: { type: String as PropType<string>, default: '', required: false },
+  height: { type: String as PropType<string>, default: '', required: false },
+  color: { type: String as PropType<string>, default: 'grey', required: false },
+  type: { type: String as PropType<string>, default: 'admin', required: false },
+  fontSize: { type: String as PropType<string>, default: '', required: false },
+});
+
+const emit = defineEmits(['click']);
+const changeState = () => {
+  emit('click');
+};
+
+const buttonClass = computed(() => 'button-' + props.type + ' ' + props.type + '_' + props.color);
+
+</script>
+
+<style lang="scss" scoped>
+@import '@/services/assets/style/buttons/text.scss';
+@import '@/services/assets/style/buttons/admin.scss';
+@import '@/services/assets/style/buttons/profile.scss';
+</style>
+
+
+
+
+
+
+
+
+<!--   <button
+    class="button"
     :style="buttonStyle"
     :class="buttonClass"
     @click.prevent="changeState"
@@ -20,18 +64,6 @@
 </template>
 
 <script setup lang="ts">
-// import Aright from '@/assets/svg/Aright.svg';
-// import Back from '@/assets/svg/Back.svg';
-// import Close from '@/services/assets/svg/ArrowLeft.svg';
-// import Commission from '@/assets/svg/Commission.svg';
-// import Del from '@/assets/svg/Del.svg';
-// import Download from '@/assets/svg/Download.svg';
-// import EditTitle from '@/assets/svg/EditTitle.svg';
-// import Edit from '@/assets/svg/Edit.svg';
-// import Outlined from '@/assets/svg/Outlined.svg';
-// import Plus from '@/assets/svg/Plus.svg';
-// import Save from '@/assets/svg/Save.svg';
-// import Settings from '@/services/assets/svg/Settings.svg';
 import DoubleArrowLeft from '@/services/assets/svg/DoubleArrowLeft.svg';
 import DoubleArrowRight from '@/services/assets/svg/DoubleArrowRight.svg';
 import ArrowLeft from '@/services/assets/svg/ArrowLeft.svg';
@@ -62,19 +94,7 @@ const props = defineProps({
 });
 
 const iconComponent = {
-  // edit: Edit,
-  // 'edit-title': EditTitle,
-  // aright: Aright,
-  // close: Close,
-  // back: Back,
-  // commission: Commission,
-  // del: Del,
-  // download: Download,
   filter: Filter,
-  // outlined: Outlined,
-  // plus: Plus,
-  // save: Save,
-  // settings: Settings,
   'double-arrow-left': DoubleArrowLeft,
   'double-arrow-right': DoubleArrowRight,
   'arrow-left': ArrowLeft,
@@ -140,15 +160,20 @@ const textStyle = computed(() => {
 @import '@/assets/styles/base-style.scss';
 
 .button {
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid;
-  transition: 0.15s;
+  transition: $p-button-transition;
   text-align: center;
   cursor: pointer;
   overflow: hidden;
-  padding: 0 10px;
+  padding: $p-button-padding;
+  margin: $p-button-margin;
+  border-radius: $p-button-border-radius;
+  height: $p-button-height;
+  width: $p-button-width;
 }
 
 .button-icon {
@@ -167,6 +192,6 @@ const textStyle = computed(() => {
   align-items: center;
   height: auto;
   max-height: 36px;
-}
+}-->
 
-</style>
+

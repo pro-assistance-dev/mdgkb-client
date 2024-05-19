@@ -111,7 +111,6 @@ const register = () => modal.value.open();
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-
 .flex-row {
   justify-content: left;
   display: block;

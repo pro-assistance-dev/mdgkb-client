@@ -8,9 +8,9 @@
         <template #title> Вставить: </template>
         <template #info>
           <div v-if="sameNamesExists" class="attention">Вкладки с такими названиями уже есть в меню!</div>
-          <Button :text="'Вставить'" :color="'#1979CF'" :margin-top="'5px'" :width="'80px'" @click="paste(false)" />
-          <Button v-if="sameNamesExists" :text="'Заменить'" :margin-top="'5px'" :width="'80px'" @click="paste(true)" />
-          <Button :text="'Отмена'" :color="'#838385'" :margin-top="'5px'" :width="'80px'" @click="togglePasteWindow" />
+          <PButton type="admin" color="blue" text="Вставить" margin="5px 0 0 0" width="80px" @click="paste(false)" />
+          <PButton type="admin" color="green" v-if="sameNamesExists" text="Заменить" margin="5px 0 0 0" width="80px" @click="paste(true)" />
+          <PButton type="admin" color="grey" text="Отмена" margin="5px 0 0 0" :width="'80px'" @click="togglePasteWindow" />
         </template>
       </ClickWindow>
     </div>

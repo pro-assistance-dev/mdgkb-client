@@ -37,9 +37,8 @@
           <ContactBlock :contact="vacancy.contactInfo" />
         </div>
         <div class="button-block">
-          <button @click="$router.push(`/vacancies/${vacancy.slug}`)">Подробнее</button>
-          <button class="respond-btn"
-            @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)">Откликнуться</button>
+          <PButton type="profile" color="c_blue" text="Подробнее" width="108px" height="30px" @click="$router.push(`/vacancies/${vacancy.slug}`)" />
+          <PButton type="profile" color="c_green" text="Откликнуться" width="126px" height="30px" @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)" />
         </div>
       </div>
     </div>
@@ -59,9 +58,10 @@ import { defineComponent, PropType } from 'vue';
 
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
+import PButton from '@/services/components/PButton.vue';
 
 export default defineComponent({
-  name: 'VacanncyCard',
+  name: 'VacancyCard',
   components: { ContactBlock, ElTag },
   props: {
     vacancy: {
@@ -101,28 +101,6 @@ export default defineComponent({
   &-footer {
     display: flex;
     justify-content: space-evenly;
-  }
-
-  button {
-    cursor: pointer;
-    padding: 7px 15px;
-    letter-spacing: 1px;
-    border-radius: 40px;
-    border: none;
-    background-color: #2754ec;
-    color: white;
-
-    &:hover {
-      background-color: lighten(#2754ec, 10%);
-    }
-  }
-
-  .respond-btn {
-    background-color: #31af5e;
-
-    &:hover {
-      background-color: lighten(#31af5e, 10%);
-    }
   }
 }
 

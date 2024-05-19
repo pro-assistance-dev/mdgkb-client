@@ -7,19 +7,8 @@
         <el-badge v-if="headerParams.applicationsCount" :value="headerParams.applicationsCount" type="danger"></el-badge>
       </h4>
       <div class="button-group">
-        <div v-for="item in headerParams.buttons" :key="item">
-          <el-button
-            v-if="item.action && item.condition"
-            :key="item.condition"
-            round
-            size="small"
-            :loading="buttonClicked"
-            :disabled="buttonClicked"
-            :type="item.type"
-            @click.prevent="action(item.action)"
-          >
-            {{ item.text }}
-          </el-button>
+        <div v-for="item in headerParams.buttons" :key="item" class="flex-item">
+          <PButton v-if="item.action && item.condition" :key="item.condition" type="profile" :color="item.type" :text="item.text" @click="action(item.action)"/>
         </div>
       </div>
     </div>
@@ -86,9 +75,11 @@ h4 {
 }
 .button-group {
   display: flex;
-  flex-wrap: wrap;
-  .el-button {
-    margin-left: 5px;
-  }
+  justify-content: right;
+  align-items: center;
+}
+
+.flex-item {
+  margin: 0 0 0 10px;
 }
 </style>

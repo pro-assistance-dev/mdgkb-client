@@ -8,7 +8,7 @@
     list-type="picture"
     :accept="accept"
   >
-    <el-button size="mini" type="success">{{ fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить' }}</el-button>
+    <PButton type="text" color="success" :text="fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить'" margin="0 0 2px 0" />
     <template #tip>
       <div v-if="fileInfo && fileInfo.originalName" class="file-name">
         <a :href="fileInfo.getFileUrl()" target="_blank" :download="fileInfo.originalName">

@@ -166,7 +166,7 @@
             </template>
           </CollapseItem>
         </CollapseContainer>
-        <Button
+        <PButton
           width="296px"
           height="80px"
           margin-top="30px"

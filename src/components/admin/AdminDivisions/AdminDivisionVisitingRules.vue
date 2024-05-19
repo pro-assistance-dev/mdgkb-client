@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex-between">
         <span>Правила посещения</span>
-        <el-button size="mini" type="success" @click="division.addVisitingRuleGroup()"> Добавить группу правил </el-button>
+        <PButton type="text" color="success" text="+ Добавить группу правил" margin="0" @click="division.addVisitingRuleGroup()" />
       </div>
     </template>
     <el-switch v-model="division.showCommonVisitingRules" active-text="Показывать общие правила" inactive-text="Не показывать" />
