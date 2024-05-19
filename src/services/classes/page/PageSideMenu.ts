@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import FileInfo from '@/services/classes/FileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
+import Strings from '@/services/Strings'
 
 export default class PageSideMenu {
   id?: string;
@@ -37,5 +38,16 @@ export default class PageSideMenu {
     section.name = `Новой раздел ${section.order}`;
     section.id = uuidv4();
     this.pageSections.push(section);
+  }
+
+  infoExists(filterStr: string): boolean {
+    const nameEq = Strings.SearchIn(this.name, filterStr)
+    const sectionExists = this.getSections(filterStr).length > 0
+
+    return nameEq || sectionExists
+  }
+
+  getSections(filterStr: string): PageSection[] {
+    return this.pageSections.filter((p: PageSection) => p.infoExists(filterStr))
   }
 }

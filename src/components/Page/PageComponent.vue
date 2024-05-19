@@ -1,27 +1,27 @@
 <template>
   <div v-if="mounted">
-    <!-- <el-input v-model="page.filterStr" /> -->
     <AdaptiveContainer :menu-width="'300px'" :mobile-width="'768px'">
       <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
       </template>
-      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #menu>
+      <template v-if="pageSideMunusExists()" #menu>
         <slot name="bottom" />
+        <PInput v-model="page.filterStr" />
         <PageSideMenuComponent :page="page" @select-menu="selectMenu" @close="(e) => (close = e)" />
       </template>
 
-      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #icon>
+      <template v-if="pageSideMunusExists()" #icon>
         <svg class="icon-right-menu">
           <use xlink:href="#right-menu"></use>
         </svg>
       </template>
-      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #title>
+      <template v-if="pageSideMunusExists()" #title>
         <div class="title-in">
           {{ page.title ? page.title : title }}
           <slot name="title" />
         </div>
       </template>
-      <template v-if="(!getPage || page.id) && page.pageSideMenus.length" #body>
+      <template v-if="pageSideMunusExists()" #body>
         <div class="body-in">
           <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact="page.contact" full />
           <PageSection v-else :title="selectedMenu.name" :description="selectedMenu.description"
@@ -50,7 +50,6 @@ import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-
 const props = defineProps({
   customSections: {
     type: Array as PropType<CustomSection[]>,
@@ -70,6 +69,10 @@ const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/ite
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const mounted = ref(false);
+
+const pageSideMunusExists = () => {
+  return (!props.getPage || page.value.id) && page.value.pageSideMenus.length
+}
 
 const load = async () => {
   Provider.store.commit('pages/resetItem');

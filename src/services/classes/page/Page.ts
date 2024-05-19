@@ -124,8 +124,8 @@ export default class Page {
       return this.pageSideMenus
     }
 
-    console.log(this.filterStr)
-    return this.pageSideMenus.filter((p: PageSideMenu) => p.name.includes(this.filterStr));
+    // return this.pageSideMenus.filter((p: PageSideMenu) => p.name.includes(this.filterStr));
+    return this.pageSideMenus.filter((p: PageSideMenu) => p.infoExists(this.filterStr))
   }
 
   static GetClassName(): string {

@@ -2,6 +2,7 @@ import FileInfo from '@/services/classes/FileInfo';
 import PageSectionDocument from '@/services/classes/page/PageSectionDocument';
 import PageSectionImage from '@/services/classes/PageSectionImage';
 import ClassHelper from '@/services/ClassHelper';
+import Strings from '@/services/Strings'
 
 export default class PageSection {
   id?: string;
@@ -40,5 +41,17 @@ export default class PageSection {
       fileInfos.push(...i.getFileInfos());
     });
     return fileInfos;
+  }
+
+  infoExists(filterStr: string): boolean {
+    const nameEq = Strings.SearchIn(this.name, filterStr)
+    const descriptionEq = Strings.SearchIn(this.description, filterStr)
+    const docEq = this.getDocuments(filterStr)
+    console.log(filterStr, this.description, descriptionEq, docEq.length > 0);
+    return nameEq || descriptionEq || docEq.length > 0
+  }
+
+  getDocuments(filterStr: string): PageSectionDocument[] {
+    return this.pageSectionDocuments.filter((p: PageSectionDocument) => Strings.SearchIn(p.name, filterStr))
   }
 }

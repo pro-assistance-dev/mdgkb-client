@@ -98,7 +98,11 @@ export default abstract class Strings {
     const low2 = str2.toLowerCase().replaceAll(/\s/g, '');
     const transl1 = Strings.Translit(low1);
     const transl2 = Strings.Translit(low2);
-    return low2.includes(low1) || transl2.includes(low1) || low2.includes(transl1);
+    return low1.includes(low2) || transl1.includes(low2) || low1.includes(transl2);
+  }
+
+  static SearchIn(s1: string, s2: string): boolean {
+    return Strings.StringsEquals(s1, s2)
   }
 
   static FormatToPercentage(percent: number): string {
