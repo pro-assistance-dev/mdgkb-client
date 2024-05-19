@@ -21,9 +21,9 @@
         </div>
       </div>
     </div>
-    <div class="card-item" v-if="menu.text.length">
-      <h2>{{ menu.title }}</h2>
-      <div v-html="menu.text" />
+    <div class="card-item">
+      <h2>{{ menu.name }}</h2>
+      <div v-if="menu.text.length" v-html="menu.text" />
     </div>
 
     <div v-if="!collaps">
@@ -31,7 +31,7 @@
         <h2>{{ section.name }}</h2>
         <div v-html="section.text" />
         <ul>
-          <li v-for="file in section.documens" :key="file.id">
+          <li v-for="file in section.documents" :key="file.id">
             <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
               :href="file.scan.getFileUrl()">
               {{ file.getFileName() }}

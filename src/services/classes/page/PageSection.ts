@@ -53,6 +53,7 @@ export default class PageSection {
     const nameEq = Strings.SearchIn(this.name, filterStr)
     const descriptionEq = Strings.SearchIn(this.description, filterStr)
     const docEq = this.getDocuments(filterStr)
+    console.log(descriptionEq)
     return nameEq || descriptionEq || docEq.length > 0
   }
 

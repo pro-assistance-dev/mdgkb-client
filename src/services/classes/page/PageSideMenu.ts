@@ -9,7 +9,7 @@ export default class PageSideMenu {
   id?: string;
   name = 'Новое меню';
   order = 0;
-  text = ''
+  description = '';
   routeAnchor = '';
   slug = '';
   @ClassHelper.GetClassConstructor(PageSection)
@@ -22,7 +22,7 @@ export default class PageSideMenu {
   selected = false;
 
   sections: PageSection[] = []
-  description = '';
+  text = ''
   constructor(i?: PageSideMenu) {
     ClassHelper.BuildClass(this, i);
 
@@ -48,9 +48,10 @@ export default class PageSideMenu {
 
   infoExists(filterStr: string): boolean {
     const nameEq = Strings.SearchIn(this.name, filterStr)
+    const descriptionEq = Strings.SearchIn(this.description, filterStr)
     const sectionExists = this.getPageSections(filterStr).length > 0
 
-    return nameEq || sectionExists
+    return nameEq || descriptionEq || sectionExists
   }
 
   getPageSections(filterStr: string): PageSection[] {
@@ -68,6 +69,6 @@ export default class PageSideMenu {
       this.sections = this.pageSections.filter((p: PageSection) => p.infoExists(filterStr))
       this.text = Strings.SearchIn(this.description, filterStr) ? Strings.WrapSubStr(this.description, filterStr) : ''
     }
-    this.sections.forEach((p: PageSideMenu) => p.filter(filterStr))
+    this.sections.forEach((p: PageSection) => p.filter(filterStr))
   }
 }
