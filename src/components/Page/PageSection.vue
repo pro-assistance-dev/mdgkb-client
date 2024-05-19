@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="card-item">
+    <div class="card-item" v-if="description.length">
       <h2>{{ title }}</h2>
       <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
     </div>
@@ -29,7 +29,7 @@
     <div v-if="!collaps">
       <div v-for="section in pageSections" :id="'card-item' + section.id" :key="section" class="card-item">
         <h2>{{ section.name }}</h2>
-        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
+        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.getDescription(page.filterStr)"></div>
         <ul>
           <li v-for="file in section.pageSectionDocuments" :key="file.id">
             <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
@@ -71,6 +71,7 @@
 import PageSection from '@/services/classes/page/PageSection';
 import getExtention from '@/services/GetExtension';
 import scroll from '@/services/Scroll';
+import Strings from '@/services/Strings'
 
 const props = defineProps({
   title: {
@@ -97,6 +98,12 @@ const props = defineProps({
   },
 })
 
+const page: ComputedRef<Page> = Store.Item('pages')
+
+const getWithSearch = (text: string) => {
+  const t = Strings.WrapSubStr(text, page.value.filterStr)
+  return t
+}
 const opened = ref(false);
 
 const isOpen = () => {
@@ -106,6 +113,11 @@ const isOpen = () => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+:deep(.search-text) {
+  color: red;
+  background-color: blue;
+}
 
 h3 {
   font-family: 'Open Sans', sans-serif;

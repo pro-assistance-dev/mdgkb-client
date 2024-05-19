@@ -108,5 +108,10 @@ export default abstract class Strings {
   static FormatToPercentage(percent: number): string {
     return `${percent}%`;
   }
+
+  static WrapSubStr(text: string, subStr: string): string {
+    console.log(subStr)
+    return text.replace(subStr, `<span class="search-text">${subStr}</span>`)
+  }
 };
 

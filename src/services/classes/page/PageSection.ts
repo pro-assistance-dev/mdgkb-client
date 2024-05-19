@@ -47,11 +47,18 @@ export default class PageSection {
     const nameEq = Strings.SearchIn(this.name, filterStr)
     const descriptionEq = Strings.SearchIn(this.description, filterStr)
     const docEq = this.getDocuments(filterStr)
-    console.log(filterStr, this.description, descriptionEq, docEq.length > 0);
     return nameEq || descriptionEq || docEq.length > 0
   }
 
   getDocuments(filterStr: string): PageSectionDocument[] {
     return this.pageSectionDocuments.filter((p: PageSectionDocument) => Strings.SearchIn(p.name, filterStr))
+  }
+  getDescription(filterStr: string): string {
+    if (!filterStr) {
+      return this.description
+    }
+    const wrapped = Strings.WrapSubStr(this.description, filterStr)
+    console.log(wrapped)
+    return wrapped
   }
 }

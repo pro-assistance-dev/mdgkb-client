@@ -68,7 +68,9 @@ const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/ite
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const sections = computed(() => selectedMenu.value.getPageSections(page.value.filterStr))
-const description = computed(() => Strings.SearchIn(selectedMenu.value.description, page.value.filterStr) ? selectedMenu.value.description : "")
+const description = computed(() => {
+  return Strings.SearchIn(selectedMenu.value.description, page.value.filterStr) ? selectedMenu.value.description : ""
+})
 const mounted = ref(false);
 
 const pageSideMunusExists = () => {
