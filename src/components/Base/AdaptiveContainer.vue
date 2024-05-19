@@ -8,8 +8,8 @@
         display: leftWidth !== '0px' ? 'flex' : 'none',
         marginRight: !isSingle ? '' : '0',
         marginLeft: mobileWindow ? '-110%' : '0',
-        position: mobileWindow ? 'absolute' : 'relative',
-        top: mobileWindow ? '95px' : '',
+        position: mobileWindow ? 'fixed' : 'relative',
+        top: mobileWindow ? '140px' : '',
       }"
     >
       <div
@@ -128,6 +128,7 @@ export default defineComponent({
   margin-right: 30px;
   height: 100%;
   left: 0px;
+  z-index: 10;
 }
 
 .left-menu {
@@ -139,6 +140,7 @@ export default defineComponent({
   transition: 0.3s;
   overflow: hidden;
   overflow-y: auto;
+  background: #ffffff;
 }
 
 .mainblock-right {
