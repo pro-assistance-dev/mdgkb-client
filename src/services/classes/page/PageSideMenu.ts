@@ -9,7 +9,7 @@ export default class PageSideMenu {
   id?: string;
   name = 'Новое меню';
   order = 0;
-  description = '';
+  text = ''
   routeAnchor = '';
   slug = '';
   @ClassHelper.GetClassConstructor(PageSection)
@@ -20,8 +20,14 @@ export default class PageSideMenu {
   pageId?: string;
 
   selected = false;
+
+  sections: PageSection[] = []
+  description = '';
   constructor(i?: PageSideMenu) {
     ClassHelper.BuildClass(this, i);
+
+    this.sections = this.pageSections
+    this.text = this.description.replace("<p>undefined</p>", "")
   }
 
   getFileInfos(): FileInfo[] {
@@ -52,5 +58,16 @@ export default class PageSideMenu {
       return this.pageSections
     }
     return this.pageSections.filter((p: PageSection) => p.infoExists(filterStr))
+  }
+
+  filter(filterStr: string) {
+    if (!filterStr.length) {
+      this.sections = this.pageSections
+      this.text = this.description
+    } else {
+      this.sections = this.pageSections.filter((p: PageSection) => p.infoExists(filterStr))
+      this.text = Strings.SearchIn(this.description, filterStr) ? Strings.WrapSubStr(this.description, filterStr) : ''
+    }
+    this.sections.forEach((p: PageSideMenu) => p.filter(filterStr))
   }
 }

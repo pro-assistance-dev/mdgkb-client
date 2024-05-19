@@ -1,6 +1,6 @@
 <template>
   <div v-if="mounted" class="menu">
-    <div v-for="menu in page.getPageSideMenus()" :key="menu.slug ? menu.slug : menu.id" class="menu-item">
+    <div v-for="menu in page.menus" :key="menu.slug ? menu.slug : menu.id" class="menu-item">
       <div class="item-style" :class="isActive(menu.slug ? menu.slug : String(menu.id))"
         @click="changeMenu(menu.slug ? menu.slug : String(menu.id), menu.slug ? false : true)">
         {{ menu.name }}

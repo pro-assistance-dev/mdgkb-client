@@ -1,48 +1,48 @@
 <template>
   <div id="container" class="relative-container">
-    <div v-if="pageSections.length && showContent" class="sticky-container">
+    <div v-if="menu.sections.length && menu.showContent" class="sticky-container">
       <div class="top-list">
-        <PButton v-if="!opened && pageSections.length" type="text" color="grey" text="Показать содержание" margin="0"
+        <PButton v-if="!opened && menu.sections.length" type="text" color="grey" text="Показать содержание" margin="0"
           @click="isOpen" />
-        <PButton v-if="opened && pageSections.length" type="text" color="grey" text="Скрыть содержание" margin="0"
+        <PButton v-if="opened && menu.sections.length" type="text" color="grey" text="Скрыть содержание" margin="0"
           @click="isOpen" />
-        <PButton v-if="pageSections.length" type="text" color="grey" text="Вверх" margin="0"
+        <PButton v-if="menu.sections.length" type="text" color="grey" text="Вверх" margin="0"
           @click="(opened = false), $scroll('#container', -200)" />
         <!-- <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen"></div>
         <div v-if="opened && pageSections.length" class="list-title" @click="isOpen">Скрыть содержание</div>
         <div v-if="pageSections.length" class="list-up" @click="(opened = false), $scroll('#container', -200)">Вверх</div> -->
       </div>
       <div v-if="opened" class="abs">
-        <div v-if="pageSections.length" class="list">
-          <div v-for="section in pageSections" :key="section" class="list-item"
+        <div v-if="menu.sections.length" class="list">
+          <div v-for="section in menu.sections" :key="section" class="list-item"
             @click="(opened = false), $scroll('#card-item' + section.id, -95)">
             {{ section.name }}
           </div>
         </div>
       </div>
     </div>
-    <div class="card-item" v-if="description.length">
-      <h2>{{ title }}</h2>
-      <div v-if="description !== '<p>undefined</p>'" v-html="description"></div>
+    <div class="card-item" v-if="menu.text.length">
+      <h2>{{ menu.title }}</h2>
+      <div v-html="menu.text" />
     </div>
 
     <div v-if="!collaps">
-      <div v-for="section in pageSections" :id="'card-item' + section.id" :key="section" class="card-item">
+      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section" class="card-item">
         <h2>{{ section.name }}</h2>
-        <div v-if="section.description !== '<p>undefined</p>'" v-html="section.getDescription(page.filterStr)"></div>
+        <div v-html="section.text" />
         <ul>
-          <li v-for="file in section.pageSectionDocuments" :key="file.id">
+          <li v-for="file in section.documens" :key="file.id">
             <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
-              :href="file.scan.getFileUrl()">{{
-                file.getFileName()
-              }}</a>
+              :href="file.scan.getFileUrl()">
+              {{ file.getFileName() }}
+            </a>
           </li>
         </ul>
         <ImageGallery :images="section.pageSectionImages" />
       </div>
     </div>
     <div v-else>
-      <div v-for="section in pageSections" :id="'card-item' + section.id" :key="section" class="margin-container">
+      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section" class="margin-container">
         <CollapseItem :tab-id="1036">
           <template #inside-title>
             <div class="title-in">{{ section.name }}</div>
@@ -82,7 +82,7 @@ const props = defineProps({
     type: String as PropType<string>,
     required: true,
   },
-  pageSections: {
+  menu: {
     type: Array as PropType<PageSection[]>,
     required: true,
   },
@@ -98,11 +98,14 @@ const props = defineProps({
   },
 })
 
+const description = computed(() => {
+  return Strings.SearchIn(props.menu.description, page.value.filterStr) ? props.menu.description : ""
+})
+
 const page: ComputedRef<Page> = Store.Item('pages')
 
 const getWithSearch = (text: string) => {
-  const t = Strings.WrapSubStr(text, page.value.filterStr)
-  return t
+  return text
 }
 const opened = ref(false);
 

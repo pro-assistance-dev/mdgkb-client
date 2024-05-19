@@ -110,8 +110,22 @@ export default abstract class Strings {
   }
 
   static WrapSubStr(text: string, subStr: string): string {
-    console.log(subStr)
-    return text.replace(subStr, `<span class="search-text">${subStr}</span>`)
+    var re = new RegExp(Strings.GetVariants(subStr).join("|"), "gi");
+    return text.replace(re, `<span class="search-text">${subStr}</span>`)
+  }
+
+  static GetVariants(s: string): string[] {
+    const st = Strings.Translit(s)
+    return [
+      s,
+      Strings.CapitalizeString(s),
+      s.toLowerCase(),
+      s.toUpperCase(),
+      st,
+      Strings.CapitalizeString(st),
+      st.toLowerCase(),
+      st.toUpperCase(),
+    ]
   }
 };
 

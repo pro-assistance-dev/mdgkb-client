@@ -465,6 +465,7 @@ declare module '@vue/runtime-core' {
     PageNotFound: typeof import('./src/components/PageNotFound.vue')['default']
     PageSection: typeof import('./src/components/Page/PageSection.vue')['default']
     PageSectionComponent: typeof import('./src/components/Page/PageSectionComponent.vue')['default']
+    PageSections: typeof import('./src/components/Page/PageSections.vue')['default']
     PageSideMenu: typeof import('./src/components/Page/PageSideMenu.vue')['default']
     PageSideMenuV2: typeof import('./src/components/Page/PageSideMenuV2.vue')['default']
     PageTopSections: typeof import('./src/services/components/PageTopSections.vue')['default']

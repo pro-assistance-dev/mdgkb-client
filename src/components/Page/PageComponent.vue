@@ -24,8 +24,7 @@
       <template v-if="pageSideMunusExists()" #body>
         <div class="body-in">
           <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact="page.contact" full />
-          <PageSection v-else :title="selectedMenu.name" :description="description" :page-sections="sections"
-            :collaps="page.collaps" :show-content="selectedMenu.showContent" />
+          <PageSections v-else :menu="selectedMenu" :collaps="page.collaps" :show-content="selectedMenu.showContent" />
           <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id"
             :name="component.id" />
         </div>
@@ -43,7 +42,7 @@ import CustomSection from '@/classes/CustomSection';
 import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
-import PageSection from '@/components/Page/PageSection.vue';
+import PageSections from '@/components/Page/PageSections.vue';
 import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
@@ -65,6 +64,7 @@ const props = defineProps({
 })
 const emits = defineEmits(['selectMenu'])
 const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+watch(() => page.value.filterStr, () => page.value.filter())
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const sections = computed(() => selectedMenu.value.getPageSections(page.value.filterStr))
