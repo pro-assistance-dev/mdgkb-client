@@ -4,10 +4,10 @@
       <div class="flex-row-between">
         <div class="flex-line">
           <span> Распорядок дня </span>
-          <PButton v-if="schedule && schedule.scheduleItems.length > 0" type="text" color="del" text="Удалить" margin="2px 0 0 0" @click="removeSchedule" />
-          <PButton v-else type="text" color="add" text="+ Добавить" margin="2px 0 0 0" @click="addSchedule" />
+          <PButton v-if="schedule && schedule.scheduleItems.length > 0" skin="text" type="del" text="Удалить" margin="2px 0 0 0" @click="removeSchedule" />
+          <PButton v-else skin="text" type="success" text="+ Добавить" margin="2px 0 0 0" @click="addSchedule" />
         </div>
-        <PButton type="text" color="success" text="+ Добавить элемент" margin="0" @click="addScheduleItem" />
+        <PButton skin="text" type="success" text="+ Добавить элемент" margin="0" @click="addScheduleItem" />
       </div>
     </template>
     <div v-if="schedule.scheduleItems.length > 0">

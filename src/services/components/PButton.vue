@@ -15,8 +15,8 @@ const props = defineProps({
   padding: { type: String as PropType<string>, default: '', required: false },
   width: { type: String as PropType<string>, default: '', required: false },
   height: { type: String as PropType<string>, default: '', required: false },
-  color: { type: String as PropType<string>, default: 'grey', required: false },
-  type: { type: String as PropType<string>, default: 'admin', required: false },
+  skin: { type: String as PropType<string>, default: 'base', required: false },
+  type: { type: String as PropType<string>, default: 'neutral', required: false },
   fontSize: { type: String as PropType<string>, default: '', required: false },
 });
 
@@ -25,14 +25,12 @@ const changeState = () => {
   emit('click');
 };
 
-const buttonClass = computed(() => 'button-' + props.type + ' ' + props.type + '_' + props.color);
+const buttonClass = computed(() => 'button-' + props.skin + ' ' + props.skin + '_' + props.type);
 
 </script>
 
 <style lang="scss" scoped>
-@import '@/services/assets/style/buttons/text.scss';
-@import '@/services/assets/style/buttons/admin.scss';
-@import '@/services/assets/style/buttons/profile.scss';
+  @import '@/services/assets/style/buttons/p-button.scss';
 </style>
 
 

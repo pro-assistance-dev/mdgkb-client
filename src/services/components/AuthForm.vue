@@ -19,8 +19,8 @@
           <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
-          <PButton type="admin" v-for="btn in buttons" :key="btn.getStatus()" :text="btn.label" 
-          :color="btn.isSubmit ? 'blue' : 'grey'" @click="authButtonClick(btn)" margin="10px 0 0 0"/>
+          <PButton skin="auth" v-for="btn in buttons" :key="btn.getStatus()" :text="btn.label" 
+          :type="btn.isSubmit ? 'primary' : 'neutral'" @click="authButtonClick(btn)" margin="10px auto 0 auto"/>
         </div>
       </el-form>
     </div>

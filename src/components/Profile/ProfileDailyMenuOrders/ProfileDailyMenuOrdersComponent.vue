@@ -21,10 +21,10 @@
               <template #title>
                 <div class="position">
                   <div class="flex">
-                    <PButton type="profile" v-for="item in dailyMenuOrder.formValue.getUserActions()" :key="item.id"
+                    <PButton skin="profile" v-for="item in dailyMenuOrder.formValue.getUserActions()" :key="item.id"
                       :text="item.childFormStatus.userActionName" margin="0 10px 0 0" width="120px"
                       @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)" />
-                    <PButton type="profile" text="Чат(в разработке)" width="120px" margin="0"
+                    <PButton skin="profile" text="Чат(в разработке)" width="120px" margin="0"
                       @click="dailyMenuOrder.chatIsOpen = true" />
                     <div v-if="dailyMenuOrder.chatIsOpen" class="menu-shadow">
                       <Chat v-if="dailyMenuOrder.chatIsOpen" :chat-id="dailyMenuOrder.formValue.chatId"

@@ -16,7 +16,7 @@
               @click="setCopy(dailyMenu)" />
             <label for="scales">{{ dailyMenu.name }} </label>
           </div>
-          <PButton type="admin" color="blue" text="Копировать" margin="5px 0 0 0" @click="copy" />
+          <PButton skin="profile" type="primary" text="Копировать" margin="5px 0 0 0" @click="copy" />
         </template>
       </ClickWindow>
     </div>

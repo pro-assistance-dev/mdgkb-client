@@ -21,7 +21,7 @@
       confirm-button-text="Да"
       cancel-button-text="Отмена"
       icon="el-icon-info"
-      icon-color="red"
+      icon-color="danger"
       title="Вы уверен, что хотите удалить это?"
       @confirm="$emit('remove')"
       @cancel="() => {}"
