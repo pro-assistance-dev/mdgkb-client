@@ -4,7 +4,7 @@
       <FiltersWrapper>
         <template #header-right>
           <div :style="{ display: 'flex', flexDirection: 'column' }">
-            <PButton type="profile" color="c_blue" text="Оставить отзыв" @click="auth.isAuth ? (showDialog = true) : openLoginModal()" />
+            <PButton skin="profile" type="c_blue" text="Оставить отзыв" @click="auth.isAuth ? (showDialog = true) : openLoginModal()" />
             <!-- <button class="leave-review-button" @click="auth.isAuth ? (showDialog = true) : openLoginModal()">Оставить
               отзыв</button> -->
             <router-link to="/service-quality-assessment" style="text-align: center">Независимая оценка качества

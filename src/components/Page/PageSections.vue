@@ -2,11 +2,11 @@
   <div id="container" class="relative-container">
     <div v-if="menu.sections.length && menu.showContent" class="sticky-container">
       <div class="top-list">
-        <PButton v-if="!opened && menu.sections.length" type="text" color="grey" text="Показать содержание" margin="0"
+        <PButton v-if="!opened && menu.sections.length" skin="text" type="grey" text="Показать содержание" margin="0"
           @click="isOpen" />
-        <PButton v-if="opened && menu.sections.length" type="text" color="grey" text="Скрыть содержание" margin="0"
+        <PButton v-if="opened && menu.sections.length" skin="text" type="grey" text="Скрыть содержание" margin="0"
           @click="isOpen" />
-        <PButton v-if="menu.sections.length" type="text" color="grey" text="Вверх" margin="0"
+        <PButton v-if="menu.sections.length" skin="text" type="grey" text="Вверх" margin="0"
           @click="(opened = false), $scroll('#container', -200)" />
         <!-- <div v-if="!opened && pageSections.length" class="list-title" @click="isOpen"></div>
         <div v-if="opened && pageSections.length" class="list-title" @click="isOpen">Скрыть содержание</div>

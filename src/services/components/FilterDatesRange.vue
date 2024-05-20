@@ -13,7 +13,7 @@
         <StringItem :string="defaultLabel" font-size="10px" padding="0" color="#c4c4c4" />
       </template>
       <DateInputRange v-model:start="startDate" v-model:end="endDate" @set-start="setStart" @set-end="setEnd" />
-      <PButton type="admin" color="blue" text="Сбросить" @click="reset"/>
+      <PButton skin="profile" type="primary" text="Сбросить" @click="reset"/>
     </GridContainer>
   </InfoItem>
 </template>

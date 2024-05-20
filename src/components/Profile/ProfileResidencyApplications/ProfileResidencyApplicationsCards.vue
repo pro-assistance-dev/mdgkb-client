@@ -19,7 +19,7 @@
           <div class="margin-container">
             <div class="position">
               <div class="flex">
-                <PButton type="profile" v-for="item in residencyApplication.formValue.getUserActions()" :key="item.id"
+                <PButton skin="profile" v-for="item in residencyApplication.formValue.getUserActions()" :key="item.id"
                   :text="item.childFormStatus.userActionName" margin="0 10px 0 0" width="120px"
                   @click="updateFormStatus(residencyApplication, item.childFormStatus)" />
               </div>

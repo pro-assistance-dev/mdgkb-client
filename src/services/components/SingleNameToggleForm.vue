@@ -33,7 +33,7 @@
           </el-form>
         </div>
         </InfoItem>
-        <PButton type="admin" color="blue" text="Сохранить" @click="submit" />
+        <PButton skin="profile" type="primary" text="Сохранить" @click="submit" />
       </template>
     </InfoItem>
   </el-form>

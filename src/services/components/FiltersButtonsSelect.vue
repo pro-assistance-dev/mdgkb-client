@@ -9,7 +9,7 @@
 
     <GridContainer max-width="100%" grid-gap="7px" grid-template-columns="repeat(auto-fit, minmax(100%, 1fr))"
       margin="0px">
-      <PButton type="admin" color="blue" v-for="(model, index) in models" :key="index" height="auto" :text="model.label"
+      <PButton skin="profile" type="primary" v-for="(model, index) in models" :key="index" height="auto" :text="model.label"
         :is-toggle="model.valueEq(filterModel)" :toggle-mode="true" :inverse="inverse"
          @click="selectFilter(model.valueEq(filterModel) ? undefined : model)" />
     </GridContainer>

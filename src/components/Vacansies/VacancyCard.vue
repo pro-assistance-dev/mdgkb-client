@@ -37,8 +37,8 @@
           <ContactBlock :contact="vacancy.contactInfo" />
         </div>
         <div class="button-block">
-          <PButton type="profile" color="c_blue" text="Подробнее" width="108px" height="30px" @click="$router.push(`/vacancies/${vacancy.slug}`)" />
-          <PButton type="profile" color="c_green" text="Откликнуться" width="126px" height="30px" @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)" />
+          <PButton skin="profile" type="c_blue" text="Подробнее" width="108px" height="30px" @click="$router.push(`/vacancies/${vacancy.slug}`)" />
+          <PButton skin="profile" type="c_green" text="Откликнуться" width="126px" height="30px" @click="$router.push(`/vacancies/${vacancy.id}?respondForm=open`)" />
         </div>
       </div>
     </div>

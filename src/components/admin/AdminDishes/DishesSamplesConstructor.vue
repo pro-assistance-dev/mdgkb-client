@@ -23,7 +23,7 @@
                     <use xlink:href="#profile-edit" />
                   </svg>
                   <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="red" title="Вы уверены, что хотите удалить категорию?"
+                    icon-color="danger" title="Вы уверены, что хотите удалить категорию?"
                     @confirm="removeDishesGroup(element.id)" @cancel="() => { }">
                     <template #reference>
                       <button class="tools-button">

@@ -7,7 +7,7 @@
         <div class="sum-card">
           <div class="sum">Сумма: {{ sum }} рублей.</div>
           <h2 v-if="scrollOffset >= 150" style="margin: 0">Платные услуги</h2>
-          <PButton type="profile" text="Очистить выбор" width="130px" margin="0" @click="clearSelectedService()" />
+          <PButton skin="profile" text="Очистить выбор" width="130px" margin="0" @click="clearSelectedService()" />
         </div>
       </el-card>
     </div>

@@ -8,7 +8,7 @@
       </h4>
       <div class="button-group">
         <div v-for="item in headerParams.buttons" :key="item" class="flex-item">
-          <PButton v-if="item.action && item.condition" :key="item.condition" type="profile" :color="item.type" :text="item.text" @click="action(item.action)"/>
+          <PButton v-if="item.action && item.condition" :key="item.condition" skin="profile" :type="item.type" :text="item.text" @click="action(item.action)"/>
         </div>
       </div>
     </div>

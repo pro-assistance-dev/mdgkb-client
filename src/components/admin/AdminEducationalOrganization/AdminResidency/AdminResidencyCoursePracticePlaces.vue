@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex-between">
         <div>Базы практик</div>
-        <PButton type="text" color="success" text="+ Добавить группу" margin="0 0 2px 0" @click="residencyCourse.addPracticePlaceGroup()"/>
+        <PButton skin="text" type="success" text="+ Добавить группу" margin="0 0 2px 0" @click="residencyCourse.addPracticePlaceGroup()"/>
       </div>
     </template>
     <draggable

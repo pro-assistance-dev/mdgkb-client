@@ -12,7 +12,7 @@
                   @click="selectSideMenu(element.id)">
                   <div>{{ element?.name }}</div>
                   <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="red" title="Вы уверен, что хотите удалить это?" @confirm="removePageSideMenu(index)"
+                    icon-color="danger" title="Вы уверен, что хотите удалить это?" @confirm="removePageSideMenu(index)"
                     @cancel="() => { }">
                     <template #reference>
                       <el-icon>
@@ -93,7 +93,7 @@
                     </template>
                   </CollapseItem>
                   <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="red" title="Вы уверен, что хотите удалить это?" class="close"
+                    icon-color="danger" title="Вы уверен, что хотите удалить это?" class="close"
                     @confirm="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
                     @cancel="() => { }">
                     <template #reference>
