@@ -10,7 +10,7 @@ import PageSection from '@/services/classes/page/PageSection';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';
-import Strings from '@/services/Strings';
+
 export default class Page {
   id?: string;
   title = '';
@@ -26,9 +26,12 @@ export default class Page {
   pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];
   pageImagesNames: string[] = [];
+
   @ClassHelper.GetClassConstructor(PageSideMenu)
   pageSideMenus: PageSideMenu[] = [];
+  menus: PageSideMenu[] = [];
   pageSideMenusForDelete: string[] = [];
+
   @ClassHelper.GetClassConstructor(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
@@ -45,6 +48,7 @@ export default class Page {
   filterStr = ''
   constructor(i?: Page) {
     ClassHelper.BuildClass(this, i);
+    this.menus = this.pageSideMenus
   }
 
   getLink(): string {
@@ -126,6 +130,15 @@ export default class Page {
 
     // return this.pageSideMenus.filter((p: PageSideMenu) => p.name.includes(this.filterStr));
     return this.pageSideMenus.filter((p: PageSideMenu) => p.infoExists(this.filterStr))
+  }
+
+  filter(): void {
+    if (this.filterStr === '') {
+      this.menus = this.pageSideMenus
+    } else {
+      this.menus = this.pageSideMenus.filter((p: PageSideMenu) => p.infoExists(this.filterStr))
+    }
+    this.menus.forEach((m: PageSideMenu) => m.filter(this.filterStr))
   }
 
   static GetClassName(): string {
