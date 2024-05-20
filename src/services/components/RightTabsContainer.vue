@@ -127,7 +127,7 @@ export default defineComponent({
   width: auto;
   height: 100%;
   padding: 0;
-  background: $custom-background;
+  background: $secondary-background;
   overflow: hidden;
 }
 
@@ -162,7 +162,7 @@ export default defineComponent({
 
 .tab-block {
   width: 110px;
-  background: $custom-background;
+  background: $secondary-background;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -173,7 +173,7 @@ export default defineComponent({
   position: relative;
   width: calc(100% - 110px);
   height: calc(100% - 10px);
-  background: $custom-background;
+  background: $secondary-background;
   overflow: hidden;
   overflow-y: auto;
   // padding-right: 3px;
@@ -193,7 +193,7 @@ export default defineComponent({
 
   .tab-block {
     width: 50px;
-    background: $custom-background;
+    background: $secondary-background;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -205,7 +205,7 @@ export default defineComponent({
     position: relative;
     width: calc(100% - 55px);
     height: 100%;
-    background: $custom-background;
+    background: $secondary-background;
   }
 }
 </style>

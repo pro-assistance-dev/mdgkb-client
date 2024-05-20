@@ -33,13 +33,6 @@ const buttonClass = computed(() => 'button-' + props.skin + ' ' + props.skin + '
   @import '@/services/assets/style/buttons/p-button.scss';
 </style>
 
-
-
-
-
-
-
-
 <!--   <button
     class="button"
     :style="buttonStyle"
