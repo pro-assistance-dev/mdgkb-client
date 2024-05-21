@@ -159,9 +159,9 @@ button {
 }
 
 .review {
-  background-color: $site_red;
+  background-color: $main_red;
   &:hover {
-    background-color: darken($site_red, 10%);
+    background-color: darken($main_red, 10%);
   }
 }
 

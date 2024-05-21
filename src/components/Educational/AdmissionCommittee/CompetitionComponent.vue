@@ -97,7 +97,6 @@ Hooks.onBeforeMount(initLoad);
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-@import '../../../assets/styles/elements/colors.scss';
 
 :deep(.card-item) {
   margin-bottom: 10px;

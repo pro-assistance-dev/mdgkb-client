@@ -501,7 +501,7 @@ $margin: 20px 0;
 
 .no {
   font-size: 14px;
-  color: $site_red;
+  color: $main_red;
 }
 
 .field {
