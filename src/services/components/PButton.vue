@@ -1,7 +1,7 @@
 <template>
   <button 
     :style="{margin:margin,padding:padding,maxWidth:width,minWidth:width,minHeight:height,maxHeight:height,fontSize:fontSize}" 
-    :class="buttonClass" @click.prevent="changeState"><slot />{{ text }}
+    :class="buttonClass" @click.prevent="changeState"><slot /><div :style="{marginTop:'4px'}">{{ text }}</div>
   </button>
 </template>
 
