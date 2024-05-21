@@ -1,3 +1,15 @@
+//-------------------------------------------------------------PROJECT-PORTAL----------------------------------------------------------
+@import '@/assets/styles/portal-color.scss'; //portal project colors (цвета проекта)
+@import '@/assets/styles/portal-font.scss'; // portal project font (шрифты проекта)
+
+
+// doctor font
+$doctor-text-font-size: 13px;
+$doctor-text-font-weight: lighter;
+$doctor-text-line-height: 110%;
+$doctor-text-letter-spacing: 0.1em;
+
+
 //---------------------------------------------------------------BASE------------------------------------------------------------------
 @import '@/services/assets/style/buttons/base-button-colors.scss'; //base buttons skin colors (базовые цвета скинов кнопок)
 //-------------------------------------------------------------------------------------------------------------------------------------

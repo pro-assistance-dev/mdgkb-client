@@ -4,36 +4,40 @@
       justifyContent: justifyContent,
     }">
       <div class="pag-number">
-        <PButton :button-class="curPage === 1 ? 'not-active-pag-button' : 'pag-button'" icon="arrow-left"
-          @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)" />
+        <PButton skin="pag" :type="curPage === 1 ? 'not-active' : 'neutral'" @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)">
+          <ArrowLeft />
+        </PButton>
         <ul class="pag-ul">
           <li>
-            <PButton :button-class="curPage === 1 ? 'active-pag-button' : 'pag-button'" text="1"
+            <PButton skin="pag" :type="curPage === 1 ? 'active' : 'neutral'" text="1"
               @click="currentChange(1)" />
           </li>
           <li @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
-            <PButton v-if="pagArr.length > 8 && curPage > 4" button-class="pag-button"
-              :icon="hoveringL ? 'double-arrow-left' : 'ellipsis'"
-              @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)" />
+            <PButton skin="pag" v-if="pagArr.length > 8 && curPage > 4" type="neutral"  @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)" >
+              <DoubleArrowLeft v-if="hoveringL"/>
+              <Ellipsis v-else/>
+            </PButton>
           </li>
-          <li v-for="num in pagArr3" :key="num.id">
-            <PButton v-if="num < pagArr.length && num > 1"
-              :button-class="num === curPage ? 'active-pag-button' : 'pag-button'" :text="num"
+          <li v-for="num in pagArr3.value" :key="num.id" >
+            <PButton skin="pag" v-if="num < pagArr.length && num > 1"
+              :type="num === curPage ? 'active' : 'neutral'" :text="num"
               @click="currentChange(num)" />
           </li>
           <li @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
-            <PButton v-if="pagArr.length > 8 && curPage < pagArr.length - 3" button-class="pag-button"
-              :icon="hoveringR ? 'double-arrow-right' : 'ellipsis'"
-              @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)" />
+            <PButton skin="pag" v-if="pagArr.length > 8 && curPage < pagArr.length - 3" type="neutral" @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)">
+              <DoubleArrowRight v-if="hoveringR"/>
+              <Ellipsis v-else/>
+            </PButton>
           </li>
           <li>
-            <PButton v-if="pagArr.length > 1"
-              :button-class="pagArr.length === curPage ? 'active-pag-button' : 'pag-button'" :text="pagArr.length"
+            <PButton skin="pag" v-if="pagArr.length > 1"
+              :type="pagArr.length === curPage ? 'active' : 'neutral'" :text="pagArr.length"
               @click="currentChange(pagArr.length)" />
           </li>
         </ul>
-        <PButton :button-class="curPage === pageCount ? 'not-active-pag-button' : 'pag-button'" icon="arrow-right"
-          @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)" />
+        <PButton skin="pag" :type="curPage === pageCount ? 'not-active' : 'neutral'" @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)" >
+          <ArrowRight />
+        </PButton>
       </div>
     </div>
   </div>
@@ -44,6 +48,11 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 
 import Provider from '@/services/Provider/Provider';
 import PButton from '@/services/components/PButton.vue';
+import ArrowLeft from '@/services/components/Icons/Pagination/ArrowLeft.vue';
+import ArrowRight from '@/services/components/Icons/Pagination/ArrowRight.vue';
+import DoubleArrowLeft from '@/services/components/Icons/Pagination/DoubleArrowLeft.vue';
+import DoubleArrowRight from '@/services/components/Icons/Pagination/DoubleArrowRight.vue';
+import Ellipsis from '@/services/components/Icons/Pagination/Ellipsis.vue';
 
 const props = defineProps({
   showConfirm: {
@@ -128,10 +137,12 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
 };
 
 const pagArr3 = computed(() => rangeArr());
+console.log(pagArr3.value);
 watch(
   () => curPage.value,
   () => {
     pagArr3.value = Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i);
+    console.log(pagArr3.value);
   });
 
 const scrollToBack = () => {
