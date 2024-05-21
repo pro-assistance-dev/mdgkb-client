@@ -182,89 +182,12 @@ onBeforeMount(async () => {
   max-height: 32px;
 }
 
-.pag-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background: #F0F2F5;
-  color: #345E5C;
-  transition: 0.1s;
-  cursor: pointer;
-  min-width: 32px;
-  max-width: 32px;
-  min-height: 32px;
-  max-height: 32px;
-  border-radius: 3px;
-  margin: 0 4px;
-  font-size: 14px;
-  fill: #345E5C;
-  overflow: hidden;
-}
-
-.pag-button:hover {
-  background: #F0F2F5;
-  color: #409EFF;
-  fill: #409EFF;
-}
-
-.pag-button:active {
-  background: #409EFF;
-  color: #ffffff;
-  fill: #ffffff;
-}
-
-.pag-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .pag-ul {
   display: flex;
   justify-content: center;
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.active-pag-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background: #409EFF;
-  color: #ffffff;
-  transition: 0.1s;
-  cursor: pointer;
-  min-width: 32px;
-  max-width: 32px;
-  min-height: 32px;
-  max-height: 32px;
-  border-radius: 3px;
-  margin: 0 4px;
-  font-size: 14px;
-  fill: #345E5C;
-  overflow: hidden;
-}
-
-.not-active-pag-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background: #F0F2F5;
-  color: #c3c3c3;
-  transition: 0.1s;
-  cursor: not-allowed;
-  min-width: 32px;
-  max-width: 32px;
-  min-height: 32px;
-  max-height: 32px;
-  border-radius: 3px;
-  margin: 0 4px;
-  font-size: 14px;
-  fill: #c3c3c3;
-  overflow: hidden;
 }
 
 .registers-tooltip {
