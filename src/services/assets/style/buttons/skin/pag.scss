@@ -1,16 +1,13 @@
 @import '@/assets/styles/base-style.scss';
 
-//skin: auth
+//skin: pag (for pagination)
 //type: active, not-active, neutral
 
-//button-auth
 .button-pag {
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
-  background: #F0F2F5;
-  color: #345E5C;
   transition: $transition;
   cursor: pointer;
   min-width: 32px;
@@ -26,26 +23,22 @@
 .pag_neutral {
   background: #F0F2F5;
   color: #345E5C;
-  // fill: #345E5C;
 }
 
 .pag_neutral:hover {
   background: #F0F2F5;
   color: #409EFF;
-  // fill: #409EFF;
 }
 
 .pag_active {
   background: #409EFF;
   color: #ffffff;
-  // fill: #345E5C;
 }
 
 .pag_not-active {
   background: #F0F2F5;
   color: #c3c3c3;
   cursor: not-allowed;
-  // fill: #c3c3c3;
 }
 
 

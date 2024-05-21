@@ -1,0 +1,85 @@
+@import '@/assets/styles/base-style.scss';
+
+//skin: icon
+//type: primary, success, warning, danger, neutral, disabled
+
+//button-auth
+.button-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $transition;
+  cursor: pointer;
+  min-width: 42px;
+  max-width: 42px;
+  min-height: 42px;
+  max-height: 42px;
+  border-radius: 5px;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+.icon_primary {
+  border: 1px solid $admin_primary_color;
+  background: $admin_primary_background;
+  color: $admin_primary_color;
+}
+
+.icon_primary:hover {
+  background: lighten($admin_primary_background, $percent);
+}
+
+.icon_success {
+  border: 1px solid $admin_success_color;
+  background: $admin_success_background;
+  color: $admin_success_color;
+}
+
+.icon_success:hover {
+  background: lighten($admin_success_background, $percent);
+}
+
+.icon_warning {
+  border: 1px solid $admin_warning_color;
+  background: $admin_warning_background;
+  color: $admin_warning_color;
+}
+
+.icon_warning:hover {
+  background: lighten($admin_warning_background, $percent);
+}
+
+.icon_danger {
+  border: 1px solid $admin_danger_color;
+  background: $admin_danger_background;
+  color: $admin_danger_color;
+}
+
+.icon_danger:hover {
+  background: lighten($admin_danger_background, $percent);
+}
+
+.icon_neutral {
+  border: 1px solid $admin_neutral_color;
+  background: $admin_neutral_background;
+  color: $admin_neutral_color;
+}
+
+.icon_neutral:hover {
+  background: lighten($admin_neutral_background, $percent);
+}
+
+.icon_disabled {
+  border: 1px solid $admin_disabled_color;
+  background: $admin_disabled_background;
+  color: $admin_disabled_color;
+  cursor: auto;
+}
+
+.icon_disabled:hover {
+  background: $admin_disabled_background;
+}
+
+
+
