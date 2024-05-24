@@ -11,9 +11,6 @@
         <slot name="open-inside-content" />
       </div>
       <div class="top-title" :style="topTitleStyle">
-        <svg v-if="icon" class="icon-top-title" :style="iconTopTitleStyle">
-          <use :xlink:href="'#' + icon" />
-        </svg>
         <slot name="title">
           <StringItem :string="title" font-size="10px" padding="0 0 0 3px" :style="{
             color: hovering ? '#006BB4' : '#c4c4c4',
@@ -30,73 +27,64 @@
       <el-button size="small" type="success" @click="saveClickHandler"> Сохранить </el-button>
     </div>
   </el-dialog>
-  <!-- <EditTitle /> -->
-  <!-- <Del /> -->
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, nextTick, PropType, Ref, ref, watch } from 'vue';
+<script lang="ts" setup>
 
 // import Del from '@/assets/svg/Del.svg';
 // import EditTitle from '@/assets/svg/EditTitle.svg';
 import StringItem from '@/services/components/StringItem.vue';
 
-export default defineComponent({
-  name: 'InfoItem',
-  components: {
-    StringItem,
-    // EditTitle,
-    // Del,
-  },
-  props: {
-    background: { type: String as PropType<string>, required: false, default: '' },
-    padding: { type: String as PropType<string>, required: false, default: '' },
-    width: { type: String as PropType<string>, required: false, default: '' },
-    openWidth: { type: String as PropType<string>, required: false, default: 'auto' },
-    openHeight: { type: String as PropType<string>, required: false, default: 'auto' },
-    maxWidth: { type: String as PropType<string>, required: false, default: '' },
-    minWidth: { type: String as PropType<string>, required: false, default: '' },
-    margin: { type: String as PropType<string>, required: false, default: '' },
-    height: { type: String as PropType<string>, required: false, default: '' },
-    icon: { type: String as PropType<string>, required: false, default: '' },
-    withOpenWindow: { type: Boolean as PropType<boolean>, required: false, default: true },
-    colorSelected: { type: String as PropType<string>, required: false, default: '#1979CF' },
-    borderColor: { type: String as PropType<string>, required: false, default: '#E3E3E3' },
-    withHover: { type: Boolean as PropType<boolean>, required: false, default: true },
-    title: { type: String as PropType<string>, required: false, default: '' },
-    customClass: { type: String as PropType<string>, required: false, default: '' },
-    close: { type: Boolean as PropType<boolean>, required: false, default: true },
-    baseBoxMargin: { type: String as PropType<string>, required: false, default: '' },
-    closeWindowOverflow: { type: String as PropType<string>, required: false, default: '' },
-    showSaveDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
-  },
-  emits: ['click', 'keyup-enter', 'after-close'],
-  setup(props, { emit }) {
-    const insideClass = props.customClass !== '' ? props.customClass : 'inside-class';
+const props = defineProps({
+  background: { type: String as PropType<string>, required: false, default: '' },
+  padding: { type: String as PropType<string>, required: false, default: '' },
+  width: { type: String as PropType<string>, required: false, default: '' },
+  openWidth: { type: String as PropType<string>, required: false, default: 'auto' },
+  openHeight: { type: String as PropType<string>, required: false, default: 'auto' },
+  maxWidth: { type: String as PropType<string>, required: false, default: '' },
+  minWidth: { type: String as PropType<string>, required: false, default: '' },
+  margin: { type: String as PropType<string>, required: false, default: '' },
+  height: { type: String as PropType<string>, required: false, default: '' },
+  icon: { type: String as PropType<string>, required: false, default: '' },
+  withOpenWindow: { type: Boolean as PropType<boolean>, required: false, default: true },
+  colorSelected: { type: String as PropType<string>, required: false, default: '#1979CF' },
+  borderColor: { type: String as PropType<string>, required: false, default: '#E3E3E3' },
+  withHover: { type: Boolean as PropType<boolean>, required: false, default: true },
+  title: { type: String as PropType<string>, required: false, default: '' },
+  customClass: { type: String as PropType<string>, required: false, default: '' },
+  close: { type: Boolean as PropType<boolean>, required: false, default: true },
+  baseBoxMargin: { type: String as PropType<string>, required: false, default: '' },
+  closeWindowOverflow: { type: String as PropType<string>, required: false, default: '' },
+  showSaveDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
+});
 
-    const hovering = ref(false);
+const emit = defineEmits(['click', 'keyup-enter', 'after-close']);
 
-    const isToggle: Ref<boolean> = ref(false);
-    const isMessageBoxOpen: Ref<boolean> = ref(false);
-    const localClose: Ref<boolean> = ref(props.close);
+const insideClass = props.customClass !== '' ? props.customClass : 'inside-class';
 
-    watch(
-      () => props.close,
-      () => {
-        console.log('close');
-        isToggle.value = false;
-      }
-    );
+const hovering = ref(false);
 
-    const keysHandler = (e: KeyboardEvent) => {
-      e.stopPropagation();
-      if (e.key === 'Escape') {
-        if (props.showSaveDialog) {
-          isMessageBoxOpen.value = true;
-        } else {
-          isToggle.value = false;
-        }
-      }
+const isToggle: Ref<boolean> = ref(false);
+const isMessageBoxOpen: Ref<boolean> = ref(false);
+const localClose: Ref<boolean> = ref(props.close);
+
+watch(
+  () => props.close,
+  () => {
+    console.log('close');
+    isToggle.value = false;
+  }
+);
+
+const keysHandler = (e: KeyboardEvent) => {
+  e.stopPropagation();
+  if (e.key === 'Escape') {
+    if (props.showSaveDialog) {
+      isMessageBoxOpen.value = true;
+    } else {
+      isToggle.value = false;
+    }
+  }
       // Прописывать в родителе @keyup-enter="submit"
       // if (e.key === 'Enter') {
       // emit('keyup-enter');
@@ -104,130 +92,110 @@ export default defineComponent({
       // }
     };
 
-    watch(isToggle, async () => {
-      await nextTick();
-      if (isToggle.value) {
-        document.getElementById('info-item-opened-content')?.querySelector('input')?.focus();
-        document.body.addEventListener('keydown', keysHandler);
-      } else {
-        document.body.removeEventListener('keydown', keysHandler, false);
-      }
-      if (isToggle.value === false) {
-        emit('after-close');
-      }
-    });
-
-    const changeState = () => {
-      emit('click');
-      isToggle.value = !!props.withOpenWindow;
-      if (localClose.value !== props.close) {
-        isToggle.value = false;
-        localClose.value = !localClose.value;
-      }
-    };
-
-    const baseBoxStyle = computed(() => {
-      return props.customClass === ''
-        ? {
-          width: props.width,
-          minHeight: '40px',
-          height: 'auto',
-          maxWidth: props.maxWidth,
-          minWidth: props.minWidth,
-          margin: props.baseBoxMargin,
-        }
-        : undefined;
-    });
-
-    const windowOpened = computed(() => isToggle.value && props.withOpenWindow);
-
-    const bodyStyle = computed(() => {
-      return {
-        background: props.background ? props.background : undefined,
-        zIndex: windowOpened.value ? '2' : '0',
-        padding: windowOpened.value ? '0' : props.padding,
-        margin: props.margin,
-        width: windowOpened.value ? props.openWidth : props.width,
-        height: windowOpened.value ? props.openHeight : props.height,
-        minHeight: '40px',
-        maxWidth: props.maxWidth,
-        minWidth: props.minWidth,
-        borderColor: hovering.value || isToggle.value ? props.colorSelected : props.borderColor,
-        color: hovering.value ? props.colorSelected : '#343E5C',
-        boxShadow: hovering.value || isToggle.value ? `0px 0px 1px 1px ${props.colorSelected}` : 'none',
-        alignItems: windowOpened.value ? 'end' : 'center',
-        cursor: props.withHover ? 'pointer' : 'pointer',
-      };
-    });
-
-    const closeWindowStyle = computed(() => {
-      return {
-        height: windowOpened.value ? '0' : '',
-        overflow: props.closeWindowOverflow,
-        width: props.width,
-      };
-    });
-
-    const openWindowStyle = computed(() => {
-      return {
-        height: windowOpened.value ? 'auto' : '0',
-      };
-    });
-
-    const topTitleStyle = computed(() => {
-      return {
-        color: hovering.value ? props.colorSelected : '#343E5C',
-        fill: hovering.value ? props.colorSelected : '#343E5C',
-        background: props.background,
-      };
-    });
-
-    const iconTopTitleStyle = computed(() => {
-      return {
-        stroke: hovering.value ? props.colorSelected : '#343E5C',
-      };
-    });
-
-    const outsideClick = () => {
-      if (props.showSaveDialog) {
-        isMessageBoxOpen.value = true;
-      } else {
-        isToggle.value = false;
-      }
-    };
-
-    const saveClickHandler = async () => {
-      await emit('keyup-enter');
-      if (props.close) {
-        isToggle.value = false;
-      }
-      isMessageBoxOpen.value = false;
-    };
-
-    const notSaveClickHandler = () => {
-      isToggle.value = false;
-      isMessageBoxOpen.value = false;
-    };
-
-    return {
-      outsideClick,
-      windowOpened,
-      insideClass,
-      iconTopTitleStyle,
-      topTitleStyle,
-      openWindowStyle,
-      closeWindowStyle,
-      baseBoxStyle,
-      bodyStyle,
-      hovering,
-      isToggle,
-      changeState,
-      isMessageBoxOpen,
-      saveClickHandler,
-      notSaveClickHandler,
-    };
-  },
+watch(isToggle, async () => {
+  await nextTick();
+  if (isToggle.value) {
+    document.getElementById('info-item-opened-content')?.querySelector('input')?.focus();
+    document.body.addEventListener('keydown', keysHandler);
+  } else {
+    document.body.removeEventListener('keydown', keysHandler, false);
+  }
+  if (isToggle.value === false) {
+    emit('after-close');
+  }
 });
+
+const changeState = () => {
+  emit('click');
+  isToggle.value = !!props.withOpenWindow;
+  if (localClose.value !== props.close) {
+    isToggle.value = false;
+    localClose.value = !localClose.value;
+  }
+};
+
+const baseBoxStyle = computed(() => {
+  return props.customClass === ''
+    ? {
+      width: props.width,
+      minHeight: '40px',
+      height: 'auto',
+      maxWidth: props.maxWidth,
+      minWidth: props.minWidth,
+      margin: props.baseBoxMargin,
+    }
+    : undefined;
+});
+
+const windowOpened = computed(() => isToggle.value && props.withOpenWindow);
+
+const bodyStyle = computed(() => {
+  return {
+    background: props.background ? props.background : undefined,
+    zIndex: windowOpened.value ? '2' : '0',
+    padding: windowOpened.value ? '0' : props.padding,
+    margin: props.margin,
+    width: windowOpened.value ? props.openWidth : props.width,
+    height: windowOpened.value ? props.openHeight : props.height,
+    minHeight: '40px',
+    maxWidth: props.maxWidth,
+    minWidth: props.minWidth,
+    borderColor: hovering.value || isToggle.value ? props.colorSelected : props.borderColor,
+    color: hovering.value ? props.colorSelected : '#343E5C',
+    boxShadow: hovering.value || isToggle.value ? `0px 0px 1px 1px ${props.colorSelected}` : 'none',
+    alignItems: windowOpened.value ? 'end' : 'center',
+    cursor: props.withHover ? 'pointer' : 'pointer',
+  };
+});
+
+const closeWindowStyle = computed(() => {
+  return {
+    height: windowOpened.value ? '0' : '',
+    overflow: props.closeWindowOverflow,
+    width: props.width,
+  };
+});
+
+const openWindowStyle = computed(() => {
+  return {
+    height: windowOpened.value ? 'auto' : '0',
+  };
+});
+
+const topTitleStyle = computed(() => {
+  return {
+    color: hovering.value ? props.colorSelected : '#343E5C',
+    fill: hovering.value ? props.colorSelected : '#343E5C',
+    background: props.background,
+  };
+});
+
+const iconTopTitleStyle = computed(() => {
+  return {
+    stroke: hovering.value ? props.colorSelected : '#343E5C',
+  };
+});
+
+const outsideClick = () => {
+  if (props.showSaveDialog) {
+    isMessageBoxOpen.value = true;
+  } else {
+    isToggle.value = false;
+  }
+};
+
+const saveClickHandler = async () => {
+  await emit('keyup-enter');
+  if (props.close) {
+    isToggle.value = false;
+  }
+  isMessageBoxOpen.value = false;
+};
+
+const notSaveClickHandler = () => {
+  isToggle.value = false;
+  isMessageBoxOpen.value = false;
+};
 </script>
 
 <style lang="scss" scoped>
