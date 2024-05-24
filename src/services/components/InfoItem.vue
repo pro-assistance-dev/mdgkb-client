@@ -45,7 +45,6 @@ const props = defineProps({
   minWidth: { type: String as PropType<string>, required: false, default: '' },
   margin: { type: String as PropType<string>, required: false, default: '' },
   height: { type: String as PropType<string>, required: false, default: '' },
-  icon: { type: String as PropType<string>, required: false, default: '' },
   withOpenWindow: { type: Boolean as PropType<boolean>, required: false, default: true },
   colorSelected: { type: String as PropType<string>, required: false, default: '#1979CF' },
   borderColor: { type: String as PropType<string>, required: false, default: '#E3E3E3' },
@@ -170,12 +169,6 @@ const topTitleStyle = computed(() => {
   };
 });
 
-const iconTopTitleStyle = computed(() => {
-  return {
-    stroke: hovering.value ? props.colorSelected : '#343E5C',
-  };
-});
-
 const outsideClick = () => {
   if (props.showSaveDialog) {
     isMessageBoxOpen.value = true;
@@ -250,12 +243,6 @@ const notSaveClickHandler = () => {
   width: 100%;
   line-height: 16px;
   font-size: 14px;
-}
-
-.icon-top-title {
-  width: 10px;
-  height: 10px;
-  stroke: #343e5c;
 }
 
 .open-window {
