@@ -1,6 +1,13 @@
 <template>
-  <button class="button" :style="buttonStyle" :class="buttonClass" :disabled="disabled" @click.prevent="changeState"
-    @mouseenter="hovering = true" @mouseleave="hovering = false">
+  <button
+    class="button"
+    :style="buttonStyle"
+    :class="buttonClass"
+    :disabled="disabled"
+    @click.prevent="changeState"
+    @mouseenter="hovering = true"
+    @mouseleave="hovering = false"
+  >
     <div v-if="icon" class="button-icon" :style="buttonIconStyle">
       <!-- {{ icon }} -->
       <svg :class="iconClass">
@@ -10,7 +17,7 @@
     <div class="text" :style="textStyle">
       {{ text }}
     </div>
-    <!-- <component :is="iconComponent[icon]" /> -->
+    <component :is="iconComponent[icon]" />
   </button>
 </template>
 
@@ -54,19 +61,19 @@ const props = defineProps({
 });
 
 const iconComponent = {
-  //   edit: Edit,
-  //   'edit-title': EditTitle,
-  //   aright: Aright,
-  //   close: Close,
-  //   back: Back,
-  //   commission: Commission,
-  //   del: Del,
-  //   download: Download,
-  //   filter: Filter,
-  //   outlined: Outlined,
-  //   plus: Plus,
-  //   save: Save,
-  //   settings: Settings,
+  // edit: Edit,
+  // 'edit-title': EditTitle,
+  // aright: Aright,
+  // close: Close,
+  // back: Back,
+  // commission: Commission,
+  // del: Del,
+  // download: Download,
+  // filter: Filter,
+  // outlined: Outlined,
+  // plus: Plus,
+  // save: Save,
+  // settings: Settings,
 };
 // const dynSvg = computed(() => import(`@/assets/svg/${props.}`))
 const emit = defineEmits(['click']);

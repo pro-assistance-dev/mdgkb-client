@@ -2,7 +2,8 @@
   <MenuContainer v-if="mounted" min-menu-item-width="160px" background="#DFF2F8">
     <template #menu>
       <div v-for="menu in sections" :key="menu.id">
-        <div :class="{ 'selected-tab': activeMenu.id === menu.id, tab: activeMenu.id !== menu.id }" @click="changeMenu(menu.id)">
+        <div :class="{ 'selected-tab': activeMenu.id === menu.id, tab: activeMenu.id !== menu.id }"
+          @click="changeMenu(menu.id)">
           {{ menu.name }}
         </div>
       </div>
@@ -69,7 +70,6 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
 @import '@/assets/elements/collapse.scss';
 @import '@/assets/styles/base-style.scss';
 
@@ -92,9 +92,12 @@ onBeforeMount(async () => {
   cursor: pointer;
   text-align: center;
 
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 
   background: #f5f5f5;
   margin: -0.5px;
@@ -118,9 +121,12 @@ onBeforeMount(async () => {
   text-align: center;
   cursor: pointer;
 
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 
   background: $secondary-background;
   margin: -0.5px;

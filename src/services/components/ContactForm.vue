@@ -105,7 +105,7 @@ const removePhone = async (id: string) => {
   right: 36px;
   border: none;
   background: inherit;
-  color: $base-light-font-color;
+  color: #a3a9be;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -211,7 +211,7 @@ const removePhone = async (id: string) => {
 
 :deep(.el-form-item__label) {
   font-size: 12px;
-  color: $base-light-font-color;
+  color: #a3a9be;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;

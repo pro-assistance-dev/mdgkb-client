@@ -91,16 +91,8 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
 
       if (Array.isArray(res.data)) {
-        if (f.p.append === true) {
-          commit('appendToAll', res.data);
-          return;
-        }
         commit('setAll', res.data);
       } else {
-        if (f.p.append === true) {
-          commit('appendToAll', res.data.items);
-          return;
-        }
         commit('setAllWithCount', res.data);
       }
     },

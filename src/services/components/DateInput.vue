@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import Message from '@/services/classes/Message';
+import Message from '@/services/Message';
 import DatesFormatter from '@/services/DatesFormatter';
 
 const props = defineProps({
@@ -86,7 +86,7 @@ const inputHandler = (value: string) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '@/assets/styles/base-style.scss';
 
 :deep(.el-input__wrapper) {

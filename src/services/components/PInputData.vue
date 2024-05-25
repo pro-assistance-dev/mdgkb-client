@@ -1,17 +1,16 @@
-<template>    
-  <div class="text-field" :style="{margin: margin, padding: padding}" >
+<template>
+  <div class="text-field" :style="{ margin: margin, padding: padding }">
     <label v-if="label" class="text-field__label" :for="label">
-        {{ label }}
-      </label>
+      {{ label }}
+    </label>
     <div class="field">
-      <div class="left-field"><slot /></div>
-      <input 
-        class="text-field__input" 
-        type="date" :name="label" 
-        :id="label" 
-        v-model="model"
-      >
-      <div class="right-field"><slot name="right" /></div>
+      <div class="left-field">
+        <slot />
+      </div>
+      <input class="text-field__input" type="date" :name="label" :id="label" v-model="model" @blur="$emit('blur')">
+      <div class="right-field">
+        <slot name="right" />
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +18,7 @@
 <script setup lang="ts">
 
 const model = defineModel();
-
+defineEmits(["blur"]);
 defineOptions({ inheritAttrs: false });
 
 const props = defineProps({
