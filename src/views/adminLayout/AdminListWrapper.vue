@@ -22,7 +22,7 @@
       <slot name="footer" />
     </div>
     <div v-if="pagination">
-      <Pagination />
+      <PPagination />
     </div>
   </div>
 </template>
