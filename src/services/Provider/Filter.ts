@@ -9,6 +9,7 @@ import Store from '@/services/Store';
 import FTSP from '../classes/filters/FTSP';
 
 const Filter = (() => {
+  let sortList: SortModel[] = [];
   const filterQuery: ComputedRef<FilterQuery> = Store.Getters('filter/filterQuery');
   const ftsp: ComputedRef<FTSP> = Store.Getters('filter/ftsp');
 
@@ -55,6 +56,7 @@ const Filter = (() => {
 
   return {
     setQid,
+    sortList,
     filterQuery,
     ftsp,
     resetFilterQuery,

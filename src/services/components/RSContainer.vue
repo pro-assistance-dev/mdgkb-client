@@ -92,12 +92,31 @@
       </div>
 
       <div v-if="mobileWindow" class="icons">
-        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()" >
-          FL
-        </PButton>
-        <PButton skin="icon" margin="0 0 0 10px" @click="handClick2()" >
-          DL
-        </PButton>
+        <Button
+          :with-icon="true"
+          width="42px"
+          height="42px"
+          color="#006BB4"
+          background="#ffffff"
+          background-hover="#DFF2F8"
+          margin="0 0 0 10px"
+          icon-class="icon-filter"
+          icon="filter"
+          @click="handClick1()"
+        />
+
+        <Button
+          :with-icon="true"
+          width="42px"
+          height="42px"
+          color="#006BB4"
+          background="#ffffff"
+          background-hover="#DFF2F8"
+          margin="13px 0 0 10px"
+          icon="download"
+          icon-class="icon-download"
+          @click="handClick2()"
+        />
       </div>
     </div>
   </div>
@@ -111,12 +130,12 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import PButton from '@/services/components/PButton.vue';
+import Button from '@/services/components/Button.vue';
 
 export default defineComponent({
   name: 'RSContainer',
   components: {
-    PButton,
+    Button,
   },
   props: {
     menuWidth: {

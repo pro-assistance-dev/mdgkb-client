@@ -26,12 +26,9 @@ export default class Page {
   pageImages: PageImage[] = [];
   pageImagesForDelete: string[] = [];
   pageImagesNames: string[] = [];
-
   @ClassHelper.GetClassConstructor(PageSideMenu)
   pageSideMenus: PageSideMenu[] = [];
-  menus: PageSideMenu[] = [];
   pageSideMenusForDelete: string[] = [];
-
   @ClassHelper.GetClassConstructor(PageSection)
   pageSections: PageSection[] = [];
   pageSectionsForDelete: string[] = [];
@@ -44,11 +41,8 @@ export default class Page {
   role: Role = new Role();
   roleId?: string;
 
-  // 
-  filterStr = ''
   constructor(i?: Page) {
     ClassHelper.BuildClass(this, i);
-    this.menus = this.pageSideMenus
   }
 
   getLink(): string {
@@ -124,21 +118,7 @@ export default class Page {
       contactSideMenu.name = 'Контакты';
       this.pageSideMenus.push(contactSideMenu);
     }
-    if (this.filterStr === '') {
-      return this.pageSideMenus
-    }
-
-    // return this.pageSideMenus.filter((p: PageSideMenu) => p.name.includes(this.filterStr));
-    return this.pageSideMenus.filter((p: PageSideMenu) => p.infoExists(this.filterStr))
-  }
-
-  filter(): void {
-    if (this.filterStr === '') {
-      this.menus = this.pageSideMenus
-    } else {
-      this.menus = this.pageSideMenus.filter((p: PageSideMenu) => p.infoExists(this.filterStr))
-    }
-    this.menus.forEach((m: PageSideMenu) => m.filter(this.filterStr))
+    return this.pageSideMenus;
   }
 
   static GetClassName(): string {

@@ -1,4 +1,4 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/classes/FileInfo';
 
 export default interface IFiler {
   id?: string;

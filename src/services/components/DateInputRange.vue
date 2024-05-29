@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import DateInput from '@/services/components/DateInput.vue';
 
-import Message from '../classes/Message';
+import Message from '@/services/Message';
 
 const props = defineProps({
   start: {
@@ -59,7 +59,7 @@ const setEnd = (date: Date) => {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 @import '@/assets/styles/base-style.scss';
 
 .date-range {

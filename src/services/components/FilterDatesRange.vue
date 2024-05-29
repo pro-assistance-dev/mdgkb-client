@@ -13,7 +13,15 @@
         <StringItem :string="defaultLabel" font-size="10px" padding="0" color="#c4c4c4" />
       </template>
       <DateInputRange v-model:start="startDate" v-model:end="endDate" @set-start="setStart" @set-end="setEnd" />
-      <PButton skin="profile" type="primary" text="Сбросить" @click="reset"/>
+      <Button
+        button-class="filter-button"
+        text="Сбросить"
+        :with-icon="false"
+        :toggle-mode="true"
+        background-hover="DFF2F8"
+        height="36px"
+        @click="reset"
+      />
     </GridContainer>
   </InfoItem>
 </template>
@@ -22,7 +30,7 @@
 import { PropType, Ref, ref } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
-import PButton from '@/services/components/PButton.vue';
+import Button from '@/services/components/Button.vue';
 import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
@@ -80,15 +88,14 @@ const reset = async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
-// .filter-button {
-//   width: auto;
-//   height: 36px;
-//   border-radius: 5px;
-//   color: #006bb4;
-//   background: #ffffff;
-//   font-size: 12px;
-// }
+.filter-button {
+  width: auto;
+  height: 23px;
+  border-radius: 5px;
+  color: #006bb4;
+  background: #ffffff;
+  font-size: 12px;
+}
 
 .anticon {
   margin: 4px 4px 2px 4px;

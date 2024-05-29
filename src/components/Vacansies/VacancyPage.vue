@@ -61,7 +61,7 @@ import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue'
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-import Message from '@/services/classes/Message';
+import Message from '@/services/Message';
 
 const showForm: Ref<boolean> = ref(false);
 const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies')

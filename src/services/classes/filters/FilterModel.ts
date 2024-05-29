@@ -108,9 +108,9 @@ export default class FilterModel {
     return this.operator === Operators.In;
   }
 
-  static Create(model: ClassNameGetter | string, col: unknown, type: DataTypes): FilterModel {
+  static Create(model: ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
     const filterModel = new FilterModel();
-    filterModel.model = typeof model === 'string' ? model : model.GetClassName();
+    filterModel.model = model.GetClassName();
     filterModel.col = (col as string) ?? '';
     filterModel.type = type;
     if (filterModel.type === DataTypes.Number) {
@@ -127,8 +127,21 @@ export default class FilterModel {
   }
 
   static CreateFilterModel(model: string | ClassNameGetter, col: unknown, type: DataTypes): FilterModel {
-    console.warn('FilterModel.CreateFilterModel is deprecated');
-    return FilterModel.Create(model as ClassNameGetter, col, type);
+    const filterModel = new FilterModel();
+    filterModel.id = uuidv4();
+    filterModel.model = typeof model === 'string' ? model : model.GetClassName();
+    filterModel.col = (col as string) ?? '';
+    filterModel.type = type;
+    if (filterModel.type === DataTypes.Number) {
+      filterModel.value1 = '0';
+    }
+    if (filterModel.type === DataTypes.String) {
+      filterModel.value1 = '';
+    }
+    if (filterModel.type === DataTypes.Boolean) {
+      filterModel.value1 = 'false';
+    }
+    return filterModel;
   }
 
   static CreateFilterModelWithJoin(

@@ -22,6 +22,9 @@ $percent: 4%;
   max-width: $p-button-max-width;
   min-width: $p-button-min-width;
   font-size: 12px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .filter_primary {

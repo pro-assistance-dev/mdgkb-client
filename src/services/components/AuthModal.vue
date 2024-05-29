@@ -18,5 +18,4 @@ const close = () => {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';</style>
+<style scoped lang="scss"></style>

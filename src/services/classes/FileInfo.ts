@@ -37,14 +37,6 @@ export default class FileInfo implements IFileInfo {
     return { name: this.originalName, url: this.getImageUrl() };
   }
 
-  // reset(): void {
-  //   this.url = '';
-  //   this.originalName = '';
-  //   this.file = undefined;
-  //   this.id = undefined;
-  //   this.fileSystemPath = undefined;
-  // }
-
   static CreatePreviewFile(file: IFile, category: string, id?: string): IFileInfo {
     const fileInfo = new FileInfo();
     fileInfo.id = id ?? uuidv4();
@@ -101,5 +93,4 @@ export default class FileInfo implements IFileInfo {
     const parts = filename.split('.');
     return parts[parts.length - 1];
   }
-  
 }

@@ -163,7 +163,7 @@ const onChange = (res: ICanvasResult) => {
   align-items: center;
   justify-content: left;
   font-size: 12px;
-  color: $base-light-font-color;
+  color: #a3a9be;
   padding: 0 !important;
   text-transform: uppercase;
   margin-left: 5px;
