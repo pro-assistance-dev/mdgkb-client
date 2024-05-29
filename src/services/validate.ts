@@ -3,7 +3,7 @@ import { Ref } from 'vue';
 
 import IForm from '@/services/interfaces/IForm';
 
-import Message from './classes/Message';
+import Message from './Message';
 
 export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fieldsList?: string[]): boolean {
   let validationResult = true;

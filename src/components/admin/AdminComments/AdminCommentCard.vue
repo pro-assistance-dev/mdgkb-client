@@ -26,8 +26,8 @@
         <el-tag v-else type="danger">Не отображается</el-tag>
       </div>
       <div class="footer-right">
-        <PButton v-if="!comment.modChecked || !comment.positive" type="profile" color="success" text="Отображать" margin="0 10px 0 0" @click="markPositive" />
-        <PButton v-if="!comment.modChecked || comment.positive" type="profile" color="danger" text="Не отображать" @click="markNegative" />
+        <PButton v-if="!comment.modChecked || !comment.positive" skin="profile" type="success" text="Отображать" margin="0 10px 0 0" @click="markPositive" />
+        <PButton v-if="!comment.modChecked || comment.positive" skin="profile" color="danger" text="Не отображать" @click="markNegative" />
       </div>
     </div>
   </el-card>

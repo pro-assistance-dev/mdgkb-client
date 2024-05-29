@@ -1,6 +1,46 @@
 import Period from './Period';
 
+
+const Second = 1000;
+const Minute = 60 * Second;
+const Hour = 60 * Minute;
+const Day = 24 * Hour;
+const Week = 7 * Day;
+
+export { Day, Hour, Minute, Second, Week };
+
+export enum TimelineSteps {
+  FiveMinutes = '5',
+  HourQuarter = '15',
+  HourHalf = '30',
+  Hour = '60',
+}
+
+export const TimelineMinutes: Record<TimelineSteps, string[]> = {
+  [TimelineSteps.FiveMinutes]: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
+  [TimelineSteps.HourQuarter]: ['00', '15', '30', '45'],
+  [TimelineSteps.HourHalf]: ['00', '30'],
+  [TimelineSteps.Hour]: ['00'],
+};
+
 export default abstract class Time {
+  static S(n: number): number {
+    return Second * n
+  }
+  static M(n: number): number {
+    return Minute * n
+  }
+
+  static H(n: number): number {
+    return Hour * n
+  }
+  static D(n: number): number {
+    return Hour * n
+  }
+  static W(n: number): number {
+    return Hour * n
+  }
+
   static NormalizeTime(m: string | number): string {
     return String(m).padStart(2, '0');
   }
@@ -69,28 +109,6 @@ export default abstract class Time {
     return Period.Intersects(Time.HMtoM(p1Start), Time.HMtoM(p1End), Time.HMtoM(p2Start), Time.HMtoM(p2End));
   }
 }
-
-const Second = 1000;
-const Minute = 60 * Second;
-const Hour = 60 * Minute;
-const Day = 24 * Hour;
-const Week = 7 * Day;
-
-export { Day, Hour, Minute, Second, Week };
-
-export enum TimelineSteps {
-  FiveMinutes = '5',
-  HourQuarter = '15',
-  HourHalf = '30',
-  Hour = '60',
-}
-
-export const TimelineMinutes: Record<TimelineSteps, string[]> = {
-  [TimelineSteps.FiveMinutes]: ['00', '05', '10', '15', '20', '25', '30', '35', '40', '45', '50', '55'],
-  [TimelineSteps.HourQuarter]: ['00', '15', '30', '45'],
-  [TimelineSteps.HourHalf]: ['00', '30'],
-  [TimelineSteps.Hour]: ['00'],
-};
 
 export const getTimeArray = (): string[] => {
   const timeArray = [];

@@ -17,7 +17,7 @@
           confirm-button-text="Да"
           cancel-button-text="Отмена"
           icon="el-icon-info"
-          icon-color="red"
+          icon-color="danger"
           :title="!isReviews ? 'Вы уверены, что хотите удалить комментарий?' : 'Вы уверены, что хотите удалить отзыв?'"
           @confirm="removeComment(item.id)"
           @cancel="() => {}"

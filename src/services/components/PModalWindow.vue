@@ -21,7 +21,7 @@ import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, withDirec
 import IconClose from '@/components/Icons/IconClose .vue';
 
 export default defineComponent({
-  name: 'ModalWindow',
+  name: 'PModalWindow',
   props: {
     showCloseDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
     show: {

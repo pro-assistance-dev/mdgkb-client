@@ -7,7 +7,7 @@
           <el-select v-model="chosenPattern" value-key="id" size="mini" placeholder="Выберите шаблон">
             <el-option v-for="item in timetablePatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
           </el-select>
-          <PButton type="admin" color="success" text="Применить" margin="0 0 0 10px" height="28px" width="120px" @click="addTimetable" />
+          <PButton skin="profile" type="success" text="Применить" margin="0 0 0 10px" height="28px" width="120px" @click="addTimetable" />
           <el-button v-if="timetable.timetableDays.length" style="margin-left: 10px" type="danger" size="mini" @click="removeTimetable"
             >Очистить</el-button
           >

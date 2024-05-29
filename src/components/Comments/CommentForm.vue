@@ -122,7 +122,7 @@ textarea {
 }
 
 button {
-  background-color: $site_red;
+  background-color: $main_red;
   font-family: Comfortaa, Arial, Helvetica, sans-serif;
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -133,7 +133,7 @@ button {
 
   &:hover {
     cursor: pointer;
-    background-color: darken($site_red, 10%);
+    background-color: darken($main_red, 10%);
   }
 }
 

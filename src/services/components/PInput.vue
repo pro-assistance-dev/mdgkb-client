@@ -1,26 +1,23 @@
-<template>    
-  <div class="text-field" :style="{margin: margin, padding: padding}" >
+<template>
+  <div class="text-field" :style="{ margin: margin, padding: padding }">
     <label v-if="label" class="text-field__label" :for="label">
-        {{ label }}
-      </label>
+      {{ label }}
+    </label>
     <div class="field">
-      <div class="left-field"><slot /></div>
-      <input 
-        class="text-field__input" 
-        type="text" :name="label" 
-        :id="label" 
-        :placeholder="placeholder" 
-        :readonly="readonly"
-        :disabled="disabled"
-        v-model="model"
-      >
-      <div class="right-field"><slot name="right" /></div>
+      <div class="left-field">
+        <slot />
+      </div>
+      <input :type="getInputType()" class="text-field__input" type="text" :name="label" :id="label"
+        :placeholder="placeholder" @blur="$emit('blur')" :readonly="readonly" :disabled="disabled" v-model="model">
+      <div class="right-field">
+        <slot name="right" />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
+const emits = defineEmits(["blur"]);
 const model = defineModel();
 
 defineOptions({ inheritAttrs: false });
@@ -33,8 +30,14 @@ const props = defineProps({
   disabled: { type: Boolean as PropType<Boolean>, default: false, required: false },
   margin: { type: String as PropType<string>, required: false, default: '' },
   padding: { type: String as PropType<string>, default: '', required: false },
+  password: { type: Boolean as PropType<boolean>, default: false, required: false },
 });
-
+const getInputType = () => {
+  if (props.password) {
+    return 'password'
+  }
+  return ''
+}
 </script>
 
 <style lang="scss" scoped>
@@ -85,7 +88,7 @@ const props = defineProps({
   width: 100%;
   font-family: $input-font;
   color: $input-label-color;
-  font-size: $base-font-small-size;
+  font-size: $base-font-size;
   margin: $input-label-margin;
 }
 

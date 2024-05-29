@@ -3,11 +3,15 @@
     placeholder="Выберите шаблон фильтра">
     <el-option v-for="preset in ftspPresets" :key="preset" :label="preset.name" :value="preset.id" />
   </el-select>
-  <PButton type="text" color="add" text="Добавить текущий фильтр в список фильтров" @click="openModal" v-if="ftsp.f.length > 0"/>
-  <PButton type="text" color="del" text="Удалить выбранный фильтр из списка фильтров" @click="remove" v-if="curFTSP" />
+  <button class="admin-add2" @click="openModal" v-if="ftsp.f.length > 0">
+    Добавить текущий фильтр в список фильтров
+  </button>
+  <button class="admin-del" @click="remove" v-if="curFTSP">
+    Удалить выбранный фильтр из списка фильтров
+  </button>
   <ModalWindow v-if="modalOpened" :show="modalOpened">
     <el-input v-model="ftspName" placeholder="Введите название" />
-    <PButton type="admin" color="blue" text="Сохранить" @click="save" />
+    <Button text="Сохранить" @click="save" />
   </ModalWindow>
 </template>
 
@@ -92,7 +96,7 @@ onBeforeMount(async () => {
 .admin-del {
   border: none;
   background: inherit;
-  color: $base-light-font-color;
+  color: #a3a9be;
   transition: 0.3s;
   cursor: pointer;
   margin-left: -6px;

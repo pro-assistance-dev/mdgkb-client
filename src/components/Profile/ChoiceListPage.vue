@@ -1,16 +1,16 @@
 <template>
   <div class="container">
-    <PButton type="admin" text="Поиск" width="260px" margin="10px 0 0 0"
+    <PButton skin="profile" text="Поиск" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile')" />
-    <PButton type="admin" text="Мой профиль" width="260px" margin="10px 0 0 0"
+    <PButton skin="profile" text="Мой профиль" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile')" />
-    <PButton type="admin" text="Заказ еды" width="260px" margin="10px 0 0 0"
+    <PButton skin="profile" text="Заказ еды" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile/daily-menu-orders')" />
-    <PButton type="admin" text="Настройки" width="260px" margin="10px 0 0 0"
+    <PButton skin="profile" text="Настройки" width="260px" margin="10px 0 0 0"
       @click.stop="$router.push('/profile/settings')" />
-    <PButton type="admin" v-if="UserService.isAdmin()" text="Кабинет администратора" width="260px"
+    <PButton skin="profile" v-if="UserService.isAdmin()" text="Кабинет администратора" width="260px"
     margin="10px 0 0 0" @click="$router.push(`/admin/${curUser.role.startPage}`)" />
-    <PButton type="admin" text="Выйти" width="260px" margin="10px 0 0 0"
+    <PButton skin="profile" text="Выйти" width="260px" margin="10px 0 0 0"
       @click="logout" />
   </div>
 </template>

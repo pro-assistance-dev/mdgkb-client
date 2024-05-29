@@ -92,7 +92,7 @@
       </div>
 
       <div v-if="mobileWindow" class="icons">
-        <PButton
+        <Button
           :with-icon="true"
           width="42px"
           height="42px"
@@ -105,7 +105,7 @@
           @click="handClick1()"
         />
 
-        <PButton
+        <Button
           :with-icon="true"
           width="42px"
           height="42px"
@@ -130,7 +130,7 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import PButton from '@/services/components/PButton.vue';
+import Button from '@/services/components/Button.vue';
 
 export default defineComponent({
   name: 'RSContainer',

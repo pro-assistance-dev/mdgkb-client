@@ -1,0 +1,108 @@
+@import '@/assets/styles/base-style.scss';
+$percent: 4%;
+
+//skin: profile 
+//type: primary, success, warning, danger, neutral, disabled, c_blue, c_green
+
+.button-profile {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $p-button-transition;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  margin: 0;
+  padding: $p-button-padding;
+  border-radius: 100px;
+  min-height: 32px;
+  max-height: 32px;
+  width: 100%;
+  max-width: $p-button-max-width;
+  min-width: $p-button-min-width;
+  font-size: $base-font-size;
+}
+
+.profile_primary {
+  border: 1px solid $admin_primary_color;
+  background: $admin_primary_background;
+  color: $admin_primary_color;
+}
+
+.profile_primary:hover {
+  background: lighten($admin_primary_background, $percent);
+}
+
+.profile_success {
+  border: 1px solid $admin_success_color;
+  background: $admin_success_background;
+  color: $admin_success_color;
+}
+
+.profile_success:hover {
+  background: lighten($admin_success_background, $percent);
+}
+
+.profile_warning{
+  border: 1px solid $admin_warning_color;
+  background: $admin_warning_background;
+  color: $admin_warning_color;
+}
+
+.profile_warning:hover {
+  background: lighten($admin_warning_background, $percent);
+}
+
+.profile_danger {
+  border: 1px solid $admin_danger_color;
+  background: $admin_danger_background;
+  color: $admin_danger_color;
+}
+
+.profile_danger:hover {
+  background: lighten($admin_danger_background, $percent);
+}
+
+.profile_neutral {
+  border: 1px solid $admin_neutral_color;
+  background: $admin_neutral_background;
+  color: $admin_neutral_color;
+}
+
+.profile_neutral:hover {
+  background: lighten($admin_neutral_background, $percent);
+}
+
+.profile_disabled {
+  border: 1px solid $admin_disabled_color;
+  background: $admin_disabled_background;
+  color: $admin_disabled_color;
+  cursor: auto;
+}
+
+.profile_disabled:hover {
+  background: $admin_disabled_background;
+}
+
+.profile_c_blue {
+  border: 1px solid $site_blue;
+  background: $site_blue;
+  color: #ffffff;
+}
+
+.profile_c_blue:hover {
+  background: darken($site_blue, 10%);
+  border-color: darken($site_blue, 10%);
+}
+
+.profile_c_green {
+  border: 1px solid $main_green;
+  background: $main_green;
+  color: #ffffff;
+}
+
+.profile_c_green:hover {
+  background: darken($main_green, 10%);
+  border-color: darken($main_green, 10%);
+}

@@ -7,10 +7,8 @@
       <div class="left-field">
         <slot name="left" />
       </div>
-      <select class="text-field__input" v-model="value" :onchange="change">
-        <option v-for="option in options" :value="option.value" :label="option.label" :key="option.value">
-          {{ option.label }}
-        </option>
+      <select class="text-field__input" v-model="model" @change="select">
+        <option disabled>{{ placeholder }}</option>
         <slot />
       </select>
       <div class="right-field">
@@ -21,34 +19,26 @@
 </template>
 
 <script setup lang="ts">
-import LabelValue from '@/services/classes/LabelValue'
 
-const value = defineModel(String);
-
-onBeforeMount(() => {
-  if (props.initValue) {
-    value.value = props.initValue.value
-  }
-})
-
+const model = defineModel();
+const emits = defineEmits(['change']);
 defineOptions({ inheritAttrs: false });
-const emits = defineEmits(['change'])
 
 const props = defineProps({
   text: { type: String as PropType<string>, default: '', required: false },
   label: { type: String as PropType<string>, default: '', required: false },
   placeholder: { type: String as PropType<string>, default: '', required: false },
+  value: { type: String as PropType<string>, default: '', required: false },
   readonly: { type: Boolean as PropType<Boolean>, default: false, required: false },
   disabled: { type: Boolean as PropType<Boolean>, default: false, required: false },
   margin: { type: String as PropType<string>, required: false, default: '' },
   padding: { type: String as PropType<string>, required: false, default: '' },
-  options: { type: Array as PropType<LabelValue[]>, required: true },
-  initValue: { type: LabelValue as PropType<LabelValue[]>, required: false, default: '' }
 });
 
-const change = () => {
-  emits('change', value.value)
+const select = (v: unknown) => {
+  emits('change', v)
 }
+
 </script>
 
 <style lang="scss" scoped>

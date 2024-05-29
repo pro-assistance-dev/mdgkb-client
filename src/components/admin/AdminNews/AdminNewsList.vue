@@ -49,9 +49,9 @@
     <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-bottom: 20px">
       <RemoteSearch ref="searchMainNewsRef" :clear-after-select="false" max-width="500px" :key-value="'news'"
         placeholder="Выберите новость" @select="selectSearchMainNews" />
-      <PButton type="profile" color="success" text="Сделать главной" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsMain, 'setMain', true)" />
-      <PButton type="profile" color="primary" text="Сделать подглавной #1" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)" />
-      <PButton type="profile" color="primary" text="Сделать подглавной #2" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)" />
+      <PButton skin="profile" type="success" text="Сделать главной" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsMain, 'setMain', true)" />
+      <PButton skin="profile" type="primary" text="Сделать подглавной #1" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)" />
+      <PButton skin="profile" type="primary" text="Сделать подглавной #2" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)" />
     </div>
 
     <div class="main-news-block">

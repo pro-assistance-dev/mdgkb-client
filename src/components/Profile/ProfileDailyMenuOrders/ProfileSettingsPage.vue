@@ -10,7 +10,7 @@
         <el-checkbox v-model="user.rejectEmail">Запретить рассылку email</el-checkbox>
       </div>
       <div>
-        <PButton type="profile" text="Сохранить" height="20px" @click="saveUser" margin/>
+        <PButton skin="profile" text="Сохранить" height="20px" @click="saveUser" margin/>
       </div>
     </div>
   </div>
