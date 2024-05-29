@@ -7,7 +7,7 @@
       <template v-if="pageSideMunusExists()" #menu>
         <slot name="bottom" />
         <PInput v-model="page.filterStr" padding="10px">
-          <StringItem string="Найти:" class="check-title" color="#A1A7BD" font-size="14px" margin="0 5px 0 0"/>
+          <StringItem string="Найти:" class="check-title" color="#A1A7BD" font-size="14px" margin="0 5px 0 0" />
         </PInput>
         <PageSideMenuComponent :page="page" @select-menu="selectMenu" @close="(e) => (close = e)" />
       </template>

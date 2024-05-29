@@ -24,8 +24,9 @@ const mounted = ref(false);
 const activeMenu: Ref<string | undefined> = ref('');
 
 const setMenuFromRoute = () => {
-  let slug = Provider.route().query.menus as string;
+  // let slug = Provider.route().query.menus as string;
   let id = Provider.route().query.menud as string;
+  let slug = Router.Route().query.menus as string;
   if (id) {
     changeMenu(id, true);
   } else {

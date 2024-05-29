@@ -15,6 +15,8 @@ export default abstract class Router {
   }
 
   static Route(): RouteLocationNormalizedLoaded {
+    console.log("route");
+
     return router.currentRoute.value;
   }
 
