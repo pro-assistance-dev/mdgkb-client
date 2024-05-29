@@ -84,11 +84,11 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
 
       // commit('filter/setFTSP', res.ftsp, { root: true });
-      try {
-        await Provider.router.replace({ query: { qid: res.ftsp.id } });
-      } catch (error) {
-        console.log(error);
-      }
+      // try {
+      //   await Provider.router.replace({ query: { qid: res.ftsp.id } });
+      // } catch (error) {
+      //   console.log(error);
+      // }
 
       if (Array.isArray(res.data)) {
         if (f.p.append === true) {
