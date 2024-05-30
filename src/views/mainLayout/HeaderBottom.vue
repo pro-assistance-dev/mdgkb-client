@@ -18,7 +18,7 @@
             @mouseenter="hovering = true"
             @mouseleave="hovering = false"
           >
-            <img alt="mdgkb-logo-mini" src="src/assets/img/mdgkb-logo-mini.webp" />
+            <img :src="MdgkbLogoMini" alt="mdgkb-logo-mini" @click="$router.push('/')" />
           </button>
           <!-- </el-row> -->
         </div>
@@ -33,7 +33,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -43,83 +43,58 @@ import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
 import PhoneInfo from '@/views/mainLayout/elements/PhoneInfo.vue';
 import Support from '@/views/mainLayout/elements/Support.vue';
 
-export default defineComponent({
-  name: 'HeaderBottom',
-  components: {
-    NavMenu,
-    BurgerMobile,
-    PhoneInfo,
-    Support,
-  },
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const route = useRoute();
-    const scrollOffset = ref(0);
-    const previousOffset = ref(0);
-    const rememberedOffset = ref(0);
-    const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
-    const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
-    // const devTitle = process.env.VUE_APP_MODE;
-    const hovering = ref(false);
+import MdgkbLogoMini from "@/assets/img/mdgkb-logo-mini.webp";
 
-    const nav = async (to: string) => {
-      await router.push(to);
-    };
+  const store = useStore();
+  const router = useRouter();
+  const route = useRoute();
+  const scrollOffset = ref(0);
+  const previousOffset = ref(0);
+  const rememberedOffset = ref(0);
+  const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+  const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
+  // const devTitle = process.env.VUE_APP_MODE;
+  const hovering = ref(false);
 
-    const login = () => store.commit('auth/openModal', true);
-    const register = () => store.commit('auth/openModal');
-    const logout = async () => {
-      const curRoute = route.name;
-      await router.push(curRoute as string);
-      await store.dispatch('auth/logout');
-    };
+  const nav = async (to: string) => {
+    await router.push(to);
+  };
 
-    const handleScroll = () => {
-      if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
-        rememberedOffset.value = 0;
-      }
-      previousOffset.value = scrollOffset.value;
-      scrollOffset.value = window.scrollY;
-    };
+  const login = () => store.commit('auth/openModal', true);
+  const register = () => store.commit('auth/openModal');
+  const logout = async () => {
+    const curRoute = route.name;
+    await router.push(curRoute as string);
+    await store.dispatch('auth/logout');
+  };
 
-    onMounted(() => {
-      window.addEventListener('scroll', handleScroll);
-      window.addEventListener('resize', () => {
-        tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
-        mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
-      });
+  const handleScroll = () => {
+    if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
+      rememberedOffset.value = 0;
+    }
+    previousOffset.value = scrollOffset.value;
+    scrollOffset.value = window.scrollY;
+  };
+
+  onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', () => {
+      tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
+      mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
     });
-    onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+  });
+  onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
-    const showDrawer = ref(false);
-    const changeDrawerStatus = (status?: boolean) => {
-      if (status !== undefined) {
-        showDrawer.value = status;
-        return;
-      }
-      showDrawer.value = !showDrawer.value;
-    };
-    const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
+  const showDrawer = ref(false);
+  const changeDrawerStatus = (status?: boolean) => {
+    if (status !== undefined) {
+      showDrawer.value = status;
+      return;
+    }
+    showDrawer.value = !showDrawer.value;
+  };
+  const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
 
-    return {
-      scrollOffset,
-      previousOffset,
-      rememberedOffset,
-      showDrawer,
-      changeDrawerStatus,
-      login,
-      register,
-      logout,
-      nav,
-      tabletWindow,
-      mobileWindow,
-      showSearchDrawer,
-      // devTitle,
-      hovering,
-    };
-  },
-});
 </script>
 
 <style lang="scss" scoped>
