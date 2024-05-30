@@ -259,6 +259,7 @@ declare module '@vue/runtime-core' {
     DonorRulesPage: typeof import('./src/components/DonorRules/DonorRulesPage.vue')['default']
     DoubleArrowLeft: typeof import('./src/services/components/Icons/Pagination/DoubleArrowLeft.vue')['default']
     DoubleArrowRight: typeof import('./src/services/components/Icons/Pagination/DoubleArrowRight.vue')['default']
+    Download: typeof import('./src/services/components/Icons/Filter/Download.vue')['default']
     DpoApplicationForm: typeof import('./src/components/Educational/Dpo/DpoApplicationForm.vue')['default']
     DpoPage: typeof import('./src/components/Educational/Dpo/DpoPage.vue')['default']
     EditApplicationPage: typeof import('./src/components/Profile/ProfileDailyMenuOrders/EditApplicationPage.vue')['default']

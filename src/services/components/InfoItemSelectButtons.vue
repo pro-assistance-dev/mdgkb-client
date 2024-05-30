@@ -2,8 +2,8 @@
   <InfoItem :close="closeFlag" :title="title" close-window-overflow="hidden" :with-hover="true" :with-open-window="true">
     <StringItem :string="selected" font-size="14px" width="100%" />
     <template #open-inside-content>
-      <Button v-for="item in list" :key="item" button-class="save-button" :text="item" @click="select(item)" />
-      <Button button-class="save-button" text="Сбросить" @click="select(undefined)" />
+      <PButton type="admin" color="blue" v-for="item in list" :key="item" :text="item" @click="select(item)" />
+      <PButton type="admin" color="blue" text="Сбросить" @click="select(undefined)" />
     </template>
   </InfoItem>
 </template>
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue';
 
-import Button from '@/services/components/Button.vue';
+import PButton from '@/services/components/PButton.vue';
 import InfoItem from '@/services/components/InfoItem.vue';
 import StringItem from '@/services/components/StringItem.vue';
 

@@ -92,31 +92,8 @@
       </div>
 
       <div v-if="mobileWindow" class="icons">
-        <Button
-          :with-icon="true"
-          width="42px"
-          height="42px"
-          color="#006BB4"
-          background="#ffffff"
-          background-hover="#DFF2F8"
-          margin="0 0 0 10px"
-          icon-class="icon-filter"
-          icon="filter"
-          @click="handClick1()"
-        />
-
-        <Button
-          :with-icon="true"
-          width="42px"
-          height="42px"
-          color="#006BB4"
-          background="#ffffff"
-          background-hover="#DFF2F8"
-          margin="13px 0 0 10px"
-          icon="download"
-          icon-class="icon-download"
-          @click="handClick2()"
-        />
+        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()" ><Filter color="#006BB4"/></PButton>
+        <PButton skin="icon" margin="13px 0 0 10px" @click="handClick2()" ><Download color="#006BB4"/></PButton>
       </div>
     </div>
   </div>
@@ -127,17 +104,14 @@
     </svg>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import Button from '@/services/components/Button.vue';
+import PButton from '@/services/components/PButton.vue';
+import Filter from '@/services/components/Icons/Filter/Filter.vue';
+import Download from '@/services/components/Icons/Filter/Download.vue';
 
-export default defineComponent({
-  name: 'RSContainer',
-  components: {
-    Button,
-  },
-  props: {
+  const props = defineProps({
     menuWidth: {
       type: String as PropType<string>,
       required: false,
@@ -148,8 +122,7 @@ export default defineComponent({
       required: false,
       default: '6000px',
     },
-  },
-  setup(props) {
+  });
     const mounted = ref(false);
     const collapsed1: Ref<boolean> = ref(false);
     const collapsed2: Ref<boolean> = ref(false);
@@ -183,18 +156,6 @@ export default defineComponent({
       });
       mounted.value = true;
     });
-
-    return {
-      collapsed1,
-      collapsed2,
-      handClick,
-      handClick1,
-      handClick2,
-      mobileWindow,
-      mounted,
-    };
-  },
-});
 </script>
 
 <style lang="scss" scoped>
