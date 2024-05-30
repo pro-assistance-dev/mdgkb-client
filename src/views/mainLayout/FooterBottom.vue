@@ -4,7 +4,7 @@
       <el-row align="middle" justify="center">
         <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="4">
           <div class="image flex-center">
-            <img src="src/assets/img/mdgkb-logo-vert.webp" alt="mdgkb-logo" />
+            <img :src="MdgkbLogoVert" alt="mdgkb-logo" />
           </div>
         </el-col>
         <el-col :xl="2">
@@ -83,23 +83,16 @@
   <SocialIcons />
 </template>
 
-<script>
+<script lang="ts" setup>
 import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
-export default {
-  name: 'FooterBottom',
-  components: {
-    SocialIcons,
-  },
+import MdgkbLogoVert from "@/assets/img/mdgkb-logo-vert.webp";
 
-  setup() {
-    // const b = new isvek.Bvi();
-    //
-    // console.log(b);
-    // return {
-    //   b,
-    // };
-  },
-};
+  // const b = new isvek.Bvi();
+  //
+  // console.log(b);
+  // return {
+  //   b,
+  // };
 </script>
 
 <style lang="scss" scoped>
