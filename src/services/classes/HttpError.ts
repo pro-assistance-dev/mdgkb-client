@@ -4,7 +4,7 @@ import TokenService from '@/services/Token';
 import store from '@/store';
 
 import ClassHelper from '../ClassHelper';
-import Message from './Message';
+import Message from '../Message';
 export default class HttpError {
   private code = 400;
   private err = '';

@@ -95,7 +95,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
 .dialog-header {
   display: flex;
   justify-content: space-between;

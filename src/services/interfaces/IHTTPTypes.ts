@@ -1,4 +1,4 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/classes/FileInfo';
 import HttpHeaders from '../types/HttpHeaders';
 
 export interface IBodilessParams {

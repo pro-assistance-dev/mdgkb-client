@@ -1,6 +1,6 @@
 <template>
-  <StringItem string="Выберите вид ответа:" font-size="14px" padding="0" justify-content="left" margin="10px 0"/> 
-  <el-select :model-value="selectedType.name" placeholder="Вид ответа" @change="select" >
+  <StringItem string="Выберите вид ответа:" font-size="14px" padding="0" justify-content="left" margin="10px 0" />
+  <el-select :model-value="selectedType.name" placeholder="Вид ответа" @change="select">
     <el-option v-for="(value, type) in types" :key="value" :label="value" :value="type" />
   </el-select>
 </template>
@@ -32,9 +32,7 @@ const select = (t: ValueTypes) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
 .red {
   background: red;
 }
-
 </style>

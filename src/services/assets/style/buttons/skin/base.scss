@@ -22,6 +22,9 @@ $percent: 4%;
   max-width: $p-button-max-width;
   min-width: $p-button-min-width;
   font-size: $base-font-size;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .profile_primary {

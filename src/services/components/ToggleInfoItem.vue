@@ -5,7 +5,7 @@
     <template #open-inside-content>
       <GridContainer custom-class="grid">
         <slot />
-        <PButton skin="profile" type="primary" text="Сохранить" @click="submit" />
+        <Button button-class="save-button" text="Сохранить" @click="submit" />
       </GridContainer>
     </template>
   </InfoItem>

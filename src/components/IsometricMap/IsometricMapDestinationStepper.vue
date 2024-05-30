@@ -6,7 +6,7 @@
 <script lang="ts" setup>
 import { defineEmits, Ref, ref } from 'vue';
 
-import StringItem from '@/components/Base/StringItem.vue';
+import StringItem from '@/services/components/StringItem.vue';
 
 import MapCheckbox from './MapCheckbox.vue';
 

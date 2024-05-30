@@ -8,7 +8,7 @@ import CarouselSwipe from './CarouselSwipe';
 import Contact from './classes/Contact';
 import Email from './classes/Email';
 import FTSP from './classes/filters/FTSP';
-import Message from './classes/Message';
+import Message from './Message';
 import ValueType from './classes/ValueType';
 import ClassHelper from './ClassHelper';
 import Color from './Color';
@@ -43,6 +43,7 @@ import User from './User';
 import validate from './validate';
 import WaitElement from './WaitElement';
 import WebSocketClient from './WebSocketClient';
+import Timer from './Timer';
 
 export {
   Arrays,
@@ -90,4 +91,5 @@ export {
   ValueType,
   WaitElement,
   WebSocketClient,
+  Timer
 };

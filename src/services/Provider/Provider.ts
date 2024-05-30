@@ -12,7 +12,6 @@ import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const Provider = (() => {
-  let sortList: SortModel[] = [];
   const mounted: Ref<boolean> = ref(false);
   const form = ref();
   const saveButtonClicked: Ref<boolean> = ref(false);
@@ -113,7 +112,6 @@ const Provider = (() => {
     ...Filter,
     replaceFilterModel,
     spliceFilterModel,
-    sortList
   };
 })();
 
