@@ -15,8 +15,8 @@
           <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
-          <Button v-for="btn in buttons" :key="btn.getStatus()" :color-swap="true" :text="btn.label"
-            :button="btn.disabled" :button-class="btn.isSubmit ? 'btn-active' : 'btn'" @click="authButtonClick(btn)" />
+          <PButton type="admin" v-for="btn in buttons" :key="btn.getStatus()" :text="btn.label" 
+          :color="btn.isSubmit ? 'blue' : 'grey'" @click="authButtonClick(btn)" margin="10px 0 0 0"/>
         </div>
       </el-form>
     </div>
@@ -28,6 +28,7 @@ import AuthButton from '@/services/classes/AuthButton';
 import AuthForm from '@/services/classes/AuthForm';
 import Message from '@/services/Message';
 import Provider from '@/services/Provider/Provider';
+import PButton from '@/services/components/PButton.vue';
 
 import AuthStatuses from '../interfaces/AuthStatuses';
 

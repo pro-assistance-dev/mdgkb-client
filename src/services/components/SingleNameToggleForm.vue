@@ -33,7 +33,7 @@
           </el-form>
         </div>
         </InfoItem>
-        <Button button-class="save-button" text="Сохранить" @click="submit" />
+        <PButton type="admin" color="blue" text="Сохранить" @click="submit" />
       </template>
     </InfoItem>
   </el-form>
@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
-import Button from '@/services/components/Button.vue';
+import PButton from '@/services/components/PButton.vue';
 import GridContainer from '@/services/components/GridContainer.vue';
 import InfoItem from '@/services/components/InfoItem.vue';
 import StringItem from '@/services/components/StringItem.vue';

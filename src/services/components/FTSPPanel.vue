@@ -3,15 +3,11 @@
     placeholder="Выберите шаблон фильтра">
     <el-option v-for="preset in ftspPresets" :key="preset" :label="preset.name" :value="preset.id" />
   </el-select>
-  <button class="admin-add2" @click="openModal" v-if="ftsp.f.length > 0">
-    Добавить текущий фильтр в список фильтров
-  </button>
-  <button class="admin-del" @click="remove" v-if="curFTSP">
-    Удалить выбранный фильтр из списка фильтров
-  </button>
+  <PButton type="text" color="add" text="Добавить текущий фильтр в список фильтров" @click="openModal" v-if="ftsp.f.length > 0"/>
+  <PButton type="text" color="del" text="Удалить выбранный фильтр из списка фильтров" @click="remove" v-if="curFTSP" />
   <ModalWindow v-if="modalOpened" :show="modalOpened">
     <el-input v-model="ftspName" placeholder="Введите название" />
-    <Button text="Сохранить" @click="save" />
+    <PButton type="admin" color="blue" text="Сохранить" @click="save" />
   </ModalWindow>
 </template>
 
