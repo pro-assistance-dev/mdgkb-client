@@ -1,13 +1,6 @@
 <template>
-  <el-select
-    v-if="mounted"
-    v-model="sortModel"
-    :popper-append-to-body="false"
-    :clearable="!sortModel?.default"
-    value-key="label"
-    @change="setSort"
-    @clear="setSort(undefined)"
-  >
+  <el-select v-if="mounted" v-model="sortModel" :popper-append-to-body="false" :clearable="!sortModel?.default"
+    value-key="label" @change="setSort" @clear="setSort(undefined)">
     <el-option v-for="(item, i) in Provider.sortList" :key="i" :label="item.label" :value="item" />
   </el-select>
 </template>
@@ -34,7 +27,7 @@ const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters[
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
-  defaultSortModel = Provider.sortList.find((s: SortModel) => s.default) ?? Provider.sortList.value[0];
+  defaultSortModel = Provider.sortList.find((s: SortModel) => s.default) ?? Provider.sortList[0];
   changeModel(undefined);
   mounted.value = true;
 });
@@ -103,5 +96,4 @@ const setSort = async (s: SortModel | undefined) => {
 // :deep(.el-form-item) {
 //   padding: 10px;
 //   margin: 10px 0 0 0;
-// }
-</style>
+// }</style>

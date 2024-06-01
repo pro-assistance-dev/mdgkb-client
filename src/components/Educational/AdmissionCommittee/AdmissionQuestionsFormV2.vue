@@ -7,19 +7,23 @@
   </el-form-item>
   <el-form-item label="Выберите основу финансирования" prop="paid" :rules="rules.paid">
     <el-radio-group :model-value="residencyApplicationValue.paid" @change="selectPaid">
-      <el-radio :label="false" size="large">На места, финансируемые за счет средств бюджета города Москвы (по договорам с ДЗМ)</el-radio>
+      <el-radio :label="false" size="large">На места, финансируемые за счет средств бюджета города Москвы (целевая
+        ординатура ДЗМ)</el-radio>
       <el-radio :label="true" size="large">По договорам о платных образовательных услугах</el-radio>
     </el-radio-group>
     <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
       <div v-if="residencyApplicationValue.formValue.findFieldValue(field.id)?.file?.fileSystemPath">
         <div style="margin-top: 10px">
           <span><b> Загрузите договор </b></span>
-          <span><FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" /> </span>
+          <span>
+            <FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" />
+          </span>
         </div>
       </div>
     </div>
   </el-form-item>
-  <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+  <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation"
+    :rules="rules.primaryAccreditation">
     <el-radio-group v-model="residencyApplicationValue.primaryAccreditation">
       <el-radio :label="true" size="large">Да</el-radio>
       <el-radio :label="false" size="large">Нет</el-radio>
@@ -27,92 +31,76 @@
   </el-form-item>
   <template v-if="residencyApplicationValue.primaryAccreditation === undefined"></template>
   <template v-else-if="residencyApplicationValue.primaryAccreditation">
-    <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-      <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
+    <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace"
+      :rules="rules.primaryAccreditationPlace">
+      <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в:
+      </el-input>
     </el-form-item>
     <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
-      <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number>
+      <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной
+        аккредитации</el-input-number>
     </el-form-item>
-    <el-form-item
-      :prop="`formValue.fieldValues[${residencyApplicationValue.formValue.getFieldValueIndexByCode(
-        'PrimaryAccreditationApplication'
-      )}].file.fileSystemPath`"
-      :rules="rules.primaryAccreditationApplication"
-    >
-      <FieldValueFile
-        required
-        :form="residencyApplicationValue.formValue"
-        :field="residencyApplicationValue.formValue.getFieldByCode('PrimaryAccreditationApplication')"
-      />
+    <el-form-item :prop="`formValue.fieldValues[${residencyApplicationValue.formValue.getFieldValueIndexByCode(
+      'PrimaryAccreditationApplication'
+    )}].file.fileSystemPath`" :rules="rules.primaryAccreditationApplication">
+      <FieldValueFile required :form="residencyApplicationValue.formValue"
+        :field="residencyApplicationValue.formValue.getFieldByCode('PrimaryAccreditationApplication')" />
     </el-form-item>
   </template>
   <template v-else>
-    <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+    <el-form-item label="Вступительные испытания прохожу в:" prop="primaryAccreditation"
+      :rules="rules.primaryAccreditation">
       <el-radio-group v-model="residencyApplicationValue.mdgkbExam">
         <el-radio :label="true" size="large">Морозовской больнице</el-radio>
         <el-radio :label="false" size="large">В другом месте (указать)</el-radio>
       </el-radio-group>
     </el-form-item>
     <template v-if="residencyApplicationValue.mdgkbExam">
-      <el-form-item
-        label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
-        prop="entranceExamSpecialisation"
-        :rules="rules.entranceExamSpecialisation"
-      >
+      <el-form-item label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
+        prop="entranceExamSpecialisation" :rules="rules.entranceExamSpecialisation">
         <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
       </el-form-item>
       <el-form-item>
-        <FieldValueFile
-          :form="residencyApplicationValue.formValue"
-          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
-        />
+        <FieldValueFile :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')" />
       </el-form-item>
     </template>
     <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
-      <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-        <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
+      <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace"
+        :rules="rules.primaryAccreditationPlace">
+        <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в:
+        </el-input>
       </el-form-item>
       <el-form-item>
-        <FieldValueFile
-          :form="residencyApplicationValue.formValue"
-          :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')"
-        />
+        <FieldValueFile :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')" />
       </el-form-item>
-      <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
+      <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)"
+        prop="primaryAccreditationPoints">
         <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
       </el-form-item>
       <el-form-item>
-        <FieldValueFile
-          :form="residencyApplicationValue.formValue"
-          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamPointsApplication')"
-        />
+        <FieldValueFile :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamPointsApplication')" />
       </el-form-item>
     </template>
   </template>
 
-  <el-dialog
-    v-model="showFreeDialog"
+  <el-dialog v-model="showFreeDialog"
     title="Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы"
-    width="40%"
-  >
+    width="40%">
     <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
       <div style="margin-top: 10px">
-        <span><b> Загрузите договор </b></span
-        ><span
-          ><FileUploader
-            v-if="residencyApplicationValue.formValue.findFieldValue(field.id).file"
-            :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file"
-          />
+        <span><b> Загрузите договор </b></span><span>
+          <FileUploader v-if="residencyApplicationValue.formValue.findFieldValue(field.id).file"
+            :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" />
         </span>
       </div>
 
       <div class="text-align-right margin-top-1">
         <el-button @click="showFreeDialog = false">Отмена</el-button>
-        <el-button
-          v-if="residencyApplicationValue.formValue.findFieldValue(field.id).file.fileSystemPath"
-          type="primary"
-          @click="submitFreeFile"
-        >
+        <el-button v-if="residencyApplicationValue.formValue.findFieldValue(field.id).file.fileSystemPath"
+          type="primary" @click="submitFreeFile">
           Подтвердить загрузку
         </el-button>
       </div>
@@ -218,6 +206,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .questions-container {
   text-align: center;
 }
@@ -238,6 +227,7 @@ export default defineComponent({
   color: white;
   border: none;
   margin-right: 30px;
+
   &:hover {
     cursor: pointer;
   }
@@ -254,6 +244,7 @@ export default defineComponent({
   letter-spacing: 2px;
   color: white;
   border: none;
+
   &:hover {
     cursor: pointer;
   }
@@ -278,6 +269,7 @@ export default defineComponent({
 .margin-top-1 {
   margin-top: 1rem;
 }
+
 .el-form-item {
   background-color: #f9fafb;
   border: 1px solid #e9e9e9;

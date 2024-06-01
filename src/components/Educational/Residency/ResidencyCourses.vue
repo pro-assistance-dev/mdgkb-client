@@ -20,7 +20,7 @@ const loadCourses = async () => {
 const load = async () => {
   FTSP.Get().reset()
   FTSP.Get().p.limit = 100
-  FTSP.Get().setF(ResidencyCoursesFiltersLib.notThisYear());
+  FTSP.Get().setF(ResidencyCoursesFiltersLib.onlyThisYear());
   FTSP.Get().setS(ResidencyCoursesSortsLib.byName(Orders.Asc));
   await loadCourses();
 };

@@ -102,6 +102,7 @@ Hooks.onBeforeMount(load);
 
 const selectMenu = (e: PageSideMenu): void => {
   selectedMenu.value = e;
+  console.log(e)
   emits('selectMenu', e);
 };
 

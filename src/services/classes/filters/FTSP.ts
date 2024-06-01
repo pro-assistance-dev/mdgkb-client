@@ -43,6 +43,9 @@ export default class FTSP {
   }
 
   private static EmptyEntiries(sm: any): unknown {
+    if (!sm) {
+      return
+    }
     const entries = Object.entries(sm);
     const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
     return Object.fromEntries(nonEmptyOrNull);
@@ -59,6 +62,15 @@ export default class FTSP {
   setSortModel(sortModel: SortModel): void {
     this.s[0] = sortModel;
   }
+
+  setS(sortModel: SortModel): void {
+    this.s[0] = sortModel;
+  }
+
+  setF(model: FilterModel): void {
+    this.f.push(model)
+  }
+
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);
     if (curF) {
