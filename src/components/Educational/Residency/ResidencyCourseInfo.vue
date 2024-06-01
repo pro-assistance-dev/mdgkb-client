@@ -1,7 +1,8 @@
 <template>
   <HeaderInfo :left-width="'330px'" :background="'#ffffff'" :is-single="false">
     <template #foto>
-      <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса" :show-favourite="false" />
+      <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса"
+        :show-favourite="false" />
     </template>
 
     <template #small-title> </template>
@@ -21,8 +22,7 @@
         <ul>
           <li v-for="file in course.getInfoFiles()" :key="file.id">
             <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
-              {{ file.originalName }}</a
-            >
+              {{ file.originalName }}</a>
           </li>
         </ul>
       </div>
@@ -93,6 +93,7 @@ export default defineComponent({
   width: auto;
   word-wrap: break-word;
   font-size: 11px;
+
   &:hover {
     background-color: darken($site_green, 10%);
     color: white;
@@ -104,9 +105,11 @@ export default defineComponent({
 .address {
   margin-top: 5px;
   margin-bottom: 15px;
+
   a {
     color: $site_blue;
     text-decoration: none;
+
     &:hover {
       cursor: pointer;
       color: darken($site_blue, 30%);
