@@ -11,7 +11,6 @@ import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPType
 import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import RootState from '@/services/interfaces/types';
-import Provider from '@/services/Provider/Provider';
 
 import IBasicState from './baseState';
 

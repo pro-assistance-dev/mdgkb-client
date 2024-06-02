@@ -74,12 +74,14 @@ export default class FTSP {
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);
     if (curF) {
-      this.f.push(curF);
+      this.setF(curF)
     }
   }
 
   removeF(model?: FilterModel): void {
     const index = this.f.findIndex((f: FilterModel) => f.eq(model));
+    console.log(index);
+
     ClassHelper.RemoveFromClassByIndex(index, this.f);
   }
 
