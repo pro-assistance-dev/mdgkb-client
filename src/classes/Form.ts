@@ -28,6 +28,9 @@ export default class Form {
   code = '';
   withApprovingDate = false;
   approvingDate?: Date;
+
+  postgraduateApplication?: PostgraduateApplication;
+  @ClassHelper.GetClassConstructor(Field)
   fields: Field[] = [];
   fieldsForDelete: string[] = [];
   fieldValues: FieldValue[] = [];

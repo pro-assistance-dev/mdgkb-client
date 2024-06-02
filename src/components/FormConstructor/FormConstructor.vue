@@ -38,7 +38,8 @@
       <el-table-column v-if="!filesOnly" label="Тип данных" sortable width="300px">
         <template #default="scope">
           <el-form-item :prop="'fields.' + scope.$index + '.valueType.id'" style="margin: 0" :rules="rules.valueType">
-            <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">
+            <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных"
+              @change="changeHandler(scope.row)">
               <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
             </el-select>
           </el-form-item>
@@ -163,25 +164,30 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .flex-row-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .timetable-row {
   line-height: 40px;
   height: 40px;
   margin-bottom: 5px;
 }
+
 .weekend {
   color: red;
 }
+
 :deep(.el-button) {
   padding: 5px;
   margin: 0 !important;
   min-height: unset;
   border: none;
 }
+
 .time-select {
   width: 100px;
   margin: 0;
@@ -195,6 +201,7 @@ export default defineComponent({
   display: flex;
   margin: 5px;
   align-items: center;
+
   .el-input {
     margin: 0 5px;
   }
