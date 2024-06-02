@@ -24,7 +24,7 @@ export default ({ mode }) => {
         },
       },
     },
-    base: './',
+    base: '/',
     includeAbsolute: false,
     plugins: [
       vue({
