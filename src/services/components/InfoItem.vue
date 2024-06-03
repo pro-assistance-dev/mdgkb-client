@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isToggle" class="blur">blur</div>
+  <div v-if="isToggle" class="blur"></div>
   <div class="base-box" :style="baseBoxStyle" @click.prevent.stop="changeState()">
     <div class="body" :class="insideClass" :style="bodyStyle"
       @mouseenter="withHover ? (hovering = true) : (hovering = false)" @mouseleave="hovering = false">
