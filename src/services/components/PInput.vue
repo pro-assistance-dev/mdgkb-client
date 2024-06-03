@@ -1,5 +1,5 @@
 <template>
-  <div class="text-field" :style="{ margin: margin, padding: padding }">
+  <div class="text-field" :style="{ margin: margin, padding: padding}">
     <label v-if="label" class="text-field__label" :for="label">
       {{ label }}
     </label>

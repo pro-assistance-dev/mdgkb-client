@@ -8,6 +8,7 @@
         <slot name="left" />
       </div>
       <div class="sl">
+        <div class="clear" v-if="clearable" @click="clear" ><IconClose margin="0"/></div> 
         <div v-if="ph" class="ph">{{ placeholder }}</div>
         <select class="text-field__input" v-model="model" @change="select">
           <slot />
@@ -15,13 +16,14 @@
       </div>
       <div class="right-field">
         <slot name="right" />
-        <span v-if="clearable" @click="clear">x</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import IconClose from '@/components/Icons/IconClose.vue';
+
 
 const model = defineModel();
 const ph: Ref<boolean> = ref(true);
@@ -122,6 +124,7 @@ option {
   margin: $input-margin;
   padding: $input-padding;
   padding: 0;
+  cursor:pointer;
 }
 
 .ph {
@@ -129,11 +132,13 @@ option {
   top: 50%;
   transform: translateY(-50%);
   left: 5px;
-  z-index: 10;
+  z-index: 0;
   font-family: $input-font;
   font-size: $input-font-size;
   color: $input-font-color;
   white-space: nowrap;
+  pointer-events: none;
+  cursor: pointer;
 }
 
 .text-field__input:focus {
@@ -152,5 +157,17 @@ option {
 
 .text-field__input option {
   font-weight: normal;
+}
+
+.clear {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: - 6px;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: $input-background;
 }
 </style>
