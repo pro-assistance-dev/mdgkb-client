@@ -8,7 +8,9 @@
         <slot name="left" />
       </div>
       <div class="sl">
-        <div class="clear" v-if="clearable" @click="clear" ><IconClose margin="0"/></div> 
+        <div class="clear" v-if="clearable" @click="clear">
+          <IconClose margin="3px 0 0 0" />
+        </div>
         <div v-if="ph" class="ph">{{ placeholder }}</div>
         <select class="text-field__input" v-model="model" @change="select">
           <slot />
@@ -22,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import IconClose from '@/components/Icons/IconClose.vue';
+import IconClose from '@/services/components/Icons/IconClose.vue';
 
 
 const model = defineModel();
@@ -83,6 +85,10 @@ option {
   position: relative;
 }
 
+.sl:hover>.clear {
+  visibility: visible;
+}
+
 .right-field {
   display: flex;
   justify-content: right;
@@ -124,7 +130,7 @@ option {
   margin: $input-margin;
   padding: $input-padding;
   padding: 0;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .ph {
@@ -160,6 +166,7 @@ option {
 }
 
 .clear {
+  visibility: hidden;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -169,5 +176,7 @@ option {
   justify-content: center;
   align-items: center;
   background: $input-background;
+  transition: 0;
+  cursor: pointer;
 }
 </style>

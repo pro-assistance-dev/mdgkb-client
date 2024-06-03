@@ -380,6 +380,7 @@ declare module '@vue/runtime-core' {
     HospitalizationStages: typeof import('./src/components/Hospitalizations/HospitalizationStages.vue')['default']
     HumanForm: typeof import('./src/components/admin/HumanForm.vue')['default']
     IconArrowRight: typeof import('./src/components/Icons/IconArrowRight.vue')['default']
+    IconClose: typeof import('./src/services/components/Icons/IconClose.vue')['default']
     IconEducation: typeof import('./src/components/Icons/IconEducation.vue')['default']
     IconHome: typeof import('./src/components/Icons/IconHome.vue')['default']
     IconQuestion: typeof import('./src/components/Icons/IconQuestion.vue')['default']

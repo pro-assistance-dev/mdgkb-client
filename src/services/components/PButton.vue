@@ -1,7 +1,9 @@
 <template>
-  <button 
-    :style="{margin:margin,padding:padding,maxWidth:width,minWidth:width,minHeight:height,maxHeight:height,fontSize:fontSize}" 
-    :class="buttonClass" @click.prevent="changeState"><slot /><div :style="{marginTop:'4px'}">{{ text }}</div> 
+  <button
+    :style="{ margin: margin, padding: padding, maxWidth: width, minWidth: width, minHeight: height, maxHeight: height, fontSize: fontSize }"
+    :class="buttonClass" @click.prevent="changeState">
+    <slot />
+    <div :style="{ marginTop: '4px' }">{{ text }}</div>
   </button>
 </template>
 
@@ -30,5 +32,5 @@ const buttonClass = computed(() => 'button-' + props.skin + ' ' + props.skin + '
 </script>
 
 <style lang="scss" scoped>
-  @import '@/services/assets/style/buttons/p-button.scss';
+@import '@/services/assets/style/components/buttons/p-button.scss';
 </style>

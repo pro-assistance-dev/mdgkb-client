@@ -1,0 +1,51 @@
+@import '@/assets/styles/base-style.scss';
+$percent: 4%;
+
+//skin: royal 
+//type: blue, inherit
+
+$royal_blue: #5E6CE7;
+
+.button-royal {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $p-button-transition;
+  text-align: center;
+  width: $p-button-width;
+  min-width: 32px;
+  max-width: 100%;
+  min-height: 52px;
+  max-height: 52px;
+  border: 1px solid $royal_blue;
+  border-radius: $border-radius;
+  font-size: 17px;
+  font-family: Gilroy, Arial, Helvetica, sans-serif;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  line-height: 0;
+}
+
+.royal_blue {
+  background: $royal_blue;
+  color: #ffffff;
+}
+
+.royal_blue:hover {
+  background: lighten($royal_blue, 3%);
+}
+
+.royal_inherit {
+  background: inherit;
+  color: $royal_blue;
+}
+
+.royal_inherit:hover {
+  color: lighten($royal_blue, 3%);
+  border-color: lighten($royal_blue, 3%);
+}
+
+

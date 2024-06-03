@@ -51,9 +51,12 @@ export default defineComponent({
   align-items: center;
   background: inherit;
   font-family: $base-font;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
   color: $base-font-color;
   font-size: $base-font-size;
 }

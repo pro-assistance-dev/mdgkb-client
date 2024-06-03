@@ -18,7 +18,7 @@
               <Ellipsis v-else/>
             </PButton>
           </li>
-          <li v-for="num in pagArr3.value" :key="num.id" >
+          <li v-for="num in pagArr3" :key="num.id" >
             <PButton skin="pag" v-if="num < pagArr.length && num > 1"
               :type="num === curPage ? 'active' : 'neutral'" :text="num"
               @click="currentChange(num)" />
@@ -196,4 +196,3 @@ onBeforeMount(async () => {
   }
 }
 </style>
-
