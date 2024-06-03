@@ -178,7 +178,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(1);
+    const activeStep: Ref<number> = ref(0);
     const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -269,9 +269,10 @@ export default defineComponent({
       await Store.FTSP('residencyCourses', { ftsp: ftsp });
 
       // Инициализация шаблона формы после выбора программы
-      // Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
-      // residencyApplication.value.formValue.initFieldsValues();
-      // Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
+      Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
+      residencyApplication.value.formValue.initFieldsValues();
+      Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
+
       Provider.store.commit('residencyApplications/resetItem');
       Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
       Provider.store.commit('residencyApplications/setUser', user.value);

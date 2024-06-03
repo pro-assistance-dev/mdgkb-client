@@ -111,6 +111,7 @@
     "moveUp": true,
     "sort": true,
     "useConfirmLeavePage": true,
-    "validate": true
+    "validate": true,
+    "MessageBase": true
   }
 }

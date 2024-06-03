@@ -95,7 +95,8 @@
   <el-dialog v-model="showFreeDialog"
     title="Для выбора бесплатного обучения нужно загрузить 1. Гарантийное письмо 2. Целевой договор (специалитет) ИЛИ Справку о работе в медицинской организации"
     width="40%">
-    <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['GuaranteeLetter'])" :key="field.id">
+    <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
+      123
       <div style="margin-top: 10px">
         <span><b> Загрузите гарантийное письмо </b></span><span>
           <FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" />
@@ -118,6 +119,7 @@
 import { ElMessageBox } from 'element-plus';
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
+import "element-plus/theme-chalk/src/message-box.scss";
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValueFile from '@/components/Educational/AdmissionCommittee/FieldValueFile.vue';
 import FileUploader from '@/components/FileUploader.vue';

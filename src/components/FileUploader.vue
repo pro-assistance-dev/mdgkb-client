@@ -1,14 +1,8 @@
 <template>
-  <el-upload
-    :on-change="changeFileHandler"
-    action="#"
-    :auto-upload="false"
-    class="upload-container"
-    :show-file-list="false"
-    list-type="picture"
-    :accept="accept"
-  >
-    <PButton skin="text" type="success" :text="fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить'" margin="0 0 2px 0" />
+  <el-upload :on-change="changeFileHandler" action="#" :auto-upload="false" class="upload-container"
+    :show-file-list="false" list-type="picture" :accept="accept">
+    <PButton skin="text" type="success" :text="fileInfo && fileInfo.originalName ? 'Обновить' : 'Загрузить'"
+      margin="0 0 2px 0" />
     <template #tip>
       <div v-if="fileInfo && fileInfo.originalName" class="file-name">
         <a :href="fileInfo.getFileUrl()" target="_blank" :download="fileInfo.originalName">
@@ -84,13 +78,16 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .file-name {
   margin-left: 5px;
   display: flex;
   align-items: center;
+
   a {
     line-height: 1.1;
   }
+
   .el-button {
     margin-left: 2px;
     padding: 5px;
@@ -99,6 +96,7 @@ export default defineComponent({
     border: none;
   }
 }
+
 .upload-container {
   display: flex;
   justify-content: flex-start;
@@ -121,5 +119,4 @@ export default defineComponent({
 //   .upload-container {
 //     display: block;
 //   }
-// }
-</style>
+// }</style>

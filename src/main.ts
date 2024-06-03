@@ -2,7 +2,7 @@
 // import { setupElementPlusComponents, setupElementPlusPlugins } from '@/plugins/ElementPlus';
 import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
-import 'element-plus/theme-chalk/display.css'
+// import 'element-plus/theme-chalk/display.css'
 
 import ru from 'element-plus/es/locale/lang/ru';
 import sanitizeHTML from 'sanitize-html';

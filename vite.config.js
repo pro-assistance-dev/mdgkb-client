@@ -56,8 +56,8 @@ export default ({ mode }) => {
           },
         ],
         resolvers: [ElementPlusResolver()],
-        dirs: ['srs/classes', 'srs/services/**'],
-
+        dirs: ['srs/classes', 'srs/services/**', 'srs/services'],
+        ignoreDts: ['srs/services', 'Message'],
         vueTemplate: true,
         dts: true,
         eslintrc: {

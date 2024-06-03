@@ -19,16 +19,9 @@ export default class Message {
   private title = ""
   private duration = Time.S(3)
   private visible = false
-  private isDialog = false;
-  private confirmButtonText = "Да"
-  private cancelButtonText = "Нет"
 
   private hide() {
     this.visible = false
-  }
-
-  static IsDialog(): boolean {
-    return this.Get().isDialog
   }
 
   private show(m: string | MessageOptions, t: MType) {
@@ -43,20 +36,8 @@ export default class Message {
     this.visible = true
   }
 
-  static async Dialog(m: string) {
-    this.Get().isDialog = true
-    this.Show(m, MType.Success)
-  }
-
   static GetText(): string {
     return this.Get().text
-  }
-
-  static GetConfirmText(): string {
-    return this.Get().confirmButtonText
-  }
-  static GetCancelButtonText(): string {
-    return this.Get().cancelButtonText
   }
 
   static GetTitle(): string {
@@ -81,9 +62,7 @@ export default class Message {
 
   private static Show(m: string | MessageOptions, t: MType): void {
     this.Get().show(m, t)
-    if (!this.Get().isDialog) {
-      Timer.Wait(Message.GetDuration()).then(Message.Hide)
-    }
+    Timer.Wait(Message.GetDuration()).then(Message.Hide)
   }
 
   static Success(m: string | MessageOptions): void {

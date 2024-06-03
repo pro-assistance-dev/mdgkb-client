@@ -489,6 +489,7 @@ declare module '@vue/runtime-core' {
     PInput: typeof import('./src/services/components/PInput.vue')['default']
     PInputData: typeof import('./src/services/components/PInputData.vue')['default']
     PMessage: typeof import('./src/services/components/PMessage.vue')['default']
+    PMessageBox: typeof import('./src/services/components/PMessageBox.vue')['default']
     PModalWindow: typeof import('./src/services/components/PModalWindow.vue')['default']
     PostgraduateApplicationForm: typeof import('./src/components/Educational/Postgraduate/PostgraduateApplicationForm.vue')['default']
     PostgraduateCoursePage: typeof import('./src/components/Educational/Postgraduate/PostgraduateCoursePage.vue')['default']

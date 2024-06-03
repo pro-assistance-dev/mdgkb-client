@@ -3,6 +3,7 @@
     <div v-if="Message.IsVisible()" class="message" :style="{
       background: Message.GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
       marginTop: '100px',
+      position: fixed,
     }">
       <div>
         <div class="message-title">
@@ -10,6 +11,10 @@
         </div>
         <div class="message-text">
           <StringItem :string="Message.GetText()" />
+        </div>
+        <div class="message-footer" v-if="Message.IsDialog()">
+          <PButton :text="Message.GetConfirmButtonText()" @click="Message.Confirm()" />
+          <PButton :text="Message.GetCancelButtonText()" @click="Message.Hide()" />
         </div>
       </div>
     </div>
