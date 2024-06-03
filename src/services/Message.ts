@@ -62,6 +62,8 @@ export default class Message {
 
   private static Show(m: string | MessageOptions, t: MType): void {
     this.Get().show(m, t)
+    console.log("show");
+
     Timer.Wait(Message.GetDuration()).then(Message.Hide)
   }
 

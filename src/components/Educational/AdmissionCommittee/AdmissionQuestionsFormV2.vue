@@ -147,8 +147,8 @@ onBeforeMount(() => {
 const selectAccreditation = () => {
   if (residencyApplicationValue.value.primaryAccreditation === false) {
     console.log(residencyApplicationValue.value.primaryAccreditation)
-    // Message.Error("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
-    ElMessage("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
+    Message.Error("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
+    // ElMessage("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
     residencyApplicationValue.value.primaryAccreditation = undefined
   }
 }

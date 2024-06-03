@@ -1,4 +1,5 @@
 <template>
+  <PMessage />
   <Suspense>
     <component :is="$route.meta.layout || 'MainLayout'" v-if="mounted">
       <router-view />

@@ -3,7 +3,8 @@
     <div v-if="Message.IsVisible()" class="message" :style="{
       background: Message.GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
       marginTop: '100px',
-    }"><div>
+    }">
+      <div>
         <div class="message-title">
           <StringItem :string="Message.GetTitle()" />
         </div>
