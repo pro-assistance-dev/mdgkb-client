@@ -1,5 +1,6 @@
 <template>
-  <PMessage />
+  <PNotification />
+  <PDialog />
   <Suspense>
     <component :is="$route.meta.layout || 'MainLayout'" v-if="mounted">
       <router-view />

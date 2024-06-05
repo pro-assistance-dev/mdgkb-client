@@ -45,7 +45,8 @@
                 </div>
               </div>
               <div class="contact-phone-el">
-                <PButton v-if="user.phone" skin="profile" text="Изменить" height="28px" width="100px" @click="isEditPhoneModalOpen = true" />
+                <PButton type="primary" v-if="user.phone" skin="profile" text="Изменить" height="28px" width="100px"
+                  @click="isEditPhoneModalOpen = true" />
                 <PButton v-else skin="profile" text="Добавить" height="28px" @click="isEditPhoneModalOpen = true" />
                 <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
               </div>
@@ -190,6 +191,7 @@ const isEditPhoneModalOpen: Ref<boolean> = ref(false);
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .size {
   padding: 0 20px 0 0;
 }

@@ -1,9 +1,7 @@
-@import '@/assets/styles/base-style.scss';
-$percent: 4%;
+@import '../../../abstract/variables.scss';
 
 //skin: profile 
 //type: primary, success, warning, danger, neutral, disabled, c_blue, c_green
-
 .button-profile {
   box-sizing: border-box;
   display: flex;
@@ -33,7 +31,6 @@ $percent: 4%;
 .profile_primary:hover {
   background: lighten($admin_primary_background, $percent);
 }
-
 .profile_success {
   border: 1px solid $admin_success_color;
   background: $admin_success_background;

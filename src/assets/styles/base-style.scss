@@ -11,9 +11,10 @@ $doctor-text-letter-spacing: 0.1em;
 
 
 //---------------------------------------------------------------BASE------------------------------------------------------------------
-@import '@/services/assets/style/components/buttons/base-button-colors.scss'; //base buttons skin colors (базовые цвета скинов кнопок)
+// @import '@/services/assets/style/components/buttons/base-button-colors.scss'; //base buttons skin colors (базовые цвета скинов кнопок)
+// @import '@/services/assets/style/components/buttons/skin/profile.scss'; //base buttons skin colors (базовые цвета скинов кнопок)
 //-------------------------------------------------------------------------------------------------------------------------------------
-
+@import '@/services/assets/style/main.scss';
 //----------------------------------------------------------FOR ALL PROJECTS-----------------------------------------------------------
 //content
 $base-background: $main_white;
@@ -74,7 +75,6 @@ $p-button-padding: 0 10px;
 $p-button-border-radius: 5px;
 $p-button-border: 1px solid #DCDFE6;
 $p-button-transition: $transition;
-
 
 
 

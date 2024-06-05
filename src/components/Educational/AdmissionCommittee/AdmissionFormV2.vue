@@ -178,7 +178,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
     const mounted = ref(false);
-    const activeStep: Ref<number> = ref(0);
+    const activeStep: Ref<number> = ref(1);
     const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
       () => Provider.store.getters['residencyApplications/item']
     );
@@ -358,7 +358,7 @@ export default defineComponent({
           text: 'Загрузка',
           spinner: 'el-icon-loading',
           background: 'rgba(0, 0, 0, 0.7)',
-        });
+        })
         await submit();
         buttonOff.value = false;
         loading.close();

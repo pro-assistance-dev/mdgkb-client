@@ -1,7 +1,6 @@
 const ServicesNames = [
   'Contact',
   'Email',
-  'Message',
   'Provider',
   'FTSP',
   'Arrays',
@@ -46,6 +45,7 @@ const ServicesNames = [
   'WebSocketClient',
   'Hooks',
   'ValueType',
+  'PHelp',
 ];
 
 export default ServicesNames;

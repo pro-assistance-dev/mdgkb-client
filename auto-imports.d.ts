@@ -31,6 +31,7 @@ declare global {
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
   const Message: typeof import('@/services/Main')['Message']
   const MessageBase: typeof import('@/services/Main')['MessageBase']
+  const PHelp: typeof import('@/services/Main')['PHelp']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
   const Provider: typeof import('@/services/Main')['Provider']
@@ -142,7 +143,7 @@ declare module 'vue' {
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
-    readonly Message: UnwrapRef<typeof import('@/services/Main')['Message']>
+    readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
@@ -247,7 +248,7 @@ declare module '@vue/runtime-core' {
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
-    readonly Message: UnwrapRef<typeof import('@/services/Main')['Message']>
+    readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
