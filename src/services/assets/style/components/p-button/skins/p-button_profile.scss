@@ -2,25 +2,26 @@
 
 //skin: profile
 //type: primary, success, warning, danger, neutral, disabled, c_blue, c_green
-// .button-profile {
-//   box-sizing: border-box;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   transition: $p-button-transition;
-//   text-align: center;
-//   cursor: pointer;
-//   overflow: hidden;
-//   margin: 0;
-//   padding: $p-button-padding;
-//   border-radius: 100px;
-//   min-height: 32px;
-//   max-height: 32px;
-//   width: 100%;
-//   max-width: $p-button-max-width;
-//   min-width: $p-button-min-width;
-//   font-size: $base-font-size;
-// }
+.button-profile {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: $p-button-transition;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  margin: 0;
+  padding: $p-button-padding;
+  border-radius: 100px;
+  min-height: 32px;
+  max-height: 32px;
+  width: 100%;
+  max-width: $p-button-max-width;
+  min-width: $p-button-min-width;
+  font-size: $base-font-size;
+}
+
 .profile {
   &_primary {
     border: 1px solid $admin_primary_color;
