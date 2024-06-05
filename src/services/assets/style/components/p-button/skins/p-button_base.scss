@@ -1,4 +1,4 @@
-@import '../../../abstract/variables.scss';
+@import '../../../utils/index.scss';
 $percent: 4%;
 
 //skin: base
@@ -87,4 +87,3 @@ $percent: 4%;
 .base_disabled:hover {
   background: $admin_disabled_background;
 }
-

@@ -1,6 +1,7 @@
 // Abstract
-@import './abstract/reset.scss';
-@import './abstract/variables.scss';
+@import './utils/index.scss';
 
 // Components
-@import './components/buttons/p-button.scss';
+@import './components/index.scss';
+
+// Themes

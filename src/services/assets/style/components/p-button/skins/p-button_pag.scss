@@ -1,4 +1,4 @@
-@import '../../../abstract/variables.scss';
+@import '../../../utils/index.scss';
 
 //skin: pag (for pagination)
 //type: active, not-active, neutral
@@ -24,25 +24,22 @@
 }
 
 .pag_neutral {
-  background: #F0F2F5;
-  color: #345E5C;
+  background: #f0f2f5;
+  color: #345e5c;
 }
 
 .pag_neutral:hover {
-  background: #F0F2F5;
-  color: #409EFF;
+  background: #f0f2f5;
+  color: #409eff;
 }
 
 .pag_active {
-  background: #409EFF;
+  background: #409eff;
   color: #ffffff;
 }
 
 .pag_not-active {
-  background: #F0F2F5;
+  background: #f0f2f5;
   color: #c3c3c3;
   cursor: not-allowed;
 }
-
-
-
