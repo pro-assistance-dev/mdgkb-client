@@ -1,14 +1,23 @@
 <template>
   <button
-    :style="{ margin: margin, padding: padding, maxWidth: width, minWidth: width, minHeight: height, maxHeight: height, fontSize: fontSize }"
-    :class="buttonClass" @click.prevent="changeState">
+    :style="{
+      margin: margin,
+      padding: padding,
+      maxWidth: width,
+      minWidth: width,
+      minHeight: height,
+      maxHeight: height,
+      fontSize: fontSize,
+    }"
+    :class="buttonClass"
+    @click.prevent="changeState"
+  >
     <slot />
     <div :style="{ marginTop: '4px' }">{{ text }}</div>
   </button>
 </template>
 
 <script setup lang="ts">
-
 defineOptions({ inheritAttrs: false });
 
 const props = defineProps({
@@ -26,9 +35,7 @@ const emit = defineEmits(['click']);
 const changeState = () => {
   emit('click');
 };
-
-const buttonClass = computed(() => 'button-' + props.skin + ' ' + props.skin + '_' + props.type);
-
+const buttonClass = computed(() => 'p-button' + '_' + props.skin + '_' + props.type);
 </script>
 
 <style lang="scss" scoped>
