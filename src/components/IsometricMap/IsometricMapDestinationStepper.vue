@@ -4,8 +4,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, Ref, ref } from 'vue';
-
 import StringItem from '@/services/components/StringItem.vue';
 
 import MapCheckbox from './MapCheckbox.vue';
@@ -58,7 +56,9 @@ const selectStep = (step: unknown) => {
   background: #ffffff;
   border: 1px solid #838385;
   border-radius: 5px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .item-box {

@@ -28,11 +28,9 @@ import { useStore } from 'vuex';
 
 import Child from '@/classes/Child';
 import User from '@/classes/User';
-import DatePicker from '@/components/DatePicker.vue';
 
 export default defineComponent({
   name: 'ChildForm',
-  components: { DatePicker },
   emits: ['createChild'],
   setup(props, { emit }) {
     const store = useStore();

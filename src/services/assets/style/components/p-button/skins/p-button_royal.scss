@@ -6,7 +6,7 @@ $percent: 4%;
 
 $royal_blue: #5e6ce7;
 
-.button-royal {
+.p-button_royal {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -27,23 +27,21 @@ $royal_blue: #5e6ce7;
   -ms-user-select: none;
   user-select: none;
   line-height: 0;
-}
 
-.royal_blue {
-  background: $royal_blue;
-  color: #ffffff;
-}
+  &_blue {
+    background: $royal_blue;
+    color: #ffffff;
+    &:hover {
+      background: lighten($royal_blue, 3%);
+    }
+  }
 
-.royal_blue:hover {
-  background: lighten($royal_blue, 3%);
-}
-
-.royal_inherit {
-  background: inherit;
-  color: $royal_blue;
-}
-
-.royal_inherit:hover {
-  color: lighten($royal_blue, 3%);
-  border-color: lighten($royal_blue, 3%);
+  &_inherit {
+    background: inherit;
+    color: $royal_blue;
+    &:hover {
+      color: lighten($royal_blue, 3%);
+      border-color: lighten($royal_blue, 3%);
+    }
+  }
 }

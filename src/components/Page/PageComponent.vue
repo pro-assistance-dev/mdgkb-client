@@ -27,8 +27,7 @@
         <div class="body-in">
           <ContactsBlock v-if="selectedMenu.id == 'contacts' && page.showContacts" :contact="page.contact" full />
           <PageSections v-else :menu="selectedMenu" :collaps="page.collaps" :show-content="selectedMenu.showContent" />
-          <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id"
-            :name="component.id" />
+          <slot v-for="component in customSections.filter((c) => c.id === selectedMenu.id)" :key="component.id" :name="component.id" />
         </div>
       </template>
     </AdaptiveContainer>
@@ -38,10 +37,9 @@
 
 <script lang="ts" setup>
 import { onBeforeRouteLeave } from 'vue-router';
-import Strings from '@/services/Strings'
+import Strings from '@/services/Strings';
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 import CustomSection from '@/classes/CustomSection';
-import AdaptiveContainer from '@/components/Base/AdaptiveContainer.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
 import PageSections from '@/components/Page/PageSections.vue';
@@ -63,21 +61,24 @@ const props = defineProps({
     type: String as PropType<string>,
     default: '',
   },
-})
-const emits = defineEmits(['selectMenu'])
+});
+const emits = defineEmits(['selectMenu']);
 const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-watch(() => page.value.filterStr, () => page.value.filter())
+watch(
+  () => page.value.filterStr,
+  () => page.value.filter()
+);
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
-const sections = computed(() => selectedMenu.value.getPageSections(page.value.filterStr))
+const sections = computed(() => selectedMenu.value.getPageSections(page.value.filterStr));
 const description = computed(() => {
-  return Strings.SearchIn(selectedMenu.value.description, page.value.filterStr) ? selectedMenu.value.description : ""
-})
+  return Strings.SearchIn(selectedMenu.value.description, page.value.filterStr) ? selectedMenu.value.description : '';
+});
 const mounted = ref(false);
 
 const pageSideMunusExists = () => {
-  return (!props.getPage || page.value.id) && page.value.pageSideMenus.length
-}
+  return (!props.getPage || page.value.id) && page.value.pageSideMenus.length;
+};
 
 const load = async () => {
   Provider.store.commit('pages/resetItem');
@@ -102,10 +103,9 @@ Hooks.onBeforeMount(load);
 
 const selectMenu = (e: PageSideMenu): void => {
   selectedMenu.value = e;
-  console.log(e)
+  console.log(e);
   emits('selectMenu', e);
 };
-
 </script>
 
 <style lang="scss" scoped>

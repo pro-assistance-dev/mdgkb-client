@@ -15,7 +15,7 @@ import MedicalProfilesList from '@/components/MedicalProfiles/MedicalProfilesLis
 import MedicalProfilesPage from '@/components/MedicalProfiles/MedicalProfilesPage.vue';
 import MedicalWorkersList from '@/components/MedicalWorkers/MedicalWorkersList.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
-import PageNotFound from '@/components/PageNotFound.vue';
+import PageNotFound from '@/services/components/PageNotFound.vue';
 import PartnersPage from '@/components/Partners/PartnersPage.vue';
 import PreparationsPage from '@/components/Preparations/PreparationsPage.vue';
 import ChoiceListPage from '@/components/Profile/ChoiceListPage.vue';
@@ -45,25 +45,25 @@ import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
 import UserService from '@/services/User';
 
-import Store from '@/services/Store'
+import Store from '@/services/Store';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
-  const auth = Store.Getters('auth/auth')
-  auth.value.actualize()
-  next()
+  const auth = Store.Getters('auth/auth');
+  auth.value.actualize();
+  next();
 };
 
 export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
-  const auth = Store.Getters('auth/auth')
-  auth.value.actualize()
-  console.log(auth.value)
+  const auth = Store.Getters('auth/auth');
+  auth.value.actualize();
+  console.log(auth.value);
   if (!auth.value.isAuth) {
-    const modal = Store.Getters('auth/modal')
-    modal.value.open()
+    const modal = Store.Getters('auth/modal');
+    modal.value.open();
     router.push('/');
   }
   if (next) {
-    next()
+    next();
   }
 };
 

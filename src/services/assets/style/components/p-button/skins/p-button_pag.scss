@@ -3,7 +3,7 @@
 //skin: pag (for pagination)
 //type: active, not-active, neutral
 
-.button-pag {
+.p-button_pag {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -21,25 +21,24 @@
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
 
-.pag_neutral {
-  background: #f0f2f5;
-  color: #345e5c;
-}
+  &_neutral {
+    background: #f0f2f5;
+    color: #345e5c;
+    &:hover {
+      background: #f0f2f5;
+      color: #409eff;
+    }
+  }
 
-.pag_neutral:hover {
-  background: #f0f2f5;
-  color: #409eff;
-}
+  &_active {
+    background: #409eff;
+    color: #ffffff;
+  }
 
-.pag_active {
-  background: #409eff;
-  color: #ffffff;
-}
-
-.pag_not-active {
-  background: #f0f2f5;
-  color: #c3c3c3;
-  cursor: not-allowed;
+  &_not-active {
+    background: #f0f2f5;
+    color: #c3c3c3;
+    cursor: not-allowed;
+  }
 }

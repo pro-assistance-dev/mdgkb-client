@@ -1,5 +1,3 @@
-import { defineEmits } from 'vue';
-
 import IStartEndNode from '@/interfaces/IStartEndNode';
 
 import SearchElement from './SearchElement';

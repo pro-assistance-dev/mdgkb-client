@@ -1,5 +1,5 @@
 <template>
-  <DishInfo>
+  <DishInfoCard>
     <template #icon>
       <svg class="icon-close" @click="$emit('close')">
         <use xlink:href="#close"></use>
@@ -31,48 +31,33 @@
         <DishCardButton :daily-menu-item="dailyMenuItem" :status="status" />
       </div>
     </template>
-  </DishInfo>
+  </DishInfoCard>
   <Close />
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Close from '@/assets/svg/Filter/Close.svg';
 import DailyMenuItem from '@/classes/DailyMenuItem';
-import DishCardButton from '@/components/Diets/DishCardButton.vue';
-import DishInfo from '@/components/Diets/DishInfo.vue';
-import DishInfoTable from '@/components/Diets/DishInfoTable.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ModalDishCard',
-  components: { Close, DishInfo, DishCardButton, DishInfoTable },
-  props: {
-    isClose: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    dailyMenuItem: {
-      type: Object as PropType<DailyMenuItem>,
-      required: true,
-    },
-    dishesGroupName: {
-      type: String as PropType<string>,
-      required: true,
-    },
-    dailyMenuName: {
-      type: String as PropType<string>,
-      required: true,
-    },
+defineProps({
+  isClose: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
-  emits: ['close'],
-  setup() {
-    return {
-      mounted: Provider.mounted,
-    };
+  dailyMenuItem: {
+    type: Object as PropType<DailyMenuItem>,
+    required: true,
+  },
+  dishesGroupName: {
+    type: String as PropType<string>,
+    required: true,
+  },
+  dailyMenuName: {
+    type: String as PropType<string>,
+    required: true,
   },
 });
+defineEmits(['close']);
 </script>
 
 <style lang="scss" scoped>

@@ -36,11 +36,9 @@ import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
 import { useStore } from 'vuex';
 
 import User from '@/classes/User';
-import DatePicker from '@/components/DatePicker.vue';
 
 export default defineComponent({
   name: 'ProfileChildrenPage',
-  components: { DatePicker },
   setup() {
     const store = useStore();
 
@@ -65,4 +63,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';</style>
+@import '@/assets/styles/base-style.scss';
+</style>

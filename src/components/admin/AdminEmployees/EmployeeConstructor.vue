@@ -138,7 +138,6 @@ import { computed, defineComponent, Ref } from 'vue';
 import Employee from '@/classes/Employee';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
-import DatePicker from '@/components/DatePicker.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -154,7 +153,6 @@ export default defineComponent({
     EducationForm,
     UploaderSingleScan,
     CollapseItem,
-    DatePicker,
     CollapseContainer,
   },
   setup() {

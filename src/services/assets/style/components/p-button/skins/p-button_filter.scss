@@ -4,7 +4,7 @@ $percent: 4%;
 //skin: filter
 //type: primary, success, warning, danger, neutral, disabled
 
-.button-filter {
+.p-button_filter {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -25,65 +25,59 @@ $percent: 4%;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
 
-.filter_primary {
-  border: 1px solid $admin_primary_color;
-  background: $admin_primary_background;
-  color: $admin_primary_color;
-}
+  &_primary {
+    border: 1px solid $admin_primary_color;
+    background: $admin_primary_background;
+    color: $admin_primary_color;
+    &:hover {
+      background: lighten($admin_primary_background, $percent);
+    }
+  }
 
-.filter_primary:hover {
-  background: lighten($admin_primary_background, $percent);
-}
+  &_success {
+    border: 1px solid $admin_success_color;
+    background: $admin_success_background;
+    color: $admin_success_color;
+    &:hover {
+      background: lighten($admin_success_background, $percent);
+    }
+  }
 
-.filter_success {
-  border: 1px solid $admin_success_color;
-  background: $admin_success_background;
-  color: $admin_success_color;
-}
+  &_warning {
+    border: 1px solid $admin_warning_color;
+    background: $admin_warning_background;
+    color: $admin_warning_color;
+    &:hover {
+      background: lighten($admin_warning_background, $percent);
+    }
+  }
 
-.filter_success:hover {
-  background: lighten($admin_success_background, $percent);
-}
+  &_danger {
+    border: 1px solid $admin_danger_color;
+    background: $admin_danger_background;
+    color: $admin_danger_color;
+    &:hover {
+      background: lighten($admin_danger_background, $percent);
+    }
+  }
 
-.filter_warning {
-  border: 1px solid $admin_warning_color;
-  background: $admin_warning_background;
-  color: $admin_warning_color;
-}
+  &_neutral {
+    border: 1px solid $admin_neutral_color;
+    background: $admin_neutral_background;
+    color: $admin_neutral_color;
+    &:hover {
+      background: lighten($admin_neutral_background, $percent);
+    }
+  }
 
-.filter_warning:hover {
-  background: lighten($admin_warning_background, $percent);
-}
-
-.filter_danger {
-  border: 1px solid $admin_danger_color;
-  background: $admin_danger_background;
-  color: $admin_danger_color;
-}
-
-.filter_danger:hover {
-  background: lighten($admin_danger_background, $percent);
-}
-
-.filter_neutral {
-  border: 1px solid $admin_neutral_color;
-  background: $admin_neutral_background;
-  color: $admin_neutral_color;
-}
-
-.filter_neutral:hover {
-  background: lighten($admin_neutral_background, $percent);
-}
-
-.filter_disabled {
-  border: 1px solid $admin_disabled_color;
-  background: $admin_disabled_background;
-  color: $admin_disabled_color;
-  cursor: auto;
-}
-
-.filter_disabled:hover {
-  background: $admin_disabled_background;
+  &_disabled {
+    border: 1px solid $admin_disabled_color;
+    background: $admin_disabled_background;
+    color: $admin_disabled_color;
+    cursor: auto;
+    &:hover {
+      background: $admin_disabled_background;
+    }
+  }
 }

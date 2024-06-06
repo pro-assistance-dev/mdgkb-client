@@ -13,8 +13,7 @@
       </template>
       <template #title>Сайт работает в тестовом режиме</template>
       <template #info>
-        Вы можете: посмотреть новости, информацию об образовании, сведения о медицинской организации и информацию для
-        пациенов.
+        Вы можете: посмотреть новости, информацию об образовании, сведения о медицинской организации и информацию для пациенов.
       </template>
       <template #button>
         <button class="make-green" @click="clickHandler">Понятно</button>
@@ -35,7 +34,6 @@
             <div class="profile-page-container">
               <ProfileSideMenu />
               <div class="profile-page-container-main">
-                <!-- <ProfileHeader /> -->
                 <slot />
               </div>
             </div>
@@ -57,7 +55,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import Close from '@/assets/svg/Main/Close.svg';
 import Cache from '@/services/Cache';
 
@@ -67,7 +64,7 @@ const FooterTop = defineAsyncComponent({
 });
 const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/FooterBottom.vue' /* webpackChunkName: "footerBottom" */));
 
-const auth: ComputedRef<Auth> = Store.Getters('auth/auth')
+const auth: ComputedRef<Auth> = Store.Getters('auth/auth');
 onBeforeMount(async () => {
   if (auth.value.isAuth) {
     await Store.Get('users', auth.value.user.get().id);
@@ -75,8 +72,8 @@ onBeforeMount(async () => {
 });
 const cache = new Cache();
 cache.name = 'startModal';
-const modal = Store.Getters('auth/modal')
-const form = Store.Getters('auth/form')
+const modal = Store.Getters('auth/modal');
+const form = Store.Getters('auth/form');
 // const isClose = ref(cache.getFromCache(3) || false);
 const isClose = ref(true);
 
@@ -86,7 +83,7 @@ const clickHandler = () => {
 };
 const authAct = async () => {
   if (form.value.isLogin()) {
-    modal.value.close()
+    modal.value.close();
   }
 };
 </script>
