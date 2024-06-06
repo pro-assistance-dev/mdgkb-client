@@ -109,13 +109,13 @@ export default class MapModel extends Three.Group {
     return this.getNodes().find((n: MapNode) => n.mapNodeName === nodeName);
   }
 
-  getMark(nodeName: string, start: boolean): Three.Mesh | undefined {
+  getMark(nodeName: string, start: boolean, color: string): Three.Mesh | undefined {
     const pos = this.findNode(nodeName)?.getPosition();
     if (!pos) {
       return;
     }
-    const mark = MapPainter.GetMark();
-    mark.position.set(pos.x, pos.y + 0.1, pos.z);
+    const mark = MapPainter.GetMark(color);
+    mark.position.set(pos.x, pos.y + 0.4, pos.z);
 
     const label = MapPainter.GetLabel(start ? 'Вы здесь' : 'Вам сюда');
     mark.add(label);

@@ -12,9 +12,9 @@ export default abstract class MapPainter {
     return line;
   }
 
-  static GetMark(): Three.Mesh {
-    const geometry = new Three.BoxGeometry(0.1, 0.1, 0.1);
-    const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
+  static GetMark(color: string): Three.Mesh {
+    const geometry = new Three.ConeGeometry(0.05, -0.2, 32, 10, true);
+    const material = new Three.MeshBasicMaterial( {color: color} );
     const mark = new Three.Mesh(geometry, material);
     return mark;
   }
