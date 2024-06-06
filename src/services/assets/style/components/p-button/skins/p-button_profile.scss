@@ -2,7 +2,7 @@
 
 //skin: profile
 //type: primary, success, warning, danger, neutral, disabled, c_blue, c_green
-.button-profile {
+.p-button_profile {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -20,14 +20,11 @@
   max-width: $p-button-max-width;
   min-width: $p-button-min-width;
   font-size: $base-font-size;
-}
 
-.profile {
   &_primary {
     border: 1px solid $admin_primary_color;
     background: $admin_primary_background;
     color: $admin_primary_color;
-
     &:hover {
       background: lighten($admin_primary_background, $percent);
     }
