@@ -16,18 +16,13 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Comment from '@/classes/Comment';
 
-export default defineComponent({
-  name: 'CommentCard',
-  props: {
-    comment: {
-      type: Object as PropType<Comment>,
-      required: true,
-    },
+defineProps({
+  comment: {
+    type: Object as PropType<Comment>,
+    required: true,
   },
 });
 </script>

@@ -12,8 +12,7 @@
       <div class="card-item">
         <div v-if="news" class="card-header">
           <h2 class="title article-title">{{ news.title }}</h2>
-          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image"
-            @error="news.mainImage.errorImg" />
+          <img v-if="news.mainImage.fileSystemPath" :src="news.mainImage.getImageUrl()" alt="news-image" @error="news.mainImage.errorImg" />
           <div class="image-comment">{{ news.mainImageDescription }}</div>
           <!-- <div class="article-preview">{{ news.previewText }}</div> -->
         </div>
@@ -26,11 +25,9 @@
           </a>
         </div>
 
-        <div class="article-body"
-          v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
+        <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
-          <CarouselImages :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`"
-            @openModalWindow="openModalWindow" />
+          <CarouselImagesNews :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
@@ -44,12 +41,10 @@
 </template>
 
 <script setup lang="ts">
-
 import Close from '@/assets/svg/Filter/Close.svg';
 import CommentRules from '@/classes/CommentRules';
 import News from '@/classes/News';
 import NewsComment from '@/classes/NewsComment';
-import CarouselImages from '@/components/CarouselImages.vue';
 import Comments from '@/components/Comments/Comments.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
@@ -86,9 +81,7 @@ const load = async () => {
 
 Hooks.onBeforeMount(load);
 
-const newsContent = computed(() =>
-  news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'
-);
+const newsContent = computed(() => (news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'));
 
 const commentForm = ref();
 const editCommentForm = ref();
@@ -300,7 +293,6 @@ h3 {
   }
 
   :deep(.article-body) {
-
     video,
     iframe {
       min-height: 400px;
@@ -314,7 +306,6 @@ h3 {
   }
 
   :deep(.article-body) {
-
     video,
     iframe {
       min-height: 300px;

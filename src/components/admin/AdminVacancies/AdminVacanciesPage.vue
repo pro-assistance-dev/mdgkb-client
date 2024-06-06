@@ -43,14 +43,20 @@
           </el-form-item>
 
           <el-form-item>
-            <SortableInputsList :sortable-list="vacancy.vacancyDuties"
-              :sortable-list-for-delete="vacancy.vacancyDutiesForDelete" title="Должностные обязанности"
-              @add-element="vacancy.addDuty()" />
+            <SortableInputsList
+              :sortable-list="vacancy.vacancyDuties"
+              :sortable-list-for-delete="vacancy.vacancyDutiesForDelete"
+              title="Должностные обязанности"
+              @add-element="vacancy.addDuty()"
+            />
           </el-form-item>
           <el-form-item>
-            <SortableInputsList :sortable-list="vacancy.vacancyRequirements"
-              :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete" title="Требования к кандидату"
-              @add-element="vacancy.addRequirement()" />
+            <SortableInputsList
+              :sortable-list="vacancy.vacancyRequirements"
+              :sortable-list-for-delete="vacancy.vacancyRequirementsForDelete"
+              title="Требования к кандидату"
+              @add-element="vacancy.addRequirement()"
+            />
           </el-form-item>
         </el-card>
 
@@ -75,7 +81,6 @@ import Vacancy from '@/classes/Vacancy';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
 // import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
-import DatePicker from '@/components/DatePicker.vue';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -85,7 +90,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminVacanciesPage',
-  components: { DatePicker, SortableInputsList, AdminVacancyResponcesTable },
+  components: { SortableInputsList, AdminVacancyResponcesTable },
   setup() {
     const route = useRoute();
     const form = ref();

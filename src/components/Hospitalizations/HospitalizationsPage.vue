@@ -2,13 +2,11 @@
   <PageWrapper title="Госпитализация">
     <div style="width: 90%">
       <el-steps v-if="activeStep < 4" align-center :active="activeStep" finish-status="success" class="steps centered">
-        <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step"
-          @click="toStep(i)" />
+        <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
       </el-steps>
 
       <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="submitStep" />
-      <div v-if="activeStep === 1" class="card-item centered"
-        style="display: flex; flex-direction: column; align-items: center">
+      <div v-if="activeStep === 1" class="card-item centered" style="display: flex; flex-direction: column; align-items: center">
         <div>
           <a @click="activeStep++"> Я не знаю, какое отделение мне нужно </a>
         </div>
@@ -18,10 +16,11 @@
         <a @click="activeStep++"> Я не знаю, какая дата мне нужна </a>
       </div>
       <div v-if="activeStep === 3" class="card-item centered">
-        <el-form ref="userForm" v-model="hospitalization" :model="hospitalization" label-position="left"
-          label-width="300px">
-          <UserForm :form="hospitalization.formValue"
-            :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())" />
+        <el-form ref="userForm" v-model="hospitalization" :model="hospitalization" label-position="left" label-width="300px">
+          <UserForm
+            :form="hospitalization.formValue"
+            :active-fields="UserFormFields.CreateWithAllChildFields(UserFormFields.CreateWithFullName())"
+          />
           <FieldValuesForm :form="hospitalization.formValue" />
         </el-form>
       </div>
@@ -39,7 +38,7 @@
   </PageWrapper>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElLoading, ElNotification } from 'element-plus';
 import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
@@ -47,129 +46,95 @@ import Division from '@/classes/Division';
 import Hospitalization from '@/classes/Hospitalization';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
-import DatePicker from '@/components/DatePicker.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
-import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import UserForm from '@/components/FormConstructor/UserForm.vue';
-import HospitalizationsTable from '@/components/Hospitalizations/HospitalizationsTable.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-export default defineComponent({
-  name: 'HospitalizationsPage',
-  components: {
-    DatePicker,
-    FilterSelect,
-    PageWrapper,
-    HospitalizationsTable,
-    UserForm,
-    FieldValuesForm,
-  },
-  setup() {
-    const steps = ['Выберите тип госпитализации', 'Выберите отделение', 'Выберите дату', 'Укажите свои данные'];
+const steps = ['Выберите тип госпитализации', 'Выберите отделение', 'Выберите дату', 'Укажите свои данные'];
 
-    const userForm = ref();
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    const activeStep: Ref<number> = ref(0);
-    const buttonOff: Ref<boolean> = ref(false);
-    const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+const userForm = ref();
+const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
+const activeStep: Ref<number> = ref(0);
+const buttonOff: Ref<boolean> = ref(false);
+const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
 
-    const getPDF = (id: string) => {
-      Provider.store.dispatch('hospitalizations/pdf', id);
-    };
+const getPDF = (id: string) => {
+  Provider.store.dispatch('hospitalizations/pdf', id);
+};
 
-    const load = async () => {
+const load = async () => {
+  // await Provider.store.dispatch('hospitalizationsTypes/getAll');
+};
 
-      // await Provider.store.dispatch('hospitalizationsTypes/getAll');
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
+const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
 
-    const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-
-    watch(isAuth, async () => {
-      hospitalization.value.formValue.user = new User(user.value);
-    });
-
-    const submit = (): void => {
-      hospitalization.value.formValue.clearIds();
-      Provider.store.dispatch('hospitalizations/create');
-    };
-
-    const toStep = async (stepNum: number) => {
-      await scroll('#responce-form');
-      if (stepNum >= activeStep.value) {
-        return;
-      }
-      activeStep.value = stepNum;
-    };
-
-    const submitStep = async () => {
-      if (activeStep.value === 0) {
-        activeStep.value++;
-        hospitalization.value.formValue.user = new User(user.value);
-        return;
-      }
-      hospitalization.value.formValue.validate();
-      if (activeStep.value === 2 && !hospitalization.value.formValue.validated) {
-        ElNotification.error({
-          dangerouslyUseHTMLString: true,
-          message: hospitalization.value.formValue.getErrorMessage(),
-        });
-        return;
-      }
-      activeStep.value++;
-      if (activeStep.value > 3) {
-        buttonOff.value = true;
-        const loading = ElLoading.service({
-          lock: true,
-          text: 'Загрузка',
-          spinner: 'el-icon-loading',
-          background: 'rgba(0, 0, 0, 0.7)',
-        });
-        await submit();
-        buttonOff.value = false;
-        loading.close();
-        return;
-      }
-      clearAllValidate();
-    };
-
-    const clearAllValidate = (): void => {
-      userForm.value.clearValidate();
-    };
-
-    const getButtonName = (): string => {
-      return activeStep.value < 2 ? 'Перейти к следующему шагу' : 'Отправить';
-    };
-    const selectedDivision: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
-
-    const selectDivision = async (divisionId?: string) => {
-      if (divisionId) {
-        await Provider.store.dispatch('divisions/get', divisionId);
-        hospitalization.value.divisionId = divisionId;
-        hospitalization.value.division = selectedDivision.value;
-      }
-      activeStep.value++;
-    };
-
-    return {
-      selectDivision,
-      submitStep,
-      buttonOff,
-      getButtonName,
-      toStep,
-      activeStep,
-      steps,
-      submit,
-      UserFormFields,
-      hospitalization,
-      getPDF,
-    };
-  },
+watch(isAuth, async () => {
+  hospitalization.value.formValue.user = new User(user.value);
 });
+
+const submit = (): void => {
+  hospitalization.value.formValue.clearIds();
+  Provider.store.dispatch('hospitalizations/create');
+};
+
+const toStep = async (stepNum: number) => {
+  await scroll('#responce-form');
+  if (stepNum >= activeStep.value) {
+    return;
+  }
+  activeStep.value = stepNum;
+};
+
+const submitStep = async () => {
+  if (activeStep.value === 0) {
+    activeStep.value++;
+    hospitalization.value.formValue.user = new User(user.value);
+    return;
+  }
+  hospitalization.value.formValue.validate();
+  if (activeStep.value === 2 && !hospitalization.value.formValue.validated) {
+    ElNotification.error({
+      dangerouslyUseHTMLString: true,
+      message: hospitalization.value.formValue.getErrorMessage(),
+    });
+    return;
+  }
+  activeStep.value++;
+  if (activeStep.value > 3) {
+    buttonOff.value = true;
+    const loading = ElLoading.service({
+      lock: true,
+      text: 'Загрузка',
+      spinner: 'el-icon-loading',
+      background: 'rgba(0, 0, 0, 0.7)',
+    });
+    await submit();
+    buttonOff.value = false;
+    loading.close();
+    return;
+  }
+  clearAllValidate();
+};
+
+const clearAllValidate = (): void => {
+  userForm.value.clearValidate();
+};
+
+const getButtonName = (): string => {
+  return activeStep.value < 2 ? 'Перейти к следующему шагу' : 'Отправить';
+};
+const selectedDivision: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
+
+const selectDivision = async (divisionId?: string) => {
+  if (divisionId) {
+    await Provider.store.dispatch('divisions/get', divisionId);
+    hospitalization.value.divisionId = divisionId;
+    hospitalization.value.division = selectedDivision.value;
+  }
+  activeStep.value++;
+};
 </script>
 
 <style lang="scss" scoped>

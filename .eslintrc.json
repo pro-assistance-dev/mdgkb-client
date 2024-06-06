@@ -5,9 +5,10 @@
   },
   "extends": [
     "./.eslintrc-auto-import.json",
-    "plugin:vue/vue3-strongly-recommended",
+    "plugin:vue/vue3-recommended",
     "eslint:recommended",
     "prettier"
+      ''
   ],
   "parser": "vue-eslint-parser",
   "parserOptions": {

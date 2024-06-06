@@ -1,7 +1,7 @@
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Field from '@/classes/Field';
 import FieldValueFile from '@/classes/FieldValueFile';
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/services/classes/FileInfo';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
@@ -29,7 +29,6 @@ export default class Form {
   withApprovingDate = false;
   approvingDate?: Date;
 
-  postgraduateApplication?: PostgraduateApplication;
   @ClassHelper.GetClassConstructor(Field)
   fields: Field[] = [];
   fieldsForDelete: string[] = [];

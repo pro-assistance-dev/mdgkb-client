@@ -1,21 +1,24 @@
 <template>
   <div v-if="mount">
     <div class="select-division">
-      <el-select v-model="selectedObjectId" class="select-d" filterable
-        placeholder="Выберите вход, парковку, здание или отделение" style="width: 380px" @change="selectObject">
-        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)"
-          :key="building">
+      <el-select
+        v-model="selectedObjectId"
+        class="select-d"
+        filterable
+        placeholder="Выберите вход, парковку, здание или отделение"
+        style="width: 380px"
+        @change="selectObject"
+      >
+        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
           <div class="item-box">
             <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color: #a1a7bd">
               Строение {{ building.number }}
             </div>
             <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
-              <div class="el-select-dropdown__item"
-                style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
+              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
                 Этаж {{ floor.number }}
               </div>
-              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id"
-                :label="division.name">
+              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
                 <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
                   division.name
                 }}</span>
@@ -25,9 +28,7 @@
         </template>
         <div class="item-box">
           <el-option v-for="gate in gates" :key="gate.id" :label="gate.name" :value="gate.id">
-            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
-              gate.name
-            }}</span>
+            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{ gate.name }}</span>
           </el-option>
         </div>
         <!--        <div class="item-box">-->
@@ -47,8 +48,6 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmits, onMounted, Ref, ref } from 'vue';
-
 import Building from '@/classes/Building';
 import Division from '@/classes/Division';
 import Floor from '@/classes/Floor';

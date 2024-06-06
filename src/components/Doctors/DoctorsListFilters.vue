@@ -1,11 +1,15 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <ModeButtons :second-mode-active="!doctorsMode" :store-mode="false" :first-mode="'Врачи'"
-        :second-mode="'Руководство'" @changeMode="$emit('changeMode', !doctorsMode)" />
+      <ModeButtons
+        :second-mode-active="!doctorsMode"
+        :store-mode="false"
+        :first-mode="'Врачи'"
+        :second-mode="'Руководство'"
+        @changeMode="$emit('changeMode', !doctorsMode)"
+      />
     </template>
-    <template v-if="doctorsMode" #header-left-top>
-    </template>
+    <template v-if="doctorsMode" #header-left-top> </template>
 
     <template v-if="doctorsMode" #footer>
       <SortList :models="createSortModels()" @load="$emit('load')" />
@@ -20,7 +24,6 @@ import { useRoute } from 'vue-router';
 import Doctor from '@/classes/Doctor';
 import MedicalProfile from '@/classes/MedicalProfile';
 import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeButtons from '@/components/ModeButtons.vue';
 import SortModel from '@/services/classes/SortModel';
@@ -35,8 +38,6 @@ import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'DoctorsListFilters',
   components: {
-    FilterSelect,
-    FilterCheckbox,
     ModeButtons,
     FiltersWrapper,
   },
@@ -53,8 +54,7 @@ export default defineComponent({
       await loadFilters();
     });
 
-    const loadFilters = async () => {
-    };
+    const loadFilters = async () => {};
 
     const createSortModels = (): SortModel[] => {
       return [DoctorsSortsLib.byFullName(Orders.Asc), DoctorsSortsLib.byFullName(Orders.Desc)];

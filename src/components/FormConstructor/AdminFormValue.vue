@@ -18,10 +18,14 @@
       </el-descriptions>
       <div class="buttons-block">
         <div v-for="item in formValue.formStatus.formStatusToFormStatuses" :key="item.id">
-          <PButton v-if="item.childFormStatus.modActionName" skin="text" 
-            :type="item.childFormStatus.color === '#92D2D0'? 'yellow' : 'green'" 
-            :text="item.childFormStatus.modActionName" margin="0 10px 0 0" 
-            @click.prevent="changeFormStatusHandler(item.childFormStatus)" />
+          <PButton
+            v-if="item.childFormStatus.modActionName"
+            skin="text"
+            :type="item.childFormStatus.color === '#92D2D0' ? 'yellow' : 'green'"
+            :text="item.childFormStatus.modActionName"
+            margin="0 10px 0 0"
+            @click.prevent="changeFormStatusHandler(item.childFormStatus)"
+          />
         </div>
       </div>
     </el-card>
@@ -110,7 +114,6 @@ import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
-import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
@@ -127,7 +130,6 @@ export default defineComponent({
     UserForm,
     AdminUserInfo,
     WysiwygEditor,
-    DatePicker,
     // Chat,
   },
   props: {

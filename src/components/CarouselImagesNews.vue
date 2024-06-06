@@ -60,12 +60,10 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
-
 import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
 import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
-import { Animations } from '@/interfaces/Animations';
 import IWithImage from '@/services/interfaces/IWithImage';
+import { Animations } from '@/interfaces/Animations';
 import makeCarousel from '@/services/MakeCarousel';
 export default defineComponent({
   name: 'CarouselImages',

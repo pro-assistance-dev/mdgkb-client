@@ -31,12 +31,10 @@ import CommentRules from '@/classes/CommentRules';
 import Event from '@/classes/Event';
 import EventApplication from '@/classes/EventApplication';
 import User from '@/classes/User';
-import DatePicker from '@/components/DatePicker.vue';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'EventRegistration',
-  components: { DatePicker },
   async setup(prop) {
     const store = useStore();
     const event: Ref<Event> = computed(() => store.getters['news/item'].event);

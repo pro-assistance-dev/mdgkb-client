@@ -15,8 +15,12 @@
             <div class="time">{{ dailyMenu.name === 'Завтрак' ? '8:00-12:00' : '12:00-17.00' }}</div>
           </div>
           <div class="menu-list">
-            <div v-for="dishesGroup in dailyMenu.getNotEmptyGroups()" :key="dishesGroup.id" class="item"
-              @click="$scroll('#' + dishesGroup.getTransliteIdFromName())">
+            <div
+              v-for="dishesGroup in dailyMenu.getNotEmptyGroups()"
+              :key="dishesGroup.id"
+              class="item"
+              @click="$scroll('#' + dishesGroup.getTransliteIdFromName())"
+            >
               <div>
                 {{ dishesGroup.name }}
               </div>
@@ -67,17 +71,21 @@
         <!--        <Announcement :text="'До конца сервировки завтрака осталось 2 часа 15 минут'" :margin-top="'30px'" />-->
         <Filters :margin-top="'8px'">
           <!--          <Filter :text="'Доступные'" @change="(e) => dailyMenu.onlyAvailables(e)"/>-->
-          <Filter :text="'Диетические'" @change="(e) => dailyMenu.setOnlyDietary(e)" />
-          <Filter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
+          <BufetFilter :text="'Диетические'" @change="(e) => dailyMenu.setOnlyDietary(e)" />
+          <bufetFilter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
-          <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для
-            выбора</div>
+          <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для выбора</div>
           <template v-for="dishesGroup in dailyMenu.getNotEmptyGroups(true)" :key="dishesGroup.id">
             <div :id="dishesGroup.getTransliteIdFromName()" class="title-group">{{ dishesGroup.name }}</div>
             <div class="group-items">
-              <DishCard v-for="dish in dishesGroup.getAvailableDishes()" :key="dish.id" :daily-menu-item="dish"
-                :dishes-group-name="dishesGroup.name" :daily-menu-name="dailyMenu.name" />
+              <DishCard
+                v-for="dish in dishesGroup.getAvailableDishes()"
+                :key="dish.id"
+                :daily-menu-item="dish"
+                :dishes-group-name="dishesGroup.name"
+                :daily-menu-name="dailyMenu.name"
+              />
             </div>
           </template>
         </div>
@@ -90,8 +98,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus';
-
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
 import Heart from '@/assets/svg/Buffet/Heart.svg';
@@ -100,12 +106,6 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
-import HeaderInfo from '@/components/Base/HeaderInfo.vue';
-import ContactsBlock from '@/components/ContactsBlock.vue';
-import DishCard from '@/components/Diets/DishCard.vue';
-import Filter from '@/components/Diets/Filter.vue';
-import Filters from '@/components/Diets/Filters.vue';
-import ModalBufetCart from '@/components/Diets/ModalBufetCart.vue';
 import Contact from '@/services/classes/Contact';
 import PostAddress from '@/services/classes/PostAddress';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -113,14 +113,13 @@ import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/libs/sorts/DishesGroupsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-
 const createBufetContacts = () => {
   const contact = new Contact();
   const address = new PostAddress();
   address.address = '4-й Добрынинский пер., 4, 1А корпус, 7й этаж';
   contact.postAddresses[0] = address;
   return contact;
-}
+};
 const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
 const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
 const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
@@ -147,7 +146,7 @@ const initForm = () => {
 };
 
 const load = async () => {
-  console.log(1)
+  console.log(1);
   await Provider.store.dispatch('dailyMenus/todayMenu');
   dailyMenu.value.actualize(todayMenu.value);
   dailyMenuOrder.value.reproduceFromStore();
@@ -313,7 +312,7 @@ input[type='text'] {
   grid-auto-rows: 375px;
 }
 
-.group-items>div {
+.group-items > div {
   object-fit: cover;
 }
 

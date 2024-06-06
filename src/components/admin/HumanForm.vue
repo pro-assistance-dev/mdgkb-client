@@ -1,18 +1,17 @@
 <template>
-  
   <GridContainer max-width="1024px" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
     <PInput v-model="human.surname" label="ФАМИЛИЯ" placeholder="Введите фамилию" />
-    <PInput v-model="human.name" label="ИМЯ" placeholder="Введите имя"  />
-    <PInput v-model="human.patronymic" label="ОТЧЕСТВО" placeholder="Введите отчество"/>
+    <PInput v-model="human.name" label="ИМЯ" placeholder="Введите имя" />
+    <PInput v-model="human.patronymic" label="ОТЧЕСТВО" placeholder="Введите отчество" />
     <PSelect v-model="human.isMale" label="ПОЛ" placeholder="Выберите пол">
       <option :value="true">Мужчина</option>
       <option :value="false">Женщина</option>
     </PSelect>
-    <PInput v-model="human.placeBirth" label="МЕСТО РОЖДЕНИЯ" placeholder="Введите страну"/>
-    <PInputData v-model="human.dateBirth" label="ДАТА РОЖДЕНИЯ" placeholder="Введите дату"/>
-    <PInput v-model="human.citizenship" label="ГРАЖДАНСТВО" placeholder="Введите гражданство"/>
-    <PInput v-model="human.snils" label="СНИЛС" placeholder="Введите СНИЛС"/>
-    <PInput v-model="human.address" label="АДРЕС" placeholder="Введите адрес"/>
+    <PInput v-model="human.placeBirth" label="МЕСТО РОЖДЕНИЯ" placeholder="Введите страну" />
+    <PInputData v-model="human.dateBirth" label="ДАТА РОЖДЕНИЯ" placeholder="Введите дату" />
+    <PInput v-model="human.citizenship" label="ГРАЖДАНСТВО" placeholder="Введите гражданство" />
+    <PInput v-model="human.snils" label="СНИЛС" placeholder="Введите СНИЛС" />
+    <PInput v-model="human.address" label="АДРЕС" placeholder="Введите адрес" />
   </GridContainer>
 
   <!-- <div :class="{ 'human-form-container': withStyles }">
@@ -99,7 +98,6 @@ import { watch } from '@vue/runtime-core';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
-import DatePicker from '@/components/DatePicker.vue';
 import Human from '@/services/classes/Human';
 import GridContainer from '@/services/components/GridContainer.vue';
 import PInput from '@/services/components/PInput.vue';
@@ -108,7 +106,6 @@ import PSelect from '@/services/components/PSelect.vue';
 
 export default defineComponent({
   name: 'HumanForm',
-  components: { DatePicker },
   props: {
     storeModule: {
       type: String as PropType<string>,
@@ -271,7 +268,6 @@ export default defineComponent({
     left: auto;
     right: 10px;
   }
-
 
   :deep(.el-input__suffix-inner) {
     background: #ffffff;

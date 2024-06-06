@@ -23,8 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ComputedRef, defineEmits } from 'vue';
-
 import Building from '@/classes/Building';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import Provider from '@/services/Provider/Provider';
@@ -61,7 +59,9 @@ $card-content-outpadding: 24px;
   }
 
   &.card-flat {
-    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.02);
+    box-shadow:
+      0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
+      0 0 0 1px rgba(10, 10, 10, 0.02);
     border-radius: 1px;
   }
 

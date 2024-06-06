@@ -31,13 +31,16 @@
                 </el-table-column>
                 <el-table-column width="50" fixed="right" align="center">
                   <template #default="scope">
-                    <TableButtonGroup :show-remove-button="true" @remove="
-                      $classHelper.RemoveFromClassByIndex(
-                        scope.$index,
-                        postgraduateCourse.postgraduateCoursePlans,
-                        postgraduateCourse.postgraduateCoursePlansForDelete
-                      )
-                      " />
+                    <TableButtonGroup
+                      :show-remove-button="true"
+                      @remove="
+                        $classHelper.RemoveFromClassByIndex(
+                          scope.$index,
+                          postgraduateCourse.postgraduateCoursePlans,
+                          postgraduateCourse.postgraduateCoursePlansForDelete
+                        )
+                      "
+                    />
                   </template>
                 </el-table-column>
               </el-table>
@@ -66,13 +69,16 @@
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
-                      <TableButtonGroup :show-remove-button="true" @remove="
-                        $classHelper.RemoveFromClassByIndex(
-                          scope.$index,
-                          postgraduateCourse.postgraduateCoursesDates,
-                          postgraduateCourse.postgraduateCoursesDatesForDelete
-                        )
-                        " />
+                      <TableButtonGroup
+                        :show-remove-button="true"
+                        @remove="
+                          $classHelper.RemoveFromClassByIndex(
+                            scope.$index,
+                            postgraduateCourse.postgraduateCoursesDates,
+                            postgraduateCourse.postgraduateCoursesDatesForDelete
+                          )
+                        "
+                      />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -94,13 +100,16 @@
                   </el-table-column>
                   <el-table-column width="50" fixed="right" align="center">
                     <template #default="scope">
-                      <TableButtonGroup :show-remove-button="true" @remove="
-                        $classHelper.RemoveFromClassByIndex(
-                          scope.$index,
-                          postgraduateCourse.postgraduateCoursesTeachers,
-                          postgraduateCourse.postgraduateCoursesTeachersForDelete
-                        )
-                        " />
+                      <TableButtonGroup
+                        :show-remove-button="true"
+                        @remove="
+                          $classHelper.RemoveFromClassByIndex(
+                            scope.$index,
+                            postgraduateCourse.postgraduateCoursesTeachers,
+                            postgraduateCourse.postgraduateCoursesTeachersForDelete
+                          )
+                        "
+                      />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -117,8 +126,7 @@
                   </el-table-column>
                   <el-table-column label="Выбрать главную" sortable>
                     <template #default="scope">
-                      <el-checkbox v-model="scope.row.main"
-                        @change="postgraduateCourse.setMainSpecialization(scope.$index)" />
+                      <el-checkbox v-model="scope.row.main" @change="postgraduateCourse.setMainSpecialization(scope.$index)" />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -144,17 +152,25 @@
             </el-card>
             <el-card>
               <el-container direction="vertical">
-                <el-select v-model="postgraduateCourse.formPattern" value-key="id"
-                  placeholder="Выбрать форму для записи" label="Шаблон формы" @change="changeFormPatternHandler()">
+                <el-select
+                  v-model="postgraduateCourse.formPattern"
+                  value-key="id"
+                  placeholder="Выбрать форму для записи"
+                  label="Шаблон формы"
+                  @change="changeFormPatternHandler()"
+                >
                   <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
             </el-card>
             <el-card>
               <template #header> Специальности </template>
-              <el-checkbox v-for="specialization in specializations" :key="specialization.id"
+              <el-checkbox
+                v-for="specialization in specializations"
+                :key="specialization.id"
                 :model-value="postgraduateCourse.findSpecialization(specialization.id)"
-                @change="postgraduateCourse.addSpecialization(specialization)">
+                @change="postgraduateCourse.addSpecialization(specialization)"
+              >
                 {{ specialization.name }}
               </el-checkbox>
             </el-card>
@@ -175,7 +191,6 @@ import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import DatePicker from '@/components/DatePicker.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
@@ -190,7 +205,6 @@ export default defineComponent({
     WysiwygEditor,
     TableButtonGroup,
     FileUploader,
-    DatePicker,
   },
   setup() {
     const store = useStore();

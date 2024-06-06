@@ -14,39 +14,34 @@
     </div>
 
     <el-dialog v-model="showDialog">
-      <CommentCard v-if="dialogComment" :comment="dialogComment" />
+      <CommentCardMain v-if="dialogComment" :comment="dialogComment" />
     </el-dialog>
   </component>
 </template>
 
 <script lang="ts" setup>
+import Comment from '@/classes/Comment';
+import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib.ts';
 
-  import Comment from '@/classes/Comment';
-  import CommentCard from '@/components/Comments/CommentCard.vue';
-  import MainContainer from '@/components/Main/MainContainer.vue';
-  import ReviewCard from '@/components/Main/ReviewCard.vue';
-  import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib.ts';
+const showDialog: Ref<boolean> = ref(false);
+const mounted = ref(false);
+const reviews: ComputedRef<Comment[]> = Store.Items('comments');
+const dialogComment: Ref<Comment | undefined> = ref();
 
-  const showDialog: Ref<boolean> = ref(false);
-  const mounted = ref(false);
-  const reviews: ComputedRef<Comment[]> =  Store.Items('comments');
-  const dialogComment: Ref<Comment | undefined> = ref();
+const showMore = (item: Comment) => {
+  dialogComment.value = item;
+  showDialog.value = true;
+};
 
-  const showMore = (item: Comment) => {
-    dialogComment.value = item;
-    showDialog.value = true;
-  };
+console.log(reviews);
 
-  console.log(reviews);
-
-  onBeforeMount(async () => {
-    const ftsp = new FTSP();
-    ftsp.p.limit = 4;
-    ftsp.setF(CommentsFiltersLib.onlyPositive(),CommentsFiltersLib.onlyPublished());
-    await Store.FTSP('comments', { ftsp: ftsp, withCache: true });
-    mounted.value = true;
-  });
-    
+onBeforeMount(async () => {
+  const ftsp = new FTSP();
+  ftsp.p.limit = 4;
+  ftsp.setF(CommentsFiltersLib.onlyPositive(), CommentsFiltersLib.onlyPublished());
+  await Store.FTSP('comments', { ftsp: ftsp, withCache: true });
+  mounted.value = true;
+});
 </script>
 
 <style lang="scss" scoped>

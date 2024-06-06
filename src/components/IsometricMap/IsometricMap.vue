@@ -31,7 +31,6 @@ import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 import IsometricMapDestinationStepper from '@/components/IsometricMap/IsometricMapDestinationStepper.vue';
 // import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
-import TopSliderContainer from '@/components/Main/TopSliderContainer.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
 import Provider from '@/services/Provider/Provider';

@@ -22,6 +22,8 @@ declare global {
   const Doctor: typeof import('@/classes/Main')['Doctor']
   const Dragger: typeof import('@/services/Main')['Dragger']
   const EffectScope: typeof import('vue')['EffectScope']
+  const ElMessage: typeof import('element-plus/es')['ElMessage']
+  const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const Email: typeof import('@/services/Main')['Email']
   const FTSP: typeof import('@/services/Main')['FTSP']
   const Favourite: typeof import('@/services/Main')['Favourite']
@@ -29,8 +31,6 @@ declare global {
   const Hooks: typeof import('@/services/Main')['Hooks']
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
-  const Message: typeof import('@/services/Main')['Message']
-  const MessageBase: typeof import('@/services/Main')['MessageBase']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
@@ -136,6 +136,8 @@ declare module 'vue' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
@@ -241,6 +243,8 @@ declare module '@vue/runtime-core' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>

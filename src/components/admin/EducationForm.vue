@@ -120,11 +120,9 @@
 import { defineComponent, PropType, ref } from 'vue';
 
 import Employee from '@/classes/Employee';
-import DatePicker from '@/components/DatePicker.vue';
 
 export default defineComponent({
   name: 'EducationForm',
-  components: { DatePicker },
   props: {
     employee: {
       type: Object as PropType<Employee>,

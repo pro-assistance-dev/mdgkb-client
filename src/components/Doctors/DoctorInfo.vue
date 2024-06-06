@@ -86,6 +86,7 @@
         <div>
           <div>Московский</div>
           <div>врач</div>
+          <div class="c"></div>
         </div>
       </router-link>
     </template>
