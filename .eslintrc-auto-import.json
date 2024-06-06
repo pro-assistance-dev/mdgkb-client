@@ -112,6 +112,7 @@
     "sort": true,
     "useConfirmLeavePage": true,
     "validate": true,
-    "MessageBase": true
+    "MessageBase": true,
+    "PHelp": true
   }
 }

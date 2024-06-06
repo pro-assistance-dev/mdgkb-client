@@ -149,7 +149,7 @@ onBeforeMount(() => {
 const selectAccreditation = () => {
   if (residencyApplicationValue.value.primaryAccreditation === false) {
     console.log(residencyApplicationValue.value.primaryAccreditation)
-    Message.Error("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
+    PHelp.Notification().Error("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
     // ElMessage("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
     residencyApplicationValue.value.primaryAccreditation = undefined
   }
@@ -182,10 +182,10 @@ const rules = {
 };
 
 const setFreeApplication = async () => {
-  ElMessageBox.confirm('Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы', {
+  PHelp.Dialog().Show({
+    text: "Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы",
     confirmButtonText: 'Загрузить',
     cancelButtonText: 'Выбрать платное',
-    type: 'warning',
   })
     .then(() => {
       showFreeDialog.value = true;

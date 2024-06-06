@@ -1,10 +1,10 @@
-@import '@/assets/styles/base-style.scss';
-$percent: 4%;
+@import '../../../utils/index.scss';
 
-//skin: filter
+//skin: auth
 //type: primary, success, warning, danger, neutral, disabled
 
-.button-filter {
+//button-auth
+.button-auth {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -13,78 +13,82 @@ $percent: 4%;
   text-align: center;
   cursor: pointer;
   overflow: hidden;
-  margin: 0;
-  padding: 0 10px;
-  border-radius: 5px;
-  min-height: 36px;
-  max-height: 36px;
+  margin: $p-button-margin;
+  padding: $p-button-padding;
+  border-radius: $p-button-border-radius;
+  min-height: 38px;
+  max-height: 38px;
   width: 100%;
   max-width: $p-button-max-width;
   min-width: $p-button-min-width;
-  font-size: 12px;
+  font-size: $base-font-size;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-.filter_primary {
+.auth_primary {
   border: 1px solid $admin_primary_color;
   background: $admin_primary_background;
   color: $admin_primary_color;
 }
 
-.filter_primary:hover {
-  background: lighten($admin_primary_background, $percent);
+.auth_primary:hover {
+  color: #ffffff;
+  background: $admin_primary_color;
 }
 
-.filter_success {
+.auth_success {
   border: 1px solid $admin_success_color;
   background: $admin_success_background;
   color: $admin_success_color;
 }
 
-.filter_success:hover {
-  background: lighten($admin_success_background, $percent);
+.auth_success:hover {
+  color: #ffffff;
+  background: $admin_success_color;
 }
 
-.filter_warning {
+.auth_warning {
   border: 1px solid $admin_warning_color;
   background: $admin_warning_background;
   color: $admin_warning_color;
 }
 
-.filter_warning:hover {
-  background: lighten($admin_warning_background, $percent);
+.auth_warning:hover {
+  color: #ffffff;
+  background: $admin_warning_color;
 }
 
-.filter_danger {
+.auth_danger {
   border: 1px solid $admin_danger_color;
   background: $admin_danger_background;
   color: $admin_danger_color;
 }
 
-.filter_danger:hover {
-  background: lighten($admin_danger_background, $percent);
+.auth_danger:hover {
+  color: #ffffff;
+  background: $admin_danger_color;
 }
 
-.filter_neutral {
+.auth_neutral {
   border: 1px solid $admin_neutral_color;
   background: $admin_neutral_background;
   color: $admin_neutral_color;
 }
 
-.filter_neutral:hover {
-  background: lighten($admin_neutral_background, $percent);
+.auth_neutral:hover {
+  color: #ffffff;
+  background: $admin_neutral_color;
 }
 
-.filter_disabled {
+.auth_disabled {
   border: 1px solid $admin_disabled_color;
   background: $admin_disabled_background;
   color: $admin_disabled_color;
   cursor: auto;
 }
 
-.filter_disabled:hover {
+.auth_disabled:hover {
   background: $admin_disabled_background;
 }
-

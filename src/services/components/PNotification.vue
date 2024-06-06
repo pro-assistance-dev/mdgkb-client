@@ -1,32 +1,18 @@
 <template>
   <transition name="fade">
-    <div v-if="Message.IsVisible()" class="message" :style="{
-      background: Message.GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
+    <div v-if="PHelp.Notification().IsVisible()" class="message" :style="{
+      background: PHelp.Notification().GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
       marginTop: '100px',
       position: fixed,
     }">
-      <div>
-        <div class="message-title">
-          <StringItem :string="Message.GetTitle()" />
-        </div>
-        <div class="message-text">
-          <StringItem :string="Message.GetText()" />
-        </div>
-        <div class="message-footer" v-if="Message.IsDialog()">
-          <PButton :text="Message.GetConfirmButtonText()" @click="Message.Confirm()" />
-          <PButton :text="Message.GetCancelButtonText()" @click="Message.Hide()" />
-        </div>
-      </div>
+      <MessageBody :title="PHelp.Notification().GetTitle()" :text="PHelp.Notification().GetText()" />
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
 import StringItem from '@/services/components/StringItem.vue';
-import Message from '@/services/Message';
-
 </script>
-
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 

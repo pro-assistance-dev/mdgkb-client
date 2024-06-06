@@ -1,10 +1,10 @@
-@import '@/assets/styles/base-style.scss';
+@import '../../../utils/index.scss';
 $percent: 4%;
 
-//skin: royal 
+//skin: royal
 //type: blue, inherit
 
-$royal_blue: #5E6CE7;
+$royal_blue: #5e6ce7;
 
 .button-royal {
   box-sizing: border-box;
@@ -47,5 +47,3 @@ $royal_blue: #5E6CE7;
   color: lighten($royal_blue, 3%);
   border-color: lighten($royal_blue, 3%);
 }
-
-

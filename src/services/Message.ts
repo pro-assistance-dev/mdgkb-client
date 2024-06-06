@@ -1,107 +1,64 @@
-import Timer from './Timer'
-import Time from './Time'
+import Statuses from './types/Statuses'
 
-export enum MType {
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
-}
-type MessageOptions = {
+export type MessageOpts = {
   text: string
   title: string
-  duration: number
 }
 
 export default class Message {
-  private static instance = ref(new Message())
-  private type: MType = MType.Success;
+  private type: Statuses = Statuses.Success;
   private text = ""
   private title = ""
-  private duration = Time.S(3)
   private visible = false
-  private isDialog = false;
-  private confirmButtonText = "Да"
-  private cancelButtonText = "Нет"
 
-  private hide() {
+  protected hide() {
     this.visible = false
   }
 
-  static IsDialog(): boolean {
-    return this.Get().isDialog
-  }
-
-  private show(m: string | MessageOptions, t: MType) {
+  protected show(m: string | MessageOpts, t: Statuses) {
     this.type = t
     if (typeof m === 'string') {
       this.text = m
     } else {
       this.text = m.text
-      this.duration = m.duration ?? this.duration
       this.title = m.title ?? ''
     }
     this.visible = true
   }
 
-  static async Dialog(m: string) {
-    this.Get().isDialog = true
-    this.Show(m, MType.Success)
+  GetText(): string {
+    return this.text
   }
 
-  static GetText(): string {
-    return this.Get().text
+  GetTitle(): string {
+    return this.title
   }
 
-  static GetConfirmText(): string {
-    return this.Get().confirmButtonText
-  }
-  static GetCancelButtonText(): string {
-    return this.Get().cancelButtonText
+  GetType(): Statuses {
+    return this.type
   }
 
-  static GetTitle(): string {
-    return this.Get().title
+  IsVisible(): boolean {
+    return this.visible
   }
 
-  static GetType(): MType {
-    return this.Get().type
-
-  }
-  static IsVisible(): boolean {
-    return this.Get().visible
+  protected Show(m: string | MessageOpts, t: Statuses): void {
+    this.show(m, t)
   }
 
-  private static Get(): Message {
-    return this.instance.value
+  Success(m: string | MessageOpts): void {
+    this.Show(m, Statuses.Success);
   }
 
-  private static GetDuration(): number {
-    return this.Get().duration
+  Error(m: string | MessageOpts): void {
+    this.Show(m, Statuses.Error);
   }
 
-  private static Show(m: string | MessageOptions, t: MType): void {
-    this.Get().show(m, t)
-    if (!this.Get().isDialog) {
-      Timer.Wait(Message.GetDuration()).then(Message.Hide)
-    }
+  Warning(m: string | MessageOpts): void {
+    this.Show(m, Statuses.Warning);
   }
 
-  static Success(m: string | MessageOptions): void {
-    Message.Show(m, MType.Success);
-  }
-
-  static Error(m: string | MessageOptions): void {
-    Message.Show(m, MType.Error);
-  }
-  static Warning(m: string | MessageOptions): void {
-    Message.Show(m, MType.Warning);
-  }
-
-  static Hide(): void {
-    Message.Get().hide()
-  }
-
-  static FormMessage(errorFields: any): string {
+  FormMessage(errorFields: any): string {
     let errorMessage = '<strong>Проверьте правильность введенных данных:</strong><ul>';
     for (const item of Object.keys(errorFields)) {
       if (errorFields[item][0] && errorFields[item][0].message) {
