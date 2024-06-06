@@ -134,7 +134,10 @@ onMounted(async () => {
 .label {
   color: black;
   font-family: sans-serif;
-  padding: 2px;
-  background: rgba(0, 0, 0, 0.6);
+  font-size: 16px;
+  background: #ffffff;
+  border-radius: 50px;
+  border: 1px solid;
+  padding: 0 10px;
 }
 </style>
