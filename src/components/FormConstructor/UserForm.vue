@@ -145,6 +145,7 @@ const props = defineProps({
 const emits = defineEmits(['findEmail']);
 
 const auth: ComputedRef<boolean> = Store.Getters('auth/auth');
+const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
 const user: ComputedRef<User> = computed(auth.value.user.get());
 const formValue = ref(new Form());
 
@@ -189,7 +190,8 @@ const rules = {
   childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
 };
 const openLoginModal = () => {
-  Store.Commit('auth/openModal', 'login');
+  authModal.value.open();
+  // Store.Commit('auth/openModal', 'login');
 };
 
 const findEmail = () => {
@@ -197,9 +199,10 @@ const findEmail = () => {
     emits('findEmail');
   }
 };
+
 onBeforeMount(() => {
-  Store.Commit('auth/showWarning', true);
-  Store.Commit('auth/authOnly', true);
+  // Store.Commit('auth/showWarning', true);
+  // Store.Commit('auth/authOnly', true);
   formValue.value = props.form;
   if (!auth.value.isAuth) {
     openLoginModal();
@@ -207,8 +210,8 @@ onBeforeMount(() => {
 });
 
 onBeforeUnmount(() => {
-  Store.Commit('auth/showWarning', false);
-  Store.Commit('auth/authOnly', false);
+  // Store.Commit('auth/showWarning', false);
+  // Store.Commit('auth/authOnly', false);
 });
 </script>
 

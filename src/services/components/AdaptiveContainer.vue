@@ -26,18 +26,18 @@
         <slot name="menu" />
       </div>
     </div>
-      <div class="title">
-        <div
-          class="icon"
-          :style="{
-            display: mobileWindow ? 'flex' : 'none',
-          }"
-          @click="handClick()"
-        >
-          <slot name="icon" />
-        </div>
+    <div class="title">
+      <div
+        class="icon"
+        :style="{
+          display: mobileWindow ? 'flex' : 'none',
+        }"
+        @click="handClick()"
+      >
+        <slot name="icon" />
       </div>
     </div>
+  </div>
   <Menu />
 </template>
 

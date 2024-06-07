@@ -2,7 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
 import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
-import AdmissionFormV2 from '@/components/Educational/AdmissionCommittee/AdmissionFormV2.vue';
+const AdmissionForm = () => import('@/components/Educational/AdmissionCommittee/AdmissionForm.vue');
 import DpoPage from '@/components/Educational/Dpo/DpoPage.vue';
 import NmoCoursePage from '@/components/Educational/Dpo/NmoCoursePage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
@@ -66,9 +66,9 @@ export default [
   },
   {
     path: '/admission-form',
-    name: 'AdmissionFormV2',
+    name: 'AdmissionForm',
     meta: { title: 'Форма' },
-    component: AdmissionFormV2,
+    component: AdmissionForm,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       authGuard(next);
     },
