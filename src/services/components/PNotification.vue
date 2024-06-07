@@ -14,7 +14,7 @@
 import StringItem from '@/services/components/StringItem.vue';
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .message {
   position: absolute;

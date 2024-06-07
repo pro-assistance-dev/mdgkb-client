@@ -65,7 +65,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 :deep(.el-form-item) {
   display: block;

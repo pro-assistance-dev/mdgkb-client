@@ -1,3 +1,5 @@
+@import '../../helpers/shadows.scss';
+
 $header_bottom_desktop: 56px;
 
 .header-bottom {
@@ -8,8 +10,7 @@ $header_bottom_desktop: 56px;
   border: none !important;
   color: #4a4a4a;
   font-size: 12px;
-  font-family: "Open Sans", sans-serif !important;
-
+  font-family: 'Open Sans', sans-serif !important;
 
   .header-bottom-menu {
     height: $header_bottom_desktop;
@@ -36,7 +37,7 @@ $header_bottom_desktop: 56px;
   @include box_shadow(1);
   padding: 0;
   font-size: 12px !important;
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
   text-transform: uppercase;
 }
 
@@ -45,7 +46,7 @@ $header_bottom_desktop: 56px;
   line-height: 0;
   background-color: whitesmoke !important;
   font-size: 12px !important;
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 }
 
 .header-bottom-menu-item:hover,
@@ -65,7 +66,6 @@ $header_bottom_desktop: 56px;
   display: block;
   font-weight: 300;
 }
-
 
 .sub-menu-popover {
   height: 0;
@@ -92,7 +92,7 @@ $header_bottom_desktop: 56px;
   border-bottom: none !important;
   line-height: $header_bottom_desktop - 1 !important;
   font-size: 12px !important;
-  font-family: "Open Sans", sans-serif !important;
+  font-family: 'Open Sans', sans-serif !important;
 
   &:hover {
     background-color: #e4e5e7 !important;
@@ -104,3 +104,4 @@ $header_bottom_desktop: 56px;
     box-shadow: none;
   }
 }
+

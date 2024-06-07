@@ -42,7 +42,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .string {
   max-width: 100%;

@@ -60,7 +60,7 @@ const setEnd = (date: Date) => {
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .date-range {
   display: flex;

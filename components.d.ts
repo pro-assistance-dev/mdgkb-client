@@ -9,7 +9,6 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AcademicCard: typeof import('./src/components/Educational/AcademicCard.vue')['default']
     AdaptiveContainer: typeof import('./src/services/components/AdaptiveContainer.vue')['default']
-    AdaptiveContainer_new: typeof import('./src/components/Base/AdaptiveContainer_new.vue')['default']
     AdaptiveContainerHorizontal: typeof import('./src/services/components/AdaptiveContainerHorizontal.vue')['default']
     AddDish: typeof import('./src/components/admin/AdminDishes/AddDish.vue')['default']
     AddForm: typeof import('./src/components/admin/AdminDishes/AddForm.vue')['default']
@@ -494,8 +493,6 @@ declare module '@vue/runtime-core' {
     PhoneInfo: typeof import('./src/views/mainLayout/elements/PhoneInfo.vue')['default']
     PInput: typeof import('./src/services/components/PInput.vue')['default']
     PInputData: typeof import('./src/services/components/PInputData.vue')['default']
-    PMessage: typeof import('./src/services/components/PMessage.vue')['default']
-    PMessageBox: typeof import('./src/services/components/PMessageBox.vue')['default']
     PModalWindow: typeof import('./src/services/components/PModalWindow.vue')['default']
     PNotification: typeof import('./src/services/components/PNotification.vue')['default']
     PostgraduateApplicationForm: typeof import('./src/components/Educational/Postgraduate/PostgraduateApplicationForm.vue')['default']

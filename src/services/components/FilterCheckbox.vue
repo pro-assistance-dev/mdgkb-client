@@ -34,7 +34,7 @@ const setFilterModel = (value: boolean) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 // @import '@/assets/elements/filterForm.scss';
 
 :deep(.el-input__inner) {

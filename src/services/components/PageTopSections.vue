@@ -71,7 +71,7 @@ onBeforeMount(async () => {
 
 <style lang="scss" scoped>
 @import '@/assets/elements/collapse.scss';
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .field {
   width: 100%;

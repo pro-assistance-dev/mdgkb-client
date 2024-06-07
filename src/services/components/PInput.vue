@@ -1,5 +1,5 @@
 <template>
-  <div class="text-field" :style="{ margin: margin, padding: padding}">
+  <div class="text-field" :style="{ margin: margin, padding: padding }">
     <label v-if="label" class="text-field__label" :for="label">
       {{ label }}
     </label>
@@ -7,8 +7,18 @@
       <div class="left-field">
         <slot />
       </div>
-      <input :type="getInputType()" class="text-field__input" type="text" :name="label" :id="label"
-        :placeholder="placeholder" @blur="$emit('blur')" :readonly="readonly" :disabled="disabled" v-model="model">
+      <input
+        :type="getInputType()"
+        class="text-field__input"
+        type="text"
+        :name="label"
+        :id="label"
+        :placeholder="placeholder"
+        @blur="$emit('blur')"
+        :readonly="readonly"
+        :disabled="disabled"
+        v-model="model"
+      />
       <div class="right-field">
         <slot name="right" />
       </div>
@@ -17,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-const emits = defineEmits(["blur"]);
+const emits = defineEmits(['blur']);
 const model = defineModel();
 
 defineOptions({ inheritAttrs: false });
@@ -34,14 +44,14 @@ const props = defineProps({
 });
 const getInputType = () => {
   if (props.password) {
-    return 'password'
+    return 'password';
   }
-  return ''
-}
+  return '';
+};
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 *,
 *::before,
@@ -94,7 +104,6 @@ const getInputType = () => {
 
 .text-field__input {
   width: 100%;
-  height: $input-height;
   font-family: $input-font;
   font-size: $input-font-size;
   background: $input-background;

@@ -33,7 +33,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
   .hidden { display: none }
   .icon {
     width: $icon-width;
