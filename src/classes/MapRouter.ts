@@ -1,5 +1,5 @@
 import IStartEndNode from '@/interfaces/IStartEndNode';
-
+import { defineEmits } from 'vue';
 import SearchElement from './SearchElement';
 
 export default class MapRouter {
