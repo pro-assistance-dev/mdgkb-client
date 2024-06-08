@@ -2,11 +2,11 @@ import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/services/classes/FileInfo';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/Timetable';
+import FileInfo from '@/services/classes/FileInfo';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 
@@ -107,7 +107,6 @@ export default class Doctor {
     this.positionId = id;
     this.position = new Position();
     this.position.name = name;
-    console.log(this.positionId);
   }
 
   resetPosition(): void {

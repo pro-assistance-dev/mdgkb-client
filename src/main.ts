@@ -3,9 +3,7 @@
 import 'dayjs/locale/ru';
 import './assets/styles/element-variables.scss';
 import './assets/styles/base-style.scss';
-// import 'element-plus/theme-chalk/display.css'
 
-import ru from 'element-plus/es/locale/lang/ru';
 import sanitizeHTML from 'sanitize-html';
 import { createApp } from 'vue';
 import VueSocialSharing from 'vue-social-sharing';

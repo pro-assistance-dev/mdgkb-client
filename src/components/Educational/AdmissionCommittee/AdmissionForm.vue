@@ -27,55 +27,17 @@
             style="width: 100%"
             @change="courseChangeHandler"
           >
-            <el-option v-for="item in filteredCourses" :key="item.id" :label="item.getMainSpecialization().name" :value="item"> </el-option>
+            <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization().name" :value="item" />
           </el-select>
         </el-form-item>
         <!-- TODO: Добавить ссылки на правила и уставы -->
         <el-form-item prop="agreedWithRules" :rules="[{ validator: agreedWithRulesRule, trigger: 'change' }]">
           <el-checkbox v-model="residencyApplication.agreedWithRules" label="Я ПОДТВЕРЖДАЮ, ЧТО ОЗНАКОМЛЕН с:" />
-          <div class="text">
-            <p>
-              Лицензией на ведение образовательной деятельности по образовательным программам послевузовского образования №
-              Л035-00115-77/00096790 от «02» февраля 2015 г
-            </p>
-            <p>
-              Свидетельством о государственной аккредитации по имеющим государственную аккредитацию образовательным программам № 2645 от
-              «17» июля 2017 г. серия 90А01, номер бланка 0002774
-            </p>
-            <p>
-              Уставом и Правилами внутреннего распорядка ГБУЗ «Морозовская детская городская клиническая больница Департамента
-              здравоохранения города Москвы»
-            </p>
-            <p>
-              Правилами приема, утвержденными ГБУЗ «Морозовская ДГКБ ДЗМ», в том числе с правилами подачи апелляции по результатам
-              вступительного испытания
-            </p>
-          </div>
+          <div class="text" v-html="licensyText" />
         </el-form-item>
         <el-form-item prop="agreedWithPrivacy" :rules="[{ validator: agreedWithPrivacyRule, trigger: 'change' }]">
           <el-checkbox v-model="residencyApplication.agreedWithPrivacy" label="ПОДТВЕРЖДАЮ:" />
-          <div class="text">
-            <p>
-              <a
-                target="_blank"
-                href="/files/privacy.pdf"
-                download="Согласие на обработку своих персональных данных МДГКБ"
-                class="info-text"
-              >
-                Согласие на обработку своих персональных данных,
-              </a>
-              <!-- Согласие на обработку своих персональных данных -->в том числе: фамилии, имени, отчества, паспортных данных, даты и места
-              рождения, данных о прописке и фактическом месте проживания, телефонных номеров, адресов электронной почты, фотографии, образца
-              личной подписи, профессиональной подготовке и образовании, в информационных системах, базах и банках данных в порядке,
-              установленном Федеральным законом от 27 июля 2006 г. N152-ФЗ «О персональных данных» (Собрание законодательства Российской
-              Федерации, 2006, N31, ст. 3451).
-            </p>
-            <p>
-              В случае поступления в ГБУЗ «Морозовская детская городская клиническая больница Департамента здравоохранения города Москвы»
-              согласен с передачей вышеуказанных данных в информационные системы, базы ГБУЗ «Морозовская детская городская клиническая
-              больница Департамента здравоохранения города Москвы» с их последующей обработкой согласно действующему Законодательству РФ.
-            </p>
-          </div>
+          <div class="text" v-html="privacyText" />
         </el-form-item>
       </el-form>
     </KeepAlive>
@@ -193,32 +155,17 @@ import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
+import { steps, textFieldsAndDocuments, templateAllert, licensyText, privacyText } from './AdmissionData.ts';
 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
 const mounted = ref(false);
-const activeStep: Ref<number> = ref(1);
-const residencyApplication: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
-  () => Provider.store.getters['residencyApplications/item']
-);
+const activeStep: Ref<number> = ref(0);
+const residencyApplication: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
+
+const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
 const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
-const textFieldsAndDocuments = [
-  'DiplomaNumber',
-  'DiplomaSeries',
-  'DiplomaDate',
-  'UniversityEndYear',
-  'UniversityName',
-  'DiplomaSpeciality',
-  'ContractDzm',
-];
-const steps = [
-  'Выберите программу',
-  'Ответьте на вопросы',
-  'Заполните личные данные',
-  'Данные об образовании',
-  'Индивидуальные достижения',
-  'Загрузите пакет документов',
-];
+
 const agreedWithRulesRule = async (_: unknown, value: boolean, callback: MyCallbackWithOptParam) => {
   if (value !== true) {
     callback(new Error('Необходимо подтвердить ознакомление'));
@@ -227,6 +174,7 @@ const agreedWithRulesRule = async (_: unknown, value: boolean, callback: MyCallb
   callback();
   return;
 };
+
 const agreedWithPrivacyRule = async (_: unknown, value: boolean, callback: MyCallbackWithOptParam) => {
   if (value !== true) {
     callback(new Error('Необходимо подтвердить согласие'));
@@ -238,13 +186,13 @@ const agreedWithPrivacyRule = async (_: unknown, value: boolean, callback: MyCal
 
 const buttonOff: Ref<boolean> = ref(false);
 
-const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
-const residencyCourses: ComputedRef<ResidencyCourse[]> = computed(() => Provider.store.getters['residencyCourses/items']);
-const filteredCourses: Ref<ResidencyCourse[]> = computed(() =>
-  residencyCourses.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
-);
-const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
+const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
+
+const auth: Ref<User> = Store.Getters('auth/auth');
+const user: ComputedRef<User> = computed(auth.value.user.get());
+const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
+
 const form = ref();
 const userForm = ref();
 const diplomaForm = ref();
@@ -253,12 +201,15 @@ const questionsForm = ref();
 const achievementsForm = ref();
 
 watch(isAuth, async () => {
-  Provider.store.commit('residencyApplications/setUser', user.value);
+  if (!isAuth.value) {
+    // residencyApplication.value.formValue.user = new User(user.value);
+    authModal.value.open();
+  }
   // await findEmail();
 });
 
 const findEmail = async () => {
-  await Provider.store.dispatch('residencyApplications/emailExists', residencyCourse.value.id);
+  await Store.Dispatch('residencyApplications/emailExists', residencyCourse.value.id);
 };
 
 const submit = async () => {
@@ -294,7 +245,7 @@ onBeforeMount(async () => {
 
   Provider.store.commit('residencyApplications/resetItem');
   Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
-  Provider.store.commit('residencyApplications/setUser', user.value);
+  // Provider.store.commit('residencyApplications/setUser', user.value);
 
   // await findEmail();
   mounted.value = true;
@@ -309,29 +260,16 @@ const courseChangeHandler = async () => {
 };
 
 const filledApplicationDownload = () => {
-  ElMessageBox.alert(
-    `<p>ВЫ ЗАВЕРШИЛИ ВНЕСЕНИЕ ОСНОВНЫХ ДАННЫХ, ВАМ БУДЕТ ПРЕДЛОЖЕНО СКАЧАТЬ И РАСПЕЧАТАТЬ ЧАСТИЧНО ЗАПОЛНЕННОЕ СИСТЕОМЙ ЗАЯВЛЕНИЕ:</p>
-        <p>1. ПРОВЕРЬТЕ ПРАВИЛЬНОСТЬ ВСЕХ ВНЕСЕННЫХ ДАННЫХ</p>
-        <p>2. ЗАПОЛНИТЕ НЕДОСТАЮЩИЕ ДАННЫЕ ОТ РУКИ СИНИМИ ЧЕРНИЛАМИ</p>
-        <p>3. ПОСТАЬТЕ ПОДПИСИ ПО ОЗНАКОМЛЕНИЮ С ДОКУМЕНТАМИ</p>
-        <p>4. ВНЕСИТЕ ПАСПОРТНЫЕ ДАННЫЕ</p>
-        <p>5. ПОСТАВЬТЕ ЗАКЛЮЧИТЕЛЬНУЮ ПОДПИСЬ И ДАТУ ОФОРМЛЕНИЯ ЗАЯВЛЕНИЯ</p>
-        <br />
-        <p>ПРИ НАЛИЧИИ ОШИБОК ИСПРАВЬТЕ НА САЙТЕ И ЗАНОВО РАСПЕЧАТАЙТЕ ФОРМУ</p>
-        `,
-    'После закрытия этого окна скачается предзаполненное заявление',
-    {
-      dangerouslyUseHTMLString: true,
-      confirmButtonText: 'OK',
-      callback: () => {
-        const form = new ResidencyApplication(residencyApplication.value);
-
-        Provider.store.dispatch('residencyApplications/filledApplicationDownload', form);
-        scroll();
-        return;
-      },
-    }
-  );
+  ElMessageBox.alert(textAlertText, 'После закрытия этого окна скачается предзаполненное заявление', {
+    dangerouslyUseHTMLString: true,
+    confirmButtonText: 'OK',
+    callback: () => {
+      const form = new ResidencyApplication(residencyApplication.value);
+      Provider.store.dispatch('residencyApplications/filledApplicationDownload', form);
+      scroll();
+      return;
+    },
+  });
   return;
 };
 

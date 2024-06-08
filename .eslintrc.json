@@ -3,23 +3,13 @@
   "env": {
     "node": true
   },
-  "extends": [
-    "./.eslintrc-auto-import.json",
-    "plugin:vue/vue3-recommended",
-    "eslint:recommended",
-    "prettier"
-      ''
-  ],
+  "extends": ["./.eslintrc-auto-import.json", "plugin:vue/vue3-recommended", "eslint:recommend", "prettier"],
   "parser": "vue-eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2022,
     "parser": "@typescript-eslint/parser"
   },
-  "plugins": [
-    "@typescript-eslint",
-    "simple-import-sort",
-    "unused-imports"
-  ],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   "rules": {
     "indent": 0,
     "simple-import-sort/imports": "error",
@@ -32,14 +22,12 @@
     "vue/singleline-html-element-content-newline": 0,
     "vue/max-attributes-per-line": 0,
     "no-undef": "warn",
-    "prefer-const": "warn"
+    "prefer-const": "warn",
+    "new-cap": 0
   },
   "overrides": [
     {
-      "files": [
-        "**/__tests__/*.{j,t}s?(x)",
-        "**/tests/unit/**/*.spec.{j,t}s?(x)"
-      ],
+      "files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
       "env": {
         "jest": true
       }

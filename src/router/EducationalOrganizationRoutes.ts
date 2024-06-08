@@ -17,22 +17,22 @@ import { authGuard } from '.';
 
 export default [
   {
-    path: '/educational-info',
-    name: 'EducationPage',
-    meta: { title: 'Сведения об образовательной организации' },
     component: EducationPage,
+    meta: { title: 'Сведения об образовательной организации' },
+    name: 'EducationPage',
+    path: '/educational-info',
   },
   {
-    path: '/admission-committee',
-    name: 'AdmissionCommittee',
-    meta: { title: 'Приёмная кампания' },
     component: AdmissionCommittee,
+    meta: { title: 'Приёмная кампания' },
+    name: 'AdmissionCommittee',
+    path: '/admission-committee',
   },
   {
+    component: EducationalOrganizationAcademics,
+    meta: { title: 'Учёный совет' },
     path: '/academics',
     name: 'EducationalOrganizationAcademics',
-    meta: { title: 'Учёный совет' },
-    component: EducationalOrganizationAcademics,
   },
   {
     path: '/postgraduate',
@@ -65,13 +65,13 @@ export default [
     component: AdmissionCoursePage,
   },
   {
-    path: '/admission-form',
-    name: 'AdmissionForm',
-    meta: { title: 'Форма' },
     component: AdmissionForm,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
-    },
+    meta: { title: 'Форма' },
+    name: 'AdmissionForm',
+    path: '/admission-form',
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   authGuard(next);
+    // },
   },
   {
     path: '/candidates-minimum',
@@ -80,10 +80,10 @@ export default [
     component: PostgraduatePage,
   },
   {
+    component: DpoPage,
     path: '/dpo',
     name: 'DpoCourses',
     meta: { title: 'ДПО' },
-    component: DpoPage,
   },
   {
     path: '/nmo-courses/:id',

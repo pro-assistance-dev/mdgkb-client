@@ -1,49 +1,49 @@
-import Statuses from './types/Statuses'
+import Statuses from './types/Statuses';
 
 export type MessageOpts = {
-  text: string
-  title: string
-}
+  text: string;
+  title: string;
+};
 
 export default class Message {
   private type: Statuses = Statuses.Success;
-  private text = ""
-  private title = ""
-  private visible = false
+  private text = '';
+  private title = '';
+  private visible = false;
 
   protected hide() {
-    this.visible = false
+    this.visible = false;
   }
 
   protected show(m: string | MessageOpts, t: Statuses) {
-    this.type = t
+    this.type = t;
     if (typeof m === 'string') {
-      this.text = m
+      this.text = m;
     } else {
-      this.text = m.text
-      this.title = m.title ?? ''
+      this.text = m.text;
+      this.title = m.title ?? '';
     }
-    this.visible = true
+    this.visible = true;
   }
 
   GetText(): string {
-    return this.text
+    return this.text;
   }
 
   GetTitle(): string {
-    return this.title
+    return this.title;
   }
 
   GetType(): Statuses {
-    return this.type
+    return this.type;
   }
 
   IsVisible(): boolean {
-    return this.visible
+    return this.visible;
   }
 
   protected Show(m: string | MessageOpts, t: Statuses): void {
-    this.show(m, t)
+    this.show(m, t);
   }
 
   Success(m: string | MessageOpts): void {

@@ -7,10 +7,10 @@
       loginStatus === 'login'
         ? 'Вход'
         : loginStatus === 'register'
-        ? 'Регистрация'
-        : loginStatus === 'forgotPassword'
-        ? 'Восстановление пароля'
-        : 'Задайте новый пароль'
+          ? 'Регистрация'
+          : loginStatus === 'forgotPassword'
+            ? 'Восстановление пароля'
+            : 'Задайте новый пароль'
     "
     center
     :close-on-click-modal="false"
@@ -33,10 +33,10 @@
             loginStatus === 'login'
               ? 'Войти'
               : loginStatus === 'register'
-              ? 'Зарегистрироваться'
-              : loginStatus === 'forgotPassword'
-              ? 'Отправить ссылку'
-              : 'Сохранить'
+                ? 'Зарегистрироваться'
+                : loginStatus === 'forgotPassword'
+                  ? 'Отправить ссылку'
+                  : 'Сохранить'
           }}
         </el-button>
       </el-form-item>
@@ -81,6 +81,7 @@ export default defineComponent({
     const emailExists: Ref<boolean> = computed(() => store.getters['users/emailExists']);
     const loginStatus: Ref<'login' | 'register' | 'forgotPassword' | 'passwordChange'> = computed(() => store.getters['auth/loginStatus']);
     const showWarning: ComputedRef<boolean> = computed(() => store.getters['auth/showWarning']);
+
     const closeModal = () => {
       store.commit('auth/closeModal');
       form.value = new User();
@@ -110,6 +111,7 @@ export default defineComponent({
       callback();
       return;
     };
+
     const rules = ref({
       email: [
         { required: true, validator: emailRule, trigger: 'blur' },
