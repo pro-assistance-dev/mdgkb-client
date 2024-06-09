@@ -1,6 +1,6 @@
 import DietAge from '@/classes/DietAge';
-import DietGroup from '@/classes/DietGroup';
 import Timetable from '@/classes/Timetable';
+import DietGroup from '@/classes/DietGroup';
 
 export default class Diet {
   id?: string;

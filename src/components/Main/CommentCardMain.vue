@@ -21,8 +21,8 @@ import Comment from '@/classes/Comment';
 
 defineProps({
   comment: {
-    type: Object as PropType<Comment>,
     required: true,
+    type: Object as PropType<Comment>,
   },
 });
 </script>

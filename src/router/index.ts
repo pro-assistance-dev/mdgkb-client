@@ -67,9 +67,9 @@ export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
 };
 
 export const devGuard = (): void => {
-  if (!UserService.isAdmin()) {
-    router.push('/dev');
-  }
+  // if (!UserService.isAdmin()) {
+  //   router.push('/dev');
+  // }
 };
 
 export const adminGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {

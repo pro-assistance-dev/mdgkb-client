@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminCommonVisitingRulesList from '@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue';
+const AdminCommonVisitingRulesList = () => import('@/components/admin/AdminCommonVisitingRules/AdminCommonVisitingRulesList.vue');
 import AdminDishes from '@/components/admin/AdminDishes/AdminDishes.vue';
 import AdminDonorRules from '@/components/admin/AdminDonorRules/AdminDonorRules.vue';
 import AdminGatesList from '@/components/admin/AdminGates/AdminGatesList.vue';
