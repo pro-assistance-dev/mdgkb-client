@@ -78,7 +78,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
-    PHelp.Message.Error(errors.join(', '));
+    PHelp.Notification().Error(errors.join(', '));
     authButton.on();
     return;
   }

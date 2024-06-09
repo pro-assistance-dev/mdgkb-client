@@ -152,14 +152,11 @@ onBeforeMount(() => {
 });
 
 const selectAccreditation = () => {
-  if (residencyApplicationValue.value.primaryAccreditation === false) {
-    console.log(residencyApplicationValue.value.primaryAccreditation);
-    PHelp.Notification().Error(
-      'Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года'
-    );
-    // ElMessage("Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года")
-    residencyApplicationValue.value.primaryAccreditation = undefined;
+  if (residencyApplicationValue.value.primaryAccreditation === true) {
+    return;
   }
+  PHelp.Notification().Error('Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года');
+  residencyApplicationValue.value.primaryAccreditation = undefined;
 };
 
 // const sele = () => {

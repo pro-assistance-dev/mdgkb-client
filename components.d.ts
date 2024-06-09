@@ -142,7 +142,6 @@ declare module '@vue/runtime-core' {
     AdmissionCoursePage: typeof import('./src/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue')['default']
     AdmissionForm: typeof import('./src/components/Educational/AdmissionCommittee/AdmissionForm.vue')['default']
     AdmissionQuestionsForm: typeof import('./src/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue')['default']
-    AdmissionQuestionsFormV2: (typeof import('./src/components/Educational/AdmissionCommittee/AdmissionQuestionsFormV2.vue'))['default']
     Announcement: typeof import('./src/components/Diets/Announcement.vue')['default']
     ApplicationCard: typeof import('./src/components/Profile/ProfileDailyMenuOrders/ApplicationCard.vue')['default']
     ApplicationTable: typeof import('./src/components/Profile/ProfileDailyMenuOrders/ApplicationTable.vue')['default']

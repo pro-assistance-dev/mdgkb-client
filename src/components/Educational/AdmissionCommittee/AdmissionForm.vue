@@ -160,7 +160,7 @@ import { steps, textFieldsAndDocuments, templateAlert, licensyText, privacyText 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
 const mounted = ref(false);
-const activeStep: Ref<number> = ref(1);
+const activeStep: Ref<number> = ref(0);
 const residencyApplication: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
 
 const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
@@ -190,7 +190,7 @@ const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
 const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
 
 const auth: Ref<User> = Store.Getters('auth/auth');
-const user: ComputedRef<User> = computed(auth.value.user.get());
+const user: ComputedRef<User> = computed(() => auth.value.user.get());
 const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
 
 const form = ref();
@@ -202,7 +202,7 @@ const achievementsForm = ref();
 
 watch(isAuth, async () => {
   if (!isAuth.value) {
-    // residencyApplication.value.formValue.user = new User(user.value);
+    residencyApplication.value.formValue.user = new User(user.value);
     authModal.value.open();
   }
   // await findEmail();
@@ -256,7 +256,7 @@ const courseChangeHandler = async () => {
   residencyApplication.value.formValue.initFieldsValues();
   Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
   Provider.store.commit('residencyApplications/setCourse', residencyApplication.value.residencyCourse);
-  // Provider.store.commit('residencyApplications/setUser', user.value);
+  Provider.store.commit('residencyApplications/setUser', user.value);
 };
 
 const filledApplicationDownload = () => {
