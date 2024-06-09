@@ -9,16 +9,27 @@
       <link href="dist/css/bvi.css" rel="stylesheet">
       <style lang="css">
           #initial-bvi-container {
-            position: absolute;
-            top: 15px;
-            right: 0;
-            padding: 10px;
-            z-index: 1;
+            width: 100%;
+            height: 30px;
+            background: #F0F2F7;
+            display: flex;
+            justify-content: center;
+            align-self: center;
+          }
+
+          .bvi-open {
+            width: 100%;
+            border: none;
+            background: inherit;
+            font-size: 18px;
+            color: #343E5C;
             cursor: pointer;
           }
-          #initial-bvi-container i:hover {
-            font-weight: 600;
+          .bvi-open:hover {
+            background: #343E5C;
+            color: #F0F2F7;
           }
+          
        </style> 
     <script type="module" src="/src/main.ts">
       
@@ -26,7 +37,7 @@
   </head>
   <body>
     <div id="initial-bvi-container">
-      <!-- <button id="bvi" class="bvi-open el-icon-view" >Версия сайта для слабовидящих</button> -->
+      <button id="bvi" class="bvi-open" >Версия сайта для слабовидящих</button>
     </div>
   <div id="app" />
   <!---->

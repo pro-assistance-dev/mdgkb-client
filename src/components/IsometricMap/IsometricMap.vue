@@ -57,8 +57,9 @@ const getRoute = async (endNode: string) => {
   }
   await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
   engine.add(MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)));
-  const mark = mapModel.getMark(mapRouter.endNodeName, false);
-  engine.addAndWatch(mark);
+  const mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0AA249);
+  // engine.addAndWatch(mark);
+  engine.add(mark);
 };
 
 const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
@@ -83,8 +84,9 @@ onMounted(async () => {
   mapModel.setup(initBuildingsEventsMap(), engine);
   engine.add(model);
   engine.fillObjects();
-  const mark = mapModel.getMark(mapRouter.startNodeName, true);
-  engine.addAndWatch(mark);
+  const mark = mapModel.getMark(mapRouter.startNodeName, true, 0x006BB4);
+  // engine.addAndWatch(mark);
+  engine.add(mark);
 });
 
 // const createRoutes = async () => {
@@ -131,7 +133,10 @@ onMounted(async () => {
 .label {
   color: black;
   font-family: sans-serif;
-  padding: 2px;
-  background: rgba(0, 0, 0, 0.6);
+  font-size: 16px;
+  background: #ffffff;
+  border-radius: 50px;
+  border: 1px solid;
+  padding: 0 10px;
 }
 </style>

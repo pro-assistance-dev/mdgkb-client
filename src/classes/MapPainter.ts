@@ -12,11 +12,26 @@ export default abstract class MapPainter {
     return line;
   }
 
-  static GetMark(): Three.Mesh {
-    const geometry = new Three.BoxGeometry(0.1, 0.1, 0.1);
-    const material = new Three.MeshBasicMaterial({ color: 0x00ff00 });
-    const mark = new Three.Mesh(geometry, material);
-    return mark;
+  static GetCone(color: string): Three.Mesh {
+    const geometry = new Three.ConeGeometry(0.05, -0.2, 32, 10, true);
+    const material = new Three.MeshBasicMaterial( {color: color} );
+    const cone = new Three.Mesh(geometry, material);
+    return cone;
+  }
+  static GetCylinder(color: string): Three.Mesh {
+    const geometry = new Three.CylinderGeometry( 0.005, 0.005, 0.32, 32 ); 
+    const material = new Three.MeshBasicMaterial( {color: color} ); 
+    const cylinder = new Three.Mesh( geometry, material );
+    cylinder.position.set(0, -0.1, 0);
+    return cylinder;
+  }
+
+  static GetHemisphere(color: string): Three.Mesh {
+    const geometry = new Three.SphereGeometry( 0.05, 32, 16, 0, 6.28, -1.57);
+    const material = new Three.MeshBasicMaterial( {color: color} ); 
+    const hemisphere = new Three.Mesh( geometry, material );
+    hemisphere.position.set(0, 0.1, 0);
+    return hemisphere;
   }
 
   static GetLineFromPoints(points: Three.Vector3[]): Three.Line {
