@@ -22,57 +22,57 @@
   font-size: $base-font-size;
 
   &_primary {
-    border: 1px solid $admin_primary_color;
-    background: $admin_primary_background;
-    color: $admin_primary_color;
+    border: 1px solid $button_primary_color;
+    background: $button_primary_background;
+    color: $button_primary_color;
     &:hover {
-      background: lighten($admin_primary_background, $percent);
+      background: lighten($button_primary_background, $percent);
     }
   }
 
   &_success {
-    border: 1px solid $admin_success_color;
-    background: $admin_success_background;
-    color: $admin_success_color;
+    border: 1px solid $button_success_color;
+    background: $button_success_background;
+    color: $button_success_color;
     &:hover {
-      background: lighten($admin_success_background, $percent);
+      background: lighten($button_success_background, $percent);
     }
   }
 
   &_warning {
-    border: 1px solid $admin_warning_color;
-    background: $admin_warning_background;
-    color: $admin_warning_color;
+    border: 1px solid $button_warning_color;
+    background: $button_warning_background;
+    color: $button_warning_color;
     &:hover {
-      background: lighten($admin_warning_background, $percent);
+      background: lighten($button_warning_background, $percent);
     }
   }
 
   &_danger {
-    border: 1px solid $admin_danger_color;
-    background: $admin_danger_background;
-    color: $admin_danger_color;
+    border: 1px solid $button_danger_color;
+    background: $button_danger_background;
+    color: $button_danger_color;
     &:hover {
-      background: lighten($admin_danger_background, $percent);
+      background: lighten($button_danger_background, $percent);
     }
   }
 
   &_neutral {
-    border: 1px solid $admin_neutral_color;
-    background: $admin_neutral_background;
-    color: $admin_neutral_color;
+    border: 1px solid $button_neutral_color;
+    background: $button_neutral_background;
+    color: $button_neutral_color;
     &:hover {
-      background: lighten($admin_neutral_background, $percent);
+      background: lighten($button_neutral_background, $percent);
     }
   }
 
   &_disabled {
-    border: 1px solid $admin_disabled_color;
-    background: $admin_disabled_background;
-    color: $admin_disabled_color;
+    border: 1px solid $button_disabled_color;
+    background: $button_disabled_background;
+    color: $button_disabled_color;
     cursor: auto;
     &:hover {
-      background: $admin_disabled_background;
+      background: $button_disabled_background;
     }
   }
 

@@ -2,7 +2,6 @@
   <transition name="fade">
     <div v-if="PHelp.Notification().IsVisible()" class="message" :style="{
       background: PHelp.Notification().GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
-      marginTop: '100px',
     }">
       <MessageBody :title="PHelp.Notification().GetTitle()" :text="PHelp.Notification().GetText()" />
     </div>
@@ -10,7 +9,6 @@
 </template>
 
 <script lang="ts" setup>
-import StringItem from '@/services/components/StringItem.vue';
 </script>
 <style lang="scss" scoped>
 @import '@/services/assets/style/index.scss';
@@ -22,7 +20,7 @@ import StringItem from '@/services/components/StringItem.vue';
   z-index: 9999;
   transform: translateX(-50%);
   width: 300px;
-  margin: auto;
+  margin: 100px auto 0 auto;
   border-radius: 5px;
   box-sizing: border-box;
   border: 1px solid $base-font-color;

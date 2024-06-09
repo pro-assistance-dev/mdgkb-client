@@ -1,0 +1,25 @@
+@import '/services/assets/style/index.scss';
+
+//base-button-colors: neutral, disabled, primary, success, danger, warning
+$button_primary_color: $primary_color;
+$button_dark_primary_color: $dark_primary_color;
+$button_primary_background: $primary_background;
+
+$button_success_color: $success_color;
+$button_dark_success_color: $dark_success_color;
+$button_success_background: $success_background;
+
+$button_warning_color: $warning_color;
+$button_dark_warning_color: $dark_warning_color;
+$button_warning_background: $warning_background;
+
+$button_danger_color: $danger_color;
+$button_dark_danger_color: $dark_danger_color;
+$button_danger_background: $danger_background;
+
+$button_disabled_color: $disabled_color;
+$button_disabled_background: $disabled_background;
+
+$button_neutral_color: $neutral_color;
+$button_dark_neutral_color: $dark_neutral_color;
+$button_neutral_background: $neutral_background;
