@@ -26,50 +26,50 @@
   user-select: none;
 
   &_primary {
-    color: $admin_primary_color;
+    color: $primary_color;
   }
 
   &:hover {
-    color: $admin_dark_primary_color;
+    color: $dark_primary_color;
   }
 
   &_success {
-    color: $admin_success_color;
+    color: $success_color;
   }
 
   &:hover {
-    color: $admin_dark_success_color;
+    color: $dark_success_color;
   }
 
   &_warning {
-    color: $admin_warning_color;
+    color: $warning_color;
   }
 
   &:hover {
-    color: $admin_dark_warning_color;
+    color: $dark_warning_color;
   }
 
   &_danger {
-    color: $admin_danger_color;
+    color: $danger_color;
   }
 
   &:hover {
-    color: $admin_dark_danger_color;
+    color: $dark_danger_color;
   }
 
   &_neutral {
-    color: $admin_neutral_color;
+    color: $neutral_color;
   }
 
   &:hover {
-    color: $admin_dark_neutral_color;
+    color: $dark_neutral_color;
   }
 
   &_del {
-    color: $admin_neutral_color;
+    color: $neutral_color;
   }
 
   &_del:hover {
-    color: $admin_dark_danger_color;
+    color: $dark_danger_color;
   }
 }
