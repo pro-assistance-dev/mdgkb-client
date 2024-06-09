@@ -82,7 +82,7 @@ const selectModel = async (model?: FilterModel): void => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .active {
   background: inherit;

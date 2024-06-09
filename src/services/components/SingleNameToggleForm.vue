@@ -75,7 +75,7 @@ const submit = async (): Promise<void> => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .field {
   width: 100%;

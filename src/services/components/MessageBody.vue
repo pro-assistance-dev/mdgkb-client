@@ -4,7 +4,7 @@
       <StringItem :string="title" />
     </div>
     <div class="message-text">
-      <StringItem :string="text" />
+      <StringItem is-html :string="text" />
     </div>
   </div>
 </template>
@@ -14,10 +14,10 @@ import StringItem from '@/services/components/StringItem.vue';
 defineProps({
   title: { type: String as PropType<string>, default: '', required: false },
   text: { type: String as PropType<string>, default: '', required: false },
-})
+});
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .message {
   position: absolute;

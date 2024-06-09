@@ -2,7 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
 import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
-import AdmissionFormV2 from '@/components/Educational/AdmissionCommittee/AdmissionFormV2.vue';
+const AdmissionForm = () => import('@/components/Educational/AdmissionCommittee/AdmissionForm.vue');
 import DpoPage from '@/components/Educational/Dpo/DpoPage.vue';
 import NmoCoursePage from '@/components/Educational/Dpo/NmoCoursePage.vue';
 import EducationPage from '@/components/Educational/Education/EducationPage.vue';
@@ -17,22 +17,22 @@ import { authGuard } from '.';
 
 export default [
   {
-    path: '/educational-info',
-    name: 'EducationPage',
-    meta: { title: 'Сведения об образовательной организации' },
     component: EducationPage,
+    meta: { title: 'Сведения об образовательной организации' },
+    name: 'EducationPage',
+    path: '/educational-info',
   },
   {
-    path: '/admission-committee',
-    name: 'AdmissionCommittee',
-    meta: { title: 'Приёмная кампания' },
     component: AdmissionCommittee,
+    meta: { title: 'Приёмная кампания' },
+    name: 'AdmissionCommittee',
+    path: '/admission-committee',
   },
   {
+    component: EducationalOrganizationAcademics,
+    meta: { title: 'Учёный совет' },
     path: '/academics',
     name: 'EducationalOrganizationAcademics',
-    meta: { title: 'Учёный совет' },
-    component: EducationalOrganizationAcademics,
   },
   {
     path: '/postgraduate',
@@ -65,13 +65,13 @@ export default [
     component: AdmissionCoursePage,
   },
   {
-    path: '/admission-form',
-    name: 'AdmissionFormV2',
+    component: AdmissionForm,
     meta: { title: 'Форма' },
-    component: AdmissionFormV2,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
-    },
+    name: 'AdmissionForm',
+    path: '/admission-form',
+    // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
+    //   authGuard(next);
+    // },
   },
   {
     path: '/candidates-minimum',
@@ -80,10 +80,10 @@ export default [
     component: PostgraduatePage,
   },
   {
+    component: DpoPage,
     path: '/dpo',
     name: 'DpoCourses',
     meta: { title: 'ДПО' },
-    component: DpoPage,
   },
   {
     path: '/nmo-courses/:id',

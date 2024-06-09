@@ -94,7 +94,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 * {
   box-sizing: border-box;

@@ -69,7 +69,7 @@ const remove = async (filer: IFiler) => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .groups {
   width: 100%;

@@ -13,7 +13,7 @@
     @click.prevent="changeState"
   >
     <slot />
-    <div :style="{ marginTop: '4px' }">{{ text }}</div>
+    {{ text }}
   </button>
 </template>
 
@@ -35,9 +35,10 @@ const emit = defineEmits(['click']);
 const changeState = () => {
   emit('click');
 };
-const buttonClass = computed(() => 'p-button' + '_' + props.skin + '_' + props.type);
+
+const buttonClass = computed(() => 'p-button' + '_' + props.skin + ' ' + 'p-button' + '_' + props.skin + '_' + props.type);
 </script>
 
 <style lang="scss" scoped>
-@import '@/services/assets/style/main.scss';
+@import '@/services/assets/style/index.scss';
 </style>

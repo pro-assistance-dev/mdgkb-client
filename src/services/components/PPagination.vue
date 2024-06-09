@@ -1,41 +1,69 @@
 <template>
   <div :key="count" style="display: flex; justify-content: center; width: 100%">
-    <div class="pag-container" :style="{
-      justifyContent: justifyContent,
-    }">
+    <div
+      class="pag-container"
+      :style="{
+        justifyContent: justifyContent,
+      }"
+    >
       <div class="pag-number">
-        <PButton skin="pag" :type="curPage === 1 ? 'not-active' : 'neutral'" @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)">
+        <PButton
+          skin="pag"
+          :type="curPage === 1 ? 'not-active' : 'neutral'"
+          @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)"
+        >
           <ArrowLeft />
         </PButton>
         <ul class="pag-ul">
           <li>
-            <PButton skin="pag" :type="curPage === 1 ? 'active' : 'neutral'" text="1"
-              @click="currentChange(1)" />
+            <PButton skin="pag" :type="curPage === 1 ? 'active' : 'neutral'" text="1" @click="currentChange(1)" />
           </li>
           <li @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
-            <PButton skin="pag" v-if="pagArr.length > 8 && curPage > 4" type="neutral"  @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)" >
-              <DoubleArrowLeft v-if="hoveringL"/>
-              <Ellipsis v-else/>
+            <PButton
+              skin="pag"
+              v-if="pagArr.length > 8 && curPage > 4"
+              type="neutral"
+              @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)"
+            >
+              <DoubleArrowLeft v-if="hoveringL" />
+              <Ellipsis v-else />
             </PButton>
           </li>
-          <li v-for="num in pagArr3" :key="num.id" >
-            <PButton skin="pag" v-if="num < pagArr.length && num > 1"
-              :type="num === curPage ? 'active' : 'neutral'" :text="num"
-              @click="currentChange(num)" />
+          <li v-for="num in pagArr3" :key="num">
+            <PButton
+              skin="pag"
+              v-if="num < pagArr.length && num > 1"
+              :type="num === curPage ? 'active' : 'neutral'"
+              :text="num"
+              @click="currentChange(num)"
+            />
           </li>
           <li @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
-            <PButton skin="pag" v-if="pagArr.length > 8 && curPage < pagArr.length - 3" type="neutral" @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)">
-              <DoubleArrowRight v-if="hoveringR"/>
-              <Ellipsis v-else/>
+            <PButton
+              skin="pag"
+              v-if="pagArr.length > 8 && curPage < pagArr.length - 3"
+              type="neutral"
+              @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)"
+            >
+              <DoubleArrowRight v-if="hoveringR" />
+              <Ellipsis v-else />
             </PButton>
           </li>
           <li>
-            <PButton skin="pag" v-if="pagArr.length > 1"
-              :type="pagArr.length === curPage ? 'active' : 'neutral'" :text="pagArr.length"
-              @click="currentChange(pagArr.length)" />
+            <PButton
+              skin="pag"
+              v-if="pagArr.length > 1"
+              :type="pagArr.length === curPage ? 'active' : 'neutral'"
+              :text="pagArr.length"
+              @click="currentChange(pagArr.length)"
+            />
           </li>
         </ul>
-        <PButton skin="pag" :type="curPage === pageCount ? 'not-active' : 'neutral'" @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)" >
+        <PButton
+          skin="pag"
+          :type="curPage === pageCount ? 'not-active' : 'neutral'"
+          @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)"
+        >
           <ArrowRight />
         </PButton>
       </div>
@@ -62,7 +90,7 @@ const props = defineProps({
   justifyContent: {
     type: String,
     default: 'center',
-  }
+  },
 });
 
 const hoveringL = ref(false);
@@ -72,7 +100,7 @@ const emit = defineEmits(['cancel', 'save']);
 const storeModule: string = Provider.store.getters['filter/storeModule'];
 const action: string = Provider.store.getters['filter/action'];
 
-const count: ComputedRef<number> = Store.Getters(`${storeModule}/count`)
+const count: ComputedRef<number> = Store.Getters(`${storeModule}/count`);
 const pageCount: ComputedRef<number> = computed(() =>
   Math.ceil(count.value / Provider.filterQuery.value.pagination.limit) > 0
     ? Math.ceil(count.value / Provider.filterQuery.value.pagination.limit)
@@ -80,7 +108,7 @@ const pageCount: ComputedRef<number> = computed(() =>
 );
 
 const pagArr = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1));
-const curPage: ComputedRef<number> = Store.Getters('pagination/curPage')
+const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
 
 const rangeArr = () => {
   if (pagArr.value.length < 8) {
@@ -143,7 +171,8 @@ watch(
   () => {
     pagArr3.value = Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i);
     console.log(pagArr3.value);
-  });
+  }
+);
 
 const scrollToBack = () => {
   const table = document.querySelector('.el-table__body-wrapper');
@@ -165,7 +194,7 @@ onBeforeMount(async () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 .pag-container {
   display: flex;
   align-items: center;

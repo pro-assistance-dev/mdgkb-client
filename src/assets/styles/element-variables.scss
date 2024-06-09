@@ -1,5 +1,5 @@
 // HELPERS
-@import './helpers/shadows';
+// @import './helpers/shadows';
 @import './helpers/editor-table';
 
 // LAYOUTS
@@ -11,33 +11,6 @@
 @import 'elements/calendar';
 @import 'elements/ql';
 @import '@/assets/styles/base-style.scss';
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-  height: 100%;
-  width: 100%;
-  background: #e4e5e7;
-  position: relative;
-}
-
-.main-container {
-  border: 1px solid #eee;
-  background-color: rgb(238, 241, 246);
-  height: 100%;
-  overflow: visible;
-}
-
-#app {
-  font-size: 1em;
-  font-weight: normal;
-  color: $site_dark_gray;
-  line-height: 1.5;
-  font-family: 'Open Sans', sans-serif;
-  height: 100%;
-}
 
 .el-footer {
   background-color: #fff;
@@ -133,8 +106,12 @@ body > .el-container::v-deep {
 }
 .card-hover:hover {
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
-    rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 5px 5px,
+    rgba(0, 0, 0, 0.1) 0px -1px 3px,
+    rgba(0, 0, 0, 0.1) 0px 4px 6px,
+    rgba(0, 0, 0, 0.1) 0px 2px 3px,
+    rgba(0, 0, 0, 0.1) 0px -3px 5px;
 }
 
 .el-button {

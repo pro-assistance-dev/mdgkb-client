@@ -3,7 +3,6 @@
     <div v-if="PHelp.Notification().IsVisible()" class="message" :style="{
       background: PHelp.Notification().GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
       marginTop: '100px',
-      position: fixed,
     }">
       <MessageBody :title="PHelp.Notification().GetTitle()" :text="PHelp.Notification().GetText()" />
     </div>
@@ -14,10 +13,10 @@
 import StringItem from '@/services/components/StringItem.vue';
 </script>
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .message {
-  position: absolute;
+  position: fixed;
   top: 6px;
   left: 50%;
   z-index: 9999;
@@ -33,6 +32,8 @@ import StringItem from '@/services/components/StringItem.vue';
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: $normal-shadow;
+  padding: 20px;
 }
 
 .message-title {

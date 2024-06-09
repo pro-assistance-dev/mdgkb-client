@@ -1,48 +1,44 @@
 <template>
   <div class="string" :style="styleObject" :class="customClass" @click="$emit('click')">
-    {{ string }}
+    <span v-if="isHtml" v-html="string" />
+    <span v-else>{{ string }}</span>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script lang="ts" setup>
+const emits = defineEmits(['click']);
 
-export default defineComponent({
-  name: 'StringItem',
-  props: {
-    string: { type: String as PropType<string>, required: false, default: '' },
-    color: { type: String as PropType<string>, required: false, default: '' },
-    fontSize: { type: String as PropType<string>, required: false, default: '' },
-    fontWeight: { type: String as PropType<string>, required: false, default: '' },
-    background: { type: String as PropType<string>, required: false, default: '' },
-    padding: { type: String as PropType<string>, required: false, default: '' },
-    width: { type: String as PropType<string>, required: false, default: '' },
-    minWidth: { type: String as PropType<string>, required: false, default: '' },
-    margin: { type: String as PropType<string>, required: false, default: '' },
-    customClass: { type: String as PropType<string>, required: false, default: '' },
-    justifyContent: { type: String as PropType<string>, required: false, default: 'center' },
-  },
-  emits: ['click'],
-  setup(props) {
-    const styleObject = {
-      color: props.color,
-      fontSize: props.fontSize,
-      fontWeight: props.fontWeight,
-      background: props.background,
-      padding: props.padding,
-      width: props.width,
-      maxWidth: props.width,
-      minWidth: props.minWidth,
-      margin: props.margin,
-      justifyContent: props.justifyContent,
-    };
-    return { styleObject };
-  },
+const props = defineProps({
+  string: { type: String as PropType<string>, required: false, default: '' },
+  color: { type: String as PropType<string>, required: false, default: '' },
+  fontSize: { type: String as PropType<string>, required: false, default: '' },
+  fontWeight: { type: String as PropType<string>, required: false, default: '' },
+  background: { type: String as PropType<string>, required: false, default: '' },
+  padding: { type: String as PropType<string>, required: false, default: '' },
+  width: { type: String as PropType<string>, required: false, default: '' },
+  minWidth: { type: String as PropType<string>, required: false, default: '' },
+  margin: { type: String as PropType<string>, required: false, default: '' },
+  customClass: { type: String as PropType<string>, required: false, default: '' },
+  justifyContent: { type: String as PropType<string>, required: false, default: 'center' },
+  isHtml: { type: Boolean as PropType<string>, required: false, default: false },
 });
+
+const styleObject = {
+  color: props.color,
+  fontSize: props.fontSize,
+  fontWeight: props.fontWeight,
+  background: props.background,
+  padding: props.padding,
+  width: props.width,
+  maxWidth: props.width,
+  minWidth: props.minWidth,
+  margin: props.margin,
+  justifyContent: props.justifyContent,
+};
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 
 .string {
   max-width: 100%;

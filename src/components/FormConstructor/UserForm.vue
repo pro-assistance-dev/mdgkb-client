@@ -19,17 +19,17 @@
   <el-form-item v-if="activeFields.userPatronymic" :rules="rules.userPatronymic" label="Отчество" prop="formValue.user.human.patronymic">
     <el-input v-model="formValue.user.human.patronymic" placeholder="Отчество"></el-input>
   </el-form-item>
-  <!--  <el-form-item-->
-  <!--    v-if="activeFields.userPostIndex"-->
-  <!--    label="Почтовый индекс"-->
-  <!--    :rules="rules.userPostIndex"-->
-  <!--    prop="formValue.user.human.postIndex"-->
-  <!--  >-->
-  <!--    <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>-->
-  <!--  </el-form-item>-->
-  <!--  <el-form-item v-if="activeFields.userAddress" label="Адрес" prop="formValue.user.human.address" :rules="rules.userAddress">-->
-  <!--    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>-->
-  <!--  </el-form-item>-->
+  <el-form-item
+    v-if="activeFields.userPostIndex"
+    label="Почтовый индекс"
+    :rules="rules.userPostIndex"
+    prop="formValue.user.human.postIndex"
+  >
+    <el-input v-model="formValue.user.human.postIndex" placeholder="Почтовый индекс"></el-input>
+  </el-form-item>
+  <el-form-item v-if="activeFields.userAddress" label="Адрес" prop="formValue.user.human.address" :rules="rules.userAddress">
+    <el-input v-model="formValue.user.human.address" placeholder="Адрес"></el-input>
+  </el-form-item>
   <!-- <AddressInfoForm v-if="activeFields.userAddress" :address-info="formValue.user.human.contactInfo.addressInfo" /> -->
   <el-form-item v-if="activeFields.userSnils" :rules="rules.userSnils" label="СНИЛС" prop="formValue.user.human.snils">
     <el-input
@@ -112,7 +112,6 @@
 import Form from '@/classes/Form';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
-import AddressInfoForm from '@/components/FormConstructor/AddressInfoForm.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import PhoneService from '@/services/PhoneService';
 
@@ -144,6 +143,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['findEmail']);
 
+const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
 const auth: ComputedRef<boolean> = Store.Getters('auth/auth');
 const user: ComputedRef<User> = computed(auth.value.user.get());
 const formValue = ref(new Form());
@@ -189,7 +189,8 @@ const rules = {
   childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
 };
 const openLoginModal = () => {
-  Store.Commit('auth/openModal', 'login');
+  authModal.value.open();
+  // Store.Commit('auth/openModal', 'login');
 };
 
 const findEmail = () => {
@@ -197,9 +198,10 @@ const findEmail = () => {
     emits('findEmail');
   }
 };
+
 onBeforeMount(() => {
-  Store.Commit('auth/showWarning', true);
-  Store.Commit('auth/authOnly', true);
+  // Store.Commit('auth/showWarning', true);
+  // Store.Commit('auth/authOnly', true);
   formValue.value = props.form;
   if (!auth.value.isAuth) {
     openLoginModal();
@@ -207,8 +209,8 @@ onBeforeMount(() => {
 });
 
 onBeforeUnmount(() => {
-  Store.Commit('auth/showWarning', false);
-  Store.Commit('auth/authOnly', false);
+  // Store.Commit('auth/showWarning', false);
+  // Store.Commit('auth/authOnly', false);
 });
 </script>
 

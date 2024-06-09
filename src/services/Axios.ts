@@ -1,6 +1,6 @@
 import axios, { AxiosPromise, ResponseType } from 'axios';
 
-import HttpError from './classes/HttpError';
+import HttpError from './HttpError';
 import HttpHeaders from './types/HttpHeaders';
 import { HttpMethods } from './types/HttpMethods';
 

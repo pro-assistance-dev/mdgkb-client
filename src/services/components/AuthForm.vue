@@ -15,8 +15,16 @@
           <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
-          <PButton type="admin" v-for="btn in buttons" :key="btn.getStatus()" :text="btn.label" 
-          :color="btn.isSubmit ? 'blue' : 'grey'" @click="authButtonClick(btn)" margin="10px 0 0 0"/>
+          <PButton
+            skin="auth"
+            type="primary"
+            v-for="btn in buttons"
+            :key="btn.getStatus()"
+            :text="btn.label"
+            :color="btn.isSubmit ? 'blue' : 'grey'"
+            @click="authButtonClick(btn)"
+            margin="10px 0 0 0"
+          />
         </div>
       </el-form>
     </div>
@@ -70,15 +78,16 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
-    Message.Error(errors.join(', '));
+    PHelp.Message.Error(errors.join(', '));
     authButton.on();
     return;
   }
 
   try {
     Store.Dispatch(`auth/${form.value.getAction()}`);
-    Message.Success(form.value.getSuccessMessage());
+    // PHelp.Notification().Success(form.value.getSuccessMessage());
   } catch (error) {
+    console.error(error);
     return;
   }
   switch (form.value.status) {
@@ -101,6 +110,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
       break;
   }
   authButton.on();
+  console.log('action');
   emits('action');
 };
 

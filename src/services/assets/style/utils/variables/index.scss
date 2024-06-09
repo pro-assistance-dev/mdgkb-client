@@ -1,1 +1,43 @@
 @import './colors.scss';
+@import './fonts.scss';
+@import './borders.scss';
+
+$transition: 0s;
+
+$base-font-color: $site_dark_gray;
+$icon-width: 20px;
+$icon-height: 20px;
+$icon-color: #343d5c;
+$icon-hover-color: #343d5c;
+$icon-transition: $transition;
+
+//admin buttons style, themes
+$p-button-width: 100%;
+$p-button-min-width: 150px;
+$p-button-max-width: 100%;
+$p-button-height: 40px;
+$p-button-margin: auto;
+$p-button-padding: 0 10px;
+$p-button-border-radius: $border-radius;
+$p-button-border: 1px solid #dcdfe6;
+$p-button-transition: $transition;
+
+//
+$input-height: 30px;
+$input-background: #ffffff;
+$input-border: none;
+$input-font-color: $base-font-color;
+$input-font-size: $base-font-size;
+$input-font: $base-font;
+$input-margin: 0;
+$input-padding: 0;
+$input-width: 100%;
+$input-label-color: $base-light-font-color;
+$input-label-margin: 0 0 15px 5px;
+$input-readonly-background: #f5f5f5;
+
+//PInput
+$p-input-margin: 0;
+$p-input-padding: 0 20px;
+$p-input-border-radius: 30px;
+$p-input-border: 1px solid #dcdfe6;

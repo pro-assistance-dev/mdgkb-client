@@ -1,0 +1,28 @@
+@import './variables/index.scss';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  background: #e4e5e7;
+  position: relative;
+}
+
+.main-container {
+  border: 1px solid #eee;
+  background-color: rgb(238, 241, 246);
+  height: 100%;
+  overflow: visible;
+}
+
+#app {
+  font-size: 1em;
+  font-weight: normal;
+  color: $site_dark_gray;
+  line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
+  height: 100%;
+}
