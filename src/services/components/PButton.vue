@@ -13,7 +13,7 @@
     @click.prevent="changeState"
   >
     <slot />
-    <div :style="{ marginTop: '4px' }">{{ text }}</div>
+    {{ text }}
   </button>
 </template>
 
