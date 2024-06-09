@@ -1,14 +1,28 @@
 <template>
   <transition name="fade">
-    <div v-if="PHelp.Notification().IsVisible()" class="message" :style="{
-      background: PHelp.Notification().GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
-    }">
+    <div v-if="PHelp.Notification().IsVisible()" :class="typeClass" >
       <MessageBody :title="PHelp.Notification().GetTitle()" :text="PHelp.Notification().GetText()" />
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
+
+const typeClass = computed(() => {
+  switch (PHelp.Dialog().GetType()) {
+  case 'info':
+    return 'message primary';
+  case 'success':
+    return 'message success';
+  case 'warning':
+    return 'message warning';
+  case 'error':
+    return 'message danger';
+  default:
+    return 'message neutral';
+  };
+});
+
 </script>
 <style lang="scss" scoped>
 @import '@/services/assets/style/index.scss';
@@ -32,6 +46,23 @@
   align-items: center;
   box-shadow: $normal-shadow;
   padding: 20px;
+  background: $neutral_background;
+}
+
+.primary {
+  background: $primary_background;
+}
+.success{
+  background: $success_background;
+}
+.warning {
+  background: $warning_background;
+}
+.danger {
+  background: $danger_background;
+}
+.neutral {
+  background: $neutral_background;
 }
 
 .message-title {

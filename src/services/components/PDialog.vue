@@ -1,8 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-if="PHelp.Dialog().IsVisible()" class="message" :style="{
-      background: PHelp.Dialog().GetType() === 'success' ? '#C7ECEA' : '#ECC7C7',
-    }">
+    <div v-if="PHelp.Dialog().IsVisible()" :class="typeClass">
       <MessageBody :title="PHelp.Dialog().GetTitle()" :text="PHelp.Dialog().GetText()" />
       <div class="footer">
         <PButton type="primary" @click="PHelp.Dialog().Submit()" :text="PHelp.Dialog().GetConfirmButtonText()" margin="10px 0 0 0" />
@@ -13,6 +11,21 @@
 </template>
 
 <script lang="ts" setup>
+
+const typeClass = computed(() => {
+  switch (PHelp.Dialog().GetType()) {
+  case 'info':
+    return 'message primary';
+  case 'success':
+    return 'message success';
+  case 'warning':
+    return 'message warning';
+  case 'error':
+    return 'message danger';
+  default:
+    return 'message neutral';
+  };
+});
 
 </script>
 <style lang="scss" scoped>
@@ -36,6 +49,22 @@
   align-items: center;
   box-shadow: $normal-shadow;
   padding: 20px;
+}
+
+.primary {
+  background: $primary_background;
+}
+.success{
+  background: $success_background;
+}
+.warning {
+  background: $warning_background;
+}
+.danger {
+  background: $danger_background;
+}
+.neutral {
+  background: $neutral_background;
 }
 
 .message-title {
