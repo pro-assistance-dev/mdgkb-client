@@ -8,7 +8,7 @@
       <!--   <EmojiPicker :native="true" @select="emojiSelectHandler" /> -->
       <!-- </el-popover> -->
       <!-- {{ req() }} -->
-      <component :is="comp" />
+      <!-- <component :is="comp" /> -->
     </button>
   </el-tooltip>
 </template>
@@ -58,7 +58,7 @@ export default defineComponent({
     // };
     const c = `ri-${props.icon}.vue`;
     const path = '/src/assets/vue-remix-icons/icons/' + c;
-    const comp = defineAsyncComponent(() => modules[path]());
+    const comp = defineAsyncComponent(() => (modules[path] ? modules[path]() : undefined));
     interface Emoji {
       i: string;
     }

@@ -155,12 +155,12 @@ import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
-import { steps, textFieldsAndDocuments, templateAllert, licensyText, privacyText } from './AdmissionData.ts';
+import { steps, textFieldsAndDocuments, templateAlert, licensyText, privacyText } from './AdmissionData.ts';
 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
 const mounted = ref(false);
-const activeStep: Ref<number> = ref(0);
+const activeStep: Ref<number> = ref(5);
 const residencyApplication: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
 
 const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
@@ -256,11 +256,11 @@ const courseChangeHandler = async () => {
   residencyApplication.value.formValue.initFieldsValues();
   Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
   Provider.store.commit('residencyApplications/setCourse', residencyApplication.value.residencyCourse);
-  Provider.store.commit('residencyApplications/setUser', user.value);
+  // Provider.store.commit('residencyApplications/setUser', user.value);
 };
 
 const filledApplicationDownload = () => {
-  ElMessageBox.alert(textAlertText, 'После закрытия этого окна скачается предзаполненное заявление', {
+  ElMessageBox.alert(templateAlert, 'После закрытия этого окна скачается предзаполненное заявление', {
     dangerouslyUseHTMLString: true,
     confirmButtonText: 'OK',
     callback: () => {
