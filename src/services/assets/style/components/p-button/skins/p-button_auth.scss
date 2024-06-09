@@ -27,62 +27,62 @@
   user-select: none;
 
   &_primary {
-    border: 1px solid $primary_color;
-    background: $primary_background;
-    color: $primary_color;
+    border: 1px solid $button_primary_color;
+    background: $button_primary_background;
+    color: $button_primary_color;
     &:hover {
       color: #ffffff;
-      background: $primary_color;
+      background: $button_primary_color;
     }
   }
 
   &_success {
-    border: 1px solid $success_color;
-    background: $success_background;
-    color: $success_color;
+    border: 1px solid $button_success_color;
+    background: $button_success_background;
+    color: $button_success_color;
     &:hover {
       color: #ffffff;
-      background: $success_color;
+      background: $button_success_color;
     }
   }
 
   &_warning {
-    border: 1px solid $warning_color;
-    background: $warning_background;
-    color: $warning_color;
+    border: 1px solid $button_warning_color;
+    background: $button_warning_background;
+    color: $button_warning_color;
     &:hover {
       color: #ffffff;
-      background: $warning_color;
+      background: $button_warning_color;
     }
   }
 
   &_danger {
-    border: 1px solid $danger_color;
-    background: $danger_background;
-    color: $danger_color;
+    border: 1px solid $button_danger_color;
+    background: $button_danger_background;
+    color: $button_danger_color;
     &:hover {
       color: #ffffff;
-      background: $danger_color;
+      background: $button_danger_color;
     }
   }
 
   &_neutral {
-    border: 1px solid $neutral_color;
-    background: $neutral_background;
-    color: $neutral_color;
+    border: 1px solid $button_neutral_color;
+    background: $button_neutral_background;
+    color: $button_neutral_color;
     &:hover {
       color: #ffffff;
-      background: $neutral_color;
+      background: $button_neutral_color;
     }
   }
 
   &_disabled {
-    border: 1px solid $disabled_color;
-    background: $disabled_background;
-    color: $disabled_color;
+    border: 1px solid $button_disabled_color;
+    background: $button_disabled_background;
+    color: $button_disabled_color;
     cursor: auto;
     &:hover {
-      background: $disabled_background;
+      background: $button_disabled_background;
     }
   }
 }
