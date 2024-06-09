@@ -45,7 +45,7 @@
                 </div>
               </div>
               <div class="contact-phone-el">
-                <PButton type="primary" v-if="user.phone" skin="profile" text="Изменить" height="28px" width="100px"
+                <PButton type="neutral" v-if="user.phone" skin="profile" text="Изменить" height="28px" width="100px"
                   @click="isEditPhoneModalOpen = true" />
                 <PButton v-else skin="profile" text="Добавить" height="28px" @click="isEditPhoneModalOpen = true" />
                 <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
