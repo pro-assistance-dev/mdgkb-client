@@ -1,4 +1,5 @@
 <template>
+  {{ filteredFields() }}
   <div v-if="filteredFields().length">
     <div v-if="mobileWindow || !table" class="mobile-container">
       <FieldValuesFormItem

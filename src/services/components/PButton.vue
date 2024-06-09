@@ -35,7 +35,8 @@ const emit = defineEmits(['click']);
 const changeState = () => {
   emit('click');
 };
-const buttonClass = computed(() => 'p-button' + '_' + props.skin + '_' + props.type);
+
+const buttonClass = computed(() => 'p-button' + '_' + props.skin + ' ' + 'p-button' + '_' + props.skin + '_' + props.type);
 </script>
 
 <style lang="scss" scoped>
