@@ -1,11 +1,11 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminBuildingPage from '@/components/admin/AdminBuildings/AdminBuildingPage.vue';
-import AdminBuildingsList from '@/components/admin/AdminBuildings/AdminBuildingsList.vue';
-import AdminDivisionPage from '@/components/admin/AdminDivisions/AdminDivisionPage.vue';
-import AdminDivisionsList from '@/components/admin/AdminDivisions/AdminDivisionsList.vue';
-import AdminSideOrganizationPage from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationPage.vue';
-import AdminSideOrganizationsList from '@/components/admin/AdminSideOrganizations/AdminSideOrganizationsList.vue';
+const AdminBuildingPage = () => import('@/components/admin/AdminBuildings/AdminBuildingPage.vue');
+const AdminBuildingsList = () => import('@/components/admin/AdminBuildings/AdminBuildingsList.vue');
+const AdminDivisionPage = () => import('@/components/admin/AdminDivisions/AdminDivisionPage.vue');
+const AdminDivisionsList = () => import('@/components/admin/AdminDivisions/AdminDivisionsList.vue');
+const AdminSideOrganizationPage = () => import('@/components/admin/AdminSideOrganizations/AdminSideOrganizationPage.vue');
+const AdminSideOrganizationsList = () => import('@/components/admin/AdminSideOrganizations/AdminSideOrganizationsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

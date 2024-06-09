@@ -8,7 +8,7 @@
       <!--   <EmojiPicker :native="true" @select="emojiSelectHandler" /> -->
       <!-- </el-popover> -->
       <!-- {{ req() }} -->
-      <!-- <component :is="comp" /> -->
+      <component :is="comp" />
     </button>
   </el-tooltip>
 </template>

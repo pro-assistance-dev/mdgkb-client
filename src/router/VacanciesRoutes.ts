@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import VacanciesList from '@/components/Vacansies/VacanciesList.vue';
-import VacancyPage from '@/components/Vacansies/VacancyPage.vue';
+const VacanciesList = () => import('@/components/Vacansies/VacanciesList.vue');
+const VacancyPage = () => import('@/components/Vacansies/VacancyPage.vue');
 import { isAuthorized } from '@/router/index';
 
 export default [

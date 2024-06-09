@@ -1,8 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminFormStatusesList from '@/components/admin/AdminFormStatuses/AdminFormStatusesList.vue';
-import AdminFormStatusGroupsList from '@/components/admin/AdminFormStatuses/AdminFormStatusGroupsList.vue';
-import AdminFormStatusPage from '@/components/admin/AdminFormStatuses/AdminFormStatusPage.vue';
+const AdminFormStatusesList = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusesList.vue');
+const AdminFormStatusGroupsList = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusGroupsList.vue');
+const AdminFormStatusPage = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusPage.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 

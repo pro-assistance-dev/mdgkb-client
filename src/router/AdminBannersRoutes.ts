@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminBannerPage from '@/components/admin/AdminBanners/AdminBannerPage.vue';
-import AdminBannersList from '@/components/admin/AdminBanners/AdminBannersList.vue';
+const AdminBannerPage = () => import('@/components/admin/AdminBanners/AdminBannerPage.vue');
+const AdminBannersList = () => import('@/components/admin/AdminBanners/AdminBannersList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

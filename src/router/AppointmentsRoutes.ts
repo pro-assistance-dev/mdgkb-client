@@ -1,4 +1,4 @@
-import AppointmentsPage from '@/components/AppointmentsPage/AppointmentsPage.vue';
+const AppointmentsPage = () => import('@/components/AppointmentsPage/AppointmentsPage.vue');
 
 export default [
   {

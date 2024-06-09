@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminPathPermissions from '@/components/admin/AdminPathPermissions.vue';
+const AdminPathPermissions = () => import('@/components/admin/AdminPathPermissions.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

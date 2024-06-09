@@ -1,8 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminAppointmentPageContainer from '@/components/admin/AdminAppointments/AdminAppointmentPageContainer.vue';
-import AdminAppointmentsConstructor from '@/components/admin/AdminAppointments/AdminAppointmentsConstructor.vue';
-import AdminAppointmentsList from '@/components/admin/AdminAppointments/AdminAppointmentsList.vue';
+const AdminAppointmentPageContainer = () => import('@/components/admin/AdminAppointments/AdminAppointmentPageContainer.vue');
+const AdminAppointmentsConstructor = () => import('@/components/admin/AdminAppointments/AdminAppointmentsConstructor.vue');
+const AdminAppointmentsList = () => import('@/components/admin/AdminAppointments/AdminAppointmentsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

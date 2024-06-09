@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminQuestionPage from '@/components/admin/AdminQuestions/AdminQuestionPage.vue';
-import AdminQuestionsList from '@/components/admin/AdminQuestions/AdminQuestionsList.vue';
+const AdminQuestionPage = () => import('@/components/admin/AdminQuestions/AdminQuestionPage.vue');
+const AdminQuestionsList = () => import('@/components/admin/AdminQuestions/AdminQuestionsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

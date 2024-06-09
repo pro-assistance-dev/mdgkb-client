@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import MapPage from '@/components/Map/MapPage.vue';
+const MapPage = () => import('@/components/Map/MapPage.vue');
 import { isAuthorized } from '@/router/index';
 
 export default [

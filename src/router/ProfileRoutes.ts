@@ -1,19 +1,19 @@
 import { NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
 
-import ProfileChildrenPage from '@/components/Profile/ProfileChildrenPage.vue';
-import ProfileDailyMenuOrders from '@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrders.vue';
-import ProfileSettingsPage from '@/components/Profile/ProfileDailyMenuOrders/ProfileSettingsPage.vue';
-import ProfileDonor from '@/components/Profile/ProfileDonor.vue';
-import ProfileEditPage from '@/components/Profile/ProfileEditPage.vue';
-import ProfileInfoPage from '@/components/Profile/ProfileInfoPage.vue';
-import ProfileQuestionPage from '@/components/Profile/ProfileQuestionPage.vue';
-import CancelResidencyApplication from '@/components/Profile/ProfileResidencyApplications/CancelResidencyApplication.vue';
-import EditResidencyApplication from '@/components/Profile/ProfileResidencyApplications/EditResidencyApplication.vue';
-import ProfileResidencyApplications from '@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue';
-import EditVacancyResponse from '@/components/Profile/ProfileVacancyResponses/EditVacancyResponse.vue';
-import ProfileVacancyResponses from '@/components/Profile/ProfileVacancyResponses/ProfileVacancyResponses.vue';
-import QuestionAnswerPage from '@/components/Profile/QuestionAnswerPage.vue';
-import UserCommentsPage from '@/components/Profile/UserCommentsPage.vue';
+const ProfileChildrenPage = () => import('@/components/Profile/ProfileChildrenPage.vue');
+const ProfileDailyMenuOrders = () => import('@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrders.vue');
+const ProfileSettingsPage = () => import('@/components/Profile/ProfileDailyMenuOrders/ProfileSettingsPage.vue');
+const ProfileDonor = () => import('@/components/Profile/ProfileDonor.vue');
+const ProfileEditPage = () => import('@/components/Profile/ProfileEditPage.vue');
+const ProfileInfoPage = () => import('@/components/Profile/ProfileInfoPage.vue');
+const ProfileQuestionPage = () => import('@/components/Profile/ProfileQuestionPage.vue');
+const CancelResidencyApplication = () => import('@/components/Profile/ProfileResidencyApplications/CancelResidencyApplication.vue');
+const EditResidencyApplication = () => import('@/components/Profile/ProfileResidencyApplications/EditResidencyApplication.vue');
+const ProfileResidencyApplications = () => import('@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplications.vue');
+const EditVacancyResponse = () => import('@/components/Profile/ProfileVacancyResponses/EditVacancyResponse.vue');
+const ProfileVacancyResponses = () => import('@/components/Profile/ProfileVacancyResponses/ProfileVacancyResponses.vue');
+const QuestionAnswerPage = () => import('@/components/Profile/QuestionAnswerPage.vue');
+const UserCommentsPage = () => import('@/components/Profile/UserCommentsPage.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 const ProfileRoutes: Array<RouteRecordRaw> = [
   {

@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminPartnerPage from '@/components/admin/AdminPartners/AdminPartnerPage.vue';
-import AdminPartnersList from '@/components/admin/AdminPartners/AdminPartnersList.vue';
+const AdminPartnerPage = () => import('@/components/admin/AdminPartners/AdminPartnerPage.vue');
+const AdminPartnersList = () => import('@/components/admin/AdminPartners/AdminPartnersList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

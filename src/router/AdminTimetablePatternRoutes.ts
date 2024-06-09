@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminTimetablePatternList from '@/components/admin/AdminTimetablePatterns/AdminTimetablePatternList.vue';
-import AdminTimetablePatternPage from '@/components/admin/AdminTimetablePatterns/AdminTimetablePatternPage.vue';
+const AdminTimetablePatternList = () => import('@/components/admin/AdminTimetablePatterns/AdminTimetablePatternList.vue');
+const AdminTimetablePatternPage = () => import('@/components/admin/AdminTimetablePatterns/AdminTimetablePatternPage.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

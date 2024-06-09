@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminRolePage from '@/components/admin/AdminRoles/AdminRolePage.vue';
-import AdminRolesList from '@/components/admin/AdminRoles/AdminRolesList.vue';
+const AdminRolePage = () => import('@/components/admin/AdminRoles/AdminRolePage.vue');
+const AdminRolesList = () => import('@/components/admin/AdminRoles/AdminRolesList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

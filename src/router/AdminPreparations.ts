@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminPreparationPage from '@/components/admin/AdminPreparations/AdminPreparationPage.vue';
-import AdminPreparationsList from '@/components/admin/AdminPreparations/AdminPreparationsList.vue';
+const AdminPreparationPage = () => import('@/components/admin/AdminPreparations/AdminPreparationPage.vue');
+const AdminPreparationsList = () => import('@/components/admin/AdminPreparations/AdminPreparationsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

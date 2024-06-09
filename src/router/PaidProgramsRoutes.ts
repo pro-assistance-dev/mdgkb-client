@@ -1,5 +1,5 @@
-import PaidProgramPage from '@/components/PaidPrograms/PaidProgramPage.vue';
-import PaidPrograms from '@/components/PaidPrograms/PaidPrograms.vue';
+const PaidProgramPage = () => import('@/components/PaidPrograms/PaidProgramPage.vue');
+const PaidPrograms = () => import('@/components/PaidPrograms/PaidPrograms.vue');
 
 export default [
   {

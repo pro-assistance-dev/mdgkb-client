@@ -160,7 +160,7 @@ import { steps, textFieldsAndDocuments, templateAlert, licensyText, privacyText 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
 const mounted = ref(false);
-const activeStep: Ref<number> = ref(5);
+const activeStep: Ref<number> = ref(1);
 const residencyApplication: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
 
 const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
