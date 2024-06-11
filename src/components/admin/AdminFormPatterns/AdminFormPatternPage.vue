@@ -13,14 +13,14 @@
             <el-option v-for="item in formStatusGroups" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="Статус, назначаемый при создании формы" prop="defaultFormStatus">
+        <el-form-item label="Статус, назначаемый при создании формы" prop="defaultFormStatusId">
           <el-select
-            v-model="formPattern.defaultFormStatus"
+            v-model="formPattern.defaultFormStatusId"
             value-key="id"
             placeholder="Группа статусов"
             :disabled="!formPattern.formStatusGroup"
           >
-            <el-option v-for="item in formPattern.formStatusGroup?.formStatuses" :key="item.id" :label="item.label" :value="item" />
+            <el-option v-for="item in formPattern.formStatusGroup?.formStatuses" :key="item.id" :label="item.label" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="Запрашивать согласие на обработку персональных данных">
@@ -62,7 +62,7 @@ export default defineComponent({
     const rules = ref({
       title: [{ required: true, message: 'Необходимо указать наименование', trigger: 'blur' }],
       formStatusGroup: [{ required: true, message: 'Необходимо выбрать группу статусов', trigger: 'change' }],
-      defaultFormStatus: [{ required: true, message: 'Необходимо выбрать cтатус, назначаемый при создании формы', trigger: 'change' }],
+      defaultFormStatusId: [{ required: true, message: 'Необходимо выбрать cтатус, назначаемый при создании формы', trigger: 'change' }],
     });
 
     const submit = async (next?: NavigationGuardNext) => {

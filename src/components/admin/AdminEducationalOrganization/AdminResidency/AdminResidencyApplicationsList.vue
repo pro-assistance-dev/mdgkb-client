@@ -2,13 +2,9 @@
   <AdminListWrapper pagination show-header>
     <template #header>
       <!-- TODO: пофиксить ошибку на бэке -->
-      <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" />
-      <FilterSelectV2 :filter-models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
-      <FilterSelectV2 :filter-models="createFilterPaidModels()" placeholder="Основа обучения"
-        @load="loadApplications" />
-    </template>
-    <template #header-bottom>
-      <FilterCheckbox :filter-model="onlyAdmissionFilter" @load="loadApplications" />
+      <!-- <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" /> -->
+      <FilterSelect :models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
+      <FilterSelect :models="createFilterPaidModels()" placeholder="Основа обучения" @load="loadApplications" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
@@ -21,8 +17,12 @@
       </el-table-column>
       <el-table-column label="Подано" min-width="150">
         <template #default="scope">
-          {{ scope.row.admissionCommittee ? `Приемная кампания
-          ${scope.row.residencyCourse?.startYear.year.getFullYear()}` : `Ординатура` }}
+          {{
+            scope.row.admissionCommittee
+              ? `Приемная кампания
+          ${scope.row.residencyCourse?.startYear.year.getFullYear()}`
+              : `Ординатура`
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Номер заявления" align="center" width="150">
@@ -51,8 +51,7 @@
       </el-table-column>
       <el-table-column label="Дата принятия заявления" align="center" width="150">
         <template #default="scope">
-          {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) :
-            'Неуказана' }}
+          {{ scope.row.formValue.approvingDate ? $dateTimeFormatter.format(scope.row.formValue.approvingDate) : 'Неуказана' }}
         </template>
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
@@ -131,9 +130,9 @@ import ResidencyApplicationsSortsLib from '@/libs/sorts/ResidencyApplicationsSor
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-const residencyApplications: ComputedRef<ResidencyApplication[]> = Store.Items('residencyApplications')
+const residencyApplications: ComputedRef<ResidencyApplication[]> = Store.Items('residencyApplications');
 
-const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses')
+const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
 const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
 // const applicationsCount: ComputedRef<number> = computed(() =>
@@ -144,7 +143,7 @@ const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 
 const loadApplications = async () => {
-  await Store.FTSP('residencyApplications')
+  await Store.FTSP('residencyApplications');
 };
 
 const enableEditMode = () => {
@@ -166,12 +165,12 @@ const save = async (next?: NavigationGuardNext) => {
   if (next) next();
 };
 const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
-
+// const sortList = [...createSortModels(ResidencyApplicationsSortsLib)];
 const load = async () => {
   // TODO: Пофиксить ошибку на бэке
-  // Provider.setSortList(...createSortModels(ResidencyApplicationsSortsLib));
-  // Provider.setSortModels(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
-  FTSP.Get().setS(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc))
+
+  Provider.sortList.push(...createSortModels(ResidencyApplicationsSortsLib));
+  FTSP.Get().setS(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
   await loadApplications();
   await loadFilters();
   onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
@@ -217,7 +216,7 @@ const filtersToOptions = (): IOption[] => {
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-  await Store.GetAll('formStatuses')
+  await Store.GetAll('formStatuses');
 };
 
 const createFilterMainModels = (): FilterModel[] => {
