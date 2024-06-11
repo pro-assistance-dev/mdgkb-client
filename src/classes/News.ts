@@ -77,12 +77,12 @@ export default class News {
     this.newsDoctors.splice(index, 1);
   }
 
-  getImageUrl(): string {
+  getImageUrl(): string | URL {
     if (this.previewImage.fileSystemPath) {
       return this.previewImage.getFileUrl();
     }
     const numberOfImg = Math.floor(Math.random() * (50 - 1 + 1) + 1);
-    return `src/assets/news/img${numberOfImg}.webp`;
+    return new URL(`/src/assets/news/img${numberOfImg}.webp`, import.meta.url);
   }
 
   getStrippedContent(): string {
