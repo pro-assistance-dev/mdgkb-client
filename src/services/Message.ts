@@ -16,6 +16,7 @@ export default class Message {
   }
 
   protected show(m: string | MessageOpts, t: Statuses) {
+    this.hide();
     this.type = t;
     if (typeof m === 'string') {
       this.text = m;

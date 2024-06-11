@@ -9,17 +9,18 @@
           <WysiwygEditor v-model="formPattern.description" />
         </el-form-item>
         <el-form-item label="Группа статусов" prop="formStatusGroup">
-          <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов"
-            @change="changeStatusGroup">
+          <el-select v-model="formPattern.formStatusGroup" value-key="id" placeholder="Группа статусов" @change="changeStatusGroup">
             <el-option v-for="item in formStatusGroups" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="Статус, назначаемый при создании формы" prop="defaultFormStatus">
-          <el-select v-model="formPattern.defaultFormStatus" value-key="id" placeholder="Группа статусов"
-            :disabled="!formPattern.formStatusGroup">
-            <el-option v-for="item in formPattern.formStatusGroup?.formStatuses" :key="item.id" :label="item.label"
-              :value="item">
-            </el-option>
+          <el-select
+            v-model="formPattern.defaultFormStatus"
+            value-key="id"
+            placeholder="Группа статусов"
+            :disabled="!formPattern.formStatusGroup"
+          >
+            <el-option v-for="item in formPattern.formStatusGroup?.formStatuses" :key="item.id" :label="item.label" :value="item" />
           </el-select>
         </el-form-item>
         <el-form-item label="Запрашивать согласие на обработку персональных данных">

@@ -24,7 +24,7 @@
             :type="item.childFormStatus.color === '#92D2D0' ? 'yellow' : 'green'"
             :text="item.childFormStatus.modActionName"
             margin="0 10px 0 0"
-            @click.prevent="changeFormStatusHandler(item.childFormStatus)"
+            @click="changeFormStatusHandler(item.childFormStatus)"
           />
         </div>
       </div>
@@ -54,7 +54,6 @@
       </template>
       <FieldValuesForm :active-fields="activeFields" :form="formValue" :show-additional-files="showAdditionalFiles" />
     </el-card>
-
     <div v-else>
       <el-card v-if="formValue.fieldValues.length" id="form-data">
         <template v-if="formHeader" #header>
@@ -182,21 +181,16 @@ export default defineComponent({
     const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
     const mounted: Ref<boolean> = ref(false);
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
+
     const changeFormStatusHandler = (status: FormStatus) => {
       if (!formValue.value) return;
       if (props.checkFields) {
         if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
-          ElMessage({
-            message: 'Необходимо добавить замечания',
-            type: 'error',
-          });
+          PHelp.Notification().Error('Необходимо добавить замечания');
           return;
         }
         if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
-          ElMessage({
-            message: 'Проверьте данные формы',
-            type: 'error',
-          });
+          PHelp.Notification().Error('Проверьте данные формы');
           scroll('#form-data');
           return;
         }

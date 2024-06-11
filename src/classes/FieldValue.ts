@@ -1,6 +1,6 @@
 import Field from '@/classes/Field';
 import FieldValueFile from '@/classes/FieldValueFile';
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class FieldValue {
@@ -53,8 +53,10 @@ export default class FieldValue {
 
   clearIds(): void {
     this.id = undefined;
+    this.fieldId = undefined;
     if (this.field) {
       this.field.id = undefined;
+      this.field.formPatternId = undefined;
     }
   }
 
