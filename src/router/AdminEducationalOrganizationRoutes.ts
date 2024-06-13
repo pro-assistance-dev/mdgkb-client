@@ -1,21 +1,36 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminDpoApplicationsListContainer from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminDpoApplicationsListContainer.vue';
-import AdminNmoApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoApplicationPage.vue';
-import AdminNmoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursePage.vue';
-import AdminNmoCoursesListContainer from '@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursesListContainer.vue';
-import AdminCandidateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue';
-import AdminCandidateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue';
-import AdminPostgraduateApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue';
-import AdminPostgraduateApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue';
-import AdminPostgraduateCoursePage from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue';
-import AdminPostgraduateCoursesList from '@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursesList.vue';
-import AdminResidencyApplicationPage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationPage.vue';
-import AdminResidencyApplicationsList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationsList.vue';
-import AdminResidencyCoursePage from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePage.vue';
-import AdminResidencyCoursesList from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursesList.vue';
-import AdminSpecializationPage from '@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationPage.vue';
-import AdminSpecializationsList from '@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationsList.vue';
+const AdminDpoApplicationsListContainer = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminDpoApplicationsListContainer.vue');
+const AdminNmoApplicationPage = () => import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoApplicationPage.vue');
+const AdminNmoCoursePage = () => import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursePage.vue');
+const AdminNmoCoursesListContainer = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursesListContainer.vue');
+const AdminCandidateApplicationPage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue');
+const AdminCandidateApplicationsList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue');
+const AdminPostgraduateApplicationPage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue');
+const AdminPostgraduateApplicationsList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue');
+const AdminPostgraduateCoursePage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue');
+const AdminPostgraduateCoursesList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursesList.vue');
+const AdminResidencyApplicationPage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationPage.vue');
+const AdminResidencyApplicationsList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyApplicationsList.vue');
+const AdminResidencyCoursePage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePage.vue');
+const AdminResidencyCoursesList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursesList.vue');
+const AdminSpecializationPage = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationPage.vue');
+const AdminSpecializationsList = () =>
+  import('@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationsList.vue');
+
 import { authGuard, isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 

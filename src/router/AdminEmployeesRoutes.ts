@@ -1,7 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminEmployeePage from '@/components/admin/AdminEmployees/AdminEmployeePage.vue';
-import AdminEmployeesList from '@/components/admin/AdminEmployees/AdminEmployeesList.vue';
+const AdminEmployeePage = () => import('@/components/admin/AdminEmployees/AdminEmployeePage.vue');
+const AdminEmployeesList = () => import('@/components/admin/AdminEmployees/AdminEmployeesList.vue');
+
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

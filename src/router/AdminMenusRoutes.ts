@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminMenus from '@/components/admin/AdminMenus/AdminMenus.vue';
+const AdminMenus = () => import('@/components/admin/AdminMenus/AdminMenus.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

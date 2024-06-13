@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminSupportMessagePage from '@/components/admin/AdminSupportMessages/AdminSupportMessagePage.vue';
-import AdminSupportMessagesList from '@/components/admin/AdminSupportMessages/AdminSupportMessagesList.vue';
+const AdminSupportMessagePage = () => import('@/components/admin/AdminSupportMessages/AdminSupportMessagePage.vue');
+const AdminSupportMessagesList = () => import('@/components/admin/AdminSupportMessages/AdminSupportMessagesList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

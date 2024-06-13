@@ -1,5 +1,5 @@
-import DivisionPage from '@/components/Divisions/DivisionPage.vue';
-import DivisionsCentersList from '@/components/Divisions/DivisionsCentersList.vue';
+const DivisionPage = () => import('@/components/Divisions/DivisionPage.vue');
+const DivisionsCentersList = () => import('@/components/Divisions/DivisionsCentersList.vue');
 
 export default [
   {

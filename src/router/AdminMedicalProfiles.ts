@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminMedicalProfilePage from '@/components/admin/AdminMedicalProfiles/AdminMedicalProfilePage.vue';
-import AdminMedicalProfilesList from '@/components/admin/AdminMedicalProfiles/AdminMedicalProfilesList.vue';
+const AdminMedicalProfilePage = () => import('@/components/admin/AdminMedicalProfiles/AdminMedicalProfilePage.vue');
+const AdminMedicalProfilesList = () => import('@/components/admin/AdminMedicalProfiles/AdminMedicalProfilesList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

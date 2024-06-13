@@ -1,19 +1,15 @@
-import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
-
-import AdmissionCommittee from '@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue';
-import AdmissionCoursePage from '@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue';
+const AdmissionCommittee = () => import('@/components/Educational/AdmissionCommittee/AdmissionCommittee.vue');
+const AdmissionCoursePage = () => import('@/components/Educational/AdmissionCommittee/AdmissionCoursePage.vue');
 const AdmissionForm = () => import('@/components/Educational/AdmissionCommittee/AdmissionForm.vue');
-import DpoPage from '@/components/Educational/Dpo/DpoPage.vue';
-import NmoCoursePage from '@/components/Educational/Dpo/NmoCoursePage.vue';
-import EducationPage from '@/components/Educational/Education/EducationPage.vue';
-import PostgraduateCoursePage from '@/components/Educational/Postgraduate/PostgraduateCoursePage.vue';
-import PostgraduatePage from '@/components/Educational/Postgraduate/PostgraduatePage.vue';
-import EducationalOrganizationAcademics from '@/components/Educational/Postgraduate/PostgraducateAcademics.vue';
-import ResidencyCoursePage from '@/components/Educational/Residency/ResidencyCoursePage.vue';
-import ResidencyPage from '@/components/Educational/Residency/ResidencyPage.vue';
-import TeachersManagers from '@/components/Educational/TeachersManagers/TeachersManagers.vue';
-
-import { authGuard } from '.';
+const DpoPage = () => import('@/components/Educational/Dpo/DpoPage.vue');
+const NmoCoursePage = () => import('@/components/Educational/Dpo/NmoCoursePage.vue');
+const EducationPage = () => import('@/components/Educational/Education/EducationPage.vue');
+const PostgraduateCoursePage = () => import('@/components/Educational/Postgraduate/PostgraduateCoursePage.vue');
+const PostgraduatePage = () => import('@/components/Educational/Postgraduate/PostgraduatePage.vue');
+const EducationalOrganizationAcademics = () => import('@/components/Educational/Postgraduate/PostgraducateAcademics.vue');
+const ResidencyCoursePage = () => import('@/components/Educational/Residency/ResidencyCoursePage.vue');
+const ResidencyPage = () => import('@/components/Educational/Residency/ResidencyPage.vue');
+const TeachersManagers = () => import('@/components/Educational/TeachersManagers/TeachersManagers.vue');
 
 export default [
   {

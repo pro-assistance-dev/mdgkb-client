@@ -153,6 +153,7 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
     Provider.store.commit('pagination/setCurPage', pageNum);
     Provider.store.commit('filter/setOffset', pageNum - 1);
     if (load) {
+      console.log('loadPag');
       if (action !== 'ftsp') {
         await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
       } else {
@@ -165,12 +166,10 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
 };
 
 const pagArr3 = computed(() => rangeArr());
-console.log(pagArr3.value);
 watch(
   () => curPage.value,
   () => {
     pagArr3.value = Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i);
-    console.log(pagArr3.value);
   }
 );
 

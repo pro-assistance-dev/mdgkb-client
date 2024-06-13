@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import NewsList from '@/components/News/NewsList.vue';
-import NewsPage from '@/components/News/NewsPage.vue';
+const NewsList = () => import('@/components/News/NewsList.vue');
+const NewsPage = () => import('@/components/News/NewsPage.vue');
 import { isAuthorized } from '@/router/index';
 
 export default [

@@ -18,7 +18,6 @@ const actions: ActionTree<State, RootState> = {
     await httpClient.put<Form, Form>({
       query: `form/${form.id}`,
       payload: form,
-      isFormData: true,
       fileInfos: form.getFileInfos(),
     });
   },
@@ -52,7 +51,7 @@ const actions: ActionTree<State, RootState> = {
       payload: item,
       query: `fill-application-template`,
       isBlob: true,
-      downloadFileName: 'Заявление_ординатура 2022.docx',
+      downloadFileName: 'Заявление_ординатура_2024.docx',
     });
   },
 };

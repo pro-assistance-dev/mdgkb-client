@@ -1,7 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminNewsSlideList from '@/components/admin/AdminNewsSlides/AdminNewsSlideList.vue';
-import AdminNewsSlidePage from '@/components/admin/AdminNewsSlides/AdminNewsSlidePage.vue';
+const AdminNewsSlideList = () => import('@/components/admin/AdminNewsSlides/AdminNewsSlideList.vue');
+const AdminNewsSlidePage = () => import('@/components/admin/AdminNewsSlides/AdminNewsSlidePage.vue');
+
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

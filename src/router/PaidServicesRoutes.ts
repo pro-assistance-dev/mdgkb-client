@@ -1,4 +1,4 @@
-import PaidServicesPage from '@/components/PaidServices/PaidServicesPage.vue';
+const PaidServicesPage = () => import('@/components/PaidServices/PaidServicesPage.vue');
 
 export default [
   {

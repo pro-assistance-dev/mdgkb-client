@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import DoctorPage from '@/components/Doctors/DoctorPage.vue';
-import MedicalWorkersList from '@/components/MedicalWorkers/MedicalWorkersList.vue';
+const DoctorPage = () => import('@/components/Doctors/DoctorPage.vue');
+const MedicalWorkersList = () => import('@/components/MedicalWorkers/MedicalWorkersList.vue');
 import { isAuthorized } from '@/router/index';
 
 export default [

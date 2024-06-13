@@ -1,6 +1,6 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminAcademicsList from '@/components/admin/AdminEducationalOrganization/AdminAcademicsList.vue';
+const AdminAcademicsList = () => import('@/components/admin/AdminEducationalOrganization/AdminAcademicsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

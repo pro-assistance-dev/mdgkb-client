@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminFormPatternList from '@/components/admin/AdminFormPatterns/AdminFormPatternList.vue';
-import AdminFormPatternPage from '@/components/admin/AdminFormPatterns/AdminFormPatternPage.vue';
+const AdminFormPatternList = () => import('@/components/admin/AdminFormPatterns/AdminFormPatternList.vue');
+const AdminFormPatternPage = () => import('@/components/admin/AdminFormPatterns/AdminFormPatternPage.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

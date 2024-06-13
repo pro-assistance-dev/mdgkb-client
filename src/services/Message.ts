@@ -42,20 +42,16 @@ export default class Message {
     return this.visible;
   }
 
-  protected Show(m: string | MessageOpts, t: Statuses): void {
-    this.show(m, t);
-  }
-
   Success(m: string | MessageOpts): void {
-    this.Show(m, Statuses.Success);
+    this.show(m, Statuses.Success);
   }
 
   Error(m: string | MessageOpts): void {
-    this.Show(m, Statuses.Error);
+    this.show(m, Statuses.Error);
   }
 
   Warning(m: string | MessageOpts): void {
-    this.Show(m, Statuses.Warning);
+    this.show(m, Statuses.Warning);
   }
 
   FormMessage(errorFields: any): string {

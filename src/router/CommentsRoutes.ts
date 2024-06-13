@@ -1,4 +1,4 @@
-import CommentsList from '@/components/Comments/CommentsList.vue';
+const CommentsList = () => '@/components/Comments/CommentsList.vue';
 
 export default [
   {

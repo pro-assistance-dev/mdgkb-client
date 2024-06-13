@@ -1,9 +1,10 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminVacanciesList from '@/components/admin/AdminVacancies/AdminVacanciesList.vue';
-import AdminVacanciesPage from '@/components/admin/AdminVacancies/AdminVacanciesPage.vue';
-import AdminVacanciesResponsesList from '@/components/admin/AdminVacancies/AdminVacanciesResponsesList.vue';
-import AdminVacancyResponsePage from '@/components/admin/AdminVacancies/AdminVacancyResponsePage.vue';
+const AdminVacanciesList = () => import('@/components/admin/AdminVacancies/AdminVacanciesList.vue');
+const AdminVacanciesPage = () => import('@/components/admin/AdminVacancies/AdminVacanciesPage.vue');
+const AdminVacanciesResponsesList = () => import('@/components/admin/AdminVacancies/AdminVacanciesResponsesList.vue');
+const AdminVacancyResponsePage = () => import('@/components/admin/AdminVacancies/AdminVacancyResponsePage.vue');
+
 import { authGuard, isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 

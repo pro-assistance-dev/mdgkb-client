@@ -3,8 +3,13 @@
     <template #header>
       <RemoteSearch :key-value="'news'" @select="selectSearch" />
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
-      <FilterSelectDate class="filters-block" :table="News.GetClassName()"
-        :col="$classHelper.GetPropertyName(News).publishedOn" placeholder="Дата публикации" @load="loadNews" />
+      <FilterSelectDate
+        class="filters-block"
+        :table="News.GetClassName()"
+        :col="$classHelper.GetPropertyName(News).publishedOn"
+        placeholder="Дата публикации"
+        @load="loadNews"
+      />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
@@ -37,36 +42,70 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
-            @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
   </AdminListWrapper>
 
-  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%"
-    @open="loadMain">
+  <el-dialog v-model="isModalOpened" title="Назначить главную новость" center :show-close="true" top="10px" width="80%" @open="loadMain">
     <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-bottom: 20px">
-      <RemoteSearch ref="searchMainNewsRef" :clear-after-select="false" max-width="500px" :key-value="'news'"
-        placeholder="Выберите новость" @select="selectSearchMainNews" />
-      <PButton skin="profile" type="success" text="Сделать главной" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsMain, 'setMain', true)" />
-      <PButton skin="profile" type="primary" text="Сделать подглавной #1" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)" />
-      <PButton skin="profile" type="primary" text="Сделать подглавной #2" width="190px" margin="0 0 0 10px" @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)" />
+      <RemoteSearch
+        ref="searchMainNewsRef"
+        :clear-after-select="false"
+        max-width="500px"
+        :key-value="'news'"
+        placeholder="Выберите новость"
+        @select="selectSearchMainNews"
+      />
+      <PButton
+        skin="profile"
+        type="success"
+        text="Сделать главной"
+        width="190px"
+        margin="0 0 0 10px"
+        @click="makeNewsMain(newsMain, 'setMain', true)"
+      />
+      <PButton
+        skin="profile"
+        type="primary"
+        text="Сделать подглавной #1"
+        width="190px"
+        margin="0 0 0 10px"
+        @click="makeNewsMain(newsSubMain1, 'setSubMain1', false)"
+      />
+      <PButton
+        skin="profile"
+        type="primary"
+        text="Сделать подглавной #2"
+        width="190px"
+        margin="0 0 0 10px"
+        @click="makeNewsMain(newsSubMain2, 'setSubMain2', false)"
+      />
     </div>
 
     <div class="main-news-block">
       <div class="main-news-block-left">
-        <MainBigNewsCard v-if="newsMain.id" :news="newsMain" :show-close="true"
-          @close="clearHandler(newsMain, 'setMain', true)" />
+        <MainBigNewsCard v-if="newsMain.id" :news="newsMain" :show-close="true" @close="clearHandler(newsMain, 'setMain', true)" />
       </div>
       <div class="main-news-block-middle">
         <div class="size">
-          <NewsCard v-if="newsSubMain1.id" :news="newsSubMain1" :main="true" :show-close="true"
-            @close="clearHandler(newsSubMain1, 'setSubMain1', false)" />
+          <NewsCard
+            v-if="newsSubMain1.id"
+            :news="newsSubMain1"
+            :main="true"
+            :show-close="true"
+            @close="clearHandler(newsSubMain1, 'setSubMain1', false)"
+          />
         </div>
         <div class="size">
-          <NewsCard v-if="newsSubMain2.id" :news="newsSubMain2" :main="true" :show-close="true"
-            @close="clearHandler(newsSubMain2, 'setSubMain2', false)" />
+          <NewsCard
+            v-if="newsSubMain2.id"
+            :news="newsSubMain2"
+            :main="true"
+            :show-close="true"
+            @close="clearHandler(newsSubMain2, 'setSubMain2', false)"
+          />
         </div>
       </div>
     </div>
@@ -82,26 +121,18 @@ import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 
 const news = Store.Items('news');
-const searchResult = Store.Item('news');
+
 const newsMain = Store.Item('news', 'main');
+const searchResult = Store.Item('news');
 const newsSubMain1 = Store.Item('news', 'subMain1');
 const newsSubMain2 = Store.Item('news', 'subMain2');
+
 const mounted = ref(false);
 // const filterExists: ComputedRef<boolean> = computed(() => Provider.store.getters['filter/filterExists']);
 
 const addNews = async () => {
   await Router.To('/admin/news/new');
 };
-//
-// watch(
-//   () => filterExists.value,
-//   async () => {
-//     if (!filterExists.value) {
-//       Store.commit('filter/filterExists', true);
-//       await loadNews();
-//     }
-//   }
-// );
 
 const sortList: Ref<SortModel[]> = ref([]);
 
@@ -116,15 +147,13 @@ const remove = async (id: string) => {
 };
 
 const loadNews = async (): Promise<void> => {
-  await Store.FTSP('news', {
-    qid: Provider.getQid(),
-    ftsp: Provider.ftsp.value,
-  });
+  await Store.FTSP('news');
 };
 
 const load = async (): Promise<void> => {
+  console.log('load');
   sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
-  FTSP.Get().setS(NewsSortsLib.byPublishedOn())
+  FTSP.Get().setS(NewsSortsLib.byPublishedOn());
   await loadNews();
   Store.Set('admin/setHeaderParams', {
     title: 'Новости',
@@ -209,7 +238,6 @@ const clickHadler = () => {
 };
 
 const makeNewsMain = async (previousItem: News, storeName: string, isMain: boolean) => {
-  console.log(searchResult.value);
   if (isMain) {
     previousItem.main = false;
   } else {
@@ -217,6 +245,7 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
   }
 
   await Provider.store.dispatch('news/update', previousItem);
+
   if (searchResult.value) {
     if (isMain) {
       searchResult.value.main = true;
@@ -226,6 +255,7 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
     Provider.store.commit(`news/${storeName}`, { items: [searchResult.value] });
     await Provider.store.dispatch('news/update', searchResult.value);
   }
+
   searchMainNewsRef.value?.clear();
 };
 
@@ -285,7 +315,7 @@ $margin: 20px 0;
   width: 270px;
 }
 
-.main-news-block-middle>.size:first-child {
+.main-news-block-middle > .size:first-child {
   margin-bottom: 10px;
 }
 

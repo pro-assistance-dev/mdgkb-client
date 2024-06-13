@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import ProjectPage from '@/components/Projects/ProjectPage.vue';
-import ProjectsList from '@/components/Projects/ProjectsList.vue';
+const ProjectPage = () => import('@/components/Projects/ProjectPage.vue');
+const ProjectsList = () => import('@/components/Projects/ProjectsList.vue');
 import { isAuthorized } from '@/router/index';
 
 export default [

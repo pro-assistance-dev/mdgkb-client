@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminHospitalizationPageContainer from '@/components/admin/AdminHospitalizations/AdminHospitalizationPageContainer.vue';
-import AdminHospitalizationsList from '@/components/admin/AdminHospitalizations/AdminHospitalizationsList.vue';
+const AdminHospitalizationPageContainer = () => import('@/components/admin/AdminHospitalizations/AdminHospitalizationPageContainer.vue');
+const AdminHospitalizationsList = () => import('@/components/admin/AdminHospitalizations/AdminHospitalizationsList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [

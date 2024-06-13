@@ -1,5 +1,5 @@
-import AdminPaidProgramPage from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramPage.vue';
-import AdminPaidProgramsGroupsList from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramsGroupsList.vue';
+const AdminPaidProgramPage = () => import('@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramPage.vue');
+const AdminPaidProgramsGroupsList = () => import('@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramsGroupsList.vue');
 
 export default [
   {

@@ -43,17 +43,17 @@ const load = async (): Promise<void> => {
   // }
   // Provider.setSortModels(PagesSortsLib.byTitle());
   await Store.FTSP('pages', { ftsp: Provider.ftsp.value });
-  if (user.value.role.name === 'ADMIN') {
-    Provider.store.commit('admin/setHeaderParams', {
-      title: 'Страницы',
-      buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-    });
-  } else {
-    Provider.store.commit('admin/setHeaderParams', {
-      title: 'Страницы',
-      buttons: [],
-    });
-  }
+  // if (user.value.role.name === 'ADMIN') {
+  //   Provider.store.commit('admin/setHeaderParams', {
+  //     title: 'Страницы',
+  //     buttons: [{ text: 'Добавить', type: 'primary', action: create }],
+  //   });
+  // } else {
+  Provider.store.commit('admin/setHeaderParams', {
+    title: 'Страницы',
+    buttons: [],
+  });
+  // }
 };
 
 const edit = async (id: string): Promise<void> => {

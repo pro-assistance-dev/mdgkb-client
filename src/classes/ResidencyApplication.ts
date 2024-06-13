@@ -33,6 +33,7 @@ export default class ResidencyApplication {
   agreedWithPrivacy = false;
   diploma = new Diploma();
   //
+  selectedYear?: number;
   formStatusId = '';
   createdAt = '';
   approvingDate = '';

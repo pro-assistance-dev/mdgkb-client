@@ -1,8 +1,8 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
-import AdminAppointmentsConstructor from '@/components/admin/AdminAppointments/AdminAppointmentsConstructor.vue';
-import AdminDailyMenuOrderPage from '@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrderPage.vue';
-import AdminDailyMenuOrdersList from '@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrdersList.vue';
+const AdminAppointmentsConstructor = () => import('@/components/admin/AdminAppointments/AdminAppointmentsConstructor.vue');
+const AdminDailyMenuOrderPage = () => import('@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrderPage.vue');
+const AdminDailyMenuOrdersList = () => import('@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrdersList.vue');
 import { authGuard, isAuthorized } from '@/router/index';
 
 export default [
