@@ -78,7 +78,7 @@ onMounted(async () => {
     showDestinationStepper.value = true;
   }
   engine.init(target);
-  const model = (await FbxModel.AddObjectToScene('models/Map_v5.fbx')) as Object3D;
+  const model = (await FbxModel.AddObjectToScene('models/Map_v5_2.fbx')) as Object3D;
   mapModel = model.children[0] as MapModel;
   new MapExtender().extendObject(mapModel);
   mapModel.setup(initBuildingsEventsMap(), engine);
