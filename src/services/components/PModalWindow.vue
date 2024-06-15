@@ -23,43 +23,41 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { v4 as uuidv4 } from 'uuid';
 import IconClose from '@/services/components/Icons/IconClose.vue';
 
-const props = defineProps({
-  showCloseDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
-  closable: {
-    type: Boolean as PropType<boolean>,
-    default: false,
-  },
-  show: {
-    type: Boolean as PropType<boolean>,
-    default: false,
-  },
-  title: {
-    type: String as PropType<string>,
-    default: '',
-  },
-  width: {
-    type: String as PropType<string>,
-    default: '760px',
-  },
-  margin: {
-    type: String as PropType<string>,
-    default: 'auto',
-  },
-  top: {
-    type: String as PropType<string>,
-    default: '20vh',
-  },
-  padding: {
-    type: String as PropType<string>,
-    default: '0',
-  },
-  showClose: {
-    type: Boolean as PropType<boolean>,
-    default: false,
-  },
-});
+export default defineComponent({
+  name: 'ModalWindow',
+  props: {
+    showCloseDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
+    show: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+    title: {
+      type: String as PropType<string>,
+      default: '',
+    },
+    width: {
+      type: String as PropType<string>,
+      default: '760px',
+    },
 
-const emits = defineEmits(['save', 'close']);
+    margin: {
+      type: String as PropType<string>,
+      default: 'auto',
+    },
+    top: {
+      type: String as PropType<string>,
+      default: '20vh',
+    },
+    padding: {
+      type: String as PropType<string>,
+      default: '0',
+    },
+    showClose: {
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
+  },
+  emits: ['save', 'close'],
 
 const form = ref();
 // const representative: Ref<Representative> = computed(() => Provider.store.getters['representatives/item']);
@@ -116,7 +114,7 @@ const close = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/services/assets/style/index.scss';
+@import '@/assets/styles/base-style.scss';
 
 .blur {
   position: fixed;
