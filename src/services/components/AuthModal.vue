@@ -1,5 +1,5 @@
 <template>
-  <PModalWindow :show="modal.visible" @close="close" width="320px">
+  <PModalWindow :show="modal.visible" @close="close" width="320px" padding="30px">
     <AuthForm @action="$emit('action')" />
   </PModalWindow>
 </template>

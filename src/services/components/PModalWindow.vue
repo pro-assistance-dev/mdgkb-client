@@ -6,6 +6,7 @@
     margin: margin,
     padding: padding,
     top: top,
+    background: background,
   }" @close="$emit('close')" :show-close="true" :before-close="beforeClose">
     <div v-if="showClose" class="icon-box" @click="$emit('close')">
       <IconClose hover-color="#5E6CE7" size="20px" />
@@ -52,6 +53,10 @@ export default defineComponent({
     showClose: {
       type: Boolean as PropType<boolean>,
       default: false,
+    },
+    background: {
+      type: String as PropType<string>,
+      default: '#ffffff',
     },
   },
   emits: ['save', 'close'],
@@ -119,7 +124,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-@import '@/services/assets/style/index.scss';
+@import '@//services/assets/style/utils/variables/colors.scss';
 
 .blur {
   position: fixed;
@@ -146,6 +151,7 @@ export default defineComponent({
   border-radius: 5px;
   overflow: hidden;
   max-height: 70vh;
+  background: $main_white;
 }
 
 .base-title {
