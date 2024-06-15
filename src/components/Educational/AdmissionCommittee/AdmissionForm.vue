@@ -208,6 +208,15 @@ watch(isAuth, async () => {
   // await findEmail();
 });
 
+watch(
+  () => authModal.value.visible,
+  () => {
+    if (!isAuth.value) {
+      authModal.value.open();
+    }
+  }
+);
+
 const findEmail = async () => {
   await Store.Dispatch('residencyApplications/emailExists', residencyCourse.value.id);
 };
