@@ -1,7 +1,7 @@
 <template>
-  <ModalWindow :show="modal.visible" @close="close" width="320px">
+  <PModalWindow :show="modal.visible" @close="close" width="320px">
     <AuthForm @action="$emit('action')" />
-  </ModalWindow>
+  </PModalWindow>
 </template>
 
 <script lang="ts" setup>
