@@ -1,5 +1,6 @@
 <template>
-  <PModalWindow :show="modal.visible" @close="close" width="320px">
+  {{ modal.closable }}
+  <PModalWindow v-if="modal.visible" :closable="modal.closable" :show="modal.visible" @close="close" width="320px">
     <AuthForm @action="$emit('action')" />
   </PModalWindow>
 </template>

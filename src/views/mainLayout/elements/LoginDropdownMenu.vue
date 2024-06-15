@@ -15,11 +15,13 @@
           <!-- TODO: переделать на серверный запрос  -->
           <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
         </el-dropdown-item>
-        <el-dropdown-item v-if="auth.user.get().role.name === 'ADMIN'" icon="el-icon-setting"
-          @click="$router.push(`/admin/${auth.user.get().role.startPage}`)">Кабинет администратора</el-dropdown-item>
-        <el-dropdown-item @click="logout">
-          <LogoutOutlined />Выйти
-        </el-dropdown-item>
+        <el-dropdown-item
+          v-if="auth.user.get().role.name === 'ADMIN'"
+          icon="el-icon-setting"
+          @click="$router.push(`/admin/${auth.user.get().role.startPage}`)"
+          >Кабинет администратора</el-dropdown-item
+        >
+        <el-dropdown-item @click="logout"> <LogoutOutlined />Выйти </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -33,15 +35,13 @@ import { authGuard } from '@/router';
 import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 
-
-const props = defineProps({ showButtonName: { type: Boolean, default: false } })
-const authModal = Store.Getters('auth/modal')
-const auth = Store.Getters('auth/auth')
+const props = defineProps({ showButtonName: { type: Boolean, default: false } });
+const authModal = Store.Getters('auth/modal');
+const auth = Store.Getters('auth/auth');
 
 const login = () => {
-  console.log(authModal)
-  authModal.value.open()
-}
+  authModal.value.open(true);
+};
 
 const register = () => Provider.store.commit('auth/openModal', 'register');
 const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
@@ -54,7 +54,7 @@ const loadUser = async () => {
 };
 
 const logout = async () => {
-  auth.value.logout()
+  auth.value.logout();
   const curRoute = Provider.route().name;
   const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
   if (rr && rr.meta && rr.meta.protected) {
@@ -84,7 +84,6 @@ const toProfile = async (): Promise<void> => {
     await Provider.router.push('/profile');
   }
 };
-
 </script>
 
 <style lang="scss" scoped>

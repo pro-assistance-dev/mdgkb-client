@@ -203,19 +203,19 @@ const achievementsForm = ref();
 watch(isAuth, async () => {
   if (!isAuth.value) {
     residencyApplication.value.formValue.user = new User(user.value);
-    authModal.value.open();
+    authModal.value.open(false);
   }
   // await findEmail();
 });
 
-watch(
-  () => authModal.value.visible,
-  () => {
-    if (!isAuth.value) {
-      authModal.value.open();
-    }
-  }
-);
+// watch(
+//   () => authModal.value.visible,
+//   () => {
+//     if (!isAuth.value) {
+//       authModal.value.open();
+//     }
+//   }
+// );
 
 const findEmail = async () => {
   await Store.Dispatch('residencyApplications/emailExists', residencyCourse.value.id);
@@ -239,6 +239,11 @@ const submit = async () => {
 };
 
 onBeforeMount(async () => {
+  if (!isAuth.value) {
+    residencyApplication.value.formValue.user = new User(user.value);
+    authModal.value.open(false);
+  }
+
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
