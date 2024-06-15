@@ -1,7 +1,6 @@
 <template>
-  <PSelect :clearable="filterModel ? true : false" :placeholder="defaultLabel" @change="selectFilter"
-    v-model="filterModel">
-    <option v-for="( model, i ) in models" :key="i" :value="model">{{ model.label }}</option>
+  <PSelect :clearable="filterModel ? true : false" :placeholder="defaultLabel" @change="selectFilter" v-model="filterModel">
+    <option v-for="(model, i) in models" :key="i" :value="model">{{ model.label }}</option>
   </PSelect>
 </template>
 
@@ -26,9 +25,8 @@ const props = defineProps({
 });
 const emits = defineEmits(['load']);
 // const ftsp = Store.Item('filter', 'ftsp');
-const ftsp = FTSP.Get()
+const ftsp = FTSP.Get();
 const restore = Store.Item('filter', 'restore');
-
 
 watch(
   () => restore.value,
@@ -48,7 +46,7 @@ const setFilter = async (model?: FilterModel) => {
   filterModel.value = model;
   // Provider.dropPagination();
   // Provider.getPagination().drop();
-  console.log(ftsp)
+  console.log(ftsp);
 };
 
 const selectFilter = async (model?: FilterModel) => {
@@ -57,7 +55,7 @@ const selectFilter = async (model?: FilterModel) => {
   } else {
     await setFilter(filterModel.value);
   }
-  console.log(filterModel.value)
+  console.log(filterModel.value);
   emits('load');
 };
 </script>

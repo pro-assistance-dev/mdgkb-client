@@ -32,6 +32,8 @@ export default class Form {
   @ClassHelper.GetClassConstructor(Field)
   fields: Field[] = [];
   fieldsForDelete: string[] = [];
+
+  @ClassHelper.GetClassConstructor(FieldValue)
   fieldValues: FieldValue[] = [];
   fieldValuesForDelete: string[] = [];
   validated = true;
@@ -176,6 +178,7 @@ export default class Form {
     this.chatId = form.chatId;
     this.withApprovingDate = form.withApprovingDate;
   }
+
   reproduceFromPattern(form?: Form) {
     this.constructorMethod(form);
     this.initFieldsValues();
@@ -251,6 +254,7 @@ export default class Form {
       return fieldValue.file;
     }
   }
+
   initFieldsValues(): void {
     this.fields.forEach((field: Field) => {
       const fieldValue = new FieldValue();

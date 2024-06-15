@@ -1,5 +1,4 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
-import FormStatusGroup from '@/classes/FormStatusGroup';
+import FileInfo from '@/services/classes/FileInfo';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
 import ClassHelper from '@/services/ClassHelper';
@@ -18,9 +17,9 @@ export default class FormStatus {
   formStatusToFormStatusesForDelete: string[] = [];
   icon = new FileInfo();
   iconId?: string;
-  @ClassHelper.GetClassConstructor(FormStatusGroup)
-  formStatusGroup = new FormStatusGroup();
-  formStatusGroupId?: string;
+  // // @ClassHelper.GetClassConstructor(FormStatusGroup)
+  // formStatusGroup = new FormStatusGroup();
+  // formStatusGroupId?: string;
 
   //
   code = '';

@@ -1,5 +1,5 @@
 import { SocialTypes } from '@/services/interfaces/SocialTypes';
-import StringsService from '@/services/Strings';
+import Strings from '@/services/Strings';
 
 export default class SocialMedia {
   description = '';
@@ -13,7 +13,8 @@ export default class SocialMedia {
     if (!i) {
       return;
     }
-    // this.description = StringsService.removeEmoji(i.description);
+    this.description = Strings.RemoveEmoji(i.description);
+    this.title = Strings.RemoveEmoji(i.title);
     this.image = i.image;
     this.link = i.link;
     this.type = i.type;

@@ -5,6 +5,7 @@ export default class FormStatusGroup {
   id?: string;
   name = '';
   code = '';
+  @ClassHelper.GetClassConstructor(FormStatus)
   formStatuses: FormStatus[] = [];
 
   constructor(i?: FormStatusGroup) {

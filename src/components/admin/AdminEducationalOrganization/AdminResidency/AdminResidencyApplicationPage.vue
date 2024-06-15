@@ -5,28 +5,32 @@
         <template #header>
           <div style="display: flex; justify-content: space-between">
             <span>Общая информация</span>
-            <el-button v-if="!application.userEdit" size="mini" type="success"
-              @click="application.changeUserEdit(true)">
+            <el-button v-if="!application.userEdit" size="mini" type="success" @click="application.changeUserEdit(true)">
               Дать возможность редактирования
             </el-button>
           </div>
         </template>
         <div v-if="isEditMode">
-          <el-form-item v-if="!application.residencyCourseId" label="Выберите программу" prop="residencyCourseId"
-            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
-            <el-select v-model="application.residencyCourse" value-key="id" placeholder="Выберите программу"
-              style="width: 100%" @change="courseChangeHandler">
-              <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization()"
-                :value="item">
-              </el-option>
+          <el-form-item
+            v-if="!application.residencyCourseId"
+            label="Выберите программу"
+            prop="residencyCourseId"
+            :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+          >
+            <el-select
+              v-model="application.residencyCourse"
+              value-key="id"
+              placeholder="Выберите программу"
+              style="width: 100%"
+              @change="courseChangeHandler"
+            >
+              <el-option v-for="item in residencyCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item"> </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Номер заявления" prop="applicationNum">
-            <el-input v-model="application.applicationNum" placeholder="Номер заявления" value-key="id"
-              style="width: 100%" />
+            <el-input v-model="application.applicationNum" placeholder="Номер заявления" value-key="id" style="width: 100%" />
           </el-form-item>
-          <el-form-item v-if="application.admissionCommittee" label="Баллы вступительных испытаний"
-            prop="pointsEntrance">
+          <el-form-item v-if="application.admissionCommittee" label="Баллы вступительных испытаний" prop="pointsEntrance">
             <el-input-number v-model="application.pointsEntrance" value-key="id" />
           </el-form-item>
         </div>
@@ -69,8 +73,12 @@
               <span>ВУЗ</span>
               <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать ВУЗ">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler(application.diploma.universityName, 'ВУЗ')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.universityName, 'ВУЗ')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -82,8 +90,12 @@
               <span>Дата окончания</span>
               <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать дату окончания">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.universityEndDate), 'Дата окончания')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.universityEndDate), 'Дата окончания')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -94,8 +106,12 @@
               <span>Серия</span>
               <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать серию и номер">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler(application.diploma.getSeriesAndNumber(), 'Серия и номер')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.getSeriesAndNumber(), 'Серия и номер')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -112,8 +128,12 @@
               <span>Дата выдачи</span>
               <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать дату выдачи">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.date), 'Дата выдачи')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler($dateTimeFormatter.format(application.diploma.date), 'Дата выдачи')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -125,8 +145,12 @@
               <span>Код специальности</span>
               <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать код специальности">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler(application.diploma.specialityCode, 'Код специальности')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.specialityCode, 'Код специальности')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -136,11 +160,14 @@
             {{ application.diploma.speciality }}
             <template #label>
               <span>Расшифровка специальности</span>
-              <el-popover placement="left-start" width="auto" trigger="hover"
-                content="Копировать расшифровку специальности">
+              <el-popover placement="left-start" width="auto" trigger="hover" content="Копировать расшифровку специальности">
                 <template #reference>
-                  <el-button size="small" style="margin-left: 10px" icon="el-icon-document-copy"
-                    @click="clickCopyHandler(application.diploma.speciality, 'Расшифровка специальности')"></el-button>
+                  <el-button
+                    size="small"
+                    style="margin-left: 10px"
+                    icon="el-icon-document-copy"
+                    @click="clickCopyHandler(application.diploma.speciality, 'Расшифровка специальности')"
+                  ></el-button>
                 </template>
               </el-popover>
             </template>
@@ -152,12 +179,23 @@
       </el-card>
 
       <div v-if="application.residencyCourse?.id">
-        <AdminFormValue :form="application.formValue" :validate-email="false" :active-fields="application.admissionCommittee
-            ? UserFormFields.CreateWithAllUserFields()
-            : UserFormFields.CreateWithFullName({ userSnils: true })
-          " :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
-        <AdminResidencyApplicationAchievementsPoints v-if="application.admissionCommittee" :is-edit-mode="isEditMode"
-          :residency-application="application" />
+        <AdminFormValue
+          :form="application.formValue"
+          :validate-email="false"
+          :active-fields="
+            application.admissionCommittee
+              ? UserFormFields.CreateWithAllUserFields()
+              : UserFormFields.CreateWithFullName({ userSnils: true })
+          "
+          :is-edit-mode="isEditMode"
+          :email-exists="emailExists"
+          @findEmail="findEmail"
+        />
+        <AdminResidencyApplicationAchievementsPoints
+          v-if="application.admissionCommittee"
+          :is-edit-mode="isEditMode"
+          :residency-application="application"
+        />
       </div>
       <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
     </el-form>
@@ -235,7 +273,7 @@ export default defineComponent({
         return;
       }
       application.value.formValue.isNew = false;
-      await store.dispatch('residencyApplications/updateWithoutReset', application.value);
+      await store.dispatch('residencyApplications/update', application.value);
     };
 
     let initialStatus: FormStatus;
@@ -264,10 +302,7 @@ export default defineComponent({
       application.value.formValue.validate();
       saveButtonClick.value = true;
       if (!validate(form, true) || !application.value.formValue.validated) {
-        ElNotification.error({
-          dangerouslyUseHTMLString: true,
-          message: application.value.formValue.getErrorMessage(),
-        });
+        PHelp.Notification().Error(application.value.formValue.getErrorMessage());
         saveButtonClick.value = false;
         return;
       }
@@ -303,10 +338,7 @@ export default defineComponent({
 
     const clickCopyHandler = async (copyValue: string, fieldName: string) => {
       await navigator.clipboard.writeText(copyValue);
-      ElMessage({
-        message: `${fieldName} скопирован в буфер обмена`,
-        type: 'success',
-      });
+      PHelp.Notification().Success(`${fieldName} скопирован в буфер обмена`);
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

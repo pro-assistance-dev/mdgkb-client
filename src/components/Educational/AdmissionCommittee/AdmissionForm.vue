@@ -224,15 +224,12 @@ const submit = async () => {
   // }
   residencyApplication.value.formValue.clearIds();
   residencyApplication.value.formValue.createdAt = new Date();
-  await Provider.store.dispatch('residencyApplications/create');
-  ElNotification.success('Заявка успешно отправлена');
-  emit('close');
+  await Store.Create('residencyApplications');
+  PHelp.Notification().Success('Заявка успешно отправлена');
+  emits('close');
 };
 
 onBeforeMount(async () => {
-  // const thisYearFilter = new FilterQuery();
-  // thisYearFilter.filterModels.push(residencyCoursesFiltersLib.onlyThisYear());
-  // thisYearFilter.sortModels.push(residencyCoursesSortsLib.byName(Orders.Asc));
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
@@ -287,10 +284,7 @@ const submitStep = async () => {
     return;
   }
   if (activeStep.value === 4 && !residencyApplication.value.validateAchievementsPoints()) {
-    ElMessage({
-      type: 'error',
-      message: 'Необходимо добавить все файлы',
-    });
+    PHelp.Notification().Error('Необходимо добавить все файлы');
     return;
   }
   if (activeStep.value === 4) {
@@ -298,10 +292,7 @@ const submitStep = async () => {
   }
   residencyApplication.value.formValue.validate(false);
   if (activeStep.value === 5 && !residencyApplication.value.formValue.validated) {
-    ElNotification.error({
-      dangerouslyUseHTMLString: true,
-      message: residencyApplication.value.formValue.getErrorMessage(),
-    });
+    PHelp.Notification().Error(residencyApplication.value.formValue.getErrorMessage());
     return;
   }
   if (activeStep.value !== 6) {

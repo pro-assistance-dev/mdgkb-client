@@ -44,7 +44,11 @@ export default class ResidencyApplication {
   constructor(i?: ResidencyApplication) {
     ClassHelper.BuildClass(this, i);
   }
-
+  setResidencyCourse(item: ResidencyCourse): void {
+    console.log(item);
+    this.residencyCourse = new ResidencyCourse(item);
+    this.residencyCourseId = this.residencyCourse.id;
+  }
   getFileInfos(): FileInfo[] {
     const fileInfos: FileInfo[] = [];
     fileInfos.push(...this.formValue.getFileInfos());
@@ -70,55 +74,13 @@ export default class ResidencyApplication {
   }
 
   private filterAchievements(onlyApproved: boolean): ResidencyApplicationPointsAchievement[] {
-    const simpleAchievementsCodes: string[] = ['1', '2', '3', '4.1', '4.4', '5', '6'];
-    const additionalAchievementsCodes: string[] = [
-      '9.1',
-      '9.2',
-      '9.3',
-      '9.4',
-      '9.5',
-      '9.6',
-      '9.7',
-      '9.8',
-      '9.9',
-      '9.10',
-      '9.11',
-      '9.12',
-      '9.13',
-    ];
-    const orCodes: string[] = ['7', '8', '4.2', '4.3'];
-
-    const maxAdditionalPoints = 20;
-    let additionalPointsSum = 0;
     let achievements: ResidencyApplicationPointsAchievement[] = [];
     this.residencyApplicationPointsAchievements.forEach((item: ResidencyApplicationPointsAchievement) => {
       if (onlyApproved && !item.approved) {
         return;
       }
-      if (simpleAchievementsCodes.includes(String(item.pointsAchievement.code))) {
-        achievements.push(item);
-      }
-      const canPlusAdditionalAchievement = additionalPointsSum + item.pointsAchievement.points <= maxAdditionalPoints;
-      if (additionalAchievementsCodes.includes(String(item.pointsAchievement.code)) && canPlusAdditionalAchievement) {
-        additionalPointsSum += item.pointsAchievement.points;
-        achievements.push(item);
-      }
-      if (orCodes.includes(String(item.pointsAchievement.code))) {
-        achievements.push(item);
-      }
+      achievements.push(item);
     });
-    let a = achievements.filter(
-      (a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
-    );
-    if (a.length > 1) {
-      achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '7');
-    }
-    a = achievements.filter(
-      (a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '4.2' || String(a.pointsAchievement.code) === '4.3'
-    );
-    if (a.length > 1) {
-      achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) !== '4.2');
-    }
     return achievements;
   }
 

@@ -1,6 +1,7 @@
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { Ref, ref } from 'vue';
 import { NavigationGuardNext } from 'vue-router';
+import PHelp from './PHelp';
 
 declare type SubmitCallback = () => void;
 interface IReturn {
@@ -38,10 +39,7 @@ export default function (): IReturn {
         })
         .catch((action: string) => {
           if (action === 'cancel') {
-            ElMessage({
-              type: 'warning',
-              message: 'Изменения не были сохранены',
-            });
+            PHelp.Notification().Warning('Изменения не были сохранены');
             next();
           }
         });

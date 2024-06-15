@@ -1,5 +1,7 @@
 // const AutoImport = require('unplugin-auto-import/webpack');
 import vue from '@vitejs/plugin-vue';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
+
 import AutoImport from 'unplugin-auto-import/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
@@ -27,6 +29,7 @@ export default ({ mode }) => {
     base: '/',
     includeAbsolute: false,
     plugins: [
+      // nodePolyfills(),
       vue({
         template: {
           transformAssetUrls: {
