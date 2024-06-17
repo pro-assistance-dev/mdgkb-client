@@ -1,10 +1,13 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
+import PHelp from './PHelp';
 import router from '@/router';
 
 export default abstract class Router {
   static async To(route: string) {
+    PHelp.Loading().Show();
     router.push(route);
+    PHelp.Loading().Hide();
   }
 
   static Id() {
@@ -15,8 +18,6 @@ export default abstract class Router {
   }
 
   static Route(): RouteLocationNormalizedLoaded {
-    console.log("route");
-
     return router.currentRoute.value;
   }
 

@@ -3,7 +3,7 @@
     v-if="news && news.content"
     :class="'card' && article ? 'card article-card' : 'card' && main ? 'card main-card' : 'card'"
     :body-style="{ padding: '0px', height: '75%' }"
-    @click="$router.push(`/news/${news.id}`)"
+    @click="Router.To(`/news/${news.id}`)"
   >
     <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="flex-between-columm front">
@@ -65,52 +65,41 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Close from '@/assets/svg/Icons/Close.svg';
 import News from '@/classes/News';
 import Tag from '@/classes/Tag';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 
-export default defineComponent({
-  name: 'NewsCard',
-  components: { NewsMeta, Close },
-  props: {
-    news: {
-      type: Object as PropType<News>,
-      required: true,
-    },
-    article: {
-      type: Boolean,
-      default: false,
-    },
-    main: {
-      type: Boolean,
-      default: false,
-    },
-    showClose: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  news: {
+    type: Object as PropType<News>,
+    required: true,
   },
-  emits: ['close'],
-  setup() {
-    const filterNews = async (tag: Tag): Promise<void> => {
-      // tag.selected = !tag.selected;
-      // filteredTagList.value.forEach((filterTag: Tag) => {
-      //   if (filterTag.id === tag.id) {
-      //     filterTag.selected = true;
-      //   }
-      // });
-      // await store.dispatch('news/getAll');
-    };
-
-    return {
-      filterNews,
-    };
+  article: {
+    type: Boolean,
+    default: false,
+  },
+  main: {
+    type: Boolean,
+    default: false,
+  },
+  showClose: {
+    type: Boolean,
+    default: false,
   },
 });
+const emits = defineEmits(['close']);
+
+const filterNews = async (tag: Tag): Promise<void> => {
+  // tag.selected = !tag.selected;
+  // filteredTagList.value.forEach((filterTag: Tag) => {
+  //   if (filterTag.id === tag.id) {
+  //     filterTag.selected = true;
+  //   }
+  // });
+  // await store.dispatch('news/getAll');
+};
 </script>
 
 <style lang="scss" scoped>

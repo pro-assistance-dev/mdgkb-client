@@ -28,7 +28,7 @@
   </ul>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
@@ -36,93 +36,76 @@ import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIco
 import Menu from '@/services/classes/Menu';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'NavMenu',
-  components: {
-    BaseIcon,
-    HelpProfileIcon,
-  },
-  props: {
-    vertical: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup() {
-    const mounted = ref(false);
-    const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/items']);
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-
-    const clickOutsideMenu = (e: MouseEvent) => {
-      const t = document.querySelectorAll('.link-menu');
-      const withinBoundaries = [...t].find((element) => e.composedPath().includes(element));
-      if (withinBoundaries) {
-        return;
-      }
-      setActiveMenu();
-      menus.value.forEach((m: Menu) => {
-        m.selected = false;
-      });
-    };
-
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('menus/ftsp', { ftsp: new FTSP() });
-      setColors();
-      window.addEventListener('click', clickOutsideMenu);
-      setActiveMenu();
-      mounted.value = true;
-    });
-
-    const setActiveMenu = () => {
-      menus.value.forEach((m: Menu) => (m.active = false));
-      const activeMenu = menus.value.find((m: Menu) => m.containPath(Provider.route().path));
-      if (activeMenu) {
-        activeMenu.active = true;
-      }
-    };
-
-    const setColors = (): void => {
-      const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
-      for (let menuIndex = 0; menuIndex < menus.value.length; menuIndex++) {
-        for (let subMenuIndex = 0; subMenuIndex < menus.value[menuIndex].subMenus.length; subMenuIndex++) {
-          menus.value[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
-        }
-      }
-    };
-
-    watch(() => Provider.route().path, setActiveMenu);
-    watch(isAuth, () => {
-      Provider.store.commit(`menus/setMenus`);
-      setColors();
-    });
-
-    const getColor = (color: string) => {
-      return color;
-    };
-
-    const menuClick = (menu: Menu) => {
-      menu.selected = true;
-      menus.value.forEach((m: Menu) => {
-        if (m.id === menu.id) {
-          return;
-        }
-        m.selected = false;
-      });
-      setActiveMenu();
-      if (menu.isLink()) {
-        Provider.router.push(menu.getLink());
-      }
-    };
-
-    return {
-      getColor,
-      isAuth,
-      mounted,
-      menus,
-      menuClick,
-    };
+const props = defineProps({
+  vertical: {
+    type: Boolean,
+    default: false,
   },
 });
+const mounted = ref(false);
+const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/items']);
+const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
+
+const clickOutsideMenu = (e: MouseEvent) => {
+  const t = document.querySelectorAll('.link-menu');
+  const withinBoundaries = [...t].find((element) => e.composedPath().includes(element));
+  if (withinBoundaries) {
+    return;
+  }
+  setActiveMenu();
+  menus.value.forEach((m: Menu) => {
+    m.selected = false;
+  });
+};
+
+onBeforeMount(async () => {
+  await Provider.store.dispatch('menus/ftsp', { ftsp: new FTSP() });
+  setColors();
+  window.addEventListener('click', clickOutsideMenu);
+  setActiveMenu();
+  mounted.value = true;
+});
+
+const setActiveMenu = () => {
+  menus.value.forEach((m: Menu) => (m.active = false));
+  const activeMenu = menus.value.find((m: Menu) => m.containPath(Provider.route().path));
+  if (activeMenu) {
+    activeMenu.active = true;
+  }
+};
+
+const setColors = (): void => {
+  const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
+  for (let menuIndex = 0; menuIndex < menus.value.length; menuIndex++) {
+    for (let subMenuIndex = 0; subMenuIndex < menus.value[menuIndex].subMenus.length; subMenuIndex++) {
+      menus.value[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
+    }
+  }
+};
+
+watch(() => Provider.route().path, setActiveMenu);
+watch(isAuth, () => {
+  Provider.store.commit(`menus/setMenus`);
+  setColors();
+});
+
+const getColor = (color: string) => {
+  return color;
+};
+
+const menuClick = (menu: Menu) => {
+  menu.selected = true;
+  menus.value.forEach((m: Menu) => {
+    if (m.id === menu.id) {
+      return;
+    }
+    m.selected = false;
+  });
+  setActiveMenu();
+  if (menu.isLink()) {
+    Router.To(menu.getLink());
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -210,8 +193,12 @@ h3 {
   border-radius: 10px;
   background-color: rgba(240, 242, 247);
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
-    rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 5px 5px,
+    rgba(0, 0, 0, 0.1) 0px -1px 3px,
+    rgba(0, 0, 0, 0.1) 0px 4px 6px,
+    rgba(0, 0, 0, 0.1) 0px 2px 3px,
+    rgba(0, 0, 0, 0.1) 0px -3px 5px;
   justify-content: space-between;
   margin: 5px;
 }
@@ -280,12 +267,15 @@ li .dropmenu {
 }
 
 .index-about-column {
-
   &:hover,
   &:active,
   &:focus {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 5px, rgba(0, 0, 0, 0.25) 0px -1px 3px, rgba(0, 0, 0, 0.25) 0px 4px 6px,
-      rgba(0, 0, 0, 0.25) 0px 2px 3px, rgba(0, 0, 0, 0.25) 0px -3px 5px;
+    box-shadow:
+      rgba(0, 0, 0, 0.25) 0px 5px 5px,
+      rgba(0, 0, 0, 0.25) 0px -1px 3px,
+      rgba(0, 0, 0, 0.25) 0px 4px 6px,
+      rgba(0, 0, 0, 0.25) 0px 2px 3px,
+      rgba(0, 0, 0, 0.25) 0px -3px 5px;
     background-color: white;
     z-index: 500;
   }

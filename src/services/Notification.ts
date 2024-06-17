@@ -1,28 +1,28 @@
-import Timer from './Timer'
-import Time from './Time'
-import Message, { MessageOpts } from './Message'
+import Timer from './Timer';
+import Time from './Time';
+import Message, { MessageOpts } from './Message';
 
-import Statuses from './types/Statuses'
+import Statuses from './types/Statuses';
 
 type NotificationOpts = MessageOpts & {
-  duration: number
-}
+  duration: number;
+};
 
 class NotificationConstructor extends Message {
-  private duration = Time.S(3)
+  private duration = Time.S(3);
 
-  protected show(m: string | NotificationOpts, t: Statuses) {
-    super.show(m, t)
+  protected showMessage(m: string | NotificationOpts, t: Statuses) {
+    super.showMessage(m, t);
     if (typeof m !== 'string') {
-      this.duration = m.duration ?? this.duration
+      this.duration = m.duration ?? this.duration;
     }
-    Timer.Wait(this.GetDuration()).then(() => super.hide())
+    Timer.Wait(this.GetDuration()).then(() => super.hide());
   }
 
   private GetDuration(): number {
-    return this.duration
+    return this.duration;
   }
 }
 
-const Notification: NotificationConstructor = new NotificationConstructor()
-export default Notification
+const Notification: NotificationConstructor = new NotificationConstructor();
+export default Notification;
