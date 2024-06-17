@@ -4,50 +4,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
-export default defineComponent({
-  name: 'GridContainer',
-  props: {
-    maxWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '100%',
-    },
-    width: {
-      type: String as PropType<string>,
-      required: false,
-      default: '100%',
-    },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    gridGap: {
-      type: String as PropType<string>,
-      required: false,
-      default: '10px',
-    },
-    gridTemplateColumns: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'repeat(auto-fit, minmax(250px, 1fr))',
-    },
-    gridTemplateRows: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'repeat(0 0px)',
-    },
-    margin: {
-      type: String as PropType<string>,
-      required: false,
-      default: '10px 0 0 0',
-    },
-    // Custom class styles have prio
-    customClass: { type: String as PropType<string>, required: false, default: '' },
+<script lang="ts" setup>
+const props = defineProps({
+  maxWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '100%',
   },
+  width: {
+    type: String as PropType<string>,
+    required: false,
+    default: '100%',
+  },
+  background: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  gridGap: {
+    type: String as PropType<string>,
+    required: false,
+    default: '10px',
+  },
+  gridTemplateColumns: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'repeat(auto-fit, minmax(250px, 1fr))',
+  },
+  gridTemplateRows: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'repeat(0 0px)',
+  },
+  margin: {
+    type: String as PropType<string>,
+    required: false,
+    default: '10px 0 0 0',
+  },
+  // Custom class styles have prio
+  customClass: { type: String as PropType<string>, required: false, default: '' },
 });
 </script>
 

@@ -3,7 +3,13 @@
     <div
       class="slider-block"
       :style="{
-        marginRight: mobileWindow ? (isToggle ? '49px' : `calc(49px - ${sliderOnWidth})`) : isToggle ? sliderOffWidth : `calc(${sliderOffWidth} - ${sliderOnWidth})`,
+        marginRight: mobileWindow
+          ? isToggle
+            ? '49px'
+            : `calc(49px - ${sliderOnWidth})`
+          : isToggle
+            ? sliderOffWidth
+            : `calc(${sliderOffWidth} - ${sliderOnWidth})`,
         width: sliderOnWidth,
         minHeight: sliderOffWidth,
         height: isToggle ? 'auto' : '100px',
@@ -22,7 +28,13 @@
         <div
           class="icon-block"
           :style="{
-            transform: hovering ? (isToggle ? 'rotate(-225deg) scale(1.2, 1.2)' : 'rotate(0deg) scale(1.2, 1.2)') : isToggle ? 'rotate(-225deg)' : 'rotate(0deg)',
+            transform: hovering
+              ? isToggle
+                ? 'rotate(-225deg) scale(1.2, 1.2)'
+                : 'rotate(0deg) scale(1.2, 1.2)'
+              : isToggle
+                ? 'rotate(-225deg)'
+                : 'rotate(0deg)',
             fill: isToggle ? '#379FFF' : '#00B5A4',
           }"
         >
@@ -50,70 +62,57 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onBeforeMount, PropType, ref } from 'vue';
-
-export default defineComponent({
-  name: 'RightTabsContainer',
-  props: {
-    sliderOffWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '101px',
-    },
-    sliderOnWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '332px',
-    },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    isToggle: {
-      type: Boolean as PropType<boolean>,
-      required: false,
-      default: false,
-    },
-    mobileWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '768px',
-    },
+<script lang="ts" setup>
+const props = defineProps({
+  sliderOffWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '101px',
   },
-  emits: ['toggle'],
-  setup(props, { emit }) {
-    const mounted = ref(false);
-    const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
-    const toggleSlider = (toggle: boolean) => {
-      emit('toggle', toggle);
-    };
-    const hovering = ref(false);
+  sliderOnWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '332px',
+  },
+  background: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  isToggle: {
+    type: Boolean as PropType<boolean>,
+    required: false,
+    default: false,
+  },
+  mobileWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '768px',
+  },
+});
+const emit = defineEmits(['toggle']);
+const mounted = ref(false);
+const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+const toggleSlider = (toggle: boolean) => {
+  emit('toggle', toggle);
+};
+const hovering = ref(false);
 
-    onBeforeMount(async () => {
-      window.addEventListener('resize', () => {
-        switch (props.mobileWidth) {
-          case '1330px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
-          case '1215px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1215px)').matches);
-          case '1024px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
-          case '768px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
-        }
+onBeforeMount(async () => {
+  window.addEventListener('resize', () => {
+    switch (props.mobileWidth) {
+      case '1330px':
         return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
-      });
-      mounted.value = true;
-    });
-
-    return {
-      toggleSlider,
-      hovering,
-      mobileWindow,
-    };
-  },
+      case '1215px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1215px)').matches);
+      case '1024px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
+      case '768px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
+    }
+    return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
+  });
+  mounted.value = true;
 });
 </script>
 

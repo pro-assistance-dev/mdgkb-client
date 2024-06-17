@@ -92,16 +92,18 @@
       </div>
 
       <div v-if="mobileWindow" class="icons">
-        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()" ><Filter color="#006BB4"/></PButton>
-        <PButton skin="icon" margin="13px 0 0 10px" @click="handClick2()" ><Download color="#006BB4"/></PButton>
+        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()"><Filter color="#006BB4" /></PButton>
+        <PButton skin="icon" margin="13px 0 0 10px" @click="handClick2()"><Download color="#006BB4" /></PButton>
       </div>
     </div>
   </div>
-    <svg width="0" height="0" class="hidden">
-      <symbol id="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 10.5857L16.95 5.63574L18.364 7.04974L13.414 11.9997L18.364 16.9497L16.95 18.3637L12 13.4137L7.04999 18.3637L5.63599 16.9497L10.586 11.9997L5.63599 7.04974L7.04999 5.63574L12 10.5857Z"></path>
-      </symbol>
-    </svg>
+  <svg width="0" height="0" class="hidden">
+    <symbol id="close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path
+        d="M12 10.5857L16.95 5.63574L18.364 7.04974L13.414 11.9997L18.364 16.9497L16.95 18.3637L12 13.4137L7.04999 18.3637L5.63599 16.9497L10.586 11.9997L5.63599 7.04974L7.04999 5.63574L12 10.5857Z"
+      ></path>
+    </symbol>
+  </svg>
 </template>
 
 <script lang="ts" setup>
@@ -111,51 +113,51 @@ import PButton from '@/services/components/PButton.vue';
 import Filter from '@/services/components/Icons/Filter/Filter.vue';
 import Download from '@/services/components/Icons/Filter/Download.vue';
 
-  const props = defineProps({
-    menuWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '0px',
-    },
-    mobileWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '6000px',
-    },
+const props = defineProps({
+  menuWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '0px',
+  },
+  mobileWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '6000px',
+  },
+});
+const mounted = ref(false);
+const collapsed1: Ref<boolean> = ref(false);
+const collapsed2: Ref<boolean> = ref(false);
+const mobileWindow = ref(window.matchMedia('(max-width: 6000px)').matches);
+
+const handClick = () => {
+  collapsed1.value = false;
+  collapsed2.value = false;
+};
+
+const handClick1 = () => {
+  collapsed1.value = !collapsed1.value;
+};
+const handClick2 = () => {
+  collapsed2.value = !collapsed2.value;
+};
+
+onBeforeMount(async () => {
+  window.addEventListener('resize', () => {
+    switch (props.mobileWidth) {
+      case '1330px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
+      case '1215px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1215px)').matches);
+      case '1024px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
+      case '768px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
+    }
+    return (mobileWindow.value = window.matchMedia('(max-width: 6000px)').matches);
   });
-    const mounted = ref(false);
-    const collapsed1: Ref<boolean> = ref(false);
-    const collapsed2: Ref<boolean> = ref(false);
-    const mobileWindow = ref(window.matchMedia('(max-width: 6000px)').matches);
-
-    const handClick = () => {
-      collapsed1.value = false;
-      collapsed2.value = false;
-    };
-
-    const handClick1 = () => {
-      collapsed1.value = !collapsed1.value;
-    };
-    const handClick2 = () => {
-      collapsed2.value = !collapsed2.value;
-    };
-
-    onBeforeMount(async () => {
-      window.addEventListener('resize', () => {
-        switch (props.mobileWidth) {
-          case '1330px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
-          case '1215px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1215px)').matches);
-          case '1024px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
-          case '768px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
-        }
-        return (mobileWindow.value = window.matchMedia('(max-width: 6000px)').matches);
-      });
-      mounted.value = true;
-    });
+  mounted.value = true;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -253,7 +255,7 @@ import Download from '@/services/components/Icons/Filter/Download.vue';
   background: #f5f5f5;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
   margin-bottom: 10px;
-} 
+}
 
 .title-line {
   display: flex;

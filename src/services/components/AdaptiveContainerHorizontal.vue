@@ -60,64 +60,47 @@
   <RightMenu />
 </template>
 
-<script lang="ts">
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import RightMenu from '@/services/assets/svg/RightMenu.svg';
 
-export default defineComponent({
-  name: 'AdaptiveContainerHorizontal',
-  components: {
-    RightMenu,
+const props = defineProps({
+  menuWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '0px',
   },
-  props: {
-    menuWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '0px',
-    },
-    mobileWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '1330px',
-    },
-    titleSticky: {
-      type: Boolean as PropType<boolean>,
-      required: false,
-      default: false,
-    },
+  mobileWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '1330px',
   },
-  setup(props) {
-    const mounted = ref(false);
-    const collapsed: Ref<boolean> = ref(true);
-    const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
+  titleSticky: {
+    type: Boolean as PropType<boolean>,
+    required: false,
+    default: false,
+  },
+});
+const mounted = ref(false);
+const collapsed: Ref<boolean> = ref(true);
+const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
 
-    const handClick = () => {
-      collapsed.value = !collapsed.value;
-    };
+const handClick = () => {
+  collapsed.value = !collapsed.value;
+};
 
-    onBeforeMount(async () => {
-      window.addEventListener('resize', () => {
-        switch (props.mobileWidth) {
-          case '1330px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
-          case '1024px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
-          case '768px':
-            return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
-        }
+onBeforeMount(async () => {
+  window.addEventListener('resize', () => {
+    switch (props.mobileWidth) {
+      case '1330px':
         return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
-      });
-      mounted.value = true;
-    });
-
-    return {
-      collapsed,
-      handClick,
-      mobileWindow,
-      mounted,
-    };
-  },
+      case '1024px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 1024px)').matches);
+      case '768px':
+        return (mobileWindow.value = window.matchMedia('(max-width: 768px)').matches);
+    }
+    return (mobileWindow.value = window.matchMedia('(max-width: 1330px)').matches);
+  });
+  mounted.value = true;
 });
 </script>
 

@@ -19,27 +19,22 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
-export default defineComponent({
-  name: 'MenuContainer',
-  props: {
-    height: {
-      type: String as PropType<string>,
-      required: false,
-      default: '',
-    },
-    minMenuItemWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '150px',
-    },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-      default: '#ffffff',
-    },
+<script lang="ts" setup>
+const props = defineProps({
+  height: {
+    type: String as PropType<string>,
+    required: false,
+    default: '',
+  },
+  minMenuItemWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '150px',
+  },
+  background: {
+    type: String as PropType<string>,
+    required: false,
+    default: '#ffffff',
   },
 });
 </script>

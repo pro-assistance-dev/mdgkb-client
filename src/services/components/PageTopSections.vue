@@ -2,8 +2,7 @@
   <MenuContainer v-if="mounted" min-menu-item-width="160px" background="#DFF2F8">
     <template #menu>
       <div v-for="menu in sections" :key="menu.id">
-        <div :class="{ 'selected-tab': activeMenu.id === menu.id, tab: activeMenu.id !== menu.id }"
-          @click="changeMenu(menu.id)">
+        <div :class="{ 'selected-tab': activeMenu.id === menu.id, tab: activeMenu.id !== menu.id }" @click="changeMenu(menu.id)">
           {{ menu.name }}
         </div>
       </div>
@@ -15,8 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ComputedRef, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-
 import CustomSection from '@/services/classes/page/CustomSection';
 import MenuContainer from '@/services/components/MenuContainer.vue';
 import Provider from '@/services/Provider/Provider';

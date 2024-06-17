@@ -15,50 +15,37 @@
   <Icons />
 </template>
 
-<script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Icons from '@/assets/svg/Button/Icons.svg';
 
-export default defineComponent({
-  name: 'InputNumber',
-  components: { Icons },
-  props: {
-    modelValue: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-  },
-  emits: ['update:modelValue', 'change'],
-  setup(props, { emit }) {
-    const num: Ref<number> = ref(props.modelValue ?? 0);
-    const increase = () => {
-      num.value++;
-      emit('update:modelValue', num.value);
-      emit('change');
-    };
-
-    const decrease = () => {
-      num.value--;
-      emit('update:modelValue', num.value);
-      emit('change');
-    };
-
-    const input = (v: number) => {
-      console.log(v);
-      emit('update:modelValue', num.value);
-      emit('change');
-    };
-
-    return {
-      num,
-      increase,
-      decrease,
-      input,
-    };
+const props = defineProps({
+  modelValue: {
+    type: Number,
+    required: true,
+    default: 0,
   },
 });
+
+const emit = defineEmits(['update:modelValue', 'change']);
+const num: Ref<number> = ref(props.modelValue ?? 0);
+
+const increase = () => {
+  num.value++;
+  emit('update:modelValue', num.value);
+  emit('change');
+};
+
+const decrease = () => {
+  num.value--;
+  emit('update:modelValue', num.value);
+  emit('change');
+};
+
+const input = (v: number) => {
+  console.log(v);
+  emit('update:modelValue', num.value);
+  emit('change');
+};
 </script>
 
 <style lang="scss" scoped>

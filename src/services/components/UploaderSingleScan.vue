@@ -1,7 +1,18 @@
 <template>
-  <el-upload ref="uploader" :multiple="false" action="#" list-type="picture-card" class="avatar-uploader-cover"
-    :auto-upload="false" :limit="parseInt('1')" :file-list="fileList" :style="heightWeight" :on-change="toggleUpload"
-    :class="{ hideUpload: !showUpload }" accept="image/jpeg,image/png,image/jng">
+  <el-upload
+    ref="uploader"
+    :multiple="false"
+    action="#"
+    list-type="picture-card"
+    class="avatar-uploader-cover"
+    :auto-upload="false"
+    :limit="parseInt('1')"
+    :file-list="fileList"
+    :style="heightWeight"
+    :on-change="toggleUpload"
+    :class="{ hideUpload: !showUpload }"
+    accept="image/jpeg,image/png,image/jng"
+  >
     <template #default>
       <div class="plus-cr" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">Добавить</div>
     </template>
@@ -17,8 +28,7 @@
       </div>
     </template>
   </el-upload>
-  <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop"
-    @close="cropperOpened = false" />
+  <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts" setup>
@@ -64,7 +74,6 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['crop', 'removeFile']);
-
 
 const fileList: Ref<any[]> = ref([]);
 const heightWeight = computed(() => {
@@ -123,13 +132,12 @@ const crop = (file: any) => {
 };
 
 onBeforeMount(() => {
-  console.log(props.fileInfo)
+  console.log(props.fileInfo);
   if (props.fileInfo.fileSystemPath) {
     fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
     showUpload.value = false;
   }
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -141,7 +149,7 @@ onBeforeMount(() => {
 
 .b1 {
   cursor: pointer;
-  color: #DCDFE6;
+  color: #dcdfe6;
   margin-bottom: 30px;
 }
 
@@ -152,7 +160,7 @@ onBeforeMount(() => {
 
 .b2 {
   cursor: pointer;
-  color: #DCDFE6;
+  color: #dcdfe6;
 }
 
 .b2:hover {

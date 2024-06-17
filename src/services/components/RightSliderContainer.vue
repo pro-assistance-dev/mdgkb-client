@@ -24,73 +24,55 @@
   </div>
 </template>
 
-<script lang="ts">
-import { watch } from '@vue/runtime-core';
-import { defineComponent, PropType, ref } from 'vue';
-
+<script lang="ts" setup>
 import StringItem from '@/services/components/StringItem.vue';
 
-export default defineComponent({
-  name: 'RightSliderContainer',
-  components: {
-    StringItem,
+const props = defineProps({
+  sliderOffWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '30px',
   },
-  props: {
-    sliderOffWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '30px',
-    },
-    sliderOnWidth: {
-      type: String as PropType<string>,
-      required: false,
-      default: '260px',
-    },
-    background: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'inherit',
-    },
-    toggle: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    titleOpen: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'Скрыть список исследований',
-    },
-    titleClose: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'Показать список исследований',
-    },
+  sliderOnWidth: {
+    type: String as PropType<string>,
+    required: false,
+    default: '260px',
   },
-  emits: ['toggle'],
-  setup(props, { emit }) {
-    const isToggle = ref(false);
-    watch(
-      () => props.toggle,
-      () => {
-        isToggle.value = !isToggle.value;
-      }
-    );
-
-    const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
-    const toggleSlider = (toggle: boolean) => {
-      isToggle.value = !isToggle.value;
-      emit('toggle', toggle);
-    };
-    const hovering = ref(false);
-
-    return {
-      toggleSlider,
-      hovering,
-      mobileWindow,
-      isToggle,
-    };
+  background: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'inherit',
+  },
+  toggle: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+  titleOpen: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'Скрыть список исследований',
+  },
+  titleClose: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'Показать список исследований',
   },
 });
+const emit = defineEmits(['toggle']);
+const isToggle = ref(false);
+watch(
+  () => props.toggle,
+  () => {
+    isToggle.value = !isToggle.value;
+  }
+);
+
+const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+const toggleSlider = (toggle: boolean) => {
+  isToggle.value = !isToggle.value;
+  emit('toggle', toggle);
+};
+const hovering = ref(false);
 </script>
 
 <style lang="scss" scoped>
