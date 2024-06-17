@@ -45,8 +45,11 @@ export default class Form {
   formStatus = new FormStatus();
   @ClassHelper.GetClassConstructor(DpoApplication)
   dpoApplication?: DpoApplication;
+
+  @ClassHelper.GetClassConstructor(FormStatus)
   defaultFormStatus?: FormStatus;
   defaultFormStatusId?: string;
+
   @ClassHelper.GetClassConstructor(FormStatusGroup)
   formStatusGroup?: FormStatusGroup;
   formStatusGroupId?: string;
@@ -65,8 +68,8 @@ export default class Form {
   postgraduateApplication?: PostgraduateApplication;
   // @ClassHelper.GetClassConstructor(CandidateApplication)
   // candidateApplication?: CandidateApplication;
-  @ClassHelper.GetClassConstructor(ResidencyApplication)
-  residencyApplication?: ResidencyApplication;
+  // @ClassHelper.GetClassConstructor(ResidencyApplication)
+  // residencyApplication?: ResidencyApplication;
   @ClassHelper.GetClassConstructor(VisitsApplication)
   visitsApplication?: VisitsApplication;
   @ClassHelper.GetClassConstructor(VacancyResponse)
@@ -157,9 +160,9 @@ export default class Form {
     // if (form.candidateApplication) {
     //   this.candidateApplication = new CandidateApplication(form.candidateApplication);
     // }
-    if (form.residencyApplication) {
-      this.residencyApplication = new ResidencyApplication(form.residencyApplication);
-    }
+    // if (form.residencyApplication) {
+    //   this.residencyApplication = new ResidencyApplication(form.residencyApplication);
+    // }
     if (form.visitsApplication) {
       this.visitsApplication = new VisitsApplication(form.visitsApplication);
     }
@@ -206,11 +209,11 @@ export default class Form {
         i.fieldValuesFiles.forEach((fvf: FieldValueFile) => fileInfos.push(fvf.fileInfo));
       }
     });
-    if (this.residencyApplication) {
-      this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: ResidencyApplicationPointsAchievement) => {
-        fileInfos.push(r.fileInfo);
-      });
-    }
+    // if (this.residencyApplication) {
+    //   this.residencyApplication.residencyApplicationPointsAchievements.forEach((r: ResidencyApplicationPointsAchievement) => {
+    //     fileInfos.push(r.fileInfo);
+    //   });
+    // }
     this.formValueFiles.forEach((i: FormValueFile) => {
       if (i.file) {
         fileInfos.push(i.file);
@@ -416,9 +419,9 @@ export default class Form {
     if (this.dpoApplication) {
       return this.dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО';
     }
-    if (this.residencyApplication) {
-      return 'Ординатура';
-    }
+    // if (this.residencyApplication) {
+    //   return 'Ординатура';
+    // }
     if (this.postgraduateApplication) {
       return 'Аспирантура';
     }
@@ -441,9 +444,9 @@ export default class Form {
     if (this.dpoApplication) {
       return `/dpo?mode=programs`;
     }
-    if (this.residencyApplication) {
-      return `/residency?mode=programs`;
-    }
+    // if (this.residencyApplication) {
+    //   return `/residency?mode=programs`;
+    // }
     if (this.postgraduateApplication) {
       return `/postgraduate?mode=programs`;
     }
@@ -465,9 +468,9 @@ export default class Form {
     if (this.dpoApplication) {
       return this.dpoApplication.nmoCourse.name;
     }
-    if (this.residencyApplication && this.residencyApplication.residencyCourse) {
-      return this.residencyApplication.residencyCourse.getMainSpecialization().name;
-    }
+    // if (this.residencyApplication && this.residencyApplication.residencyCourse) {
+    //   return this.residencyApplication.residencyCourse.getMainSpecialization().name;
+    // }
     if (this.postgraduateApplication) {
       return this.postgraduateApplication.postgraduateCourse.getMainSpecialization().name;
     }
@@ -490,9 +493,9 @@ export default class Form {
     if (this.dpoApplication) {
       return `/courses/${this.dpoApplication.nmoCourse.slug}`;
     }
-    if (this.residencyApplication) {
-      return `/residency-courses/${this.residencyApplication.residencyCourse?.id}`;
-    }
+    // if (this.residencyApplication) {
+    //   return `/residency-courses/${this.residencyApplication.residencyCourse?.id}`;
+    // }
     if (this.postgraduateApplication) {
       return `/postgraduate-courses/${this.postgraduateApplication.postgraduateCourse?.getMainSpecialization().slug}`;
     }

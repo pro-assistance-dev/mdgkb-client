@@ -12,16 +12,16 @@
       >
       <el-radio :label="true" size="large">По договорам о платных образовательных услугах</el-radio>
     </el-radio-group>
-    <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
-      <div v-if="residencyApplicationValue.formValue.findFieldValue(field.id)?.file?.fileSystemPath">
-        <div style="margin-top: 10px">
-          <span><b> Загрузите договор </b></span>
-          <span>
-            <FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" />
-          </span>
-        </div>
-      </div>
-    </div>
+    <!-- <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id"> -->
+    <!--   <div v-if="residencyApplicationValue.formValue.findFieldValue(field.id)?.file?.fileSystemPath"> -->
+    <!--     <div style="margin-top: 10px"> -->
+    <!--       <span><b> Загрузите договор </b></span> -->
+    <!--       <span> -->
+    <!--         <FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" /> -->
+    <!--       </span> -->
+    <!--     </div> -->
+    <!--   </div> -->
+    <!-- </div> -->
   </el-form-item>
   <el-form-item label="Вы проходили первичную аккредитацию?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
     <el-radio-group v-model="residencyApplicationValue.primaryAccreditation" @change="selectAccreditation()">
@@ -103,21 +103,40 @@
     2. Целевой договор (специалитет) ИЛИ Справку о работе в медицинской организации"
     width="40%"
   >
-    <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm'])" :key="field.id">
-      <div style="margin-top: 10px">
-        <span><b> Загрузите гарантийное письмо </b></span
-        ><span>
-          <FileUploader :file-info="residencyApplicationValue.formValue.findFieldValue(field.id).file" />
-        </span>
-      </div>
+    <!-- <div v-for="field in residencyApplicationValue.formValue.getFieldsByCodes(['ContractDzm', 'Guarantee', 'MedWork'])" :key="field.id"> -->
+    <div style="margin-top: 10px">
+      <span><b> Загрузите гарантийное письмо </b></span
+      ><span>
+        <FileUploader
+          :file-info="
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('Guarantee').id).file
+          "
+        />
+      </span>
+    </div>
+    <div style="margin-top: 10px">
+      <span><b> Загрузите целевой договор или Справку о работе в медицинской организации ДЗМ</b></span
+      ><span>
+        <FileUploader
+          :file-info="
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('ContractDzm').id).file
+          "
+        />
+        <FileUploader
+          :file-info="
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('MedWork').id).file
+          "
+        />
+      </span>
+    </div>
+    <!-- </div> -->
 
+    <span class="dialog-footer">
       <div class="text-align-right margin-top-1">
         <el-button @click="showFreeDialog = false">Отмена</el-button>
+        <el-button v-if="showUploadButton" type="primary" @click="submitFreeFile"> Подтвердить загрузку </el-button>
       </div>
-      <el-button v-if="showUploadButton" type="primary" @click="submitFreeFile"> Подтвердить загрузку </el-button>
-    </div>
-
-    <span class="dialog-footer"> </span>
+    </span>
   </el-dialog>
 </template>
 
@@ -210,6 +229,15 @@ const selectPaid = async (paid: boolean) => {
 };
 
 const submitFreeFile = () => {
+  const a = residencyApplicationValue.value.formValue;
+  const guarantee = a.findFieldValue(a.getFieldByCode('Guarantee').id).file.id;
+  const dzm = a.findFieldValue(a.getFieldByCode('ContractDzm').id).file.id;
+  const medWork = a.findFieldValue(a.getFieldByCode('MedWork').id).file.id;
+  console.log(guarantee, dzm, medWork);
+  if (!guarantee || !(dzm || medWork)) {
+    PHelp.Notification().Error('Загрузите необходимые документы');
+    return;
+  }
   residencyApplicationValue.value.paid = false;
   showFreeDialog.value = false;
 };

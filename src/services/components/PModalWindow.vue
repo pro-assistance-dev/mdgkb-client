@@ -9,6 +9,7 @@
       margin: margin,
       padding: padding,
       top: top,
+      background: background,
     }"
   >
     <div v-if="closable" class="icon-box" @click="$emit('close')">
@@ -23,44 +24,41 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import { v4 as uuidv4 } from 'uuid';
 import IconClose from '@/services/components/Icons/IconClose.vue';
 
-export default defineComponent({
-  name: 'ModalWindow',
-  props: {
-    showCloseDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
-    show: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    title: {
-      type: String as PropType<string>,
-      default: '',
-    },
-    width: {
-      type: String as PropType<string>,
-      default: '760px',
-    },
-
-    margin: {
-      type: String as PropType<string>,
-      default: 'auto',
-    },
-    top: {
-      type: String as PropType<string>,
-      default: '20vh',
-    },
-    padding: {
-      type: String as PropType<string>,
-      default: '0',
-    },
-    showClose: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
+const props = defineProps({
+  showCloseDialog: { type: Boolean as PropType<boolean>, required: false, default: false },
+  closable: { type: Boolean as PropType<boolean>, required: false, default: false },
+  show: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
-  emits: ['save', 'close'],
+  title: {
+    type: String as PropType<string>,
+    default: '',
+  },
+  width: {
+    type: String as PropType<string>,
+    default: '760px',
+  },
+  margin: {
+    type: String as PropType<string>,
+    default: 'auto',
+  },
+  top: {
+    type: String as PropType<string>,
+    default: '20vh',
+  },
+  padding: {
+    type: String as PropType<string>,
+    default: '0',
+  },
+  showClose: {
+    type: Boolean as PropType<boolean>,
+    default: false,
+  },
+});
+const emits = defineEmits(['save', 'close']);
 
 const form = ref();
-// const representative: Ref<Representative> = computed(() => Provider.store.getters['representatives/item']);
 
 const submitForm = async (): Promise<void> => {
   // saveButtonClick.value = true;
@@ -114,7 +112,7 @@ const close = () => {
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@//services/assets/style/utils/variables/colors.scss';
 
 .blur {
   position: fixed;
@@ -141,6 +139,7 @@ const close = () => {
   border-radius: 5px;
   overflow: hidden;
   max-height: 70vh;
+  background: $main-white;
 }
 
 .base-title {

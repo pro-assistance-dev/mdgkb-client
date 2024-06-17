@@ -21,6 +21,7 @@ export default class ResidencyCourse {
   residencyCoursesSpecializations: ResidencyCourseSpecialization[] = [];
   residencyCoursesSpecializationsForDelete: string[] = [];
 
+  @ClassHelper.GetClassConstructor(Form)
   formPattern: Form = new Form();
   formPatternId?: string;
 

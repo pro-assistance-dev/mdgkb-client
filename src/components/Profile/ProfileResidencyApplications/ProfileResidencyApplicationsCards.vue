@@ -1,27 +1,45 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem v-for="residencyApplication in user.residencyApplications" :key="residencyApplication.id"
-        :title="`${residencyApplication.residencyCourse.getFullName()}`" :tab-id="residencyApplication.id"
-        :collapsed="false" :active-id="scope.activeId" :show-tools-on-hover="false">
+      <CollapseItem
+        v-for="residencyApplication in user.residencyApplications"
+        :key="residencyApplication.id"
+        :title="`${residencyApplication.residencyCourse.getFullName()}`"
+        :tab-id="residencyApplication.id"
+        :collapsed="false"
+        :active-id="scope.activeId"
+        :show-tools-on-hover="false"
+      >
         <template #tools>
           <div class="order-date" style="margin-right: 5px">
-            {{ $dateTimeFormatter.format(residencyApplication.formValue.createdAt, {
-              day: '2-digit', month: 'long',
-              year: 'numeric'
-            }) }}
+            {{
+              $dateTimeFormatter.format(residencyApplication.formValue.createdAt, {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+              })
+            }}
           </div>
-          <el-tag v-if="residencyApplication.formValue.formStatus.label" size="small"
-            :style="`background-color: inherit; color: ${residencyApplication.formValue.formStatus.color}; border-color: ${residencyApplication.formValue.formStatus.color}`">{{
-              residencyApplication.formValue.formStatus.label }}</el-tag>
+          <el-tag
+            v-if="residencyApplication.formValue.formStatus.label"
+            size="small"
+            :style="`background-color: inherit; color: ${residencyApplication.formValue.formStatus.color}; border-color: ${residencyApplication.formValue.formStatus.color}`"
+            >{{ residencyApplication.formValue.formStatus.label }}</el-tag
+          >
         </template>
         <template #inside-content>
           <div class="margin-container">
             <div class="position">
               <div class="flex">
-                <PButton skin="profile" v-for="item in residencyApplication.formValue.getUserActions()" :key="item.id"
-                  :text="item.childFormStatus.userActionName" margin="0 10px 0 0" width="120px"
-                  @click="updateFormStatus(residencyApplication, item.childFormStatus)" />
+                <PButton
+                  skin="profile"
+                  v-for="item in residencyApplication.formValue.getUserActions()"
+                  :key="item.id"
+                  :text="item.childFormStatus.userActionName"
+                  margin="0 10px 0 0"
+                  width="120px"
+                  @click="updateFormStatus(residencyApplication, item.childFormStatus)"
+                />
               </div>
             </div>
 
@@ -35,7 +53,7 @@
   </CollapseContainer>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { ElMessageBox } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
@@ -47,55 +65,41 @@ import CollapseContainer from '@/services/components/Collapse/CollapseContainer.
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ProfileResidencyApplicationsCards',
-  components: {
-    CollapseContainer,
-    CollapseItem,
-  },
-  setup() {
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const cancelApplication = async (formValue: Form, status: FormStatus) => {
-      ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
-        confirmButtonText: 'Да',
-        cancelButtonText: 'Отмена',
-        type: 'warning',
-      }).then(() => {
-        formValue.setStatus(status, formStatuses.value);
-        Provider.store.dispatch('formValues/update', formValue);
-      });
-    };
+const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+const cancelApplication = async (formValue: Form, status: FormStatus) => {
+  ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
+    confirmButtonText: 'Да',
+    cancelButtonText: 'Отмена',
+    type: 'warning',
+  }).then(() => {
+    formValue.setStatus(status, formStatuses.value);
+    Provider.store.dispatch('formValues/update', formValue);
+  });
+};
 
-    const updateFormStatus = async (application: ResidencyApplication, status: FormStatus) => {
-      if (status.isCancelled()) {
-        await Provider.router.push(`/profile/residency-applications/cancel/${application.id}`);
-        return;
-      }
-      if (status.isClarified()) {
-        await Provider.router.push(`/profile/residency-applications/${application.id}`);
-        return;
-      }
-      if (status.isEditable) {
-        application.formValue.setStatus(status, formStatuses.value);
-      }
-      await Provider.store.dispatch('formValues/update', application.formValue);
-    };
+const updateFormStatus = async (application: ResidencyApplication, status: FormStatus) => {
+  if (status.isCancelled()) {
+    await Provider.router.push(`/profile/residency-applications/cancel/${application.id}`);
+    return;
+  }
+  if (status.isClarified()) {
+    await Provider.router.push(`/profile/residency-applications/${application.id}`);
+    return;
+  }
+  if (status.isEditable) {
+    application.formValue.setStatus(status, formStatuses.value);
+  }
+  await Provider.store.dispatch('formValues/update', application.formValue);
+};
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('formStatuses/getAll');
-    });
+onBeforeMount(async () => {
+  await Provider.store.dispatch('formStatuses/getAll');
+});
 
-    onBeforeUnmount(async () => {
-      user.value.setResidencyApplicationsViewed();
-      await Provider.store.dispatch('formValues/updateMany', user.value.getResidencyApplicationsFormValues());
-    });
-
-    return {
-      user,
-      updateFormStatus,
-    };
-  },
+onBeforeUnmount(async () => {
+  user.value.setResidencyApplicationsViewed();
+  await Provider.store.dispatch('formValues/updateMany', user.value.getResidencyApplicationsFormValues());
 });
 </script>
 
