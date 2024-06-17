@@ -1,16 +1,20 @@
 import { Module } from 'vuex';
 
-import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
+import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
 import RootState from '@/store/types';
 
+import DonorRule from '@/classes/DonorRule';
+
+import IBasicState from '@/services/store/baseModule/baseState';
 import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
-import { State } from './state';
+
+export type State = IBasicState<DonorRule>;
 
 export const getDefaultState = (): State => {
   return {
-    items: new DonorRulesWithDeleted(),
+    ...getBaseDefaultState(DonorRule),
   };
 };
 

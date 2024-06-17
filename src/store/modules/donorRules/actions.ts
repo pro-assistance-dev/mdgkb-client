@@ -1,28 +1,19 @@
 import { ActionTree } from 'vuex';
 
 import DonorRule from '@/classes/DonorRule';
-import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import HttpClient from '@/services/HttpClient';
 import RootState from '@/store/types';
 
-import { State } from './state';
+import getBaseActions from '@/services/store/baseModule/baseActions';
+import { State } from './index';
 
 const httpClient = new HttpClient('donor-rules');
 
 const actions: ActionTree<State, RootState> = {
+  ...getBaseActions<DonorRule, State>(httpClient),
   getAll: async ({ commit }): Promise<void> => {
     commit('setAll', await httpClient.get<DonorRule[]>());
-  },
-  updateMany: async ({ commit, state }): Promise<void> => {
-    commit(
-      'setAll',
-      await httpClient.put<DonorRulesWithDeleted, DonorRulesWithDeleted>({
-        payload: state.items,
-        fileInfos: state.items.getFileInfos(),
-        isFormData: true,
-      })
-    );
   },
   addToUser: async ({ commit }, item: DonorRuleUser): Promise<void> => {
     await httpClient.post<DonorRuleUser, DonorRuleUser>({

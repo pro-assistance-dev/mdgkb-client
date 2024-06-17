@@ -2,17 +2,11 @@ import { MutationTree } from 'vuex';
 
 import DonorRule from '@/classes/DonorRule';
 
-import { getDefaultState } from '.';
-import { State } from './state';
+import getBaseMutations from '@/services/store/baseModule/baseMutations';
+import { State } from './index';
 
 const mutations: MutationTree<State> = {
-  setAll(state, items: DonorRule[]) {
-    state.items.donorRules = items.map((i: DonorRule) => new DonorRule(i));
-    state.items.donorRulesForDelete = [];
-  },
-  resetState(state) {
-    Object.assign(state, getDefaultState());
-  },
+  ...getBaseMutations<DonorRule, State>(DonorRule),
 };
 
 export default mutations;
