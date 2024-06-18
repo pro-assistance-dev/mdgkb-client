@@ -32,6 +32,13 @@ export default class Human {
     ClassHelper.BuildClass(this, i);
   }
 
+  getImageUrl(): string | URL {
+    if (this.photo.fileSystemPath) {
+      return this.photo.getFileUrl();
+    }
+    return new URL(`/src/services/assets/img/avatar.webp`, import.meta.url);
+  }
+
   setEditNameMode(value: boolean): void {
     this.editNameMode = value;
   }

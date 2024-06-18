@@ -2,7 +2,7 @@
   <div class="user-mini-info">
     <div class="avatar-block">
       <div class="avatar">
-        <img :src="user.human.photo.getFileUrl()" alt="user-photo" @error="user.human.photo.errorImg($event)" />
+        <img :src="user.human.getImageUrl()" alt="user-photo" />
       </div>
     </div>
     <div class="right-block">
@@ -28,25 +28,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import User from '@/classes/User';
 
-export default defineComponent({
-  name: 'UserInfoMini',
-
-  setup() {
-    const store = useStore();
-
-    const user: Ref<User> = computed(() => store.getters['users/item']);
-
-    return {
-      user,
-    };
-  },
-});
+const user: Ref<User> = Store.Item('users');
 </script>
 
 <style lang="scss" scoped>

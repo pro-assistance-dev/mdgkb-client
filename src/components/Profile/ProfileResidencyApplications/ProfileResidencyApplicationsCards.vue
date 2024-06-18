@@ -44,7 +44,7 @@
             </div>
 
             <div class="card-container">
-              <router-link to="/residency?mode=programs"> Программы ординатуры </router-link>
+              <router-link to="/residency?mode=programs">Программы ординатуры </router-link>
             </div>
           </div>
         </template>
