@@ -19,7 +19,6 @@
 
 <script setup lang="ts">
 import { Object3D } from 'three';
-import { computed, ComputedRef, onBeforeMount, onMounted, Ref, ref } from 'vue';
 
 import Navi from '@/assets/svg/Map/Navi.svg';
 import Engine3D from '@/classes/Engine3D';
@@ -30,47 +29,39 @@ import MapPainter from '@/classes/MapPainter';
 import MapRoute from '@/classes/MapRoute';
 import MapRouter from '@/classes/MapRouter';
 import IsometricMapDestinationStepper from '@/components/IsometricMap/IsometricMapDestinationStepper.vue';
-// import IsometricMapBuildingInfo from '@/components/IsometricMap/IsometricMapBuildingInfo.vue';
 import { CallbackFunction } from '@/interfaces/elements/Callback';
 import { MapBuildingsEventsTypes } from '@/interfaces/MapEventsTypes';
-import Provider from '@/services/Provider/Provider';
-const target = ref();
+import Router from '@/services/Router';
 
+const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
 const showDestinationStepper = ref(false);
-
-let engine: Engine3D = new Engine3D();
-let mapRouter: MapRouter = new MapRouter(engine);
+const engine: Engine3D = new Engine3D();
+const mapRouter: MapRouter = new MapRouter(engine);
 let mapModel: MapModel = new MapModel();
 
-const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
-
-const buildingClick = async (event: { id: string }) => {
-  await Store.Get('buildings', event.id);
-  buildingModalOpened.value = true;
-};
-
-let routeLine = undefined;
-let mark = undefined;
-
-const getRoute = async (endNode: string) => {
-  mapRouter.drop();
-  if (endNode) {
-    mapRouter.endNodeName = endNode;
-    showDestinationStepper.value = false;
-  }
-  await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
-  mapRouter.add(
-    MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
-    mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
-  );
-};
-
-const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
-  const m = new Map();
-  m.set(MapBuildingsEventsTypes.Click, buildingClick.bind(this));
-  return m;
-};
+const route: ComputedRef<MapRoute> = Store.Item('mapRoutes'),
+  buildingClick = async (event: { id: string }) => {
+    await Store.Get('buildings', event.id);
+    buildingModalOpened.value = true;
+  },
+  getRoute = async (endNode: string) => {
+    mapRouter.drop();
+    if (endNode) {
+      mapRouter.endNodeName = endNode;
+      showDestinationStepper.value = false;
+    }
+    await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
+    mapRouter.add(
+      MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
+      mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
+    );
+  },
+  initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
+    const m = new Map();
+    m.set(MapBuildingsEventsTypes.Click, buildingClick.bind(this));
+    return m;
+  };
 
 onBeforeMount(() => {
   mapRouter.selectStart('', Router.GetStringQueryParam('start'));
@@ -78,9 +69,11 @@ onBeforeMount(() => {
 });
 
 onMounted(async () => {
-  // if (mapRouter.startNodeName) {
-  //   showDestinationStepper.value = true;
-  // }
+  /*
+   * If (mapRouter.startNodeName) {
+   *   showDestinationStepper.value = true;
+   * }
+   */
   engine.init(target);
   const model = (await FbxModel.AddObjectToScene('models/Map_v5_3.fbx')) as Object3D;
   mapModel = model.children[0] as MapModel;
@@ -94,11 +87,13 @@ onMounted(async () => {
   await getRoute(mapRouter.endNodeName);
 });
 
-// const createRoutes = async () => {
-//   const nodes = mapModel.getNodes();
-//   const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
-//   await Provider.store.dispatch('mapNodes/upload', requestNodes);
-// };
+/*
+ * Const createRoutes = async () => {
+ *   const nodes = mapModel.getNodes();
+ *   const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
+ *   await Provider.store.dispatch('mapNodes/upload', requestNodes);
+ * };
+ */
 </script>
 
 <style lang="scss">

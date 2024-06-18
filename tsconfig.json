@@ -42,6 +42,9 @@
     "src/vue3-emoji-picker.d.ts",
     "src/index.d.ts"
   ],
+  "files": [
+    "./auto-imports.d.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

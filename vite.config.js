@@ -1,13 +1,13 @@
 // const AutoImport = require('unplugin-auto-import/webpack');
 import vue from '@vitejs/plugin-vue';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
-
 import AutoImport from 'unplugin-auto-import/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import { fileURLToPath, URL } from 'url';
 import { defineConfig, loadEnv } from 'vite';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svgLoader from 'vite-svg-loader';
+
 import ServicesNames from './src/services/ServicesNames';
 
 export default ({ mode }) => {
@@ -59,12 +59,12 @@ export default ({ mode }) => {
           },
         ],
         resolvers: [ElementPlusResolver()],
-        dirs: ['srs/classes', 'srs/services/**', 'srs/services'],
-        ignoreDts: ['srs/services', 'Message'],
+        // dirs: ['srs/classes', 'srs/services/**', 'srs/services'],
+        // ignoreDts: ['srs/services', 'Message'],
         vueTemplate: true,
         dts: true,
         eslintrc: {
-          enabled: true,
+          enabled: true
         },
       }),
     ],
