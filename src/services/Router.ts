@@ -6,7 +6,7 @@ import router from '@/router';
 export default abstract class Router {
   static async To(route: string) {
     PHelp.Loading().Show();
-    router.push(route);
+    await router.push(route);
     PHelp.Loading().Hide();
   }
 
