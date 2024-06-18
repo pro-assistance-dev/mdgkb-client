@@ -55,12 +55,10 @@ let mark = undefined;
 
 const getRoute = async (endNode: string) => {
   mapRouter.drop();
-
   if (endNode) {
     mapRouter.endNodeName = endNode;
     showDestinationStepper.value = false;
   }
-
   await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
   mapRouter.add(
     MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),

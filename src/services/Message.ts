@@ -1,21 +1,17 @@
 import Statuses from './types/Statuses';
+import Visible from './Visible';
 
 export type MessageOpts = {
   text: string;
   title: string;
 };
 
-export default class Message {
+export default class Message extends Visible {
   private type: Statuses = Statuses.Success;
   private text = '';
   private title = '';
-  private visible = false;
 
-  protected hide() {
-    this.visible = false;
-  }
-
-  protected show(m: string | MessageOpts, t: Statuses) {
+  protected showMessage(m: string | MessageOpts, t: Statuses) {
     this.hide();
     this.type = t;
     if (typeof m === 'string') {
@@ -24,7 +20,7 @@ export default class Message {
       this.text = m.text;
       this.title = m.title ?? '';
     }
-    this.visible = true;
+    super.show();
   }
 
   GetText(): string {
@@ -39,20 +35,16 @@ export default class Message {
     return this.type;
   }
 
-  IsVisible(): boolean {
-    return this.visible;
-  }
-
   Success(m: string | MessageOpts): void {
-    this.show(m, Statuses.Success);
+    this.showMessage(m, Statuses.Success);
   }
 
   Error(m: string | MessageOpts): void {
-    this.show(m, Statuses.Error);
+    this.showMessage(m, Statuses.Error);
   }
 
   Warning(m: string | MessageOpts): void {
-    this.show(m, Statuses.Warning);
+    this.showMessage(m, Statuses.Warning);
   }
 
   FormMessage(errorFields: any): string {
