@@ -48,9 +48,29 @@ export default class Core3D {
     this.updateMatrix();
   }
 
-  remove(obj: Object3D): void {
+  remove(obj?: Object3D): void {
+    if (!obj) {
+      return;
+    }
+    this.clearThree(obj);
     this.scene.remove(obj);
     this.animate();
+  }
+
+  clearThree(obj: Object3D) {
+    while (obj.children.length > 0) {
+      this.clearThree(obj.children[0]);
+      obj.remove(obj.children[0]);
+    }
+    if (obj.geometry) obj.geometry.dispose();
+
+    if (obj.material) {
+      Object.keys(obj.material).forEach((prop: unknown) => {
+        if (!obj.material[prop]) return;
+        if (obj.material[prop] !== null && typeof obj.material[prop].dispose === 'function') obj.material[prop].dispose();
+      });
+      obj.material.dispose();
+    }
   }
 
   private animate() {

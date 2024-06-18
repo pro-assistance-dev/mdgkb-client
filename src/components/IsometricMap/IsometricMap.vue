@@ -39,9 +39,9 @@ const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
 const showDestinationStepper = ref(false);
 
-let mapRouter: MapRouter = new MapRouter();
-let mapModel: MapModel = new MapModel();
 let engine: Engine3D = new Engine3D();
+let mapRouter: MapRouter = new MapRouter(engine);
+let mapModel: MapModel = new MapModel();
 
 const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
 
@@ -54,19 +54,16 @@ let routeLine = undefined;
 let mark = undefined;
 
 const getRoute = async (endNode: string) => {
-  if (routeLine) {
-    engine.remove(routeLine);
-    engine.remove(mark);
-  }
+  mapRouter.drop();
   if (endNode) {
     mapRouter.endNodeName = endNode;
     showDestinationStepper.value = false;
   }
-  await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
-  routeLine = MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value));
-  engine.add(routeLine);
-  mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249);
-  engine.add(mark);
+  await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
+  mapRouter.add(
+    MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
+    mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
+  );
 };
 
 const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
