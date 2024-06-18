@@ -23,6 +23,10 @@ export default class Engine3D {
     this.core.add(obj);
   }
 
+  remove(obj: Object3D): void {
+    this.core.remove(obj);
+  }
+
   addAndWatch(obj: Object3D): void {
     this.add(obj);
     this.core.watch(obj);

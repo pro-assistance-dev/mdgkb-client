@@ -125,7 +125,6 @@ export default class MapModel extends Three.Group {
     mark.add(cylinder);
     mark.add(hemisphere);
 
-
     return mark;
   }
 }

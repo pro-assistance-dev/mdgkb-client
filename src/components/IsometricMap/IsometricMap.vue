@@ -50,15 +50,22 @@ const buildingClick = async (event: { id: string }) => {
   buildingModalOpened.value = true;
 };
 
+let routeLine = undefined;
+let mark = undefined;
+
 const getRoute = async (endNode: string) => {
+  if (routeLine) {
+    engine.remove(routeLine);
+    engine.remove(mark);
+  }
   if (endNode) {
     mapRouter.endNodeName = endNode;
     showDestinationStepper.value = false;
   }
   await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
-  engine.add(MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)));
-  const mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249);
-  // engine.addAndWatch(mark);
+  routeLine = MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value));
+  engine.add(routeLine);
+  mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249);
   engine.add(mark);
 };
 

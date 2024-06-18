@@ -2,6 +2,8 @@ import IStartEndNode from '@/interfaces/IStartEndNode';
 import { defineEmits } from 'vue';
 import SearchElement from './SearchElement';
 
+import * as Three from 'three';
+
 export default class MapRouter {
   startNodeName = '';
   endNodeName = '';
@@ -13,6 +15,11 @@ export default class MapRouter {
 
   selectedStartMode = false;
   selectedEndMode = false;
+
+  routeLine?: Three.Object3D;
+  startMark?: Three.Mesh;
+  endMark?: Three.Mesh;
+
   emit = defineEmits(['close', 'buildRoute']);
 
   catBuildNode(): boolean {
