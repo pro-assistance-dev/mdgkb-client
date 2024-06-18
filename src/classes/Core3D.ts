@@ -48,7 +48,10 @@ export default class Core3D {
     this.updateMatrix();
   }
 
-  remove(obj: Object3D): void {
+  remove(obj?: Object3D): void {
+    if (!obj) {
+      return;
+    }
     this.scene.remove(obj);
     this.animate();
   }

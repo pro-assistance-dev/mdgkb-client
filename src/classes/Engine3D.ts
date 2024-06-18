@@ -23,7 +23,7 @@ export default class Engine3D {
     this.core.add(obj);
   }
 
-  remove(obj: Object3D): void {
+  remove(obj?: Object3D): void {
     this.core.remove(obj);
   }
 
