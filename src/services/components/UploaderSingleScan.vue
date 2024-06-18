@@ -105,11 +105,12 @@ const openCropper = (file: any) => {
 };
 
 const handleRemove = () => {
-  ElMessageBox.confirm('Вы уверены?', 'Вы хотите удалить изображение', {
-    distinguishCancelAndClose: true,
-    confirmButtonText: 'Удалить',
-    cancelButtonText: 'Не удалять',
-  })
+  PHelp.Dialog()
+    .Show({
+      text: 'Вы хотите удалить изображение',
+      confirmButtonText: 'Удалить',
+      cancelButtonText: 'Не удалять',
+    })
     .then(() => {
       uploader.value.clearFiles();
       showUpload.value = !showUpload.value;

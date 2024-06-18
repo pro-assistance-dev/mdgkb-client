@@ -29,7 +29,7 @@ class DialogConstructor extends Message {
   }
 
   Show(m: string | DialogOpts, t: Statuses): Promise<DialogResult> {
-    super.showMessage(m, t);
+    super.show(m, t);
     if (typeof m !== 'string') {
       this.confirmButtonText = m.confirmButtonText;
       this.cancelButtonText = m.cancelButtonText;
