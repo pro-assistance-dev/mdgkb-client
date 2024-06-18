@@ -43,10 +43,10 @@ let mapRouter: MapRouter = new MapRouter();
 let mapModel: MapModel = new MapModel();
 let engine: Engine3D = new Engine3D();
 
-const route: ComputedRef<MapRoute> = computed(() => Provider.store.getters['mapRoutes/item']);
+const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
 
 const buildingClick = async (event: { id: string }) => {
-  await Provider.store.dispatch('buildings/get', event.id);
+  await Store.Get('buildings', event.id);
   buildingModalOpened.value = true;
 };
 
@@ -57,7 +57,7 @@ const getRoute = async (endNode: string) => {
   }
   await Provider.store.dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
   engine.add(MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)));
-  const mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0AA249);
+  const mark = mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249);
   // engine.addAndWatch(mark);
   engine.add(mark);
 };
@@ -69,14 +69,14 @@ const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction
 };
 
 onBeforeMount(() => {
-  mapRouter.selectStart('', Provider.getStringQueryParam('start'));
-  mapRouter.selectEnd('', Provider.getStringQueryParam('end'));
+  mapRouter.selectStart('', Router.GetStringQueryParam('start'));
+  mapRouter.selectEnd('', Router.GetStringQueryParam('end'));
 });
 
 onMounted(async () => {
-  if (mapRouter.startNodeName) {
-    showDestinationStepper.value = true;
-  }
+  // if (mapRouter.startNodeName) {
+  //   showDestinationStepper.value = true;
+  // }
   engine.init(target);
   const model = (await FbxModel.AddObjectToScene('models/Map_v5_3.fbx')) as Object3D;
   mapModel = model.children[0] as MapModel;
@@ -84,9 +84,10 @@ onMounted(async () => {
   mapModel.setup(initBuildingsEventsMap(), engine);
   engine.add(model);
   engine.fillObjects();
-  const mark = mapModel.getMark(mapRouter.startNodeName, true, 0x006BB4);
-  // engine.addAndWatch(mark);
+
+  const mark = mapModel.getMark(mapRouter.startNodeName, true, 0x006bb4);
   engine.add(mark);
+  await getRoute(mapRouter.endNodeName);
 });
 
 // const createRoutes = async () => {

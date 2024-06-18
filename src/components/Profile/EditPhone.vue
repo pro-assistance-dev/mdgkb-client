@@ -26,7 +26,7 @@
         </div>
         <div class="form-editPhone">
           <div class="send">
-            <PButton v-if="user.phone.length > 17" skin="profile" text="Сохранить" @click.prevent="submit" />
+            <PButton v-if="user.phone.length > 17" skin="profile" text="Сохранить" @click="submit" />
             <PButton v-else skin="profile" type="disabled" text="Сохранить" />
           </div>
         </div>

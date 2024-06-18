@@ -79,7 +79,7 @@
                     <h5>ДАТА РОЖДЕНИЯ</h5>
                   </div>
                   <div class="item-data">
-                    <h4>{{ $dateTimeFormatter.format(user.human.dateBirth, { month: 'long' }) }}</h4>
+                    <h4>{{ $dateTimeFormatter.format(user.human.dateBirth) }}</h4>
                   </div>
                 </div>
               </li>
