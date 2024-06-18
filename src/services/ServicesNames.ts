@@ -46,6 +46,7 @@ const ServicesNames = [
   'Hooks',
   'ValueType',
   'PHelp',
+  'Auth',
 ];
 
 export default ServicesNames;

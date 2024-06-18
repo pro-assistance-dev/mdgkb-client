@@ -10,7 +10,7 @@
     </el-button>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item icon="el-icon-user" @click="$router.push('/profile')">
+        <el-dropdown-item icon="el-icon-user" @click="Router.To('/profile')">
           Профиль
           <!-- TODO: переделать на серверный запрос  -->
           <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
@@ -18,7 +18,7 @@
         <el-dropdown-item
           v-if="auth.user.get().role.name === 'ADMIN'"
           icon="el-icon-setting"
-          @click="$router.push(`/admin/${auth.user.get().role.startPage}`)"
+          @click="Router.To(`/admin/${auth.user.get().role.startPage}`)"
           >Кабинет администратора</el-dropdown-item
         >
         <el-dropdown-item @click="logout"> <LogoutOutlined />Выйти </el-dropdown-item>
@@ -33,9 +33,8 @@ import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icon
 import User from '@/classes/User';
 import { authGuard } from '@/router';
 import Provider from '@/services/Provider/Provider';
-import UserService from '@/services/User';
 
-const props = defineProps({ showButtonName: { type: Boolean, default: false } });
+defineProps({ showButtonName: { type: Boolean, default: false } });
 const authModal = Store.Getters('auth/modal');
 const auth = Store.Getters('auth/auth');
 
@@ -81,7 +80,7 @@ onMounted(() => {
 
 const toProfile = async (): Promise<void> => {
   if (isLaptopWindowWidth.value) {
-    await Provider.router.push('/profile');
+    await Router.To('/profile');
   }
 };
 </script>

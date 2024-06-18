@@ -1,13 +1,12 @@
 <template>
   <div class="navbar">
-    <div v-if="devTitle === 'dev'" class="app-title">Разработка</div>
+    <!-- <div v-if="devTitle === 'dev'" class="app-title">Разработка</div> -->
     <div class="support-field"><Support /></div>
     <div class="container">
       <div class="menu">
         <div class="menu-left"><BurgerMobile /></div>
 
         <div class="left-block">
-          <!-- <el-row class="mb-4" @click="$scroll('#header-top')"> -->
           <button
             v-if="scrollOffset >= 66 || mobileWindow"
             class="menu-item"
@@ -18,9 +17,8 @@
             @mouseenter="hovering = true"
             @mouseleave="hovering = false"
           >
-            <img :src="MdgkbLogoMini" alt="mdgkb-logo-mini" @click="$router.push('/')" />
+            <img :src="MdgkbLogoMini" alt="mdgkb-logo-mini" @click="Router.To('/')" />
           </button>
-          <!-- </el-row> -->
         </div>
         <div id="top" class="menu-center"><NavMenu /></div>
         <div class="menu-right">
@@ -34,67 +32,32 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import MdgkbLogoMini from '@/assets/img/mdgkb-logo-mini.webp';
 
-import BurgerMobile from '@/views/mainLayout/elements/BurgerMobile.vue';
-import NavMenu from '@/views/mainLayout/elements/NavMenu.vue';
-import PhoneInfo from '@/views/mainLayout/elements/PhoneInfo.vue';
-import Support from '@/views/mainLayout/elements/Support.vue';
+const scrollOffset = ref(0);
+const previousOffset = ref(0);
+const rememberedOffset = ref(0);
+const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
+// const devTitle = process.env.VUE_APP_MODE;
+const hovering = ref(false);
 
-import MdgkbLogoMini from "@/assets/img/mdgkb-logo-mini.webp";
+const handleScroll = () => {
+  if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
+    rememberedOffset.value = 0;
+  }
+  previousOffset.value = scrollOffset.value;
+  scrollOffset.value = window.scrollY;
+};
 
-  const store = useStore();
-  const router = useRouter();
-  const route = useRoute();
-  const scrollOffset = ref(0);
-  const previousOffset = ref(0);
-  const rememberedOffset = ref(0);
-  const tabletWindow = ref(window.matchMedia('(max-width: 768px)').matches);
-  const mobileWindow = ref(window.matchMedia('(max-width: 480px)').matches);
-  // const devTitle = process.env.VUE_APP_MODE;
-  const hovering = ref(false);
-
-  const nav = async (to: string) => {
-    await router.push(to);
-  };
-
-  const login = () => store.commit('auth/openModal', true);
-  const register = () => store.commit('auth/openModal');
-  const logout = async () => {
-    const curRoute = route.name;
-    await router.push(curRoute as string);
-    await store.dispatch('auth/logout');
-  };
-
-  const handleScroll = () => {
-    if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
-      rememberedOffset.value = 0;
-    }
-    previousOffset.value = scrollOffset.value;
-    scrollOffset.value = window.scrollY;
-  };
-
-  onMounted(() => {
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', () => {
-      tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
-      mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
-    });
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', () => {
+    tabletWindow.value = window.matchMedia('(max-width: 768px)').matches;
+    mobileWindow.value = window.matchMedia('(max-width: 480px)').matches;
   });
-  onUnmounted(() => window.removeEventListener('scroll', handleScroll));
-
-  const showDrawer = ref(false);
-  const changeDrawerStatus = (status?: boolean) => {
-    if (status !== undefined) {
-      showDrawer.value = status;
-      return;
-    }
-    showDrawer.value = !showDrawer.value;
-  };
-  const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
-
+});
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 </script>
 
 <style lang="scss" scoped>

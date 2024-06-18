@@ -1,7 +1,7 @@
 <template>
   <div id="header-top" class="header-top">
     <div class="container">
-      <img :src="MdgkbLogo" class="header-logo-img" alt="mdgkb-logo" @click="$router.push('/')" />
+      <img :src="MdgkbLogo" class="header-logo-img" alt="mdgkb-logo" @click="Router.To('/')" />
       <div class="search">
         <div class="search-block">
           <SearchBar v-show="currentRoute !== 'SearchPage'" />
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import MdgkbLogo from "@/assets/img/mdgkb-logo.webp";
+import MdgkbLogo from '@/assets/img/mdgkb-logo.webp';
 
 const currentRoute = computed(() => {
   return Router.Route().name;

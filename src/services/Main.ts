@@ -5,6 +5,7 @@ import brandColors from './brandColors';
 import buildNameNumbers from './buildNameNumbers';
 import Cache from './Cache';
 import CarouselSwipe from './CarouselSwipe';
+import Auth from './classes/Auth';
 import Contact from './classes/Contact';
 import Email from './classes/Email';
 import FTSP from './classes/filters/FTSP';
@@ -27,6 +28,7 @@ import HttpClient from './HttpClient';
 import MakeCarousel from './MakeCarousel';
 import { moveDown, moveUp } from './moves';
 import Period from './Period';
+import PHelp from './PHelp';
 import PhoneService from './PhoneService';
 import Provider from './Provider/Provider';
 import Router from './Router';
@@ -36,17 +38,17 @@ import sort from './sort';
 import Store from './Store';
 import Strings from './Strings';
 import Time from './Time';
+import Timer from './Timer';
 import Token from './Token';
 import useConfirmLeavePage from './useConfirmLeavePage';
 import User from './User';
 import validate from './validate';
 import WaitElement from './WaitElement';
 import WebSocketClient from './WebSocketClient';
-import Timer from './Timer';
-import PHelp from './PHelp';
 
 export {
   Arrays,
+  Auth,
   Axios,
   brandColors,
   buildNameNumbers,
@@ -74,6 +76,8 @@ export {
   moveDown,
   moveUp,
   Period,
+  // PHelp
+  PHelp,
   PhoneService,
   Provider,
   Router,
@@ -83,6 +87,7 @@ export {
   Store,
   Strings,
   Time,
+  Timer,
   Token,
   useConfirmLeavePage,
   User,
@@ -90,8 +95,4 @@ export {
   ValueType,
   WaitElement,
   WebSocketClient,
-  Timer,
-  // PHelp
-  PHelp,
 };
-

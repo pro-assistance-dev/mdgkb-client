@@ -7,7 +7,7 @@
       <ul v-if="!menu.withoutChildren() && menu.selected" class="dropmenu">
         <div class="subMenu-place">
           <li v-for="subMenu in menu.subMenus" :key="subMenu.id" class="sub">
-            <router-link class="link-colomn" :to="subMenu.link">
+            <div class="link-colomn" @click="Router.To(subMenu.link)">
               <div class="index-about-column">
                 <div class="index-about-colomn-icon">
                   <div class="icon">
@@ -20,7 +20,7 @@
                   {{ subMenu.name }}
                 </div>
               </div>
-            </router-link>
+            </div>
           </li>
         </div>
       </ul>
@@ -29,22 +29,18 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
-
-import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
-import HelpProfileIcon from '@/components/Base/MedicalIcons/icons/HelpProfileIcon.vue';
 import Menu from '@/services/classes/Menu';
 import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   vertical: {
     type: Boolean,
     default: false,
   },
 });
 const mounted = ref(false);
-const menus: WritableComputedRef<Menu[]> = computed(() => Provider.store.getters['menus/items']);
-const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
+const menus: WritableComputedRef<Menu[]> = Store.Items('menus');
+const isAuth = Store.Getters['auth/isAuth'];
 
 const clickOutsideMenu = (e: MouseEvent) => {
   const t = document.querySelectorAll('.link-menu');
@@ -59,7 +55,7 @@ const clickOutsideMenu = (e: MouseEvent) => {
 };
 
 onBeforeMount(async () => {
-  await Provider.store.dispatch('menus/ftsp', { ftsp: new FTSP() });
+  await Store.FTSP('menus', { ftsp: new FTSP() });
   setColors();
   window.addEventListener('click', clickOutsideMenu);
   setActiveMenu();
@@ -201,6 +197,9 @@ h3 {
     rgba(0, 0, 0, 0.1) 0px -3px 5px;
   justify-content: space-between;
   margin: 5px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .index-about-colomn-text {

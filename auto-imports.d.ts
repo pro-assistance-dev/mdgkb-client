@@ -6,6 +6,7 @@
 export {}
 declare global {
   const Arrays: typeof import('@/services/Main')['Arrays']
+  const Auth: typeof import('@/services/Main')['Auth']
   const Axios: typeof import('@/services/Main')['Axios']
   const Cache: typeof import('@/services/Main')['Cache']
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
@@ -120,6 +121,7 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
+    readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
@@ -225,6 +227,7 @@ declare module '@vue/runtime-core' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
+    readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
