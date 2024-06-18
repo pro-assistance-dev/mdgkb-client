@@ -492,6 +492,7 @@ declare module '@vue/runtime-core' {
     PhoneInfo: typeof import('./src/views/mainLayout/elements/PhoneInfo.vue')['default']
     PInput: typeof import('./src/services/components/PInput.vue')['default']
     PInputData: typeof import('./src/services/components/PInputData.vue')['default']
+    PLoader: typeof import('./src/services/components/PLoader.vue')['default']
     PModalWindow: typeof import('./src/services/components/PModalWindow.vue')['default']
     PNotification: typeof import('./src/services/components/PNotification.vue')['default']
     PostgraduateApplicationForm: typeof import('./src/components/Educational/Postgraduate/PostgraduateApplicationForm.vue')['default']

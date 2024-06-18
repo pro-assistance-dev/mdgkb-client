@@ -6,7 +6,7 @@ class LoadingC extends Visible {
   }
 
   Hide() {
-    super.show();
+    super.hide();
   }
 }
 
