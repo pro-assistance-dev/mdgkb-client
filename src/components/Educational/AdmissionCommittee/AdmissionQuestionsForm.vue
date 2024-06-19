@@ -222,7 +222,8 @@ const setFreeApplication = async () => {
 
 const selectPaid = async (paid: boolean) => {
   if (paid) {
-    residencyApplicationValue.value.paid = true;
+    PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+    // residencyApplicationValue.value.paid = true;
     return;
   }
   await setFreeApplication();

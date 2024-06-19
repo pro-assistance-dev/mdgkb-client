@@ -1,5 +1,4 @@
 import Message, { MessageOpts } from './Message';
-import Statuses from './types/Statuses';
 
 type DialogResultType = 'cancel' | 'submit';
 interface DialogResult {
@@ -28,8 +27,8 @@ class DialogConstructor extends Message {
     return this.cancelButtonText;
   }
 
-  Show(m: string | DialogOpts, t: Statuses): Promise<DialogResult> {
-    super.show(m, t);
+  Show(m: string | DialogOpts): Promise<DialogResult> {
+    super.show();
     if (typeof m !== 'string') {
       this.confirmButtonText = m.confirmButtonText;
       this.cancelButtonText = m.cancelButtonText;

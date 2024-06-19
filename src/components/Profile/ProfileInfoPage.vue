@@ -2,8 +2,8 @@
   <div v-if="mounted" class="size" data-test="profile-info-component">
     <div class="title">
       <h2><b>Мой профиль</b></h2>
-      <PButton skin="profile" text="Редактировать" @click="$router.push('/profile/edit')" width="180px" >
-        <IconEdit size="26px" color="#A3A9BE"/>
+      <PButton skin="profile" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
+        <IconEdit size="26px" color="#A3A9BE" />
       </PButton>
     </div>
     <div class="right-block">
@@ -17,7 +17,7 @@
               :default-ratio="1"
               @crop="saveAvatar"
               @ratio="(e) => (element.ratio = e)"
-              @removeFile="dropAvatar"
+              @remove-file="dropAvatar"
             />
           </div>
         </div>
@@ -31,7 +31,7 @@
           </div>
           <div class="user-info">
             <div class="contact-mail">
-              <IconEmail  color="#A3A9BE" />
+              <IconEmail color="#A3A9BE" />
               <div prop="email" label="Email">
                 <h4>{{ user.email }}</h4>
               </div>
@@ -136,8 +136,6 @@
 
 <script lang="ts" setup>
 import User from '@/classes/User';
-import EditPhone from '@/components/Profile/EditPhone.vue';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import FileInfo from '@/services/classes/FileInfo';
 
 const mounted = ref(false);
