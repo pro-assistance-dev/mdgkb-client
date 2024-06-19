@@ -6,8 +6,7 @@
     <div class="main-page-footer-right">
       <img :src="FooterImg" alt="footer-img" />
       <div class="main-page-footer-right-container">
-        <div class="main-page-footer-right-container-title">Вы можете записаться на прием к online или заказав обратный
-          звонок</div>
+        <div class="main-page-footer-right-container-title">Вы можете записаться на прием к online или заказав обратный звонок</div>
         <div class="main-page-footer-right-container-buttons">
           <button @click="isCallBackModalOpen = true">Обратный звонок</button>
           <button>Записаться online</button>
@@ -19,8 +18,7 @@
 </template>
 
 <script lang="ts" setup>
-import FooterImg from '@/assets/img/main-page/templates/footer.webp'
-
+import FooterImg from '@/assets/img/main-page/templates/footer.webp';
 import CallBack from '@/components/Main/CallBack/CallBack.vue';
 const isCallBackModalOpen: Ref<boolean> = ref(false);
 </script>

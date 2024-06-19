@@ -6,7 +6,6 @@ import DivisionVideo from '@/classes/DivisionVideo';
 import Doctor from '@/classes/Doctor';
 import DoctorDivision from '@/classes/DoctorDivision';
 import Entrance from '@/classes/Entrance';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Floor from '@/classes/Floor';
 import MedicalProfileDivision from '@/classes/MedicalProfileDivision';
 import NewsDivision from '@/classes/NewsDivision';
@@ -17,6 +16,7 @@ import TreatDirection from '@/classes/TreatDirection';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
 import Contact from '@/services/classes/Contact';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Division {
