@@ -11,8 +11,11 @@ export default class BuildingModel extends Three.Mesh {
   number = '';
   displayLines = true;
   conditionalLines = true;
+  standartMaterial?: Three.Material | Three.Material[];
   constructor() {
     super();
+
+    this.standartMaterial = this.material;
     // this.add(object);
   }
 
@@ -39,15 +42,16 @@ export default class BuildingModel extends Three.Mesh {
     this.material = new Three.MeshStandardMaterial({ color: 'green' });
   }
   onPointerOver() {
+    console.log(this.material);
+    this.standartMaterial = this.material;
     this.material = new Three.MeshStandardMaterial({ color: 'red' });
   }
 
   onPointerOut() {
-    this.material = new Three.MeshStandardMaterial({ color: 'white' });
+    this.material = this.standartMaterial ?? this.material;
   }
 
   click() {
-    console.log('clock');
     this.dispatchEvent({
       type: MapBuildingsEventsTypes.Click as string as keyof Three.Object3DEventMap,
       id: '81299614-b64f-4ba7-9cfa-3210569a1909',
@@ -56,6 +60,7 @@ export default class BuildingModel extends Three.Mesh {
 
   extendObject(object3D: Object3D) {
     const c = object3D as BuildingModel;
+
     c.getMesh = this.getMesh;
 
     const mesh = c.getMesh() as BuildingModel;
@@ -74,5 +79,7 @@ export default class BuildingModel extends Three.Mesh {
     c.setNumber = this.setNumber;
     c.number = this.number;
     c.setNumber();
+    this.standartMaterial = this.material;
+    c.standartMaterial = this.material;
   }
 }
