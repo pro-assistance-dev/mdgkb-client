@@ -1,40 +1,29 @@
 <template>
-  <el-autocomplete
+  <PAutocomplete
     ref="searchForm"
     v-model="queryString"
     :value-key="'label'"
     style="width: 100%; margin-right: 10px"
-    popper-class="wide-dropdown"
     :placeholder="placeholder"
-    :fetch-suggestions="find"
+    :search-func="find"
     :trigger-on-focus="showSuggestions"
+    :suggestions="searchModel.searchObjects"
     @select="handleSelect"
     @input="handleInput"
   >
     <template #suffix>
       <i class="el-icon-search" />
     </template>
-  </el-autocomplete>
+  </PAutocomplete>
 </template>
 
 <script lang="ts" setup>
-import FilterModel from '@/services/classes/filters/FilterModel';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import SearchGroup from '@/services/classes/SearchGroup';
 import SearchModel from '@/services/classes/SearchModel';
-import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearch from '@/services/interfaces/ISearchObject';
-import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
-  table: {
-    type: String as PropType<string>,
-    default: '',
-  },
-  col: {
-    type: String as PropType<string>,
-    default: '',
-  },
   keyValue: {
     type: String as PropType<string>,
     default: '',
@@ -64,11 +53,10 @@ const props = defineProps({
     default: false,
   },
 });
-
 const emit = defineEmits(['select', 'load', 'input']);
 const queryString: Ref<string> = ref(props.modelValue);
 const searchForm = ref();
-const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
+const searchModel: ComputedRef<SearchModel> = Store.Getters('search/searchModel');
 
 watch(
   () => props.focus,
@@ -82,9 +70,8 @@ watch(
   }
 );
 
-const find = async (query: string, resolve: (arg: unknown) => void): Promise<void> => {
+const find = async (query: string): Promise<ISearchObject[] | undefined> => {
   if (query.length < 2) {
-    resolve([]);
     return;
   }
   searchForm.value.activated = true;
@@ -97,42 +84,18 @@ const find = async (query: string, resolve: (arg: unknown) => void): Promise<voi
   }
   await Store.Dispatch(`search/search`, searchModel.value);
 
+  console.log(searchModel.value);
   // emit('input', searchModel.value.searchObjects);
-  if (props.showSuggestions) {
-    resolve(searchModel.value.searchObjects);
-    return;
-  }
-  resolve([]);
+  // if (props.showSuggestions) {
+  //   resolve(searchModel.value.searchObjects);
+  //   return;
+  // }
+  return searchModel.value.searchObjects;
 };
 
-const handleSearchInput = async (value: string): Promise<void> => {
-  if (value.length === 0) {
-    await Provider.store.dispatch(`search/search`, Provider.filterQuery.value);
-    Provider.store.commit('pagination/setCurPage', 0);
-  }
-};
 const handleSelect = async (item: ISearch): Promise<void> => {
-  if (props.storeModule != '') {
-    await Provider.store.dispatch(`${props.storeModule}/getAllById`, item.id);
-    return;
-  }
   emit('select', item);
   queryString.value = '';
-};
-
-const createModel = (): FilterModel => {
-  const fm = FilterModel.CreateFilterModel(props.table, props.col, DataTypes.String);
-  fm.operator = Operators.Like;
-  return fm;
-};
-
-const filterModel = ref(createModel());
-
-const onEnter = async (): Promise<void> => {
-  filterModel.value.value1 = queryString.value;
-  Provider.store.commit('filter/setFilterModel', filterModel.value);
-  emit('load');
-  searchForm.value.close();
 };
 
 const handleInput = (value: string) => {

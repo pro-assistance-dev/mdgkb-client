@@ -1,54 +1,50 @@
 <template>
-  <div class="text-field" :style="{ margin: margin, padding: padding }">
-    <label v-if="label" class="text-field__label" :for="label">
-      {{ label }}
-    </label>
-    <div class="field">
-      <div class="left-field">
-        <slot />
-      </div>
-      <input
-        :type="getInputType()"
-        class="text-field__input"
-        :id="label"
-        :name="label"
-        :placeholder="placeholder"
-        :readonly="readonly"
-        :disabled="disabled"
-        @blur="$emit('blur')"
-        @input="$emit('input')"
-        v-model="model"
-      />
-      <div class="right-field">
-        <slot name="right" />
-      </div>
-    </div>
+  <PInput v-model="query" @input="input" />
+  <div id="result">
+    <ul>
+      <li v-for="result in results" :key="result.value" @click="select(result)">{{ result.label }}</li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-defineEmits(['blur', 'input']);
-const model = defineModel();
+import ISearchObject from '@/services/interfaces/ISearchObject';
+
+const emits = defineEmits(['select', 'input']);
+const props = defineProps({
+  modelValue: {
+    type: String as PropType<string>,
+    default: '',
+  },
+  searchFunc: {
+    type: Function,
+    default: () => {},
+  },
+  suggestions: {
+    type: Array<ISearchObject>,
+    default: [],
+  },
+});
+const query = ref(props.modelValue);
 
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
-  text: { type: String as PropType<string>, default: '', required: false },
-  label: { type: String as PropType<string>, default: '', required: false },
-  placeholder: { type: String as PropType<string>, default: '', required: false },
-  readonly: { type: Boolean as PropType<Boolean>, default: false, required: false },
-  disabled: { type: Boolean as PropType<Boolean>, default: false, required: false },
-  margin: { type: String as PropType<string>, required: false, default: '' },
-  padding: { type: String as PropType<string>, default: '', required: false },
-  password: { type: Boolean as PropType<boolean>, default: false, required: false },
-});
+const results: Ref<ISearchObject[]> = ref([]);
+async function input() {
+  emits('input', query.value);
+  await fillResults();
+}
 
-const getInputType = () => {
-  if (props.password) {
-    return 'password';
+async function fillResults() {
+  if (!props.searchFunc) {
+    return;
   }
-  return 'text';
-};
+  results.value = await props.searchFunc(query.value);
+}
+
+async function select(item: ISearchObject) {
+  emits('select', item);
+}
 </script>
 
 <style lang="scss" scoped>
