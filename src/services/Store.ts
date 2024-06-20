@@ -1,6 +1,7 @@
 import { getStore } from '@/main';
 
 import FTSP from './classes/filters/FTSP';
+
 enum Methods {
   GetAll = 'getAll',
   Get = 'get',
@@ -28,7 +29,7 @@ export default abstract class Store {
   static async Dispatch(request: string, opts?: GetAllOptions) {
     await getStore().dispatch(request, opts);
   }
-  static Getters(module: string) {
+  static Getters<T>(module: string): ComputedRef<T> {
     return computed(() => getStore().getters[module]);
   }
 
@@ -36,7 +37,7 @@ export default abstract class Store {
     getStore().commit(request, data);
   }
 
-  static async FTSP(module: string, opts: GetAllOptions) {
+  static async FTSP(module: string, opts?: GetAllOptions) {
     await Store.Dispatch(`${module}/${Methods.FTSP}`, opts);
   }
   static Items(module: string, getter = 'items'): ComputedRef {

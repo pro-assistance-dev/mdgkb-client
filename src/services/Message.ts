@@ -3,7 +3,7 @@ import Visible from './Visible';
 
 export type MessageOpts = {
   text: string;
-  title: string;
+  title?: string;
 };
 
 export default class Message extends Visible {
