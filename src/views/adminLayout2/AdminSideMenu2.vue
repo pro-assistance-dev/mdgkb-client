@@ -1,37 +1,31 @@
 <template>
   <div class="menu-icon" @click="openMenuBar()">
-    <IconMenuLines hover-color="#343D5C" size="32px" margin="0 0 0 15px" />
+    <IconMenuLines hover-color="#343D5C" size="32px" margin="0 0 0 9px" />
   </div>
-  <div v-if="mounted" class="admin-side-menu" :style="{
-    marginLeft: showMenuBar ? '0px' : '-250px',
+  <div class="admin-side-menu" :style="{
+    marginLeft: showMenuBar ? '0px' : '-350px',
     boxShadow: shadow ? '0 0 6px rgba(0, 0, 0, 0.3)' : 'none',
     borderRight: border ? '1px solid #c4c4c4' : 'none',
   }">
-    <div class="menu-header">
-      <StringItem string="Логотип" padding="33px 0 0 0" color="#6B7CC6" /> <!--Logo-->
-    </div>
-    <div class="menu-tools" @click="showMenuBar = false">
-      <IconPfArrowLeft size="20px" />
-      <StringItem string="Скрыть меню" width="auto" margin="0 0 0 10px" padding="3px 0 0 0" />
+    <div class="menu-tools">
+      <AdminSearchMenu />
     </div>
     <div class="menu-body">
-      <div>         
-        <DropListItem name="Администрирование" >
-          <StringItem string="Список анкет" width="auto" justify-content="left" padding="6px 0" />
-          <StringItem string="Список анкет" width="auto" justify-content="left" padding="6px 0" />
-          <StringItem string="Список анкет" width="auto" justify-content="left" padding="6px 0" />
-          <!-- <template v-for="item in menus" :key="item.name">
-            <div v-if="item.link !== '/'"
-              :class="{ 'selected-menu-item': item.link === activePath, 'menu-item': item.to !== activePath }"
-              :index="item.link" @click="Router.To(item.link)">
-              {{ item.name }}
+      <div> 
+        <DropListItem v-for="item in menus" :key="item.title" :name="item.title" >
+          <template v-for="children in item.children" :key="children.to">
+            <div :index="children.to" @click="Router.To(children.to)"
+              :class="{ 'selected-menu-item': children.to === activePath, 'menu-item': children.to !== activePath }"
+              >
+              {{ children.title }}
             </div>
-          </template> -->
+          </template>
         </DropListItem>
       </div>
     </div>
     <div class="exit-button-container">
-      <!-- <PButton skin="royal" type="blue" text="Выйти"  height="30px" margin="0 10px" /> -->
+      <PButton skin="base" type="primary" text="На главную"  height="30px" margin="10px" @click="$router.push('/')" width="120px"/>
+      <PButton skin="base" text="Выйти"  height="30px" margin="10px" @click="logout" width="120px" /> 
     </div>
   </div>
 
@@ -70,38 +64,42 @@
 
 <script lang="ts" setup>
 
-// import IAdminMenu from '@/interfaces/IAdminMenu';
-// import IApplicationsCount from '@/interfaces/IApplicationsCount';
-// import IPathPermission from '@/interfaces/IPathPermission';
+import IAdminMenu from '@/interfaces/IAdminMenu';
+import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
   shadow: { type: Boolean as PropType<Boolean>, default: true },
   border: { type: Boolean as PropType<Boolean>, default: true },
 });
-  // const store = useStore();
-  // const route = useRoute();
-  // const activePath: Ref<string> = ref('');
-  // const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['admin/applicationsCounts']);
-  // const mounted = ref(false);
-  // const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
-  // const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
+  const store = useStore();
+  const route = useRoute();
+  const activePath: Ref<string> = ref('');
+  const mounted = ref(false);
+  const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
   const showMenuBar: Ref<boolean> = ref(true);
-  // watch(
-  //   () => route.path,
-  //   () => {
-  //     activePath.value = route.path;
-  //   }
-  // );
+  const auth = Store.Getters('auth/auth')
+  watch(
+    () => route.path,
+    () => {
+      activePath.value = route.path;
+    }
+  );
 
   const openMenuBar = async () => {
-    showMenuBar.value = true;
+    showMenuBar.value = !showMenuBar.value;
   };
 
-  // onBeforeMount(async () => {
-  //   await store.dispatch('admin/updateApplicationsCounts');
-  //   activePath.value = route.path;
-  //   mounted.value = true;
-  // });
+  onBeforeMount(async () => {
+    await store.dispatch('admin/updateApplicationsCounts');
+    activePath.value = route.path;
+    mounted.value = true;
+  });
+
+  const logout = async () => {
+    auth.value.logout()
+    await Router.To('/');
+  };
 
   // onBeforeUnmount(async () => {
   // });
@@ -109,75 +107,113 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-$background-color: whitesmoke;
 
-::-webkit-scrollbar {
-  display: block;
-  width: 8px;
-  height: 8px;
-  background-color: rgba(245, 245, 245, 0.47);
-}
-
-::-webkit-scrollbar-track {
-  border-radius: 10px;
-  background-color: #f5f5f5;
-  margin: 5px 0;
-}
-
-::-webkit-scrollbar-thumb {
-  height: 20px;
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: rgba(85, 85, 85, 0.25);
+.menu-icon {
+  position: absolute;
+  top: 14px;
+  left: 2px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .admin-side-menu {
-  min-height: inherit;
-  height: inherit;
-  float: left;
-  background-color: $background-color;
-  border-right: 1px solid #e6e6e6;
-  overflow-y: scroll;
-  overflow-x: hidden;
-
-  :deep(.el-sub-menu__icon-arrow) {
-    margin-left: 10px;
-  }
-
-  :deep(i) {
-    font-size: 24px;
-  }
-
-  :deep(.el-sub-menu__icon-arrow) {
-    font-size: unset;
-  }
-}
-
-.el-menu,
-.el-menu-item {
-  border: none;
-}
-
-.row-menu-title {
-  margin-right: 20px;
-}
-
-.sub-menu-container {
+  box-sizing: border-box;
+  min-width: 300px;
   position: relative;
-
-  .el-badge {
-    position: absolute;
-    top: -10px;
-    left: -10px;
-  }
+  min-height: inherit;
+  height: 100%;
+  float: left;
+  background-color: $menu-background;
+  border-right: 1px solid #e6e6e6;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  border-right: 1px solid #c4c4c4;
+  z-index: 999;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
 }
 
-.menu-item-container {
-  display: flex;
-  align-items: center;
+.menu-header {
+  box-sizing: border-box;
+  margin: 0 20px;
+  height: 65px;
+  border-bottom: 1px solid #E3E7FB;
+}
 
-  .el-badge {
-    margin-left: 5px;
-  }
+.menu-tools {
+  height: 60px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 0 10px 0 55px;
+  cursor: pointer;
+}
+
+.menu-item {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 6px 0;
+  cursor: pointer;
+  color: $base-font-color;
+  font-family: $base-font;
+  font-size: $base-font-size;
+}
+
+.menu-item:hover {
+  color: $site_dark_gray;
+}
+
+.selected-menu-item {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  padding: 6px 0;
+  color: $site_dark_gray;
+  font-family: $base-font;
+  text-decoration: underline;
+  font-size: $base-font-size;
+}
+
+.selected-menu-item:hover {
+  background: #ffffff;
+}
+
+.exit-button-container {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  bottom: 0px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.exit-button {
+  border: none;
+  background: inherit;
+  color: $base-font-color;
+  font-family: $base-font;
+  margin: 0 0 0 20px;
+  font-size: $base-font-large-size;
+  cursor: pointer;
+}
+
+.exit-button:hover {
+  color: $site_dark_gray;
+}
+
+.menu-body {
+  padding: 0 20px;
 }
 </style>

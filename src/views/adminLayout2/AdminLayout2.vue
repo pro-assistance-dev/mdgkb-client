@@ -1,18 +1,14 @@
 <template>
-  <div>
+  <div style="min-height: 100vh">
     <KeepAlive :include="[]" :max="0">
-      <div>
-        <AdminHeaderTop2 />
+      <div class="bg">
         <div class="admin-main-container">
-          <AdminSideMenu2 />
+          <AdminSideMenu2  :border="false" />
           <div class="admin-container">
-            <AdminHeaderBottom2 style="position: sticky; z-index: 2" />
-            <div style="height: inherit">
-              <slot />
-            </div>
+            <AdminHeaderBottom2 style="position: sticky; z-index: 2;" />
+            <slot />
           </div>
         </div>
-        <AdminMenuDrawer2 />
       </div>
     </KeepAlive>
   </div>
@@ -24,10 +20,22 @@
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 .admin-main-container {
-  height: calc(100vh - 61px);
+  display: flex;
+  justify-content: left;
+  height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
 }
+
 .admin-container {
-  height: calc(100vh - 121px);
+  width: 100%;
+  box-sizing: border-box;
+  height: calc(100% - 30px);
+}
+
+.bg {
+  height: 100%;
+  box-sizing: border-box;
   width: 100%;
 }
 

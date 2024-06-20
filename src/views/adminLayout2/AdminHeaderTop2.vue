@@ -1,19 +1,12 @@
 <template>
   <div class="admin-header fixed">
-    <div class="left-panel">
-      <!-- To open drawer -->
-      <!-- <el-button icon="el-icon-menu" class="hidden-md-and-up" @click="openDrawer"></el-button> -->
-      <!-- To open collapse side menu -->
-      <el-button icon="el-icon-menu" class="hidden-sm-and-down" @click="collapseSideMenu"></el-button>
-      <h3>Панель управления МДГКБ</h3>
-    </div>
+    <div class="left-panel"></div>
     <div class="right-panel">
       <AdminSearchMenu />
       <el-dropdown>
         <el-button>
           <div class="user-info">
             <div class="user-info-container">
-              <span>{{ Администратор }}</span>
               <!-- <span v-if="user.role.label">{{ user.role.label }}</span> -->
               <!-- <span v-else>{{ user.role.name }}</span> -->
             </div>
@@ -105,6 +98,12 @@ $button-background-color: #fff;
 .right-panel {
   display: flex;
   align-items: center;
+}
+
+
+.left-panel {
+  width: 60px;
+  height: 30px;
 }
 
 .fixed {

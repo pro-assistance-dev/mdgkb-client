@@ -2,7 +2,7 @@
   <div :key="headerParams" class="admin-header-bottom">
     <div class="flex-between">
       <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="goBack" />
-      <h4 v-else style="margin-left: 20px">
+      <h4 v-else style="margin-left: 30px">
         {{ headerParams.title }}
         <el-badge v-if="headerParams.applicationsCount" :value="headerParams.applicationsCount" type="danger"></el-badge>
       </h4>
