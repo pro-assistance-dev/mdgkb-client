@@ -1,5 +1,7 @@
 import IOrdered from '@/services/interfaces/IOrdered';
+
 import IWithId from './interfaces/IWithId';
+
 export default abstract class Arrays {
   static Shuffle<ArrayType>(array: ArrayType[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -9,7 +11,7 @@ export default abstract class Arrays {
   }
 
   static GenerateNumsRange(start: number, stop: number, step = 1) {
-    return Array.from({ length: (stop - start) / step + 1 }, (value, index) => start + index * step);
+    return Array.from({ length: (stop - start) / step + 1 }, (_, index) => start + index * step);
   }
 
   static GetLast<ArrayType>(arr: ArrayType[]): ArrayType {
@@ -29,7 +31,7 @@ export default abstract class Arrays {
   }
 
   static Eq<ArrayType>(arr1: ArrayType[], arr2: ArrayType[]): boolean {
-    return arr1.length === arr2.length && arr1?.every((el: ArrayType, i: number) => arr1[i] == arr2[i]);
+    return arr1.length === arr2.length && arr1?.every((_: ArrayType, i: number) => arr1[i] == arr2[i]);
   }
 
   static SwipeById(arr: IWithId[], el1: IWithId, el2: IWithId): void {

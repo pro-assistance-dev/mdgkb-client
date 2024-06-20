@@ -20,8 +20,8 @@
           </li>
           <li @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
             <PButton
-              skin="pag"
               v-if="pagArr.length > 8 && curPage > 4"
+              skin="pag"
               type="neutral"
               @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)"
             >
@@ -31,8 +31,8 @@
           </li>
           <li v-for="num in pagArr3" :key="num">
             <PButton
-              skin="pag"
               v-if="num < pagArr.length && num > 1"
+              skin="pag"
               :type="num === curPage ? 'active' : 'neutral'"
               :text="num"
               @click="currentChange(num)"
@@ -40,8 +40,8 @@
           </li>
           <li @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
             <PButton
-              skin="pag"
               v-if="pagArr.length > 8 && curPage < pagArr.length - 3"
+              skin="pag"
               type="neutral"
               @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)"
             >
@@ -51,8 +51,8 @@
           </li>
           <li>
             <PButton
-              skin="pag"
               v-if="pagArr.length > 1"
+              skin="pag"
               :type="pagArr.length === curPage ? 'active' : 'neutral'"
               :text="pagArr.length"
               @click="currentChange(pagArr.length)"
@@ -72,15 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage, ElMessageBox } from 'element-plus';
-
 import Provider from '@/services/Provider/Provider';
-import PButton from '@/services/components/PButton.vue';
-import ArrowLeft from '@/services/components/Icons/Pagination/ArrowLeft.vue';
-import ArrowRight from '@/services/components/Icons/Pagination/ArrowRight.vue';
-import DoubleArrowLeft from '@/services/components/Icons/Pagination/DoubleArrowLeft.vue';
-import DoubleArrowRight from '@/services/components/Icons/Pagination/DoubleArrowRight.vue';
-import Ellipsis from '@/services/components/Icons/Pagination/Ellipsis.vue';
 
 const props = defineProps({
   showConfirm: {
@@ -97,81 +89,53 @@ const hoveringL = ref(false);
 const hoveringR = ref(false);
 
 const emit = defineEmits(['cancel', 'save']);
-const storeModule: string = Provider.store.getters['filter/storeModule'];
-const action: string = Provider.store.getters['filter/action'];
+const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
 
-const count: ComputedRef<number> = Store.Getters(`${storeModule}/count`);
-const pageCount: ComputedRef<number> = computed(() =>
-  Math.ceil(count.value / Provider.filterQuery.value.pagination.limit) > 0
-    ? Math.ceil(count.value / Provider.filterQuery.value.pagination.limit)
-    : 1
-);
+const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
 
-const pagArr = computed(() => Array.from({ length: pageCount.value }, (_, i) => i + 1));
+const pageCount: ComputedRef<number> = computed(() => {
+  const pg = Math.ceil(count.value / Provider.filterQuery.value.pagination.limit);
+  return pg > 0 ? pg : 1;
+});
+
+const pagArr = computed(() => Arrays.GenerateNumsRange(1, pageCount.value));
+console.log(pagArr.value);
 const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
 
-const rangeArr = () => {
-  if (pagArr.value.length < 8) {
-    const pagArr2 = Array.from({ length: pageCount.value - 2 }, (_, i) => i + 2);
-    return pagArr2;
-  }
-
-  const pagArr2 = ref(Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i));
-  return pagArr2;
-};
-
 const currentChange = async (pageNum: number) => {
-  if (props.showConfirm) {
-    ElMessageBox.confirm('У вас есть несохранённые изменения', 'Вы уверены, что хотите покинуть страницу?', {
-      distinguishCancelAndClose: true,
-      confirmButtonText: 'Сохранить',
-      cancelButtonText: 'Не сохранять',
-    })
-      .then(async () => {
-        // Вызывается при сохранении
-        emit('save');
-        await setPage(pageNum, true);
-      })
-      .catch(async (action: string) => {
-        if (action === 'cancel') {
-          ElMessage({
-            type: 'warning',
-            message: 'Изменения не были сохранены',
-          });
-          emit('cancel');
-          await setPage(pageNum, true);
-        }
-        return;
-      });
-  } else {
-    await setPage(pageNum, true);
+  if (!props.showConfirm) {
+    return await setPage(pageNum, true);
   }
+  PHelp.Dialog()
+    .Save()
+    .then(async () => {
+      emit('save');
+      await setPage(pageNum, true);
+    })
+    .catch(async () => {
+      PHelp.Notification().Warning('Изменения не были сохранены');
+      emit('cancel');
+      await setPage(pageNum, true);
+    });
 };
 
 const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   Provider.loadingDecor(async () => {
-    Provider.store.commit('pagination/setCurPage', pageNum);
-    Provider.store.commit('filter/setOffset', pageNum - 1);
+    Store.Commit('pagination/setCurPage', pageNum);
+    Store.Commit('filter/setOffset', pageNum - 1);
     if (load) {
-      console.log('loadPag');
-      if (action !== 'ftsp') {
-        await Provider.store.dispatch(`${storeModule}/${action}`, { filterQuery: Provider.filterQuery.value });
-      } else {
-        await Provider.router.replace({ query: {} });
-        await Provider.store.dispatch(`${storeModule}/${action}`);
-      }
+      await Store.FTSP(storeModule.value);
     }
     scrollToBack();
   });
 };
 
-const pagArr3 = computed(() => rangeArr());
-watch(
-  () => curPage.value,
-  () => {
-    pagArr3.value = Array.from({ length: 5 }, (_, i) => curPage.value - 2 + i);
+const pagArr3 = computed(() => {
+  if (pagArr.value.length < 8) {
+    return Arrays.GenerateNumsRange(2, pageCount.value - 2);
   }
-);
+  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3);
+});
 
 const scrollToBack = () => {
   const table = document.querySelector('.el-table__body-wrapper');

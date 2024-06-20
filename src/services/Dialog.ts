@@ -7,7 +7,6 @@ interface DialogResult {
 }
 
 type DialogOpts = MessageOpts & {
-  duration: number;
   confirmButtonText: string;
   cancelButtonText: string;
 };
@@ -36,6 +35,14 @@ class DialogConstructor extends Message {
     return new Promise<DialogResult>((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
+    });
+  }
+
+  Save(): Promise<DialogResult> {
+    return this.Show({
+      text: 'У вас есть несохранённые изменения',
+      confirmButtonText: 'Сохранить',
+      cancelButtonText: 'Не сохранять',
     });
   }
 
