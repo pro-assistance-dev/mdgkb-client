@@ -1,9 +1,15 @@
 <template>
-  <PInput v-model="query" @input="input" />
-  <div id="result">
-    <ul>
-      <li v-for="result in results" :key="result.value" @click="select(result)">{{ result.label }}</li>
-    </ul>
+  <div class="container">
+    <PInput v-model="query" @input="input" placeholder="Найти">
+      <!-- <template #right>
+        <IconHome margin="0" />
+      </template> -->
+    </PInput>
+    <div v-if="query" class="result">
+      <ul class="list">
+        <li v-for="result in results" :key="result.value" @click="select(result)">{{ result.label }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -50,80 +56,38 @@ async function select(item: ISearchObject) {
 <style lang="scss" scoped>
 @import '@/services/assets/style/index.scss';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-.field {
+.container {
   position: relative;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  background: $input-background;
-  border-radius: $p-input-border-radius;
-  border: $p-input-border;
-  padding: $p-input-padding;
-  margin: $p-input-margin;
+  widows: 300px;
+  padding: 10px;
+  margin: auto;
+}
+
+.result {
+  position: absolute;
+  top: 50px;
+  left: 10px;
+  z-index: 10000;
+  width: calc(100% - 20px);
+  max-height: 200px;
+  border: $normal-border;
+  background: #fff;
+  border-radius: 5px;
   overflow: hidden;
+  overflow-y: auto;
 }
 
-.right-field {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  width: auto;
+.list {
+  list-style-type: none;
+  cursor: pointer;
 }
 
-.left-field {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: auto;
+.list li {
+  margin: 10px 0;
 }
 
-.text-field {
-  width: $input-width;
-}
-
-.text-field__label {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  width: 100%;
-  font-family: $input-font;
-  color: $input-label-color;
-  font-size: $base-font-size;
-  margin: $input-label-margin;
-}
-
-.text-field__input {
-  width: 100%;
-  font-family: $input-font;
-  font-size: $input-font-size;
-  background: $input-background;
-  color: $input-font-color;
-  border: $input-border;
-  margin: $input-margin;
-  padding: $input-padding;
-}
-
-.text-field__input::placeholder {
-  font-family: $input-font;
-  font-size: $input-font-size;
-  color: $input-font-color;
-}
-
-.text-field__input:focus {
-  color: $input-font-color;
-  outline: 0;
-}
-
-.text-field__input:disabled,
-.text-field__input[readonly] {
-  background-color: $input-readonly-background;
-  opacity: 1;
+.list li:hover {
+  color: $main_blue;
+  margin: 10px 0;
 }
 </style>

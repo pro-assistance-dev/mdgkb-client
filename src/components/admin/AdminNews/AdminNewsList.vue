@@ -2,6 +2,7 @@
   <AdminListWrapper v-if="mounted" show-header pagination>
     <template #header>
       <RemoteSearchNew :key-value="'news'" @select="selectSearch" />
+      <!-- <RemoteSearchNew :key-value="'news'" @select="selectSearch" /> -->
       <!-- <RemoteSearchNew :key /> -->
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
       <FilterSelectDate
