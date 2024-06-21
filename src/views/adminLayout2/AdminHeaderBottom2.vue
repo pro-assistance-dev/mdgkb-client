@@ -1,11 +1,11 @@
 <template>
   <div :key="head" class="admin-header-bottom">
     <div class="flex-between">
-      <el-page-header v-if="head.showBackButton" title=" " :content="head.title" @back="Router.Back()" />
-      <h4 v-else style="margin-left: 30px">
-        {{ head.title }}
-        <el-badge v-if="head.applicationsCount" :value="head.applicationsCount" type="danger"></el-badge>
-      </h4>
+      <!-- <el-page-header v-if="head.showBackButton" title=" " :content="head.title" @back="Router.Back()" />
+      <h4 v-else style="margin-left: 30px"> -->
+      {{ head.title }}
+      <!-- <el-badge v-if="head.applicationsCount" :value="head.applicationsCount" type="danger"></el-badge>
+      </h4> -->
       <div class="button-group">
         <div v-for="item in head.buttons" :key="item" class="flex-item">
           <PButton
@@ -57,7 +57,7 @@ h4 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0 20px;
+  margin: 0 20px 0 40px;
 }
 .button-group {
   display: flex;
