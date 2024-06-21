@@ -1,4 +1,7 @@
 <template>
+    <div id="initial-bvi-container">
+      <button id="bvi" class="bvi-open" >Версия сайта для слабовидящих</button>
+    </div>
   <AuthModal v-if="modal.visible" @action="authAct" />
   <AuthPage />
   <SearchDrawer />
@@ -175,5 +178,27 @@ const authAct = async () => {
     cursor: pointer;
     background: #47cc77;
   }
+}
+
+#initial-bvi-container {
+  width: 100%;
+  height: 30px;
+  background: #F0F2F7;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.bvi-open {
+  width: 100%;
+  border: none;
+  background: inherit;
+  font-size: 18px;
+  color: #343E5C;
+  cursor: pointer;
+}
+.bvi-open:hover {
+  background: #343E5C;
+  color: #F0F2F7;
 }
 </style>
