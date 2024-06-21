@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <PInput v-model="query" @input="input" placeholder="Найти">
-      <!-- <template #right>
-        <IconHome margin="0" />
-      </template> -->
+      <template #right>
+        <IconSearch />
+      </template>
     </PInput>
     <div v-if="query" class="result">
       <ul class="list">
