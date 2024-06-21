@@ -13,6 +13,11 @@ export default abstract class Router {
   static Id() {
     return Router.Route().params['id'];
   }
+
+  static Back() {
+    router.go(-1);
+  }
+
   static GetQid() {
     return Router.GetStringQueryParam('qid');
   }

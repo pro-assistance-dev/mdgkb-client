@@ -2,21 +2,26 @@
   <div class="menu-icon" @click="openMenuBar()">
     <IconMenuLines hover-color="#343D5C" size="32px" margin="0 0 0 9px" />
   </div>
-  <div class="admin-side-menu" :style="{
-    marginLeft: showMenuBar ? '0px' : '-350px',
-    boxShadow: shadow ? '0 0 6px rgba(0, 0, 0, 0.3)' : 'none',
-    borderRight: border ? '1px solid #c4c4c4' : 'none',
-  }">
+  <div
+    class="admin-side-menu"
+    :style="{
+      marginLeft: showMenuBar ? '0px' : '-350px',
+      boxShadow: shadow ? '0 0 6px rgba(0, 0, 0, 0.3)' : 'none',
+      borderRight: border ? '1px solid #c4c4c4' : 'none',
+    }"
+  >
     <div class="menu-tools">
       <AdminSearchMenu />
     </div>
     <div class="menu-body">
-      <div> 
-        <DropListItem v-for="item in menus" :key="item.title" :name="item.title" >
+      <div>
+        <DropListItem v-for="item in menus" :key="item.title" :name="item.title">
           <template v-for="children in item.children" :key="children.to">
-            <div :index="children.to" @click="Router.To(children.to)"
+            <div
+              :index="children.to"
+              @click="Router.To(children.to)"
               :class="{ 'selected-menu-item': children.to === activePath, 'menu-item': children.to !== activePath }"
-              >
+            >
               {{ children.title }}
             </div>
           </template>
@@ -24,11 +29,10 @@
       </div>
     </div>
     <div class="exit-button-container">
-      <PButton skin="base" type="primary" text="На главную"  height="30px" margin="10px" @click="$router.push('/')" width="120px"/>
-      <PButton skin="base" text="Выйти"  height="30px" margin="10px" @click="logout" width="120px" /> 
+      <PButton skin="base" type="primary" text="На главную" height="30px" margin="10px" @click="$router.push('/')" width="120px" />
+      <PButton skin="base" text="Выйти" height="30px" margin="10px" @click="logout" width="120px" />
     </div>
   </div>
-
 
   <!-- <div v-if="mounted" class="admin-side-menu">
     <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened
@@ -63,46 +67,40 @@
 </template>
 
 <script lang="ts" setup>
-
 import IAdminMenu from '@/interfaces/IAdminMenu';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
 
-const props = defineProps({
+defineProps({
   shadow: { type: Boolean as PropType<Boolean>, default: true },
   border: { type: Boolean as PropType<Boolean>, default: true },
 });
-  const store = useStore();
-  const route = useRoute();
-  const activePath: Ref<string> = ref('');
-  const mounted = ref(false);
-  const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
-  const showMenuBar: Ref<boolean> = ref(true);
-  const auth = Store.Getters('auth/auth')
-  watch(
-    () => route.path,
-    () => {
-      activePath.value = route.path;
-    }
-  );
 
-  const openMenuBar = async () => {
-    showMenuBar.value = !showMenuBar.value;
-  };
+const activePath: Ref<string> = ref('');
+const mounted = ref(false);
+const menus: ComputedRef<IAdminMenu[]> = Store.Getters('admin/menus');
+const showMenuBar: Ref<boolean> = ref(true);
+const auth = Store.Getters('auth/auth');
 
-  onBeforeMount(async () => {
-    await store.dispatch('admin/updateApplicationsCounts');
-    activePath.value = route.path;
-    mounted.value = true;
-  });
+watch(
+  () => Router.GetPath(),
+  () => {
+    activePath.value = Router.GetPath();
+  }
+);
 
-  const logout = async () => {
-    auth.value.logout()
-    await Router.To('/');
-  };
+const openMenuBar = async () => {
+  showMenuBar.value = !showMenuBar.value;
+};
 
-  // onBeforeUnmount(async () => {
-  // });
+onBeforeMount(async () => {
+  await Store.Dispatch('admin/updateApplicationsCounts');
+  activePath.value = Router.GetPath();
+  mounted.value = true;
+});
+
+const logout = async () => {
+  auth.value.logout();
+  await Router.To('/');
+};
 </script>
 
 <style lang="scss" scoped>
@@ -145,7 +143,7 @@ const props = defineProps({
   box-sizing: border-box;
   margin: 0 20px;
   height: 65px;
-  border-bottom: 1px solid #E3E7FB;
+  border-bottom: 1px solid #e3e7fb;
 }
 
 .menu-tools {

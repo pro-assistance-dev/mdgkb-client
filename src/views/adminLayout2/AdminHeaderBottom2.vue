@@ -1,49 +1,37 @@
 <template>
   <div :key="headerParams" class="admin-header-bottom">
     <div class="flex-between">
-      <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="goBack" />
+      <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="Router.Back()" />
       <h4 v-else style="margin-left: 30px">
         {{ headerParams.title }}
         <el-badge v-if="headerParams.applicationsCount" :value="headerParams.applicationsCount" type="danger"></el-badge>
       </h4>
       <div class="button-group">
         <div v-for="item in headerParams.buttons" :key="item" class="flex-item">
-          <PButton v-if="item.action && item.condition" :key="item.condition" skin="profile" :type="item.type" :text="item.text" @click="action(item.action)"/>
+          <PButton
+            v-if="item.action && item.condition"
+            :key="item.condition"
+            skin="profile"
+            :type="item.type"
+            :text="item.text"
+            @click="action(item.action)"
+          />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
-import Provider from '@/services/Provider/Provider';
-export default defineComponent({
-  name: 'AdminHeaderBottom',
+const headerParams: Ref<AdminHeaderParams> = Store.Getters('admin/headerParams');
+const buttonClicked: Ref<boolean> = ref(false);
 
-  setup() {
-    const headerParams: Ref<AdminHeaderParams> = computed(() => Provider.store.getters['admin/headerParams']);
-    const goBack = () => {
-      Provider.router.go(-1);
-    };
-    const buttonClicked: Ref<boolean> = ref(false);
-
-    const action = (f: CallableFunction) => {
-      buttonClicked.value = true;
-      f();
-      buttonClicked.value = false;
-    };
-
-    return {
-      action,
-      buttonClicked,
-      headerParams,
-      goBack,
-    };
-  },
-});
+const action = (f: CallableFunction) => {
+  buttonClicked.value = true;
+  f();
+  buttonClicked.value = false;
+};
 </script>
 
 <style lang="scss" scoped>
