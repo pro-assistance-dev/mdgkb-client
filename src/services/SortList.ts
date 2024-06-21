@@ -7,13 +7,15 @@ class SortListC {
   private list: SortModel[] = [];
   private defaultSortModel: SortModel | undefined;
 
-  Set(sortLib?: SortModelBuildersLib): void {
-    if (!sortLib) {
+  Set(sorts?: SortModelBuildersLib | SortModel[]): void {
+    if (!sorts) {
       return;
     }
-    this.list = createSortModels(sortLib);
-    console.log(this.list);
-
+    if (Array.isArray(sorts)) {
+      this.list = sorts;
+    } else {
+      this.list = createSortModels(sorts);
+    }
     this.setDefaultSortModel();
   }
 
@@ -22,12 +24,15 @@ class SortListC {
   }
 
   Get(): SortModel[] {
-    console.log(this.list);
     return this.list;
   }
 
   GetDefault(): SortModel | undefined {
     return this.defaultSortModel;
+  }
+  Reset(): void {
+    this.list = [];
+    this.defaultSortModel = undefined;
   }
 }
 

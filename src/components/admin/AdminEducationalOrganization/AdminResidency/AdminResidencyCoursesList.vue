@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper pagination show-header>
     <template #header>
-      <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
+      <SortSelect class="filters-block" @load="loadCourses" />
       <FiltersList :models="createFilterModels()" @load="loadCourses" />
     </template>
     <el-table :data="residencyCourses">
@@ -91,7 +91,6 @@ import Hooks from '@/services/Hooks/Hooks';
 import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses');
 const isEditMode: Ref<boolean> = ref(false);

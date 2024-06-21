@@ -6,7 +6,6 @@
     :clearable="!sortModel?.default"
     value-key="label"
     @change="setSort"
-    @clear="setSort()"
   >
     <option v-for="(item, i) in SortList.Get()" :key="i" :label="item.label" :value="item" />
   </PSelect>
@@ -39,14 +38,16 @@ onBeforeMount((): void => {
 
 watch(setDefaultSortModel, () => setSort());
 
-const changeModel = async (s: SortModel | undefined): Promise<void> => {
-  sortModel.value = s ?? SortList.GetDefault();
-  FTSP.Get().setSortModel(sortModel.value);
+const changeModel = async (e?: Event): Promise<void> => {
+  if (!e) {
+    sortModel.value = SortList.GetDefault();
+  }
+  FTSP.Get().setSortModel(sortModel.value as SortModel);
   FTSP.Get().p.drop();
   emits('load');
 };
 
-const setSort = async (s?: SortModel) => {
+const setSort = async (s?: Event) => {
   Provider.dropPagination();
   await changeModel(s);
 };

@@ -570,6 +570,7 @@ declare module '@vue/runtime-core' {
     SocialMediaCarousel: typeof import('./src/components/SocialMediaCarousel.vue')['default']
     SortableInputsList: typeof import('./src/components/admin/SortableInputsList.vue')['default']
     SortList: typeof import('./src/services/components/SortList.vue')['default']
+    SortSelect: typeof import('./src/services/components/SortSelect.vue')['default']
     SpecialServiceCard: typeof import('./src/components/SpecialServiceCard.vue')['default']
     StartModal: typeof import('./src/components/Base/StartModal.vue')['default']
     StopComaPage: typeof import('./src/components/StopComa/StopComaPage.vue')['default']

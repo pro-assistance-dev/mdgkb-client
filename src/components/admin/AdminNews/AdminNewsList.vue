@@ -12,10 +12,9 @@
         placeholder="Дата публикации"
         @load="loadNews"
       />
+      <SortSelect :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
     </template>
-    <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
-    </template>
+    <template #sort> </template>
     <el-table :data="news">
       <el-table-column prop="title" label="Заголовок" width="400px" class-name="sticky-left"> </el-table-column>
       <el-table-column prop="created_by" label="Автор"> </el-table-column>
@@ -121,6 +120,7 @@ import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
+import SortListConst from '@/services/SortList';
 
 const news = Store.Items('news');
 
@@ -149,8 +149,9 @@ const loadNews = async (): Promise<void> => {
 };
 
 const load = async (): Promise<void> => {
-  sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
-  FTSP.Get().setS(NewsSortsLib.byPublishedOn());
+  // sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
+  SortListConst.Set([NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()]);
+  // FTSP.Get().setS(NewsSortsLib.byPublishedOn());
   await loadNews();
 
   PHelp.AdminHead().Set('Новости', [

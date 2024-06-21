@@ -32,10 +32,8 @@ const Hooks = (() => {
       Provider.mounted.value = false;
       Store.Commit('admin/showLoading');
       FTSP.Get().reset();
-      if (options?.sortsLib) {
-        SortList.Set(options.sortsLib);
-        FTSP.Get().setSortModel(SortList.GetDefault());
-      }
+      SortList.Set(options?.sortsLib);
+      FTSP.Get().setSortModel(SortList.GetDefault());
       Provider.setStoreModule(undefined);
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);
