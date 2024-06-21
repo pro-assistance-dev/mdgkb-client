@@ -5,7 +5,7 @@
   <div
     class="admin-side-menu"
     :style="{
-      marginLeft: showMenuBar ? '0px' : '-350px',
+      marginLeft: showMenuBar ? '0px' : '-344px',
       boxShadow: shadow ? '0 0 6px rgba(0, 0, 0, 0.3)' : 'none',
       borderRight: border ? '1px solid #c4c4c4' : 'none',
     }"
@@ -137,6 +137,7 @@ const logout = async () => {
   /* IE 10 and IE 11 */
   user-select: none;
   /* Standard syntax */
+  transition: $transition;
 }
 
 .menu-header {

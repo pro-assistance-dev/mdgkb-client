@@ -57,7 +57,7 @@ h4 {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  margin: 0 20px;
+  margin: 0 20px 0 40px;
 }
 .button-group {
   display: flex;
