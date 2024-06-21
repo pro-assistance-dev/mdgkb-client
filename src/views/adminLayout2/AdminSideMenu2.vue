@@ -68,24 +68,22 @@
 
 <script lang="ts" setup>
 import IAdminMenu from '@/interfaces/IAdminMenu';
-import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
 
-const props = defineProps({
+defineProps({
   shadow: { type: Boolean as PropType<Boolean>, default: true },
   border: { type: Boolean as PropType<Boolean>, default: true },
 });
-const store = useStore();
-const route = useRoute();
+
 const activePath: Ref<string> = ref('');
 const mounted = ref(false);
-const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
+const menus: ComputedRef<IAdminMenu[]> = Store.Getters('admin/menus');
 const showMenuBar: Ref<boolean> = ref(true);
 const auth = Store.Getters('auth/auth');
+
 watch(
-  () => route.path,
+  () => Router.GetPath(),
   () => {
-    activePath.value = route.path;
+    activePath.value = Router.GetPath();
   }
 );
 
@@ -94,8 +92,8 @@ const openMenuBar = async () => {
 };
 
 onBeforeMount(async () => {
-  await store.dispatch('admin/updateApplicationsCounts');
-  activePath.value = route.path;
+  await Store.Dispatch('admin/updateApplicationsCounts');
+  activePath.value = Router.GetPath();
   mounted.value = true;
 });
 
@@ -103,9 +101,6 @@ const logout = async () => {
   auth.value.logout();
   await Router.To('/');
 };
-
-// onBeforeUnmount(async () => {
-// });
 </script>
 
 <style lang="scss" scoped>

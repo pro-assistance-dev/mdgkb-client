@@ -26,9 +26,10 @@ interface GetOptions {
 import { computed, ComputedRef } from 'vue';
 
 export default abstract class Store {
-  static async Dispatch(request: string, opts?: GetAllOptions) {
+  static async Dispatch(request: string, opts?: GetAllOptions | unknown) {
     await getStore().dispatch(request, opts);
   }
+
   static Getters<T>(module: string): ComputedRef<T> {
     return computed(() => getStore().getters[module]);
   }

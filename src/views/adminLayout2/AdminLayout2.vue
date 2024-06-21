@@ -3,9 +3,9 @@
     <KeepAlive :include="[]" :max="0">
       <div class="bg">
         <div class="admin-main-container">
-          <AdminSideMenu2  :border="false" />
+          <AdminSideMenu2 :border="false" />
           <div class="admin-container">
-            <AdminHeaderBottom2 style="position: sticky; z-index: 2;" />
+            <AdminHeaderBottom2 style="position: sticky; z-index: 2" />
             <slot />
           </div>
         </div>
@@ -14,8 +14,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
@@ -38,5 +37,5 @@
   box-sizing: border-box;
   width: 100%;
 }
-
 </style>
+

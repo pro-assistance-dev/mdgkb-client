@@ -1,45 +1,27 @@
 <template>
-  <el-upload
-    ref="uploader"
-    :multiple="false"
-    action="#"
-    list-type="picture-card"
-    class="avatar-uploader-cover"
-    :auto-upload="false"
-    :limit="parseInt('1')"
-    :file-list="fileList"
-    :style="heightWeight"
-    :on-change="toggleUpload"
-    :class="{ hideUpload: !showUpload }"
-    accept="image/jpeg,image/png,image/jng"
-  >
-    <template #default>
-      <div class="plus-cr" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">Добавить</div>
-    </template>
-    <template #file="{ file }">
+  <div id="drop-area" @click="openUploadDialog">
+    <template v-if="uploadedImg">
       <div class="div1" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
-        <img class="el-upload-list__item-thumbnail" :src="file.url" alt="upload-image" />
+        <img class="el-upload-list__item-thumbnail" :src="uploadedImg.url" alt="upload-image" />
       </div>
       <div class="el-upload-list__item-actions">
         <div class="inside">
-          <div class="b1" @click="openCropper(file)">Изменить</div>
+          <div class="b1" @click="openCropper(uploadedImg)">Изменить</div>
           <div class="b2" @click="handleRemove()">Удалить</div>
         </div>
       </div>
     </template>
-  </el-upload>
+    <template v-else>
+      <div class="plus-cr" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">Добавить</div>
+    </template>
+  </div>
+  <input type="file" id="file-input" hidden @change="uploadFile" />
   <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus';
-import { useStore } from 'vuex';
-
 import FileInfo from '@/services/classes/FileInfo';
-import IFile from '@/services/interfaces/IFile';
-import IFilesList from '@/services/interfaces/IFIlesList';
 import Cropper from '@/services/classes/Cropper';
-import ImageCropper from '@/services/components/ImageCropper.vue';
 
 const props = defineProps({
   withCrop: {
@@ -47,7 +29,7 @@ const props = defineProps({
     default: true,
   },
   fileInfo: {
-    type: Object as PropType<FileInfo>,
+    type: FileInfo,
     required: true,
   },
   height: {
@@ -74,24 +56,20 @@ const props = defineProps({
 });
 
 const emits = defineEmits(['crop', 'removeFile']);
-
-const fileList: Ref<any[]> = ref([]);
+const uploadedImg: Ref<FileInfo | undefined> = ref(undefined);
 const heightWeight = computed(() => {
   return {
     '--height': `${props.height}px`,
   };
 });
-const store = useStore();
-let showUpload = ref(fileList.value.length === 0);
 const cropperOpened = ref(false);
-let uploader = ref();
+const uploader = ref();
 
 const toggleUpload = (file: any) => {
-  showUpload.value = !showUpload.value;
   props.fileInfo.uploadNewFile(file);
-  fileList.value = [];
   if (props.fileInfo.fileSystemPath) {
-    fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.url });
+    uploadedImg.value = props.fileInfo;
+    // .push({ name: props.fileInfo.fileSystemPath, url: file.url });
   }
   if (props.withCrop) {
     openCropper(file);
@@ -100,7 +78,7 @@ const toggleUpload = (file: any) => {
 
 const openCropper = (file: any) => {
   const ratio = props.cropRatio ? props.defaultRatio : 0;
-  store.commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
+  Store.Commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
   cropperOpened.value = true;
 };
 
@@ -113,7 +91,6 @@ const handleRemove = () => {
     })
     .then(() => {
       uploader.value.clearFiles();
-      showUpload.value = !showUpload.value;
       emits('removeFile');
     })
     .catch(() => {
@@ -123,24 +100,72 @@ const handleRemove = () => {
 
 const crop = (file: any) => {
   props.fileInfo.setFile(file);
-  fileList.value = [];
   if (props.fileInfo.fileSystemPath) {
-    fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.src });
+    uploadedImg.value = props.fileInfo;
+    // fileList.value.push({ name: props.fileInfo.fileSystemPath, url: file.src });
   }
-  showUpload.value = false;
   cropperOpened.value = false;
   emits('crop');
 };
 
 onBeforeMount(() => {
+  console.log(props.fileInfo);
   if (props.fileInfo.fileSystemPath) {
-    fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
-    showUpload.value = false;
+    uploadedImg.value = props.fileInfo;
+    // fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
   }
 });
+let fileInput = undefined;
+
+onMounted(() => {
+  const dropArea = document.getElementById('drop-area');
+  dropArea.addEventListener('dragover', preventDefaults);
+  dropArea.addEventListener('dragenter', preventDefaults);
+  dropArea.addEventListener('dragleave', preventDefaults);
+  dropArea.addEventListener('drop', handleDrop);
+  fileInput = document.getElementById('file-input');
+});
+//
+function preventDefaults(e: any) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+const openUploadDialog = () => {
+  fileInput.click();
+};
+// Handling dropping files into the area
+function handleDrop(e: any) {
+  e.preventDefault();
+  const files = e.dataTransfer.files;
+  console.log(files);
+  if (files.length) {
+    fileInput.files = files;
+    // Processing the files for previews (next step)
+    // handleFiles(files);
+  }
+}
+const uploadFile = () => {
+  console.log(fileInput.files);
+  const file = fileInput.files[0];
+  file.url = URL.createObjectURL(file);
+  uploadedImg.value = file;
+  openCropper(uploadedImg.value);
+  // const f = URL.createObjectURL(file);
+  // console.log(f);
+};
 </script>
 
 <style lang="scss" scoped>
+#drop-area {
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+  text-align: center;
+  line-height: 200px;
+  border: 2px dashed #ccc;
+  cursor: pointer;
+}
+
 .inside {
   display: block;
   margin: 0 auto;

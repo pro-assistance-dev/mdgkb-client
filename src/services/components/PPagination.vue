@@ -7,63 +7,33 @@
       }"
     >
       <div class="pag-number">
-        <PButton
-          skin="pag"
-          :type="curPage === 1 ? 'not-active' : 'neutral'"
-          @click="curPage === 1 ? () => undefined : currentChange(curPage - 1)"
-        >
+        <PButton skin="pag" :type="notActiveOrNeutral(curPage === 1)" @click="currentChange(curPage - 1)">
           <ArrowLeft />
         </PButton>
         <ul class="pag-ul">
           <li>
-            <PButton skin="pag" :type="curPage === 1 ? 'active' : 'neutral'" text="1" @click="currentChange(1)" />
+            <PButton skin="pag" :type="activeOrNeutral(curPage === 1)" text="1" @click="currentChange(1)" />
           </li>
-          <li @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
-            <PButton
-              v-if="pagArr.length > 8 && curPage > 4"
-              skin="pag"
-              type="neutral"
-              @click="curPage - 5 > 1 ? currentChange(curPage - 5) : currentChange(1)"
-            >
+          <li v-if="pagesCount > 8 && curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
+            <PButton skin="pag" type="neutral" @click="currentChange(curPage - 5)">
               <DoubleArrowLeft v-if="hoveringL" />
               <Ellipsis v-else />
             </PButton>
           </li>
-          <li v-for="num in pagArr3" :key="num">
-            <PButton
-              v-if="num < pagArr.length && num > 1"
-              skin="pag"
-              :type="num === curPage ? 'active' : 'neutral'"
-              :text="num"
-              @click="currentChange(num)"
-            />
+          <li v-for="num in pagesNums" :key="num">
+            <PButton skin="pag" :type="activeOrNeutral(num === curPage)" :text="num" @click="currentChange(num)" />
           </li>
-          <li @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
-            <PButton
-              v-if="pagArr.length > 8 && curPage < pagArr.length - 3"
-              skin="pag"
-              type="neutral"
-              @click="curPage + 5 < pagArr.length ? currentChange(curPage + 5) : currentChange(pagArr.length)"
-            >
+          <li v-if="pagesCount > 8 && curPage < pagesCount - 3" @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
+            <PButton skin="pag" type="neutral" @click="currentChange(curPage + 5)">
               <DoubleArrowRight v-if="hoveringR" />
               <Ellipsis v-else />
             </PButton>
           </li>
-          <li>
-            <PButton
-              v-if="pagArr.length > 1"
-              skin="pag"
-              :type="pagArr.length === curPage ? 'active' : 'neutral'"
-              :text="pagArr.length"
-              @click="currentChange(pagArr.length)"
-            />
+          <li v-if="pagesCount > 1">
+            <PButton skin="pag" :type="activeOrNeutral(pagesCount === curPage)" :text="pagesCount" @click="currentChange(pagesCount)" />
           </li>
         </ul>
-        <PButton
-          skin="pag"
-          :type="curPage === pageCount ? 'not-active' : 'neutral'"
-          @click="curPage === pagArr.length ? () => undefined : currentChange(curPage + 1)"
-        >
+        <PButton skin="pag" :type="notActiveOrNeutral(curPage === pagesCount)" @click="currentChange(curPage + 1)">
           <ArrowRight />
         </PButton>
       </div>
@@ -84,6 +54,8 @@ const props = defineProps({
     default: 'center',
   },
 });
+const activeOrNeutral = (isActive: boolean) => (isActive ? 'active' : 'neutral');
+const notActiveOrNeutral = (notActive: boolean) => (notActive ? 'not-active' : 'neutral');
 
 const hoveringL = ref(false);
 const hoveringR = ref(false);
@@ -92,30 +64,32 @@ const emit = defineEmits(['cancel', 'save']);
 const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
 
 const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
-
-const pageCount: ComputedRef<number> = computed(() => {
-  const pg = Math.ceil(count.value / Provider.filterQuery.value.pagination.limit);
-  return pg > 0 ? pg : 1;
-});
-
-const pagArr = computed(() => Arrays.GenerateNumsRange(1, pageCount.value));
-console.log(pagArr.value);
+const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / Provider.filterQuery.value.pagination.limit) ?? 1);
 const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
 
-const currentChange = async (pageNum: number) => {
+const currentChange = async (toPage: number) => {
+  if (toPage === curPage.value) {
+    return;
+  }
+  if (toPage < 1) {
+    toPage = 1;
+  }
+  if (toPage > pagesCount.value) {
+    toPage = pagesCount.value;
+  }
   if (!props.showConfirm) {
-    return await setPage(pageNum, true);
+    return await setPage(toPage, true);
   }
   PHelp.Dialog()
     .Save()
     .then(async () => {
       emit('save');
-      await setPage(pageNum, true);
+      await setPage(toPage, true);
     })
     .catch(async () => {
       PHelp.Notification().Warning('Изменения не были сохранены');
       emit('cancel');
-      await setPage(pageNum, true);
+      await setPage(toPage, true);
     });
 };
 
@@ -130,11 +104,11 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   });
 };
 
-const pagArr3 = computed(() => {
-  if (pagArr.value.length < 8) {
-    return Arrays.GenerateNumsRange(2, pageCount.value - 2);
+const pagesNums = computed(() => {
+  if (pagesCount.value < 8) {
+    return Arrays.GenerateNumsRange(2, pagesCount.value - 2).filter((p: number) => p < pagesCount.value && p > 1);
   }
-  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3);
+  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3).filter((p: number) => p < pagesCount.value && p > 1);
 });
 
 const scrollToBack = () => {

@@ -65,7 +65,7 @@
             <el-card>
               <template #header> Загрузить превью новости </template>
               <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
-                <UploaderSingleScan
+                <UploaderImage
                   :file-info="news.previewImage"
                   :height="300"
                   :default-ratio="4 / 3"
@@ -97,6 +97,7 @@ import ChartsModal from '@/components/admin/AdminNews/ChartsModal.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import AdminGallery from '@/services/components/AdminGallery.vue';
+import UploaderImage from '@/services/components/UploaderImage.vue';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
@@ -114,6 +115,7 @@ export default defineComponent({
     AdminNewsDoctors,
     CollapseItem,
     ChartsModal,
+    UploaderImage,
   },
   setup() {
     let isCropGalleryOpen = ref(false);
