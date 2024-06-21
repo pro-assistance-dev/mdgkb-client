@@ -18,9 +18,9 @@
 </template>
 
 <script lang="ts" setup>
-import ISearchObject from '@/services/interfaces/ISearchObject';
 import SearchGroup from '@/services/classes/SearchGroup';
 import SearchModel from '@/services/classes/SearchModel';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import ISearch from '@/services/interfaces/ISearchObject';
 
 const props = defineProps({
