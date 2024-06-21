@@ -1,7 +1,8 @@
 import { RouteLocationNormalizedLoaded } from 'vue-router';
 
-import PHelp from './PHelp';
 import router from '@/router';
+
+import PHelp from './PHelp';
 
 export default abstract class Router {
   static async To(route: string) {

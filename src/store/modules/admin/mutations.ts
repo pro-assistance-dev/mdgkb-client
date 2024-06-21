@@ -49,19 +49,19 @@ const mutations: MutationTree<State> = {
     Object.assign(state, getDefaultState());
   },
   filterMenus(state, userPermissions: IPathPermission[]) {
-    state.menus = [...menuList].filter((m: IAdminMenu) =>
-      userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
-    );
-    // state.menus = state.menus.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-    state.menus.forEach((m: IAdminMenu) => {
-      if (!m.children) {
-        return;
-      }
-      m.children = m.children.filter((m: IAdminMenu) =>
-        userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
-      );
-      // m.children = m.children.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
-    });
+    // state.menus = [...menuList].filter((m: IAdminMenu) =>
+    //   userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
+    // );
+    // // state.menus = state.menus.filter((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+    // state.menus.forEach((m: IAdminMenu) => {
+    //   if (!m.children) {
+    //     return;
+    //   }
+    //   m.children = m.children.filter((m: IAdminMenu) =>
+    //     userPermissions.some((permission: IPathPermission) => permission.resource === m.to)
+    //   );
+    //   // m.children = m.children.filters((m: IAdminMenu) => m.showTo?.includes(String(user.role.name)));
+    // });
 
     state.searchMenus = [];
     state.menus.forEach((el: IAdminMenu) => {

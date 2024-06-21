@@ -102,7 +102,7 @@ export default abstract class Strings {
   }
 
   static SearchIn(s1: string, s2: string): boolean {
-    return Strings.StringsEquals(s1, s2)
+    return Strings.StringsEquals(s1, s2);
   }
 
   static FormatToPercentage(percent: number): string {
@@ -110,12 +110,12 @@ export default abstract class Strings {
   }
 
   static WrapSubStr(text: string, subStr: string): string {
-    var re = new RegExp(Strings.GetVariants(subStr).join("|"), "gi");
-    return text.replace(re, `<span class="search-text">${subStr}</span>`)
+    var re = new RegExp(Strings.GetVariants(subStr).join('|'), 'gi');
+    return text.replace(re, `<span class="search-text">${subStr}</span>`);
   }
 
   static GetVariants(s: string): string[] {
-    const st = Strings.Translit(s)
+    const st = Strings.Translit(s);
     return [
       s,
       Strings.CapitalizeString(s),
@@ -125,7 +125,6 @@ export default abstract class Strings {
       Strings.CapitalizeString(st),
       st.toLowerCase(),
       st.toUpperCase(),
-    ]
+    ];
   }
-};
-
+}

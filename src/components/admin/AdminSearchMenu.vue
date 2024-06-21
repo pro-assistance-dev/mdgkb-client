@@ -11,46 +11,29 @@
   />
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import ISearchQuery from '@/services/interfaces/ISearchQuery';
-import StringsService from '@/services/Strings';
-export default defineComponent({
-  name: 'AdminSearchMenu',
+const searchForm = ref();
+const queryString: Ref<string> = ref('');
+const searchMenus: ComputedRef<ISearchQuery[]> = Store.Getters('admin/searchMenus');
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const searchForm = ref();
-    const queryString: Ref<string> = ref('');
-    const searchMenus: ComputedRef<ISearchQuery[]> = computed(() => store.getters['admin/searchMenus']);
+const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {
+  Store.Commit('admin/filterMenus');
+  console.log(searchMenus.value);
+  if (!queryString) {
+    cb(searchMenus.value);
+    return;
+  }
+  const res = searchMenus.value.filter((searchMenu: ISearchQuery) => {
+    return Strings.SearchIn(searchMenu.value, queryString);
+  });
+  console.log(res);
+  cb(res);
+  // call callback function to return suggestions\
+};
 
-    const createFilter = (queryString: string) => {
-      return (menuItem: ISearchQuery) => {
-        const smallSearchStr = queryString.toLowerCase();
-        const translitedSearchStr = StringsService.translit(smallSearchStr);
-        const smallMenuName = menuItem.value.toLowerCase();
-        return smallMenuName.includes(smallSearchStr) || smallMenuName.includes(translitedSearchStr);
-      };
-    };
-    const querySearch = (queryString: string, cb: (q: ISearchQuery[]) => ISearchQuery[]) => {
-      const results = queryString ? searchMenus.value.filter(createFilter(queryString)) : searchMenus.value;
-      // call callback function to return suggestions\
-      cb(results);
-    };
-    const handleSelect = (item: ISearchQuery) => {
-      router.push(item.link);
-      queryString.value = '';
-    };
-    return {
-      queryString,
-      searchForm,
-      querySearch,
-      handleSelect,
-    };
-  },
-});
+const handleSelect = async (item: ISearchQuery) => {
+  await Router.To(item.link);
+  queryString.value = '';
+};
 </script>
