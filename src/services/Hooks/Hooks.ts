@@ -9,8 +9,10 @@ import createSortModels from '@/services/CreateSortModels';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
 import Store from '@/services/Store';
+import SortList from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
+
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: SortModelBuildersLib;
@@ -31,15 +33,16 @@ const Hooks = (() => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
       Store.Commit('admin/showLoading');
-      Provider.ftsp.value.reset();
-      // await Provider.store.dispatch('meta/getSchema');
+      FTSP.Get().reset();
       if (options?.sortsLib) {
-        const sortModels = createSortModels(options.sortsLib);
-        Provider.sortList = sortModels;
-        const defaultSortModel = sortModels.find((s: SortModel) => s.default);
-        if (defaultSortModel) {
-          Provider.ftsp.value.setSortModel(defaultSortModel);
-        }
+        SortList.Set(options.sortsLib);
+        FTSP.Get().setSortModel(SortList.GetDefault());
+        // const sortModels = createSortModels(options.sortsLib);
+        // Provider.sortList = sortModels;
+        // const defaultSortModel = sortModels.find((s: SortModel) => s.default);
+        // if (defaultSortModel) {
+        //   FTSP.Get().setSortModel(defaultSortModel);
+        // }
       }
       // await Proider.filterQuery.value.fromUrlQuery(Provider.route().query);
       // Provider.setDefaultSortModel();

@@ -6,7 +6,7 @@ import ClassHelper from '@/services/ClassHelper';
 import SortModel from '../SortModel';
 
 export default class FTSP {
-  private static instance: FTSP
+  private static instance: FTSP;
   id?: string;
 
   @ClassHelper.GetClassConstructor(FilterModel)
@@ -22,9 +22,9 @@ export default class FTSP {
 
   static Get(): FTSP {
     if (!this.instance) {
-      this.instance = new FTSP()
+      this.instance = new FTSP();
     }
-    return this.instance
+    return this.instance;
   }
 
   createFrom(ftsp: string): void {
@@ -44,7 +44,7 @@ export default class FTSP {
 
   private static EmptyEntiries(sm: any): unknown {
     if (!sm) {
-      return
+      return;
     }
     const entries = Object.entries(sm);
     const nonEmptyOrNull = entries.filter(([key, val]) => key !== 'label' && val !== '' && val !== null); // 2️⃣
@@ -59,7 +59,10 @@ export default class FTSP {
     return Arrays.GetLast(this.s);
   }
 
-  setSortModel(sortModel: SortModel): void {
+  setSortModel(sortModel?: SortModel): void {
+    if (!sortModel) {
+      return;
+    }
     this.s[0] = sortModel;
   }
 
@@ -68,13 +71,13 @@ export default class FTSP {
   }
 
   setF(model: FilterModel): void {
-    this.f.push(model)
+    this.f.push(model);
   }
 
   replaceF(curF?: FilterModel, prevF?: FilterModel): void {
     this.removeF(prevF);
     if (curF) {
-      this.setF(curF)
+      this.setF(curF);
     }
   }
 
@@ -91,6 +94,6 @@ export default class FTSP {
     this.p = new Pagination();
   }
   resetF(): void {
-    this.f = []
+    this.f = [];
   }
 }
