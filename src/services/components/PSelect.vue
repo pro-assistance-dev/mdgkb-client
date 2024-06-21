@@ -8,11 +8,11 @@
         <slot name="left" />
       </div>
       <div class="sl">
-        <div class="clear" v-if="clearable" @click="clear">
+        <div v-if="clearable" class="clear" @click="clear">
           <IconClose margin="3px 0 0 0" />
         </div>
         <div v-if="ph" class="ph">{{ placeholder }}</div>
-        <select class="text-field__input" v-model="model" @change="select">
+        <select v-model="model" class="text-field__input" @change="select">
           <slot />
         </select>
       </div>
@@ -26,13 +26,12 @@
 <script setup lang="ts">
 import IconClose from '@/services/components/Icons/IconClose.vue';
 
-
-const model = defineModel();
+const model: unknown = defineModel<unknown>();
 const ph: Ref<boolean> = ref(true);
 const emits = defineEmits(['change', 'clear']);
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
+defineProps({
   text: { type: String as PropType<string>, default: '', required: false },
   label: { type: String as PropType<string>, default: '', required: false },
   placeholder: { type: String as PropType<string>, default: '', required: false },
@@ -46,13 +45,13 @@ const props = defineProps({
 
 const select = (v: unknown) => {
   ph.value = false;
-  emits('change', v)
-}
+  emits('change', v);
+};
 const clear = () => {
-  emits('change')
-  emits('clear')
-  ph.value = true
-}
+  emits('change');
+  emits('clear');
+  ph.value = true;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -85,7 +84,7 @@ option {
   position: relative;
 }
 
-.sl:hover>.clear {
+.sl:hover > .clear {
   visibility: visible;
 }
 
@@ -157,7 +156,6 @@ option {
 }
 
 .text-field__input:hover {
-
   border-color: #888;
 }
 
@@ -170,7 +168,7 @@ option {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: - 6px;
+  right: -6px;
   z-index: 10;
   display: flex;
   justify-content: center;

@@ -1,5 +1,5 @@
 <template>
-  <el-select
+  <PSelect
     v-if="mounted"
     v-model="sortModel"
     :popper-append-to-body="false"
@@ -8,17 +8,15 @@
     @change="setSort"
     @clear="setSort(undefined)"
   >
-    <el-option v-for="(item, i) in Provider.sortList" :key="i" :label="item.label" :value="item" />
-  </el-select>
+    <option v-for="(item, i) in Provider.sortList" :key="i" :label="item.label" :value="item" />
+  </PSelect>
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, Ref, ref, watch } from 'vue';
-
 import SortModel from '@/services/classes/SortModel';
 import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   maxWidth: {
     type: [Number, String],
     default: 250,
@@ -27,10 +25,10 @@ const props = defineProps({
 
 const mounted = ref(false);
 
-let defaultSortModel = undefined;
+let defaultSortModel: SortModel | undefined = undefined;
 const emits = defineEmits(['load']);
 
-const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters['filter/setDefaultSortModel']);
+const setDefaultSortModel: Ref<boolean> = Store.Getters('filter/setDefaultSortModel');
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
@@ -41,17 +39,18 @@ onBeforeMount((): void => {
 
 watch(setDefaultSortModel, () => setSort(undefined));
 
-const changeModel = async (sm: SortModel | undefined): Promise<void> => {
-  sortModel.value = sm ?? defaultSortModel;
-  Provider.ftsp.value.setSortModel(sortModel.value);
-  await Provider.router.replace({ query: {} });
+const changeModel = async (): Promise<void> => {
+  if (!sortModel.value) {
+    sortModel.value = defaultSortModel;
+  }
+  Provider.ftsp.value.setSortModel(sortModel.value as SortModel);
   Provider.ftsp.value.p.drop();
   emits('load');
 };
 
-const setSort = async (s: SortModel | undefined) => {
+const setSort = async () => {
   Provider.dropPagination();
-  await changeModel(s);
+  await changeModel();
 };
 </script>
 

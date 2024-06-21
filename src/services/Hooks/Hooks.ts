@@ -11,6 +11,7 @@ import Provider from '@/services/Provider/Provider';
 import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
+
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: SortModelBuildersLib;
@@ -20,8 +21,8 @@ export interface IHooksOptions {
 }
 
 export interface IPaginationOptions {
-  storeModule: string;
-  action: string;
+  storeModule?: string;
+  action?: string;
 }
 
 type func = (param?: FilterQuery | string) => Promise<void> | void;
