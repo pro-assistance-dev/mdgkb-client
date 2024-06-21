@@ -37,7 +37,7 @@ onBeforeMount((): void => {
   mounted.value = true;
 });
 
-watch(setDefaultSortModel, () => setSort(undefined));
+watch(setDefaultSortModel, () => setSort());
 
 const changeModel = async (): Promise<void> => {
   if (!sortModel.value) {
