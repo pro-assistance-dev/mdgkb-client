@@ -3,11 +3,11 @@
     <template #header>
       <!-- TODO: пофиксить ошибку на бэке -->
       <!-- <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" /> -->
-      <FilterSelect :models="createFilterMainModels()" placeholder="Специальность" @load="loadApplications" />
-      <FilterSelect :models="createFilterPaidModels()" placeholder="Основа обучения" @load="loadApplications" />
+      <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" />
+      <FilterSelect :models="filterPaidModels" placeholder="Основа обучения" @load="loadApplications" />
     </template>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
+      <SortSelect :max-width="400" @load="loadApplications" />
     </template>
     <el-table :data="residencyApplications">
       <el-table-column label="Статус" width="200" class-name="sticky-left">
@@ -159,7 +159,7 @@ const save = async (next?: NavigationGuardNext) => {
     return;
   }
   saveButtonClick.value = true;
-  await Provider.store.dispatch('residencyApplications/updateMany');
+  await Store.Dispatch('residencyApplications/updateMany');
   isEditMode.value = false;
   isNotEditMode.value = true;
   if (next) next();
@@ -215,11 +215,6 @@ const loadFilters = async () => {
   await Store.GetAll('formStatuses');
 };
 
-const createFilterMainModels = (): FilterModel[] => {
-  return [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
-};
-
-const createFilterPaidModels = (): FilterModel[] => {
-  return [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
-};
+const filterMainModels = [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];
+const filterPaidModels = [ResidencyApplicationsFiltersLib.onlyPaid(true), ResidencyApplicationsFiltersLib.onlyPaid(false)];
 </script>

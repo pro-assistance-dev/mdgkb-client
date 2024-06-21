@@ -1,7 +1,8 @@
 <template>
   <AdminListWrapper show-header>
     <template #header>
-      <FiltersList :models="createPagesGroupFilters()" @load="load" />
+      <!-- <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" /> -->
+      <FilterSelect :models="pagesGroupFilters" @load="load" />
     </template>
     <el-table v-if="pages" :data="pages">
       <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
@@ -25,17 +26,14 @@
 
 <script lang="ts" setup>
 import User from '@/classes/User';
-import FiltersList from '@/components/Filters/FiltersList.vue';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
-import PagesSortsLib from '@/libs/sorts/PagesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const pages: ComputedRef<Page[]> = Store.Items('pages');
-const user: ComputedRef<User> = Store.Item('auth', 'user');
+// const user: ComputedRef<User> = Store.Item('auth', 'user');
 
 const load = async (): Promise<void> => {
   // if (user.value.role.name !== 'ADMIN' && user.value.roleId) {
@@ -49,26 +47,18 @@ const load = async (): Promise<void> => {
   //     buttons: [{ text: 'Добавить', type: 'primary', action: create }],
   //   });
   // } else {
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Страницы',
-    buttons: [],
-  });
-  // }
+  PHelp.AdminHead().Set('Страницы', []);
 };
 
 const edit = async (id: string): Promise<void> => {
   const item = pages.value.find((i: Page) => i.id === id);
   if (item) {
-    await Provider.router.push(`/admin/pages/${item.slug}`);
+    await Router.ToAdmin(`/pages/${item.slug}`);
   }
 };
 
 const remove = async (id: string) => {
-  await Provider.store.dispatch('pages/remove', id);
-};
-
-const create = () => {
-  Provider.router.push('/admin/pages/new');
+  await Store.Remove('pages', id);
 };
 
 Hooks.onBeforeMount(async () => {
@@ -76,17 +66,14 @@ Hooks.onBeforeMount(async () => {
 });
 
 const openPage = (link: string) => {
-  const route = Provider.router.resolve(link);
-  window.open(route.href, '_blank');
+  window.open(Router.Resolve(link).href, '_blank');
 };
 
-const createPagesGroupFilters = (): FilterModel[] => {
-  return [
-    PagesFiltersLib.byPagesGroup('Без группы'),
-    PagesFiltersLib.byPagesGroup('Образование'),
-    PagesFiltersLib.byPagesGroup('Сведения об организации'),
-  ];
-};
+const pagesGroupFilters = [
+  PagesFiltersLib.byPagesGroup('Без группы'),
+  PagesFiltersLib.byPagesGroup('Образование'),
+  PagesFiltersLib.byPagesGroup('Сведения об организации'),
+];
 </script>
 
 <style lang="scss" scoped>

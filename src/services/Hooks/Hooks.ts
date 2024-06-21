@@ -1,4 +1,3 @@
-import { ElMessage } from 'element-plus';
 import { onBeforeMount } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
@@ -6,8 +5,8 @@ import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
-import Store from '@/services/Store';
 import SortList from '@/services/SortList';
+import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -74,9 +73,9 @@ const Hooks = (() => {
         } else {
           // await Provider.submit();
         }
-        ElMessage({ message: 'Сохранено', type: 'success' });
+        PHelp.Notification().Success('Сохранено');
       } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        PHelp.Notification().Success('Что-то пошло не так');
         console.log(error);
         return;
       }
