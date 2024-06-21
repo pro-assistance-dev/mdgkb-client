@@ -82,7 +82,7 @@ const props = defineProps({
   &-main {
     flex-shrink: 1;
     overflow: hidden;
-    height: 100%;
+    height: calc(100% - 30px);
   }
 
   .filters {

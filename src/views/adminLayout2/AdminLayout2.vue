@@ -23,13 +23,14 @@
   justify-content: left;
   height: 100vh;
   box-sizing: border-box;
-  width: 100%;
 }
 
 .admin-container {
   width: 100%;
   box-sizing: border-box;
   height: calc(100% - 30px);
+  height: 100%;
+  overflow: hidden;
 }
 
 .bg {
@@ -38,4 +39,3 @@
   width: 100%;
 }
 </style>
-
