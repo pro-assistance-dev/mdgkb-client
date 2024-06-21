@@ -8,6 +8,7 @@ declare global {
   const Arrays: typeof import('@/services/Main')['Arrays']
   const Auth: typeof import('@/services/Main')['Auth']
   const Axios: typeof import('@/services/Main')['Axios']
+  const Button: typeof import('@/services/Main')['Button']
   const Cache: typeof import('@/services/Main')['Cache']
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
   const ClassHelper: typeof import('@/services/Main')['ClassHelper']
@@ -28,6 +29,7 @@ declare global {
   const Email: typeof import('@/services/Main')['Email']
   const FTSP: typeof import('@/services/Main')['FTSP']
   const Favourite: typeof import('@/services/Main')['Favourite']
+  const FilterModel: typeof import('@/services/Main')['FilterModel']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
   const Hooks: typeof import('@/services/Main')['Hooks']
   const HttpClient: typeof import('@/services/Main')['HttpClient']
@@ -39,6 +41,7 @@ declare global {
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
+  const SortModel: typeof import('@/services/Main')['SortModel']
   const Store: typeof import('@/services/Main')['Store']
   const Strings: typeof import('@/services/Main')['Strings']
   const Swapper: typeof import('@/services/Main')['Swapper']
@@ -123,6 +126,7 @@ declare module 'vue' {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
+    readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
@@ -141,6 +145,7 @@ declare module 'vue' {
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
+    readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
@@ -152,6 +157,7 @@ declare module 'vue' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly Store: UnwrapRef<typeof import('@/services/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
@@ -229,6 +235,7 @@ declare module '@vue/runtime-core' {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
+    readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
@@ -247,6 +254,7 @@ declare module '@vue/runtime-core' {
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
+    readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
@@ -258,6 +266,7 @@ declare module '@vue/runtime-core' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly Store: UnwrapRef<typeof import('@/services/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>

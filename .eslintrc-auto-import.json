@@ -113,6 +113,9 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "Auth": true
+    "Auth": true,
+    "Button": true,
+    "FilterModel": true,
+    "SortModel": true
   }
 }

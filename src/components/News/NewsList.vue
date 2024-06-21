@@ -10,14 +10,13 @@
       </el-col>
       <el-col :xl="18" :lg="18" :md="24">
         <el-row>
-          <el-col v-for="item in news" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12"
-            :style="{ padding: '10px', display: 'flex' }">
+          <el-col v-for="item in news" :key="item.id" :xl="8" :lg="8" :md="12" :sm="12" :style="{ padding: '10px', display: 'flex' }">
             <div style="margin: 0 auto">
               <NewsCard :news="item" />
             </div>
           </el-col>
         </el-row>
-        <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @loadMore="loadMore" />
+        <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @load-more="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -25,21 +24,20 @@
 
 <script lang="ts" setup>
 import News from '@/classes/News';
-import Hooks from '@/services/Hooks/Hooks';
-import { Operators } from '@/services/interfaces/Operators';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
-import Provider from '@/services/Provider/Provider';
 import Pagination from '@/services/classes/filters/Pagination';
+import Hooks from '@/services/Hooks/Hooks';
+import Provider from '@/services/Provider/Provider';
 
-const emits = defineEmits(['add', 'remove'])
+defineEmits(['add', 'remove']);
 
-const allNewsLoaded = computed(() => Provider.store.getters['news/allNewsLoaded']);
+const allNewsLoaded = computed(() => Store.Getters['news/allNewsLoaded']);
 const mount = ref(false);
 const loading = ref(false);
 
-const news: ComputedRef<News[]> = Store.Items('news')
-const ftsp = FTSP.Get()
+const news: ComputedRef<News[]> = Store.Items('news');
+const ftsp = FTSP.Get();
 
 const setDefaultPagination = () => {
   ftsp.p = new Pagination();
@@ -48,17 +46,17 @@ const setDefaultPagination = () => {
 };
 
 const loadNews = async () => {
-  ftsp.reset()
+  ftsp.reset();
   setDefaultPagination();
-  ftsp.setS(NewsSortsLib.byPublishedOn())
-  ftsp.setF(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts())
+  ftsp.setS(NewsSortsLib.byPublishedOn());
+  ftsp.setF(NewsFiltersLib.onlyPublished(), NewsFiltersLib.withoutDrafts());
   await load();
 };
 
 const load = async () => {
   setDefaultPagination();
   Provider.store.commit('news/clearNews');
-  Store.FTSP('news')
+  Store.FTSP('news');
   mount.value = true;
 };
 
@@ -68,11 +66,10 @@ const loadMore = async () => {
   loading.value = true;
   ftsp.p.append = true;
   ftsp.p.offset = news.value.length;
-  ftsp.p.initial = false
+  ftsp.p.initial = false;
   await Store.FTSP('news');
   loading.value = false;
 };
-
 </script>
 
 <style lang="scss" scoped>

@@ -1,13 +1,13 @@
 <template>
-  <div :key="headerParams" class="admin-header-bottom">
+  <div :key="head" class="admin-header-bottom">
     <div class="flex-between">
-      <el-page-header v-if="headerParams.showBackButton" title=" " :content="headerParams.title" @back="Router.Back()" />
+      <el-page-header v-if="head.showBackButton" title=" " :content="head.title" @back="Router.Back()" />
       <h4 v-else style="margin-left: 30px">
-        {{ headerParams.title }}
-        <el-badge v-if="headerParams.applicationsCount" :value="headerParams.applicationsCount" type="danger"></el-badge>
+        {{ head.title }}
+        <el-badge v-if="head.applicationsCount" :value="head.applicationsCount" type="danger"></el-badge>
       </h4>
       <div class="button-group">
-        <div v-for="item in headerParams.buttons" :key="item" class="flex-item">
+        <div v-for="item in head.buttons" :key="item" class="flex-item">
           <PButton
             v-if="item.action && item.condition"
             :key="item.condition"
@@ -23,10 +23,8 @@
 </template>
 
 <script lang="ts" setup>
-import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
-const headerParams: Ref<AdminHeaderParams> = Store.Getters('admin/headerParams');
 const buttonClicked: Ref<boolean> = ref(false);
-
+const head = PHelp.AdminHead();
 const action = (f: CallableFunction) => {
   buttonClicked.value = true;
   f();

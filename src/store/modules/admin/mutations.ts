@@ -13,7 +13,6 @@ import { State } from './state';
 
 const mutations: MutationTree<State> = {
   setHeaderParams(state, params: AdminHeaderParams) {
-    console.log(params);
     state.headerParams = new AdminHeaderParams(params);
   },
   addButtons(state, buttons: AdminButtonParams[]) {
