@@ -15,9 +15,7 @@
         </el-button>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item @click="logout">
-              <LogoutOutlined />Выйти
-            </el-dropdown-item>
+            <el-dropdown-item @click="logout"> <LogoutOutlined />Выйти </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
@@ -32,13 +30,13 @@ import { LogoutOutlined } from '@ant-design/icons-vue';
 
 import User from '@/classes/User';
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
-const auth = Store.Getters('auth/auth')
+const auth = Store.Getters('auth/auth');
 
 const collapseSideMenu = () => Store.Commit('admin/collapseSideMenu');
 const openDrawer = () => Store.Commit('admin/openDrawer');
 
 const logout = async () => {
-  auth.value.logout()
+  auth.value.logout();
   await Router.To('/');
 };
 </script>
@@ -46,7 +44,9 @@ const logout = async () => {
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 $header-background-color: whitesmoke;
-$header-shadow: 0 0 10px 2px rgb(0 0 0 / 20%), 0 0px 10px rgb(0 0 0 / 24%);
+$header-shadow:
+  0 0 10px 2px rgb(0 0 0 / 20%),
+  0 0px 10px rgb(0 0 0 / 24%);
 $header-height: 61px;
 $button-background-color: #fff;
 
@@ -99,7 +99,6 @@ $button-background-color: #fff;
   display: flex;
   align-items: center;
 }
-
 
 .left-panel {
   width: 60px;

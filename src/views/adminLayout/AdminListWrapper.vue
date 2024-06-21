@@ -42,6 +42,7 @@ const props = defineProps({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 :deep(.el-table) {
   width: 100%;
   height: 100%;
@@ -75,14 +76,14 @@ const props = defineProps({
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  height: calc(100% - 30px);
+  height: calc(100% - 60px);
   padding: 10px;
   box-sizing: border-box;
 
   &-main {
     flex-shrink: 1;
     overflow: hidden;
-    height: 100%;
+    height: calc(100% - 30px);
   }
 
   .filters {

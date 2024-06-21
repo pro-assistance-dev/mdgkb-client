@@ -11,13 +11,13 @@
     @mouseenter="hovering = true"
     @mouseleave="hovering = false"
   >
-    <use xlink:href="#arrow-drop"></use>
+    <use xlink:href="#search"></use>
   </svg>
 
   <svg width="0" height="0" class="hidden">
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" id="arrow-drop">
+    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="search">
       <path
-        d="M5.06858 9.14787L4 10.2165L8.89633 15.1287C11.5917 17.8241 13.8724 20.041 13.9522 20.041C14.0478 20.041 16.3445 17.8241 19.0558 15.0968L24 10.1527L22.9155 9.08408L21.8469 7.99955L17.9075 11.9549L13.9522 15.8943L10.0447 11.9868L6.13716 8.07929L5.06858 9.14787Z"
+        d="M11 19C12.775 18.9996 14.4988 18.4054 15.897 17.312L20.293 21.708L21.707 20.294L17.311 15.898C18.405 14.4997 18.9996 12.7754 19 11C19 6.589 15.411 3 11 3C6.589 3 3 6.589 3 11C3 15.411 6.589 19 11 19ZM11 5C14.309 5 17 7.691 17 11C17 14.309 14.309 17 11 17C7.691 17 5 14.309 5 11C5 7.691 7.691 5 11 5Z"
       ></path>
     </symbol>
   </svg>
@@ -35,7 +35,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
+@import '@/services/assets/style/index.scss';
 .hidden {
   display: none;
 }
