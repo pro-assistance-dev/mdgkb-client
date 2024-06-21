@@ -12,14 +12,17 @@ class SortListC {
       return;
     }
     this.list = createSortModels(sortLib);
+    console.log(this.list);
+
     this.setDefaultSortModel();
   }
 
   private setDefaultSortModel() {
-    this.defaultSortModel = this.list.find((s: SortModel) => s.default);
+    this.defaultSortModel = this.list.find((s: SortModel) => s.default) ?? this.list[0];
   }
 
   Get(): SortModel[] {
+    console.log(this.list);
     return this.list;
   }
 

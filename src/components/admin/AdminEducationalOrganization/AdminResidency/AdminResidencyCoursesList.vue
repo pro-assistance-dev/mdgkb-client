@@ -108,20 +108,17 @@ const loadCourses = async () => {
 };
 
 const load = async () => {
+  PHelp.AdminHead().Set('Программы ординатуры', [
+    Button.Success(
+      computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+      computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value)))
+    ),
+    Button.Success('Добавить программу', Provider.createAdmin),
+  ]);
   await loadCourses();
 };
 
 Hooks.onBeforeMount(load, {
-  adminHeader: {
-    title: 'Программы ординатуры',
-    buttons: [
-      {
-        text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
-        action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
-      },
-      { text: 'Добавить программу', type: 'primary', action: Provider.createAdmin },
-    ],
-  },
   sortsLib: ResidencyCoursesSortsLib,
   pagination: { storeModule: 'residencyCourses' },
 });

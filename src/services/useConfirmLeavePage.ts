@@ -28,15 +28,9 @@ export default function (): IReturn {
 
   const showConfirmModal = (submit: SubmitCallback, next: NavigationGuardNext): void => {
     if (confirmLeave.value && !saveButtonClick.value) {
-      ElMessageBox.confirm('У вас есть несохранённые изменения', 'Вы уверены, что хотите покинуть страницу?', {
-        distinguishCancelAndClose: true,
-        confirmButtonText: 'Сохранить',
-        cancelButtonText: 'Не сохранять',
-      })
-        .then(() => {
-          // Вызывается при сохранении
-          submit();
-        })
+      PHelp.Dialog()
+        .Save()
+        .then(() => submit())
         .catch((action: string) => {
           if (action === 'cancel') {
             PHelp.Notification().Warning('Изменения не были сохранены');

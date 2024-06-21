@@ -121,13 +121,13 @@ import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import ResidencyApplicationsFiltersLib from '@/libs/filters/ResidencyApplicationsFiltersLib';
 import ResidencyApplicationsSortsLib from '@/libs/sorts/ResidencyApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
+import SortList from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const residencyApplications: ComputedRef<ResidencyApplication[]> = Store.Items('residencyApplications');
@@ -168,23 +168,20 @@ const { confirmLeave, saveButtonClick } = useConfirmLeavePage();
 // const sortList = [...createSortModels(ResidencyApplicationsSortsLib)];
 const load = async () => {
   // TODO: Пофиксить ошибку на бэке
-
-  Provider.sortList.push(...createSortModels(ResidencyApplicationsSortsLib));
+  SortList.Set(ResidencyApplicationsSortsLib);
   FTSP.Get().setS(ResidencyApplicationsSortsLib.byApprovingDate(Orders.Desc));
   await loadApplications();
   await loadFilters();
   onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
   filterByStatus.value = ResidencyApplicationsFiltersLib.byStatus();
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Заявки на обучение в ординатуре',
-    buttons: [
-      { text: 'Редактировать', type: 'success', action: enableEditMode, condition: isNotEditMode },
-      { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-      { text: 'Подать заявление', type: 'primary', action: create },
-    ],
-    pagination: { storeModule: 'residencyApplications', action: 'ftsp' },
-  });
-  await Provider.store.dispatch('residencyApplications/subscribeCreate');
+
+  PHelp.AdminHead().Set('Заявки на обучение в ординатуре', [
+    Button.Success('Редактировать', enableEditMode, isNotEditMode),
+    Button.Success('Сохранить', save, isEditMode),
+    Button.Success('Подать заявление', create),
+  ]);
+
+  await Store.Dispatch('residencyApplications/subscribeCreate');
 };
 
 watch(isEditMode, () => {
@@ -196,22 +193,21 @@ Hooks.onBeforeMount(load, {
 });
 
 onBeforeUnmount(async () => {
-  await Provider.store.dispatch('residencyApplications/unsubscribeCreate');
+  await Store.Dispatch('residencyApplications/unsubscribeCreate');
 });
 
-const create = () => Provider.router.push(`${Provider.route().path}/new`);
-// const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
-const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
+const create = () => Router.To(`${Provider.route().path}/new`);
+const edit = (id: string) => Router.To(`${Provider.route().path}/${id}`);
 
-const filtersToOptions = (): IOption[] => {
-  const options: IOption[] = [];
-  formStatuses.value.forEach((i: FormStatus) => {
-    if (i.id) {
-      options.push({ value: i.id, label: i.label });
-    }
-  });
-  return options;
-};
+// const filtersToOptions = (): IOption[] => {
+//   const options: IOption[] = [];
+//   formStatuses.value.forEach((i: FormStatus) => {
+//     if (i.id) {
+//       options.push({ value: i.id, label: i.label });
+//     }
+//   });
+//   return options;
+// };
 
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();

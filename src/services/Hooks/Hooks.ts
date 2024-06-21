@@ -4,8 +4,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import SortModel from '@/services/classes/SortModel';
-import createSortModels from '@/services/CreateSortModels';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
 import Store from '@/services/Store';
@@ -37,15 +35,7 @@ const Hooks = (() => {
       if (options?.sortsLib) {
         SortList.Set(options.sortsLib);
         FTSP.Get().setSortModel(SortList.GetDefault());
-        // const sortModels = createSortModels(options.sortsLib);
-        // Provider.sortList = sortModels;
-        // const defaultSortModel = sortModels.find((s: SortModel) => s.default);
-        // if (defaultSortModel) {
-        //   FTSP.Get().setSortModel(defaultSortModel);
-        // }
       }
-      // await Proider.filterQuery.value.fromUrlQuery(Provider.route().query);
-      // Provider.setDefaultSortModel();
       Provider.setStoreModule(undefined);
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);

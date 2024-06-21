@@ -6,15 +6,16 @@
     :clearable="!sortModel?.default"
     value-key="label"
     @change="setSort"
-    @clear="setSort(undefined)"
+    @clear="setSort()"
   >
-    <option v-for="(item, i) in Provider.sortList" :key="i" :label="item.label" :value="item" />
+    <option v-for="(item, i) in SortList.Get()" :key="i" :label="item.label" :value="item" />
   </PSelect>
 </template>
 
 <script lang="ts" setup>
 import SortModel from '@/services/classes/SortModel';
-import Provider from '@/services/Provider/Provider';
+// import Provider from '@/services/Provider/Provider';
+import SortList from '@/services/SortList';
 
 defineProps({
   maxWidth: {
@@ -25,15 +26,12 @@ defineProps({
 
 const mounted = ref(false);
 
-let defaultSortModel: SortModel | undefined = undefined;
 const emits = defineEmits(['load']);
 
 const setDefaultSortModel: Ref<boolean> = Store.Getters('filter/setDefaultSortModel');
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
-  defaultSortModel = Provider.sortList.find((s: SortModel) => s.default) ?? Provider.sortList[0];
-  // changeModel(undefined);
   mounted.value = true;
 });
 
@@ -41,10 +39,10 @@ watch(setDefaultSortModel, () => setSort());
 
 const changeModel = async (): Promise<void> => {
   if (!sortModel.value) {
-    sortModel.value = defaultSortModel;
+    sortModel.value = SortList.GetDefault();
   }
-  Provider.ftsp.value.setSortModel(sortModel.value as SortModel);
-  Provider.ftsp.value.p.drop();
+  FTSP.Get().setSortModel(sortModel.value as SortModel);
+  FTSP.Get().p.drop();
   emits('load');
 };
 
