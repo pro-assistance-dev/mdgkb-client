@@ -57,7 +57,7 @@ export default abstract class Store {
     await Store.Dispatch(`${module}/${Methods.GetAll}`, opts);
   }
 
-  static async Get(module: string, id: string) {
+  static async Get(module: string, id?: string) {
     await getStore().dispatch(`${module}/${Methods.Get}`, id);
   }
 

@@ -189,6 +189,8 @@ const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
 const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
 
 const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
+auth.value.preventLogout = true;
+
 const user: ComputedRef<User> = computed(() => auth.value.user.get());
 const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
 
@@ -330,6 +332,10 @@ const toStep = async (stepNum: number) => {
   }
   activeStep.value = stepNum;
 };
+
+onBeforeUnmount(() => {
+  auth.value.preventLogout = false;
+});
 
 const getButtonName = (): string => {
   return activeStep.value < 5 ? 'Перейти к следующему шагу' : 'Отправить';

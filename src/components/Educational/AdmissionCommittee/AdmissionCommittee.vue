@@ -4,14 +4,14 @@
       <component :is="section.component"></component>
     </template>
     <template #bottom>
-      <!--      <div class="button-container">-->
-      <!--        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>-->
-      <!--      </div>-->
+      <div class="button-container">
+        <PButton text="Подать документы" type="success" style="margin: 10px 0" @click="toForm()" />
+      </div>
     </template>
     <template #title>
-      <!--      <div class="title-button-container">-->
-      <!--        <el-button type="success" style="margin: 10px 0" @click="$router.push('/admission-form')">Подать документы</el-button>-->
-      <!--      </div>-->
+      <div class="title-button-container">
+        <PButton type="success" text="Подать документы" style="margin: 10px 0" @click="toForm()" />
+      </div>
     </template>
   </PageComponent>
 </template>
@@ -37,6 +37,19 @@ const initLoad = async () => {
 };
 
 Hooks.onBeforeMount(initLoad);
+
+const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
+const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
+const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
+
+const toForm = () => {
+  if (!isAuth.value) {
+    PHelp.Notification().Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
+    authModal.value.open();
+    return;
+  }
+  Router.To('/admission-form');
+};
 
 const loadPrograms = async () => {
   const ftsp = new FTSP();

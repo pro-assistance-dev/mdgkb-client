@@ -8,6 +8,7 @@ export const AuthStatusesObjects: Record<AuthStatuses, Record<string, string | A
     component: 'LoginChunk',
     buttons: AuthButton.LoginButtons(),
     errorMessage: 'Неверно указан email или пароль',
+    successMessage: 'Вы успешно вошли в систему',
   },
   [AuthStatuses.Register]: {
     title: 'Регистрация',
