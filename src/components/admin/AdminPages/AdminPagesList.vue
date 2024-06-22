@@ -2,6 +2,7 @@
   <AdminListWrapper show-header>
     <template #header>
       <!-- <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" /> -->
+      <RemoteSearchNew :key-value="'page'" @select="(e) => Router.ToAdmin(`pages/${e.id}`)" />
       <FilterSelect :models="pagesGroupFilters" @load="load" />
     </template>
     <el-table v-if="pages" :data="pages">

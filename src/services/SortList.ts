@@ -8,6 +8,7 @@ class SortListC {
   private defaultSortModel: SortModel | undefined;
 
   Set(sorts?: SortModelBuildersLib | SortModel[]): void {
+    this.Reset();
     if (!sorts) {
       return;
     }

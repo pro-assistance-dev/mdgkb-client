@@ -13,9 +13,13 @@ export default abstract class Router {
   }
 
   static Id(): string {
-    console.log(Router.Route().params['id']);
+    console.log('ID', Router.GetStringParam('id'));
+    return Router.GetStringParam('id');
+  }
 
-    return Router.Route().params['id'] as string;
+  static Slug(): string {
+    console.log('SLUG', Router.GetStringParam('slug'));
+    return Router.GetStringParam('slug');
   }
 
   static Back() {
@@ -59,6 +63,9 @@ export default abstract class Router {
 
   static GetNumberQueryParam(param: string): number {
     return Number(Router.Route().query[param] ?? 0);
+  }
+  static GetStringParam(param: string): string {
+    return Router.Route().params[param] as string;
   }
 
   static Resolve(link: string): RouteLocation {

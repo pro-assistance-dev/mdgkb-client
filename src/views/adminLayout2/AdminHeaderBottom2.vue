@@ -2,7 +2,7 @@
   <div :key="head" class="admin-header-bottom">
     <div class="flex-between">
       <h4 style="margin-left: 30px">
-        <PButton v-if="Router.Id()" @click="Router.Back()">
+        <PButton v-if="Router.Id() || Router.Slug()" @click="Router.Back()">
           <ArrowLeft />
         </PButton>
         {{ head.title }}

@@ -210,7 +210,8 @@ Hooks.onBeforeMount(load, {
 });
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Router.To(`news/${event.id}`);
+  console.log(event);
+  await Router.ToAdmin(`news/${event.value}`);
 };
 
 const createFilterModels = (): FilterModel[] => {
