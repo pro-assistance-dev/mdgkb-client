@@ -1,11 +1,11 @@
 import EducationYear from '@/classes/EducationYear';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCoursePracticePlaceGroup from '@/classes/ResidencyCoursePracticePlaceGroup';
 import ResidencyCourseSpecialization from '@/classes/ResidencyCourseSpecialization';
 import Specialization from '@/classes/Specialization';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class ResidencyCourse {
@@ -137,7 +137,11 @@ export default class ResidencyCourse {
   }
 
   getApplicationsByPoint(): ResidencyApplication[] {
-    return this.getAcceptedApplications().sort((a: ResidencyApplication, b: ResidencyApplication) => {
+    return this.sortByPoint(this.getAcceptedApplications());
+  }
+
+  sortByPoint(applications: ResidencyApplication[]): ResidencyApplication[] {
+    return applications.sort((a: ResidencyApplication, b: ResidencyApplication) => {
       return (
         b.getPointsSum() - a.getPointsSum() ||
         b.pointsEntrance - a.pointsEntrance ||
@@ -147,7 +151,15 @@ export default class ResidencyCourse {
   }
 
   getPaidApplicationsByPoint(): ResidencyApplication[] {
-    return this.getApplicationsByPoint().filter((a: ResidencyApplication) => a.paid === true);
+    return this.sortByPoint(this.getApplicationsByPoint().filter((a: ResidencyApplication) => a.paid));
+  }
+
+  getFreeApplicationsByPoint(): ResidencyApplication[] {
+    return this.sortByPoint(this.getApplicationsByPoint().filter((a: ResidencyApplication) => !a.paid));
+  }
+
+  getFreeApplications(): ResidencyApplication[] {
+    return this.getAcceptedApplications().filter((a: ResidencyApplication) => !a.paid);
   }
 
   getAcceptedApplications(): ResidencyApplication[] {
@@ -156,10 +168,6 @@ export default class ResidencyCourse {
 
   isThisYear(): boolean {
     return this.startYear.year.getFullYear() === new Date().getFullYear();
-  }
-
-  getFreeApplications(): ResidencyApplication[] {
-    return this.getAcceptedApplications().filter((a: ResidencyApplication) => !a.paid);
   }
 
   getPaidApplications(): ResidencyApplication[] {

@@ -267,7 +267,7 @@ const loadItem = async () => {
     initialStatus = application.value.formValue.formStatus;
     pageTitle = `Заявление от ${application.value.formValue.user.email}`;
   } else {
-    pageTitle = 'Подача заявления на обучение в аспирантуре';
+    pageTitle = 'Подача заявления на обучение в ординатуре';
     Store.Commit('residencyApplications/resetItem');
     isEditMode.value = true;
   }

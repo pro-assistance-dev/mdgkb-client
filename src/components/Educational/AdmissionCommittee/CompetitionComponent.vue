@@ -1,36 +1,38 @@
 <template>
   <div v-if="mounted">
     <div class="info">
-      <span class="info-text">Для получения информации о конкурсе нажмите
-        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span>
+      <span class="info-text"
+        >Для получения информации о конкурсе нажмите
+        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span
+      >
       <!-- <span class="info-text-alt">Информация о конкурсе временно отсутствует</span> -->
     </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">
-      <!--      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">-->
-      <!--        <template #title>-->
-      <!--          <h2>КОНКУРС</h2>-->
-      <!--        </template>-->
-      <!--        <CompetitionTable :residency-courses="residencyCourses" />-->
-      <!--      </el-collapse-item>-->
+      <el-collapse-item v-if="UserService.isAdmin()" id="Конкурс" class="card-item" name="Таблица конкурса">
+        <template #title>
+          <h2>КОНКУРС</h2>
+        </template>
+        <CompetitionTable :residency-courses="residencyCourses" />
+      </el-collapse-item>
       <el-collapse-item id="Конкурс на место" class="card-item" name="Конкурс">
         <template #title>
           <h2>КОНКУРС ЧЕЛОВЕК НА МЕСТО</h2>
         </template>
-        <!-- <CompetitionPlacesTable :residency-courses="residencyCourses" /> -->
+        <CompetitionPlacesTable :residency-courses="residencyCourses" />
       </el-collapse-item>
 
       <el-collapse-item id="РЕЙТИНГ" class="card-item" name="РЕЙТИНГ">
         <template #title>
           <h2>РЕЙТИНГ АБИТУРИЕНТОВ ПОДАВШИХ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
         </template>
-        <!-- <CompetitionRating :residency-courses="residencyCourses" /> -->
+        <CompetitionRating :residency-courses="residencyCourses" />
       </el-collapse-item>
 
       <el-collapse-item id="АБИТУРИЕНТЫ" class="card-item" name="АБИТУРИЕНТЫ">
         <template #title>
           <h2>АБИТУРИЕНТЫ, ПОДАВШИЕ ДОКУМЕНТЫ В ОРДИНАТУРУ ГБУЗ «МОРОЗОВСКАЯ ДГКБ ДЗМ»</h2>
         </template>
-        <!-- <CompetitionApplicationsTable :residency-courses="residencyCourses" /> -->
+        <CompetitionApplicationsTable :residency-courses="residencyCourses" />
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -38,30 +40,26 @@
 
 <script lang="ts" setup>
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import UserService from '@/services/User';
 
-const filterQuery: ComputedRef<FilterQuery> = Store.Getters('filter/filterQuery');
-
 const mounted: Ref<boolean> = ref(false);
-const residencyCoursesSource: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(
-  () => Provider.store.getters['residencyCourses/items']
-);
+const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses');
 const activeName = ref('Конкурс');
-const residencyCourses: Ref<ResidencyCourse[]> = computed(() =>
-  residencyCoursesSource.value.filter((r: ResidencyCourse) => r.getMainSpecialization().name !== 'Детская урология-андрология')
-);
 const loadPrograms = async () => {
-  Provider.resetFilterQuery();
-  Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-  filterQuery.value.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
-  Provider.filterQuery.value.pagination.cursorMode = false;
-  await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+  // Provider.resetFilterQuery();
+  // Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
+  // filterQuery.value.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
+  // Provider.filterQuery.value.pagination.cursorMode = false;
+  // await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+  const ftsp = new FTSP();
+  ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
+  ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
+  await Store.FTSP('residencyCourses', { ftsp: ftsp });
 };
 
 const collapseChange = () => {
@@ -92,7 +90,6 @@ const initLoad = async () => {
 };
 
 Hooks.onBeforeMount(initLoad);
-
 </script>
 
 <style lang="scss" scoped>

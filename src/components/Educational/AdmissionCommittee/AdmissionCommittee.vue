@@ -19,19 +19,17 @@
 <script lang="ts" setup>
 import CustomSection from '@/classes/CustomSection';
 import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
-import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
+import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
+import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
-import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
 
 const customSections: Ref<CustomSection[]> = ref([]);
-const showForm: Ref<boolean> = ref(false);
+// const showForm: Ref<boolean> = ref(false);
 
 const initLoad = async () => {
-  customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', 'CompetitionComponent', 0));
+  customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', CompetitionComponent, 0));
   // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
   // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
   // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')
@@ -41,11 +39,10 @@ const initLoad = async () => {
 Hooks.onBeforeMount(initLoad);
 
 const loadPrograms = async () => {
-  // Provider.resetFilterQuery();
-  // Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
-  // Provider.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
-  // Provider.filterQuery.value.pagination.cursorMode = false;
-  await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
+  const ftsp = new FTSP();
+  ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
+  ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
+  await Store.FTSP('residencyCourses', { ftsp: ftsp });
 };
 </script>
 
