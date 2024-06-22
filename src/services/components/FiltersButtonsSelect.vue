@@ -1,51 +1,62 @@
 <template>
   <StringItem :string="defaultLabel" font-size="14px" padding="0" margin="20px 0 0 10px" />
-  <InfoItem margin="5px 0 0 0px" :with-open-window="false" height="auto" background="#F5F5F5" border-color="#C4C4C4"
-    padding="7px" :with-hover="false">
+  <InfoItem
+    margin="5px 0 0 0px"
+    :with-open-window="false"
+    height="auto"
+    background="#F5F5F5"
+    border-color="#C4C4C4"
+    padding="7px"
+    :with-hover="false"
+  >
     <!-- <InfoItem margin="0" :with-open-window="false" :with-icon="false" height="auto" background="#F5F5F5" border-color="#C4C4C4" padding="7px" :with-hover="false"> -->
     <template #title>
       <!-- <StringItem :string="defaultLabel" font-size="14px" padding="0" margin="-5px 0 0 0" /> -->
     </template>
 
-    <GridContainer max-width="100%" grid-gap="7px" grid-template-columns="repeat(auto-fit, minmax(100%, 1fr))"
-      margin="0px">
-      <PButton type="admin" color="blue" v-for="(model, index) in models" :key="index" height="auto" :text="model.label"
-        :is-toggle="model.valueEq(filterModel)" :toggle-mode="true" :inverse="inverse"
-         @click="selectFilter(model.valueEq(filterModel) ? undefined : model)" />
+    <GridContainer max-width="100%" grid-gap="7px" grid-template-columns="repeat(auto-fit, minmax(100%, 1fr))" margin="0px">
+      <PButton
+        v-for="(model, index) in models"
+        :key="index"
+        color="blue"
+        height="auto"
+        :text="model.label"
+        :is-toggle="model.valueEq(filterModel)"
+        :toggle-mode="true"
+        :inverse="inverse"
+        @click="selectFilter(model.valueEq(filterModel) ? undefined : model)"
+      />
     </GridContainer>
   </InfoItem>
 </template>
 
 <script lang="ts" setup>
 import FilterModel from '@/services/classes/filters/FilterModel';
-import PButton from '@/services/components/PButton.vue';
 import GridContainer from '@/services/components/GridContainer.vue';
 import InfoItem from '@/services/components/InfoItem.vue';
+import PButton from '@/services/components/PButton.vue';
 import StringItem from '@/services/components/StringItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   models: {
-    type: Array as PropType<FilterModel[]>,
+    type: Array<FilterModel>,
     default: () => [],
   },
   defaultLabel: {
-    type: String as PropType<string>,
+    type: String,
     default: 'Все',
   },
   inverse: { type: Boolean as PropType<boolean>, required: false, default: false },
 });
 const emits = defineEmits(['load']);
-const ftsp = Store.Item('filter', 'ftsp');
 const restore = Store.Item('filter', 'restore');
-
 
 watch(
   () => restore.value,
   () => {
-    console.log(props.models, ftsp.value.f);
     const finded = props.models.find((m: FilterModel) => {
-      return ftsp.value.f.some((f: FilterModel) => {
+      return FTSP.Get().f.some((f: FilterModel) => {
         return m.valueEq(f);
       });
     });
@@ -55,11 +66,9 @@ watch(
 const filterModel: Ref<FilterModel | undefined> = ref(undefined);
 
 const setFilter = async (model?: FilterModel) => {
-  Provider.ftsp.value.replaceF(model, filterModel.value);
+  FTSP.Get().replaceF(model, filterModel.value);
   filterModel.value = model;
-  Provider.dropPagination();
-  Provider.getPagination().drop();
-  await Provider.router.replace({ query: {} });
+  FTSP.Get().p.drop();
 };
 
 const selectFilter = async (model?: FilterModel) => {

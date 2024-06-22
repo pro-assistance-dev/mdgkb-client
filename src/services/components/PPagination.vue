@@ -56,15 +56,14 @@ const props = defineProps({
 });
 const activeOrNeutral = (isActive: boolean) => (isActive ? 'active' : 'neutral');
 const notActiveOrNeutral = (notActive: boolean) => (notActive ? 'not-active' : 'neutral');
-
+const pagination = FTSP.Get().p;
 const hoveringL = ref(false);
 const hoveringR = ref(false);
-
 const emit = defineEmits(['cancel', 'save']);
 const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
 
 const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
-const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / Provider.filterQuery.value.pagination.limit) ?? 1);
+const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / pagination.limit) ?? 1);
 const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
 
 const currentChange = async (toPage: number) => {

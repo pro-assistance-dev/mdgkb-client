@@ -8,7 +8,7 @@
         {{ head.title }}
       </h4>
       <div class="button-group">
-        <div v-for="item in head.buttons" :key="item" class="flex-item">
+        <div v-for="item in head.buttons" :key="item.text" class="flex-item">
           <PButton
             v-if="item.action && item.condition"
             :key="item.condition"

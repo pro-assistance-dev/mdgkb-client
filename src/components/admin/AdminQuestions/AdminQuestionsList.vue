@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper show-header pagination>
     <template #header>
-      <SortList @load="loadQuestions" />
+      <SortSelect @load="loadQuestions" />
       <FiltersButtonsSelect @load="loadQuestions" :models="[onlyNewFilter]" />
     </template>
     <el-table v-if="questions" :data="questions">
@@ -41,8 +41,12 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-check-button="true" :show-more-button="true"
-            @showMore="$router.push(`/admin/questions/${scope.row.id}`)" @check="changeNewStatus(scope.row)" />
+          <TableButtonGroup
+            :show-check-button="true"
+            :show-more-button="true"
+            @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
+            @check="changeNewStatus(scope.row)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -62,7 +66,7 @@ import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-const questions: Ref<Question[]> = Store.Items('questions')
+const questions: Ref<Question[]> = Store.Items('questions');
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
@@ -71,7 +75,7 @@ const applicationsCount: ComputedRef<number> = Store.Getters('admin/applications
 
 let sourceSSE: EventSource | undefined = undefined;
 
-const mounted = ref(false)
+const mounted = ref(false);
 
 const edit = () => {
   if (isEditMode.value) {
@@ -97,22 +101,21 @@ const loadQuestions = async () => {
 };
 
 const load = async () => {
-  FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc))
+  FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc));
   Provider.sortList.push(...createSortModels(QuestionsSortsLib, Orders.Desc));
   await loadQuestions();
   onlyNewFilter.value = QuestionsFiltersLib.onlyNew(true);
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Вопросы',
-    buttons: [
-      { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
-      { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-    ],
-  });
-  mounted.value = true
+  PHelp.AdminHead().Set('Вопросы', [
+    Button.Success('Статистика', open),
+    Button.Success('Редактировать', edit, isNotEditMode),
+    Button.Success('Соханить', open, isEditMode),
+  ]);
+  mounted.value = true;
 };
 
 Hooks.onBeforeMount(load, {
   pagination: { storeModule: 'questions', action: 'ftsp' },
+  sortsLib: QuestionsSortsLib,
 });
 
 const publish = async (question: Question) => {
