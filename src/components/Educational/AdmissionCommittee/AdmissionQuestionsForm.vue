@@ -141,13 +141,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus';
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-
-import 'element-plus/theme-chalk/src/message-box.scss';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import FieldValueFile from '@/components/Educational/AdmissionCommittee/FieldValueFile.vue';
-import FileUploader from '@/components/FileUploader.vue';
 
 const props = defineProps({
   residencyApplication: {
@@ -216,7 +210,8 @@ const setFreeApplication = async () => {
       showFreeDialog.value = true;
     })
     .catch(() => {
-      residencyApplicationValue.value.paid = true;
+      PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+      // residencyApplicationValue.value.paid = true;
     });
 };
 

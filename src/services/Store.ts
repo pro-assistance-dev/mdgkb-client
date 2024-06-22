@@ -61,11 +61,11 @@ export default abstract class Store {
     await getStore().dispatch(`${module}/${Methods.Get}`, id);
   }
 
-  static async Update(module: string, data: unknown) {
+  static async Update(module: string, data?: unknown) {
     await getStore().dispatch(`${module}/${Methods.Update}`, data);
   }
 
-  static async Create(module: string, data: unknown) {
+  static async Create(module: string, data?: unknown) {
     await getStore().dispatch(`${module}/${Methods.Create}`, data);
   }
 

@@ -116,6 +116,7 @@
     "Auth": true,
     "Button": true,
     "FilterModel": true,
-    "SortModel": true
+    "SortModel": true,
+    "ElLoading": true
   }
 }

@@ -5,7 +5,7 @@ import Statuses from './types/Statuses';
 
 type actionFunction = ((next?: NavigationGuardNext | undefined) => Promise<void>) | (() => Promise<void>) | (() => void);
 
-type Text = string | ComputedRef<string>;
+type Text = string | ComputedRef<string> | Ref<string>;
 type Condition = boolean | ComputedRef<boolean> | Ref<boolean>;
 type Action = undefined | actionFunction | ComputedRef<actionFunction>;
 

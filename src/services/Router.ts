@@ -12,8 +12,8 @@ export default abstract class Router {
     PHelp.Loading().Hide();
   }
 
-  static Id() {
-    return Router.Route().params['id'];
+  static Id(): string {
+    return Router.Route().params['id'] as string;
   }
 
   static Back() {

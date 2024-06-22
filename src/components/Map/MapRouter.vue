@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import cloneDeep from 'lodash/cloneDeep';
+// import cloneDeep from 'lodash/cloneDeep';
 import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
 
 import Building from '@/classes/Building';
@@ -118,7 +118,7 @@ export default defineComponent({
         }
         let newRoute: (Element | null)[] = [];
         if (route) {
-          newRoute = cloneDeep(route);
+          // newRoute = cloneDeep(route);
         }
         newRoute.push(currentPoint);
         if (
@@ -126,7 +126,7 @@ export default defineComponent({
           currentPoint.getAttribute('data-entrance') === props.endPointRef?.getAttribute('data-entrance')
         ) {
           if (shortestRoute.length > newRoute.length || shortestRoute.length == 0) {
-            shortestRoute = cloneDeep(newRoute);
+            // shortestRoute = cloneDeep(newRoute);
           }
           return;
         }
@@ -141,7 +141,7 @@ export default defineComponent({
               console.log(`Указанного id (${id}) точки не существует`);
               return;
             }
-            findShortestRoute(neighborRef, neighborRef.getAttribute('data-neighbors'), cloneDeep(newRoute));
+            // findShortestRoute(neighborRef, neighborRef.getAttribute('data-neighbors'), cloneDeep(newRoute));
           }
         }
       };

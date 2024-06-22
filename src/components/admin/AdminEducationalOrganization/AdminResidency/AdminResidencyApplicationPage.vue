@@ -202,11 +202,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ElLoading, ElMessage, ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+<script lang="ts" setup>
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
@@ -218,146 +215,108 @@ import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminResidencyApplicationPage',
-  components: { AdminFormValue, AdminResidencyApplicationAchievementsPoints, DiplomaForm },
+const mounted = ref(false);
+const form = ref();
 
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const mounted = ref(false);
-    const form = ref();
+const application: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
+const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const isEditMode: Ref<boolean> = ref(false);
+const editButtonTitle: Ref<string> = ref('Режим редактирования');
+const emailExists: ComputedRef<boolean> = Store.Getters('residencyApplications');
 
-    const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
-      () => store.getters['residencyApplications/item']
-    );
-    const residencyCourses: ComputedRef<ResidencyCourse[]> = computed(() => store.getters['residencyCourses/items']);
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактирования');
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['residencyApplications/emailExists']);
+onBeforeMount(async () => {
+  PHelp.Loading().Show();
+  await loadCourses();
+  await loadItem();
+  await updateNew();
+  await findEmail();
+  PHelp.Loading().Hide();
+});
 
-    onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-      await loadCourses();
-      await loadItem();
-      await updateNew();
-      await findEmail();
-      store.commit('admin/closeLoading');
-    });
+const loadCourses = async () => {
+  await Store.GetAll('residencyCourses');
+};
 
-    const loadCourses = async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('residencyCourses/getAll');
-    };
+const changeEditMode = () => {
+  isEditMode.value = !isEditMode.value;
+  if (isEditMode.value) {
+    editButtonTitle.value = 'Режим просмотра';
+  } else {
+    editButtonTitle.value = 'Режим редактирования';
+  }
+};
 
-    const changeEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-      if (isEditMode.value) {
-        editButtonTitle.value = 'Режим просмотра';
-      } else {
-        editButtonTitle.value = 'Режим редактирования';
-      }
-    };
+const findEmail = async () => {
+  await Store.Dispatch('residencyApplications/emailExists', application.value.residencyCourse?.id);
+};
 
-    const findEmail = async () => {
-      await store.dispatch('residencyApplications/emailExists', application.value.residencyCourse?.id);
-    };
+const updateNew = async () => {
+  if (!Router.Id() || !application.value.formValue.isNew) {
+    return;
+  }
+  application.value.formValue.isNew = false;
+  await Store.Update('residencyApplications', application.value);
+};
 
-    const updateNew = async () => {
-      if (!route.params['id']) {
-        return;
-      }
-      if (!application.value.formValue.isNew) {
-        return;
-      }
-      application.value.formValue.isNew = false;
-      await store.dispatch('residencyApplications/update', application.value);
-    };
+let initialStatus: FormStatus;
+const loadItem = async () => {
+  let pageTitle = '';
+  if (Router.Id()) {
+    await Store.Get('residencyApplications', Router.Id());
+    initialStatus = application.value.formValue.formStatus;
+    pageTitle = `Заявление от ${application.value.formValue.user.email}`;
+  } else {
+    pageTitle = 'Подача заявления на обучение в аспирантуре';
+    Store.Commit('residencyApplications/resetItem');
+    isEditMode.value = true;
+  }
+  PHelp.AdminHead().Set(pageTitle, [Button.Success(editButtonTitle, changeEditMode), Button.Success('Сохранить', submit)]);
+  mounted.value = true;
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(application, formUpdated, { deep: true });
+};
 
-    let initialStatus: FormStatus;
-    const loadItem = async () => {
-      let pageTitle = '';
-      if (route.params['id']) {
-        await store.dispatch('residencyApplications/get', route.params['id']);
-        initialStatus = application.value.formValue.formStatus;
-        pageTitle = `Заявление от ${application.value.formValue.user.email}`;
-      } else {
-        pageTitle = 'Подача заявления на обучение в аспирантуре';
-        store.commit('residencyApplications/resetItem');
-        isEditMode.value = true;
-      }
-      store.commit('admin/setHeaderParams', {
-        title: pageTitle,
-        showBackButton: true,
-        buttons: [{ text: editButtonTitle, type: 'primary', action: changeEditMode }, { action: submit }],
-      });
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(application, formUpdated, { deep: true });
-    };
+const submit = async (next?: NavigationGuardNext) => {
+  application.value.formValue.validate();
+  saveButtonClick.value = true;
+  if (!validate(form, true) || !application.value.formValue.validated) {
+    PHelp.Notification().Error(application.value.formValue.getErrorMessage());
+    saveButtonClick.value = false;
+    return;
+  }
+  PHelp.Loading().Show();
+  if (Router.Id()) {
+    application.value.formValue.updateViewedByUser(initialStatus);
+    await Store.Update('residencyApplications');
+  } else {
+    application.value.formValue.clearIds();
+    await Store.Create('residencyApplications');
+  }
+  PHelp.Loading().Hide();
+  next ? next() : await Router.To(`/admin/residency-applications`);
+};
 
-    const submit = async (next?: NavigationGuardNext) => {
-      application.value.formValue.validate();
-      saveButtonClick.value = true;
-      if (!validate(form, true) || !application.value.formValue.validated) {
-        PHelp.Notification().Error(application.value.formValue.getErrorMessage());
-        saveButtonClick.value = false;
-        return;
-      }
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Загрузка',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
-      if (route.params['id']) {
-        application.value.formValue.updateViewedByUser(initialStatus);
-        await store.dispatch('residencyApplications/update');
-      } else {
-        application.value.formValue.clearIds();
-        await store.dispatch('residencyApplications/create');
-      }
-      loading.close();
-      next ? next() : await router.push(`/admin/residency-applications`);
-    };
+const courseChangeHandler = async () => {
+  if (!Router.Id()) {
+    Store.Commit('residencyApplications/setCourse', application.value.residencyCourse);
+    Store.Commit('residencyApplications/setFormValue', application.value.residencyCourse?.formPattern);
+    application.value.formValue.initFieldsValues();
+  }
+  await findEmail();
+  // application.value.residencyCourseId = application.value.residencyCourse.id;
+  // application.value.removeAllFieldValues();
+  // application.value.residencyCourse.formPattern.removeAllFieldValues();
+  // application.value.residencyCourse.formPattern.initFieldsValues();
+};
 
-    const courseChangeHandler = async () => {
-      if (!route.params['id']) {
-        store.commit('residencyApplications/setCourse', application.value.residencyCourse);
-        store.commit('residencyApplications/setFormValue', application.value.residencyCourse?.formPattern);
-        application.value.formValue.initFieldsValues();
-      }
-      await findEmail();
-      // application.value.residencyCourseId = application.value.residencyCourse.id;
-      // application.value.removeAllFieldValues();
-      // application.value.residencyCourse.formPattern.removeAllFieldValues();
-      // application.value.residencyCourse.formPattern.initFieldsValues();
-    };
+const clickCopyHandler = async (copyValue: string, fieldName: string) => {
+  await navigator.clipboard.writeText(copyValue);
+  PHelp.Notification().Success(`${fieldName} скопирован в буфер обмена`);
+};
 
-    const clickCopyHandler = async (copyValue: string, fieldName: string) => {
-      await navigator.clipboard.writeText(copyValue);
-      PHelp.Notification().Success(`${fieldName} скопирован в буфер обмена`);
-    };
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    return {
-      mounted,
-      form,
-      application,
-      residencyCourses,
-      isEditMode,
-      courseChangeHandler,
-      findEmail,
-      emailExists,
-      UserFormFields,
-      clickCopyHandler,
-    };
-  },
+onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  showConfirmModal(submit, next);
 });
 </script>
 

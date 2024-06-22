@@ -69,7 +69,7 @@
           :form="residencyApplication.formValue"
           :email-exists="emailExists"
           :active-fields="UserFormFields.CreateWithAllUserFields().setUserEmail(false)"
-          @findEmail="findEmail"
+          @find-email="findEmail"
         />
       </el-form>
     </KeepAlive>
@@ -141,21 +141,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ElLoading, ElMessage, ElMessageBox, ElNotification } from 'element-plus';
-
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import { Orders } from '@/services/interfaces/Orders';
 import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
+import Auth from '@/services/classes/Auth';
+import { Orders } from '@/services/interfaces/Orders';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
-import { steps, textFieldsAndDocuments, templateAlert, licensyText, privacyText } from './AdmissionData.ts';
+
+import { licensyText, privacyText, steps, templateAlert, textFieldsAndDocuments } from './AdmissionData.ts';
 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
@@ -189,11 +188,10 @@ const buttonOff: Ref<boolean> = ref(false);
 const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
 const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
 
-const auth: Ref<User> = Store.Getters('auth/auth');
+const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
 const user: ComputedRef<User> = computed(() => auth.value.user.get());
 const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
 
-const form = ref();
 const userForm = ref();
 const diplomaForm = ref();
 const stepOneForm = ref();
@@ -222,6 +220,7 @@ const findEmail = async () => {
 };
 
 const submit = async () => {
+  buttonOff.value = true;
   // TODO: временно убрана проверка email, чтобы можно было подавать заявку повторно, при отказе или отзыве
   // if (emailExists.value) {
   //   ElNotification.error({
@@ -236,6 +235,7 @@ const submit = async () => {
   await Store.Create('residencyApplications');
   PHelp.Notification().Success('Заявка успешно отправлена');
   emits('close');
+  buttonOff.value = false;
 };
 
 onBeforeMount(async () => {
@@ -250,12 +250,12 @@ onBeforeMount(async () => {
   await Store.FTSP('residencyCourses', { ftsp: ftsp });
 
   // Инициализация шаблона формы после выбора программы
-  Provider.store.commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
+  Store.Commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
   residencyApplication.value.formValue.initFieldsValues();
-  Provider.store.commit('residencyApplications/setCourse', residencyCourse.value);
+  Store.Commit('residencyApplications/setCourse', residencyCourse.value);
 
-  Provider.store.commit('residencyApplications/resetItem');
-  Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
+  Store.Commit('residencyApplications/resetItem');
+  Store.Commit('residencyApplications/setAdmissionCommittee', true);
   // Provider.store.commit('residencyApplications/setUser', user.value);
 
   // await findEmail();
@@ -263,11 +263,11 @@ onBeforeMount(async () => {
 });
 
 const courseChangeHandler = async () => {
-  Provider.store.commit('residencyApplications/setFormValue', residencyApplication.value.residencyCourse?.formPattern);
+  Store.Commit('residencyApplications/setFormValue', residencyApplication.value.residencyCourse?.formPattern);
   residencyApplication.value.formValue.initFieldsValues();
-  Provider.store.commit('residencyApplications/setAdmissionCommittee', true);
-  Provider.store.commit('residencyApplications/setCourse', residencyApplication.value.residencyCourse);
-  Provider.store.commit('residencyApplications/setUser', user.value);
+  Store.Commit('residencyApplications/setAdmissionCommittee', true);
+  Store.Commit('residencyApplications/setCourse', residencyApplication.value.residencyCourse);
+  Store.Commit('residencyApplications/setUser', user.value);
 };
 
 const filledApplicationDownload = () => {
@@ -276,7 +276,7 @@ const filledApplicationDownload = () => {
     confirmButtonText: 'OK',
     callback: () => {
       const form = new ResidencyApplication(residencyApplication.value);
-      Provider.store.dispatch('residencyApplications/filledApplicationDownload', form);
+      Store.Dispatch('residencyApplications/filledApplicationDownload', form);
       scroll();
       return;
     },
@@ -315,17 +315,11 @@ const submitStep = async () => {
   activeStep.value++;
   if (activeStep.value > 5) {
     buttonOff.value = true;
-    const loading = ElLoading.service({
-      lock: true,
-      text: 'Загрузка',
-      spinner: 'el-icon-loading',
-      background: 'rgba(0, 0, 0, 0.7)',
-    });
+    PHelp.Loading().Show();
     await submit();
     buttonOff.value = false;
-    loading.close();
-    await Provider.router.push('/admission-committee');
-    return;
+    PHelp.Loading().Hide();
+    await Router.To('/admission-committee');
   }
 };
 
