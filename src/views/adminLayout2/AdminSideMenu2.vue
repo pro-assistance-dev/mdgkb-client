@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="exit-button-container">
-      <PButton skin="base" type="primary" text="На главную" height="30px" margin="10px" @click="$router.push('/')" width="120px" />
+      <PButton skin="base" type="primary" text="На главную" height="30px" margin="10px" @click="Router.To('/')" width="120px" />
       <PButton skin="base" text="Выйти" height="30px" margin="10px" @click="logout" width="120px" />
     </div>
   </div>
