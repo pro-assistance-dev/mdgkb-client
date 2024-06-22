@@ -1,11 +1,12 @@
 <template>
   <div :key="head" class="admin-header-bottom">
     <div class="flex-between">
-      <!-- <el-page-header v-if="head.showBackButton" title=" " :content="head.title" @back="Router.Back()" />
-      <h4 v-else style="margin-left: 30px"> -->
-      {{ head.title }}
-      <!-- <el-badge v-if="head.applicationsCount" :value="head.applicationsCount" type="danger"></el-badge> -->
-      <!-- </h4> -->
+      <h4 style="margin-left: 30px">
+        <PButton v-if="Router.Id()" @click="Router.Back()">
+          <ArrowLeft />
+        </PButton>
+        {{ head.title }}
+      </h4>
       <div class="button-group">
         <div v-for="item in head.buttons" :key="item" class="flex-item">
           <PButton

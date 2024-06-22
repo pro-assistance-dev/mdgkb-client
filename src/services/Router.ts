@@ -13,11 +13,15 @@ export default abstract class Router {
   }
 
   static Id(): string {
+    console.log(Router.Route().params['id']);
+
     return Router.Route().params['id'] as string;
   }
 
   static Back() {
+    PHelp.Loading().Show();
     router.go(-1);
+    PHelp.Loading().Hide();
   }
 
   static GetQid() {

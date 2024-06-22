@@ -31,11 +31,9 @@ export default function (): IReturn {
       PHelp.Dialog()
         .Save()
         .then(() => submit())
-        .catch((action: string) => {
-          if (action === 'cancel') {
-            PHelp.Notification().Warning('Изменения не были сохранены');
-            next();
-          }
+        .catch(() => {
+          PHelp.Notification().Warning('Изменения не были сохранены');
+          next();
         });
     } else {
       next();

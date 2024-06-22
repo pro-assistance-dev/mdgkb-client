@@ -5,13 +5,14 @@ import DoctorUser from '@/classes/DoctorUser';
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleUser from '@/classes/DonorRuleUser';
 import DpoApplication from '@/classes/DpoApplication';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import Question from '@/classes/Question';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import VacancyResponse from '@/classes/VacancyResponse';
+import FileInfo from '@/services/classes/FileInfo';
 import Human from '@/services/classes/Human';
 import Role from '@/services/classes/Role';
+import UserAccount from '@/services/classes/UserAccount';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class User {
@@ -55,6 +56,9 @@ export default class User {
   @ClassHelper.GetClassConstructor(ResidencyApplication)
   residencyApplications: ResidencyApplication[] = [];
   fullName = '';
+
+  @ClassHelper.GetClassConstructor(UserAccount)
+  userAccount: UserAccount = new UserAccount();
 
   constructor(i?: User) {
     ClassHelper.BuildClass(this, i);

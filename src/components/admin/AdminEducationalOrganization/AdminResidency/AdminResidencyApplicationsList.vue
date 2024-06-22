@@ -68,7 +68,7 @@
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
         <template #default="scope">
-          {{ scope.row.formValue.user.email }}
+          {{ scope.row.formValue.user.userAccount.email }}
         </template>
       </el-table-column>
       <el-table-column label="ФИО заявителя" min-width="200">
