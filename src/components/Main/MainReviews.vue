@@ -3,7 +3,7 @@
     v-if="mounted"
     header-title="Отзывы"
     footer-button-title="Все отзывы"
-    footer-button-link="/comments"
+    footer-button-link="comments"
     background-color="white"
   >
     <div class="main-page-reviews">

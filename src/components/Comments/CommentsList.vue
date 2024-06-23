@@ -7,8 +7,9 @@
             <PButton skin="profile" type="c_blue" text="Оставить отзыв" @click="auth.isAuth ? (showDialog = true) : openLoginModal()" />
             <!-- <button class="leave-review-button" @click="auth.isAuth ? (showDialog = true) : openLoginModal()">Оставить
               отзыв</button> -->
-            <router-link to="/service-quality-assessment" style="text-align: center">Независимая оценка качества
-              оказания услуг</router-link>
+            <router-link to="/service-quality-assessment" style="text-align: center"
+              >Независимая оценка качества оказания услуг</router-link
+            >
           </div>
           <!-- <ModeButtons :store-mode="false" :first-mode="'Положительные'" :second-mode="'Отрицательные'" -->
           <!--   @changeMode="loadComments" /> -->
@@ -18,13 +19,13 @@
     <div v-for="comment in comments" :key="comment.id" class="card-item">
       <CommentCard :comment="comment" />
     </div>
-    <LoadMoreButton @loadMore="loadMore" />
+    <LoadMoreButton @load-more="loadMore" />
   </PageWrapper>
   <el-dialog v-model="showDialog">
     <template #title>
       <h3>Оставить отзыв</h3>
     </template>
-    <CommentForm store-module="comments" :with-rating="false" :from-dialog="true" @closeDialog="showDialog = false" />
+    <CommentForm store-module="comments" :with-rating="false" :from-dialog="true" @close-dialog="showDialog = false" />
     <!-- <template #footer>
       <button>Отправить отзыв</button>
     </template> -->
@@ -35,40 +36,33 @@
 import Comment from '@/classes/Comment';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import CommentForm from '@/components/Comments/CommentForm.vue';
-import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
-import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import Hooks from '@/services/Hooks/Hooks';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
 import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
-import Provider from '@/services/Provider/Provider';
-import TokenService from '@/services/Token';
+import Hooks from '@/services/Hooks/Hooks';
 
-const comments: Ref<Comment[]> = Store.Items('comments')
+const comments: Ref<Comment[]> = Store.Items('comments');
 const showDialog: Ref<boolean> = ref(false);
-const auth = Store.Getters('auth/auth')
-const authModal = Store.Getters('auth/modal')
-const mounted = ref(false)
+const auth = Store.Getters('auth/auth');
+const authModal = Store.Getters('auth/modal');
+const mounted = ref(false);
 
 const openLoginModal = () => {
-
   if (!auth.value.isAuth) {
-    authModal.value.open()
+    authModal.value.open();
   }
 };
 
 const load = async () => {
-  FTSP.Get().p.limit = 6
-  FTSP.Get().setS(CommentsSortsLib.byPublishedOn())
+  FTSP.Get().p.limit = 6;
+  FTSP.Get().setS(CommentsSortsLib.byPublishedOn());
   await loadComments();
-  mounted.value = true
+  mounted.value = true;
 };
 
 const loadComments = async () => {
-  await Store.FTSP('comments')
+  await Store.FTSP('comments');
 };
 
 Hooks.onBeforeMount(load);
@@ -76,7 +70,7 @@ Hooks.onBeforeMount(load);
 const loadMore = async () => {
   FTSP.Get().p.append = true;
   FTSP.Get().p.offset = comments.value.length;
-  Store.FTSP('comments')
+  Store.FTSP('comments');
 };
 </script>
 
