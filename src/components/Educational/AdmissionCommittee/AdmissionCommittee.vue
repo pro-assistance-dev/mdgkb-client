@@ -1,6 +1,6 @@
 <template>
   <PageComponent :custom-sections="customSections">
-    <template v-for="section in customSections" :key="section" #[section.id]>
+    <template v-for="section in customSections" :key="section.id" #[section.id]>
       <component :is="section.component"></component>
     </template>
     <template #bottom>
@@ -19,17 +19,16 @@
 <script lang="ts" setup>
 import CustomSection from '@/classes/CustomSection';
 import CompetitionComponent from '@/components/Educational/AdmissionCommittee/CompetitionComponent.vue';
-import PageComponent from '@/components/Page/PageComponent.vue';
 import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 
-const customSections: Ref<CustomSection[]> = ref([]);
+const customSections: CustomSection[] = [];
 // const showForm: Ref<boolean> = ref(false);
 
 const initLoad = async () => {
-  customSections.value.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', CompetitionComponent, 0));
+  customSections.push(CustomSection.Create('competition', 'Поданные заявления, рейтинг, конкурс', CompetitionComponent, 0));
   // CustomSection.Create('freePrograms', 'Целевая ординатура', 'ResidencyCourses'),
   // CustomSection.Create('paidPrograms', 'Ординатура по договорам о платных образовательных услугах', 'ResidencyCourses'),
   // CustomSection.Create('contacts', 'Контакты', 'ResidencyContacts')

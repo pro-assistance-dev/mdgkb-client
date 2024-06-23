@@ -1,9 +1,9 @@
 <template>
-    <div id="initial-bvi-container">
-      <button id="bvi" class="bvi-open" >Версия сайта для слабовидящих</button>
-    </div>
+  <div id="initial-bvi-container">
+    <button id="bvi" class="bvi-open">Версия сайта для слабовидящих</button>
+  </div>
   <AuthModal v-if="modal.visible" @action="authAct" />
-  <AuthPage />
+  <!-- <AuthPage /> -->
   <SearchDrawer />
   <div style="position: relative">
     <div v-if="!isClose" class="blur" @click="isClose = true"></div>
@@ -183,7 +183,7 @@ const authAct = async () => {
 #initial-bvi-container {
   width: 100%;
   height: 30px;
-  background: #F0F2F7;
+  background: #f0f2f7;
   display: flex;
   justify-content: center;
   align-self: center;
@@ -194,11 +194,11 @@ const authAct = async () => {
   border: none;
   background: inherit;
   font-size: 18px;
-  color: #343E5C;
+  color: #343e5c;
   cursor: pointer;
 }
 .bvi-open:hover {
-  background: #343E5C;
-  color: #F0F2F7;
+  background: #343e5c;
+  color: #f0f2f7;
 }
 </style>

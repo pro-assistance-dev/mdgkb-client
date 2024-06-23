@@ -1,5 +1,5 @@
 <template>
-  <component :is="'MainContainer'" header-button-link="/news" header-title="Главные новости" header-button-title="Все новости">
+  <MainContainer header-button-link="/news" header-title="Главные новости" header-button-title="Все новости">
     <div class="wrapper">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="newsMain" />
@@ -21,61 +21,28 @@
     <div class="main-news-block-right2">
       <NewsSmallList :news-list="recentNewsList" style="height: 100%" />
     </div>
-  </component>
+  </MainContainer>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-
-import MainBigNewsCard from '@/components/Main/MainBigNewsCard.vue';
-import MainContainer from '@/components/Main/MainContainer.vue';
-import NewsCard from '@/components/News/NewsCard.vue';
-import NewsSmallList from '@/components/News/NewsSmallList.vue';
+<script lang="ts" setup>
 import Hooks from '@/services/Hooks/Hooks';
-import { Orders } from '@/services/interfaces/Orders';
-import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
-import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'MainNewsBlock',
-  components: { MainContainer, NewsCard, MainBigNewsCard, NewsSmallList },
+const newsMain = Store.Getters('news/main');
+const newsSubMain1 = Store.Getters('news/subMain1');
+const newsSubMain2 = Store.Getters('news/subMain2');
+const recentNewsList = Store.Getters('news/mainPageRecentNewsList');
 
-  setup() {
-    const news = computed(() => Provider.store.getters['news/items']);
-    const newsMain = computed(() => Provider.store.getters['news/main']);
-    const newsSubMain1 = computed(() => Provider.store.getters['news/subMain1']);
-    const newsSubMain2 = computed(() => Provider.store.getters['news/subMain2']);
-    const recentNewsList = computed(() => Provider.store.getters['news/mainPageRecentNewsList']);
+const load = async () => {
+  new Promise(() => {
+    // Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
+    Store.Dispatch('news/getMain', true);
+    Store.Dispatch('news/getSubMain', true);
+  }).then(() => {
+    Store.Commit('news/setFilteredNews');
+  });
+};
 
-    const createFilterModels = () => {
-      // TODO: Filters
-      // Provider.setSortModels(NewsSortsLib.byMain(), NewsSortsLib.bySubMain(), NewsSortsLib.byPublishedOn(Orders.Desc));
-      // Provider.setFilterModels(NewsFiltersLib.withoutDrafts());
-    };
-
-    const load = async () => {
-      createFilterModels();
-      new Promise(() => {
-        Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
-        Provider.store.dispatch('news/getMain', true);
-        Provider.store.dispatch('news/getSubMain', true);
-      }).then(() => {
-        Provider.store.commit('news/setFilteredNews');
-      });
-    };
-
-    Hooks.onBeforeMount(load);
-
-    return {
-      news,
-      newsMain,
-      newsSubMain1,
-      newsSubMain2,
-      recentNewsList,
-    };
-  },
-});
+Hooks.onBeforeMount(load);
 </script>
 
 <style lang="scss" scoped>

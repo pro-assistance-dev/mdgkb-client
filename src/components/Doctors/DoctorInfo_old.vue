@@ -7,9 +7,9 @@
           data-test="doctor-photo"
           :src="doctor.employee.human.photo.getImageUrl()"
           alt="doctor-employee-foto"
-          @error="user.human.photo.errorImg($event)"
+          @error="doctor.employee.human.photo.errorImg($event)"
         />
-        <img v-else data-test="doctor-alt-photo" src="src/assets/img/doctor-default.webp" alt="doctor-employee-foto" />
+        <img v-else data-test="doctor-alt-photo" src="DoctorDefault" alt="doctor-employee-foto" />
         <div class="favor">
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
@@ -67,14 +67,14 @@
         <div class="contact-h3">
           <TimetableComponent :timetable="doctor.timetable" />
         </div>
-        <div class="address">
-          <span v-if="doctor.division?.address">
-            Адрес приема:
-            <a data-test="map-link" @click="$router.push(`/map/${doctor.division.id}`)">
-              {{ doctor.division.address }}
-            </a>
-          </span>
-        </div>
+        <!-- <div class="address"> -->
+        <!--   <span v-if="doctor.division?.address"> -->
+        <!--     Адрес приема: -->
+        <!--     <a data-test="map-link" @click="$router.push(`/map/${doctor.division.id}`)"> -->
+        <!--       {{ doctor.division.address }} -->
+        <!--     </a> -->
+        <!--   </span> -->
+        <!-- </div> -->
         <router-link v-if="doctor.mosDoctorLink" data-test="mos-doctor-link" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
           <div class="mos-doctor-img-container">
             <img src="src/assets/img/mos-doctor.webp" alt="mos-doctor" />
@@ -102,21 +102,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
 import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
 import Rating from '@/components/Rating.vue';
 import TimetableComponent from '@/components/TimetableComponent.vue';
-
-export default defineComponent({
-  name: 'DoctorInfo',
-  components: { FavouriteIcon, Rating, WorkAndTeaching, TimetableComponent },
-  props: {
-    doctor: { type: Object as PropType<Doctor>, required: true },
-  },
+import DoctorDefault from '@/src/assets/img/doctor-default.webp';
+defineProps({
+  doctor: { type: Object as PropType<Doctor>, required: true },
 });
 </script>
 

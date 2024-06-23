@@ -2,17 +2,25 @@
   <div id="container" class="relative-container">
     <div v-if="menu.sections.length && menu.showContent" class="sticky-container">
       <div class="top-list">
-        <PButton v-if="!opened && menu.sections.length" skin="text" type="neutral" text="Показать содержание" margin="0"
-          @click="isOpen" />
-        <PButton v-if="opened && menu.sections.length" skin="text" type="neutral" text="Скрыть содержание" margin="0"
-          @click="isOpen" />
-        <PButton v-if="menu.sections.length" skin="text" type="neutral" text="Вверх" margin="0"
-          @click="(opened = false), $scroll('#container', -200)" />
+        <PButton v-if="!opened && menu.sections.length" skin="text" type="neutral" text="Показать содержание" margin="0" @click="isOpen" />
+        <PButton v-if="opened && menu.sections.length" skin="text" type="neutral" text="Скрыть содержание" margin="0" @click="isOpen" />
+        <PButton
+          v-if="menu.sections.length"
+          skin="text"
+          type="neutral"
+          text="Вверх"
+          margin="0"
+          @click="(opened = false), $scroll('#container', -200)"
+        />
       </div>
       <div v-if="opened" class="abs">
         <div v-if="menu.sections.length" class="list">
-          <div v-for="section in menu.sections" :key="section" class="list-item"
-            @click="(opened = false), $scroll('#card-item' + section.id, -95)">
+          <div
+            v-for="section in menu.sections"
+            :key="section.id"
+            class="list-item"
+            @click="(opened = false), $scroll('#card-item' + section.id, -95)"
+          >
             {{ section.name }}
           </div>
         </div>
@@ -24,13 +32,12 @@
     </div>
 
     <div v-if="!collaps">
-      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section" class="card-item">
+      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section.id" class="card-item">
         <h2>{{ section.name }}</h2>
         <div v-html="section.text" />
         <ul>
           <li v-for="file in section.documents" :key="file.id">
-            <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
-              :href="file.scan.getFileUrl()">
+            <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">
               {{ file.getFileName() }}
             </a>
           </li>
@@ -39,7 +46,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section" class="margin-container">
+      <div v-for="section in menu.sections" :id="'card-item' + section.id" :key="section.id" class="margin-container">
         <CollapseItem :tab-id="1036">
           <template #inside-title>
             <div class="title-in">{{ section.name }}</div>
@@ -49,10 +56,9 @@
               <div v-if="section.description !== '<p>undefined</p>'" v-html="section.description"></div>
               <ul>
                 <li v-for="file in section.pageSectionDocuments" :key="file.id">
-                  <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName"
-                    :href="file.scan.getFileUrl()">{{
-                      file.getFileName()
-                    }}</a>
+                  <a :target="file.scan.isPdf() ? '_blank' : '_self'" :download="file.scan.originalName" :href="file.scan.getFileUrl()">{{
+                    file.getFileName()
+                  }}</a>
                 </li>
               </ul>
               <ImageGallery :images="section.pageSectionImages" />
@@ -65,22 +71,11 @@
 </template>
 
 <script lang="ts" setup>
-import PageSection from '@/services/classes/page/PageSection';
-import getExtention from '@/services/GetExtension';
-import scroll from '@/services/Scroll';
-import Strings from '@/services/Strings'
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
 
-const props = defineProps({
-  title: {
-    type: String as PropType<string>,
-    required: true,
-  },
-  description: {
-    type: String as PropType<string>,
-    required: true,
-  },
+defineProps({
   menu: {
-    type: Array as PropType<PageSection[]>,
+    type: PageSideMenu,
     required: true,
   },
   collaps: {
@@ -93,17 +88,8 @@ const props = defineProps({
     default: false,
     required: false,
   },
-})
+});
 
-const description = computed(() => {
-  return Strings.SearchIn(props.menu.description, page.value.filterStr) ? props.menu.description : ""
-})
-
-const page: ComputedRef<Page> = Store.Item('pages')
-
-const getWithSearch = (text: string) => {
-  return text
-}
 const opened = ref(false);
 
 const isOpen = () => {

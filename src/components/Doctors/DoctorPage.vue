@@ -13,11 +13,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
 import Comments from '@/components/Comments/Comments.vue';
 import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
@@ -28,39 +24,13 @@ import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue'
 import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
-import countRating from '@/services/countRating';
 
-export default defineComponent({
-  name: 'DoctorPage',
-  components: {
-    DoctorInfo,
-    DoctorEducation,
-    DoctorWorkExperience,
-    PaidServices,
-    DoctorAchievements,
-    ScansSlider,
-    DoctorDateAndTime,
-    Comments,
-    NewsSlider,
-  },
+const doctor: Ref<Doctor> = Store.Item('doctors');
+const mounted = ref(false);
 
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const doctor: Ref<Doctor> = computed<Doctor>(() => store.getters['doctors/item']);
-    const mounted = ref(false);
-
-    onBeforeMount(async () => {
-      await store.dispatch('doctors/get', route.params['slug']);
-      mounted.value = true;
-    });
-
-    return {
-      countRating,
-      doctor,
-      mounted,
-    };
-  },
+onBeforeMount(async () => {
+  Store.Get('doctors', Router.Slug());
+  mounted.value = true;
 });
 </script>
 
