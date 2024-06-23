@@ -91,6 +91,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
     PHelp.Notification().Success(form.value.getSuccessMessage());
   } catch (error) {
+    PHelp.Loading().Hide();
     blockBtn.value = false;
     return;
   }
