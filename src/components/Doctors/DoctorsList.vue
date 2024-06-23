@@ -21,66 +21,35 @@
           </el-col>
         </el-row>
         <div class="loadmore-button">
-          <LoadMoreButton @loadMore="loadMore" />
+          <LoadMoreButton @load-more="loadMore" />
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
-import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
-import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
-import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
-import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'DoctorPage',
-  components: {
-    DoctorsListFilters,
-    DoctorInfoCard,
-    LoadMoreButton,
-  },
+const doctors: Ref<Doctor[]> = Store.Items('doctors');
+const mount = ref(false);
 
-  setup() {
-    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
-    const mount = ref(false);
-
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
-
-    onBeforeMount(async () => {
-      mount.value = true;
-    });
-
-    const loadMore = async () => {
-      const lastCursor = doctors.value[doctors.value.length - 1].employee.human.getFullName();
-      filterQuery.value.pagination.cursor.value = lastCursor;
-      filterQuery.value.pagination.cursor.initial = false;
-      filterQuery.value.pagination.cursor.operation = Operators.Gt;
-      filterQuery.value.pagination.cursor.column = 'fullName';
-      filterQuery.value.pagination.cursorMode = true;
-      console.log('fff');
-
-      await Provider.store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
-    };
-
-    return {
-      TokenService,
-      Operators,
-      DataTypes,
-      loadMore,
-      doctors,
-      mount,
-    };
-  },
+onBeforeMount(async () => {
+  mount.value = true;
 });
+
+const loadMore = async () => {
+  const lastCursor = doctors.value[doctors.value.length - 1].employee.human.getFullName();
+  filterQuery.value.pagination.cursor.value = lastCursor;
+  filterQuery.value.pagination.cursor.initial = false;
+  filterQuery.value.pagination.cursor.operation = Operators.Gt;
+  filterQuery.value.pagination.cursor.column = 'fullName';
+  filterQuery.value.pagination.cursorMode = true;
+
+  await Provider.store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
+};
 </script>
 
 <style lang="scss" scoped>

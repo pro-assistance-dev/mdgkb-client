@@ -12,6 +12,10 @@ export default abstract class Router {
     PHelp.Loading().Hide();
   }
 
+  static async Replace(route: string) {
+    await router.replace(route);
+  }
+
   static Id(): string {
     console.log('ID', Router.GetStringParam('id'));
     return Router.GetStringParam('id');

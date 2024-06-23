@@ -5,12 +5,10 @@
 </template>
 
 <script lang="ts" setup>
-import Provider from '@/services/Provider/Provider';
+const modal: ComputedRef<AuthModal> = Store.Getters('auth/modal');
+const form: ComputedRef<AuthForm> = Store.Getters('auth/form');
 
-const modal: ComputedRef<AuthModal> = computed(() => Provider.store.getters['auth/modal']);
-const form: ComputedRef<AuthForm> = computed(() => Provider.store.getters['auth/form']);
-
-const emits = defineEmits(['action']);
+defineEmits(['action']);
 
 const close = () => {
   modal.value.close();

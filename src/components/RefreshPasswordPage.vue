@@ -2,51 +2,44 @@
   <div></div>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import User from '@/classes/User';
-import Page from '@/services/classes/page/Page';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'RefreshPasswordPage',
-  async setup() {
-    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-    const user: Ref<User> = computed(() => new User());
-    const newPassword: Ref<string> = ref('');
+import AuthStatuses from '@/services/interfaces/AuthStatuses';
+const user: Ref<User> = computed(() => new User());
+const newPassword: Ref<string> = ref('');
 
-    const passwordChange = () => {
-      Provider.store.commit('auth/openModal', 'passwordChange');
-    };
+const authForm: ComputedRef<Auth> = Store.Getters('auth/form');
+const authModal: ComputedRef<AuthModal> = Store.Getters('auth/modal');
 
-    onBeforeMount(async () => {
-      try {
-        await Provider.store.dispatch('auth/checkUuid', {
-          userId: Provider.route().params['userId'],
-          uniqueId: Provider.route().params['uniqueId'],
-        });
-        passwordChange();
-      } catch (e) {
-        await Provider.router.push('/main');
-        ElMessage({ message: 'Ссылка устарела', type: 'warning' });
-      }
-    });
+const passwordChange = () => {
+  authForm.value.setStatus(AuthStatuses.Refresh);
+  authModal.value.open();
+};
 
-    const sendPassword = async () => {
-      const userId = Provider.route().params['userId'];
-      if (userId && typeof userId === 'string') {
-        user.value.id = userId;
-      }
-      user.value.password = newPassword.value;
-      await Provider.store.dispatch('auth/refreshPassword', user.value);
-      await Provider.router.push('/main');
-    };
-
-    return { sendPassword, page, newPassword, passwordChange };
-  },
+onBeforeMount(async () => {
+  try {
+    // await Store.Dispatch('auth/checkUuid', {
+    //   userId: Provider.route().params['userId'],
+    //   uniqueId: Provider.route().params['uniqueId'],
+    // });
+    passwordChange();
+  } catch (e) {
+    await Router.To('/');
+    // ElMessage({ message: 'Ссылка устарела', type: 'warning' });
+  }
 });
+
+// const sendPassword = async () => {
+//   const userId = Provider.route().params['userId'];
+//   if (userId && typeof userId === 'string') {
+//     user.value.id = userId;
+//   }
+//   user.value.password = newPassword.value;
+//   await Provider.store.dispatch('auth/refreshPassword', user.value);
+//   await Provider.router.push('/main');
+// };
 </script>
 
 <style lang="scss" scoped>

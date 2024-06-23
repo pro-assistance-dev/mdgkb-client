@@ -55,7 +55,7 @@ const loadNews = async () => {
 
 const load = async () => {
   setDefaultPagination();
-  Provider.store.commit('news/clearNews');
+  Store.Commit('news/clearNews');
   Store.FTSP('news');
   mount.value = true;
 };

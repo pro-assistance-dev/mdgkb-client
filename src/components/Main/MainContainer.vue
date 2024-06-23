@@ -3,7 +3,7 @@
     <div class="main-page-container container">
       <div class="main-page-container-header">
         <div class="main-page-container-header-title">{{ headerTitle }}</div>
-        <button v-if="headerButtonTitle" @click="$router.push(headerButtonLink)">
+        <button v-if="headerButtonTitle" @click="Router.To(headerButtonLink)">
           {{ headerButtonTitle }}
           <el-icon><right /></el-icon>
         </button>
