@@ -1,41 +1,12 @@
 <template>
-  <FiltersWrapper v-if="mounted">
-    <template #header-left-top>
-    </template>
+  <FiltersWrapper>
+    <template #header-left-top> </template>
     <template #footer>
-      <SortList :max-width="400" show-label :models="sortList" @load="$emit('load')" />
+      <SortList :max-width="400" show-label @load="$emit('load')" />
     </template>
   </FiltersWrapper>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
-import FilterSelectDate from '@/components/Filters/FilterSelectDate.vue';
-import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import ISearchObject from '@/services/interfaces/ISearchObject';
-import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
-
-export default defineComponent({
-  name: 'VacanciesFilters',
-  components: { FilterSelect, FiltersWrapper, FilterSelectDate },
-  emits: ['load'],
-
-  setup() {
-    const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/vacancies/${event.value}`);
-    };
-
-    return {
-      selectSearch,
-      sortList: Provider.sortList,
-      mounted: Provider.mounted,
-      Operators,
-      DataTypes,
-    };
-  },
-});
+<script lang="ts" setup>
+defineEmits(['load']);
 </script>

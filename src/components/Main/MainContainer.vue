@@ -3,53 +3,48 @@
     <div class="main-page-container container">
       <div class="main-page-container-header">
         <div class="main-page-container-header-title">{{ headerTitle }}</div>
-        <button v-if="headerButtonTitle" @click="$router.push(headerButtonLink)">
+        <button v-if="headerButtonTitle" @click="Router.To(headerButtonLink)">
           {{ headerButtonTitle }}
           <el-icon><right /></el-icon>
         </button>
       </div>
       <div class="main-page-container-main">
-        <slot></slot>
+        <slot />
       </div>
       <div v-if="footerButtonTitle" class="main-page-container-footer">
-        <button @click="$router.push(footerButtonLink)">{{ footerButtonTitle }}</button>
+        <button @click="Router.To(footerButtonLink)">{{ footerButtonTitle }}</button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { Right } from '@element-plus/icons-vue';
-import { defineComponent } from 'vue';
 
-export default defineComponent({
-  name: 'MainContainer',
-  components: { Right },
-  props: {
-    headerTitle: {
-      type: String,
-      required: true,
-    },
-    headerButtonTitle: {
-      type: String,
-      default: '',
-    },
-    headerButtonLink: {
-      type: String,
-      default: '',
-    },
-    footerButtonTitle: {
-      type: String,
-      default: '',
-    },
-    footerButtonLink: {
-      type: String,
-      default: '',
-    },
-    backgroundColor: {
-      type: String,
-      default: '',
-    },
+defineProps({
+  headerTitle: {
+    type: String,
+    required: true,
+  },
+  headerButtonTitle: {
+    type: String,
+    default: '',
+  },
+  headerButtonLink: {
+    type: String,
+    default: '',
+  },
+  footerButtonTitle: {
+    type: String,
+    default: '',
+  },
+  footerButtonLink: {
+    type: String,
+    default: '',
+  },
+  backgroundColor: {
+    type: String,
+    default: '',
   },
 });
 </script>

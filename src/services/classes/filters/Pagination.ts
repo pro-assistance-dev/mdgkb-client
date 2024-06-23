@@ -12,9 +12,11 @@ export default class Pagination {
   append = false;
   allLoaded = false;
   version = '';
+
   constructor(i?: Pagination) {
     ClassHelper.BuildClass(this, i);
   }
+
   setLoadMore(lastCursor: string, column: string, table: string): void {
     this.cursor.value = lastCursor;
     this.cursor.initial = false;
@@ -71,6 +73,8 @@ export default class Pagination {
   drop() {
     this.offset = 0;
     this.limit = 25;
+    //TODO: Переделать,когда FTSP станет реактивным
+    Store.Commit('pagination/setCurPage', 1);
     ClassHelper.BuildClass(this);
   }
 }

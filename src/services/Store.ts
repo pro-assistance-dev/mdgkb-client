@@ -1,6 +1,7 @@
 import { getStore } from '@/main';
 
 import FTSP from './classes/filters/FTSP';
+
 enum Methods {
   GetAll = 'getAll',
   Get = 'get',
@@ -25,10 +26,11 @@ interface GetOptions {
 import { computed, ComputedRef } from 'vue';
 
 export default abstract class Store {
-  static async Dispatch(request: string, opts?: GetAllOptions) {
+  static async Dispatch(request: string, opts?: GetAllOptions | unknown) {
     await getStore().dispatch(request, opts);
   }
-  static Getters(module: string) {
+
+  static Getters<T>(module: string): ComputedRef<T> {
     return computed(() => getStore().getters[module]);
   }
 
@@ -36,7 +38,7 @@ export default abstract class Store {
     getStore().commit(request, data);
   }
 
-  static async FTSP(module: string, opts: GetAllOptions) {
+  static async FTSP(module: string, opts?: GetAllOptions) {
     await Store.Dispatch(`${module}/${Methods.FTSP}`, opts);
   }
   static Items(module: string, getter = 'items'): ComputedRef {
@@ -55,15 +57,15 @@ export default abstract class Store {
     await Store.Dispatch(`${module}/${Methods.GetAll}`, opts);
   }
 
-  static async Get(module: string, id: string) {
+  static async Get(module: string, id?: string) {
     await getStore().dispatch(`${module}/${Methods.Get}`, id);
   }
 
-  static async Update(module: string, data: unknown) {
+  static async Update(module: string, data?: unknown) {
     await getStore().dispatch(`${module}/${Methods.Update}`, data);
   }
 
-  static async Create(module: string, data: unknown) {
+  static async Create(module: string, data?: unknown) {
     await getStore().dispatch(`${module}/${Methods.Create}`, data);
   }
 

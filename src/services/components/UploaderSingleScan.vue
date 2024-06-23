@@ -133,7 +133,6 @@ const crop = (file: any) => {
 };
 
 onBeforeMount(() => {
-  console.log(props.fileInfo);
   if (props.fileInfo.fileSystemPath) {
     fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
     showUpload.value = false;

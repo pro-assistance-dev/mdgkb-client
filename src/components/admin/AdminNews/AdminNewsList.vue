@@ -1,7 +1,9 @@
 <template>
   <AdminListWrapper v-if="mounted" show-header pagination>
     <template #header>
-      <RemoteSearch :key-value="'news'" @select="selectSearch" />
+      <RemoteSearchNew :key-value="'news'" @select="selectSearch" />
+      <!-- <RemoteSearchNew :key-value="'news'" @select="selectSearch" /> -->
+      <!-- <RemoteSearchNew :key /> -->
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
       <FilterSelectDate
         class="filters-block"
@@ -10,10 +12,9 @@
         placeholder="Дата публикации"
         @load="loadNews"
       />
+      <SortSelect :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
     </template>
-    <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
-    </template>
+    <template #sort> </template>
     <el-table :data="news">
       <el-table-column prop="title" label="Заголовок" width="400px" class-name="sticky-left"> </el-table-column>
       <el-table-column prop="created_by" label="Автор"> </el-table-column>
@@ -115,10 +116,11 @@
 
 <script lang="ts" setup>
 import News from '@/classes/News';
-import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
+import Hooks from '@/services/Hooks/Hooks';
+import ISearchObject from '@/services/interfaces/ISearchObject';
+import SortListConst from '@/services/SortList';
 
 const news = Store.Items('news');
 
@@ -130,10 +132,6 @@ const newsSubMain2 = Store.Item('news', 'subMain2');
 const mounted = ref(false);
 // const filterExists: ComputedRef<boolean> = computed(() => Provider.store.getters['filter/filterExists']);
 
-const addNews = async () => {
-  await Router.To('/admin/news/new');
-};
-
 const sortList: Ref<SortModel[]> = ref([]);
 
 const edit = async (id: string): Promise<void> => {
@@ -143,7 +141,7 @@ const edit = async (id: string): Promise<void> => {
 const isModalOpened: Ref<boolean> = ref(false);
 
 const remove = async (id: string) => {
-  await Provider.store.dispatch('news/remove', id);
+  await Store.Remove('news', id);
 };
 
 const loadNews = async (): Promise<void> => {
@@ -151,23 +149,22 @@ const loadNews = async (): Promise<void> => {
 };
 
 const load = async (): Promise<void> => {
-  console.log('load');
-  sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
-  FTSP.Get().setS(NewsSortsLib.byPublishedOn());
+  // sortList.value = [NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()];
+  SortListConst.Set([NewsSortsLib.byPublishedOn(), NewsSortsLib.byViewsCount(), NewsSortsLib.byTitle(), NewsSortsLib.byCreatedAt()]);
+  // FTSP.Get().setS(NewsSortsLib.byPublishedOn());
   await loadNews();
-  Store.Set('admin/setHeaderParams', {
-    title: 'Новости',
-    buttons: [
-      { text: 'Статистика', action: open },
-      { text: 'Назначить главную новость', type: 'success', action: openModal },
-      { text: 'Добавить новость', type: 'primary', action: addNews },
-    ],
-  });
+
+  PHelp.AdminHead().Set('Новости', [
+    Button.Success('Статистика', open),
+    Button.Success('Назначить главную новость', openModal),
+    Button.Success('Добавить новость', open),
+  ]);
+
   mounted.value = true;
 };
 
 const loadMain = async () => {
-  await Promise.all([Store.dispatch('news/getMain'), Store.dispatch('news/getSubMain')]);
+  await Promise.all([Store.Dispatch('news/getMain'), Store.Dispatch('news/getSubMain')]);
 };
 
 const openModal = () => {
@@ -186,8 +183,8 @@ const clearHandler = async (previousItem: News, storeName: string, isMain: boole
   } else {
     previousItem.subMain = false;
   }
-  await Provider.store.dispatch('news/update', previousItem);
-  Store.commit(`news/${storeName}`, { news: [new News()] });
+  await Store.Update('news', previousItem);
+  Store.Commit(`news/${storeName}`, { news: [new News()] });
 };
 
 const selectMainNewsHandler = async (newItem: News, previousItem: News, storeName: string, isMain: boolean) => {
@@ -203,8 +200,8 @@ const selectMainNewsHandler = async (newItem: News, previousItem: News, storeNam
     } else {
       newItem.subMain = true;
     }
-    Store.commit(`news/${storeName}`, { news: [newItem] });
-    await Store.update('news', newItem);
+    Store.Commit(`news/${storeName}`, { news: [newItem] });
+    await Store.Update('news', newItem);
   }
 };
 
@@ -213,10 +210,8 @@ Hooks.onBeforeMount(load, {
 });
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Provider.router.push({
-    name: `AdminNewsPageEdit`,
-    params: { id: event.id, slug: event.value },
-  });
+  console.log(event);
+  await Router.ToAdmin(`news/${event.value}`);
 };
 
 const createFilterModels = (): FilterModel[] => {
@@ -224,7 +219,7 @@ const createFilterModels = (): FilterModel[] => {
 };
 
 const selectSearchMainNews = async (event: ISearchObject) => {
-  await Provider.store.dispatch('news/get', event.value);
+  await Store.Get('news', event.value);
 };
 
 interface RemoteSearchType extends InstanceType<typeof RemoteSearch> {
@@ -244,7 +239,7 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
     previousItem.subMain = false;
   }
 
-  await Provider.store.dispatch('news/update', previousItem);
+  await Store.Update('news', previousItem);
 
   if (searchResult.value) {
     if (isMain) {
@@ -252,8 +247,8 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
     } else {
       searchResult.value.subMain = true;
     }
-    Provider.store.commit(`news/${storeName}`, { items: [searchResult.value] });
-    await Provider.store.dispatch('news/update', searchResult.value);
+    Store.Commit(`news/${storeName}`, { items: [searchResult.value] });
+    await Store.Update('news', searchResult.value);
   }
 
   searchMainNewsRef.value?.clear();

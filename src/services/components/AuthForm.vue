@@ -16,14 +16,15 @@
         </el-form-item>
         <div class="btn-group">
           <PButton
-            skin="auth"
-            type="primary"
             v-for="btn in buttons"
             :key="btn.getStatus()"
+            :disabled="blockBtn"
+            type="primary"
+            skin="auth"
             :text="btn.label"
             :color="btn.isSubmit ? 'blue' : 'grey'"
-            @click="authButtonClick(btn)"
             margin="10px 0 0 0"
+            @click="authButtonClick(btn)"
           />
         </div>
       </el-form>
@@ -34,15 +35,13 @@
 <script lang="ts" setup>
 import AuthButton from '@/services/classes/AuthButton';
 import AuthForm from '@/services/classes/AuthForm';
-import Message from '@/services/Message';
-import Provider from '@/services/Provider/Provider';
 import PButton from '@/services/components/PButton.vue';
 
 import AuthStatuses from '../interfaces/AuthStatuses';
 
 const form: ComputedRef<AuthForm> = Store.Item('auth', 'form');
-const auth: ComputedRef<AuthForm> = Store.Item('auth', 'auth');
-
+const auth = Store.Item('auth', 'auth');
+const blockBtn = ref(false);
 const emailRef = ref();
 const passwordRef = ref();
 
@@ -60,36 +59,43 @@ const login = () => {
 
 const restore = async () => {
   form.value.reset();
-  await Provider.router.push('/main');
+  await Router.To('/');
 };
 
 const refresh = async () => {
   form.value.reset();
-  await Provider.router.push('/main');
+  await Router.To('/');
   auth.value.logout();
 };
 
 const authButtonClick = async (authButton: AuthButton): Promise<void> => {
-  authButton.off();
+  // authButton.off();
+  blockBtn.value = true;
   if (!authButton.isSubmit) {
-    authButton.on();
+    // authButton.on();
+    blockBtn.value = false;
     return form.value.setStatus(authButton.getStatus());
   }
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
     PHelp.Notification().Error(errors.join(', '));
-    authButton.on();
+    blockBtn.value = false;
     return;
   }
 
   try {
-    Store.Dispatch(`auth/${form.value.getAction()}`);
-    // PHelp.Notification().Success(form.value.getSuccessMessage());
+    PHelp.Loading().Show();
+    await Store.Dispatch(`auth/${form.value.getAction()}`);
+    PHelp.Loading().Hide();
+
+    PHelp.Notification().Success(form.value.getSuccessMessage());
   } catch (error) {
-    console.error(error);
+    PHelp.Loading().Hide();
+    blockBtn.value = false;
     return;
   }
+
   switch (form.value.status) {
     case AuthStatuses.Login:
       login();
@@ -109,8 +115,8 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
     default:
       break;
   }
+  blockBtn.value = false;
   authButton.on();
-  console.log('action');
   emits('action');
 };
 

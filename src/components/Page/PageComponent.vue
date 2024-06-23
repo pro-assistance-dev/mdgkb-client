@@ -9,7 +9,7 @@
         <PInput v-model="page.filterStr" padding="10px">
           <StringItem string="Найти:" class="check-title" color="#A1A7BD" font-size="14px" margin="0 5px 0 0" />
         </PInput>
-        <PageSideMenuComponent :page="page" @select-menu="selectMenu" @close="(e) => (close = e)" />
+        <PageSideMenuComponent :page="page" @select-menu="selectMenu" />
       </template>
 
       <template v-if="pageSideMunusExists()" #icon>
@@ -37,7 +37,7 @@
 
 <script lang="ts" setup>
 import { onBeforeRouteLeave } from 'vue-router';
-import Strings from '@/services/Strings';
+
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 import CustomSection from '@/classes/CustomSection';
 import ContactsBlock from '@/components/ContactsBlock.vue';
@@ -50,7 +50,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 const props = defineProps({
   customSections: {
-    type: Array as PropType<CustomSection[]>,
+    type: Array<CustomSection>,
     default: () => [],
   },
   getPage: {
@@ -63,17 +63,13 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['selectMenu']);
-const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
+const page: ComputedRef<Page> = Store.Item('pages');
 watch(
   () => page.value.filterStr,
   () => page.value.filter()
 );
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
-const sections = computed(() => selectedMenu.value.getPageSections(page.value.filterStr));
-const description = computed(() => {
-  return Strings.SearchIn(selectedMenu.value.description, page.value.filterStr) ? selectedMenu.value.description : '';
-});
 const mounted = ref(false);
 
 const pageSideMunusExists = () => {
@@ -81,10 +77,10 @@ const pageSideMunusExists = () => {
 };
 
 const load = async () => {
-  Provider.store.commit('pages/resetItem');
+  Store.Commit('pages/resetItem');
   mounted.value = false;
   if (props.getPage) {
-    await Provider.store.dispatch('pages/getBySlug', Provider.getPath());
+    await Store.Dispatch('pages/getBySlug', Provider.getPath());
   }
   page.value.addCustomSectionsToSideMenu(props.customSections);
   mounted.value = true;
@@ -103,7 +99,6 @@ Hooks.onBeforeMount(load);
 
 const selectMenu = (e: PageSideMenu): void => {
   selectedMenu.value = e;
-  console.log(e);
   emits('selectMenu', e);
 };
 </script>

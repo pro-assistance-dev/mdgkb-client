@@ -1,24 +1,23 @@
 <template>
-  <el-select
+  <PSelect
     v-if="mounted"
     v-model="sortModel"
     :popper-append-to-body="false"
     :clearable="!sortModel?.default"
     value-key="label"
     @change="setSort"
-    @clear="setSort(undefined)"
+    @clear="setSort()"
   >
-    <el-option v-for="(item, i) in Provider.sortList" :key="i" :label="item.label" :value="item" />
-  </el-select>
+    <option v-for="(item, i) in SortList.Get()" :key="i" :label="item.label" :value="item" />
+  </PSelect>
 </template>
 
 <script lang="ts" setup>
-import { computed, onBeforeMount, Ref, ref, watch } from 'vue';
-
 import SortModel from '@/services/classes/SortModel';
-import Provider from '@/services/Provider/Provider';
+// import Provider from '@/services/Provider/Provider';
+import SortList from '@/services/SortList';
 
-const props = defineProps({
+defineProps({
   maxWidth: {
     type: [Number, String],
     default: 250,
@@ -27,29 +26,27 @@ const props = defineProps({
 
 const mounted = ref(false);
 
-let defaultSortModel = undefined;
 const emits = defineEmits(['load']);
 
-const setDefaultSortModel: Ref<boolean> = computed(() => Provider.store.getters['filter/setDefaultSortModel']);
+const setDefaultSortModel: Ref<boolean> = Store.Getters('filter/setDefaultSortModel');
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
-  defaultSortModel = Provider.sortList.find((s: SortModel) => s.default) ?? Provider.sortList[0];
-  // changeModel(undefined);
   mounted.value = true;
+  sortModel.value = SortList.GetDefault();
+  FTSP.Get().setSortModel(sortModel.value as SortModel);
 });
 
-watch(setDefaultSortModel, () => setSort(undefined));
+watch(setDefaultSortModel, () => setSort());
 
-const changeModel = async (sm: SortModel | undefined): Promise<void> => {
-  sortModel.value = sm ?? defaultSortModel;
-  Provider.ftsp.value.setSortModel(sortModel.value);
-  await Provider.router.replace({ query: {} });
-  Provider.ftsp.value.p.drop();
+const changeModel = async (s: SortModel | undefined): Promise<void> => {
+  sortModel.value = s ?? SortList.GetDefault();
+  FTSP.Get().setSortModel(sortModel.value);
+  FTSP.Get().p.drop();
   emits('load');
 };
 
-const setSort = async (s: SortModel | undefined) => {
+const setSort = async (s?: SortModel) => {
   Provider.dropPagination();
   await changeModel(s);
 };

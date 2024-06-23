@@ -1,16 +1,15 @@
-import { ElMessage } from 'element-plus';
 import { onBeforeMount } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import AdminHeaderParams from '@/services/classes/admin/AdminHeaderParams';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import SortModel from '@/services/classes/SortModel';
-import createSortModels from '@/services/CreateSortModels';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
+import SortList from '@/services/SortList';
 import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
+
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: SortModelBuildersLib;
@@ -31,18 +30,9 @@ const Hooks = (() => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
       Store.Commit('admin/showLoading');
-      Provider.ftsp.value.reset();
-      // await Provider.store.dispatch('meta/getSchema');
-      if (options?.sortsLib) {
-        const sortModels = createSortModels(options.sortsLib);
-        Provider.sortList = sortModels;
-        const defaultSortModel = sortModels.find((s: SortModel) => s.default);
-        if (defaultSortModel) {
-          Provider.ftsp.value.setSortModel(defaultSortModel);
-        }
-      }
-      // await Proider.filterQuery.value.fromUrlQuery(Provider.route().query);
-      // Provider.setDefaultSortModel();
+      FTSP.Get().reset();
+      SortList.Set(options?.sortsLib);
+      FTSP.Get().setSortModel(SortList.GetDefault());
       Provider.setStoreModule(undefined);
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);
@@ -83,9 +73,9 @@ const Hooks = (() => {
         } else {
           // await Provider.submit();
         }
-        ElMessage({ message: 'Сохранено', type: 'success' });
+        PHelp.Notification().Success('Сохранено');
       } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+        PHelp.Notification().Success('Что-то пошло не так');
         console.log(error);
         return;
       }

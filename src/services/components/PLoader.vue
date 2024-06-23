@@ -18,7 +18,7 @@
   height: 100%;
   background: #000000;
   opacity: 0.3;
-  z-index: 1000;
+  z-index: 1002;
 }
 
 .loader-container {
@@ -26,7 +26,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1001;
+  z-index: 1003;
 }
 
 .loader {
@@ -47,10 +47,11 @@
   /* get rid of bad outlines */
   background: conic-gradient(#0000, var(--c)) content-box;
   --_m:
-    /* we use +/-1deg between colors to avoid jagged edges */
-    repeating-conic-gradient(#0000 0deg,
+    /* we use +/-1deg between colors to avoid jagged edges */ repeating-conic-gradient(
+      #0000 0deg,
       #000 1deg calc(360deg / var(--n) - var(--g) - 1deg),
-      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))),
+      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))
+    ),
     radial-gradient(farthest-side, #0000 calc(98% - var(--b)), #000 calc(100% - var(--b)));
   -webkit-mask: var(--_m);
   mask: var(--_m);

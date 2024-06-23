@@ -7,8 +7,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
-
 import CustomSection from '@/classes/CustomSection';
 import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';

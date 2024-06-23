@@ -2,8 +2,8 @@
   <el-form-item label="ВУЗ" prop="diploma.universityName" :rules="[{ required: true, message: 'Необходимо указать ВУЗ', trigger: 'blur' }]">
     <el-input v-model="diploma.universityName" placeholder="ВУЗ"></el-input>
   </el-form-item>
+  label="Дата окончания"
   <el-form-item
-    label="Дата окончания"
     prop="diploma.universityEndDate"
     :rules="[{ required: true, message: 'Необходимо указать дату окончания', trigger: 'change' }]"
   >

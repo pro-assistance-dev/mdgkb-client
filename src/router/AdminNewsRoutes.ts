@@ -33,7 +33,7 @@ export default [
     },
   },
   {
-    path: '/admin/news/:slug',
+    path: '/admin/news/:id',
     name: 'AdminNewsPageEdit',
     component: AdminNewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {

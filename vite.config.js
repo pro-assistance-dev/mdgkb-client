@@ -29,7 +29,7 @@ export default ({ mode }) => {
     base: '/',
     includeAbsolute: false,
     plugins: [
-      // nodePolyfills(),
+      nodePolyfills(),
       vue({
         template: {
           transformAssetUrls: {
@@ -64,12 +64,15 @@ export default ({ mode }) => {
         vueTemplate: true,
         dts: true,
         eslintrc: {
-          enabled: true
+          enabled: true,
         },
       }),
     ],
     resolve: {
-      alias: [{ find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) }],
+      alias: [
+        { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+        { find: 'source-map-js', replacement: 'source-map' },
+      ],
     },
   });
 };

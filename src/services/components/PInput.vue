@@ -10,13 +10,13 @@
       <input
         :type="getInputType()"
         class="text-field__input"
-        type="text"
-        :name="label"
         :id="label"
+        :name="label"
         :placeholder="placeholder"
-        @blur="$emit('blur')"
         :readonly="readonly"
         :disabled="disabled"
+        @blur="$emit('blur')"
+        @input="$emit('input')"
         v-model="model"
       />
       <div class="right-field">
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-const emits = defineEmits(['blur']);
+defineEmits(['blur', 'input']);
 const model = defineModel();
 
 defineOptions({ inheritAttrs: false });
@@ -42,11 +42,12 @@ const props = defineProps({
   padding: { type: String as PropType<string>, default: '', required: false },
   password: { type: Boolean as PropType<boolean>, default: false, required: false },
 });
+
 const getInputType = () => {
   if (props.password) {
     return 'password';
   }
-  return '';
+  return 'text';
 };
 </script>
 

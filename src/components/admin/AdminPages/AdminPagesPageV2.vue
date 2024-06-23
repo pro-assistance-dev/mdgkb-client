@@ -3,17 +3,21 @@
     <div class="wrapper" style="margin-right: 20px">
       <div style="min-width: 300px">
         <el-card style="margin-right: 20px; padding-right: 20px">
-          <div :class="{ 'side-menu': true, 'side-menu-active': showMainSettings }" @click="selectMainSettings">Основные
-            настройки</div>
+          <div :class="{ 'side-menu': true, 'side-menu-active': showMainSettings }" @click="selectMainSettings">Основные настройки</div>
           <draggable :list="page.pageSideMenus" item-key="id" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
-                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }"
-                  @click="selectSideMenu(element.id)">
+                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }" @click="selectSideMenu(element.id)">
                   <div>{{ element?.name }}</div>
-                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="danger" title="Вы уверен, что хотите удалить это?" @confirm="removePageSideMenu(index)"
-                    @cancel="() => { }">
+                  <el-popconfirm
+                    confirm-button-text="Да"
+                    cancel-button-text="Отмена"
+                    icon="el-icon-info"
+                    icon-color="danger"
+                    title="Вы уверен, что хотите удалить это?"
+                    @confirm="removePageSideMenu(index)"
+                    @cancel="() => {}"
+                  >
                     <template #reference>
                       <el-icon>
                         <Close />
@@ -76,8 +80,7 @@
             <el-card style="margin-bottom: 20px">
               <h1 style="text-align: center">Разделы</h1>
             </el-card>
-            <draggable :list="pageSideMenu.pageSections" item-key="id" handle=".handle"
-              @end="sort(pageSideMenu.pageSections)">
+            <draggable :list="pageSideMenu.pageSections" item-key="id" handle=".handle" @end="sort(pageSideMenu.pageSections)">
               <template #item="{ element, index }">
                 <div class="page-section-row">
                   <el-icon class="handle">
@@ -92,10 +95,16 @@
                       </div>
                     </template>
                   </CollapseItem>
-                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="danger" title="Вы уверен, что хотите удалить это?" class="close"
+                  <el-popconfirm
+                    confirm-button-text="Да"
+                    cancel-button-text="Отмена"
+                    icon="el-icon-info"
+                    icon-color="danger"
+                    title="Вы уверен, что хотите удалить это?"
+                    class="close"
                     @confirm="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
-                    @cancel="() => { }">
+                    @cancel="() => {}"
+                  >
                     <template #reference>
                       <el-icon>
                         <Close />
@@ -120,13 +129,9 @@
 
 <script lang="ts" setup>
 import { Close, Grid, Plus } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
-import AdminDocumentsForm from '@/components/AdminDocumentsForm.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Role from '@/services/classes/Role';
@@ -141,40 +146,29 @@ const form = ref();
 const rules = {
   title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
 };
-const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
-const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
-const activeMenuId: ComputedRef<string> = computed(() => Provider.store.getters['pages/activeMenuId']);
+const page: ComputedRef<Page> = Store.Item('pages');
+const roles: ComputedRef<Role[]> = Store.Items('roles');
+const pageSideMenu: ComputedRef<PageSideMenu> = Store.Getters('pages/pageSideMenu');
+const activeMenuId: ComputedRef<string> = Store.Getters('pages/activeMenuId');
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);
 const openPage = () => {
-  const route = Provider.router.resolve(page.value.getLink());
+  const route = Router.Resolve(page.value.getLink());
   window.open(route.href, '_blank');
 };
 
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
 const loadNewsItem = async () => {
-  const buttons = [
-    { action: submit, text: 'Сохранить' },
-    { action: submitAndExit, text: 'Сохранить и выйти' },
-  ];
-  if (Provider.route().params['slug']) {
-    await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
-    Provider.store.commit('admin/setHeaderParams', {
-      title: page.value.title,
-      showBackButton: true,
-      buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
-    });
+  const buttons = [Button.Success('Сохранить', submit), Button.Success('Сохранить и выйти', submitAndExit)];
+  if (Router.Slug()) {
+    await Store.Dispatch('pages/getBySlug', Router.Slug());
+    PHelp.AdminHead().Set(page.value.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
   } else {
-    Provider.store.commit('pages/resetState');
-    Provider.store.commit('admin/setHeaderParams', {
-      title: 'Добавить страницу',
-      showBackButton: true,
-      buttons: buttons,
-    });
+    Store.Commit('pages/resetState');
+    PHelp.AdminHead().Set('Добавить страницу', buttons);
   }
-  await Provider.store.dispatch('roles/getAll');
+  await Store.GetAll('roles');
   window.addEventListener('beforeunload', beforeWindowUnload);
   watch(page, formUpdated, { deep: true });
   mounted.value = true;
@@ -193,17 +187,17 @@ const submit = async () => {
     return;
   }
   if (!Provider.route().params['slug']) {
-    await Provider.store.dispatch('pages/create', page.value);
-    await Provider.router.push('/admin/pages');
+    await Store.Create('pages');
+    await Router.ToAdmin('pages');
     return;
   }
-  await Provider.store.dispatch('pages/updateAndSet', page.value);
-  ElMessage({ message: 'Успешно сохранено', type: 'success' });
+  await Store.Dispatch('pages/updateAndSet', page.value);
+  PHelp.Notification().Success('Успешно сохранено');
 };
 
 const submitAndExit = async (next?: NavigationGuardNext) => {
   await submit();
-  next ? next() : await Provider.router.push('/admin/pages');
+  next ? next() : await Router.ToAdmin('/pages');
 };
 
 const addSideMenu = () => {
@@ -214,17 +208,17 @@ const addSideMenu = () => {
 
 const selectSideMenu = (id: string) => {
   showMainSettings.value = false;
-  Provider.store.commit('pages/setActiveMenuId', id);
+  Store.Commit('pages/setActiveMenuId', id);
 };
 
 const showMainSettings: Ref<boolean> = ref(true);
 const selectMainSettings = () => {
   showMainSettings.value = true;
-  Provider.store.commit('pages/setActiveMenuId', '999999');
+  Store.Commit('pages/setActiveMenuId', '999999');
 };
 
 const addPageSection = async () => {
-  await pageSideMenu.value.addPageSection();
+  pageSideMenu.value.addPageSection();
   const main = document.querySelector('.el-main');
   if (main) {
     main.scrollTop = main.scrollHeight;
@@ -233,12 +227,12 @@ const addPageSection = async () => {
 
 const removePageSideMenu = (index: number) => {
   ClassHelper.RemoveFromClassByIndex(index, page.value.pageSideMenus, page.value.pageSideMenusForDelete);
-  Provider.store.commit('pages/setActiveMenuId', '999999');
+  Store.Commit('pages/setActiveMenuId', '999999');
   showMainSettings.value = true;
 };
 
 onBeforeUnmount(() => {
-  Provider.store.commit('pages/setActiveMenuId', '999999');
+  Store.Commit('pages/setActiveMenuId', '999999');
 });
 </script>
 

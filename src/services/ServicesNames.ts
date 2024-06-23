@@ -1,5 +1,6 @@
 const ServicesNames = [
   'Contact',
+  'Button',
   'Email',
   'Provider',
   'FTSP',
@@ -47,6 +48,9 @@ const ServicesNames = [
   'ValueType',
   'PHelp',
   'Auth',
+  //
+  'FilterModel',
+  'SortModel',
 ];
 
 export default ServicesNames;

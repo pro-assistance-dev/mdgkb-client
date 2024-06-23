@@ -1,5 +1,5 @@
 <template>
-  <svg :width="width" :height="height" class="sub-menu-icon" :fill="color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" >
+  <svg :width="width" :height="height" class="sub-menu-icon" :fill="color" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
     <slot />
   </svg>
 </template>
@@ -10,10 +10,6 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'BaseIcon',
   props: {
-    name: {
-      type: String,
-      required: true,
-    },
     width: {
       type: Number,
       required: false,
@@ -31,7 +27,6 @@ export default defineComponent({
     },
   },
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -40,5 +35,4 @@ export default defineComponent({
   padding: 0;
   margin: 0;
 }
-
 </style>

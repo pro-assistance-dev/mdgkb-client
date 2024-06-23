@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="wrapper">
+  <div v-if="Provider.mounted" class="wrapper">
     <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
@@ -65,7 +65,7 @@
             <el-card>
               <template #header> Загрузить превью новости </template>
               <el-form-item prop="previewImage.fileSystemPath" :rules="rules.previewImage">
-                <UploaderSingleScan
+                <UploaderImage
                   :file-info="news.previewImage"
                   :height="300"
                   :default-ratio="4 / 3"
@@ -84,113 +84,69 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+<script lang="ts" setup>
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import News from '@/classes/News';
 import NewsRules from '@/classes/NewsRules';
-import AdminNewsDoctors from '@/components/admin/AdminNews/AdminNewsDoctors.vue';
-import AdminNewsPageEvent from '@/components/admin/AdminNews/AdminNewsPageEvent.vue';
-import AdminNewsPageTags from '@/components/admin/AdminNews/AdminNewsPageTags.vue';
-import ChartsModal from '@/components/admin/AdminNews/ChartsModal.vue';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import AdminGallery from '@/services/components/AdminGallery.vue';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminNewsPage',
-  components: {
-    AdminGallery,
-    UploaderSingleScan,
-    AdminNewsPageEvent,
-    WysiwygEditor,
-    AdminNewsPageTags,
-    AdminNewsDoctors,
-    CollapseItem,
-    ChartsModal,
-  },
-  setup() {
-    let isCropGalleryOpen = ref(false);
-    const form = ref();
-    const rules = ref(NewsRules);
+const isCropGalleryOpen = ref(false);
+const form = ref();
+const rules = ref(NewsRules);
 
-    const galleryList = computed(() => Provider.store.getters[`news/galleryList`]);
-    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
+const galleryList = Store.Getters('news/galleryList');
+const news: Ref<News> = Store.Item('news');
 
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!Provider.route().params['slug']) {
-        await Provider.store.dispatch('news/create', news.value);
-        await Provider.router.push('/admin/news');
-        return;
-      }
-      await Provider.store.dispatch('news/update', news.value);
-      next ? next() : Provider.router.push('/admin/news');
-    };
+const submit = async (next?: NavigationGuardNext) => {
+  saveButtonClick.value = true;
+  if (!validate(form)) {
+    saveButtonClick.value = false;
+    return;
+  }
+  if (!Provider.route().params['slug']) {
+    await Store.Create('news');
+    await Router.ToAdmin('/news');
+    return;
+  }
+  await Store.Update('news');
+  next ? next() : Router.ToAdmin('news');
+};
 
-    const loadNewsItem = async () => {
-      if (Provider.route().params['slug']) {
-        await Provider.store.dispatch('news/get', Provider.route().params['slug']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: news.value.title,
-          showBackButton: true,
-          buttons: [{ text: 'Статистика', action: open }, { action: submit }],
-        });
-      } else {
-        Provider.store.commit('news/resetState');
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить новость',
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      }
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(news, formUpdated, { deep: true });
-    };
+const loadNewsItem = async () => {
+  if (Router.Id()) {
+    await Store.Get('news', Router.Id());
+    PHelp.AdminHead().Set(news.value.title, [Button.Success('Статистика', open), Button.Success('Сохранить', submit)]);
+  } else {
+    Store.Commit('news/resetState');
+    PHelp.AdminHead().Set('Добавить новость', [Button.Success('Сохранить', submit)]);
+  }
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(news, formUpdated, { deep: true });
+};
 
-    Hooks.onBeforeMount(loadNewsItem);
+Hooks.onBeforeMount(loadNewsItem);
 
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    interface ChartsModalType extends InstanceType<typeof ChartsModal> {
-      open(): void;
-    }
-
-    const ChartsModalRef: Ref<ChartsModalType | null> = ref(null);
-
-    const open = () => {
-      ChartsModalRef.value?.open();
-    };
-
-    const chartsModalIds: string[] = Provider.route().params['slug'] ? [Provider.route().params['slug'] as string] : [];
-
-    return {
-      mounted: Provider.mounted,
-      isCropGalleryOpen,
-      galleryList,
-      submit,
-      news,
-      form,
-      rules,
-      chartsModalIds,
-      ChartsModalRef,
-    };
-  },
+onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  showConfirmModal(submit, next);
 });
+
+interface ChartsModalType extends InstanceType<typeof ChartsModal> {
+  open(): void;
+}
+
+const ChartsModalRef: Ref<ChartsModalType | null> = ref(null);
+
+const open = () => {
+  ChartsModalRef.value?.open();
+};
+
+const chartsModalIds: string[] = Router.Id() ? Router.Id() : [];
 </script>
 
 <style lang="scss" scoped>

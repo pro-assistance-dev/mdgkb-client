@@ -10,6 +10,7 @@
       fontSize: fontSize,
     }"
     :class="buttonClass"
+    :disabled="disabled"
     @click.prevent="changeState"
   >
     <slot />
@@ -29,6 +30,7 @@ const props = defineProps({
   skin: { type: String as PropType<string>, default: 'base', required: false },
   type: { type: String as PropType<string>, default: 'neutral', required: false },
   fontSize: { type: String as PropType<string>, default: '', required: false },
+  disabled: { type: Boolean, default: false, required: false },
 });
 
 const emit = defineEmits(['click']);

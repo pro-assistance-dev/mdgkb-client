@@ -64,6 +64,7 @@ const props = defineProps({
     default: false,
   },
 });
+
 const emit = defineEmits(['select', 'load', 'input']);
 const queryString: Ref<string> = ref(props.modelValue);
 const searchForm = ref();
@@ -94,7 +95,7 @@ const find = async (query: string, resolve: (arg: unknown) => void): Promise<voi
   if (groupForSearch) {
     searchModel.value.searchGroup = groupForSearch;
   }
-  await Provider.store.dispatch(`search/search`, searchModel.value);
+  await Store.Dispatch(`search/search`, searchModel.value);
 
   // emit('input', searchModel.value.searchObjects);
   if (props.showSuggestions) {

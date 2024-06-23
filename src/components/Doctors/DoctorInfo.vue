@@ -10,7 +10,7 @@
             alt="doctor-photo"
             @error="user.human.photo.errorImg($event)"
           />
-          <img v-else data-test="doctor-alt-photo" src="src/assets/img/doctor-default.webp" alt="doctor-photo" />
+          <img v-else data-test="doctor-alt-photo" :src="DoctorDefault" alt="doctor-photo" />
           <div class="favor">
             <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
@@ -107,22 +107,10 @@
   </HeaderInfo>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
-import Doctor from '@/classes/Doctor';
-import HeaderInfo from '@/components/Base/HeaderInfo.vue';
-import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Rating from '@/components/Rating.vue';
-import TimetableComponent from '@/components/TimetableComponent.vue';
-
-export default defineComponent({
-  name: 'DoctorInfo',
-  components: { FavouriteIcon, Rating, WorkAndTeaching, TimetableComponent, HeaderInfo },
-  props: {
-    doctor: { type: Object as PropType<Doctor>, required: true },
-  },
+<script lang="ts" setup>
+import DoctorDefault from '@/assets/img/doctor-default.webp';
+defineProps({
+  doctor: { type: Doctor, required: true },
 });
 </script>
 

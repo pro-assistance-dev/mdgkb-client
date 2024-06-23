@@ -3,12 +3,15 @@ import Arrays from './Arrays';
 import Axios from './Axios';
 import brandColors from './brandColors';
 import buildNameNumbers from './buildNameNumbers';
+import Button from './Button';
 import Cache from './Cache';
 import CarouselSwipe from './CarouselSwipe';
 import Auth from './classes/Auth';
 import Contact from './classes/Contact';
 import Email from './classes/Email';
+import FilterModel from './classes/filters/FilterModel';
 import FTSP from './classes/filters/FTSP';
+import SortModel from './classes/SortModel';
 import ValueType from './classes/ValueType';
 import ClassHelper from './ClassHelper';
 import Color from './Color';
@@ -45,13 +48,13 @@ import User from './User';
 import validate from './validate';
 import WaitElement from './WaitElement';
 import WebSocketClient from './WebSocketClient';
-
 export {
   Arrays,
   Auth,
   Axios,
   brandColors,
   buildNameNumbers,
+  Button,
   Cache,
   CarouselSwipe,
   ClassHelper,
@@ -68,6 +71,8 @@ export {
   Dragger,
   Email,
   Favourite,
+  //
+  FilterModel,
   FTSP,
   GetExtension,
   Hooks,
@@ -84,6 +89,7 @@ export {
   Scheduler,
   Scroll,
   sort,
+  SortModel,
   Store,
   Strings,
   Time,

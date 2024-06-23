@@ -3,7 +3,7 @@
     <UserInfoMini />
     <ul>
       <template v-for="item in menuList" :key="item.name">
-        <li v-if="item.liCondition()" >
+        <li v-if="item.liCondition()">
           <router-link class="item-list" :to="item.to" :class="activeRoute === item.route ? 'active' : ''">
             <ProfileMenuIcons :name="item.icon" />
             <div class="item-list-name">
@@ -26,10 +26,13 @@ import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 import ProfileMenuIcons from '@/components/Icons/ProfileMenuIcons.vue';
 
 const activeRoute: Ref<string> = ref('');
-watch(() => Router.Route(), () => {
-  console.log("routeChanged")
-  setActiveMenu();
-});
+watch(
+  () => Router.Route(),
+  () => {
+    console.log('routeChanged');
+    setActiveMenu();
+  }
+);
 console.log('git_test');
 const setActiveMenu = () => {
   if (!Provider.route().meta.profile) {
@@ -41,15 +44,14 @@ const modules = import.meta.glob('@/assets/profile/icons/*.svg');
 const getIcon = (icon: string) => {
   const path = '/src/assets/profile/icons/' + icon + '.svg';
   const comp = defineAsyncComponent(() => modules[path]());
-  return comp
-
-}
+  return comp;
+};
 console.log('committest');
 onBeforeMount(() => {
   setActiveMenu();
 });
 
-const user: Ref<User> = Store.Item('users')
+const user: Ref<User> = Store.Item('users');
 const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
 const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
 
@@ -118,7 +120,6 @@ const menuList = [
     notificationCount: () => 0,
   },
 ];
-
 </script>
 
 <style lang="scss" scoped>
@@ -158,7 +159,7 @@ const menuList = [
   align-items: center;
   height: 50px;
   width: 100%;
-  color: #343E5C;
+  color: #343e5c;
   background: #ffffff;
   // opacity: 0.6;
 
@@ -177,7 +178,7 @@ const menuList = [
 }
 
 .item-list:hover {
-  background: #F0F2F7;
+  background: #f0f2f7;
   // opacity: 1;
 }
 
@@ -190,7 +191,7 @@ const menuList = [
 }
 
 .active {
-  background: #F0F2F7;
+  background: #f0f2f7;
   // opacity: 1;
 }
 
@@ -204,7 +205,7 @@ const menuList = [
   border-radius: 50%;
   font-weight: bold;
   background: #ffffff;
-  color: #01528A;
+  color: #01528a;
   align-items: center;
   justify-content: center;
   padding: 1px;

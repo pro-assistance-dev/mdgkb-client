@@ -1,14 +1,13 @@
 <template>
   <AdminListWrapper pagination show-header>
     <template #header>
-      <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
+      <SortSelect class="filters-block" @load="loadCourses" />
       <FiltersList :models="createFilterModels()" @load="loadCourses" />
     </template>
     <el-table :data="residencyCourses">
       <el-table-column label="Код специализации" min-width="200" class-name="sticky-left">
         <template #default="scope">
-          <div v-for="residencyCoursesSpecialization in scope.row.residencyCoursesSpecializations"
-            :key="residencyCoursesSpecialization.id">
+          <div v-for="residencyCoursesSpecialization in scope.row.residencyCoursesSpecializations" :key="residencyCoursesSpecialization.id">
             {{ residencyCoursesSpecialization.specialization.code }}
           </div>
         </template>
@@ -71,8 +70,12 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
-            @edit="Router.ToAdmin('residency-courses/' + scope.row.id)" />
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="Router.ToAdmin('residency-courses/' + scope.row.id)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -80,10 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FiltersList from '@/components/Filters/FiltersList.vue';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
@@ -91,10 +91,8 @@ import Hooks from '@/services/Hooks/Hooks';
 import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses')
+const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses');
 const isEditMode: Ref<boolean> = ref(false);
 
 const save = async (next?: NavigationGuardNext) => {
@@ -105,28 +103,23 @@ const save = async (next?: NavigationGuardNext) => {
 };
 
 const loadCourses = async () => {
-  await Store.FTSP('residencyCourses')
+  await Store.FTSP('residencyCourses');
 };
 
 const load = async () => {
+  PHelp.AdminHead().Set('Программы ординатуры', [
+    Button.Success(
+      computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+      computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value)))
+    ),
+    Button.Success('Добавить программу', Provider.createAdmin),
+  ]);
   await loadCourses();
-  window.addEventListener('beforeunload', beforeWindowUnload);
 };
 
 Hooks.onBeforeMount(load, {
-  adminHeader: {
-    title: 'Программы ординатуры',
-    buttons: [
-      {
-        text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
-        action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
-      },
-      { text: 'Добавить программу', type: 'primary', action: Provider.createAdmin },
-    ],
-  },
   sortsLib: ResidencyCoursesSortsLib,
-  getAction: 'ftsp',
-  pagination: { storeModule: 'residencyCourses', action: 'ftsp' },
+  pagination: { storeModule: 'residencyCourses' },
 });
 
 const createResidencySortModels = (): SortModel[] => {
@@ -142,11 +135,7 @@ watch(isEditMode, () => {
 // });
 
 const createFilterModels = (): FilterModel[] => {
-  return [
-    ResidencyCoursesFiltersLib.onlyThisYear(),
-    ResidencyCoursesFiltersLib.notThisYear(),
-    ResidencyCoursesFiltersLib.beforeThisYear(),
-  ];
+  return [ResidencyCoursesFiltersLib.onlyThisYear(), ResidencyCoursesFiltersLib.notThisYear(), ResidencyCoursesFiltersLib.beforeThisYear()];
 };
 </script>
 

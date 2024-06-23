@@ -7,16 +7,15 @@
     <VerticalCollapseContainer v-if="selectedMenu" :tab-id="1" :collapsed="true">
       <template #main>
         <div v-if="!dailyMenus.length" class="menu-shadow">
-          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню
-          </el-button>
+          <el-button round type="primary" plain style="scale: 1.2" @click="createNewDailyMenus"> Создать меню </el-button>
           <el-button v-if="menusCopies.length" round type="warning" plain style="scale: 1.2" @click="paste">
-            Вставить меню из буфера</el-button>
+            Вставить меню из буфера</el-button
+          >
         </div>
       </template>
       <template #inside-title> Книга блюд </template>
       <template #inside-content-left>
-        <DishBook v-if="!dishesConstructorVisible && mounted" :menu="selectedMenu"
-          @edit-dish-sample="openDishesConstructor" />
+        <DishBook v-if="!dishesConstructorVisible && mounted" :menu="selectedMenu" @edit-dish-sample="openDishesConstructor" />
       </template>
       <template #inside-content-right>
         <AdminDishesMenusTable />
@@ -52,7 +51,7 @@ const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/
 const dayFilter: Ref<FilterModel> = ref(new FilterModel());
 const selectedSample: Ref<DishSample | undefined> = ref(undefined);
 const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-const mounted = ref(false)
+const mounted = ref(false);
 const load = async () => {
   // await Provider.store.dispatch('search/searchGroups');
   await Provider.store.dispatch('dishesGroups/getAll');
@@ -61,13 +60,11 @@ const load = async () => {
   // const ftsp = new FTSP()
   // ftsp.setF(dayFilter.value)
   // await Store.FTSP('dailyMenus', { ftsp: ftsp, withCache: true })
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Меню буфета',
-    buttons: [{ action: openDishesConstructor, text: 'Создать блюда', type: 'info' }],
-  });
-  await selectDay(calendar.value.getToday())
+  PHelp.AdminHead().Set('Меню буфета', [Button.Success('Создать блюда', openDishesConstructor)]);
+
+  await selectDay(calendar.value.getToday());
   // await fillCalendar()
-  mounted.value = true
+  mounted.value = true;
 };
 
 const paste = async () => {
@@ -92,10 +89,10 @@ Hooks.onBeforeMount(load);
 const getTodayMenus = async () => {
   const userTimezoneOffset = calendar.value.getSelectedDay().date.getTimezoneOffset() * 60000;
   dayFilter.value.date1 = new Date(calendar.value.getSelectedDay().date.getTime() - userTimezoneOffset);
-  const ftsp = new FTSP()
-  ftsp.setF(dayFilter.value)
-  ftsp.setS(DailyMenusSortsLib.byOrder())
-  await Store.FTSP('dailyMenus', { ftsp: ftsp })
+  const ftsp = new FTSP();
+  ftsp.setF(dayFilter.value);
+  ftsp.setS(DailyMenusSortsLib.byOrder());
+  await Store.FTSP('dailyMenus', { ftsp: ftsp });
   dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
 };
 
@@ -144,7 +141,6 @@ const createNewDailyMenus = async () => {
   lunch.dishesGroups = dishesGroups.value;
   Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
 };
-
 </script>
 
 <style lang="scss" scoped>
@@ -424,7 +420,7 @@ $margin: 20px 0;
   height: 30px;
 }
 
-.tabs>div {
+.tabs > div {
   height: 26px;
   object-fit: cover;
 }
@@ -563,7 +559,7 @@ h4 {
   margin-left: -1px;
 }
 
-.tabs-item:hover>.line {
+.tabs-item:hover > .line {
   display: none;
 }
 

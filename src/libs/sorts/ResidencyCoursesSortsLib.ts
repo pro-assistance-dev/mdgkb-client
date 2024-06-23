@@ -19,8 +19,7 @@ const ResidencyCoursesSortsLib = (() => {
       ResidencyCourse,
       ClassHelper.GetPropertyName(ResidencyCourse).startYear,
       order ? order : Orders.Desc,
-      `По году обучения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+      `По году обучения ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -29,8 +28,7 @@ const ResidencyCoursesSortsLib = (() => {
       ResidencyCourse,
       ClassHelper.GetPropertyName(ResidencyCourse).freePlaces,
       order ? order : Orders.Desc,
-      `По количеству бесплатных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+      `По количеству бесплатных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -39,8 +37,7 @@ const ResidencyCoursesSortsLib = (() => {
       ResidencyCourse,
       ClassHelper.GetPropertyName(ResidencyCourse).paidPlaces,
       order ? order : Orders.Desc,
-      `По количеству платных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+      `По количеству платных мест ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
@@ -49,8 +46,7 @@ const ResidencyCoursesSortsLib = (() => {
       ResidencyCourse,
       ClassHelper.GetPropertyName(ResidencyCourse).cost,
       order ? order : Orders.Desc,
-      `По стоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`,
-      true
+      `По стоимости ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
     );
   }
 
