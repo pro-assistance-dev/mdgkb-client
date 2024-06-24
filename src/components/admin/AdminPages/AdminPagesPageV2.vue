@@ -242,6 +242,9 @@ onBeforeUnmount(() => {
 .wrapper {
   display: flex;
   box-sizing: border-box;
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 :deep(.side-menu) {

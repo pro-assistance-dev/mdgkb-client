@@ -35,17 +35,19 @@
       </div>
       <el-button @click="() => openDialog()"> Добавить меню </el-button>
       <div v-if="page.pageSideMenus.length" class="card-item" style="margin-top: 10px">
-        <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid"
-          @end="sort(page.pageSideMenus)">
+        <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
           <template #item="{ element, index }">
             <div class="side-menu-row">
               <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
               <div style="width: 100%">
                 <a @click="openDialog(index)"> {{ element.name }} </a>
               </div>
-              <TableButtonGroup :show-remove-button="true" :show-edit-button="true"
+              <TableButtonGroup
+                :show-remove-button="true"
+                :show-edit-button="true"
                 @remove="$classHelper.RemoveFromClassByIndex(index, page.pageSideMenus, page.pageSideMenusForDelete)"
-                @edit="openDialog(index)" />
+                @edit="openDialog(index)"
+              />
             </div>
           </template>
         </draggable>
@@ -170,6 +172,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 @import '@/assets/styles/elements/collapse.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: scroll;
+}
 
 .el-container {
   .el-card {
