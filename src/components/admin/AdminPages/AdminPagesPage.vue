@@ -174,7 +174,7 @@ export default defineComponent({
 @import '@/assets/styles/elements/collapse.scss';
 
 .wrapper {
-  height: calc(100% - 60px);
+  height: 90vh;
   overflow: hidden;
   overflow-y: scroll;
 }
