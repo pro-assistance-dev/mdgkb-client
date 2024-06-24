@@ -18,8 +18,9 @@
           <PButton
             v-for="btn in buttons"
             :key="btn.getStatus()"
-            skin="auth"
+            :disabled="blockBtn"
             type="primary"
+            skin="auth"
             :text="btn.label"
             :color="btn.isSubmit ? 'blue' : 'grey'"
             margin="10px 0 0 0"
@@ -40,7 +41,7 @@ import AuthStatuses from '../interfaces/AuthStatuses';
 
 const form: ComputedRef<AuthForm> = Store.Item('auth', 'form');
 const auth = Store.Item('auth', 'auth');
-
+const blockBtn = ref(false);
 const emailRef = ref();
 const passwordRef = ref();
 
@@ -68,26 +69,33 @@ const refresh = async () => {
 };
 
 const authButtonClick = async (authButton: AuthButton): Promise<void> => {
-  authButton.off();
+  // authButton.off();
+  blockBtn.value = true;
   if (!authButton.isSubmit) {
-    authButton.on();
+    // authButton.on();
+    blockBtn.value = false;
     return form.value.setStatus(authButton.getStatus());
   }
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
     PHelp.Notification().Error(errors.join(', '));
-    authButton.on();
+    blockBtn.value = false;
     return;
   }
 
   try {
-    Store.Dispatch(`auth/${form.value.getAction()}`);
+    PHelp.Loading().Show();
+    await Store.Dispatch(`auth/${form.value.getAction()}`);
+    PHelp.Loading().Hide();
+
     PHelp.Notification().Success(form.value.getSuccessMessage());
   } catch (error) {
-    console.error(error);
+    PHelp.Loading().Hide();
+    blockBtn.value = false;
     return;
   }
+
   switch (form.value.status) {
     case AuthStatuses.Login:
       login();
@@ -107,6 +115,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
     default:
       break;
   }
+  blockBtn.value = false;
   authButton.on();
   emits('action');
 };

@@ -34,10 +34,10 @@ export default function getActions<UserT extends IWithId>(): ActionTree<State<Us
       await httpClient.post<EmailPassword, UserT>({ query: 'restore-password', payload: state.form.toEmailPassword() });
     },
     passwordChange: async ({ state }): Promise<void> => {
+      const userId = Router.GetStringParam('userId');
       await httpClient.put<unknown, UserT>({
         query: 'password-change',
-        payload: { id: state.auth.user.getId(), email: state.form.email.email, password: state.form.password.password },
-        isFormData: true,
+        payload: { id: userId, email: state.form.email.email, password: state.form.password.password },
       });
     },
     refreshToken: async ({ commit }): Promise<void> => {

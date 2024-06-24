@@ -154,7 +154,7 @@ import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
-import { licensyText, privacyText, steps, templateAlert, textFieldsAndDocuments } from './AdmissionData.ts';
+import { licensyText, privacyText, steps, templateAlert, textFieldsAndDocuments } from './AdmissionData';
 
 const emits = defineEmits(['close']);
 const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);

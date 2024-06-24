@@ -11,109 +11,64 @@
     <div v-else>
       <MedicalOrganizationStructureVertical />
     </div>
-    <LoadMoreButton @loadMore="loadMore" />
+    <LoadMoreButton @load-more="loadMore" />
   </PageWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref } from 'vue';
-import { useRoute } from 'vue-router';
-
+<script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
 import Head from '@/classes/Head';
-import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
-import DoctorsListFilters from '@/components/Doctors/DoctorsListFilters.vue';
-import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import MedicalOrganizationStructureVertical from '@/components/MedicalOrganization/MedicalOrganizationStructureVertical.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
-import { Orders } from '@/services/interfaces/Orders';
-import DoctorsSortsLib from '@/libs/sorts/DoctorsSortsLib';
-import HeadsSortsLib from '@/libs/sorts/HeadsSortsLib';
 import Provider from '@/services/Provider/Provider';
-import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'MedicalWorkersList',
-  components: {
-    MedicalOrganizationStructureVertical,
-    DoctorsListFilters,
-    DoctorInfoCard,
-    LoadMoreButton,
-    PageWrapper,
-  },
+const doctors: Ref<Doctor[]> = Store.Items('doctors');
+const heads: Ref<Head[]> = Store.Items('heads');
+const doctorsMode: ComputedRef<boolean> = computed(() => Router.Route().path === '/doctors');
 
-  setup() {
-    const route = useRoute();
-    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
-    const heads: Ref<Head[]> = computed<Head[]>(() => Provider.store.getters['heads/items']);
-    const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
-
-    const title: ComputedRef<string> = computed(() => {
-      return route.path === 'heads' ? 'Руководство' : 'Медицинские работники';
-    });
-
-    const loadDoctors = async () => {
-      Provider.filterQuery.value.pagination.append = false;
-      await Store.GetAll('doctors');
-    };
-
-    const loadHeads = async () => {
-      // Provider.setSortModel(HeadsSortsLib.byOrder());
-      await Provider.store.dispatch('heads/getAll', Provider.filterQuery.value);
-      console.log('end');
-    };
-
-    const load = async () => {
-      Provider.filterQuery.value.pagination.limit = 8;
-      if (doctorsMode.value) {
-        // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
-        await loadDoctors();
-        return;
-      }
-      await loadHeads();
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const loadMore = async () => {
-      Provider.filterQuery.value.pagination.append = true;
-      Provider.filterQuery.value.pagination.offset = doctorsMode.value ? doctors.value.length : heads.value.length;
-      await Store.GetAll(doctorsMode.value ? 'doctors' : 'heads');
-    };
-
-    const changeMode = async (doctorsModeActive: boolean) => {
-      console.log('changeMode');
-      Provider.resetFilterQuery();
-      Provider.filterQuery.value.pagination.limit = 8;
-      Provider.store.commit('admin/showLoading');
-      if (doctorsModeActive) {
-        await Provider.router.replace('/doctors');
-        await loadDoctors();
-      } else {
-        await Provider.router.replace('/heads');
-        await loadHeads();
-      }
-      Provider.store.commit('admin/closeLoading');
-    };
-
-    return {
-      changeMode,
-      TokenService,
-      Operators,
-      DataTypes,
-      loadMore,
-      doctors,
-      mounted: Provider.mounted,
-      doctorsMode,
-      title,
-      loadHeads,
-      loadDoctors,
-    };
-  },
+const title: ComputedRef<string> = computed(() => {
+  return Router.Route().path === 'heads' ? 'Руководство' : 'Медицинские работники';
 });
+
+const loadDoctors = async () => {
+  await Store.FTSP('doctors');
+};
+
+const loadHeads = async () => {
+  // Provider.setSortModel(HeadsSortsLib.byOrder());
+  await Store.FTSP('heads');
+};
+
+const load = async () => {
+  Provider.filterQuery.value.pagination.limit = 8;
+  if (doctorsMode.value) {
+    // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
+    await loadDoctors();
+    return;
+  }
+  await loadHeads();
+};
+
+Hooks.onBeforeMount(load);
+
+const loadMore = async () => {
+  Provider.filterQuery.value.pagination.append = true;
+  Provider.filterQuery.value.pagination.offset = doctorsMode.value ? doctors.value.length : heads.value.length;
+  await Store.GetAll(doctorsMode.value ? 'doctors' : 'heads');
+};
+
+const changeMode = async (doctorsModeActive: boolean) => {
+  Provider.resetFilterQuery();
+  Provider.filterQuery.value.pagination.limit = 8;
+  PHelp.Loading().Show();
+  if (doctorsModeActive) {
+    await Router.Replace('/doctors');
+    await loadDoctors();
+  } else {
+    await Router.Replace('/heads');
+    await loadHeads();
+  }
+  PHelp.Loading().Hide();
+};
 </script>
 
 <style lang="scss" scoped>

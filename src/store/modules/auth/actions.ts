@@ -15,6 +15,7 @@ const httpClient = new HttpClient('auth');
 
 const actions: ActionTree<State, RootState> = {
   login: async ({ commit }, user: User): Promise<void> => {
+    console.log('LOGIN', user);
     const res = await httpClient.post<User, { user: User; tokens: ITokens }>({ query: 'login', payload: user });
     if (!res) {
       return;
@@ -50,6 +51,7 @@ const actions: ActionTree<State, RootState> = {
     commit('setIsAuth', true);
   },
   restorePassword: async ({ commit }, user: User): Promise<void> => {
+    //   const userId = Provider.route().params['userId'];
     await httpClient.post<User, User>({ query: 'restore-password', payload: user });
   },
   passwordChange: async ({ commit }, user: User): Promise<void> => {
