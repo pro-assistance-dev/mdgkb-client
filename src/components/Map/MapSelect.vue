@@ -1,21 +1,24 @@
 <template>
-  <div v-if="mount">
+  <div>
     <div class="select-division">
-      <el-select v-model="selectedObjectId" class="select-d" filterable
-        placeholder="Выберите вход, парковку, здание или отделение" style="width: 380px" @change="selectObject">
-        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)"
-          :key="building">
+      <el-select
+        v-model="selectedObjectId"
+        class="select-d"
+        filterable
+        placeholder="Выберите вход, парковку, здание или отделение"
+        style="width: 380px"
+        @change="selectObject"
+      >
+        <template v-for="building in buildings.filter((b) => b.floors.length && b.getFloorsWithDivisions().length > 0)" :key="building">
           <div class="item-box">
             <div class="el-select-dropdown__item" style="cursor: default; text-transform: uppercase; color: #a1a7bd">
               Строение {{ building.number }}
             </div>
             <template v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
-              <div class="el-select-dropdown__item"
-                style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
+              <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
                 Этаж {{ floor.number }}
               </div>
-              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id"
-                :label="division.name">
+              <el-option v-for="division in floor.divisions" :key="division.id" :value="division.id" :label="division.name">
                 <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
                   division.name
                 }}</span>
@@ -25,9 +28,7 @@
         </template>
         <div class="item-box">
           <el-option v-for="gate in gates" :key="gate.id" :label="gate.name" :value="gate.id">
-            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{
-              gate.name
-            }}</span>
+            <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{ gate.name }}</span>
           </el-option>
         </div>
         <!--        <div class="item-box">-->
@@ -46,77 +47,56 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onMounted, PropType, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Building from '@/classes/Building';
 import Division from '@/classes/Division';
 import Floor from '@/classes/Floor';
 import Gate from '@/classes/Gate';
 import IMapObject from '@/interfaces/IMapObject';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
-import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
+// import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+// import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
+// import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'MapRouter',
-  props: {
-    showRouterButton: {
-      type: Boolean as PropType<boolean>,
-      required: true,
-    },
-  },
-  emits: ['openMapRouter', 'selectObject'],
-  setup(_, { emit }) {
-    const buildings = computed(() => Provider.store.getters['buildings/items']);
-    const gates: Ref<Gate[]> = computed(() => Provider.store.getters['gates/items']);
+const emits = defineEmits(['openMapRouter', 'selectObject']);
+const buildings = Store.Items('buildings');
+const gates: Ref<Gate[]> = Store.Items('gates');
 
-    const parkings: Ref<IOption[]> = ref([
-      { value: '1', label: 'Парковка A' },
-      { value: '2', label: 'Парковка B' },
-      { value: '3', label: 'Парковка C' },
-      { value: '4', label: 'Парковка D' },
-    ]);
-    const selectedObjectId: Ref<string> = ref('');
-    const selectedObject: Ref<IMapObject | undefined> = ref();
-    const mount = ref(false);
+const parkings: Ref<IOption[]> = ref([
+  { value: '1', label: 'Парковка A' },
+  { value: '2', label: 'Парковка B' },
+  { value: '3', label: 'Парковка C' },
+  { value: '4', label: 'Парковка D' },
+]);
 
-    const selectObject = (id: string) => {
-      buildings.value.forEach((b: Building) => {
-        b.floors.forEach((f: Floor) => {
-          const obj = f.divisions.find((d: Division) => d.id === id);
-          if (obj) {
-            selectedObject.value = obj;
-          }
-        });
-      });
-      if (!selectedObject.value) {
-        selectedObject.value = gates.value.find((e: Gate) => e.id === id);
+const selectedObjectId: Ref<string> = ref('');
+const selectedObject: Ref<IMapObject | undefined> = ref();
+const mount = ref(false);
+
+const selectObject = (id: string) => {
+  buildings.value.forEach((b: Building) => {
+    b.floors.forEach((f: Floor) => {
+      const obj = f.divisions.find((d: Division) => d.id === id);
+      if (obj) {
+        selectedObject.value = obj;
       }
-
-      emit('selectObject', selectedObject.value, true);
-    };
-
-    onMounted(async () => {
-      const filterQuery = new FilterQuery();
-      filterQuery.filterModels.push(DivisionsFiltersLib.onlyDivisions());
-      filterQuery.sortModels.push(DivisionsSortsLib.byName());
-      await Provider.store.dispatch('divisions/getAll', { filterQuery });
-      await Provider.store.dispatch('entrances/getAll');
-      mount.value = true;
     });
+  });
+  if (!selectedObject.value) {
+    selectedObject.value = gates.value.find((e: Gate) => e.id === id);
+  }
 
-    return {
-      buildings,
-      parkings,
-      gates,
-      selectedObject,
-      selectedObjectId,
-      mount,
-      selectObject,
-    };
-  },
+  emits('selectObject', selectedObject.value, true);
+};
+
+onMounted(async () => {
+  // const filterQuery = new FilterQuery();
+  // filterQuery.filterModels.push(DivisionsFiltersLib.onlyDivisions());
+  // filterQuery.sortModels.push(DivisionsSortsLib.byName());
+  await Store.FTSP('buildings', { ftsp: new FTSP() });
+  // await Provider.store.dispatch('divisions/getAll', { filterQuery });
+  // await Provider.store.dispatch('entrances/getAll');
+  mount.value = true;
 });
 </script>
 

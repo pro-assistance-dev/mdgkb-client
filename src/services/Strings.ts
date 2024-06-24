@@ -127,4 +127,8 @@ export default abstract class Strings {
       st.toUpperCase(),
     ];
   }
+
+  static ContainsNum(str: string): boolean {
+    return /\d/.test(str);
+  }
 }

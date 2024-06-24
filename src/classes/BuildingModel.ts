@@ -42,7 +42,6 @@ export default class BuildingModel extends Three.Mesh {
     this.material = new Three.MeshStandardMaterial({ color: 'green' });
   }
   onPointerOver() {
-    console.log(this.material);
     this.standartMaterial = this.material;
     this.material = new Three.MeshStandardMaterial({ color: 'red' });
   }

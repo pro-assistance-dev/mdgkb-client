@@ -40,28 +40,31 @@ const engine: Engine3D = new Engine3D();
 const mapRouter: MapRouter = new MapRouter(engine);
 let mapModel: MapModel = new MapModel();
 
-const route: ComputedRef<MapRoute> = Store.Item('mapRoutes'),
-  buildingClick = async (event: { id: string }) => {
-    await Store.Get('buildings', event.id);
-    buildingModalOpened.value = true;
-  },
-  getRoute = async (endNode: string) => {
-    mapRouter.drop();
-    if (endNode) {
-      mapRouter.endNodeName = endNode;
-      showDestinationStepper.value = false;
-    }
-    await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
-    mapRouter.add(
-      MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
-      mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
-    );
-  },
-  initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
-    const m = new Map();
-    m.set(MapBuildingsEventsTypes.Click, buildingClick.bind(this));
-    return m;
-  };
+const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
+
+const buildingClick = async (event: { id: string }) => {
+  await Store.Get('buildings', event.id);
+  buildingModalOpened.value = true;
+};
+
+const getRoute = async (endNode: string) => {
+  mapRouter.drop();
+  if (endNode) {
+    mapRouter.endNodeName = endNode;
+    showDestinationStepper.value = false;
+  }
+  await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
+  mapRouter.add(
+    MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
+    mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
+  );
+};
+
+const initBuildingsEventsMap = (): Map<MapBuildingsEventsTypes, CallbackFunction> => {
+  const m = new Map();
+  m.set(MapBuildingsEventsTypes.Click, buildingClick.bind(this));
+  return m;
+};
 
 onBeforeMount(() => {
   mapRouter.selectStart('', Router.GetStringQueryParam('start'));
