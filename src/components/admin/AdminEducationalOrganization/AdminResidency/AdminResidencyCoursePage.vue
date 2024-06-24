@@ -5,9 +5,13 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <SetEntity :search-key="Employee.GetClassName()" label="Выбрать руководителя"
-                :entity-name="residencyCourse.mainTeacher.human.getFullName()" @select-search="selectMainTeacherSearch"
-                @reset="residencyCourse.resetMainTeacher()" />
+              <SetEntity
+                :search-key="Employee.GetClassName()"
+                label="Выбрать руководителя"
+                :entity-name="residencyCourse.mainTeacher.human.getFullName()"
+                @select-search="selectMainTeacherSearch"
+                @reset="residencyCourse.resetMainTeacher()"
+              />
             </el-card>
             <el-card class="content-card">
               <template #header> Описание </template>
@@ -34,14 +38,12 @@
               <div class="files-block">
                 <el-form-item label="Год начала">
                   <el-select v-model="residencyCourse.startYearId">
-                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()"
-                      :value="year.id" />
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
                   </el-select>
                 </el-form-item>
                 <el-form-item label="Год конца">
                   <el-select v-model="residencyCourse.endYearId">
-                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()"
-                      :value="year.id" />
+                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
                   </el-select>
                 </el-form-item>
               </div>
@@ -57,8 +59,7 @@
                   </el-table-column>
                   <el-table-column label="Выбрать главную" sortable>
                     <template #default="scope">
-                      <el-checkbox v-model="scope.row.main"
-                        @change="residencyCourse.setMainSpecialization(scope.$index)" />
+                      <el-checkbox v-model="scope.row.main" @change="residencyCourse.setMainSpecialization(scope.$index)" />
                     </template>
                   </el-table-column>
                 </el-table>
@@ -95,16 +96,23 @@
             </el-card>
             <el-card>
               <template #header> Шаблон формы </template>
-              <el-select v-model="residencyCourse.formPattern" value-key="id" placeholder="Шаблон формы"
-                @change="changeFormPatternHandler()">
+              <el-select
+                v-model="residencyCourse.formPattern"
+                value-key="id"
+                placeholder="Шаблон формы"
+                @change="changeFormPatternHandler()"
+              >
                 <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
               </el-select>
             </el-card>
             <el-card>
               <template #header> Выбрать специальности, для которых читается программа </template>
-              <el-checkbox v-for="specialization in specializations" :key="specialization.id"
+              <el-checkbox
+                v-for="specialization in specializations"
+                :key="specialization.id"
                 :model-value="residencyCourse.findSpecialization(specialization.id)"
-                @change="residencyCourse.addSpecialization(specialization)">
+                @change="residencyCourse.addSpecialization(specialization)"
+              >
                 {{ specialization.name }}
               </el-checkbox>
             </el-card>
@@ -191,6 +199,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
 .files-block {
   display: flex;
   justify-content: space-around;
