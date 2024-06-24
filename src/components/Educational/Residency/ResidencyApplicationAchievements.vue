@@ -8,7 +8,9 @@
     </thead>
     <tbody>
       <tr v-for="achievement in pointsAchievements" :key="achievement.id">
-        <td>{{ achievement.code }}</td>
+        <td :class="{ bold: !Strings.ContainsNum(achievement.code) }">
+          {{ achievement.code }}
+        </td>
         <td>
           <em v-if="achievement.points === 0">{{ achievement.name }}</em>
           <span v-else>{{ achievement.name }}</span>
@@ -40,49 +42,32 @@
   </table>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplication from '@/classes/ResidencyApplication';
-import FileUploader from '@/components/FileUploader.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ResidencyApplicationAchievements',
-  components: { FileUploader },
-  props: {
-    residencyApplication: {
-      type: Object as PropType<ResidencyApplication>,
-      required: true,
-    },
+const props = defineProps({
+  residencyApplication: {
+    type: Object as PropType<ResidencyApplication>,
+    required: true,
   },
-  emits: ['close'],
-  setup(props) {
-    const pointsAchievements: Ref<PointsAchievement[]> = computed<PointsAchievement[]>(
-      () => Provider.store.getters['pointsAchievements/items']
-    );
-    const selectedAchievement: Ref<PointsAchievement | undefined> = ref(undefined);
-    const addAchievement = (achievement: PointsAchievement) => {
-      if (!achievement.id || props.residencyApplication.achievementExists(achievement.id)) {
-        ElMessage({ message: 'Данное достижение уже добавлено', type: 'error' });
-        selectedAchievement.value = undefined;
-        return;
-      }
-      props.residencyApplication.addAchievement(achievement);
-      selectedAchievement.value = undefined;
-    };
+});
+defineEmits(['close']);
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('pointsAchievements/getAll');
-    });
-    return {
-      selectedAchievement,
-      addAchievement,
-      pointsAchievements,
-    };
-  },
+const pointsAchievements: Ref<PointsAchievement[]> = Store.Items('pointsAchievements');
+const selectedAchievement: Ref<PointsAchievement | undefined> = ref(undefined);
+const addAchievement = (achievement: PointsAchievement) => {
+  if (!achievement.id || props.residencyApplication.achievementExists(achievement.id)) {
+    PHelp.Notification().Error('Данное достижение уже добавлено');
+    selectedAchievement.value = undefined;
+    return;
+  }
+  props.residencyApplication.addAchievement(achievement);
+  selectedAchievement.value = undefined;
+};
+
+onBeforeMount(async () => {
+  await Store.GetAll('pointsAchievements');
 });
 </script>
 
@@ -96,6 +81,11 @@ thead th {
   background: #ededed;
   font-size: 14px;
 }
+
+.bold {
+  font-weight: bold;
+}
+
 tbody td {
   text-align: left;
   border: none;

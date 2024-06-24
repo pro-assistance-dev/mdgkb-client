@@ -148,7 +148,7 @@ const rules = {
 };
 const page: ComputedRef<Page> = Store.Item('pages');
 const roles: ComputedRef<Role[]> = Store.Items('roles');
-const pageSideMenu: ComputedRef<PageSideMenu> = Store.Getters('pages/pageSideMenu');
+const pageSideMenu: ComputedRef<PageSideMenu> = Store.Getters('pages/sideMenu');
 const activeMenuId: ComputedRef<string> = Store.Getters('pages/activeMenuId');
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);

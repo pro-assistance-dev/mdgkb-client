@@ -20,17 +20,29 @@
     </div>
     <div class="bottom-footer">
       <div class="tags-container">
-        <el-tag v-for="newsToTag in news.newsToTags" :key="newsToTag.id" effect="dark" class="news-tag-link"
-          size="small" @click.stop="filterNews(newsToTag.tag)">
+        <el-tag
+          v-for="newsToTag in news.newsToTags"
+          :key="newsToTag.id"
+          effect="dark"
+          class="news-tag-link"
+          size="small"
+          @click.stop="filterNews(newsToTag.tag)"
+        >
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
       </div>
       <div class="card-meta share">
         <div style="margin-right: 5px">Поделиться:</div>
-        <ShareNetwork v-for="share in shares" :key="share.name" :network="share.name" :url="getUrl()"
-          :title="news.title" :description="news.title">
+        <ShareNetwork
+          v-for="share in shares"
+          :key="share.name"
+          :network="share.name"
+          :url="getUrl()"
+          :title="news.title"
+          :description="news.title"
+        >
           <div class="share-item">
-            <img class="colored" :src="'/src/assets/img/social/' + share.icon + '-colored.webp'" :alt="share.name" />
+            <img class="colored" :src="getIcon(share.icon)" :alt="share.name" />
           </div>
         </ShareNetwork>
       </div>
@@ -49,13 +61,20 @@ const props = defineProps({
     type: Object as PropType<News>,
     required: true,
   },
-})
+});
 const shares = [
   // { name: 'facebook', icon: 'fb' },
   // { name: 'twitter', icon: 'twitter' },
   { name: 'VK', icon: 'vk' },
   { name: 'Telegram', icon: 'telegram' },
 ];
+
+// const modules = import.meta.glob('@/assets/img/social/*');
+
+const getIcon = (icon: string) => {
+  const path = '/src/assets/img/social/' + icon + '-colored.webp';
+  return new URL(path, import.meta.url);
+};
 
 const filterNews = async (tag: Tag): Promise<void> => {
   // await Provider.router.push('/news');
@@ -84,7 +103,6 @@ const getUrl = (): string => {
   }
 
   .share-item {
-
     /*  .colored {
       display: none;
     } */

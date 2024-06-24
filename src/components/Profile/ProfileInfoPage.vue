@@ -2,7 +2,7 @@
   <div v-if="mounted" class="size" data-test="profile-info-component">
     <div class="title">
       <h2><b>Мой профиль</b></h2>
-      <PButton skin="profile" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
+      <PButton skin="profile" type="primary" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
         <IconEdit size="26px" color="#A3A9BE" />
       </PButton>
     </div>
