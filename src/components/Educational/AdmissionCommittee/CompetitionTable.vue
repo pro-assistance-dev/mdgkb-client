@@ -31,7 +31,7 @@
             {{ course.applicationPassCompetition(j + 1) ? 'Приглашается на заключение договора' : 'В режиме ожидания' }}
           </td>
           <td :class="getPassClass(course, j + 1)">
-            {{ course.applicationPassCompetition(j + 1) ? 'Заявление до 24.08.22 \n Заключение договора до 26.08.22' : '' }}
+            {{ course.applicationPassCompetition(j + 1) ? 'Заявление до 24.08.24 \n Заключение договора до 26.08.24' : '' }}
           </td>
           <td :class="getPassClass(course, j + 1)"></td>
         </tr>

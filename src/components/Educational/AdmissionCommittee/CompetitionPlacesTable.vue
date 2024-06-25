@@ -4,6 +4,7 @@
       <th>Направления подготовки (специальность)</th>
       <th style="text-align: center">Количество мест по целевому набору (по приказу ДЗМ)</th>
       <th style="text-align: center">Поданные заявления по целевому набору (для абитуриентов заключивших договор с ДЗМ)</th>
+      <th style="text-align: center">Конкурс бюджет</th>
       <th style="text-align: center">Количество мест по договорам об оказании образова- тельных платных услуг (ПОУ)</th>
       <th style="text-align: center">Поданные заявления По договорам о платных образова- тельных услугах (ПОУ)</th>
       <th style="text-align: center">Конкурс ПОУ</th>
@@ -20,6 +21,9 @@
           {{ course.getFreeApplications().length }}
         </td>
         <td style="text-align: center">
+          {{ course.getFreeCompetitionIndex() }}
+        </td>
+        <td style="text-align: center">
           {{ course.paidPlaces }}
         </td>
         <td style="text-align: center">
@@ -33,6 +37,7 @@
         <td>Всего:</td>
         <td style="text-align: center">{{ allFreePlaces() }}</td>
         <td style="text-align: center">{{ allFreeApplications() }}</td>
+        <td style="text-align: center">-</td>
         <td style="text-align: center">{{ allPaidPlaces() }}</td>
         <td style="text-align: center">{{ allPaidApplications() }}</td>
         <td style="text-align: center">-</td>

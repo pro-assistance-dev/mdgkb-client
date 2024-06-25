@@ -126,6 +126,16 @@ export default class ResidencyCourse {
     return `${this.startYear.year.getFullYear()} - ${this.endYear.year.getFullYear()}`;
   }
 
+  getFreeCompetitionIndex(): number {
+    const freePlaces = this.freePlaces;
+    const applications = this.getFreeApplications().length;
+    if (freePlaces === 0 || applications === 0 || freePlaces === applications) {
+      return 0;
+    }
+    const res = (applications / freePlaces).toFixed(2);
+    return Number(res);
+  }
+
   getPaidCompetitionIndex(): number {
     const paidPlaces = this.paidPlaces;
     const applications = this.getPaidApplications().length;
