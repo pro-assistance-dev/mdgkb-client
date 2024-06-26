@@ -13,8 +13,7 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
-            @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -23,17 +22,16 @@
 
 <script lang="ts" setup>
 import Division from '@/classes/Division';
+import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-const divisions = Store.Items('divisions')
+const divisions = Store.Items('divisions');
 const addDivision = () => Provider.router.push(`/admin/divisions/new`);
 const sortList: Ref<SortModel[]> = ref([]);
 
@@ -45,23 +43,20 @@ const edit = async (id: string): Promise<void> => {
 };
 
 const remove = async (id: string) => {
-  await Store.Remove('divisions', id)
+  await Store.Remove('divisions', id);
 };
 
 const loadDivisions = async (): Promise<void> => {
-  await Store.FTSP('divisions')
+  await Store.FTSP('divisions');
 };
 
 const load = async (): Promise<void> => {
   // Provider.setSortModels(DivisionsSortsLib.byName());
   sortList.value = [DivisionsSortsLib.byName(), DivisionsSortsLib.byCommentsCount()];
-  FTSP.Get().setF(DivisionsSortsLib.byName())
+  FTSP.Get().setF(DivisionsSortsLib.byName());
   // Provider.setSortList(...createSortModels(DivisionsSortsLib));
   await loadDivisions();
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Отделения',
-    buttons: [{ text: 'Добавить отделение', type: 'primary', action: addDivision }],
-  });
+  PHelp.AdminHead().Set('Отделения', [Button.Success('Добавить отделение', addDivision)]);
 };
 
 Hooks.onBeforeMount(load, {
@@ -77,7 +72,6 @@ const createFilterModels = (): FilterModel[] => {
 };
 
 const update = async (division: Division) => await Store.Update('divisions', division);
-
 </script>
 
 <style lang="scss" scoped>
