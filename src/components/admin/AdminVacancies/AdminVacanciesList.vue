@@ -87,7 +87,7 @@
           <TableButtonGroup
             :show-edit-button="true"
             :show-remove-button="true"
-            @edit="$router.push(`/admin/vacancies/${scope.row.id}`)"
+            @edit="Router.To(`/admin/vacancies/${scope.row.id}`)"
             @remove="remove(scope.row.id)"
           />
         </template>
@@ -99,14 +99,11 @@
 <script lang="ts" setup>
 import Form from '@/classes/Form';
 import Vacancy from '@/classes/Vacancy';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import ISearchObject from '@/services/interfaces/ISearchObject';
-import { Operators } from '@/services/interfaces/Operators';
 import VacanciesFiltersLib from '@/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import Hooks from '@/services/Hooks/Hooks';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -162,7 +159,7 @@ const newResponsesExists = (): boolean => {
 };
 
 const setActive = async (vacancy: Vacancy) => {
-  await Provider.store.dispatch('vacancies/update', vacancy);
+  await Store.Update('vacancies', vacancy);
 };
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {

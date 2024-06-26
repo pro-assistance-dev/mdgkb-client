@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="wrapper">
+  <div class="wrapper">
     <el-form ref="form" :key="vacancy" label-position="top" :model="vacancy">
       <el-container direction="vertical">
         <el-card>
@@ -71,92 +71,69 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
+<script lang="ts" setup>
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Division from '@/classes/Division';
 import Form from '@/classes/Form';
 import Vacancy from '@/classes/Vacancy';
 import AdminVacancyResponcesTable from '@/components/admin/AdminVacancies/AdminVacancyResponsesTable.vue';
-// import CardHeader from '@/components/admin/CardHeader.vue';
 import SortableInputsList from '@/components/admin/SortableInputsList.vue';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminVacanciesPage',
-  components: { SortableInputsList, AdminVacancyResponcesTable },
-  setup() {
-    const route = useRoute();
-    const form = ref();
-    const vacancy: Ref<Vacancy> = computed<Vacancy>(() => Provider.store.getters['vacancies/item']);
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
+const form = ref();
+const vacancy: Ref<Vacancy> = Store.Item('vacancies');
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
-    const load = async () => {
-      await Provider.store.dispatch('divisions/getAll');
-      if (route.params['id']) {
-        await Provider.store.dispatch('vacancies/get', route.params['id']);
-        Provider.store.commit('admin/setHeaderParams', { title: vacancy.value.title, showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        Provider.store.commit('vacancies/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить вакансию', showBackButton: true, buttons: [{ action: submit }] });
-      }
-      await Provider.store.dispatch('formPatterns/getAll');
+const load = async () => {
+  await Store.FTSP('divisions', { ftsp: new FTSP() });
+  if (Router.Id()) {
+    await Store.Get('vacancies', Router.Id());
+    PHelp.AdminHead().Set(vacancy.value.title, [Button.Success('Сохранить', submit)]);
+  } else {
+    Store.Commit('vacancies/resetState');
+    PHelp.AdminHead().Set('Добавить вакансию', [Button.Success('Сохранить', submit)]);
+  }
+  await Store.FTSP('formPatterns', { ftsp: new FTSP() });
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(vacancy, formUpdated, { deep: true });
+};
 
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(vacancy, formUpdated, { deep: true });
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (!route.params['id']) {
-        await Provider.store.dispatch('vacancies/create', vacancy.value);
-        await Provider.router.push('/admin/vacancies');
-        return;
-      }
-      await Provider.store.dispatch('vacancies/update', vacancy.value);
-      next ? next() : await Provider.router.push('/admin/vacancies');
-    };
-
-    const selectDivisionSearch = async (item: ISearchObject) => {
-      vacancy.value.divisionId = item.id;
-      vacancy.value.division = new Division();
-      vacancy.value.division.name = item.label;
-    };
-
-    const removeResponse = (index: number) => {
-      ClassHelper.RemoveFromClassByIndex(index, vacancy.value.vacancyResponses, vacancy.value.vacancyResponsesForDelete);
-    };
-
-    return {
-      selectDivisionSearch,
-      submit,
-      removeResponse,
-      vacancy,
-      form,
-      mounted: Provider.mounted,
-      Division,
-      sortList: Provider.sortList,
-      formPatterns,
-    };
-  },
+onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  showConfirmModal(submit, next);
 });
+
+const submit = async (next?: NavigationGuardNext) => {
+  saveButtonClick.value = true;
+  if (!validate(form)) {
+    saveButtonClick.value = false;
+    return;
+  }
+  if (Router.Id()) {
+    await Store.Create('vacancies', vacancy.value);
+    await Router.ToAdmin('/vacancies');
+    return;
+  }
+  await Store.Update('vacancies', vacancy.value);
+  next ? next() : await Router.To('/admin/vacancies');
+};
+
+const selectDivisionSearch = async (item: ISearchObject) => {
+  vacancy.value.divisionId = item.id;
+  vacancy.value.division = new Division();
+  vacancy.value.division.name = item.label;
+};
+
+const removeResponse = (index: number) => {
+  ClassHelper.RemoveFromClassByIndex(index, vacancy.value.vacancyResponses, vacancy.value.vacancyResponsesForDelete);
+};
 </script>
 
 <style lang="scss" scoped>
