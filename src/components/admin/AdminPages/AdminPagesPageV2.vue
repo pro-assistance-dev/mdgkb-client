@@ -72,7 +72,7 @@
             <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
             <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
             <div>
-              <!-- <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox> -->
+              <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
             </div>
             <el-button type="success" @click="addPageSection">Добавить раздел</el-button>
           </el-card>
@@ -242,7 +242,7 @@ onBeforeUnmount(() => {
 .wrapper {
   display: flex;
   box-sizing: border-box;
-  height: 90vh;
+  height: calc(100% - 60px);
   overflow: hidden;
   overflow-y: scroll;
 }
