@@ -1,12 +1,16 @@
 <template>
   <AdminListWrapper show-header pagination>
-    <template #header>
-    </template>
+    <template #header> </template>
     <el-table v-if="vacancies" :data="vacancies">
       <el-table-column prop="title" label="Название" class-name="sticky-left" min-width="200">
         <template #default="scope">
-          <el-badge v-if="scope.row.newResponsesCount" :value="scope.row.newResponsesCount" type="danger" size="mini"
-            style="margin-top: 10px">
+          <el-badge
+            v-if="scope.row.newResponsesCount"
+            :value="scope.row.newResponsesCount"
+            type="danger"
+            size="mini"
+            style="margin-top: 10px"
+          >
             <div style="padding: 5px 10px 0 0">
               {{ scope.row.title }}
             </div>
@@ -39,8 +43,12 @@
       <el-table-column prop="minSalary" label="Минимальная зарплата" align="center" min-width="150">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.minSalary" controls-position="right" size="mini"
-              placeholder="Минимальная заработная плата" />
+            <el-input-number
+              v-model="scope.row.minSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
           </div>
           <div v-else>
             {{ scope.row.minSalary }}
@@ -50,8 +58,12 @@
       <el-table-column prop="maxSalary" label="Минимальная зарплата" align="center" min-width="150">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input-number v-model="scope.row.maxSalary" controls-position="right" size="mini"
-              placeholder="Минимальная заработная плата" />
+            <el-input-number
+              v-model="scope.row.maxSalary"
+              controls-position="right"
+              size="mini"
+              placeholder="Минимальная заработная плата"
+            />
           </div>
           <div v-else>
             {{ scope.row.maxSalary }}
@@ -72,8 +84,12 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true"
-            @edit="$router.push(`/admin/vacancies/${scope.row.id}`)" @remove="remove(scope.row.id)" />
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @edit="$router.push(`/admin/vacancies/${scope.row.id}`)"
+            @remove="remove(scope.row.id)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -94,10 +110,10 @@ import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-const vacancies: ComputedRef<Vacancy[]> = Store.Items('vacancies')
+const vacancies: ComputedRef<Vacancy[]> = Store.Items('vacancies');
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
-const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns')
+const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
 const editMany = async () => {
   Store.Commit('admin/showLoading');
@@ -119,19 +135,16 @@ const loadVacancies = async () => {
 const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
 
 const load = async () => {
-  FTSP.Get().setS(VacanciesSortsLib.byTitle())
+  FTSP.Get().setS(VacanciesSortsLib.byTitle());
   // Provider.setSortList(...createSortModels(VacanciesSortsLib));
   // Provider.setSortModels(VacanciesSortsLib.byTitle());
   await loadVacancies();
   filterByDivision.value = VacanciesFiltersLib.byDivisions([]);
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Вакансии',
-    buttons: [
-      { text: 'Сохранить', condition: isEditMode, action: saveMany },
-      { text: 'Редактировать', type: 'primary', condition: isNotEditMode, action: editMany },
-      { text: 'Создать вакансию', type: 'success', action: create },
-    ],
-  });
+  PHelp.AdminHead().Set('Вакансии', [
+    Button.Success('Сохранить', saveMany, isEditMode),
+    Button.Success('Редактировать', editMany, isNotEditMode),
+    Button.Success('Создать вакансию', create),
+  ]);
 };
 
 Hooks.onBeforeMount(load, {
@@ -139,10 +152,10 @@ Hooks.onBeforeMount(load, {
 });
 
 const remove = async (id: string) => {
-  await Provider.store.dispatch('vacancies/remove', id);
+  await Store.Remove('vacancies', id);
 };
 
-const create = () => Provider.router.push(`/admin/vacancies/new`);
+const create = () => Router.To(`/admin/vacancies/new`);
 
 const newResponsesExists = (): boolean => {
   return vacancies.value.some((vacancy: Vacancy) => vacancy.withNewResponses());
@@ -155,7 +168,6 @@ const setActive = async (vacancy: Vacancy) => {
 const selectSearch = async (event: ISearchObject): Promise<void> => {
   await Provider.router.push({ name: `AdminVacanciesEdit`, params: { id: event.id, slug: event.id } });
 };
-
 </script>
 
 <style lang="scss" scoped>

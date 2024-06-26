@@ -18,7 +18,7 @@ import { Orders } from '@/services/interfaces/Orders';
 import VacancyResponsesSortsLib from '@/libs/sorts/VacancyResponsesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-const vacancyResponses: ComputedRef<VacancyResponse[]> = Store.Items('vacancyResponses')
+const vacancyResponses: ComputedRef<VacancyResponse[]> = Store.Items('vacancyResponses');
 // const applicationsCount: ComputedRef<number> =  computed(() => Provider.store.getters['admin/applicationsCount']('vacancy_responses'));
 
 const loadResponses = async () => {
@@ -27,18 +27,14 @@ const loadResponses = async () => {
 };
 
 const load = async () => {
-  FTSP.Get().setS(VacancyResponsesSortsLib.byDate(Orders.Desc))
+  FTSP.Get().setS(VacancyResponsesSortsLib.byDate(Orders.Desc));
   // Provider.setSortList(...createSortModels(VacancyResponsesSortsLib));
   await Store.FTSP('vacancyResponses');
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Отклики на вакансии',
-    // buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-    // applicationsCount,
-  });
+  PHelp.AdminHead().Set('Отклики на вакансии', []);
 };
 
 // const create = () => Provider.router.push(`/admin/vacancy-responses/new`);
-const remove = async (index: number) => await Store.Delete('vacancyResponses', index);
+const remove = async (index: number) => await Store.Remove('vacancyResponses', index);
 
 Hooks.onBeforeMount(load, {
   pagination: { storeModule: 'vacancyResponses', action: 'ftsp' },

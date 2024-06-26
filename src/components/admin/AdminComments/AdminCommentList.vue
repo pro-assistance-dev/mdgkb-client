@@ -3,9 +3,15 @@
     <template #header>
       <SortList class="filters-block" :models="sortList" @load="loadComments" />
       <FilterSelectDate class="filters-block" :table="'comments'" :col="'publishedOn'" @load="loadComments" />
-      <FilterCheckbox class="filters-block" label="Отмодерированные" :table="Comment.GetClassName()"
-        :col="$classHelper.GetPropertyName(Comment).modChecked" :data-type="DataTypes.Boolean" :operator="Operators.Eq"
-        @load="loadComments" />
+      <FilterCheckbox
+        class="filters-block"
+        label="Отмодерированные"
+        :table="Comment.GetClassName()"
+        :col="$classHelper.GetPropertyName(Comment).modChecked"
+        :data-type="DataTypes.Boolean"
+        :operator="Operators.Eq"
+        @load="loadComments"
+      />
       <FilterSelectV2 :filter-models="createFilterModels()" @load="loadComments" />
     </template>
     <div class="comments-container">
@@ -19,30 +25,27 @@
 
 <script lang="ts" setup>
 import Comment from '@/classes/Comment';
+import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib';
+import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib';
-import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-const comments: ComputedRef<Comment[]> = Store.Items('comments')
+const comments: ComputedRef<Comment[]> = Store.Items('comments');
 // const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('comments'));
 const searchString: Ref<string> = ref('');
-let sourceSSE: EventSource | undefined = undefined;
+const sourceSSE: EventSource | undefined = undefined;
 
 const load = async () => {
   // Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
   // Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
-  FTSP.Get().setS(CommentsSortsLib.byPublishedOn(Orders.Desc))
-  await Store.FTSP('comments')
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Заявления на посещение',
-    buttons: [],
-  });
+  FTSP.Get().setS(CommentsSortsLib.byPublishedOn(Orders.Desc));
+  await Store.FTSP('comments');
+  PHelp.AdminHead().Set('Заявления на посещение', []);
 };
 
 Hooks.onBeforeMount(load, {
@@ -50,7 +53,7 @@ Hooks.onBeforeMount(load, {
 });
 
 const loadComments = async () => {
-  await Store.FTSP('comments')
+  await Store.FTSP('comments');
 };
 
 onBeforeUnmount(async () => {

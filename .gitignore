@@ -162,3 +162,6 @@ log.txt
 /www
 
 /test
+
+auto-imports.d.ts
+components.d.ts
