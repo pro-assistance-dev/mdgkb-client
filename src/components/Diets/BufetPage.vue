@@ -152,7 +152,7 @@ const load = async () => {
   dailyMenuOrder.value.reproduceFromStore();
   checkDailyMenuItemsAvailable();
   Provider.filterQuery.value.setParams('code', 'bufet');
-  await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
+  // await Provider.store.dispatch('formPatterns/get', Provider.filterQuery.value);
   initForm();
   await getDishesGroups();
   dailyMenu.value.dishesGroups = dishesGroups.value;
