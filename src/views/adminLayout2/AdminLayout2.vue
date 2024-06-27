@@ -28,7 +28,6 @@
 .admin-container {
   width: 100%;
   box-sizing: border-box;
-  height: calc(100% - 30px);
   height: 100%;
   overflow: hidden;
 }
