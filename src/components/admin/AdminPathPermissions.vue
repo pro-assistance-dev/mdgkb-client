@@ -3,8 +3,13 @@
     <div class="card-item filters">
       <div class="filters-block">
         <span>Найти:</span>
-        <RemoteSearch :key-value="'pathPermission'" :model-value="searchString" :show-suggestions="false"
-          :must-be-translated="false" @input="filterList" />
+        <RemoteSearch
+          :key-value="'pathPermission'"
+          :model-value="searchString"
+          :show-suggestions="false"
+          :must-be-translated="false"
+          @input="filterList"
+        />
       </div>
       <div class="filters-block">
         <span>Сортировать:</span>
@@ -37,8 +42,7 @@
               <div class="table-title">
                 <div style="margin-bottom: 10px">
                   <el-select v-model="chosenRole" size="mini" value-key="id" label="Роль">
-                    <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item">
-                    </el-option>
+                    <el-option v-for="item in selectRolesList" :key="item.id" :label="item.name" :value="item"> </el-option>
                   </el-select>
                 </div>
                 <div>
@@ -57,8 +61,11 @@
                 <el-checkbox v-model="permission.guestAllow" size="mini"> </el-checkbox>
               </td>
               <td v-for="role in filteredRoles" :key="role.id" style="text-align: center">
-                <el-checkbox size="mini" :model-value="permission.checkPermissionForRole(role.id)"
-                  @change="permission.setRole($event, role.id)">
+                <el-checkbox
+                  size="mini"
+                  :model-value="permission.checkPermissionForRole(role.id)"
+                  @change="permission.setRole($event, role.id)"
+                >
                 </el-checkbox>
               </td>
             </tr>
@@ -239,7 +246,7 @@ export default defineComponent({
 
 // table
 .table-container {
-  overflow: auto;
+  overflow: scroll;
   width: auto;
   height: inherit;
 }

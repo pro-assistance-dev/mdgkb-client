@@ -13,13 +13,20 @@
             <template #header>
               <span>Информация об экзамене</span>
             </template>
-            <el-form-item v-if="isEditMode && !application.candidateExamId" label="Выберите экзамен"
+            <el-form-item
+              v-if="isEditMode && !application.candidateExamId"
+              label="Выберите экзамен"
               prop="candidateExamId"
-              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
-              <el-select v-model="application.candidateExam" value-key="id" placeholder="Выберите экзамен"
-                style="width: 100%" @change="courseChangeHandler">
-                <el-option v-for="item in candidateExams" :key="item.id" :label="'Кандидатский экзамен'" :value="item">
-                </el-option>
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+            >
+              <el-select
+                v-model="application.candidateExam"
+                value-key="id"
+                placeholder="Выберите экзамен"
+                style="width: 100%"
+                @change="courseChangeHandler"
+              >
+                <el-option v-for="item in candidateExams" :key="item.id" :label="'Кандидатский экзамен'" :value="item"> </el-option>
               </el-select>
             </el-form-item>
             <el-descriptions v-else :column="1">
@@ -166,6 +173,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;

@@ -301,6 +301,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .files-block {
   display: flex;
   justify-content: space-around;

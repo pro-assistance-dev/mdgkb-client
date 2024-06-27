@@ -1,6 +1,13 @@
 <template>
-  <el-dialog v-if="show" top="10vh" :model-value="show" :width="width" :show-close="true" :before-close="beforeClose"
-    @close="$emit('close')">
+  <el-dialog
+    v-if="show"
+    top="10vh"
+    :model-value="show"
+    :width="width"
+    :show-close="true"
+    :before-close="beforeClose"
+    @close="$emit('close')"
+  >
     <template #title>
       {{ title }}
     </template>
@@ -117,7 +124,7 @@ export default defineComponent({
 
 :deep(.el-dialog__body) {
   padding: 10px;
-  overflow: auto;
+  overflow: scroll;
 }
 
 :deep(.el-dialog__header) {

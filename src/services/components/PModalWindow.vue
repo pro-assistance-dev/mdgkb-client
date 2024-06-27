@@ -128,7 +128,7 @@ const close = () => {
 
 :deep(.el-dialog__body) {
   padding: 10px;
-  overflow: auto;
+  overflow: scroll;
 }
 
 :deep(.el-dialog__header) {

@@ -67,7 +67,7 @@ const props = defineProps({
 
 :deep(.el-table__body-wrapper) {
   height: 100% !important;
-  overflow: auto;
+  overflow: scroll;
   overflow-y: overlay;
 }
 

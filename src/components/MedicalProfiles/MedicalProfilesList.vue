@@ -58,6 +58,13 @@ const list = computed((): MedicalProfile[] => {
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .filter-form {
   margin: 10px 0;
 }
