@@ -5,9 +5,13 @@
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <el-container direction="vertical">
             <el-card>
-              <SetEntity :search-key="Employee.GetClassName()" label="Выбрать руководителя"
-                :entity-name="nmoCourse.mainTeacher.human.getFullName()" @select-search="selectMainTeacherSearch"
-                @reset="nmoCourse.resetMainTeacher()" />
+              <SetEntity
+                :search-key="Employee.GetClassName()"
+                label="Выбрать руководителя"
+                :entity-name="nmoCourse.mainTeacher.human.getFullName()"
+                @select-search="selectMainTeacherSearch"
+                @reset="nmoCourse.resetMainTeacher()"
+              />
             </el-card>
             <el-card>
               <el-form-item prop="title" label="Название:">
@@ -30,8 +34,7 @@
                 <el-form-item v-if="nmoCourse.isNmo" prop="listeners" label="Ссылка НМО">
                   <el-input v-model="nmoCourse.linkNmo" placeholder="Ссылка НМО" />
                 </el-form-item>
-                <el-select v-model="nmoCourse.formPattern" value-key="id" placeholder="Шаблон формы"
-                  @change="changeFormPatternHandler()">
+                <el-select v-model="nmoCourse.formPattern" value-key="id" placeholder="Шаблон формы" @change="changeFormPatternHandler()">
                   <el-option v-for="item in formPatterns" :key="item.id" :label="item.title" :value="item" />
                 </el-select>
               </el-container>
@@ -64,9 +67,12 @@
             </el-card>
             <el-card>
               <template #header> Выбрать специальности, для которых читается программа </template>
-              <el-checkbox v-for="specialization in specializations" :key="specialization.id"
+              <el-checkbox
+                v-for="specialization in specializations"
+                :key="specialization.id"
                 :model-value="nmoCourse.findSpecialization(specialization.id)"
-                @change="nmoCourse.addSpecialization(specialization)">
+                @change="nmoCourse.addSpecialization(specialization)"
+              >
                 {{ specialization.name }}
               </el-checkbox>
             </el-card>
@@ -156,6 +162,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;

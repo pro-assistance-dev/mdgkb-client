@@ -5,22 +5,29 @@
         <template #header>
           <span>Информация о программе</span>
         </template>
-        <el-form-item v-if="isEditMode && !dpoApplication.dpoCourseId" label="Выберите программу" prop="dpoCourseId"
-          :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
-          <el-select v-model="dpoApplication.nmoCourse" value-key="id" placeholder="Выберите программу"
-            style="width: 100%" @change="courseChangeHandler">
+        <el-form-item
+          v-if="isEditMode && !dpoApplication.dpoCourseId"
+          label="Выберите программу"
+          prop="dpoCourseId"
+          :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+        >
+          <el-select
+            v-model="dpoApplication.nmoCourse"
+            value-key="id"
+            placeholder="Выберите программу"
+            style="width: 100%"
+            @change="courseChangeHandler"
+          >
             <el-option v-for="item in dpoCourses" :key="item.id" :label="item.name" :value="item"> </el-option>
           </el-select>
         </el-form-item>
         <el-descriptions v-else :column="1" border>
           <el-descriptions-item label="Наименование">{{ dpoApplication.nmoCourse.name }}</el-descriptions-item>
-          <el-descriptions-item label="Тип программы">{{ dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО'
-            }}</el-descriptions-item>
+          <el-descriptions-item label="Тип программы">{{ dpoApplication.nmoCourse.isNmo ? 'НМО' : 'ДПО' }}</el-descriptions-item>
         </el-descriptions>
       </el-card>
       <div v-if="dpoApplication.nmoCourse.id">
-        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists"
-          @findEmail="findEmail" />
+        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
       </div>
       <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
     </el-form>
@@ -194,6 +201,12 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
 .el-container {
   .el-card {
     margin-bottom: 20px;

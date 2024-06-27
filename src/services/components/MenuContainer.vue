@@ -68,7 +68,7 @@ const props = defineProps({
   margin-top: 1px;
   border-top: 0.5px solid #343d5c;
   box-sizing: border-box;
-  overflow: auto;
+  overflow: scroll;
   height: 100%;
   overflow: hidden;
   overflow-y: auto;
