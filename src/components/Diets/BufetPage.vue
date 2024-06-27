@@ -1,6 +1,6 @@
 <template>
   <div v-if="cartIsOpen" class="menu-shadow">
-    <ModalBufetCart @close="toggleModalCart" @orderCreated="initForm" />
+    <ModalBufetCart @close="toggleModalCart" @order-created="initForm" />
   </div>
   <div id="container" class="container-bufet">
     <AdaptiveContainerHorizontal :menu-width="'170px'" :mobile-width="'1330px'" :title-sticky="true">
@@ -32,7 +32,7 @@
         <HeaderInfo :left-width="'188px'" :background="'#ffffff'" :is-single="true" :is-bufet="true">
           <template #foto>
             <div class="image-box">
-              <img src="/src/assets/img/bufet/image230.webp" alt="eat" />
+              <img :src="ImageBox" alt="eat" />
             </div>
           </template>
 
@@ -98,6 +98,7 @@
 </template>
 
 <script lang="ts" setup>
+import ImageBox from '@/assets/img/bufet/image230.webp';
 import Cart from '@/assets/svg/Buffet/Cart.svg';
 import DoubleArrow from '@/assets/svg/Buffet/DoubleArrow.svg';
 import Heart from '@/assets/svg/Buffet/Heart.svg';
@@ -106,11 +107,11 @@ import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
-import Contact from '@/services/classes/Contact';
-import PostAddress from '@/services/classes/PostAddress';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Hooks from '@/services/Hooks/Hooks';
 import DishesGroupsSortsLib from '@/libs/sorts/DishesGroupsSortsLib';
+import Contact from '@/services/classes/Contact';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import PostAddress from '@/services/classes/PostAddress';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
 const createBufetContacts = () => {
