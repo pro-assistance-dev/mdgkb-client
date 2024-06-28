@@ -15,7 +15,7 @@
       <FilterSelectV2 :filter-models="createFilterModels()" @load="loadComments" />
     </template>
     <div class="comments-container">
-      <div id="list" style="overflow: auto; padding-right: 5px">
+      <div id="list" style="overflow: scroll; padding-right: 5px">
         <AdminCommentCard v-for="(comment, i) in comments" :key="i" :comment="comment" />
       </div>
       <div v-if="!comments.length">Комментариев нет</div>

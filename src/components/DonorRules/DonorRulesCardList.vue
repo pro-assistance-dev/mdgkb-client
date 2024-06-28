@@ -1,15 +1,19 @@
 <template>
   <div class="wrapper">
     <template v-for="rule in donorRules" :key="rule.id">
-      <DonorRuleCard :donor-rule="rule" @addToUser="addToUser(rule)" @showRule="showRule(rule)"
-        @removeFromUser="removeFromUser(rule)" />
+      <DonorRuleCard :donor-rule="rule" @addToUser="addToUser(rule)" @showRule="showRule(rule)" @removeFromUser="removeFromUser(rule)" />
     </template>
   </div>
 
   <el-dialog v-model="visible" width="40%" :top="'5vh'" lock-scroll="true">
     <div class="scale-image-container">
-      <img v-if="currentRule.image.fileSystemPath" class="scale-image" :src="currentRule.image.getImageUrl()"
-        alt="donor-rule" @error="errorImg" />
+      <img
+        v-if="currentRule.image.fileSystemPath"
+        class="scale-image"
+        :src="currentRule.image.getImageUrl()"
+        alt="donor-rule"
+        @error="errorImg"
+      />
     </div>
   </el-dialog>
 </template>
@@ -90,6 +94,9 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .scale-image-container {

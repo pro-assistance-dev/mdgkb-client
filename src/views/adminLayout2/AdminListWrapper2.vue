@@ -64,17 +64,18 @@ const props = defineProps({
   border-bottom: 1px solid #ebeef5;
 }
 
-:deep(.el-table__body-wrapper) {
-  height: 100% !important;
-  overflow: auto;
-  overflow-y: overlay;
-}
+// :deep(.el-table__body-wrapper) {
+//   height: 100% !important;
+//   overflow: scroll;
+//   overflow-y: overlay;
+// }
 
 .admin-list-wrapper {
   position: relative;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  overflow-y: scroll;
   height: calc(100% - 30px);
   padding: 10px;
   box-sizing: border-box;
@@ -82,7 +83,6 @@ const props = defineProps({
   &-main {
     flex-shrink: 1;
     overflow: hidden;
-    height: calc(100% - 30px);
   }
 
   .filters {

@@ -80,6 +80,9 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
 }
 
 .el-card {

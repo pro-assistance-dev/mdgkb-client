@@ -402,8 +402,20 @@ ul.button-block li {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
-  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family:
+    BlinkMacSystemFont,
+    -apple-system,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    'Helvetica',
+    'Arial',
+    sans-serif;
   color: var(--gray-900);
   background-color: var(--white);
   border: 1px solid;
@@ -440,8 +452,20 @@ ul.button-block li {
   width: max-content;
   height: -webkit-max-content;
   height: max-content;
-  font-family: BlinkMacSystemFont, -apple-system, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
-    'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  font-family:
+    BlinkMacSystemFont,
+    -apple-system,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    'Helvetica',
+    'Arial',
+    sans-serif;
   color: var(--gray-900);
   background-color: var(--white);
   border: 1px solid;
@@ -606,7 +630,7 @@ ul.button-block li {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   position: relative;
-  overflow: auto;
+  overflow: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 6px;
   min-width: 250px;

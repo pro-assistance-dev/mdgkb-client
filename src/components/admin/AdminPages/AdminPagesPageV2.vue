@@ -35,7 +35,7 @@
           </div>
         </el-card>
       </div>
-      <div style="min-width: 1000px; flex: 1; box-sizing: border-box">
+      <div style="min-width: 1000px; flex: 1; box-sizing: border-box; height: 90vh; overflow-y: scroll">
         <div v-if="showMainSettings">
           <el-card>
             <template #header> Заголовок </template>

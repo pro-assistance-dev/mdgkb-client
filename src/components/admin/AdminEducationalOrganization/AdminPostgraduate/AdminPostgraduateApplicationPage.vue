@@ -4,8 +4,7 @@
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
           <div v-if="application.postgraduateCourse.id">
-            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists"
-              @findEmail="findEmail" />
+            <AdminFormValue :form="application.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
           </div>
           <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
         </el-col>
@@ -14,13 +13,20 @@
             <template #header>
               <span>Информация о программе</span>
             </template>
-            <el-form-item v-if="isEditMode && !application.postgraduateCourseId" label="Выберите программу"
+            <el-form-item
+              v-if="isEditMode && !application.postgraduateCourseId"
+              label="Выберите программу"
               prop="postgraduateCourseId"
-              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]">
-              <el-select v-model="application.postgraduateCourse" value-key="id" placeholder="Выберите программу"
-                style="width: 100%" @change="courseChangeHandler">
-                <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()"
-                  :value="item">
+              :rules="[{ required: true, message: 'Необходимо выбрать программу', trigger: 'change' }]"
+            >
+              <el-select
+                v-model="application.postgraduateCourse"
+                value-key="id"
+                placeholder="Выберите программу"
+                style="width: 100%"
+                @change="courseChangeHandler"
+              >
+                <el-option v-for="item in postgraduateCourses" :key="item.id" :label="item.getMainSpecialization()" :value="item">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -178,6 +184,13 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .el-container {
   .el-card {
     margin-bottom: 20px;

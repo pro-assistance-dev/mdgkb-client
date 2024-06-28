@@ -1,21 +1,33 @@
 <template>
   <div v-if="modalDishIsOpen" class="menu-shadow">
-    <ModalDishCard :daily-menu-item="dailyMenuItem" :dishes-group-name="dishesGroupName"
-      :daily-menu-name="dailyMenuName" @close="toggleModalDishCard" />
+    <ModalDishCard
+      :daily-menu-item="dailyMenuItem"
+      :dishes-group-name="dishesGroupName"
+      :daily-menu-name="dailyMenuName"
+      @close="toggleModalDishCard"
+    />
   </div>
   <el-form>
-    <div :id="dailyMenuItem.id" class="card" :style="{
-      opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
-    }">
+    <div
+      :id="dailyMenuItem.id"
+      class="card"
+      :style="{
+        opacity: status == 'tomorrow' || status == 'preparing' ? '50%' : '100%',
+      }"
+    >
       <div class="click-container" @click="toggleModalDishCard()">
         <div class="image-box">
           <div class="favor">
             <FavouriteIcon :domain-id="123" :domain-name="'favouriteDomain'" />
           </div>
-          <img v-if="dailyMenuItem.dishSample.image.fileSystemPath" data-test="eat-photo"
-            :src="dailyMenuItem.dishSample.image.getImageUrl()" alt="doctor-photo"
-            @error="dailyMenuItem.dishSample.image.errorImg($event)" />
-          <img v-else src="/src/assets/svg/Buffet/food.webp" alt="eat-photo" />
+          <img
+            v-if="dailyMenuItem.dishSample.image.fileSystemPath"
+            data-test="eat-photo"
+            :src="dailyMenuItem.dishSample.image.getImageUrl()"
+            alt="doctor-photo"
+            @error="dailyMenuItem.dishSample.image.errorImg($event)"
+          />
+          <img v-else :src="FoodImg" alt="eat-photo" />
         </div>
         <div class="price">{{ dailyMenuItem.price }} р.</div>
         <div class="name">{{ dailyMenuItem.name }}</div>
@@ -37,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+import FoodImg from '@/assets/svg/Buffet/food.webp';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishCardButton from '@/components/Diets/DishCardButton.vue';
@@ -58,7 +71,7 @@ const props = defineProps({
     type: String as PropType<string>,
     required: true,
   },
-})
+});
 const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
 let status = 'inStock';
 const modalDishIsOpen: Ref<boolean> = ref(false);
@@ -276,7 +289,7 @@ const toggleModalDishCard = () => {
   color: darken($color: #2754eb, $amount: 20%);
 }
 
-.hidden-parent:hover>.hidden-comment {
+.hidden-parent:hover > .hidden-comment {
   display: block;
 }
 </style>

@@ -47,6 +47,13 @@ Hooks.onBeforeMount(load);
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 60px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .height1 {
   height: 623px;
 }
