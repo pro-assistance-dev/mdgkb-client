@@ -8,12 +8,12 @@
     </template>
     <IsometricMapDestinationStepper @select-node="getRoute" />
   </TopSliderContainer>
-  <div style="height: 400">
-    <!-- <IsometricMapBuildingInfo v-if="buildingModalOpened" @close="buildingModalOpened = false" /> -->
-    <!-- <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" /> -->
-    <div class="map-menu"></div>
-    <div id="map" ref="target"></div>
-  </div>
+  <PModalWindow :show="buildingModalOpened" :closable="true" @close="buildingModalOpened = false">
+    <IsometricMapBuildingInfo />
+  </PModalWindow>
+  <!-- <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" /> -->
+  <!-- <div class="map-menu"></div> -->
+  <div class="map-layer" id="map" ref="target"></div>
   <Navi />
 </template>
 
@@ -45,6 +45,10 @@ const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
 const buildingClick = async (event: { id: string }) => {
   await Store.Get('buildings', event.id);
   buildingModalOpened.value = true;
+};
+
+const close = async () => {
+  buildingModalOpened.value = false;
 };
 
 const getRoute = async (endNode: string) => {
@@ -89,7 +93,6 @@ onMounted(async () => {
   engine.add(mark);
   await getRoute(mapRouter.endNodeName);
 });
-
 /*
  * Const createRoutes = async () => {
  *   const nodes = mapModel.getNodes();
@@ -104,12 +107,9 @@ onMounted(async () => {
   display: none;
 }
 
-// .title {
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   background: #006BB4;
-// }
+.map-layer {
+  z-index: 100;
+}
 .map-menu {
   position: absolute;
   top: 0;
