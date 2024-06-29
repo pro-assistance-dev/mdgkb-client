@@ -95,44 +95,6 @@ const close = () => {
   overflow: hidden;
   max-height: 70vh;
   background: $main-white;
-}
-
-.base-title {
-  margin: 0 auto;
-  padding: 55px 0 20px 0;
-  color: #5f6a99;
-  font-size: 28px;
-  font-family: Gilroy, Arial, Helvetica, sans-serif;
-  border-bottom: 1px solid #e3e7fb;
-}
-
-.dialog-header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.modal-wrapper {
-  width: 100%;
-  height: 100%;
-}
-
-:deep(.el-dialog) {
-  position: relative;
-  background-color: #eef1f6;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  z-index: 10000;
-}
-
-:deep(.el-dialog__body) {
-  padding: 10px;
-  overflow: scroll;
-}
-
-:deep(.el-dialog__header) {
-  padding-top: 0;
-  font-size: 20px;
+  min-height: 40px;
 }
 </style>

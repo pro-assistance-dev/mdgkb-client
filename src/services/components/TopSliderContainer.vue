@@ -1,7 +1,8 @@
 <template>
-  <div v-if="!isToggle" class="blur" @click="isToggle = true"></div>
+  <div v-if="!isToggle" class="blur" @click.prevent="isToggle = true" @click.stop="() => undefined"></div>
   <div
     class="top-slider"
+    @click.stop="() => undefined"
     :style="{
       marginTop: isToggle ? `calc(${sliderOffHeight} - ${sliderOnHeight})` : `0`,
       height: sliderOnHeight,
@@ -77,6 +78,8 @@ const hovering = ref(false);
   width: 100%;
   height: 100%;
   z-index: 3;
+  background: black;
+  opacity: 0.3;
 }
 
 .top-slider {
