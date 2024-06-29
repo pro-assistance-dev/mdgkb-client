@@ -11,4 +11,7 @@ export default class Floor {
   constructor(i?: Floor) {
     ClassHelper.BuildClass(this, i);
   }
+  findDivisions(filterString: string): Division[] {
+    return this.divisions.filter((d: Division) => Strings.SearchIn(d.name, filterString));
+  }
 }

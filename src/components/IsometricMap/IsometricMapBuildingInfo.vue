@@ -14,23 +14,30 @@
       <div class="building-number">{{ building.number }}</div>
     </div>
   </div>
+  <PInput v-model="filterString" />
+
+  <div v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
+    <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
+      Этаж {{ floor.number }}
+    </div>
+    <div
+      v-for="division in floor.findDivisions(filterString)"
+      :key="division.id"
+      :value="division.id"
+      :label="division.name"
+      @click="Router.To('/divisions/' + division.id)"
+    >
+      <span class="el-select-dropdown__item" style="padding-left: 80px; font-size: 14px; color: #343d5c">{{ division.name }}</span>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import Building from '@/classes/Building';
-import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import Provider from '@/services/Provider/Provider';
 const emit = defineEmits(['close']);
-// const filterString: Ref<string> = ref('');
+const filterString: Ref<string> = ref('');
 
-const building: ComputedRef<Building> = computed<Building>(() => Provider.store.getters['buildings/item']);
-
-// const divisionsFilter = (division: Division): boolean => {
-//   if (filterString.value.length === 0) {
-//     return true;
-//   }
-//   return division.name.toLowerCase().includes(StringsService.translit(filterString.value.toLowerCase()));
-// };
+const building: ComputedRef<Building> = Store.Item('buildings');
 </script>
 
 <style lang="scss" scoped>

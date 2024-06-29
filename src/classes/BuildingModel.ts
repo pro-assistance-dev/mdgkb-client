@@ -51,9 +51,11 @@ export default class BuildingModel extends Three.Mesh {
   }
 
   click() {
+    console.log(this);
+
     this.dispatchEvent({
       type: MapBuildingsEventsTypes.Click as string as keyof Three.Object3DEventMap,
-      id: '81299614-b64f-4ba7-9cfa-3210569a1909',
+      id: '41a2e572-8dde-4255-8d7d-f205ebdd91a5',
     } as Three.BaseEvent<keyof Three.Object3DEventMap>);
   }
 
