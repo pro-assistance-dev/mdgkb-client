@@ -1,7 +1,7 @@
 <template>
-  <div v-if="show" class="blur" @click="close" />
+  <div v-if="s" class="blur" @click="close" />
   <div
-    v-if="show"
+    v-if="s"
     class="modal-w"
     :style="{
       maxWidth: width,
@@ -54,7 +54,13 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['save', 'close']);
-
+const s = ref(false);
+watch(
+  () => props.show,
+  () => {
+    s.value = !s.value;
+  }
+);
 const close = () => {
   if (!props.closable) {
     return;

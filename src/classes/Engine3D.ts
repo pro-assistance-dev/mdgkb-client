@@ -13,6 +13,7 @@ interface IClickable extends Object3D {
 }
 
 export default class Engine3D {
+  active = true;
   private core = new Core3D();
   hoveredObject?: IHoverable;
 
@@ -33,6 +34,9 @@ export default class Engine3D {
   }
 
   onPointerMove(e: MouseEvent) {
+    if (!this.active) {
+      return;
+    }
     this.core.setPointerCoordinates(e);
     const obj = this.core.getFirstIntersect<IHoverable>(this.hoverables);
     if (!obj) {
@@ -49,6 +53,9 @@ export default class Engine3D {
   }
 
   onPointerClick(e: MouseEvent) {
+    if (!this.active) {
+      return;
+    }
     // const obj = this.getFirstIntersect<IClickable>(this.clickables);
     // @ts-ignore
     this.core.getIntersects(this.clickables).forEach((i: IClickable) => i.object.onPointerClick());

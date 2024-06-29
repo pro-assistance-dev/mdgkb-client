@@ -8,12 +8,12 @@
     </template>
     <IsometricMapDestinationStepper @select-node="getRoute" />
   </TopSliderContainer>
-  <PModalWindow :show="buildingModalOpened" :closable="true" @close="buildingModalOpened = false">
+  <PModalWindow :show="buildingModalOpened" :closable="true" @close="close">
     <IsometricMapBuildingInfo />
   </PModalWindow>
   <!-- <IsometricMapRouter v-if="mapRouter.interfaceOpened" :map-router="mapRouter" /> -->
   <!-- <div class="map-menu"></div> -->
-  <div class="map-layer" id="map" ref="target"></div>
+  <div id="map" ref="target" class="map-layer" />
   <Navi />
 </template>
 
@@ -43,12 +43,18 @@ let mapModel: MapModel = new MapModel();
 const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
 
 const buildingClick = async (event: { id: string }) => {
+  console.log('buildingClick');
   await Store.Get('buildings', event.id);
+
   buildingModalOpened.value = true;
+  engine.active = false;
 };
 
 const close = async () => {
   buildingModalOpened.value = false;
+  setTimeout(() => {
+    engine.active = true;
+  }, 100);
 };
 
 const getRoute = async (endNode: string) => {
