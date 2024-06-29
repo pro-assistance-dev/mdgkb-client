@@ -24,7 +24,6 @@ const steps = {
   'Сотрудники МО': {},
   Доставка: {},
   'В кассу': {},
-  'Закрыть меню, перейти к карте': undefined,
 };
 
 const selectedSpep: Ref<unknown> = ref(steps);

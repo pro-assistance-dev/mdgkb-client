@@ -8,7 +8,7 @@
     </template>
     <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
     <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" @load="$emit('load')" />
-    <PButton v-if="!root" text="Назад" @click="back" />
+    <PButton v-if="!root" text="Назад" @click="back" margin="25px auto 0 auto" width="120px" />
   </TopSliderContainer>
 </template>
 
@@ -37,7 +37,6 @@ const steps = {
   // 'Сотрудники МО': {},
   // Доставка: {},
   // 'В кассу': {},
-  'Закрыть меню, перейти к карте': undefined,
 };
 
 const selectedStep: Ref<unknown> = ref(steps);
