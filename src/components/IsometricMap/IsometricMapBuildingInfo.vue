@@ -17,7 +17,7 @@
     </div>
     <PInput v-model="filterString" placeholder="Найти" margin="20px 0" />
     <div class="scroll-container">
-      <div v-for="floor in building.getFloorsWithDivisions()" :key="floor.id">
+      <div v-for="floor in building.getFloorsWithDivisions(filterString)" :key="floor.id">
         <div class="el-select-dropdown__item" style="padding-left: 40px; cursor: default; text-transform: uppercase; color: #a1a7bd">
           Этаж {{ floor.number }}
         </div>

@@ -26,8 +26,6 @@ export default class MapRouter {
     this.engine = engine;
   }
 
-  emit = defineEmits(['close', 'buildRoute']);
-
   catBuildNode(): boolean {
     return !!this.startNodeName && !!this.endNodeName;
   }
@@ -62,9 +60,9 @@ export default class MapRouter {
   selectEnd(objectName: string, nodeName: string) {
     this.endNodeName = nodeName;
     this.endObjectName = objectName;
-    if (this.emit) {
-      this.emit('buildRoute');
-    }
+    // if (this.emit) {
+    //   this.emit('buildRoute');
+    // }
   }
 
   selectSearch(event: SearchElement) {

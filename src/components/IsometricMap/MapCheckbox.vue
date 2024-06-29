@@ -6,44 +6,16 @@
         <path fill="#ffffff" d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z" />
       </svg>
     </div>
-    {{ filterModel.label || label }}
+    {{ label }}
   </label>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
-import FilterModel from '@/services/classes/filters/FilterModel';
-import Provider from '@/services/Provider/Provider';
-
-export default defineComponent({
-  name: 'MapCheckbox',
-  props: {
-    filterModel: {
-      type: Object as PropType<FilterModel>,
-      default: () => new FilterModel(),
-      required: true,
-    },
-    label: {
-      type: String as PropType<string>,
-      required: false,
-      default: 'Текст лейбла',
-    },
-  },
-  emits: ['load'],
-  setup(props, { emit }) {
-    const setFilterModel = (value: boolean) => {
-      props.filterModel.setBoolean(value);
-      if (value) {
-        Provider.setFilterModel(props.filterModel);
-      } else {
-        Provider.spliceFilterModel(props.filterModel.id);
-      }
-      emit('load');
-    };
-    return {
-      setFilterModel,
-    };
+<script lang="ts" setup>
+defineProps({
+  label: {
+    type: String as PropType<string>,
+    required: false,
+    default: 'Текст лейбла',
   },
 });
 </script>

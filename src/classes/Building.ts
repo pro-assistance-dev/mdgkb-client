@@ -19,13 +19,13 @@ export default class Building {
     ClassHelper.BuildClass(this, i);
   }
 
-  getFloorsWithDivisions(): Floor[] {
-    return this.floors.filter((f: Floor) => f.divisions && f.divisions.length > 0);
+  getFloorsWithDivisions(filterString: string): Floor[] {
+    return this.floors.filter((f: Floor) => f.findDivisions(filterString) && f.findDivisions(filterString).length > 0);
   }
 
   findDivision(divisionId: string): Division | undefined {
     let indexOfDivision = -1;
-    const indexOfFloor = this.floors.findIndex((f: Floor, floorIndex: number) => {
+    const indexOfFloor = this.floors.findIndex((f: Floor) => {
       const divIndex = f.divisions.findIndex((d: Division) => d.id === divisionId);
       if (divIndex && divIndex > -1) {
         indexOfDivision = divIndex;

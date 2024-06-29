@@ -1,5 +1,5 @@
 <template>
-  <IsometricMapDestinationStepper @select-node="getRoute" @close="closeStepper" />
+  <IsometricMapDestinationStepper @select-node="getRoute" />
   <PModalWindow :show="buildingModalOpened" :closable="true" @close="close">
     <IsometricMapBuildingInfo />
   </PModalWindow>
@@ -69,6 +69,9 @@ onBeforeMount(() => {
   mapRouter.selectEnd('', Router.GetStringQueryParam('end'));
 });
 
+onBeforeUnmount(() => {
+  document.body.style.cursor = 'auto';
+});
 onMounted(async () => {
   /*
    * If (mapRouter.startNodeName) {

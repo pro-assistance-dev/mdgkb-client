@@ -1,5 +1,5 @@
 <template>
-  <TopSliderContainer slider-on-height="500px" title-background="#006BB4" title-color="#ffffff" :toggle="showDestinationStepper">
+  <TopSliderContainer :slider-on-height="'500px'" :toggle="showDestinationStepper">
     <template #title>
       <span>Навигатор</span>
       <svg class="navi-icon">
@@ -7,15 +7,12 @@
       </svg>
     </template>
     <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
-    <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" @load="$emit('load')" />
-    <PButton v-if="!root" text="Назад" @click="back" margin="25px auto 0 auto" width="120px" />
+    <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" />
+    <PButton v-if="!root" text="Назад" margin="25px auto 0 auto" width="120px" @click="back" />
   </TopSliderContainer>
 </template>
 
 <script lang="ts" setup>
-import StringItem from '@/services/components/StringItem.vue';
-import MapCheckbox from './MapCheckbox.vue';
-
 const emit = defineEmits(['selectNode']);
 
 const showDestinationStepper = ref(false);

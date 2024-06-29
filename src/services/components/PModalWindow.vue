@@ -62,7 +62,17 @@ watch(
     s.value = !s.value;
   }
 );
-
+const escapeHandler = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') {
+    close();
+  }
+};
+onMounted(() => {
+  document.body.addEventListener('keydown', escapeHandler);
+});
+onBeforeUnmount(() => {
+  document.body.removeEventListener('keydown', escapeHandler);
+});
 const close = () => {
   if (!props.closable) {
     return;

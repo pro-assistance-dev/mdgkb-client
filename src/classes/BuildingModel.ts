@@ -9,6 +9,7 @@ export default class BuildingModel extends Three.Mesh {
   isClickable = true;
   isActive = false;
   number = '';
+  buildingId = '';
   displayLines = true;
   conditionalLines = true;
   standartMaterial?: Three.Material | Three.Material[];
@@ -31,6 +32,7 @@ export default class BuildingModel extends Three.Mesh {
 
   setNumber(): void {
     this.number = this.name.split('_')[1];
+    this.buildingId = this.name.split('_').slice(2).join('-');
   }
 
   getMesh(): Mesh {
@@ -44,18 +46,20 @@ export default class BuildingModel extends Three.Mesh {
   onPointerOver() {
     this.standartMaterial = this.material;
     this.material = new Three.MeshStandardMaterial({ color: 'red' });
+    document.body.style.cursor = 'pointer';
   }
 
   onPointerOut() {
     this.material = this.standartMaterial ?? this.material;
+    document.body.style.cursor = 'auto';
   }
 
   click() {
-    console.log(this);
+    console.log(this.parent);
 
     this.dispatchEvent({
       type: MapBuildingsEventsTypes.Click as string as keyof Three.Object3DEventMap,
-      id: '41a2e572-8dde-4255-8d7d-f205ebdd91a5',
+      id: (this.parent as BuildingModel).buildingId as string,
     } as Three.BaseEvent<keyof Three.Object3DEventMap>);
   }
 
@@ -79,6 +83,7 @@ export default class BuildingModel extends Three.Mesh {
 
     c.setNumber = this.setNumber;
     c.number = this.number;
+    c.buildingId = this.buildingId;
     c.setNumber();
     this.standartMaterial = this.material;
     c.standartMaterial = this.material;
