@@ -1,15 +1,28 @@
 <template>
-  <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
-  <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" @load="$emit('load')" />
+  <TopSliderContainer slider-on-height="500px" title-background="#006BB4" title-color="#ffffff" :toggle="showDestinationStepper">
+    <template #title>
+      <span>Навигатор</span>
+      <svg class="navi-icon">
+        <use xlink:href="#Group 805"></use>
+      </svg>
+    </template>
+    <StringItem string="Выберите точку назначения:" margin="10px" font-size="18px" />
+    <MapCheckbox v-for="(step, key) in selectedStep" :key="step" :label="key" @click="selectStep(step)" @load="$emit('load')" />
+    <PButton v-if="!root" text="Назад" @click="back" />
+  </TopSliderContainer>
 </template>
 
 <script lang="ts" setup>
 import StringItem from '@/services/components/StringItem.vue';
-
 import MapCheckbox from './MapCheckbox.vue';
 
-const emit = defineEmits(['selectNode', 'close']);
+const emit = defineEmits(['selectNode']);
 
+const showDestinationStepper = ref(false);
+const closeStepper = () => {
+  showDestinationStepper.value = !showDestinationStepper.value;
+};
+const root = ref(true);
 const steps = {
   Пациенты: {
     Экстренно: { nodeName: '29' },
@@ -29,12 +42,20 @@ const steps = {
 
 const selectedStep: Ref<unknown> = ref(steps);
 
+const back = (): void => {
+  selectedStep.value = steps;
+  root.value = true;
+};
+
 const selectStep = (step: unknown) => {
   if (!step) {
-    emit('close');
+    showDestinationStepper.value = !showDestinationStepper.value;
+    return;
   }
+  root.value = false;
   if (step.nodeName) {
     emit('selectNode', step.nodeName);
+    showDestinationStepper.value = !showDestinationStepper.value;
     return;
   }
   selectedStep.value = step;

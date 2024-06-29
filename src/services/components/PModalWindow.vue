@@ -55,12 +55,14 @@ const props = defineProps({
 });
 const emit = defineEmits(['save', 'close']);
 const s = ref(false);
+
 watch(
   () => props.show,
   () => {
     s.value = !s.value;
   }
 );
+
 const close = () => {
   if (!props.closable) {
     return;

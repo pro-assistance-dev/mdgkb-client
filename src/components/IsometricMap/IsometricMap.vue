@@ -1,13 +1,5 @@
 <template>
-  <TopSliderContainer slider-on-height="500px" title-background="#006BB4" title-color="#ffffff" :toggle="showDestinationStepper">
-    <template #title>
-      <span>Навигатор</span>
-      <svg class="navi-icon">
-        <use xlink:href="#Group 805"></use>
-      </svg>
-    </template>
-    <IsometricMapDestinationStepper @select-node="getRoute" />
-  </TopSliderContainer>
+  <IsometricMapDestinationStepper @select-node="getRoute" @close="closeStepper" />
   <PModalWindow :show="buildingModalOpened" :closable="true" @close="close">
     <IsometricMapBuildingInfo />
   </PModalWindow>
@@ -35,15 +27,12 @@ import Router from '@/services/Router';
 
 const target = ref();
 const buildingModalOpened: Ref<boolean> = ref(false);
-const showDestinationStepper = ref(false);
 const engine: Engine3D = new Engine3D();
 const mapRouter: MapRouter = new MapRouter(engine);
 let mapModel: MapModel = new MapModel();
-
 const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
 
 const buildingClick = async (event: { id: string }) => {
-  console.log('buildingClick');
   await Store.Get('buildings', event.id);
 
   buildingModalOpened.value = true;
@@ -61,7 +50,6 @@ const getRoute = async (endNode: string) => {
   mapRouter.drop();
   if (endNode) {
     mapRouter.endNodeName = endNode;
-    showDestinationStepper.value = false;
   }
   await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
   mapRouter.add(
