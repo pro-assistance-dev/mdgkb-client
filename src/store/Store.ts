@@ -27,7 +27,8 @@ import { computed, ComputedRef } from 'vue';
 
 class StoreC {
   Faqs = () => FaqsStore();
-  Pages = () => ore();
+  Pages = () => PagesStore();
+
   async Dispatch(request: string, opts?: GetAllOptions | unknown) {
     await getStore().dispatch(request, opts);
   }

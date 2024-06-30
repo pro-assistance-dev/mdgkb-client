@@ -1,3 +1,5 @@
+import { computed, ComputedRef } from 'vue';
+
 import Cache from '@/services/Cache';
 import FileInfo from '@/services/classes/FileInfo';
 import FTSP from '@/services/classes/filters/FTSP';
@@ -8,8 +10,6 @@ import IFileInfosGetter from '@/services/interfaces/IFileInfosGetter';
 import { IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
-
-import { computed, ComputedRef } from 'vue';
 
 interface GetAllOptions {
   withCache?: boolean;

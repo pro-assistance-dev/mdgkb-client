@@ -1,5 +1,5 @@
-import Page from '@/classes/pages/Page';
 import BaseStore from '@/services/BaseStore';
+import Page from '@/services/classes/page/Page';
 
 class S extends BaseStore<Page> {
   isSideMenuDialogActive = false;
@@ -13,7 +13,7 @@ class S extends BaseStore<Page> {
 }
 
 let store: S;
-export default function PagesStore(): S {
+export default function Store(): S {
   if (!store) {
     store = new S();
   }
