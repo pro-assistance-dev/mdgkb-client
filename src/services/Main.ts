@@ -38,7 +38,7 @@ import Router from './Router';
 import Scheduler from './Scheduler';
 import Scroll from './Scroll';
 import sort from './sort';
-import Store from './Store';
+// import Store from './Store';
 import Strings from './Strings';
 import Time from './Time';
 import Timer from './Timer';
@@ -90,7 +90,7 @@ export {
   Scroll,
   sort,
   SortModel,
-  Store,
+  // Store,
   Strings,
   Time,
   Timer,

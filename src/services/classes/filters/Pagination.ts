@@ -74,7 +74,7 @@ export default class Pagination {
     this.offset = 0;
     this.limit = 25;
     //TODO: Переделать,когда FTSP станет реактивным
-    Store.Commit('pagination/setCurPage', 1);
+    // Store.Commit('pagination/setCurPage', 1);
     ClassHelper.BuildClass(this);
   }
 }

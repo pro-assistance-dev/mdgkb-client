@@ -43,7 +43,7 @@ declare global {
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
   const SortModel: typeof import('@/services/Main')['SortModel']
-  const Store: typeof import('@/services/Main')['Store']
+  const Store: typeof import('@/classes/Main')['Store']
   const Strings: typeof import('@/services/Main')['Strings']
   const Swapper: typeof import('@/services/Main')['Swapper']
   const Time: typeof import('@/services/Main')['Time']
@@ -159,7 +159,7 @@ declare module 'vue' {
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
-    readonly Store: UnwrapRef<typeof import('@/services/Main')['Store']>
+    readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
@@ -268,7 +268,7 @@ declare module '@vue/runtime-core' {
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
-    readonly Store: UnwrapRef<typeof import('@/services/Main')['Store']>
+    readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>

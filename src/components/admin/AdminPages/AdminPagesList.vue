@@ -31,7 +31,7 @@ import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
+import AdminListWrapper from '@/views/adminLayout2/AdminListWrapper2.vue';
 
 const pages: ComputedRef<Page[]> = Store.Items('pages');
 // const user: ComputedRef<User> = Store.Item('auth', 'user');

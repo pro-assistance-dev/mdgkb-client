@@ -1,9 +1,9 @@
-import Notification from './Notification';
+import { ref } from 'vue';
+
+import AdminHead from './AdminHead';
 import Dialog from './Dialog';
 import Loading from './Loading';
-import AdminHead from './AdminHead';
-
-import { ref } from 'vue';
+import Notification from './Notification';
 
 export default abstract class PHelp {
   static dialog = ref(Dialog);

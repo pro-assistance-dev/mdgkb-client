@@ -55,7 +55,7 @@ export default ({ mode }) => {
           'vue',
           {
             '@/services/Main': ServicesNames,
-            '@/classes/Main': ['Doctor'],
+            '@/classes/Main': ['Doctor', 'Store'],
           },
         ],
         resolvers: [ElementPlusResolver()],

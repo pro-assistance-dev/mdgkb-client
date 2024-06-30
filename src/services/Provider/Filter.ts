@@ -4,7 +4,7 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
 import SortModel from '@/services/classes/SortModel';
-import Store from '@/services/Store';
+// import Store from '@/services/Store';
 
 import FTSP from '../classes/filters/FTSP';
 
