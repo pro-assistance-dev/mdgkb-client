@@ -62,7 +62,6 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Menu from '@/services/classes/Menu';
 

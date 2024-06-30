@@ -38,8 +38,7 @@
       <el-table-column v-if="!filesOnly" label="Тип данных" sortable width="300px">
         <template #default="scope">
           <el-form-item :prop="'fields.' + scope.$index + '.valueType.id'" style="margin: 0" :rules="rules.valueType">
-            <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных"
-              @change="changeHandler(scope.row)">
+            <el-select v-model="scope.row.valueType" value-key="id" label="Тип данных" @change="changeHandler(scope.row)">
               <el-option v-for="item in valueTypes" :key="item.id" :label="item.name" :value="item"> </el-option>
             </el-select>
           </el-form-item>
@@ -106,7 +105,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
 import Form from '@/classes/Form';
@@ -129,8 +127,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
-    const valueTypes: Ref<ValueType[]> = computed(() => store.getters['valueTypes/items']);
+    const valueTypes: Ref<ValueType[]> = Store.Items('valueTypes');
     const addField = () => {
       if (props.filesOnly) {
         const fileValueType = valueTypes.value.find((el) => el.isFile());
@@ -148,7 +145,7 @@ export default defineComponent({
     });
 
     onBeforeMount(async () => {
-      await store.dispatch('valueTypes/getAll');
+      await Store.GetAll('valueTypes');
     });
 
     const changeHandler = (field: Field) => {

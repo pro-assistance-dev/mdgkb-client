@@ -6,24 +6,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import AdminSideMenu from '@/views/adminLayout/AdminSideMenu.vue';
 
-export default defineComponent({
-  name: 'AdminMenuDrawer',
-  components: { AdminSideMenu },
-
-  setup() {
-    const store = useStore();
-    const isDrawerOpen = computed(() => store.getters['admin/isDrawerOpen']);
-    const closeDrawer = () => store.commit('admin/closeDrawer');
-
-    return { isDrawerOpen, closeDrawer };
-  },
-});
+const isDrawerOpen = Store.Getters('admin/isDrawerOpen');
+const closeDrawer = Store.Getters('admin/closeDrawer');
 </script>
 
 <style lang="scss" scoped>

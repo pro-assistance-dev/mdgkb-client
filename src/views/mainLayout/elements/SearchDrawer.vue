@@ -42,7 +42,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import SearchGroup from '@/classes/SearchGroup';
 import SearchModel from '@/services/classes/SearchModel';
@@ -50,22 +49,21 @@ import SearchModel from '@/services/classes/SearchModel';
 export default defineComponent({
   name: 'SearchDrawer',
   setup() {
-    const store = useStore();
     const searchInput = ref();
     const searchString: Ref<string> = ref('');
     const groups: Ref<string[]> = ref([]);
     const router = useRouter();
 
-    const searchModel: ComputedRef<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
-    const searchGroups: ComputedRef<SearchGroup[]> = computed<SearchGroup[]>(() => store.getters['search/searchGroups']);
-    const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => store.getters['search/isSearchDrawerOpen']);
+    const searchModel: ComputedRef<SearchModel> = Store.Getters('search/searchModel');
+    const searchGroups: ComputedRef<SearchGroup[]> = Store.Getters('search/searchGroups');
+    const isDrawerOpen: ComputedRef<boolean> = Store.Getters('search/isSearchDrawerOpen');
 
     const openDrawer = () => {
       searchModel.value.searchGroups = [];
       searchInput.value.inputRef.focus();
     };
 
-    const closeDrawer = () => store.commit('search/toggleDrawer', false);
+    const closeDrawer = () => Store.Commit('search/toggleDrawer', false);
 
     onBeforeMount(async () => {
       // await store.dispatch('search/searchGroups');
@@ -75,12 +73,12 @@ export default defineComponent({
       searchModel.value.searchGroups = [];
       if (query.length > 2) {
         searchModel.value.query = query;
-        await store.dispatch('search/mainSearch', searchModel.value);
+        await Store.Dispatch('search/mainSearch', searchModel.value);
       }
     };
 
     const handleSelect = async (link: string) => {
-      store.commit('search/toggleDrawer', false);
+      Store.Commit('search/toggleDrawer', false);
       await router.push(link);
     };
     const changeFilter = (searchGroupIds: string[]) => {

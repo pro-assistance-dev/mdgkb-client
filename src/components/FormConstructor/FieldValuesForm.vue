@@ -69,7 +69,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Field from '@/classes/Field';
 import FileInfo from '@/services/classes/FileInfo.ts';
@@ -113,8 +112,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const store = useStore();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => store.getters['formStatuses/items']);
+    const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
     const formValue: Ref<Form | undefined> = ref();
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
@@ -122,7 +120,7 @@ export default defineComponent({
     const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
-      await store.dispatch('formStatuses/getAll');
+      await Store.Dispatch('formStatuses/getAll');
       if (!formValue.value.formStatus.label && formValue.value.defaultFormStatus) {
         formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses.value);
       }

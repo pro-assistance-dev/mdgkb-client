@@ -36,16 +36,12 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
 import HospitalizationType from '@/classes/HospitalizationType';
 
 export default defineComponent({
   name: 'HospitalizationsHowSendApplication',
   setup() {
-    const store = useStore();
-    const hospitalization: ComputedRef<HospitalizationType> = computed(() => store.getters['hospitalizations/item']);
+    const hospitalization: ComputedRef<HospitalizationType> = Store.Item('hospitalization';
 
     return {
       hospitalization,
@@ -76,8 +72,12 @@ $card-width: 300px;
   justify-content: space-between;
   overflow: hidden;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 5px, rgba(0, 0, 0, 0.1) 0px -1px 3px, rgba(0, 0, 0, 0.1) 0px 4px 6px,
-      rgba(0, 0, 0, 0.1) 0px 2px 3px, rgba(0, 0, 0, 0.1) 0px -3px 5px;
+    box-shadow:
+      rgba(0, 0, 0, 0.1) 0px 5px 5px,
+      rgba(0, 0, 0, 0.1) 0px -1px 3px,
+      rgba(0, 0, 0, 0.1) 0px 4px 6px,
+      rgba(0, 0, 0, 0.1) 0px 2px 3px,
+      rgba(0, 0, 0, 0.1) 0px -3px 5px;
   }
 
   .transition-box {

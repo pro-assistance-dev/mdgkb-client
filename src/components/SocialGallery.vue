@@ -25,7 +25,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import SocialMedia from '@/classes/SocialMedia';
 
@@ -33,14 +32,13 @@ export default defineComponent({
   name: 'SocialGallery',
 
   setup() {
-    const store = useStore();
-    const socials: ComputedRef<SocialMedia[]> = computed(() => store.getters['meta/socials']);
+    const socials: ComputedRef<SocialMedia[]> = Store.Getters('meta/socials');
     let socialsGroups: Ref<SocialMedia[][]> = ref([]);
     const mounted = ref(false);
     const carouselRef = ref();
 
     onBeforeMount(async (): Promise<void> => {
-      await store.dispatch('meta/getSocial');
+      await Store.Dispatch('meta/getSocial');
       // socialsGroups = splitByGroups(socials.value);
       const results: SocialMedia[][] = [];
 

@@ -12,7 +12,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useStore } from 'vuex';
 
 import EducationalManager from '@/classes/EducationalManager';
 import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
@@ -23,21 +22,20 @@ export default defineComponent({
   name: 'EducationalManagersList',
   components: { EducationalManagerCard, LoadMoreButton },
   setup() {
-    const store = useStore();
-    const educationalManagers: Ref<EducationalManager[]> = computed<EducationalManager[]>(() => store.getters['educationalManagers/items']);
+    const educationalManagers: Ref<EducationalManager[]> = Store.Items('educationalManagers');
 
     onBeforeMount(async () => {
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 6;
-      store.commit('filter/setStoreModule', 'educationalManagers');
-      await store.dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
+      Store.Commit('filter/setStoreModule', 'educationalManagers');
+      await Store.Dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     });
 
     const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
       // const lastCursor = managers.value[managers.value.length - 1].name;
-      await store.dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
+      await Store.Dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     };
 
     return {

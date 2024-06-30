@@ -21,9 +21,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import News from '@/classes/News';
 import MainContainer from '@/components/Main/MainContainer.vue';
 import NewsCard from '@/components/News/NewsCard.vue';
@@ -34,16 +31,15 @@ export default defineComponent({
   components: { MainContainer, NewsCard },
 
   setup() {
-    const store = useStore();
-    const news = computed(() => store.getters['news/items']);
+    const news = Store.Items('news');
     const carousel: Ref<News[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
     onBeforeMount(async () => {
-      store.commit('news/clearNews');
-      // await store.dispatch('news/getAllMain');
-      await store.commit('news/setFilteredNews');
+      Store.Commit('news/clearNews');
+      // await Store.dispatch('news/getAllMain');
+      await Store.Commit('news/setFilteredNews');
       carousel.value = makeCarousel<News>(news.value, 4);
       mounted.value = true;
     });

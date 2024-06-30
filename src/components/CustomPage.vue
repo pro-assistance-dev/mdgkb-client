@@ -47,34 +47,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-
-import NewsComment from '@/classes/NewsComment';
-import ImageGallery from '@/components/ImageGallery.vue';
+<script lang="ts" setup>
 import Page from '@/services/classes/page/Page';
-export default defineComponent({
-  name: 'CustomPage',
-  components: { ImageGallery },
-  setup() {
-    let comment = ref(new NewsComment());
-    const commentInput = ref();
-    const store = useStore();
-    const page: ComputedRef<Page> = computed(() => store.getters['pages/item']);
+const page: ComputedRef<Page> = Store.Item('pages');
 
-    const pageContent = computed(() =>
-      page.value.content ? page.value.content : '<p style="text-align: center">Описание отсутствует</p>'
-    );
-
-    return {
-      comment,
-      page,
-      pageContent,
-      commentInput,
-    };
-  },
-});
+const pageContent = computed(() => (page.value.content ? page.value.content : '<p style="text-align: center">Описание отсутствует</p>'));
 </script>
 
 <style lang="scss" scoped>

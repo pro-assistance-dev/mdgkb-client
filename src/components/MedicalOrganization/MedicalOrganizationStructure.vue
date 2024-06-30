@@ -111,34 +111,17 @@
   </svg>
 </template>
 
-<script lang="ts">
-import { computed, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Head from '@/classes/Head';
-import countRating from '@/services/countRating';
 
-export default {
-  name: 'MedicalOrganizationStructure',
-  setup() {
-    const store = useStore();
-    const heads: Ref<Head[]> = computed<Head[]>(() => store.getters['heads/items']);
-    const mainDoctor: Ref<Head> = computed<Head>(() => store.getters['heads/mainDoctor']);
-    const mount = ref(false);
+const heads: Ref<Head[]> = Store.Items('heads');
+const mainDoctor: Ref<Head> = Store.Getters('heads/mainDoctor');
+const mount = ref(false);
 
-    onBeforeMount(async () => {
-      await store.dispatch('heads/getAll');
-      mount.value = true;
-    });
-
-    return {
-      countRating,
-      heads,
-      mainDoctor,
-      mount,
-    };
-  },
-};
+onBeforeMount(async () => {
+  await Store.GetAll('heads');
+  mount.value = true;
+});
 </script>
 
 <style lang="scss" scoped>

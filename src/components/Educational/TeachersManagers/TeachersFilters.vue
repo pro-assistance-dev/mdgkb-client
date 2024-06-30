@@ -7,72 +7,32 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+<script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
-import Doctor from '@/classes/Doctor';
-import MedicalProfile from '@/classes/MedicalProfile';
-import NmoCourse from '@/classes/NmoCourse';
 import FilterReset from '@/components/Filters/FilterResetButton.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
-import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import { Operators } from '@/services/interfaces/Operators';
-import TokenService from '@/services/Token';
 
-export default defineComponent({
-  name: 'TeachersFilters',
-  components: {
-    FilterReset,
-  },
+const router = useRouter();
+const mount = ref(false);
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => store.getters['doctors/items']);
-    const medicalProfiles: Ref<MedicalProfile[]> = computed<MedicalProfile[]>(() => store.getters['medicalProfiles/items']);
-    const mount = ref(false);
-
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    const dpoCourses: Ref<NmoCourse[]> = computed<NmoCourse[]>(() => store.getters['dpoCourses/items']);
-
-    onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await load();
-      mount.value = true;
-    });
-
-    const load = async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 6;
-      store.commit('filter/setStoreModule', 'teachers');
-      await store.dispatch('teachers/getAll', { filterQuery: filterQuery.value });
-    };
-
-    const createSortModels = (): SortModel[] => {
-    };
-
-    const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await router.push(`/divisions/${event.value}`);
-    };
-
-    return {
-      dpoCourses,
-      selectSearch,
-      createSortModels,
-      TokenService,
-      Operators,
-      DataTypes,
-      load,
-      medicalProfiles,
-      doctors,
-      mount,
-    };
-  },
+onBeforeMount(async () => {
+  await load();
+  mount.value = true;
 });
+
+const load = async () => {
+  // filterQuery.value.pagination.cursorMode = false;
+  // filterQuery.value.pagination.limit = 6;
+  await Store.FTSP('teachers');
+};
+
+const createSortModels = (): SortModel[] => {};
+
+const selectSearch = async (event: ISearchObject): Promise<void> => {
+  await router.push(`/divisions/${event.value}`);
+};
 </script>
 
 <style lang="scss" scoped>

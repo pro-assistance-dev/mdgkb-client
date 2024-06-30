@@ -14,18 +14,16 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-import { useStore } from 'vuex';
 
 import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
 
 export default defineComponent({
   name: 'PaidPrograms',
   setup() {
-    const store = useStore();
-    const paidProgramsGroups: Ref<IPaidProgramsGroup[]> = computed(() => store.getters['paidProgramsGroups/items']);
+    const paidProgramsGroups: Ref<IPaidProgramsGroup[]> = Store.Items('paidPrograms');
 
     onBeforeMount(async () => {
-      await store.dispatch('paidProgramsGroups/getAll', false);
+      await Store.GetAll('paidProgramsGroups');
     });
 
     return { paidProgramsGroups };

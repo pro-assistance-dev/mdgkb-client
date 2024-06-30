@@ -23,7 +23,6 @@
         <div id="top" class="menu-center"><NavMenu /></div>
         <div class="menu-right">
           <PhoneInfo />
-
           <div class="support-block"></div>
         </div>
       </div>

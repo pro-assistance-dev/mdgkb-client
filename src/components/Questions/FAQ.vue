@@ -17,42 +17,26 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import Faq from '@/classes/Faq';
 
-export default defineComponent({
-  name: 'FAQ',
-  components: { QuestionCircleOutlined },
-
-  setup() {
-    const filter: Ref<string> = ref('');
-    const store = useStore();
-    const faqList: ComputedRef<Faq[]> = computed<Faq[]>(() => store.getters['faqs/items']);
-    const filteredFaqList = computed((): Faq[] => {
-      if (filter.value) {
-        return faqList.value.filter((faq: Faq) => {
-          return (
-            faq.question.toLowerCase().includes(filter.value.toLowerCase()) || faq.answer.toLowerCase().includes(filter.value.toLowerCase())
-          );
-        });
-      } else {
-        return faqList.value;
-      }
+const filter: Ref<string> = ref('');
+const faqList: ComputedRef<Faq[]> = Store.Items('faqs');
+const filteredFaqList = computed((): Faq[] => {
+  if (filter.value) {
+    return faqList.value.filter((faq: Faq) => {
+      return (
+        faq.question.toLowerCase().includes(filter.value.toLowerCase()) || faq.answer.toLowerCase().includes(filter.value.toLowerCase())
+      );
     });
+  } else {
+    return faqList.value;
+  }
+});
 
-    onBeforeMount(async () => {
-      await store.dispatch('faqs/getAll');
-    });
-
-    return {
-      filter,
-      filteredFaqList,
-    };
-  },
+onBeforeMount(async () => {
+  await Store.GetAll('faqs');
 });
 </script>
 
