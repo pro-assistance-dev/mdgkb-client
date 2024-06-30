@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
 
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 import AdminHeaderBottom from '@/views/adminLayout/AdminHeaderBottom.vue';
@@ -45,9 +44,8 @@ export default defineComponent({
     AdminMenuDrawer,
   },
   setup() {
-    const store = useStore();
-    const isDrawerOpen: ComputedRef<boolean> = computed(() => store.getters['admin/isDrawerOpen']);
-    const closeDrawer = () => store.commit('admin/closeDrawer');
+    const isDrawerOpen: ComputedRef<boolean> = Store.Getters('admin/isDrawerOpen');
+    const closeDrawer = () => Store.Commit('admin/closeDrawer');
 
     return { isDrawerOpen, closeDrawer, AdminLayout };
   },

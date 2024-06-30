@@ -22,61 +22,39 @@
   </el-dialog>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useStore } from 'vuex';
-
-import CommentRules from '@/classes/CommentRules';
+<script lang="ts" setup>
 import Event from '@/classes/Event';
 import EventApplication from '@/classes/EventApplication';
-import User from '@/classes/User';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'EventRegistration',
-  async setup(prop) {
-    const store = useStore();
-    const event: Ref<Event> = computed(() => store.getters['news/item'].event);
-    const eventApplication: Ref<EventApplication> = computed(() => store.getters['news/eventApplication']);
-    eventApplication.value.eventId = event.value.id;
-    const form = ref();
-    const rules = ref(CommentRules);
-    const eventFormVisible = ref(false);
-    const user: Ref<User> = computed(() => store.getters['auth/user']);
-    watch(user, () => {
-      eventApplication.value.user = new User(user.value);
-      eventApplication.value.userId = user.value.id;
-    });
+const event: Ref<Event> = Store.Getters('news');
+const eventApplication: Ref<EventApplication> = Store.Getters('news/eventApplication');
+eventApplication.value.eventId = event.value.id;
+const form = ref();
+const eventFormVisible = ref(false);
+// const user: Ref<User> = computed(() => store.getters['auth/user']);
+// watch(user, () => {
+//   eventApplication.value.user = new User(user.value);
+//   eventApplication.value.userId = user.value.id;
+// });
+//
+// onBeforeMount(async () => {
+//   eventApplication.value.user = new User(user.value);
+//   eventApplication.value.userId = user.value.id;
+//   eventApplication.value.initFieldsValues(event.value.form.fields);
+// });
 
-    onBeforeMount(async () => {
-      eventApplication.value.user = new User(user.value);
-      eventApplication.value.userId = user.value.id;
-      eventApplication.value.initFieldsValues(event.value.form.fields);
-    });
-
-    const send = async () => {
-      if (!validate(form)) return;
-      try {
-        await store.dispatch(`events/sendEventApplications`, eventApplication.value);
-      } catch (e) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      form.value.clearValidate();
-      eventFormVisible.value = false;
-    };
-
-    return {
-      event,
-      eventFormVisible,
-      eventApplication,
-      rules,
-      send,
-      form,
-    };
-  },
-});
+const send = async () => {
+  if (!validate(form)) return;
+  try {
+    await Store.Dispatch(`events/sendEventApplications`, eventApplication.value);
+  } catch (e) {
+    PHelp.Notification().Error('Что-то пошло не так');
+    return;
+  }
+  form.value.clearValidate();
+  eventFormVisible.value = false;
+};
 </script>
 
 <style lang="scss" scoped>

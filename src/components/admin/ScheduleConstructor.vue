@@ -4,7 +4,14 @@
       <div class="flex-row-between">
         <div class="flex-line">
           <span> Распорядок дня </span>
-          <PButton v-if="schedule && schedule.scheduleItems.length > 0" skin="text" type="del" text="Удалить" margin="2px 0 0 0" @click="removeSchedule" />
+          <PButton
+            v-if="schedule && schedule.scheduleItems.length > 0"
+            skin="text"
+            type="del"
+            text="Удалить"
+            margin="2px 0 0 0"
+            @click="removeSchedule"
+          />
           <PButton v-else skin="text" type="success" text="+ Добавить" margin="2px 0 0 0" @click="addSchedule" />
         </div>
         <PButton skin="text" type="success" text="+ Добавить элемент" margin="0" @click="addScheduleItem" />
@@ -48,50 +55,33 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Schedule from '@/classes/Schedule';
 import ScheduleItem from '@/classes/ScheduleItems';
-export default defineComponent({
-  name: 'ScheduleConstructor',
-  props: {
-    storeModule: {
-      type: String,
-      default: '',
-    },
-  },
-
-  setup(props) {
-    const store = useStore();
-    const schedule = computed(() => store.getters[`${props.storeModule}/schedule`]);
-
-    const addSchedule = () => {
-      store.commit(`${props.storeModule}/setSchedule`, Schedule.CreateStandartSchedule());
-    };
-
-    const removeSchedule = () => {
-      store.commit(`${props.storeModule}/removeSchedule`);
-    };
-
-    const removeScheduleItem = (i: number) => {
-      store.commit(`${props.storeModule}/removeScheduleItem`, i);
-    };
-
-    const addScheduleItem = () => {
-      store.commit(`${props.storeModule}/addScheduleItem`, ScheduleItem.CreateStandartScheduleItem(0));
-    };
-
-    return {
-      schedule,
-      addSchedule,
-      addScheduleItem,
-      removeSchedule,
-      removeScheduleItem,
-    };
+const props = defineProps({
+  storeModule: {
+    type: String,
+    default: '',
   },
 });
+
+const schedule: ComputedRef<Schedule> = Store.Getters(`${props.storeModule}/schedule`);
+
+const addSchedule = () => {
+  Store.Commit(`${props.storeModule}/setSchedule`, Schedule.CreateStandartSchedule());
+};
+
+const removeSchedule = () => {
+  Store.Commit(`${props.storeModule}/removeSchedule`);
+};
+
+const removeScheduleItem = (i: number) => {
+  Store.Commit(`${props.storeModule}/removeScheduleItem`, i);
+};
+
+const addScheduleItem = () => {
+  Store.Commit(`${props.storeModule}/addScheduleItem`, ScheduleItem.CreateStandartScheduleItem(0));
+};
 </script>
 
 <style scoped>

@@ -1,7 +1,6 @@
 <template>
   <div v-if="mounted" class="admin-side-menu">
-    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened
-      @select="closeDrawer">
+    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened @select="closeDrawer">
       <template v-for="item in menus" :key="item.title">
         <el-sub-menu v-if="item?.children?.length" :index="item.title">
           <template #title>
@@ -12,8 +11,7 @@
             </div>
           </template>
 
-          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to"
-            @click="$router.push(children.to)">
+          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to" @click="$router.push(children.to)">
             <div class="menu-item-container">
               {{ children.title }}
               <el-badge v-if="children.count && children.count > 0" :value="children.count" type="danger"></el-badge>
@@ -31,53 +29,38 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import IAdminMenu from '@/interfaces/IAdminMenu';
-import IApplicationsCount from '@/interfaces/IApplicationsCount';
-import IPathPermission from '@/interfaces/IPathPermission';
+// import IApplicationsCount from '@/interfaces/IApplicationsCount';
+// import IPathPermission from '@/interfaces/IPathPermission';
 
-export default defineComponent({
-  name: 'AdminSideMenu',
-  props: { isCollapse: { type: Boolean } },
+const isCollapseSideMenu = Store.Getters('admin/isCollapseSideMenu');
+const closeDrawer = () => Store.Commit('admin/closeDrawer');
+const activePath: Ref<string> = ref('');
+// const applicationsCounts: Ref<IApplicationsCount[]> = Store.Getters('admin/applicationsCounts');
+const mounted = ref(false);
+// const userPermissions: ComputedRef<IPathPermission[]> = Store.Getters('auth/userPathPermissions');
+const menus: ComputedRef<IAdminMenu[]> = Store.Getters('admin/menus');
+watch(
+  () => Router.Route().path,
+  () => {
+    activePath.value = Router.Route().path;
+  }
+);
 
-  setup() {
-    const store = useStore();
-    const isCollapseSideMenu = computed(() => store.getters['admin/isCollapseSideMenu']);
-    const closeDrawer = () => store.commit('admin/closeDrawer');
-    const route = useRoute();
-    const activePath: Ref<string> = ref('');
-    const applicationsCounts: Ref<IApplicationsCount[]> = computed(() => store.getters['admin/applicationsCounts']);
-    const mounted = ref(false);
-    const userPermissions: ComputedRef<IPathPermission[]> = computed(() => store.getters['auth/userPathPermissions']);
-    const menus: ComputedRef<IAdminMenu[]> = computed<IAdminMenu[]>(() => store.getters['admin/menus']);
-    watch(
-      () => route.path,
-      () => {
-        activePath.value = route.path;
-      }
-    );
+onBeforeMount(async () => {
+  // await store.dispatch('auth/getUserPathPermissions');
+  // store.commit('admin/filterMenus', userPermissions.value);
+  await Store.Dispatch('admin/updateApplicationsCounts');
+  // await store.dispatch('meta/getApplicationsCounts');
+  // store.commit('admin/setApplicationsCounts', applicationsCounts.value);
+  // await store.dispatch('admin/subscribeApplicationsCountsGet');
+  activePath.value = Router.Route().path;
+  mounted.value = true;
+});
 
-    onBeforeMount(async () => {
-      // await store.dispatch('auth/getUserPathPermissions');
-      // store.commit('admin/filterMenus', userPermissions.value);
-      await store.dispatch('admin/updateApplicationsCounts');
-      // await store.dispatch('meta/getApplicationsCounts');
-      // store.commit('admin/setApplicationsCounts', applicationsCounts.value);
-      // await store.dispatch('admin/subscribeApplicationsCountsGet');
-      activePath.value = route.path;
-      mounted.value = true;
-    });
-
-    onBeforeUnmount(async () => {
-      // await store.dispatch('admin/unsubscribeApplicationsCountsGet');
-    });
-
-    return { menus, closeDrawer, isCollapseSideMenu, activePath, mounted, applicationsCounts };
-  },
+onBeforeUnmount(async () => {
+  // await store.dispatch('admin/unsubscribeApplicationsCountsGet');
 });
 </script>
 

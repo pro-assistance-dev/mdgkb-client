@@ -73,10 +73,9 @@ export default defineComponent({
   setup(prop, { emit }) {
     let expand = ref(false);
     const activePath: Ref<string> = ref('');
-    const store = useStore();
 
     const isDrawerOpen: Ref<boolean> = ref(false);
-    const menus = computed(() => store.getters['menus/items']);
+    const menus = Store.Items('menus');
     const route = useRoute();
 
     const toggleDrawer = (open?: boolean) => {

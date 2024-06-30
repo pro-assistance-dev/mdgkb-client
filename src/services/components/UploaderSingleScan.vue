@@ -32,9 +32,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus';
-import { useStore } from 'vuex';
-
 import FileInfo from '@/services/classes/FileInfo';
 import IFile from '@/services/interfaces/IFile';
 import IFilesList from '@/services/interfaces/IFIlesList';
@@ -81,10 +78,9 @@ const heightWeight = computed(() => {
     '--height': `${props.height}px`,
   };
 });
-const store = useStore();
-let showUpload = ref(fileList.value.length === 0);
+const showUpload = ref(fileList.value.length === 0);
 const cropperOpened = ref(false);
-let uploader = ref();
+const uploader = ref();
 
 const toggleUpload = (file: any) => {
   showUpload.value = !showUpload.value;
@@ -100,7 +96,7 @@ const toggleUpload = (file: any) => {
 
 const openCropper = (file: any) => {
   const ratio = props.cropRatio ? props.defaultRatio : 0;
-  store.commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
+  Store.Commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
   cropperOpened.value = true;
 };
 
