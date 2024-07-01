@@ -5,7 +5,7 @@
       <RemoteSearchNew :key-value="'page'" @select="(e) => Router.ToAdmin(`pages/${e.id}`)" />
       <FilterSelect :models="pagesGroupFilters" @load="load" />
     </template>
-    <el-table v-if="pages" :data="pages">
+    <el-table v-if="mounted" :data="pages">
       <el-table-column prop="title" label="Заголовок" sortable> </el-table-column>
       <!--      <el-table-column prop="slug" label="Ссылка" sortable> </el-table-column>-->
       <el-table-column prop="pagesGroup" label="Группа страниц" sortable> </el-table-column>
@@ -17,7 +17,7 @@
             :show-remove-button="true"
             @edit="edit(scope.row.id)"
             @remove="remove(scope.row.id)"
-            @showMore="openPage(scope.row.getLink())"
+            @show-more="openPage(scope.row.getLink())"
           />
         </template>
       </el-table-column>
@@ -27,43 +27,43 @@
 
 <script lang="ts" setup>
 import User from '@/classes/User';
+import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
-import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout2/AdminListWrapper2.vue';
 
-const pages: ComputedRef<Page[]> = Store.Items('pages');
+const pages: Page[] = Store.Pages().Items();
 // const user: ComputedRef<User> = Store.Item('auth', 'user');
-
+const mounted = ref(false);
 const load = async (): Promise<void> => {
   // if (user.value.role.name !== 'ADMIN' && user.value.roleId) {
   // Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
   // }
   // Provider.setSortModels(PagesSortsLib.byTitle());
-  await Store.FTSP('pages', { ftsp: Provider.ftsp.value });
+  await Store.Pages().FTSP({ ftsp: Provider.ftsp.value });
   // if (user.value.role.name === 'ADMIN') {
   //   Provider.store.commit('admin/setHeaderParams', {
   //     title: 'Страницы',
   //     buttons: [{ text: 'Добавить', type: 'primary', action: create }],
   //   });
   // } else {
-  PHelp.AdminHead().Set('Страницы', []);
+  PHelp.AdminUI.Head.Set('Страницы', []);
 };
 
 const edit = async (id: string): Promise<void> => {
-  const item = pages.value.find((i: Page) => i.id === id);
+  const item = pages.find((i: Page) => i.id === id);
   if (item) {
     await Router.ToAdmin(`/pages/${item.slug}`);
   }
 };
 
 const remove = async (id: string) => {
-  await Store.Remove('pages', id);
+  await Store.Pages().Remove(id);
 };
 
 Hooks.onBeforeMount(async () => {
-  await load();
+  load().then(() => (mounted.value = true));
 });
 
 const openPage = (link: string) => {

@@ -1,99 +1,67 @@
 <template>
-  <div class="menu-icon" @click="openMenuBar()">
+  <div class="menu-icon" @click="PHelp.AdminUI.Menu.Toggle()">
     <IconMenuLines hover-color="#343D5C" size="32px" margin="0 0 0 9px" />
   </div>
   <div
     class="admin-side-menu"
     :style="{
-      marginLeft: showMenuBar ? '0px' : '-344px',
+      marginLeft: PHelp.AdminUI.Menu.IsOpen() ? '0px' : '-344px',
       boxShadow: shadow ? '0 0 6px rgba(0, 0, 0, 0.3)' : 'none',
       borderRight: border ? '1px solid #c4c4c4' : 'none',
     }"
   >
     <div class="menu-tools">
-      <AdminSearchMenu />
+      <PInput v-model="PHelp.AdminUI.Menu.filterString" style="width: 100%; margin-right: 10px" placeholder="Поиск по меню" />
     </div>
-    <div class="menu-body">
+    <div v-if="mounted" class="menu-body">
       <div>
-        <DropListItem v-for="item in menus" :key="item.title" :name="item.title">
-          <template v-for="children in item.children" :key="children.to">
-            <div
-              :index="children.to"
-              @click="Router.To(children.to)"
-              :class="{ 'selected-menu-item': children.to === activePath, 'menu-item': children.to !== activePath }"
-            >
-              {{ children.title }}
-            </div>
-          </template>
+        <DropListItem v-for="item in PHelp.AdminUI.Menu.Get()" :key="item.name" :name="item.name">
+          <div
+            v-for="children in PHelp.AdminUI.Menu.GetChildren(item)"
+            :key="children.to"
+            :index="children.to"
+            :class="{
+              'selected-menu-item': children.to === PHelp.AdminUI.Menu.GetPath(),
+              'menu-item': children.to !== PHelp.AdminUI.Menu.GetPath(),
+            }"
+            @click="Router.To(children.to)"
+          >
+            {{ children.name }}
+          </div>
         </DropListItem>
       </div>
     </div>
     <div class="exit-button-container">
-      <PButton skin="base" type="primary" text="На главную" height="30px" margin="10px" @click="Router.To('/')" width="120px" />
-      <PButton skin="base" text="Выйти" height="30px" margin="10px" @click="logout" width="120px" />
+      <PButton skin="base" type="primary" text="На главную" height="30px" margin="10px" width="120px" @click="Router.To('/')" />
+      <PButton skin="base" text="Выйти" height="30px" margin="10px" width="120px" @click="logout" />
     </div>
   </div>
-
-  <!-- <div v-if="mounted" class="admin-side-menu">
-    <el-menu :default-active="activePath" :collapse="isCollapseSideMenu" background-color="whitesmoke" unique-opened
-      @select="closeDrawer">
-      <template v-for="item in menus" :key="item.title">
-        <el-sub-menu v-if="item?.children?.length" :index="item.title">
-          <template #title>
-            <div class="sub-menu-container">
-              <el-badge v-if="item.children.some((i) => i.count && i.count > 0)" is-dot type="danger"> </el-badge>
-              <i :class="item.icon"></i>
-              <span class="row-menu-title">{{ item.title }}</span>
-            </div>
-          </template>
-
-          <el-menu-item v-for="children in item.children" :key="children.to" :index="children.to"
-            @click="$router.push(children.to)">
-            <div class="menu-item-container">
-              {{ children.title }}
-              <el-badge v-if="children.count && children.count > 0" :value="children.count" type="danger"></el-badge>
-            </div>
-          </el-menu-item>
-        </el-sub-menu>
-        <div v-else>
-          <el-menu-item v-if="item.to !== '/'" :index="item.to" @click="$router.push(item.to)">
-            <i :class="item.icon"></i>
-            <template #title>{{ item.title }}</template>
-          </el-menu-item>
-        </div>
-      </template>
-    </el-menu>
-  </div> -->
 </template>
 
 <script lang="ts" setup>
-import IAdminMenu from '@/interfaces/IAdminMenu';
+import menuList from './menuList';
 
 defineProps({
   shadow: { type: Boolean as PropType<Boolean>, default: true },
   border: { type: Boolean as PropType<Boolean>, default: true },
 });
 
-const activePath: Ref<string> = ref('');
+// const activePath: Ref<string> = ref('');
 const mounted = ref(false);
-const menus: ComputedRef<IAdminMenu[]> = Store.Getters('admin/menus');
-const showMenuBar: Ref<boolean> = ref(true);
 const auth = Store.Getters('auth/auth');
 
 watch(
   () => Router.GetPath(),
   () => {
-    activePath.value = Router.GetPath();
+    PHelp.AdminUI.Menu.SetPath(Router.GetPath());
   }
 );
 
-const openMenuBar = async () => {
-  showMenuBar.value = !showMenuBar.value;
-};
-
 onBeforeMount(async () => {
   await Store.Dispatch('admin/updateApplicationsCounts');
-  activePath.value = Router.GetPath();
+
+  PHelp.AdminUI.Menu.Set(menuList);
+  PHelp.AdminUI.Menu.SetPath(Router.GetPath());
   mounted.value = true;
 });
 

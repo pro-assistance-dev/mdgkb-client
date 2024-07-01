@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 
 import AdminHead from './AdminHead';
+import AdminUI from './AdminUI';
 import Dialog from './Dialog';
 import Loading from './Loading';
 import Notification from './Notification';
@@ -10,6 +11,7 @@ export default abstract class PHelp {
   static notification = ref(Notification);
   static loading = ref(Loading);
   static adminHead = ref(AdminHead);
+  static AdminUI = reactive(AdminUI);
 
   static Notification() {
     return PHelp.notification.value;

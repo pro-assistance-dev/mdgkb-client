@@ -1,6 +1,7 @@
 import BaseStore from '@/services/BaseStore';
 import Page from '@/services/classes/page/Page';
-
+import PageSideMenu from '@/services/classes/page/PageSideMenu';
+import HttpClient from '@/services/HttpClientS';
 class S extends BaseStore<Page> {
   private isSideMenuDialogActive = false;
   private isPageSectionDialogActive = false;
@@ -12,26 +13,56 @@ class S extends BaseStore<Page> {
     super(Page, 'pages');
   }
 
-  IsSideMenuDialogActive(): boolean {
-    return this.isSideMenuDialogActive;
+  async GetBySlug(slug: string): Promise<void> {
+    const res = await HttpClient.Get<Page>({ query: this.getUrl(`slug/${slug}`) });
+    this.Set(res);
   }
-  IsPageSectionDialogActive(): boolean {
-    return this.isPageSectionDialogActive;
+
+  IsSideMenuDialogActive(): Ref<boolean> {
+    return ref(this.isSideMenuDialogActive);
   }
-  SideMenu() {
-    return this.item.pageSideMenus.find((el) => el.id === this.activeMenuId);
+
+  IsPageSectionDialogActive(): Ref<boolean> {
+    return ref(this.isPageSectionDialogActive);
   }
+
+  SideMenu(): Ref<PageSideMenu> {
+    return this.Item().pageSideMenus.find((el) => el.id === String(this.activeMenuId));
+  }
+
   PageSection() {
-    return this.item.pageSideMenus[this.index].pageSections[this.pageSectionIndex];
+    return this.Item().pageSideMenus[this.index].pageSections[this.pageSectionIndex];
   }
+
   ActiveMenuId() {
-    return this.activeMenuId;
+    return ref(this.activeMenuId);
+  }
+
+  SetSideMenuDialogActive(value: boolean) {
+    this.isSideMenuDialogActive = value;
+  }
+
+  SetPageSectionDialogActive(value: boolean) {
+    this.isPageSectionDialogActive = value;
+  }
+
+  SetIndex(value: number) {
+    this.index = value;
+  }
+
+  SetActiveMenuId(value: number) {
+    this.activeMenuId = value;
+  }
+
+  SetPageSectionIndex(value: number) {
+    this.pageSectionIndex = value;
   }
 }
 
 let store: S;
 export default function Store(): S {
   if (!store) {
+    console.log('CreateStore');
     store = new S();
   }
   return store;
