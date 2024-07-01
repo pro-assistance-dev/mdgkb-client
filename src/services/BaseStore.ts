@@ -17,11 +17,11 @@ interface GetAllOptions {
 }
 
 export default class BaseStore<T extends IWithId & IFileInfosGetter> {
-  private items: T[] = [];
-  private item: T;
-  private count = 0;
-  private cache = new Cache();
-  private classConstructor: Constructable<T>;
+  protected items: T[] = [];
+  protected item: T;
+  protected count = 0;
+  protected cache = new Cache();
+  protected classConstructor: Constructable<T>;
   httpClient: HttpClient = new HttpClient();
 
   constructor(i: Constructable<T>, url: string) {
@@ -170,15 +170,14 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
   // ======= //
 
   Items(): ComputedRef<T[]> {
-    console.log('ITEMS', this.items);
     return computed(() => this.items);
   }
 
-  Item(): T {
-    return this.item;
+  Item(): ComputedRef<T> {
+    return computed(() => this.item);
   }
 
-  Count(): number {
-    return this.count;
+  Count(): ComputedRef<number> {
+    return computed(() => this.count);
   }
 }
