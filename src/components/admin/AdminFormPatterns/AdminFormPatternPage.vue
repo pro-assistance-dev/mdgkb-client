@@ -92,9 +92,9 @@ export default defineComponent({
       const id = Provider.route().params['id'];
       if (id && typeof id === 'string') {
         await Provider.store.dispatch('formPatterns/get', id);
-        Provider.store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminHead().Set('Обновить шаблон', [Button.Success('Сохранить', submit)]);
       } else {
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminHead().Set('Добавиь шаблон', [Button.Success('Сохранить', submit)]);
       }
       await Store.GetAll('formStatusGroups');
       window.addEventListener('beforeunload', beforeWindowUnload);
