@@ -128,6 +128,8 @@ export default defineComponent({
 .flex-column {
   display: flex;
   flex-direction: column;
+  height: 90vh;
+  overflow-y: scroll;
 }
 
 .el-card {
