@@ -1,7 +1,6 @@
 <template>
-  <div v-if="s" class="blur" @click="close" />
+  <div class="blur" @click="close" />
   <div
-    v-if="s"
     class="modal-w"
     :style="{
       maxWidth: width,
@@ -54,12 +53,12 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['save', 'close']);
-const s = ref(false);
+// const s = ref(false);
 
 watch(
   () => props.show,
   () => {
-    s.value = !s.value;
+    // s.value = !s.value;
   }
 );
 const escapeHandler = (e: KeyboardEvent) => {
