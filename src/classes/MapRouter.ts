@@ -47,13 +47,17 @@ export default class MapRouter {
     if (this.routeLine) {
       this.routeLine.rotation.x += 0.01;
     }
+
     this.frameCount++;
-    if (this.frameCount % 3 != 0) {
+    if (this.frameCount % 10 != 0) {
       return;
     }
-    this.count++;
-    if (this.count > this.points.length - 1) {
-      this.count = 0;
+    console.log(this.frameCount);
+
+    this.count--;
+    if (this.count < 0) {
+      this.count = this.points.length - 1;
+      this.frameCount = 0;
     }
 
     const p = this.points[this.count];
@@ -76,12 +80,14 @@ export default class MapRouter {
     this.points = points;
     this.count = points.length;
     this.endMark = mark;
-    this.glow = this.getNodeGlow(0x000000);
 
     this.engine.add(routeLine);
     this.engine.add(mark);
-    this.engine.add(this.glow);
+
     if (this.points.length > 0) {
+      this.glow = this.getNodeGlow(0x000000);
+      this.engine.add(this.glow);
+
       this.animate();
     }
   }
