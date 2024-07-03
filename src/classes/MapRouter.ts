@@ -19,8 +19,12 @@ export default class MapRouter {
   selectedEndMode = false;
 
   routeLine?: Three.Object3D;
+  points: Three.Vector3[] = [];
   startMark?: Three.Mesh;
   endMark?: Three.Mesh;
+  count = 0;
+  frameCount = 0;
+  glow?: Three.Mesh;
 
   constructor(engine: Engine3D) {
     this.engine = engine;
@@ -38,14 +42,48 @@ export default class MapRouter {
     this.engine.remove(this.endMark);
   }
 
-  add(routeLine: Three.Object3D, mark: Three.Mesh) {
+  animate() {
+    window.requestAnimationFrame(this.animate.bind(this));
+    if (this.routeLine) {
+      this.routeLine.rotation.x += 0.01;
+    }
+    this.frameCount++;
+    if (this.frameCount % 3 != 0) {
+      return;
+    }
+    this.count++;
+    if (this.count > this.points.length - 1) {
+      this.count = 0;
+    }
+
+    const p = this.points[this.count];
+    this.glow.position.set(p.x, p.y, p.z);
+  }
+
+  getNodeGlow(color: string): Three.Mesh {
+    const geometry = new Three.CylinderGeometry(0.1, 0.1, 0.32, 32);
+    const material = new Three.MeshBasicMaterial({ color: color });
+    const nodeGlow = new Three.Mesh(geometry, material);
+    // nodeGlow.position.set(point.x, point.y, point.z);
+    return nodeGlow;
+  }
+
+  add(routeLine: Three.Object3D, mark: Three.Mesh, points: Three.Vector3[]) {
     if (!this.engine) {
       return;
     }
     this.routeLine = routeLine;
+    this.points = points;
+    this.count = points.length;
     this.endMark = mark;
+    this.glow = this.getNodeGlow(0x000000);
+
     this.engine.add(routeLine);
     this.engine.add(mark);
+    this.engine.add(this.glow);
+    if (this.points.length > 0) {
+      this.animate();
+    }
   }
 
   getNodesForRequest(): IStartEndNode {
