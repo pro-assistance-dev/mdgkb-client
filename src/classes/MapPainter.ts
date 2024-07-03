@@ -36,7 +36,7 @@ export default abstract class MapPainter {
 
   static GetLineFromPoints(points: Three.Vector3[]): Three.Line {
     const g = new Three.BufferGeometry().setFromPoints(points);
-    const m = new Three.LineBasicMaterial({ color: 0xff0000 });
+    const m = new Three.LineBasicMaterial({ color: 0xf3911c, linewidth: 20 });
     return new Three.Line(g, m);
   }
 
@@ -44,8 +44,6 @@ export default abstract class MapPainter {
     const div = document.createElement('div');
     div.className = 'label';
     div.textContent = label;
-
-    // div.style.backgroundColor = 'transparent';
 
     const labelObj = new CSS2DObject(div);
     labelObj.position.set(0, 0.1, 0);

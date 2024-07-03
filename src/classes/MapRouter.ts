@@ -44,9 +44,6 @@ export default class MapRouter {
 
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-    if (this.routeLine) {
-      this.routeLine.rotation.x += 0.01;
-    }
 
     this.frameCount++;
     if (this.frameCount % 10 != 0) {
@@ -68,7 +65,6 @@ export default class MapRouter {
     const geometry = new Three.CylinderGeometry(0.1, 0.1, 0.32, 32);
     const material = new Three.MeshBasicMaterial({ color: color });
     const nodeGlow = new Three.Mesh(geometry, material);
-    // nodeGlow.position.set(point.x, point.y, point.z);
     return nodeGlow;
   }
 
