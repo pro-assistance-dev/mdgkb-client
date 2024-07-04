@@ -20,6 +20,7 @@ export default class MapRouter {
 
   routeLine?: Three.Object3D;
   points: Three.Vector3[] = [];
+  stepPoints: Three.Vector3[] = [];
   startMark?: Three.Mesh;
   endMark?: Three.Mesh;
   count = 0;
@@ -28,6 +29,37 @@ export default class MapRouter {
 
   constructor(engine: Engine3D) {
     this.engine = engine;
+  }
+
+  createStepPoints(step: number) {
+    if (this.points.length > 0) {
+      for (let i = 0; i < this.points.length - 1; i++) {
+        const subPoint: Three.Vector3 = this.points[i];
+        this.stepPoints.push(subPoint);
+        var dist = Math.sqrt(
+          (this.points[i + 1].x - this.points[i].x) * (this.points[i + 1].x - this.points[i].x) +
+            (this.points[i + 1].y - this.points[i].y) * (this.points[i + 1].y - this.points[i].y) +
+            (this.points[i + 1].z - this.points[i].z) * (this.points[i + 1].z - this.points[i].z)
+        );
+        const nVectorX = (this.points[i + 1].x - this.points[i].x) / dist;
+        const nVectorY = (this.points[i + 1].y - this.points[i].y) / dist;
+        const nVectorZ = (this.points[i + 1].z - this.points[i].z) / dist;
+        var localDist = dist;
+        while (localDist > step / 100) {
+          console.log(localDist);
+          this.stepPoints.push(
+            new Three.Vector3(
+              this.points[i].x + (step / 100) * nVectorX,
+              this.points[i].y + (step / 100) * nVectorY,
+              this.points[i].z + (step / 100) * nVectorZ
+            )
+          );
+          localDist = localDist - step / 100;
+        }
+        console.log(this.stepPoints);
+      }
+    }
+    return this.stepPoints;
   }
 
   catBuildNode(): boolean {
@@ -49,7 +81,7 @@ export default class MapRouter {
     if (this.frameCount % 20 != 0) {
       return;
     }
-    console.log(this.frameCount);
+    // console.log(this.frameCount);
 
     this.count--;
     if (this.count < 0) {
@@ -80,6 +112,7 @@ export default class MapRouter {
 
     this.engine.add(routeLine);
     this.engine.add(mark);
+    this.createStepPoints(10);
 
     if (this.points.length > 0) {
       this.glow = this.getNodeGlow(0x0aa249);
