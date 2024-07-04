@@ -54,7 +54,8 @@ const getRoute = async (endNode: string) => {
   await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
   mapRouter.add(
     MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
-    mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249)
+    mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249),
+    mapModel.getRouteVector(route.value)
   );
 };
 
