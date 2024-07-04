@@ -117,6 +117,10 @@ export default class MapRouter {
       this.glow.position.set(this.points[0].x, this.points[0].y, this.points[0].z);
       this.engine.add(this.glow);
 
+      const sp = this.points[0];
+      this.engine.core.camera.lookAt(this.points[1]);
+      this.engine.core.camera.rotation.z = -3.1439050074902792;
+      this.engine.core.camera.position.set(sp.x - 1, this.engine.core.camera.position.y, sp.z);
       this.animate();
     }
   }

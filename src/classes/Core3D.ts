@@ -7,7 +7,7 @@ import Core3DFabric from './Core3DFabric';
 
 export default class Core3D {
   private scene: Scene = Core3DFabric.Scene();
-  private camera: PerspectiveCamera = Core3DFabric.Camera();
+  camera: PerspectiveCamera = Core3DFabric.Camera();
   private renderer: Renderer = Core3DFabric.Renderer();
   private cssRenderer: CSS2DRenderer = Core3DFabric.CssRenderer();
   private controls: OrbitControls;
@@ -78,6 +78,8 @@ export default class Core3D {
     if (this.controls) {
       this.controls.update();
     }
+    console.log(this.camera);
+
     this.render();
   }
 
