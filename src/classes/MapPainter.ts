@@ -36,7 +36,7 @@ export default abstract class MapPainter {
 
   static GetLineFromPoints(points: Three.Vector3[]): Three.Line {
     const g = new Three.BufferGeometry().setFromPoints(points);
-    const m = new Three.LineBasicMaterial({ color: 0xff0000 });
+    const m = new Three.LineBasicMaterial({ color: 0xf3911c, linewidth: 20 });
     return new Three.Line(g, m);
   }
 
