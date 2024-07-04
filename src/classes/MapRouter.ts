@@ -82,11 +82,18 @@ export default class MapRouter {
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
 
+    this.frameCount++;
+    if (this.frameCount % 5 !== 0) {
+      return;
+    }
     const p = this.stepPoints[this.pointIdx];
+    console.log(this.pointIdx, p);
+
     this.glow.position.set(p.x, p.y, p.z);
     this.pointIdx++;
     if (this.pointIdx > this.stepPoints.length - 1) {
       this.pointIdx = 0;
+      this.frameCount = 0;
     }
   }
 
@@ -115,7 +122,7 @@ export default class MapRouter {
       if (pos.x !== end.x || pos.z !== end.z) {
         this.points = this.points.reverse();
       }
-      this.createStepPoints();
+      this.createStepPoints(10);
       this.glow = this.getNodeGlow(0x0aa249);
       this.engine.add(this.glow);
 
