@@ -43,8 +43,6 @@ export default class MapRouter {
     this.engine.remove(this.endMark);
   }
 
-  // a = false;
-  // curV = new Three.Vector3();
   needCount = true;
   from = new Three.Vector3();
   to = new Three.Vector3();
@@ -56,9 +54,6 @@ export default class MapRouter {
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
     this.frameCount++;
-    // if (this.frameCount % 5 !== 0) {
-    //   return;
-    // }
     if (!this.points[this.pointIdx + 1]) {
       this.pointIdx = 0;
     }
@@ -103,25 +98,25 @@ export default class MapRouter {
     this.endMark = mark;
     this.engine.add(routeLine);
     this.engine.add(mark);
-    this.createStepPoints(10);
 
     if (this.points.length > 0) {
       const pos = this.endMark.position;
       const end = this.points[this.points.length - 1];
-      // console.log(pos, this.points);
 
       if (pos.x !== end.x || pos.z !== end.z) {
         this.points = this.points.reverse();
       }
-      // this.createStepPoints(10);
       this.glow = this.getNodeGlow(0x0aa249);
       this.glow.position.set(this.points[0].x, this.points[0].y, this.points[0].z);
       this.engine.add(this.glow);
 
       const sp = this.points[0];
-      this.engine.core.camera.lookAt(this.points[1]);
-      this.engine.core.camera.rotation.z = -3.1439050074902792;
-      this.engine.core.camera.position.set(sp.x - 1, this.engine.core.camera.position.y, sp.z);
+      const secp = this.points[1];
+      const ep = this.points[points.length - 1];
+
+      // this.engine.core.controls.target.set((sp.x + ep.x) / 2, (sp.y + ep.y) / 2, (sp.z + ep.z) / 2);  // направление камеры на середину пути
+      this.engine.core.controls.target.set(secp.x, 0.2, secp.z); // направление камеры на точку 1
+      this.engine.core.camera.position.set(sp.x, this.engine.core.camera.position.y, sp.z);
       this.animate();
     }
   }
@@ -138,9 +133,6 @@ export default class MapRouter {
   selectEnd(objectName: string, nodeName: string) {
     this.endNodeName = nodeName;
     this.endObjectName = objectName;
-    // if (this.emit) {
-    //   this.emit('buildRoute');
-    // }
   }
 
   selectSearch(event: SearchElement) {
