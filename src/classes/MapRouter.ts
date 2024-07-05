@@ -23,43 +23,12 @@ export default class MapRouter {
   stepPoints: Three.Vector3[] = [];
   startMark?: Three.Mesh;
   endMark?: Three.Mesh;
-  count = 0;
+  pointIdx = 0;
   frameCount = 0;
   glow?: Three.Mesh;
 
   constructor(engine: Engine3D) {
     this.engine = engine;
-  }
-
-  createStepPoints(step: number) {
-    if (this.points.length > 0) {
-      for (let i = 0; i < this.points.length - 1; i++) {
-        const subPoint: Three.Vector3 = this.points[i];
-        this.stepPoints.push(subPoint);
-        var dist = Math.sqrt(
-          (this.points[i + 1].x - this.points[i].x) * (this.points[i + 1].x - this.points[i].x) +
-            (this.points[i + 1].y - this.points[i].y) * (this.points[i + 1].y - this.points[i].y) +
-            (this.points[i + 1].z - this.points[i].z) * (this.points[i + 1].z - this.points[i].z)
-        );
-        const nVectorX = (this.points[i + 1].x - this.points[i].x) / dist;
-        const nVectorY = (this.points[i + 1].y - this.points[i].y) / dist;
-        const nVectorZ = (this.points[i + 1].z - this.points[i].z) / dist;
-        var localDist = dist;
-        while (localDist > step / 100) {
-          console.log(localDist);
-          this.stepPoints.push(
-            new Three.Vector3(
-              this.points[i].x + (step / 100) * nVectorX,
-              this.points[i].y + (step / 100) * nVectorY,
-              this.points[i].z + (step / 100) * nVectorZ
-            )
-          );
-          localDist = localDist - step / 100;
-        }
-        console.log(this.stepPoints);
-      }
-    }
-    return this.stepPoints;
   }
 
   catBuildNode(): boolean {
@@ -74,24 +43,48 @@ export default class MapRouter {
     this.engine.remove(this.endMark);
   }
 
+  // a = false;
+  // curV = new Three.Vector3();
+  needCount = true;
+  from = new Three.Vector3();
+  to = new Three.Vector3();
+  curStep = new Three.Vector3();
+  step = new Three.Vector3();
+  len1 = 0;
+  len2 = 0;
+
   animate() {
     window.requestAnimationFrame(this.animate.bind(this));
-
     this.frameCount++;
-    if (this.frameCount % 20 != 0) {
-      return;
+    // if (this.frameCount % 5 !== 0) {
+    //   return;
+    // }
+    if (!this.points[this.pointIdx + 1]) {
+      this.pointIdx = 0;
     }
-    // console.log(this.frameCount);
+    if (this.needCount) {
+      this.from = this.points[this.pointIdx];
+      this.to = this.points[this.pointIdx + 1];
 
-    this.count--;
-    if (this.count < 0) {
-      this.count = this.points.length - 1;
+      this.curStep.set(this.from.x, this.from.y, this.from.z);
+      this.step.set(this.to.x - this.from.x, this.to.y - this.from.y, this.to.z - this.from.z);
+
+      this.len1 = this.step.length();
+      const s = 80;
+      this.step.set(this.step.x / this.len1 / s, this.step.y / this.len1 / s, this.step.z / this.len1 / s);
+      this.needCount = false;
+    }
+
+    this.curStep.add(this.step);
+    this.glow.position.set(this.curStep.x, this.curStep.y, this.curStep.z);
+    const curS = new Three.Vector3(this.curStep.x, this.curStep.y, this.curStep.z);
+    curS.set(this.to.x - curS.x, this.to.y - curS.y, this.to.z - curS.z);
+
+    if (curS.length() < this.step.length()) {
+      this.pointIdx++;
       this.frameCount = 0;
+      this.needCount = true;
     }
-
-    const p = this.points[this.count];
-
-    this.glow.position.set(p.x, p.y, p.z);
   }
 
   getNodeGlow(color: string): Three.Mesh {
@@ -107,17 +100,28 @@ export default class MapRouter {
     }
     this.routeLine = routeLine;
     this.points = points;
-    this.count = points.length;
     this.endMark = mark;
-
     this.engine.add(routeLine);
     this.engine.add(mark);
     this.createStepPoints(10);
 
     if (this.points.length > 0) {
+      const pos = this.endMark.position;
+      const end = this.points[this.points.length - 1];
+      // console.log(pos, this.points);
+
+      if (pos.x !== end.x || pos.z !== end.z) {
+        this.points = this.points.reverse();
+      }
+      // this.createStepPoints(10);
       this.glow = this.getNodeGlow(0x0aa249);
+      this.glow.position.set(this.points[0].x, this.points[0].y, this.points[0].z);
       this.engine.add(this.glow);
 
+      const sp = this.points[0];
+      this.engine.core.camera.lookAt(this.points[1]);
+      this.engine.core.camera.rotation.z = -3.1439050074902792;
+      this.engine.core.camera.position.set(sp.x - 1, this.engine.core.camera.position.y, sp.z);
       this.animate();
     }
   }
