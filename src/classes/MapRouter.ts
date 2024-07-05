@@ -103,6 +103,9 @@ export default class MapRouter {
       const pos = this.endMark.position;
       const end = this.points[this.points.length - 1];
 
+      if (this.points[0].x === end.x && this.points[0].z === end.z) {
+        return;
+      }
       if (pos.x !== end.x || pos.z !== end.z) {
         this.points = this.points.reverse();
       }
