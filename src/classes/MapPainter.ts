@@ -45,8 +45,6 @@ export default abstract class MapPainter {
     div.className = 'label';
     div.textContent = label;
 
-    // div.style.backgroundColor = 'transparent';
-
     const labelObj = new CSS2DObject(div);
     labelObj.position.set(0, 0.1, 0);
     labelObj.center.set(0, 1);

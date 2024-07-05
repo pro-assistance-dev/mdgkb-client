@@ -10,7 +10,7 @@ export default class Core3D {
   camera: PerspectiveCamera = Core3DFabric.Camera();
   private renderer: Renderer = Core3DFabric.Renderer();
   private cssRenderer: CSS2DRenderer = Core3DFabric.CssRenderer();
-  private controls: OrbitControls;
+  controls: OrbitControls;
 
   pointer: Vector2 = new Three.Vector2();
   raycaster: Raycaster = new Three.Raycaster();
@@ -78,7 +78,7 @@ export default class Core3D {
     if (this.controls) {
       this.controls.update();
     }
-    console.log(this.camera);
+    // console.log(this.camera);
 
     this.render();
   }

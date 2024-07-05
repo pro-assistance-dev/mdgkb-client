@@ -11,7 +11,7 @@ export default abstract class Core3DFabric {
 
     controls.maxPolarAngle = Three.MathUtils.degToRad(80);
     controls.maxDistance = 7;
-    controls.minDistance = 3;
+    controls.minDistance = 0;
     return controls;
   }
 
@@ -24,7 +24,7 @@ export default abstract class Core3DFabric {
   }
 
   static Camera() {
-    const camera = new Three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const camera = new Three.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.001, 1000);
     camera.position.set(0, 4, 0);
     return camera;
   }
