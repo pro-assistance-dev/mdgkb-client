@@ -7,19 +7,11 @@ import Loading from './Loading';
 import Notification from './Notification';
 
 export default abstract class PHelp {
-  static dialog = ref(Dialog);
-  static notification = ref(Notification);
+  static Dialog = reactive(Dialog);
+  static Notification = reactive(Notification);
   static loading = ref(Loading);
   static adminHead = ref(AdminHead);
   static AdminUI = reactive(AdminUI);
-
-  static Notification() {
-    return PHelp.notification.value;
-  }
-
-  static Dialog() {
-    return PHelp.dialog.value;
-  }
 
   static Loading() {
     return PHelp.loading.value;

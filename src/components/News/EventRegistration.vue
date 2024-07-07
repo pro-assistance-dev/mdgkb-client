@@ -49,7 +49,7 @@ const send = async () => {
   try {
     await Store.Dispatch(`events/sendEventApplications`, eventApplication.value);
   } catch (e) {
-    PHelp.Notification().Error('Что-то пошло не так');
+    PHelp.Notification.Error('Что-то пошло не так');
     return;
   }
   form.value.clearValidate();

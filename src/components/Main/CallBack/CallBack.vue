@@ -76,7 +76,7 @@ const submit = () => {
   }
   Store.Dispatch('callbacks/create');
   emits('close');
-  PHelp.Notification().Success('Спасибо за заявку.\nМы Вам перезвоним в ближайшее время');
+  PHelp.Notification.Success('Спасибо за заявку.\nМы Вам перезвоним в ближайшее время');
 };
 </script>
 

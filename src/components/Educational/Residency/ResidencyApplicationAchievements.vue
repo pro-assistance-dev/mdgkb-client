@@ -58,7 +58,7 @@ const pointsAchievements: Ref<PointsAchievement[]> = Store.Items('pointsAchievem
 const selectedAchievement: Ref<PointsAchievement | undefined> = ref(undefined);
 const addAchievement = (achievement: PointsAchievement) => {
   if (!achievement.id || props.residencyApplication.achievementExists(achievement.id)) {
-    PHelp.Notification().Error('Данное достижение уже добавлено');
+    PHelp.Notification.Error('Данное достижение уже добавлено');
     selectedAchievement.value = undefined;
     return;
   }

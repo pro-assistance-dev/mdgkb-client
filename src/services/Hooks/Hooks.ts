@@ -73,9 +73,9 @@ const Hooks = (() => {
         } else {
           // await Provider.submit();
         }
-        PHelp.Notification().Success('Сохранено');
+        PHelp.Notification.Success('Сохранено');
       } catch (error) {
-        PHelp.Notification().Success('Что-то пошло не так');
+        PHelp.Notification.Success('Что-то пошло не так');
         console.log(error);
         return;
       }

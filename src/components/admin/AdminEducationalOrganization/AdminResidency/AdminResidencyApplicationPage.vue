@@ -281,7 +281,7 @@ const submit = async (next?: NavigationGuardNext) => {
   application.value.formValue.validate();
   saveButtonClick.value = true;
   if (!validate(form, true) || !application.value.formValue.validated) {
-    PHelp.Notification().Error(application.value.formValue.getErrorMessage());
+    PHelp.Notification.Error(application.value.formValue.getErrorMessage());
     saveButtonClick.value = false;
     return;
   }
@@ -312,7 +312,7 @@ const courseChangeHandler = async () => {
 
 const clickCopyHandler = async (copyValue: string, fieldName: string) => {
   await navigator.clipboard.writeText(copyValue);
-  PHelp.Notification().Success(`${fieldName} скопирован в буфер обмена`);
+  PHelp.Notification.Success(`${fieldName} скопирован в буфер обмена`);
 };
 
 onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

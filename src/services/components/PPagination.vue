@@ -79,14 +79,14 @@ const currentChange = async (toPage: number) => {
   if (!props.showConfirm) {
     return await setPage(toPage, true);
   }
-  PHelp.Dialog()
+  PHelp.Dialog
     .Save()
     .then(async () => {
       emit('save');
       await setPage(toPage, true);
     })
     .catch(async () => {
-      PHelp.Notification().Warning('Изменения не были сохранены');
+      PHelp.Notification.Warning('Изменения не были сохранены');
       emit('cancel');
       await setPage(toPage, true);
     });

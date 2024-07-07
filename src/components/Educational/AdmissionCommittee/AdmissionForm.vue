@@ -235,7 +235,7 @@ const submit = async () => {
   residencyApplication.value.formValue.clearIds();
   residencyApplication.value.formValue.createdAt = new Date();
   await Store.Create('residencyApplications');
-  PHelp.Notification().Success('Заявка успешно отправлена');
+  PHelp.Notification.Success('Заявка успешно отправлена');
   emits('close');
   buttonOff.value = false;
 };
@@ -300,7 +300,7 @@ const submitStep = async () => {
     return;
   }
   if (activeStep.value === 4 && !residencyApplication.value.validateAchievementsPoints()) {
-    PHelp.Notification().Error('Необходимо добавить все файлы');
+    PHelp.Notification.Error('Необходимо добавить все файлы');
     return;
   }
   if (activeStep.value === 4) {
@@ -308,7 +308,7 @@ const submitStep = async () => {
   }
   residencyApplication.value.formValue.validate(false);
   if (activeStep.value === 5 && !residencyApplication.value.formValue.validated) {
-    PHelp.Notification().Error(residencyApplication.value.formValue.getErrorMessage());
+    PHelp.Notification.Error(residencyApplication.value.formValue.getErrorMessage());
     return;
   }
   if (activeStep.value !== 6) {

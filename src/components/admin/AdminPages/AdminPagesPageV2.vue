@@ -192,7 +192,7 @@ const submit = async () => {
     return;
   }
   await Store.Pages().UpdateAndSet(page);
-  PHelp.Notification().Success('Успешно сохранено');
+  PHelp.Notification.Success('Успешно сохранено');
 };
 
 const submitAndExit = async (next?: NavigationGuardNext) => {

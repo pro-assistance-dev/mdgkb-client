@@ -79,7 +79,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   const errors = form.value.getErrors();
   if (errors.length > 0) {
-    PHelp.Notification().Error(errors.join(', '));
+    PHelp.Notification.Error(errors.join(', '));
     blockBtn.value = false;
     return;
   }
@@ -89,7 +89,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
     await Store.Dispatch(`auth/${form.value.getAction()}`);
     PHelp.Loading().Hide();
 
-    PHelp.Notification().Success(form.value.getSuccessMessage());
+    PHelp.Notification.Success(form.value.getSuccessMessage());
   } catch (error) {
     PHelp.Loading().Hide();
     blockBtn.value = false;

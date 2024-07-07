@@ -168,7 +168,7 @@ const selectAccreditation = () => {
   if (residencyApplicationValue.value.primaryAccreditation === true) {
     return;
   }
-  PHelp.Notification().Error('Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года');
+  PHelp.Notification.Error('Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года');
   residencyApplicationValue.value.primaryAccreditation = undefined;
 };
 
@@ -200,7 +200,7 @@ const rules = {
 };
 
 const setFreeApplication = async () => {
-  PHelp.Dialog()
+  PHelp.Dialog
     .Show({
       text: 'Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы',
       confirmButtonText: 'Загрузить',
@@ -210,14 +210,14 @@ const setFreeApplication = async () => {
       showFreeDialog.value = true;
     })
     .catch(() => {
-      PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+      PHelp.Notification.Warning('Приём документов на внебюджетную основу откроется 8 июля');
       // residencyApplicationValue.value.paid = true;
     });
 };
 
 const selectPaid = async (paid: boolean) => {
   if (paid) {
-    PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+    PHelp.Notification.Warning('Приём документов на внебюджетную основу откроется 8 июля');
     // residencyApplicationValue.value.paid = true;
     return;
   }
@@ -231,7 +231,7 @@ const submitFreeFile = () => {
   const medWork = a.findFieldValue(a.getFieldByCode('MedWork').id).file.id;
   console.log(guarantee, dzm, medWork);
   if (!guarantee || !(dzm || medWork)) {
-    PHelp.Notification().Error('Загрузите необходимые документы');
+    PHelp.Notification.Error('Загрузите необходимые документы');
     return;
   }
   residencyApplicationValue.value.paid = false;
