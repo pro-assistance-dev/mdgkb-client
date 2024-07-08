@@ -1,12 +1,12 @@
 <template>
   <div :key="head" class="admin-header-bottom">
     <div class="flex-between">
-      <h4 style="margin-left: 30px">
-        <PButton v-if="Router.Id() || Router.Slug()" @click="Router.Back()">
+      <div class="flex-line">
+        <PButton v-if="Router.Id() || Router.Slug()" @click="Router.Back()" width="50px" margin="0 20px 0 0">
           <ArrowLeft />
         </PButton>
         {{ head.title }}
-      </h4>
+      </div>
       <div class="button-group">
         <div v-for="item in head.buttons" :key="item.text" class="flex-item">
           <PButton
@@ -68,5 +68,12 @@ h4 {
 
 .flex-item {
   margin: 0 0 0 10px;
+}
+
+.flex-line {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: left;
+  align-items: center;
 }
 </style>
