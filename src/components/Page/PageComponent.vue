@@ -67,18 +67,19 @@ const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const mounted = ref(false);
 
-const page: ComputedRef<Page> = Store.Pages().Item();
+const page: ComputedRef<Page> = PagesStore.Item();
 const load = async () => {
-  console.log(Store.Pages() === Store.Pages());
-  // Store.Pages().ResetItem();
+  console.log(PagesStore === PagesStore);
+  // PagesStore.ResetItem();
   mounted.value = false;
   // console.log(page.value);
   if (props.getPage) {
-    await Store.Pages().GetBySlug(Provider.getPath());
+    await PagesStore.GetBySlug(Provider.getPath());
   }
   // console.log(page.value);
   page.addCustomSectionsToSideMenu(props.customSections);
   mounted.value = true;
+  console.log(page);
 };
 Hooks.onBeforeMount(load);
 

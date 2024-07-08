@@ -15,12 +15,12 @@ export default defineComponent({
   components: { WysiwygEditor, AdminDocumentsForm },
 
   setup() {
-    const pageSection = Store.Pages().PageSection();
-    const isPageSectionDialogActive = Store.Pages().IsPageSectionDialogActive();
+    const pageSection = PagesStore.PageSection();
+    const isPageSectionDialogActive = PagesStore.IsPageSectionDialogActive();
     const mounted: Ref<boolean> = ref(false);
 
     const handleClose = () => {
-      Store.Pages().SetPageSectionDialogActive(false);
+      PagesStore.SetPageSectionDialogActive(false);
     };
 
     onMounted(() => {

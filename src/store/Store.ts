@@ -1,7 +1,7 @@
 import { getStore } from '@/main';
 
-import FaqsStore from './FaqsStore';
-import PagesStore from './PagesStore';
+// import FaqsStore from './FaqsStore';
+// import PagesStore from './PagesStore';
 
 enum Methods {
   GetAll = 'getAll',
@@ -26,13 +26,6 @@ interface GetOptions {
 import { computed, ComputedRef } from 'vue';
 
 class StoreC {
-  // Faqs?;
-  Pages = () => PagesStore();
-
-  get Faqs() {
-    return FaqsStore();
-  }
-
   async Dispatch(request: string, opts?: GetAllOptions | unknown) {
     await getStore().dispatch(request, opts);
   }

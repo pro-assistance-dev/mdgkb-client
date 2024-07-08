@@ -50,15 +50,15 @@ export default defineComponent({
 
   setup() {
     const form = ref();
-    const isSideMenuDialogActive: ComputedRef<boolean> = Store.Pages().IsSideMenuDialogActive();
-    const pageSideMenu: ComputedRef<PageSideMenu> = Store.Pages().SideMenu();
+    const isSideMenuDialogActive: ComputedRef<boolean> = PagesStore.IsSideMenuDialogActive();
+    const pageSideMenu: ComputedRef<PageSideMenu> = PagesStore.SideMenu();
     const mounted: Ref<boolean> = ref(false);
     const rules = {
       name: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
 
     const handleClose = () => {
-      Store.Pages().SetSideMenuDialogActive(false);
+      PagesStore.SetSideMenuDialogActive(false);
     };
 
     onMounted(() => {
@@ -67,13 +67,13 @@ export default defineComponent({
 
     const openDrawer = async (index?: number) => {
       if (index !== undefined) {
-        Store.Pages().SetPageSectionIndex(index);
+        PagesStore.SetPageSectionIndex(index);
       } else {
         pageSideMenu.value.addPageSection();
-        Store.Pages().SetSideMenuDialogActive(false);
-        Store.Pages().SetPageSectionDialogActive(pageSideMenu.value.pageSections.length - 1);
+        PagesStore.SetSideMenuDialogActive(false);
+        PagesStore.SetPageSectionDialogActive(pageSideMenu.value.pageSections.length - 1);
       }
-      Store.Pages().SetSideMenuDialogActive(true);
+      PagesStore.SetSideMenuDialogActive(true);
     };
 
     return {

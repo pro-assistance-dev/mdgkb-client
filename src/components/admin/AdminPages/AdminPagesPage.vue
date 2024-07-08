@@ -132,11 +132,11 @@ export default defineComponent({
         return;
       }
       if (!Provider.route().params['slug']) {
-        await Store.Pages().Create(page.value);
+        await PagesStore.Create(page.value);
         await Router.To('/admin/pages');
         return;
       }
-      await Store.Pages().UpdateAndSet(page.value);
+      await PagesStore.UpdateAndSet(page.value);
       ElMessage({ message: 'Успешно сохранено', type: 'success' });
     };
 
@@ -148,11 +148,11 @@ export default defineComponent({
     const openDialog = async (index?: number) => {
       if (index === undefined) {
         await page.value.addSideMenu();
-        Store.Pages().SetIndex(page.value.pageSideMenus.length - 1);
+        PagesStore.SetIndex(page.value.pageSideMenus.length - 1);
       } else {
-        Store.Pages().SetIndex(index);
+        PagesStore.SetIndex(index);
       }
-      Store.Pages().SetSideMenuDialogActive(true);
+      PagesStore.SetSideMenuDialogActive(true);
     };
 
     return {

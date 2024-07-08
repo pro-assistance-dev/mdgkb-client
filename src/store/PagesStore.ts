@@ -59,11 +59,5 @@ class S extends BaseStore<Page> {
   }
 }
 
-let store: S;
-export default function Store(): S {
-  console.log('LOAD pages');
-  if (!store) {
-    store = new S();
-  }
-  return store;
-}
+const store: S = new S();
+export default store;

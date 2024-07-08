@@ -49,8 +49,8 @@
 
 <script lang="ts" setup>
 import Page from '@/services/classes/page/Page';
-const page: ComputedRef<Page> = Store.Pages().Item();
-
+const page: ComputedRef<Page> = PagesStore.Item();
+console.log(page);
 const pageContent = computed(() => (page.value.content ? page.value.content : '<p style="text-align: center">Описание отсутствует</p>'));
 </script>
 

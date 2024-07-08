@@ -122,6 +122,8 @@
     "e": true,
     "o": true,
     "r": true,
-    "t": true
+    "t": true,
+    "FaqsStore": true,
+    "PagesStore": true
   }
 }

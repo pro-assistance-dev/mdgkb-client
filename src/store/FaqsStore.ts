@@ -7,11 +7,5 @@ class S extends BaseStore<Faq> {
   }
 }
 
-let store: S;
-export default function FaqsStore(): S {
-  if (store) {
-    return store;
-  }
-  store = new S();
-  return store;
-}
+const store: S = new S();
+export default store;

@@ -33,7 +33,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout2/AdminListWrapper2.vue';
 
-const pages: Page[] = Store.Pages().Items();
+const pages: Page[] = PagesStore.Items();
 // const user: ComputedRef<User> = Store.Item('auth', 'user');
 const mounted = ref(false);
 const load = async (): Promise<void> => {
@@ -41,7 +41,7 @@ const load = async (): Promise<void> => {
   // Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
   // }
   // Provider.setSortModels(PagesSortsLib.byTitle());
-  await Store.Pages().FTSP({ ftsp: Provider.ftsp.value });
+  await PagesStore.FTSP({ ftsp: Provider.ftsp.value });
   // if (user.value.role.name === 'ADMIN') {
   //   Provider.store.commit('admin/setHeaderParams', {
   //     title: 'Страницы',
@@ -59,7 +59,7 @@ const edit = async (id: string): Promise<void> => {
 };
 
 const remove = async (id: string) => {
-  await Store.Pages().Remove(id);
+  await PagesStore.Remove(id);
 };
 
 Hooks.onBeforeMount(async () => {

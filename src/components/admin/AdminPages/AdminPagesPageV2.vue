@@ -146,10 +146,10 @@ const form = ref();
 const rules = {
   title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
 };
-const page: Page = Store.Pages().Item();
+const page: Page = PagesStore.Item();
 const roles: ComputedRef<Role[]> = Store.Items('roles');
-const pageSideMenu = Store.Pages().SideMenu();
-const activeMenuId = Store.Pages().ActiveMenuId();
+const pageSideMenu = PagesStore.SideMenu();
+const activeMenuId = PagesStore.ActiveMenuId();
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);
 const openPage = () => {
@@ -162,10 +162,10 @@ const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = u
 const loadNewsItem = async () => {
   const buttons = [Button.Success('Сохранить', submit), Button.Success('Сохранить и выйти', submitAndExit)];
   if (Router.Slug()) {
-    await Store.Pages().GetBySlug(Router.Slug());
+    await PagesStore.GetBySlug(Router.Slug());
     PHelp.AdminUI.Head.Set(page.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
   } else {
-    Store.Pages().ResetState();
+    PagesStore.ResetState();
     PHelp.AdminUI.Head.Set('Добавить страницу', buttons);
   }
   await Store.GetAll('roles');
@@ -187,11 +187,11 @@ const submit = async () => {
     return;
   }
   if (!Provider.route().params['slug']) {
-    await Store.Pages().Create();
+    await PagesStore.Create();
     await Router.ToAdmin('pages');
     return;
   }
-  await Store.Pages().UpdateAndSet(page);
+  await PagesStore.UpdateAndSet(page);
   PHelp.Notification.Success('Успешно сохранено');
 };
 
@@ -208,14 +208,14 @@ const addSideMenu = () => {
 
 const selectSideMenu = (id: number) => {
   showMainSettings.value = false;
-  Store.Pages().SetActiveMenuId(id);
+  PagesStore.SetActiveMenuId(id);
 };
 
 const showMainSettings: Ref<boolean> = ref(true);
 
 const selectMainSettings = () => {
   showMainSettings.value = true;
-  Store.Pages().SetActiveMenuId(id);
+  PagesStore.SetActiveMenuId(id);
 };
 
 const addPageSection = async () => {
@@ -228,12 +228,12 @@ const addPageSection = async () => {
 
 const removePageSideMenu = (index: number) => {
   ClassHelper.RemoveFromClassByIndex(index, page.pageSideMenus, page.pageSideMenusForDelete);
-  Store.Pages().SetActiveMenuId(999999);
+  PagesStore.SetActiveMenuId(999999);
   showMainSettings.value = true;
 };
 
 onBeforeUnmount(() => {
-  Store.Pages().SetActiveMenuId(999999);
+  PagesStore.SetActiveMenuId(999999);
 });
 </script>
 

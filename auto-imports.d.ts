@@ -29,6 +29,7 @@ declare global {
   const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const Email: typeof import('@/services/Main')['Email']
   const FTSP: typeof import('@/services/Main')['FTSP']
+  const FaqsStore: typeof import('@/store/StoreModules')['FaqsStore']
   const Favourite: typeof import('@/services/Main')['Favourite']
   const FilterModel: typeof import('@/services/Main')['FilterModel']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
@@ -36,6 +37,7 @@ declare global {
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
   const PHelp: typeof import('@/services/Main')['PHelp']
+  const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
   const Provider: typeof import('@/services/Main')['Provider']
@@ -145,6 +147,7 @@ declare module 'vue' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
+    readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
@@ -152,6 +155,7 @@ declare module 'vue' {
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
+    readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
@@ -254,6 +258,7 @@ declare module '@vue/runtime-core' {
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
+    readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
@@ -261,6 +266,7 @@ declare module '@vue/runtime-core' {
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
+    readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
