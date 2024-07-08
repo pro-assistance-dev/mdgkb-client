@@ -2,7 +2,7 @@
   <div v-if="mount" class="left-side-container">
     <RemoteSearch key-value="teacher" @select="selectSearch" />
 
-    <FilterReset @load="load" />
+    <!-- <FilterReset @load="load" /> -->
     <SortList :models="createSortModels()" @load="load" />
   </div>
 </template>
@@ -10,7 +10,7 @@
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
 
-import FilterReset from '@/components/Filters/FilterResetButton.vue';
+// import FilterReset from '@/components/Filters/FilterResetButton.vue';
 import SortModel from '@/services/classes/SortModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 
