@@ -210,15 +210,15 @@ const setFreeApplication = async () => {
       showFreeDialog.value = true;
     })
     .catch(() => {
-      PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
-      // residencyApplicationValue.value.paid = true;
+      // PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+      residencyApplicationValue.value.paid = true;
     });
 };
 
 const selectPaid = async (paid: boolean) => {
   if (paid) {
-    PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
-    // residencyApplicationValue.value.paid = true;
+    // PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
+    residencyApplicationValue.value.paid = true;
     return;
   }
   await setFreeApplication();
