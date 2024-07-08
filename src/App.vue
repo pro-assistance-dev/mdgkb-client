@@ -1,7 +1,7 @@
 <template>
   <PNotification />
   <PDialog />
-  <PLoader v-if="PHelp.Loading().IsVisible()" />
+  <PLoader v-if="PHelp.Loading.IsVisible()" />
   <Suspense>
     <component :is="$route.meta.layout || 'MainLayout'" v-if="mounted">
       <router-view />
@@ -13,7 +13,6 @@
 import { defineComponent, watch } from '@vue/runtime-core';
 import { onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import AdminLayout from '@/views/adminLayout2/AdminLayout2.vue';
 import MainLayout from '@/views/mainLayout/MainLayout.vue';
@@ -25,8 +24,7 @@ export default defineComponent({
     AdminLayout,
   },
   setup() {
-    const auth: ComputedRef<Auth<User>> = computed(() => Provider.store.getters['auth/auth']);
-    const store = useStore();
+    const auth: ComputedRef<Auth<User>> = Store.Getters('auth/auth');
     const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
     watch(route, () => {

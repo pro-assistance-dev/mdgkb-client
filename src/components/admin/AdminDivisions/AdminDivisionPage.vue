@@ -16,10 +16,14 @@
           </el-card>
 
           <el-card>
-            <SetEntity :link="`/admin/doctors/${division.chief.employee.human.slug}`"
-              :search-key="Doctor.GetClassName()" label="Выбрать заведующего"
-              :entity-name="division.chief.employee.human.getFullName()" @select-search="selectDoctorSearch"
-              @reset="division.removeChief()" />
+            <SetEntity
+              :link="`/admin/doctors/${division.chief.employee.human.slug}`"
+              :search-key="Doctor.GetClassName()"
+              label="Выбрать заведующего"
+              :entity-name="division.chief.employee.human.getFullName()"
+              @select-search="selectDoctorSearch"
+              @reset="division.removeChief()"
+            />
           </el-card>
 
           <AdminDivisionVisitingRules />
@@ -34,8 +38,11 @@
                 <button class="admin-add" @click.prevent="division.addImage()">+ Добавить</button>
               </div>
               <div v-if="division.divisionImages.length" class="background-container">
-                <AdminGallery :default-ratio="4 / 3" :file-list="division.divisionImages"
-                  :file-list-for-delete="division.divisionImagesForDelete" />
+                <AdminGallery
+                  :default-ratio="4 / 3"
+                  :file-list="division.divisionImages"
+                  :file-list-for-delete="division.divisionImagesForDelete"
+                />
               </div>
             </template>
           </CollapseItem>
@@ -53,26 +60,31 @@
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
           <el-card>
             <el-form-item label="Здание" prop="buildingId">
-              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание"
-                @change="changeBuildingHandler">
+              <el-select v-model="division.buildingId" filterable placeholder="Выберите здание" @change="changeBuildingHandler">
                 <el-option v-for="item in buildingsOptions" :key="item.id" :label="item.name" :value="item.id" />
               </el-select>
             </el-form-item>
             <template v-if="division.buildingId && buildingOption">
               <el-form-item label="Этаж" prop="floorId">
-                <el-select v-model="division.floorId" placeholder="Выберите этаж"
-                  :disabled="division.buildingId ? false : true" @change="changeDivisionAddress">
+                <el-select
+                  v-model="division.floorId"
+                  placeholder="Выберите этаж"
+                  :disabled="division.buildingId ? false : true"
+                  @change="changeDivisionAddress"
+                >
                   <el-option v-for="item in buildingOption.floors" :key="item.id" :label="item.number" :value="item.id">
                     {{ item.number }}
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="Вход" prop="entranceId">
-                <el-select v-model="division.entranceId" placeholder="Выберите вход"
+                <el-select
+                  v-model="division.entranceId"
+                  placeholder="Выберите вход"
                   :disabled="division.buildingId && buildingOption.entrances.length ? false : true"
-                  @change="changeDivisionAddress">
-                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number"
-                    :value="item.id" />
+                  @change="changeDivisionAddress"
+                >
+                  <el-option v-for="item in buildingOption.entrances" :key="item.id" :label="item.number" :value="item.id" />
                 </el-select>
               </el-form-item>
               <el-form-item>
@@ -85,8 +97,7 @@
           </el-card>
 
           <el-card>
-            <div class="flex-between">
-            </div>
+            <div class="flex-between"></div>
 
             <el-table :data="division.doctorsDivisions">
               <el-table-column label="ФИО" sortable>
@@ -106,9 +117,14 @@
               </el-table-column>
               <el-table-column width="50" fixed="right" align="center">
                 <template #default="scope">
-                  <TableButtonGroup :show-more-button="true" :show-remove-button="true" @remove="
-                    $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
-                    " @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)" />
+                  <TableButtonGroup
+                    :show-more-button="true"
+                    :show-remove-button="true"
+                    @remove="
+                      $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
+                    "
+                    @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)"
+                  />
                 </template>
               </el-table-column>
             </el-table>
@@ -120,7 +136,8 @@
             <PButton skin="text" type="success" text="+ Добавить видео" margin="0" @click="division.addDivisionVideo()" />
             <div v-for="(video, i) in division.divisionVideos" :key="video">
               <el-input v-model="video.youTubeVideoId" /><el-button
-                @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)">
+                @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)"
+              >
                 Удалить
               </el-button>
             </div>
@@ -131,124 +148,77 @@
   </el-form>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
-
+<script lang="ts" setup>
 import Building from '@/classes/Building';
 import DivisioinRules from '@/classes/DivisioinRules';
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
-import AdminDivisionVisitingRules from '@/components/admin/AdminDivisions/AdminDivisionVisitingRules.vue';
-import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
-import ScheduleConstructor from '@/components/admin/ScheduleConstructor.vue';
-import SetEntity from '@/components/admin/SetEntity.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import ClassHelper from '@/services/ClassHelper';
-import AdminGallery from '@/services/components/AdminGallery.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdminDivisionPage',
-  components: {
-    ContactsForm,
-    TableButtonGroup,
-    TimetableConstructorV2,
-    ScheduleConstructor,
-    AdminGallery,
-    AdminDivisionVisitingRules,
-    SetEntity,
-    WysiwygEditor,
-    CollapseItem,
-  },
+const form = ref();
+Provider.form = form;
+const rules = ref(DivisioinRules);
 
-  setup() {
-    const form = ref();
-    Provider.form = form;
-    const rules = ref(DivisioinRules);
+const division: Division = DivisionsStore.Item();
+const doctors: ComputedRef<Doctor[]> = computed(() => Provider.store.getters['doctors/items']);
+const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
+const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
+const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
+const newDoctorId = ref();
+const buildingOption = computed(() => Provider.store.getters['buildings/item']);
+const buildingsOptions = computed(() => Provider.store.getters['buildings/items']);
 
-    const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
-    const doctors: ComputedRef<Doctor[]> = computed(() => Provider.store.getters['doctors/items']);
-    const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
-    const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
-    const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
-    const newDoctorId = ref();
-    const buildingOption = computed(() => Provider.store.getters['buildings/item']);
-    const buildingsOptions = computed(() => Provider.store.getters['buildings/items']);
+const load = async (): Promise<void> => {
+  await Provider.store.dispatch('buildings/getAll');
+  await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
+  if (division.value.floorId) {
+    Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
+    division.value.buildingId = buildingOption.value.id;
+  }
+};
 
-    const load = async (): Promise<void> => {
-      await Provider.store.dispatch('buildings/getAll');
-      await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
-      if (division.value.floorId) {
-        Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
-        division.value.buildingId = buildingOption.value.id;
-      }
-    };
-
-    Hooks.onBeforeMount(load, {
-      adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? division.value.name : 'Добавить отделение')),
-        showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
-      },
-    });
-    Hooks.onBeforeRouteLeave(Hooks.submit);
-
-    const changeBuildingHandler = (id: string) => {
-      const building = buildingsOptions.value.find((item: Building) => item.id == id);
-      Provider.store.commit('buildings/set', building);
-      if (buildingOption.value.floors.length === 1) {
-        division.value.floorId = buildingOption.value.floors[0].id;
-      } else {
-        division.value.floorId = '';
-      }
-      if (buildingOption.value.entrances.length === 1) {
-        division.value.entranceId = buildingOption.value.entrances[0].id;
-      } else {
-        division.value.entranceId = '';
-      }
-      changeDivisionAddress();
-    };
-
-    const selectDoctorSearch = async (item: ISearchObject) => {
-      await Provider.store.dispatch('doctors/get', item.value);
-      division.value.setChief(doctor.value);
-    };
-
-    const changeDivisionAddress = () => {
-      division.value.setAddressFromBuilding(buildingOption.value);
-    };
-
-    const addDoctor = async (search: ISearchObject) => {
-      await Provider.store.dispatch('doctors/get', search.value);
-      division.value.addDoctorDivision(doctor.value);
-    };
-
-    return {
-      division,
-      buildingsOptions,
-      changeBuildingHandler,
-      changeDivisionAddress,
-      buildingOption,
-      form,
-      rules,
-      doctors,
-      divisionDoctors,
-      newDoctorId,
-      addDoctor,
-      filteredDoctors,
-      mounted: Provider.mounted,
-      Doctor,
-      selectDoctorSearch,
-
-      Provider,
-    };
+Hooks.onBeforeMount(load, {
+  adminHeader: {
+    title: computed(() => (Provider.route().params['id'] ? division.value.name : 'Добавить отделение')),
+    showBackButton: true,
+    buttons: [{ action: Hooks.submit() }],
   },
 });
+Hooks.onBeforeRouteLeave(Hooks.submit);
+
+const changeBuildingHandler = (id: string) => {
+  const building = buildingsOptions.value.find((item: Building) => item.id == id);
+  Provider.store.commit('buildings/set', building);
+  if (buildingOption.value.floors.length === 1) {
+    division.value.floorId = buildingOption.value.floors[0].id;
+  } else {
+    division.value.floorId = '';
+  }
+  if (buildingOption.value.entrances.length === 1) {
+    division.value.entranceId = buildingOption.value.entrances[0].id;
+  } else {
+    division.value.entranceId = '';
+  }
+  changeDivisionAddress();
+};
+
+const selectDoctorSearch = async (item: ISearchObject) => {
+  await Provider.store.dispatch('doctors/get', item.value);
+  division.value.setChief(doctor.value);
+};
+
+const changeDivisionAddress = () => {
+  division.value.setAddressFromBuilding(buildingOption.value);
+};
+
+const addDoctor = async (search: ISearchObject) => {
+  await Provider.store.dispatch('doctors/get', search.value);
+  division.addDoctorDivision(doctor.value);
+};
 </script>
 
 <style lang="scss" scoped>

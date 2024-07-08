@@ -2,7 +2,7 @@ import FileInfo from '@/classes/FileInfo';
 import HttpHeaders from '../types/HttpHeaders';
 
 export interface IBodilessParams {
-  query?: string;
+  query: string;
   headers?: HttpHeaders;
   isBlob?: boolean;
   downloadFileName?: string;
@@ -10,7 +10,7 @@ export interface IBodilessParams {
 
 export interface IBodyfulParams<PayloadType> {
   payload?: PayloadType;
-  query?: string;
+  query: string;
   isBlob?: boolean;
   downloadFileName?: string;
   headers?: HttpHeaders;

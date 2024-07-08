@@ -56,7 +56,7 @@ const load = async (): Promise<void> => {
   FTSP.Get().setF(DivisionsSortsLib.byName());
   // Provider.setSortList(...createSortModels(DivisionsSortsLib));
   await loadDivisions();
-  PHelp.AdminHead().Set('Отделения', [Button.Success('Добавить отделение', addDivision)]);
+  PHelp.AdminUI.Head.Set('Отделения', [Button.Success('Добавить отделение', addDivision)]);
 };
 
 Hooks.onBeforeMount(load, {

@@ -1,14 +1,14 @@
 <template>
   <transition name="fade">
-    <div v-if="PHelp.Notification().IsVisible()" :class="typeClass">
-      <MessageBody :title="PHelp.Notification().GetTitle()" :text="PHelp.Notification().GetText()" />
+    <div v-if="PHelp.Notification.IsVisible()" :class="typeClass">
+      <MessageBody :title="PHelp.Notification.GetTitle()" :text="PHelp.Notification.GetText()" />
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
 const typeClass = computed(() => {
-  switch (PHelp.Notification().GetType()) {
+  switch (PHelp.Notification.GetType()) {
     case 'info':
       return 'message primary';
     case 'success':

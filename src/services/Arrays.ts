@@ -1,6 +1,7 @@
 import IOrdered from '@/services/interfaces/IOrdered';
 
 import IWithId from './interfaces/IWithId';
+import IWithName from './interfaces/IWithName';
 
 export default abstract class Arrays {
   static Shuffle<ArrayType>(array: ArrayType[]) {

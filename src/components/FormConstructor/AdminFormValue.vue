@@ -186,11 +186,11 @@ export default defineComponent({
       if (!formValue.value) return;
       if (props.checkFields) {
         if (status.isClarifyRequired() && !formValue.value.haveModComments() && !formValue.value.modComment) {
-          PHelp.Notification().Error('Необходимо добавить замечания');
+          PHelp.Notification.Error('Необходимо добавить замечания');
           return;
         }
         if ((status.isConsidering() || status.isAccepted()) && !formValue.value.isFieldValuesModChecked()) {
-          PHelp.Notification().Error('Проверьте данные формы');
+          PHelp.Notification.Error('Проверьте данные формы');
           scroll('#form-data');
           return;
         }

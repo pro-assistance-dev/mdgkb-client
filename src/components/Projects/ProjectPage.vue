@@ -10,17 +10,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
 import Project from '@/classes/Project';
 
 export default defineComponent({
   name: 'ProjectPage',
 
   setup() {
-    const store = useStore();
-    const project: ComputedRef<Project> = computed(() => store.getters['projects/item']);
+    const project: ComputedRef<Project> = Store.Item('project');
 
     return {
       project,

@@ -9,6 +9,7 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svgLoader from 'vite-svg-loader';
 
 import ServicesNames from './src/services/ServicesNames';
+import StoreModulesNames from './src/store/StoreModulesNames';
 
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -55,7 +56,8 @@ export default ({ mode }) => {
           'vue',
           {
             '@/services/Main': ServicesNames,
-            '@/classes/Main': ['Doctor'],
+            '@/store/StoreModules': StoreModulesNames,
+            '@/classes/Main': ['Doctor', 'Store'],
           },
         ],
         resolvers: [ElementPlusResolver()],

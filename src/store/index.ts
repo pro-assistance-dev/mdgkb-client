@@ -26,7 +26,6 @@ import { diets } from '@/store/modules/diets';
 import { dietsGroups } from '@/store/modules/dietsGroups';
 import { dishesGroups } from '@/store/modules/dishesGroups';
 import { dishesSamples } from '@/store/modules/dishesSamples';
-import { divisions } from '@/store/modules/divisions';
 import { doctors } from '@/store/modules/doctors';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
@@ -36,7 +35,6 @@ import { educationYears } from '@/store/modules/educationYears';
 import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
-import { faqs } from '@/store/modules/faqs';
 import { fileInfos } from '@/store/modules/fileInfos';
 import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
@@ -56,7 +54,6 @@ import { meta } from '@/store/modules/meta';
 import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
 import { nmoCourses } from '@/store/modules/nmoCourses';
-import { pages } from '@/store/modules/pages';
 import { pageSections } from '@/store/modules/pageSections';
 import { pageSideMenus } from '@/store/modules/pageSideMenus';
 import { pagination } from '@/store/modules/pagination';
@@ -87,7 +84,7 @@ import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { visitingRules } from '@/store/modules/visitingRules';
 import { visitsApplications } from '@/store/modules/visitsApplications';
-import User from '@/classes/User'
+import User from '@/classes/User';
 import RootState from './types';
 
 const s: StoreOptions<RootState> = {
@@ -104,7 +101,6 @@ const s: StoreOptions<RootState> = {
     banners,
     cropper,
     buildings,
-    divisions,
     doctors,
     sideOrganizations,
     tags,
@@ -113,13 +109,11 @@ const s: StoreOptions<RootState> = {
     admin,
     timetables,
     map,
-    pages,
     vacancies,
     vacancyResponses,
     search,
     hospitalizations,
     comments,
-    faqs,
     newsSlides,
     questions,
     events,

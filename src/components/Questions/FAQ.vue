@@ -8,51 +8,28 @@
       <div v-html="item.answer"></div>
     </el-collapse-item>
   </el-collapse> -->
-  <div v-for="item in filteredFaqList" :key="item.id" class="faq-card card-item">
-    <div class="faq-card-title">
-      <QuestionCircleOutlined />
-      <b>{{ item.question }}</b>
+  <template v-if="mounted">
+    <div v-for="item in faqList" :key="item.id" class="faq-card card-item">
+      <div class="faq-card-title">
+        <QuestionCircleOutlined />
+        <b>{{ item.question }}</b>
+      </div>
+      <div v-html="item.answer"></div>
     </div>
-    <div v-html="item.answer"></div>
-  </div>
+  </template>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
+// import StoreModules from '@/store/StoreModules';
+const faqList: ComputedRef<Faq[]> = FaqsStore.Items();
+// const faqList1: ComputedRef<Faq[]> = StoreModules.Faqs1.Items();
+const mounted = ref(false);
 
-import Faq from '@/classes/Faq';
-
-export default defineComponent({
-  name: 'FAQ',
-  components: { QuestionCircleOutlined },
-
-  setup() {
-    const filter: Ref<string> = ref('');
-    const store = useStore();
-    const faqList: ComputedRef<Faq[]> = computed<Faq[]>(() => store.getters['faqs/items']);
-    const filteredFaqList = computed((): Faq[] => {
-      if (filter.value) {
-        return faqList.value.filter((faq: Faq) => {
-          return (
-            faq.question.toLowerCase().includes(filter.value.toLowerCase()) || faq.answer.toLowerCase().includes(filter.value.toLowerCase())
-          );
-        });
-      } else {
-        return faqList.value;
-      }
-    });
-
-    onBeforeMount(async () => {
-      await store.dispatch('faqs/getAll');
-    });
-
-    return {
-      filter,
-      filteredFaqList,
-    };
-  },
+onBeforeMount(async () => {
+  await FaqsStore.GetAll().then(() => {
+    mounted.value = true;
+  });
 });
 </script>
 

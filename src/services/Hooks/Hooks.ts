@@ -6,7 +6,7 @@ import FilterQuery from '@/services/classes/filters/FilterQuery';
 import { SortModelBuildersLib } from '@/services/interfaces/Sort';
 import Provider from '@/services/Provider/Provider';
 import SortList from '@/services/SortList';
-import Store from '@/services/Store';
+// import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -73,9 +73,9 @@ const Hooks = (() => {
         } else {
           // await Provider.submit();
         }
-        PHelp.Notification().Success('Сохранено');
+        PHelp.Notification.Success('Сохранено');
       } catch (error) {
-        PHelp.Notification().Success('Что-то пошло не так');
+        PHelp.Notification.Success('Что-то пошло не так');
         console.log(error);
         return;
       }

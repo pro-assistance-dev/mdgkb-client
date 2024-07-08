@@ -13,9 +13,9 @@ export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fiel
         return;
       }
       if (hideErrorList) {
-        PHelp.Notification().Error('Пожалуйста, проверьте правильность введенных данных');
+        PHelp.Notification.Error('Пожалуйста, проверьте правильность введенных данных');
       } else {
-        PHelp.Notification().Error(PHelp.Notification().FormMessage(errorFields));
+        PHelp.Notification.Error(PHelp.Notification.FormMessage(errorFields));
       }
       validationResult = false;
       return validationResult;

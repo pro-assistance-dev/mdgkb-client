@@ -117,6 +117,14 @@
     "Button": true,
     "FilterModel": true,
     "SortModel": true,
-    "ElLoading": true
+    "ElLoading": true,
+    "S": true,
+    "e": true,
+    "o": true,
+    "r": true,
+    "t": true,
+    "FaqsStore": true,
+    "PagesStore": true,
+    "DivisionsStore": true
   }
 }

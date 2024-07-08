@@ -59,7 +59,6 @@
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';
@@ -71,9 +70,7 @@ export default defineComponent({
     SocialIcons,
   },
   setup() {
-    const store = useStore();
     const router = useRouter();
-    const route = useRoute();
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
@@ -88,14 +85,6 @@ export default defineComponent({
 
     const nav = async (to: string) => {
       await router.push(to);
-    };
-
-    const login = () => store.commit('auth/openModal', true);
-    const register = () => store.commit('auth/openModal');
-    const logout = async () => {
-      const curRoute = route.name;
-      await router.push(curRoute as string);
-      await store.dispatch('auth/logout');
     };
 
     const handleScroll = () => {
@@ -123,7 +112,7 @@ export default defineComponent({
       }
       showDrawer.value = !showDrawer.value;
     };
-    const showSearchDrawer = () => store.commit('search/toggleDrawer', true);
+    const showSearchDrawer = () => Store.Commit('search/toggleDrawer', true);
 
     return {
       scrollOffset,
@@ -131,9 +120,6 @@ export default defineComponent({
       rememberedOffset,
       showDrawer,
       changeDrawerStatus,
-      login,
-      register,
-      logout,
       nav,
       tabletWindow,
       mobileWindow,

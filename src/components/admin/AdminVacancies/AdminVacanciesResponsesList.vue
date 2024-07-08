@@ -30,7 +30,7 @@ const load = async () => {
   FTSP.Get().setS(VacancyResponsesSortsLib.byDate(Orders.Desc));
   // Provider.setSortList(...createSortModels(VacancyResponsesSortsLib));
   await Store.FTSP('vacancyResponses');
-  PHelp.AdminHead().Set('Отклики на вакансии', []);
+  PHelp.AdminUI.Head.Set('Отклики на вакансии', []);
 };
 
 // const create = () => Provider.router.push(`/admin/vacancy-responses/new`);

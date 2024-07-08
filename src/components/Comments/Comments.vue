@@ -19,43 +19,25 @@
   </CollapseItem>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
-import CommentCard from '@/components/Comments/CommentCard.vue';
-import CommentForm from '@/components/Comments/CommentForm.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
+<script lang="ts" setup>
 import IWithComment from '@/interfaces/IWithComment';
 import scroll from '@/services/Scroll';
 
-export default defineComponent({
-  name: 'Comments',
-  components: { CommentCard, CommentForm, CollapseItem },
-  props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-    parentId: {
-      type: String,
-      required: true,
-    },
-    isReviews: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  storeModule: {
+    type: String,
+    required: true,
   },
-  setup(prop) {
-    const store = useStore();
-    const comments: ComputedRef<IWithComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
-
-    return {
-      comments,
-      scroll,
-    };
+  parentId: {
+    type: String,
+    required: true,
+  },
+  isReviews: {
+    type: Boolean,
+    default: true,
   },
 });
+const comments: ComputedRef<IWithComment[]> = Store.Getters(`${props.storeModule}/comments`);
 </script>
 
 <style lang="scss" scoped>

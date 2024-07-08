@@ -51,60 +51,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 import CallbackRequest from '@/services/classes/CallbackRequest';
 import PhoneService from '@/services/PhoneService';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'CallBack',
-  components: {
-    BaseModalButtonClose,
-  },
-  emits: ['close'],
+const emits = defineEmits(['close']);
 
-  setup(_, { emit }) {
-    const store = useStore();
-    const callbackForm = ref();
-    const callback: ComputedRef<CallbackRequest> = computed(() => store.getters['callbacks/item']);
-    const rules = {
-      name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
-      phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
-    };
+const callbackForm = ref();
+const callback: ComputedRef<CallbackRequest> = Store.Item('callback');
+const rules = {
+  name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
+  phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
+};
 
-    const close = () => {
-      emit('close');
-    };
+const close = () => {
+  emits('close');
+};
 
-    const submit = () => {
-      if (!validate(callbackForm)) {
-        return;
-      }
-      store.dispatch('callbacks/create');
-      emit('close');
-      ElNotification({
-        title: 'Обратный звонок',
-        message: 'Спасибо за заявку.\nМы Вам перезвоним в ближайшее время',
-        type: 'success',
-        duration: 2000,
-      });
-    };
-
-    return {
-      close,
-      submit,
-      callback,
-      callbackForm,
-      rules,
-      PhoneService,
-    };
-  },
-});
+const submit = () => {
+  if (!validate(callbackForm)) {
+    return;
+  }
+  Store.Dispatch('callbacks/create');
+  emits('close');
+  PHelp.Notification.Success('Спасибо за заявку.\nМы Вам перезвоним в ближайшее время');
+};
 </script>
 
 <style lang="scss" scoped>
@@ -234,7 +207,9 @@ input {
   margin: -1px;
 }
 :deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .submit-grey {

@@ -56,7 +56,6 @@ Provider.store = store;
 router.isReady().then(() => {
   app.mount('#app');
 });
-
 export function getStore() {
   return store;
 }

@@ -132,27 +132,27 @@ export default defineComponent({
         return;
       }
       if (!Provider.route().params['slug']) {
-        await Provider.store.dispatch('pages/create', page.value);
-        await Provider.router.push('/admin/pages');
+        await PagesStore.Create(page.value);
+        await Router.To('/admin/pages');
         return;
       }
-      await Provider.store.dispatch('pages/updateAndSet', page.value);
+      await PagesStore.UpdateAndSet(page.value);
       ElMessage({ message: 'Успешно сохранено', type: 'success' });
     };
 
     const submitAndExit = async (next?: NavigationGuardNext) => {
       await submit();
-      next ? next() : await Provider.router.push('/admin/pages');
+      next ? next() : await Router.To('/admin/pages');
     };
 
     const openDialog = async (index?: number) => {
       if (index === undefined) {
         await page.value.addSideMenu();
-        Provider.store.commit('pages/setIndex', page.value.pageSideMenus.length - 1);
+        PagesStore.SetIndex(page.value.pageSideMenus.length - 1);
       } else {
-        Provider.store.commit('pages/setIndex', index);
+        PagesStore.SetIndex(index);
       }
-      Provider.store.commit('pages/setSideMenuDialogActive', true);
+      PagesStore.SetSideMenuDialogActive(true);
     };
 
     return {

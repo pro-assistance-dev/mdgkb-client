@@ -22,7 +22,7 @@ export default class Auth<UserT extends IWithId> {
 
   logout() {
     if (this.preventLogout) {
-      PHelp.Notification().Warning('В текущий момент Вы не можете выйти из системы');
+      PHelp.Notification.Warning('В текущий момент Вы не можете выйти из системы');
       return;
     }
     this.user.reset();

@@ -15,38 +15,22 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onMounted, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Banner from '@/classes/Banner';
 import makeCarousel from '@/services/MakeCarousel';
 
-export default defineComponent({
-  name: 'FooterTop',
+const banners = Store.Items('banners');
+const carousel: Ref<Banner[][]> = ref([]);
+const mounted = ref(false);
+const carouselRef = ref();
 
-  setup() {
-    const store = useStore();
-    const banners = computed(() => store.getters['banners/items']);
-    const carousel: Ref<Banner[][]> = ref([]);
-    const mounted = ref(false);
-    const carouselRef = ref();
+const loadBanners = async () => {
+  await Store.GetAll('banners');
+  carousel.value = makeCarousel<Banner>(banners.value, 4);
+  mounted.value = true;
+};
 
-    const loadBanners = async () => {
-      await store.dispatch('banners/getAll');
-      carousel.value = makeCarousel<Banner>(banners.value, 4);
-      mounted.value = true;
-    };
-
-    onMounted(loadBanners);
-
-    return {
-      carousel,
-      mounted,
-      carouselRef,
-    };
-  },
-});
+onMounted(loadBanners);
 </script>
 
 <style lang="scss" scoped>

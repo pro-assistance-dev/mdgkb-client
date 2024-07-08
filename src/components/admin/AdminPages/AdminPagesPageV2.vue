@@ -146,14 +146,14 @@ const form = ref();
 const rules = {
   title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
 };
-const page: ComputedRef<Page> = Store.Item('pages');
+const page: Page = PagesStore.Item();
 const roles: ComputedRef<Role[]> = Store.Items('roles');
-const pageSideMenu: ComputedRef<PageSideMenu> = Store.Getters('pages/sideMenu');
-const activeMenuId: ComputedRef<string> = Store.Getters('pages/activeMenuId');
+const pageSideMenu = PagesStore.SideMenu();
+const activeMenuId = PagesStore.ActiveMenuId();
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);
 const openPage = () => {
-  const route = Router.Resolve(page.value.getLink());
+  const route = Router.Resolve(page.getLink());
   window.open(route.href, '_blank');
 };
 
@@ -162,11 +162,11 @@ const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = u
 const loadNewsItem = async () => {
   const buttons = [Button.Success('Сохранить', submit), Button.Success('Сохранить и выйти', submitAndExit)];
   if (Router.Slug()) {
-    await Store.Dispatch('pages/getBySlug', Router.Slug());
-    PHelp.AdminHead().Set(page.value.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
+    await PagesStore.GetBySlug(Router.Slug());
+    PHelp.AdminUI.Head.Set(page.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
   } else {
-    Store.Commit('pages/resetState');
-    PHelp.AdminHead().Set('Добавить страницу', buttons);
+    PagesStore.ResetState();
+    PHelp.AdminUI.Head.Set('Добавить страницу', buttons);
   }
   await Store.GetAll('roles');
   window.addEventListener('beforeunload', beforeWindowUnload);
@@ -187,12 +187,12 @@ const submit = async () => {
     return;
   }
   if (!Provider.route().params['slug']) {
-    await Store.Create('pages');
+    await PagesStore.Create();
     await Router.ToAdmin('pages');
     return;
   }
-  await Store.Dispatch('pages/updateAndSet', page.value);
-  PHelp.Notification().Success('Успешно сохранено');
+  await PagesStore.UpdateAndSet(page);
+  PHelp.Notification.Success('Успешно сохранено');
 };
 
 const submitAndExit = async (next?: NavigationGuardNext) => {
@@ -202,19 +202,20 @@ const submitAndExit = async (next?: NavigationGuardNext) => {
 
 const addSideMenu = () => {
   showMainSettings.value = false;
-  const id = page.value.addSideMenu();
+  const id = page.addSideMenu();
   selectSideMenu(id);
 };
 
-const selectSideMenu = (id: string) => {
+const selectSideMenu = (id: number) => {
   showMainSettings.value = false;
-  Store.Commit('pages/setActiveMenuId', id);
+  PagesStore.SetActiveMenuId(id);
 };
 
 const showMainSettings: Ref<boolean> = ref(true);
+
 const selectMainSettings = () => {
   showMainSettings.value = true;
-  Store.Commit('pages/setActiveMenuId', '999999');
+  PagesStore.SetActiveMenuId(id);
 };
 
 const addPageSection = async () => {
@@ -226,13 +227,13 @@ const addPageSection = async () => {
 };
 
 const removePageSideMenu = (index: number) => {
-  ClassHelper.RemoveFromClassByIndex(index, page.value.pageSideMenus, page.value.pageSideMenusForDelete);
-  Store.Commit('pages/setActiveMenuId', '999999');
+  ClassHelper.RemoveFromClassByIndex(index, page.pageSideMenus, page.pageSideMenusForDelete);
+  PagesStore.SetActiveMenuId(999999);
   showMainSettings.value = true;
 };
 
 onBeforeUnmount(() => {
-  Store.Commit('pages/setActiveMenuId', '999999');
+  PagesStore.SetActiveMenuId(999999);
 });
 </script>
 

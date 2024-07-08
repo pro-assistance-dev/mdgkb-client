@@ -94,10 +94,10 @@ const load = async () => {
   await Store.FTSP('divisions', { ftsp: new FTSP() });
   if (Router.Id()) {
     await Store.Get('vacancies', Router.Id());
-    PHelp.AdminHead().Set(vacancy.value.title, [Button.Success('Сохранить', submit)]);
+    PHelp.AdminUI.Head.Set(vacancy.value.title, [Button.Success('Сохранить', submit)]);
   } else {
     Store.Commit('vacancies/resetState');
-    PHelp.AdminHead().Set('Добавить вакансию', [Button.Success('Сохранить', submit)]);
+    PHelp.AdminUI.Head.Set('Добавить вакансию', [Button.Success('Сохранить', submit)]);
   }
   await Store.FTSP('formPatterns', { ftsp: new FTSP() });
   window.addEventListener('beforeunload', beforeWindowUnload);

@@ -30,73 +30,70 @@
     </el-radio-group>
   </el-form-item>
   <template v-if="residencyApplicationValue.primaryAccreditation">
-    <el-form-item label="В каком году проходили вступительные испытания?" prop="selectedYear" :rules="rules.selectedYear">
-      <el-select v-model="residencyApplication.selectedYear" placeholder="Выберите год">
-        <el-option v-for="year in years" :key="year" :label="year" :value="year" />
-      </el-select>
+    <!-- <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace"> -->
+    <!--   <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input> -->
+    <!-- </el-form-item> -->
+    <!-- <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints"> -->
+    <!--   <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number> -->
+    <!-- </el-form-item> -->
+    <!-- <el-form-item :rules="rules.primaryAccreditationApplication"> -->
+    <!--   <FieldValueFile -->
+    <!--     required -->
+    <!--     :form="residencyApplicationValue.formValue" -->
+    <!--     :field="residencyApplicationValue.formValue.getFieldByCode('PrimaryAccreditationApplication')" -->
+    <!--   /> -->
+    <!-- </el-form-item> -->
+    <el-form-item label="Где проходите вступительные испытания?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
+      <el-radio-group v-model="residencyApplicationValue.mdgkbExam">
+        <el-radio :label="true" size="large">Морозовской больнице</el-radio>
+        <el-radio :label="false" size="large">В другом месте (указать)</el-radio>
+      </el-radio-group>
     </el-form-item>
-    <template v-if="residencyApplication.selectedYear && residencyApplication.selectedYear > 2022">
-      <el-form-item label="Первичная аккредитация пройдена в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-        <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Первичная аккредитация пройдена в: </el-input>
+    <template v-if="residencyApplicationValue.mdgkbExam">
+      <el-form-item
+        label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
+        prop="entranceExamSpecialisation"
+        :rules="rules.entranceExamSpecialisation"
+      >
+        <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
       </el-form-item>
-      <el-form-item label="Баллы первичной аккредитации" prop="primaryAccreditationPoints">
-        <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints">Баллы первичной аккредитации</el-input-number>
-      </el-form-item>
-      <el-form-item :rules="rules.primaryAccreditationApplication">
+      <el-form-item label="Заявление на вступительное испытание">
         <FieldValueFile
-          required
           :form="residencyApplicationValue.formValue"
-          :field="residencyApplicationValue.formValue.getFieldByCode('PrimaryAccreditationApplication')"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
         />
       </el-form-item>
     </template>
-    <template
-      v-else-if="residencyApplication.selectedYear && residencyApplication.selectedYear < 2023 && residencyApplication.selectedYear > 2016"
-    >
-      <el-form-item label="Где проходите вступительные испытания?" prop="primaryAccreditation" :rules="rules.primaryAccreditation">
-        <el-radio-group v-model="residencyApplicationValue.mdgkbExam">
-          <el-radio :label="true" size="large">Морозовской больнице</el-radio>
-          <el-radio :label="false" size="large">В другом месте (указать)</el-radio>
-        </el-radio-group>
+
+    <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
+      <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
+        <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
       </el-form-item>
-      <template v-if="residencyApplicationValue.mdgkbExam">
-        <el-form-item
-          label="Указать программу специалитета, по которой сдаются вступительные экзамены: "
-          prop="entranceExamSpecialisation"
-          :rules="rules.entranceExamSpecialisation"
-        >
-          <el-input v-model="residencyApplicationValue.entranceExamSpecialisation" />
-        </el-form-item>
-        <el-form-item>
-          <FieldValueFile
-            :form="residencyApplicationValue.formValue"
-            :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
-          />
-        </el-form-item>
-      </template>
-      <template v-if="!residencyApplicationValue.mdgkbExam && residencyApplicationValue.mdgkbExam !== undefined">
-        <el-form-item label="Вступительные испытания прохожу в: " prop="primaryAccreditationPlace" :rules="rules.primaryAccreditationPlace">
-          <el-input v-model="residencyApplicationValue.primaryAccreditationPlace">Вступительные экзамены прохожу в: </el-input>
-        </el-form-item>
-        <el-form-item>
-          <FieldValueFile
-            :form="residencyApplicationValue.formValue"
-            :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')"
-          />
-        </el-form-item>
-        <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
-          <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
-        </el-form-item>
-        <el-form-item>
-          <FieldValueFile
-            :form="residencyApplicationValue.formValue"
-            :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamPointsApplication')"
-          />
-        </el-form-item>
-      </template>
+      <!-- <el-form-item> -->
+      <!--   <FieldValueFile -->
+      <!--     :form="residencyApplicationValue.formValue" -->
+      <!--     :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')" -->
+      <!--   /> -->
+      <!-- </el-form-item> -->
+      <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">
+        <el-input-number v-model="residencyApplicationValue.primaryAccreditationPoints" min="0" />
+      </el-form-item>
+      <el-form-item label="Заявление об учете баллов пройденного вступительного испытания">
+        <FieldValueFile
+          :form="residencyApplicationValue.formValue"
+          :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamPointsApplication')"
+        />
+      </el-form-item>
     </template>
   </template>
-
+  <template v-else-if="residencyApplicationValue.primaryAccreditation === false">
+    <el-form-item label="Заявление на вступительное испытание">
+      <FieldValueFile
+        :form="residencyApplicationValue.formValue"
+        :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
+      />
+    </el-form-item>
+  </template>
   <el-dialog
     v-model="showFreeDialog"
     title="Для выбора бесплатного обучения нужно загрузить 1. Гарантийное письмо 
@@ -165,11 +162,11 @@ onBeforeMount(() => {
 });
 
 const selectAccreditation = () => {
-  if (residencyApplicationValue.value.primaryAccreditation === true) {
-    return;
-  }
-  PHelp.Notification().Error('Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года');
-  residencyApplicationValue.value.primaryAccreditation = undefined;
+  // if (residencyApplicationValue.value.primaryAccreditation === true) {
+  //   return;
+  // }
+  // PHelp.Notification.Error('Прохождение всех этапов первичной аккредитации – обязательное условия поступления в ординатуру с 2017 года');
+  // residencyApplicationValue.value.primaryAccreditation = undefined;
 };
 
 // const sele = () => {
@@ -200,25 +197,23 @@ const rules = {
 };
 
 const setFreeApplication = async () => {
-  PHelp.Dialog()
-    .Show({
-      text: 'Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы',
-      confirmButtonText: 'Загрузить',
-      cancelButtonText: 'Выбрать платное',
-    })
+  PHelp.Dialog.Show({
+    text: 'Для выбора бесплатного обучения нужно загрузить Договор с Департаментом здравоохранения города Москвы',
+    confirmButtonText: 'Загрузить',
+    cancelButtonText: 'Выбрать платное',
+  })
     .then(() => {
       showFreeDialog.value = true;
     })
     .catch(() => {
-      // PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
       residencyApplicationValue.value.paid = true;
     });
 };
 
 const selectPaid = async (paid: boolean) => {
   if (paid) {
-    // PHelp.Notification().Warning('Приём документов на внебюджетную основу откроется 8 июля');
     residencyApplicationValue.value.paid = true;
+    PHelp.Dialog.Cancel();
     return;
   }
   await setFreeApplication();
@@ -231,7 +226,7 @@ const submitFreeFile = () => {
   const medWork = a.findFieldValue(a.getFieldByCode('MedWork').id).file.id;
   console.log(guarantee, dzm, medWork);
   if (!guarantee || !(dzm || medWork)) {
-    PHelp.Notification().Error('Загрузите необходимые документы');
+    PHelp.Notification.Error('Загрузите необходимые документы');
     return;
   }
   residencyApplicationValue.value.paid = false;

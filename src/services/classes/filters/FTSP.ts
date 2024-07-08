@@ -18,7 +18,6 @@ export default class FTSP {
 
   constructor(i?: FTSP) {
     ClassHelper.BuildClass(this, i);
-    FTSP;
   }
 
   static Get(): FTSP {

@@ -15,30 +15,19 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { BookOutlined, FlagOutlined } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
-export default defineComponent({
-  name: 'NewsEventsButtons',
-  components: { FlagOutlined, BookOutlined },
-  emits: ['load'],
-  setup(_, { emit }) {
-    const eventModeActive = ref(false);
-    const store = useStore();
+const emit = defineEmits(['load']);
+const eventModeActive = ref(false);
 
-    const changeNewsEvents = async (eventMode: boolean) => {
-      if (eventModeActive.value === eventMode) {
-        return;
-      }
-      eventModeActive.value = eventMode;
-      await store.commit('news/setEventMode', eventModeActive.value);
-      emit('load');
-    };
-
-    return { eventModeActive, changeNewsEvents };
-  },
-});
+const changeNewsEvents = async (eventMode: boolean) => {
+  if (eventModeActive.value === eventMode) {
+    return;
+  }
+  eventModeActive.value = eventMode;
+  await Store.Commit('news/setEventMode', eventModeActive.value);
+  emit('load');
+};
 </script>
 
 <style lang="scss" scoped>
