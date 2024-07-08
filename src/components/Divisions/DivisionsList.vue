@@ -7,29 +7,23 @@
   </div>
   <h1 v-else class="text-center">Нет данных</h1>
   <div v-if="divisions.length" class="loadmore-button">
-    <LoadMoreButton @loadMore="$emit('load')" />
+    <LoadMoreButton @load-more="$emit('load')" />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Division from '@/classes/Division';
 import CenterCard from '@/components/Divisions/CenterCard.vue';
 import DivisionCard from '@/components/Divisions/DivisionCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
 
-export default defineComponent({
-  name: 'DivisionsList',
-  components: { DivisionCard, LoadMoreButton, CenterCard },
-  props: {
-    divisions: {
-      type: Array as PropType<Division[]>,
-      default: () => [],
-    },
+defineProps({
+  divisions: {
+    type: Array as PropType<Division[]>,
+    default: () => [],
   },
-  emits: ['load'],
 });
+defineEmits(['load']);
 </script>
 
 <style lang="scss" scoped>

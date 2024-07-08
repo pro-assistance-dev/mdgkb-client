@@ -1,8 +1,5 @@
 import { getStore } from '@/main';
 
-// import FaqsStore from './FaqsStore';
-// import PagesStore from './PagesStore';
-
 enum Methods {
   GetAll = 'getAll',
   Get = 'get',

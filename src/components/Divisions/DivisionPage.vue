@@ -1,7 +1,5 @@
 <template>
-  <!-- <div v-if="mount" class="division-page-container"> -->
   <div v-if="mounted" class="division-page-container" data-test="division-component">
-    <!-- <div class="title-out">Главная / Отделения и центры / Гастроэнтерологическое отделение / Бочкова Наталья Геннадьевна</div> -->
     <DivisionInfo :division="division" />
     <DivisionInfoBlock :info="division.info" />
     <PaidServices :items-with-paid-service="division.divisionPaidServices" />
@@ -24,61 +22,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-
+<script lang="ts" setup>
 import Division from '@/classes/Division';
-import Comments from '@/components/Comments/Comments.vue';
-import DivisionCertificates from '@/components/Divisions/DivisionCertificates.vue';
-import DivisionDateAndTime from '@/components/Divisions/DivisionDateAndTime.vue';
-import DivisionInfo from '@/components/Divisions/DivisionInfo.vue';
-import DivisionInfoBlock from '@/components/Divisions/DivisionInfoBlock.vue';
-import DivisionSchedule from '@/components/Divisions/DivisionSchedule.vue';
-import DoctorsCarousel from '@/components/DoctorsCarousel.vue';
-import ImageGalleryDivision from '@/components/ImageGallery_new.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import NewsSlider from '@/components/NewsSlider.vue';
-import PaidServices from '@/components/PaidServices/PaidServices.vue';
-import ScansSlider from '@/components/ScansSlider.vue';
-import SocialMediaCarousel from '@/components/SocialMediaCarousel.vue';
-import ClassHelper from '@/services/ClassHelper';
-import countRating from '@/services/countRating';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DivisionPage',
-  components: {
-    SocialMediaCarousel,
-    DivisionInfo,
-    PaidServices,
-    DivisionSchedule,
-    DoctorsCarousel,
-    NewsSlider,
-    DivisionCertificates,
-    DivisionDateAndTime,
-    Comments,
-    ScansSlider,
-    DivisionInfoBlock,
-    CollapseItem,
-    ImageGalleryDivision,
-  },
-  setup() {
-    const division: ComputedRef<Division> = computed<Division>(() => Provider.store.getters['divisions/item']);
-    const load = async () => {
-      Provider.filterQuery.value.setParams(ClassHelper.GetPropertyName(Division).id, Provider.route().params['id'] as string);
-      await Provider.store.dispatch('divisions/get', Provider.filterQuery.value);
-    };
+const division: ComputedRef<Division> = DivisionsStore.Item();
+const mounted = ref(false);
+const load = async () => {
+  await DivisionsStore.Get(Router.Id());
+  mounted.value = true;
+};
 
-    Hooks.onBeforeMount(load);
-
-    return {
-      countRating,
-      division,
-      mounted: Provider.mounted,
-    };
-  },
-});
+Hooks.onBeforeMount(load);
 </script>
 
 <style lang="scss" scoped>

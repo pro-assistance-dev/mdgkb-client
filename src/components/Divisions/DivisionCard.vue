@@ -8,7 +8,7 @@
       </div>
       <div class="flex-column right-side">
         <div class="division-line">{{ division.treatDirection.name }}</div>
-        <div class="card-name" @click="$router.push(`/divisions/${division.id}`)">
+        <div class="card-name" @click="Router.To(`/divisions/${division.id}`)">
           {{ division.name }}
         </div>
         <div class="line">
@@ -36,14 +36,13 @@
               <div class="hidden-block">
                 <div class="hidden-line">
                   <div class="hidden-item">
-                    <span style="color: #0a216f"><b>сегодня</b></span>: {{
-                      division.timetable.getTodayWorkday().getTimetable() }}
+                    <span style="color: #0a216f"><b>сегодня</b></span
+                    >: {{ division.timetable.getTodayWorkday().getTimetable() }}
                   </div>
                   <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                     Перерыв:
                     <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{
-                        item.getPeriod() }}</li>
+                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
                     </ul>
                   </div>
                 </div>
@@ -67,8 +66,7 @@
           <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item">
             Перерыв:
             <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
-              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{
-                item.getPeriod() }}&nbsp;</li>
+              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{ item.getPeriod() }}&nbsp;</li>
             </ul>
           </div>
         </div>
@@ -128,9 +126,7 @@
   <Attention />
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Attention from '@/assets/svg/DivisionCard/Attention.svg';
 import CreditCard from '@/assets/svg/DivisionCard/CreditCard.svg';
 import Email from '@/assets/svg/DivisionCard/Email.svg';
@@ -139,25 +135,8 @@ import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Ruble from '@/assets/svg/DivisionCard/Ruble.svg';
 import Time from '@/assets/svg/DivisionCard/Time.svg';
 import Division from '@/classes/Division';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Rating from '@/components/Rating.vue';
-
-export default defineComponent({
-  name: 'DivisionCard',
-  components: {
-    CreditCard,
-    Phone,
-    Email,
-    MapMarker,
-    Time,
-    Ruble,
-    Attention,
-    Rating,
-    FavouriteIcon,
-  },
-  props: {
-    division: { type: Object as PropType<Division>, required: true },
-  },
+defineProps({
+  division: { type: Object as PropType<Division>, required: true },
 });
 </script>
 

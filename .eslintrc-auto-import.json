@@ -124,6 +124,7 @@
     "r": true,
     "t": true,
     "FaqsStore": true,
-    "PagesStore": true
+    "PagesStore": true,
+    "DivisionsStore": true
   }
 }

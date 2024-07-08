@@ -11,24 +11,6 @@ import { State } from './index';
 
 const getters: GetterTree<State, RootState> = {
   ...getBaseGetters(),
-  timetable(state): Timetable | undefined {
-    if (state.item) return state.item.timetable;
-  },
-  schedule(state): Schedule | undefined {
-    if (state.item) return state.item.schedule;
-  },
-  comment(state): DivisionComment {
-    return state.comment;
-  },
-  comments(state): DivisionComment[] {
-    return state.item.divisionComments;
-  },
-  divisionById(state): (id: string) => Division | undefined {
-    return (id: string): Division | undefined => state.items.find((item: Division) => item.id === id);
-  },
-  // visitingRules(state): IVisitingRule[] {
-  //   return state.division.visitingRules;
-  // },
   // getDrugById(state): (id: string) => IDrug | undefined {
   //   return (id: string): IDrug | undefined => state.drugs.find((item: IDrug) => item.id === id);
   // },

@@ -11,7 +11,6 @@ import getters from './getters';
 import mutations from './mutations';
 
 export interface State extends IBasicState<Division> {
-  comment: DivisionComment;
   onlyShowed: boolean;
 }
 

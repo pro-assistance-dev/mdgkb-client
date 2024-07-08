@@ -1,3 +1,4 @@
+import DivisionsStore from './DivisionsStore';
 import FaqsStore from './FaqsStore';
 import PagesStore from './PagesStore';
-export { FaqsStore, PagesStore };
+export { DivisionsStore, FaqsStore, PagesStore };

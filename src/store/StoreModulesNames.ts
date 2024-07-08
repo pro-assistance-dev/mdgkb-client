@@ -1,3 +1,3 @@
-const StoreModulesNames = ['FaqsStore', 'PagesStore'];
+const StoreModulesNames = ['FaqsStore', 'PagesStore', 'DivisionsStore'];
 
 export default StoreModulesNames;

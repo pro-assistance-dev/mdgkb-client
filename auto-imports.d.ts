@@ -21,6 +21,7 @@ declare global {
   const DateMask: typeof import('@/services/Main')['DateMask']
   const Dates: typeof import('@/services/Main')['Dates']
   const DatesFormatter: typeof import('@/services/Main')['DatesFormatter']
+  const DivisionsStore: typeof import('@/store/StoreModules')['DivisionsStore']
   const Doctor: typeof import('@/classes/Main')['Doctor']
   const Dragger: typeof import('@/services/Main')['Dragger']
   const EffectScope: typeof import('vue')['EffectScope']
@@ -142,9 +143,11 @@ declare module 'vue' {
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
+    readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
@@ -253,9 +256,11 @@ declare module '@vue/runtime-core' {
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
+    readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
