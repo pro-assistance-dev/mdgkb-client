@@ -137,7 +137,7 @@ const load = async () => {
   // Provider.setSortModels(VacanciesSortsLib.byTitle());
   await loadVacancies();
   filterByDivision.value = VacanciesFiltersLib.byDivisions([]);
-  PHelp.AdminHead().Set('Вакансии', [
+  PHelp.AdminUI.Head.Set('Вакансии', [
     Button.Success('Сохранить', saveMany, isEditMode),
     Button.Success('Редактировать', editMany, isNotEditMode),
     Button.Success('Создать вакансию', create),

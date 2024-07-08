@@ -317,10 +317,10 @@ const submitStep = async () => {
   activeStep.value++;
   if (activeStep.value > 5) {
     buttonOff.value = true;
-    PHelp.Loading().Show();
+    PHelp.Loading.Show();
     await submit();
     buttonOff.value = false;
-    PHelp.Loading().Hide();
+    PHelp.Loading.Hide();
     await Router.To('/admission-committee');
   }
 };

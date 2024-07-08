@@ -105,7 +105,7 @@ const load = async () => {
   Provider.sortList.push(...createSortModels(QuestionsSortsLib, Orders.Desc));
   await loadQuestions();
   onlyNewFilter.value = QuestionsFiltersLib.onlyNew(true);
-  PHelp.AdminHead().Set('Вопросы', [
+  PHelp.AdminUI.Head.Set('Вопросы', [
     Button.Success('Статистика', open),
     Button.Success('Редактировать', edit, isNotEditMode),
     Button.Success('Соханить', open, isEditMode),

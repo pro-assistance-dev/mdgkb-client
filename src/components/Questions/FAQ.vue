@@ -23,16 +23,14 @@
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
 // import StoreModules from '@/store/StoreModules';
 console.log(Store);
-const faqList: ComputedRef<Faq[]> = Store.Faqs().Items();
+const faqList: ComputedRef<Faq[]> = Store.Faqs.Items();
 // const faqList1: ComputedRef<Faq[]> = StoreModules.Faqs1.Items();
 const mounted = ref(false);
 
 onBeforeMount(async () => {
-  await Store.Faqs()
-    .GetAll()
-    .then(() => {
-      mounted.value = true;
-    });
+  await Store.Faqs.GetAll().then(() => {
+    mounted.value = true;
+  });
 });
 </script>
 

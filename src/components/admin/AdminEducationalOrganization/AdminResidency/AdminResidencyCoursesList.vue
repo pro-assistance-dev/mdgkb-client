@@ -107,7 +107,7 @@ const loadCourses = async () => {
 };
 
 const load = async () => {
-  PHelp.AdminHead().Set('Программы ординатуры', [
+  PHelp.AdminUI.Head.Set('Программы ординатуры', [
     Button.Success(
       computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
       computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value)))

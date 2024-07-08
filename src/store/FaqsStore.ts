@@ -9,8 +9,9 @@ class S extends BaseStore<Faq> {
 
 let store: S;
 export default function FaqsStore(): S {
-  if (!store) {
-    store = new S();
+  if (store) {
+    return store;
   }
+  store = new S();
   return store;
 }

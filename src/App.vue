@@ -1,7 +1,7 @@
 <template>
   <PNotification />
   <PDialog />
-  <PLoader v-if="PHelp.Loading().IsVisible()" />
+  <PLoader v-if="PHelp.Loading.IsVisible()" />
   <Suspense>
     <component :is="$route.meta.layout || 'MainLayout'" v-if="mounted">
       <router-view />

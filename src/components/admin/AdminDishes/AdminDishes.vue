@@ -60,7 +60,7 @@ const load = async () => {
   // const ftsp = new FTSP()
   // ftsp.setF(dayFilter.value)
   // await Store.FTSP('dailyMenus', { ftsp: ftsp, withCache: true })
-  PHelp.AdminHead().Set('Меню буфета', [Button.Success('Создать блюда', openDishesConstructor)]);
+  PHelp.AdminUI.Head.Set('Меню буфета', [Button.Success('Создать блюда', openDishesConstructor)]);
 
   await selectDay(calendar.value.getToday());
   // await fillCalendar()

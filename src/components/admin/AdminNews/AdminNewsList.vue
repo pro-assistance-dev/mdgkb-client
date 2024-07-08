@@ -154,7 +154,7 @@ const load = async (): Promise<void> => {
   // FTSP.Get().setS(NewsSortsLib.byPublishedOn());
   await loadNews();
 
-  PHelp.AdminHead().Set('Новости', [
+  PHelp.AdminUI.Head.Set('Новости', [
     Button.Success('Статистика', open),
     Button.Success('Назначить главную новость', openModal),
     Button.Success('Добавить новость', open),

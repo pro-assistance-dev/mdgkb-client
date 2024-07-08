@@ -39,6 +39,9 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
   // ACTIONS //
   // ======= //
   protected getUrl(query: string): string {
+    if (!query) {
+      return this.url;
+    }
     return `${this.url}/${query}`;
   }
 
@@ -46,9 +49,9 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
     let res;
     const get = HttpClient.Get<T[] | ItemsWithCount<T>>;
     if (options && options.withCache) {
-      res = await Cache.TryGet<T[] | ItemsWithCount<T>>(this.url, get);
+      res = await Cache.TryGet<T[] | ItemsWithCount<T>>(this.getUrl(), get);
     } else {
-      res = await get();
+      res = await get({ query: this.getUrl() });
     }
     if (Array.isArray(res)) {
       this.SetAll(res);

@@ -45,7 +45,7 @@ const load = async () => {
   // Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
   FTSP.Get().setS(CommentsSortsLib.byPublishedOn(Orders.Desc));
   await Store.FTSP('comments');
-  PHelp.AdminHead().Set('Заявления на посещение', []);
+  PHelp.AdminUI.Head.Set('Заявления на посещение', []);
 };
 
 Hooks.onBeforeMount(load, {

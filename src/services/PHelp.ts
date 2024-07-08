@@ -9,13 +9,10 @@ import Notification from './Notification';
 export default abstract class PHelp {
   static Dialog = reactive(Dialog);
   static Notification = reactive(Notification);
-  static loading = ref(Loading);
+  static Loading = reactive(Loading);
   static adminHead = ref(AdminHead);
   static AdminUI = reactive(AdminUI);
 
-  static Loading() {
-    return PHelp.loading.value;
-  }
   static AdminHead() {
     return PHelp.adminHead.value;
   }
