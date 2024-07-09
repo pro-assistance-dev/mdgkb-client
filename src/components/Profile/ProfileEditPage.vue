@@ -13,19 +13,29 @@
         <div class="size-less-980"><h2>Ред.</h2></div>
       </div>
       <div class="title-right">
-        <button class="cancel-button" @click="$router.push('/profile')">Отмена</button>
-        <button class="cancel-button-less-800" @click="$router.push('/profile')">
-          <svg class="icon-back">
-            <use xlink:href="#back"></use>
-          </svg>
-        </button>
+        <div class="button">
+          <PButton skin="profile" text="Отмена" width="100px" margin="0 20px 0 0" @click="$router.push('/profile')" />
+        </div>
 
-        <button class="save-button" @click="saveUser">Сохранить</button>
-        <button class="save-button-less-800" @click="saveUser">
+        <div class="button-less-800">
+          <PButton skin="profile" margin="0 20px 0 0" width="32px" padding="0" @click="$router.push('/profile')">
+            <IconBack />
+          </PButton>
+        </div>
+
+        <div class="button">
+          <PButton skin="profile" type="primary" text="Сохранить" width="100px" margin="0 20px 0 0" @click="saveUser" />
+        </div>
+        <div class="button-less-800">
+          <PButton skin="profile" type="primary" margin="0" width="32px" padding="0" @click="saveUser">
+            <IconSave />
+          </PButton>
+        </div>
+        <!-- <button class="save-button-less-800" @click="saveUser">
           <svg class="icon-save">
             <use xlink:href="#save"></use>
           </svg>
-        </button>
+        </button> -->
       </div>
     </div>
     <div class="right-block">
@@ -54,7 +64,7 @@
       <!--      </div>-->
       <!--    </div>-->
     </div>
-    <svg width="0" height="0" class="hidden">
+    <!-- <svg width="0" height="0" class="hidden">
       <symbol id="arrow-right-profile" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
         <path d="M6 15L11 10L6 5L7 3L14 10L7 17L6 15Z"></path>
       </symbol>
@@ -73,7 +83,7 @@
           d="M6 4.5C5.60218 4.5 5.22064 4.65804 4.93934 4.93934C4.65804 5.22064 4.5 5.60218 4.5 6V18C4.5 18.3978 4.65804 18.7794 4.93934 19.0607C5.22064 19.342 5.60218 19.5 6 19.5V14.25C6 13.6533 6.23705 13.081 6.65901 12.659C7.08097 12.2371 7.65326 12 8.25 12H15.75C16.3467 12 16.919 12.2371 17.341 12.659C17.7629 13.081 18 13.6533 18 14.25V19.5C18.3978 19.5 18.7794 19.342 19.0607 19.0607C19.342 18.7794 19.5 18.3978 19.5 18V8.4315C19.4999 8.03371 19.3418 7.65224 19.0605 7.371L16.629 4.9395C16.3478 4.65818 15.9663 4.50008 15.5685 4.5H15V6.75C15 7.34674 14.7629 7.91903 14.341 8.34099C13.919 8.76295 13.3467 9 12.75 9H9.75C9.15326 9 8.58097 8.76295 8.15901 8.34099C7.73705 7.91903 7.5 7.34674 7.5 6.75V4.5H6ZM9 4.5V6.75C9 6.94891 9.07902 7.13968 9.21967 7.28033C9.36032 7.42098 9.55109 7.5 9.75 7.5H12.75C12.9489 7.5 13.1397 7.42098 13.2803 7.28033C13.421 7.13968 13.5 6.94891 13.5 6.75V4.5H9ZM16.5 19.5V14.25C16.5 14.0511 16.421 13.8603 16.2803 13.7197C16.1397 13.579 15.9489 13.5 15.75 13.5H8.25C8.05109 13.5 7.86032 13.579 7.71967 13.7197C7.57902 13.8603 7.5 14.0511 7.5 14.25V19.5H16.5ZM3 6C3 5.20435 3.31607 4.44129 3.87868 3.87868C4.44129 3.31607 5.20435 3 6 3H15.5685C16.3641 3.00017 17.127 3.31635 17.6895 3.879L20.121 6.3105C20.6836 6.87298 20.9998 7.63592 21 8.4315V18C21 18.7956 20.6839 19.5587 20.1213 20.1213C19.5587 20.6839 18.7956 21 18 21H6C5.20435 21 4.44129 20.6839 3.87868 20.1213C3.31607 19.5587 3 18.7956 3 18V6Z"
         ></path>
       </symbol>
-    </svg>
+    </svg> -->
     <!-- <el-card v-if="user">
     <template #header><h3 style="text-align: center; margin: 0">Профиль</h3></template>
     <el-form label-width="120px" label-position="left" :model="user">
@@ -151,80 +161,6 @@ export default defineComponent({
 .title-left {
   display: flex;
   justify-content: left;
-}
-
-.cancel-button {
-  cursor: pointer;
-  display: flex;
-  padding: 7px 18px;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 14px;
-  border-radius: 40px;
-  border: 1px solid $base-light-font-color;
-  color: $base-light-font-color;
-  align-items: center;
-  margin-right: 20px;
-  background: #efefef;
-  height: 33px;
-}
-
-.cancel-button:hover {
-  background: #ffffff;
-}
-
-.cancel-button-less-800 {
-  cursor: pointer;
-  display: flex;
-  padding: 6px 6px 5px 8px;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 14px;
-  border-radius: 40px;
-  border: 1px solid $base-light-font-color;
-  color: $base-light-font-color;
-  align-items: center;
-  margin-right: 20px;
-  background: #efefef;
-  height: 33px;
-}
-
-.cancel-button-less-800:hover {
-  background: #ffffff;
-}
-
-.save-button {
-  cursor: pointer;
-  display: flex;
-  padding: 7px 18px;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 14px;
-  border-radius: 40px;
-  background: #2754eb;
-  border: none;
-  color: #ffffff;
-  align-items: center;
-  height: 33px;
-}
-
-.save-button:hover {
-  background: #133dcc;
-}
-
-.save-button-less-800 {
-  cursor: pointer;
-  display: flex;
-  padding: 5px 5px;
-  font-family: Roboto, Verdana, sans-serif;
-  font-size: 14px;
-  border-radius: 40px;
-  background: #2754eb;
-  border: none;
-  color: #ffffff;
-  align-items: center;
-  height: 33px;
-}
-
-.save-button-less-800:hover {
-  background: #133dcc;
 }
 
 .title-right {
@@ -346,11 +282,12 @@ h5 {
 .size-less-980 {
   display: none;
 }
-.cancel-button-less-800 {
-  display: none;
+
+.button {
+  display: block;
 }
 
-.save-button-less-800 {
+.button-less-800 {
   display: none;
 }
 
@@ -409,22 +346,13 @@ h5 {
   .icon-arrow-right {
     margin: 0 5px;
   }
-  .cancel-button {
-    margin-right: 10px;
-  }
 }
 
 @media screen and (max-width: 800px) {
-  .cancel-button-less-800 {
+  .button-less-800 {
     display: block;
   }
-  .cancel-button {
-    display: none;
-  }
-  .save-button-less-800 {
-    display: block;
-  }
-  .save-button {
+  .button {
     display: none;
   }
 }
@@ -437,10 +365,6 @@ h5 {
   }
   .cancell-button {
     font-size: 12px;
-  }
-  .save-button {
-    font-size: 12px;
-    padding: 7px 12px;
   }
   .size {
     padding: 0 5px;
@@ -471,9 +395,6 @@ h5 {
 @media screen and (max-width: 590px) {
   .edit-button {
     padding: 7px 10px;
-  }
-  .cancel-button-less-800 {
-    margin-right: 10px;
   }
 }
 
@@ -512,9 +433,6 @@ h5 {
   }
   .icon-arrow-right {
     display: none;
-  }
-  .cancel-button-less-800 {
-    margin-right: 20px;
   }
 }
 
