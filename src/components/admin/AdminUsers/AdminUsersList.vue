@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <component :is="'AdminListWrapper'" show-header>
     <template #header>
       <SortList class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
     </template>
@@ -21,8 +21,14 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" :show-more-button="true"
-            @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" @showMore="loginAs(scope.row.email)" />
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            :show-more-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="edit(scope.row.id)"
+            @show-more="loginAs(scope.row.email)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -37,9 +43,9 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 
 import User from '@/classes/User';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -70,7 +76,7 @@ export default defineComponent({
     const load = async () => {
       await Provider.store.dispatch('users/getAll', Provider.filterQuery.value);
       await Provider.store.dispatch('roles/getAll', Provider.filterQuery.value);
-      Provider.setSortList(...createSortModels(UsersSortsLib));
+      // Provider.setSortList(...createSortModels(UsersSortsLib));
       await loadUsers();
       mounted.value = true;
     };

@@ -27,6 +27,8 @@ class S extends BaseStore<Page> {
   }
 
   SideMenu(): Ref<PageSideMenu> {
+    console.log(this.activeMenuId);
+
     return this.Item().pageSideMenus.find((el) => el.id === String(this.activeMenuId));
   }
 
