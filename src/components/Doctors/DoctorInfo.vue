@@ -15,7 +15,7 @@
             <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
         </div>
-        <Rating :comments="doctor.doctorComments" />
+        <Rating :comments="doctor.comments" />
       </div>
     </template>
 
