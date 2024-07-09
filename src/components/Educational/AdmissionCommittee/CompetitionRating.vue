@@ -8,7 +8,7 @@
       <th style="text-align: center">Балл вступительных испытаний</th>
       <th style="text-align: center">Балл индивидуальных достижений</th>
       <th style="text-align: center">Основное/дополнительное</th>
-      <th style="text-align: center">Целевое/ДПОУ (договор)</th>
+      <!-- <th style="text-align: center">Целевое/ДПОУ (договор)</th> -->
     </thead>
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">
@@ -23,7 +23,7 @@
           <td style="text-align: center">{{ application.getPointsSum() }}</td>
           <td style="text-align: center">{{ application.pointsEntrance }}</td>
           <td style="text-align: center">{{ application.calculateAchievementsPoints(true) }}</td>
-          <td style="text-align: center">{{ application.main ? 'Основное' : 'Дополнительное' }}</td>
+          <!-- <td style="text-align: center">{{ application.main ? 'Основное' : 'Дополнительное' }}</td> -->
         </tr>
       </template>
     </tbody>
@@ -38,7 +38,7 @@
       <th style="text-align: center">Балл вступительных испытаний</th>
       <th style="text-align: center">Балл индивидуальных достижений</th>
       <th style="text-align: center">Основное/дополнительное</th>
-      <th style="text-align: center">Целевое/ДПОУ (договор)</th>
+      <!-- <th style="text-align: center">Целевое/ДПОУ (договор)</th> -->
     </thead>
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">
@@ -53,7 +53,7 @@
           <td style="text-align: center">{{ application.getPointsSum() }}</td>
           <td style="text-align: center">{{ application.pointsEntrance }}</td>
           <td style="text-align: center">{{ application.calculateAchievementsPoints(true) }}</td>
-          <td style="text-align: center">{{ application.main ? 'Основное' : 'Дополнительное' }}</td>
+          <!-- <td style="text-align: center">{{ application.main ? 'Основное' : 'Дополнительное' }}</td> -->
         </tr>
       </template>
     </tbody>
