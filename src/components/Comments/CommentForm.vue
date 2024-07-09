@@ -1,8 +1,15 @@
 <template>
   <el-rate v-if="isReviews && withRating" v-model="comment.rating" class="rate" />
-  <el-input v-model="comment.text" type="textarea" :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
-    maxlength="500" minlength="10" show-word-limit :autosize="{ minRows: 4, maxRows: 6 }"
-    @focus="isAuth ? null : openLoginModal()" />
+  <el-input
+    v-model="comment.text"
+    type="textarea"
+    :placeholder="!isReviews ? 'Напишите комментарий' : 'Напишите отзыв'"
+    maxlength="500"
+    minlength="10"
+    show-word-limit
+    :autosize="{ minRows: 4, maxRows: 6 }"
+    @focus="isAuth ? null : openLoginModal()"
+  />
   <div class="button-block">
     <button type="button" :class="{ 'blue-btn': !isReviews }" @click="auth.isAuth ? sendComment() : openLoginModal()">
       ОТПРАВИТЬ {{ !isReviews ? 'КОММЕНТАРИЙ' : 'ОТЗЫВ' }}
@@ -14,10 +21,6 @@
 import { ElMessage } from 'element-plus';
 
 import CommentRules from '@/classes/CommentRules';
-import DivisionComment from '@/classes/DivisionComment';
-import DoctorComment from '@/classes/DoctorComment';
-import NewsComment from '@/classes/NewsComment';
-import validate from '@/services/validate';
 
 const props = defineProps({
   storeModule: {
@@ -40,29 +43,26 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-})
-const emit = defineEmits(['closeDialog', 'scroll'])
+});
+const emit = defineEmits(['closeDialog', 'scroll']);
 
 const commentInput = ref();
-const comment = Store.Item('comments')
-const auth = Store.Getters('auth/auth')
-const authModal = Store.Getters('auth/modal')
+const comment = Store.Item('comments');
+const auth = Store.Getters('auth/auth');
+const authModal = Store.Getters('auth/modal');
 const userId = computed(() => auth.value.user.get().id);
 const userEmail = computed(() => auth.value.user.get().email);
 
-const commentForm = ref();
-const editCommentForm = ref();
-const rules = ref(CommentRules);
-
 const openLoginModal = () => {
   if (!auth.value.isAuth) {
-    authModal.value.open()
+    authModal.value.open();
     commentInput.value.blur();
   }
 };
 
 const sendComment = async () => {
-  console.log(comment.value)
+  PHelp.Notification.Warning('В режиме разработки');
+  return;
   // if (!validate(commentForm)) {
   //   return;
   // }
@@ -70,9 +70,9 @@ const sendComment = async () => {
   comment.value.userId = userId.value;
   try {
     await Store.Create('comments');
-    ElMessage({ message: 'Ваш отзыв отправлен и будет опубликован после модерации', type: 'success' });
+    PHelp.Notification.Success('Ваш отзыв отправлен и будет опубликован после модерации');
   } catch (e) {
-    ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+    PHelp.Notification.Error('Что-то пошло не так');
     return;
   }
   // commentForm.value.clearValidate();

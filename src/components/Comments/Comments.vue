@@ -10,8 +10,8 @@
           <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
         </div>
         <div v-if="comments?.length" id="comments-block">
-          <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-            <CommentCard :comment="item.comment" :is-review="isReviews" />
+          <div v-for="comment in comments" :key="comment.id" class="reviews-point">
+            <CommentCard :comment="comment" :is-review="isReviews" />
           </div>
         </div>
       </div>
@@ -20,12 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import IWithComment from '@/interfaces/IWithComment';
+import Comment from '@/classes/Comment';
 import scroll from '@/services/Scroll';
 
-const props = defineProps({
-  storeModule: {
-    type: String,
+defineProps({
+  comments: {
+    type: Array<Comment>,
     required: true,
   },
   parentId: {
@@ -37,7 +37,6 @@ const props = defineProps({
     default: true,
   },
 });
-const comments: ComputedRef<IWithComment[]> = Store.Getters(`${props.storeModule}/comments`);
 </script>
 
 <style lang="scss" scoped>

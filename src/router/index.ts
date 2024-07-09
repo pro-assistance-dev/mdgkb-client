@@ -172,6 +172,12 @@ const routes: Array<RouteRecordRaw> = [
     component: SiteMap,
   },
   {
+    path: '/isometric-map/:id',
+    name: 'IsometricMapDivision',
+    meta: { layout: 'EmptyLayout', title: 'Изометрическая карта больницы' },
+    component: IsometricMap,
+  },
+  {
     path: '/isometric-map',
     name: 'IsometricMap',
     meta: { layout: 'EmptyLayout', title: 'Изометрическая карта больницы' },

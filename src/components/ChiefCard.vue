@@ -6,9 +6,9 @@
         :src="employee.human.photo.getImageUrl()"
         alt="avatar"
         data-test="chief-photo"
-        @error="employee.human.photo.errorImg"
+        @error="DoctorDefault"
       />
-      <img v-else data-test="chief-alt-photo" src="src/assets/img/doctor-default.webp" alt="avatar" />
+      <img v-else data-test="chief-alt-photo" :src="DoctorDefault" alt="avatar" />
       <div data-test="chief-name" class="doctor-name">
         <router-link class="recent-news-item" :to="`/doctors/${employee.human.slug}`" style="padding-left: 0">
           {{ employee.human.getFullName() }}
@@ -27,6 +27,7 @@ import { defineComponent, PropType } from 'vue';
 
 import Employee from '@/classes/Employee';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
+import DoctorDefault from '@/assets/img/doctor-default.webp';
 
 export default defineComponent({
   name: 'ChiefCard',

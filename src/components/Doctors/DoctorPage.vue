@@ -9,7 +9,7 @@
     <ScansSlider :gallery-elements="doctor.employee.certificates" />
     <DoctorDateAndTime :doctor="doctor" />
     <NewsSlider :news="doctor.newsDoctors" />
-    <Comments store-module="doctors" :parent-id="doctor.id" :is-reviews="true" />
+    <Comments :comments="doctor.getComments()" :parent-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
 

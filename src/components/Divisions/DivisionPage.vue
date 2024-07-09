@@ -18,7 +18,7 @@
       </template>
     </CollapseItem>
     <ImageGalleryDivision :images="division.divisionImages" />
-    <Comments store-module="divisions" :parent-id="division.id" :is-reviews="true" />
+    <Comments :comments="division.getComments()" :parent-id="division.id" :is-reviews="true" />
   </div>
 </template>
 

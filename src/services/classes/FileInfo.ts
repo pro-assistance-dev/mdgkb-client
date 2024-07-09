@@ -25,8 +25,9 @@ export default class FileInfo implements IFileInfo {
     this.url = i.url;
   }
 
-  getImageUrl(): string {
-    return this.url ? this.url : `${import.meta.env.VITE_APP_STATIC_URL}/${this.fileSystemPath}`;
+  getImageUrl(): string | URL {
+    const u = this.url ? this.url : `${import.meta.env.VITE_APP_STATIC_URL}/${this.fileSystemPath}`;
+    return new URL(u, import.meta.url);
   }
 
   getFileUrl(): string {

@@ -1,4 +1,5 @@
 import Building from '@/classes/Building';
+import Comment from '@/classes/Comment';
 import DivisionComment from '@/classes/DivisionComment';
 import DivisionImage from '@/classes/DivisionImage';
 import DivisionPaidService from '@/classes/DivisionPaidService';
@@ -167,5 +168,8 @@ export default class Division {
     const fileInfos: FileInfo[] = [];
     this.divisionImages.forEach((d: DivisionImage) => fileInfos.push(d.fileInfo));
     return fileInfos;
+  }
+  getComments(): Comment[] {
+    return this.divisionComments.map((c: DivisionComment) => c.comment);
   }
 }
