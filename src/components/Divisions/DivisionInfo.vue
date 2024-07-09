@@ -19,7 +19,7 @@
     </template>
 
     <template #tags>
-      <Rating :comments="division.divisionComments" />
+      <Rating :comments="division.comments" />
     </template>
 
     <template #contact>

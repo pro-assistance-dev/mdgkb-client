@@ -27,32 +27,19 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Comment from '@/assets/svg/DivisionCard/Comment.svg';
-import IWithComment from '@/interfaces/IWithComment';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import countRating from '@/services/countRating';
 
-export default defineComponent({
-  name: 'Rating',
-  components: {
-    Comment,
+defineProps({
+  comments: {
+    type: Object as PropType<Comment[]>,
+    required: true,
   },
-  props: {
-    comments: {
-      type: Object as PropType<IWithComment[]>,
-      required: true,
-    },
-    withNumbers: {
-      type: Boolean,
-      default: true,
-    },
-  },
-
-  setup() {
-    return { countRating, buildNameNumbers };
+  withNumbers: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>

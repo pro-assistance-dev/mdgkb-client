@@ -1,9 +1,11 @@
-import IWithComment from '@/interfaces/IWithComment';
+type IWithRating = {
+  rating: number;
+};
 
-export default function countRating(items: IWithComment[]): number {
-  const withoutZero = items.filter((o: IWithComment) => o.comment.rating !== 0);
+export default function countRating(items: IWithRating[]): number {
+  const withoutZero = items.filter((o: IWithRating) => o.rating !== 0);
   let sum = 0;
-  withoutZero.forEach((o: IWithComment) => (sum = sum + o.comment.rating));
+  withoutZero.forEach((o: IWithRating) => (sum = sum + o.rating));
   const rate = sum / withoutZero.length;
 
   return isNaN(rate) ? 0 : Number((sum / withoutZero.length).toFixed(2));

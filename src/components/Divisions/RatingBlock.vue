@@ -1,6 +1,6 @@
 <template>
   <el-rate
-    :model-value="countRating(division.divisionComments)"
+    :model-value="countRating(division.comments)"
     size="large"
     disabled
     void-color="#A1A7BD"
@@ -8,9 +8,7 @@
     :colors="['#FF4D3B', '#FF4D3B', '#FF4D3B']"
   >
   </el-rate>
-  <a class="doctor-reviews" @click="$scroll('#reviews')">{{
-    buildNameNumbers(division.divisionComments, ['отзыв', 'отзыва', 'отзывов'])
-  }}</a>
+  <a class="doctor-reviews" @click="$scroll('#reviews')">{{ buildNameNumbers(division.comments, ['отзыв', 'отзыва', 'отзывов']) }}</a>
 </template>
 
 <script lang="ts">

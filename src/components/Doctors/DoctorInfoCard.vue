@@ -2,10 +2,14 @@
   <div class="card-item flex-column">
     <div class="flex-row">
       <div class="flex-column left-side">
-        <AvatarWithFavourite :image="doctor.employee.human.photoMini" error-img-name="doctor-default.webp"
-          :domain-id="doctor.id" domain-name="doctor"
-          :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } }" />
-        <Rating :comments="doctor.doctorComments" />
+        <AvatarWithFavourite
+          :image="doctor.employee.human.photoMini"
+          error-img-name="doctor-default.webp"
+          :domain-id="doctor.id"
+          domain-name="doctor"
+          :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } }"
+        />
+        <Rating :comments="doctor.comments" />
         <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()" target="_blank">
           <div class="mos-doctor-img">
             <img :src="MosDoctorImg" alt="mos-doctor" />
@@ -15,17 +19,18 @@
         </a>
       </div>
       <div class="flex-column right-side">
-        <div v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0" class="division-name"
-          @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.id}`)">
+        <div
+          v-if="doctor.doctorsDivisions && doctor.doctorsDivisions.length > 0"
+          class="division-name"
+          @click="$router.push(`/divisions/${doctor.doctorsDivisions[0].division.id}`)"
+        >
           {{ doctor.doctorsDivisions[0].division.name }}
         </div>
-        <div class="doctor-name"
-          @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } })">
+        <div class="doctor-name" @click="$router.push({ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } })">
           {{ doctor.employee.human.getFullName() }}
         </div>
         <div class="spec-list">
-          <div v-if="doctor.medicalProfile" class="tag-link"
-            @click="$router.push(`/medical-profiles/${doctor.medicalProfile.id}`)">
+          <div v-if="doctor.medicalProfile" class="tag-link" @click="$router.push(`/medical-profiles/${doctor.medicalProfile.id}`)">
             {{ doctor.medicalProfile.name }}
           </div>
         </div>
@@ -37,8 +42,7 @@
         <div v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id" class="address">
           <span v-if="doctorDivision.division.address.length">
             Адрес приема:
-            <a v-if="doctorDivision.division.address.length"
-              @click="$router.push(`/map/${doctorDivision.division.id}`)">
+            <a v-if="doctorDivision.division.address.length" @click="$router.push(`/map/${doctorDivision.division.id}`)">
               {{ doctorDivision.division.address }}
             </a>
           </span>
@@ -52,12 +56,12 @@
 </template>
 
 <script lang="ts" setup>
-import MosDoctorImg from "@/assets/img/mos-doctor.webp"
+import MosDoctorImg from '@/assets/img/mos-doctor.webp';
 import Doctor from '@/classes/Doctor';
 
 const props = defineProps({
   doctor: { type: Object as PropType<Doctor>, required: true },
-})
+});
 </script>
 
 <style lang="scss" scoped>

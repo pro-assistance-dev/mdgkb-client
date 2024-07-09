@@ -42,9 +42,9 @@ export default class News {
   @ClassHelper.GetClassConstructor(NewsDoctor)
   newsDoctors: NewsDoctor[] = [];
   newsDoctorsForDelete: string[] = [];
-  @ClassHelper.GetClassConstructor(NewsDivision)
-  newsDivisions: NewsDivision[] = [];
-  newsDivisionsForDelete: string[] = [];
+  // @ClassHelper.GetClassConstructor(NewsDivision)
+  // newsDivisions: NewsDivision[] = [];
+  // newsDivisionsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(NewsImage)
   newsImages: NewsImage[] = [];
   newsImagesForDelete: string[] = [];

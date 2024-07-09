@@ -1,3 +1,4 @@
+import Comment from '@/classes/Comment';
 import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
@@ -6,12 +7,9 @@ import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/Timetable';
-import Comment from '@/classes/Comment';
 import FileInfo from '@/services/classes/FileInfo';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
-
-import DoctorComment from './DoctorComment';
 
 export default class Doctor {
   id?: string;
@@ -29,8 +27,8 @@ export default class Doctor {
   tags?: string;
   @ClassHelper.GetClassConstructor(NewsDoctor)
   newsDoctors: NewsDoctor[] = [];
-  @ClassHelper.GetClassConstructor(DoctorComment)
-  doctorComments: DoctorComment[] = [];
+  @ClassHelper.GetClassConstructor(Comment)
+  comments: Comment[] = [];
   @ClassHelper.GetClassConstructor(DoctorPaidService)
   doctorPaidServices: DoctorPaidService[] = [];
   doctorPaidServicesForDelete: string[] = [];
@@ -113,8 +111,5 @@ export default class Doctor {
   resetPosition(): void {
     this.positionId = undefined;
     this.position = undefined;
-  }
-  getComments(): Comment[] {
-    return this.doctorComments.map((c: DoctorComment) => c.comment);
   }
 }

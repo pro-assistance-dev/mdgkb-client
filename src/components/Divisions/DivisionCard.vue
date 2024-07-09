@@ -13,7 +13,7 @@
         </div>
         <div class="line">
           <div class="line-item">
-            <Rating :comments="division.divisionComments" />
+            <Rating :comments="division.comments" />
           </div>
           <PButton
             skin="profile"
