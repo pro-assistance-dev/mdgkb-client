@@ -83,9 +83,9 @@ export default class ResidencyApplication {
     // let additionalPointsSum = 0;
 
     this.residencyApplicationPointsAchievements.forEach((item: ResidencyApplicationPointsAchievement) => {
-      // if (onlyApproved && !item.approved) {
-      //   return;
-      // }
+      if (onlyApproved && !item.approved) {
+        return;
+      }
       // if (simpleAchievementsCodes.includes(String(item.pointsAchievement.code))) {
       //   achievements.push(item);
       // }
