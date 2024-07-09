@@ -143,8 +143,8 @@ const props = defineProps({
 });
 const emits = defineEmits(['findEmail']);
 
-const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
 const auth: ComputedRef<boolean> = Store.Getters('auth/auth');
+const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
 const user: ComputedRef<User> = computed(auth.value.user.get());
 const formValue = ref(new Form());
 

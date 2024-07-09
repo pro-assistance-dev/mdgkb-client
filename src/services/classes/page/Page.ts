@@ -46,9 +46,23 @@ export default class Page {
 
   //
   filterStr = '';
+  activeMenuId = '';
+
   constructor(i?: Page) {
     ClassHelper.BuildClass(this, i);
     this.menus = this.pageSideMenus;
+  }
+
+  getActiveMenu(): PageSideMenu {
+    const activeMenu = this.pageSideMenus.find((p: PageSideMenu) => p.id === this.activeMenuId);
+    if (!activeMenu) {
+      return this.pageSideMenus[0];
+    }
+    return activeMenu;
+  }
+
+  setActiveMenuId(id: string) {
+    this.activeMenuId = id;
   }
 
   getLink(): string {

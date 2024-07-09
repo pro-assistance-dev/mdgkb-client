@@ -42,12 +42,13 @@ const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
 const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
 
 const toForm = () => {
-  if (!isAuth.value) {
-    PHelp.Notification.Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
-    authModal.value.open();
-    return;
-  }
-  Router.To('/admission-form');
+  PHelp.Notification.Error('По техническим причинам подача документов закрыта до 10.07.24. Подача документов возобновится 10.07.24 в 9.00');
+  // if (!isAuth.value) {
+  //   PHelp.Notification.Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
+  //   authModal.value.open();
+  //   return;
+  // }
+  // Router.To('/admission-form');
 };
 
 const loadPrograms = async () => {

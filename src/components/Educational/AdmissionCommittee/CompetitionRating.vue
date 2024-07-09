@@ -8,7 +8,7 @@
       <th style="text-align: center">Балл вступительных испытаний</th>
       <th style="text-align: center">Балл индивидуальных достижений</th>
       <th style="text-align: center">Основное/дополнительное</th>
-      <th style="text-align: center">Целевое/ДПОУ (договор)</th>
+      <!-- <th style="text-align: center">Целевое/ДПОУ (договор)</th> -->
     </thead>
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">
@@ -38,7 +38,7 @@
       <th style="text-align: center">Балл вступительных испытаний</th>
       <th style="text-align: center">Балл индивидуальных достижений</th>
       <th style="text-align: center">Основное/дополнительное</th>
-      <th style="text-align: center">Целевое/ДПОУ (договор)</th>
+      <!-- <th style="text-align: center">Целевое/ДПОУ (договор)</th> -->
     </thead>
     <tbody>
       <template v-for="course in residencyCourses" :key="course.id">

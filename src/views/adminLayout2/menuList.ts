@@ -205,11 +205,11 @@ const menuList: IAdminMenu[] = [
         to: '/admin/employees',
         icon: 'el-icon-user',
       },
-      // {
-      //   name: 'Пользователи',
-      //   to: '/admin/users',
-      //   icon: 'el-icon-user',
-      // },
+      {
+        name: 'Пользователи',
+        to: '/admin/users',
+        icon: 'el-icon-user',
+      },
       // {
       //   name: 'Клиентские доступы',
       //   to: '/admin/path-permissions',

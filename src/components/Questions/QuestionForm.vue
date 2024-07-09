@@ -73,8 +73,6 @@
 </template>
 
 <script lang="ts" setup>
-import { ElNotification } from 'element-plus';
-
 import Question from '@/classes/Question';
 import User from '@/classes/User';
 import FileUploader from '@/components/FileUploader.vue';

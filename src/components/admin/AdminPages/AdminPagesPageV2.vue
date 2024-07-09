@@ -7,7 +7,10 @@
           <draggable :list="page.pageSideMenus" item-key="id" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
-                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === activeMenuId }" @click="selectSideMenu(element.id)">
+                <div
+                  :class="{ 'side-menu': true, 'side-menu-active': element.id === page.activeMenuId }"
+                  @click="selectSideMenu(element.id)"
+                >
                   <div>{{ element?.name }}</div>
                   <el-popconfirm
                     confirm-button-text="Да"
@@ -69,18 +72,23 @@
         </div>
         <div v-else>
           <el-card style="margin-bottom: 20px">
-            <el-input v-model="pageSideMenu.name" placeholder="Название меню" />
-            <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
+            <el-input v-model="page.getActiveMenu().name" placeholder="Название меню" />
+            <WysiwygEditor :key="page.getActiveMenu().name" v-model="page.getActiveMenu().description" />
             <div>
-              <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
+              <el-checkbox v-model="page.getActiveMenu().showContent" class="line"> Показывать содержание </el-checkbox>
             </div>
             <el-button type="success" @click="addPageSection">Добавить раздел</el-button>
           </el-card>
-          <div v-if="pageSideMenu?.pageSections.length">
+          <div v-if="page.getActiveMenu()?.pageSections.length">
             <el-card style="margin-bottom: 20px">
               <h1 style="text-align: center">Разделы</h1>
             </el-card>
-            <draggable :list="pageSideMenu.pageSections" item-key="id" handle=".handle" @end="sort(pageSideMenu.pageSections)">
+            <draggable
+              :list="page.getActiveMenu().pageSections"
+              item-key="id"
+              handle=".handle"
+              @end="sort(page.getActiveMenu().pageSections)"
+            >
               <template #item="{ element, index }">
                 <div class="page-section-row">
                   <el-icon class="handle">
@@ -102,7 +110,13 @@
                     icon-color="danger"
                     title="Вы уверен, что хотите удалить это?"
                     class="close"
-                    @confirm="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
+                    @confirm="
+                      $classHelper.RemoveFromClassByIndex(
+                        index,
+                        page.getActiveMenu().pageSections,
+                        page.getActiveMenu().pageSectionsForDelete
+                      )
+                    "
                     @cancel="() => {}"
                   >
                     <template #reference>
@@ -133,7 +147,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import draggable from 'vuedraggable';
 
 import Page from '@/services/classes/page/Page';
-import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
@@ -148,8 +161,8 @@ const rules = {
 };
 const page: Page = PagesStore.Item();
 const roles: ComputedRef<Role[]> = Store.Items('roles');
-const pageSideMenu = PagesStore.SideMenu();
-const activeMenuId = PagesStore.ActiveMenuId();
+// const pageSideMenu = PagesStore.SideMenu();
+// const activeMenuId = PagesStore.ActiveMenuId();
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);
 const openPage = () => {
@@ -203,12 +216,13 @@ const submitAndExit = async (next?: NavigationGuardNext) => {
 const addSideMenu = () => {
   showMainSettings.value = false;
   const id = page.addSideMenu();
-  selectSideMenu(id);
+  page.setActiveMenuId(id);
 };
 
 const selectSideMenu = (id: number) => {
   showMainSettings.value = false;
-  PagesStore.SetActiveMenuId(id);
+  // PagesStore.SetActiveMenuId(id);
+  page.setActiveMenuId(id);
 };
 
 const showMainSettings: Ref<boolean> = ref(true);
@@ -219,7 +233,7 @@ const selectMainSettings = () => {
 };
 
 const addPageSection = async () => {
-  pageSideMenu.value.addPageSection();
+  page.getActiveMenu().addPageSection();
   const main = document.querySelector('.el-main');
   if (main) {
     main.scrollTop = main.scrollHeight;
