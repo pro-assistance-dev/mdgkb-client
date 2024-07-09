@@ -1,30 +1,30 @@
 <template>
-  <div class="img-container" id="drop-area" @click="openUploadDialog">
+  <div id="drop-area" class="img-container">
     <div v-if="uploadedImg">
       <div class="img-block" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
         <img class="el-upload-list__item-thumbnail" :src="uploadedImg.url" alt="upload-image" />
       </div>
       <div class="tools-button">
         <div class="ins">
-          <PButton skin="text" text="Изменить" @click="openCropper(uploadedImg)" font-size="20px" width="300px" margin="100px 0 0 0" />
-          <PButton skin="text" text="Удалить" @click="handleRemove()" font-size="20px" width="300px" margin="50px 0 0 0" />
+          <PButton skin="text" text="Изменить" font-size="20px" width="300px" margin="100px 0 0 0" @click="openCropper(uploadedImg)" />
+          <PButton skin="text" text="Удалить" @click.="handleRemove()" font-size="20px" width="300px" margin="50px 0 0 0" />
         </div>
       </div>
     </div>
 
     <div v-else>
       <div class="add-button" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
-        <PButton skin="text" text="Добавить" font-size="20px" />
+        <PButton skin="text" text="Добавить" font-size="20px" @click="openUploadDialog" />
       </div>
     </div>
   </div>
-  <input type="file" id="file-input" hidden @change="uploadFile" />
+  <input id="file-input" type="file" hidden @change="uploadFile" />
   <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
 <script lang="ts" setup>
-import FileInfo from '@/services/classes/FileInfo';
 import Cropper from '@/services/classes/Cropper';
+import FileInfo from '@/services/classes/FileInfo';
 
 const props = defineProps({
   withCrop: {
@@ -87,13 +87,13 @@ const openCropper = (file: any) => {
 };
 
 const handleRemove = () => {
-  PHelp.Dialog
-    .Show({
-      text: 'Вы хотите удалить изображение',
-      confirmButtonText: 'Удалить',
-      cancelButtonText: 'Не удалять',
-    })
+  PHelp.Dialog.Show({
+    text: 'Вы хотите удалить изображение',
+    confirmButtonText: 'Удалить',
+    cancelButtonText: 'Не удалять',
+  })
     .then(() => {
+      uploadedImg.value = undefined;
       uploader.value.clearFiles();
       emits('removeFile');
     })

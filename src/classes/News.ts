@@ -1,7 +1,6 @@
 import Doctor from '@/classes/Doctor';
 import Event from '@/classes/Event';
 import FileInfo from '@/services/classes/FileInfo.ts';
-import NewsComment from '@/classes/NewsComment';
 import NewsDivision from '@/classes/NewsDivision';
 import NewsDoctor from '@/classes/NewsDoctor';
 import NewsImage from '@/classes/NewsImage';
@@ -37,8 +36,8 @@ export default class News {
   createdAt: Date = new Date();
   @ClassHelper.GetClassConstructor(NewsLike)
   newsLikes: NewsLike[] = [];
-  @ClassHelper.GetClassConstructor(NewsComment)
-  newsComments: NewsComment[] = [];
+  @ClassHelper.GetClassConstructor(Comment)
+  comments: Comment[] = [];
   @ClassHelper.GetClassConstructor(NewsDoctor)
   newsDoctors: NewsDoctor[] = [];
   newsDoctorsForDelete: string[] = [];

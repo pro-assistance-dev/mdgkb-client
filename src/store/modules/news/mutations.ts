@@ -90,16 +90,16 @@ const mutations: MutationTree<State> = {
     }
     // state.params =
   },
-  setComment(state, item: NewsComment) {
-    if (state.item) state.item.newsComments.unshift(item);
-    state.comment = new NewsComment();
-  },
-  removeComment(state, commentId: string) {
-    if (state.item) {
-      const index = state.item.newsComments.findIndex((item: NewsComment) => item.id === commentId);
-      state.item.newsComments.splice(index, 1);
-    }
-  },
+  // setComment(state, item: NewsComment) {
+  //   if (state.item) state.item.comments.unshift(item);
+  //   state.comment = new NewsComment();
+  // },
+  // removeComment(state, commentId: string) {
+  //   if (state.item) {
+  //     const index = state.item.newsComments.findIndex((item: NewsComment) => item.id === commentId);
+  //     state.item.newsComments.splice(index, 1);
+  //   }
+  // },
   editComment(state, commentId: string) {
     if (state.item) {
       state.item.newsComments = state.item.newsComments.map((item: NewsComment) => {
