@@ -68,7 +68,7 @@
                 <UploaderImage
                   :file-info="news.previewImage"
                   :height="300"
-                  :default-ratio="4 / 3"
+                  :default-ratio="1 / 1"
                   @remove-file="news.removePreviewImage()"
                   @ratio="(e) => (element.ratio = e)"
                 />
