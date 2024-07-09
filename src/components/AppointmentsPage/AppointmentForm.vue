@@ -16,8 +16,7 @@
     <template v-else>
       <el-form-item>
         <el-select v-model="appointment.childId" placeholder="Выберите ребёнка">
-          <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id"
-            :label="child.human.getFullName()">
+          <el-option v-for="child in appointment.user.children" :key="child.id" :value="child.id" :label="child.human.getFullName()">
           </el-option>
         </el-select>
       </el-form-item>
@@ -35,9 +34,6 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import Appointment from '@/classes/Appointment';
 
 export default defineComponent({
@@ -47,11 +43,10 @@ export default defineComponent({
   },
   emits: ['createChildMode'],
   setup(props, { emit }) {
-    const store = useStore();
     const chosenDay: Ref<string | undefined> = ref();
     const mount = ref(false);
-    const appointment: ComputedRef<Appointment> = computed(() => store.getters['appointments/item']);
-    const isAuth = computed(() => store.getters['auth/isAuth']);
+    const appointment: ComputedRef<Appointment> = Store.Item('appointments');
+    const isAuth = Store.Getters('auth/isAuth');
     const createChildMode: Ref<boolean> = ref(false);
 
     onBeforeMount(async () => {
@@ -137,5 +132,6 @@ export default defineComponent({
   justify-content: space-between;
 }
 
-.white-block {}
+.white-block {
+}
 </style>

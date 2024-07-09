@@ -87,7 +87,7 @@ const openCropper = (file: any) => {
 };
 
 const handleRemove = () => {
-  PHelp.Dialog()
+  PHelp.Dialog
     .Show({
       text: 'Вы хотите удалить изображение',
       confirmButtonText: 'Удалить',

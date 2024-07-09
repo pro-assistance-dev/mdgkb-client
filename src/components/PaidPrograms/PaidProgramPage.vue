@@ -36,34 +36,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+<script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
 
-export default defineComponent({
-  name: 'PaidProgramPage',
-  components: {},
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const mounted: Ref<boolean> = ref(false);
-    const form = ref();
-    const paidProgram: Ref<IPaidProgram> = computed<IPaidProgram>(() => store.getters['paidPrograms/item']);
+const route = useRoute();
+const mounted: Ref<boolean> = ref(false);
+const paidProgram: Ref<IPaidProgram> = Store.Item('paidPrograms');
 
-    onBeforeMount(async () => {
-      await store.dispatch('paidPrograms/get', route.params['id']);
-      mounted.value = true;
-    });
-
-    return {
-      mounted,
-      paidProgram,
-      form,
-    };
-  },
+onBeforeMount(async () => {
+  await Store.Get('paidPrograms', route.params['id']);
+  mounted.value = true;
 });
 </script>
 

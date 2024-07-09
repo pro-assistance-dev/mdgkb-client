@@ -121,10 +121,10 @@ const submit = async (next?: NavigationGuardNext) => {
 const loadNewsItem = async () => {
   if (Router.Id()) {
     await Store.Get('news', Router.Id());
-    PHelp.AdminHead().Set(news.value.title, [Button.Success('Статистика', open), Button.Success('Сохранить', submit)]);
+    PHelp.AdminUI.Head.Set(news.value.title, [Button.Success('Статистика', open), Button.Success('Сохранить', submit)]);
   } else {
     Store.Commit('news/resetState');
-    PHelp.AdminHead().Set('Добавить новость', [Button.Success('Сохранить', submit)]);
+    PHelp.AdminUI.Head.Set('Добавить новость', [Button.Success('Сохранить', submit)]);
   }
   window.addEventListener('beforeunload', beforeWindowUnload);
   watch(news, formUpdated, { deep: true });

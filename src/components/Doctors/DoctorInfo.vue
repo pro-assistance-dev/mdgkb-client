@@ -75,13 +75,13 @@
       <TimetableComponent :timetable="doctor.timetable" />
       <div v-if="doctor.division?.address" class="address">
         Адрес приема:
-        <a data-test="map-link" @click="$router.push(`/map/${doctor.division.id}`)">
+        <a data-test="map-link" @click="$router.push(`/isometric-map/${doctor.division.id}`)">
           {{ doctor.division.address }}
         </a>
       </div>
       <router-link v-if="doctor.mosDoctorLink" data-test="mos-doctor-link" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
         <div class="mos-doctor-img-container">
-          <img src="src/assets/img/mos-doctor.webp" alt="mos-doctor" />
+          <img :src="MosDoctor" alt="mos-doctor" />
         </div>
         <div>
           <div>Московский</div>
@@ -109,6 +109,7 @@
 
 <script lang="ts" setup>
 import DoctorDefault from '@/assets/img/doctor-default.webp';
+import MosDoctor from '@/assets/img/mos-doctor.webp';
 defineProps({
   doctor: { type: Doctor, required: true },
 });

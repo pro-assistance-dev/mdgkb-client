@@ -4,6 +4,8 @@ import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 export default class FbxModel {
   static async AddObjectToScene(modelPath: string): Promise<unknown> {
     const loader = new FBXLoader();
+    console.log(modelPath);
+
     const mainObject = await loader.loadAsync(modelPath, this.HandleXHR);
     FbxModel.HandleMainObject(mainObject);
     return mainObject;

@@ -18,7 +18,6 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import IOption from '@/interfaces/IOption';
 import SearchModel from '@/services/classes/SearchModel';
@@ -34,12 +33,11 @@ export default defineComponent({
   emits: ['search'],
 
   setup(props, { emit }) {
-    const store = useStore();
     const router = useRouter();
     const route = useRoute();
     const searchInputText = ref<string>('');
     const searchInput = ref<HTMLInputElement | null>(null);
-    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => store.getters['search/searchModel']);
+    const searchModel: Ref<SearchModel> = Store.Getters('search/searchModel');
 
     onBeforeMount((): void => {
       if (!route.query.query || !route.query.query.length) {
@@ -50,7 +48,7 @@ export default defineComponent({
     });
 
     const showDrawer = () => {
-      store.commit('search/toggleDrawer', true);
+      Store.Commit('search/toggleDrawer', true);
       // searchModel.value.query.blur();
     };
 
@@ -64,7 +62,7 @@ export default defineComponent({
       searchModel.value.query = queryString;
       searchModel.value.options = [];
       searchModel.value.searchGroup.options = [];
-      await store.dispatch('search/full', searchModel.value);
+      await Store.Dispatch('search/full', searchModel.value);
       const options = searchModel.value.options.map((opt: IOption) => {
         return { label: opt.value, value: opt.label };
       });

@@ -43,7 +43,7 @@ import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
 
-import Store from '@/services/Store';
+import Store from '@/store/Store';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
   const auth = Store.Getters('auth/auth');
@@ -170,6 +170,12 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SiteMap',
     meta: { title: 'Карта сайта' },
     component: SiteMap,
+  },
+  {
+    path: '/isometric-map/:id',
+    name: 'IsometricMapDivision',
+    meta: { layout: 'EmptyLayout', title: 'Изометрическая карта больницы' },
+    component: IsometricMap,
   },
   {
     path: '/isometric-map',

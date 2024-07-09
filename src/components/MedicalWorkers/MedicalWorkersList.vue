@@ -59,7 +59,7 @@ const loadMore = async () => {
 const changeMode = async (doctorsModeActive: boolean) => {
   Provider.resetFilterQuery();
   Provider.filterQuery.value.pagination.limit = 8;
-  PHelp.Loading().Show();
+  PHelp.Loading.Show();
   if (doctorsModeActive) {
     await Router.Replace('/doctors');
     await loadDoctors();
@@ -67,7 +67,7 @@ const changeMode = async (doctorsModeActive: boolean) => {
     await Router.Replace('/heads');
     await loadHeads();
   }
-  PHelp.Loading().Hide();
+  PHelp.Loading.Hide();
 };
 </script>
 

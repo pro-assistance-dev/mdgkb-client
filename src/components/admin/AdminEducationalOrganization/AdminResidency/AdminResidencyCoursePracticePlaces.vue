@@ -3,7 +3,7 @@
     <template #header>
       <div class="flex-between">
         <div>Базы практик</div>
-        <PButton skin="text" type="success" text="+ Добавить группу" margin="0 0 2px 0" @click="residencyCourse.addPracticePlaceGroup()"/>
+        <PButton skin="text" type="success" text="+ Добавить группу" margin="0 0 2px 0" @click="residencyCourse.addPracticePlaceGroup()" />
       </div>
     </template>
     <draggable
@@ -94,8 +94,7 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+<script lang="ts" setup>
 import draggable from 'vuedraggable';
 
 import Division from '@/classes/Division';
@@ -104,23 +103,11 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
-export default defineComponent({
-  name: 'AdminResidencyCoursePracticePlaces',
-  components: { draggable, TableButtonGroup },
-  setup() {
-    const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
-    const divisions: ComputedRef<Division[]> = computed<Division[]>(() => Provider.store.getters['divisions/items']);
+const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+const divisions: Division[] = DivisionsStore.Items();
 
-    onBeforeMount(() => {
-      Provider.store.dispatch('divisions/getAll');
-    });
-
-    return {
-      residencyCourse,
-      sort,
-      divisions,
-    };
-  },
+onBeforeMount(async () => {
+  await DivisionsStore.FTSP();
 });
 </script>
 

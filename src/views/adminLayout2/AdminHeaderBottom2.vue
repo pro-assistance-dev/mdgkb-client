@@ -25,7 +25,7 @@
 
 <script lang="ts" setup>
 const buttonClicked: Ref<boolean> = ref(false);
-const head = PHelp.AdminHead();
+const head = PHelp.AdminUI.Head;
 const action = (f: CallableFunction) => {
   buttonClicked.value = true;
   f();

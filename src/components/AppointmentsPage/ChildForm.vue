@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
-import { useStore } from 'vuex';
 
 import Child from '@/classes/Child';
 import User from '@/classes/User';
@@ -33,16 +32,15 @@ export default defineComponent({
   name: 'ChildForm',
   emits: ['createChild'],
   setup(props, { emit }) {
-    const store = useStore();
     const mounted: Ref<boolean> = ref(false);
-    const child: WritableComputedRef<Child> = computed(() => store.getters['children/item']);
-    const user: Ref<User> = computed(() => store.getters['auth/user']);
+    const child: WritableComputedRef<Child> = Store.Item('children');
+    // const user: Ref<User> = computed(() => store.getters['auth/user']);
     onBeforeMount(() => {
       mounted.value = true;
     });
 
     const addChild = async (): Promise<void> => {
-      child.value.userId = user.value.id;
+      // child.value.userId = user.value.id;
       emit('createChild', child.value);
     };
 

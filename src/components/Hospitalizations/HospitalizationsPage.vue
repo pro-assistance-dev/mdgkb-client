@@ -125,11 +125,11 @@ const clearAllValidate = (): void => {
 const getButtonName = (): string => {
   return activeStep.value < 2 ? 'Перейти к следующему шагу' : 'Отправить';
 };
-const selectedDivision: ComputedRef<Division> = computed(() => Provider.store.getters['divisions/item']);
+const selectedDivision: Division = DivisionsStore.Item();
 
 const selectDivision = async (divisionId?: string) => {
   if (divisionId) {
-    await Provider.store.dispatch('divisions/get', divisionId);
+    await DivisionsStore.Get(divisionId);
     hospitalization.value.divisionId = divisionId;
     hospitalization.value.division = selectedDivision.value;
   }

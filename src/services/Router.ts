@@ -7,9 +7,9 @@ import PHelp from './PHelp';
 
 export default abstract class Router {
   static async To(route: string) {
-    PHelp.Loading().Show();
+    PHelp.Loading.Show();
     await router.push(route);
-    PHelp.Loading().Hide();
+    PHelp.Loading.Hide();
   }
 
   static async Replace(route: string) {
@@ -17,7 +17,6 @@ export default abstract class Router {
   }
 
   static Id(): string {
-    console.log('ID', Router.GetStringParam('id'));
     return Router.GetStringParam('id');
   }
 
@@ -27,9 +26,9 @@ export default abstract class Router {
   }
 
   static Back() {
-    PHelp.Loading().Show();
+    PHelp.Loading.Show();
     router.go(-1);
-    PHelp.Loading().Hide();
+    PHelp.Loading.Hide();
   }
 
   static GetQid() {

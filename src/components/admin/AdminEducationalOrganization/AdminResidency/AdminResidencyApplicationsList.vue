@@ -175,7 +175,7 @@ const load = async () => {
   onlyAdmissionFilter.value = ResidencyApplicationsFiltersLib.onlyAdmissionCommittee();
   filterByStatus.value = ResidencyApplicationsFiltersLib.byStatus();
 
-  PHelp.AdminHead().Set('Заявки на обучение в ординатуре', [
+  PHelp.AdminUI.Head.Set('Заявки на обучение в ординатуре', [
     Button.Success('Редактировать', enableEditMode, isNotEditMode),
     Button.Success('Сохранить', save, isEditMode),
     Button.Success('Подать заявление', create),

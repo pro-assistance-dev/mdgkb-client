@@ -1,32 +1,30 @@
 <template>
   <transition name="fade">
-    <div v-if="PHelp.Dialog().IsVisible()" :class="typeClass">
-      <MessageBody :title="PHelp.Dialog().GetTitle()" :text="PHelp.Dialog().GetText()" />
+    <div v-if="PHelp.Dialog.IsVisible()" :class="typeClass">
+      <MessageBody :title="PHelp.Dialog.GetTitle()" :text="PHelp.Dialog.GetText()" />
       <div class="footer">
-        <PButton type="primary" @click="PHelp.Dialog().Submit()" :text="PHelp.Dialog().GetConfirmButtonText()" margin="10px 0 0 0" />
-        <PButton type="warning" @click="PHelp.Dialog().Cancel()" :text="PHelp.Dialog().GetCancelButtonText()" margin="10px 0 0 0"/>
+        <PButton type="primary" @click="PHelp.Dialog.Submit()" :text="PHelp.Dialog.GetConfirmButtonText()" margin="10px 0 0 0" />
+        <PButton type="warning" @click="PHelp.Dialog.Cancel()" :text="PHelp.Dialog.GetCancelButtonText()" margin="10px 0 0 0" />
       </div>
     </div>
   </transition>
 </template>
 
 <script lang="ts" setup>
-
 const typeClass = computed(() => {
-  switch (PHelp.Dialog().GetType()) {
-  case 'info':
-    return 'message primary';
-  case 'success':
-    return 'message success';
-  case 'warning':
-    return 'message warning';
-  case 'error':
-    return 'message danger';
-  default:
-    return 'message neutral';
-  };
+  switch (PHelp.Dialog.GetType()) {
+    case 'info':
+      return 'message primary';
+    case 'success':
+      return 'message success';
+    case 'warning':
+      return 'message warning';
+    case 'error':
+      return 'message danger';
+    default:
+      return 'message neutral';
+  }
 });
-
 </script>
 <style lang="scss" scoped>
 @import '@/services/assets/style/index.scss';
@@ -54,7 +52,7 @@ const typeClass = computed(() => {
 .primary {
   background: $primary_background;
 }
-.success{
+.success {
   background: $success_background;
 }
 .warning {

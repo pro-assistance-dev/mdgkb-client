@@ -54,28 +54,8 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TableMover from '@/components/admin/TableMover.vue';
-import Provider from '@/services/Provider/Provider';
-
-export default defineComponent({
-  name: 'AdminDivisionVisitingRules',
-  components: {
-    TableMover,
-    TableButtonGroup,
-  },
-
-  setup() {
-    const division = computed(() => Provider.store.getters['divisions/item']);
-
-    return {
-      division,
-    };
-  },
-});
+<script lang="ts" setup>
+const division = DivisionsStore.Item();
 </script>
 
 <style lang="scss" scoped>

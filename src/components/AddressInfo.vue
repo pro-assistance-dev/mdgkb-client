@@ -21,7 +21,7 @@
         м. Серпуховская
       </div>
       <div class="item-m">
-        <a @click="mapId ? $router.push(`/map/${mapId}`) : undefined">
+        <a @click="mapId ? $router.push(`/isometric-map/${mapId}`) : undefined">
           {{ address }}
         </a>
       </div>

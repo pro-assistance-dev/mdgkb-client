@@ -1,5 +1,5 @@
 export default interface IAdminMenu {
-  title: string;
+  name: string;
   to: string;
   icon?: string;
   showTo?: string[];

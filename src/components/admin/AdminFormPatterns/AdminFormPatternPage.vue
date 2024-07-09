@@ -92,9 +92,9 @@ export default defineComponent({
       const id = Provider.route().params['id'];
       if (id && typeof id === 'string') {
         await Provider.store.dispatch('formPatterns/get', id);
-        PHelp.AdminHead().Set('Обновить шаблон', [Button.Success('Сохранить', submit)]);
+        PHelp.AdminUI.Head.Set('Обновить шаблон', [Button.Success('Сохранить', submit)]);
       } else {
-        PHelp.AdminHead().Set('Добавиь шаблон', [Button.Success('Сохранить', submit)]);
+        PHelp.AdminUI.Head.Set('Добавиь шаблон', [Button.Success('Сохранить', submit)]);
       }
       await Store.GetAll('formStatusGroups');
       window.addEventListener('beforeunload', beforeWindowUnload);

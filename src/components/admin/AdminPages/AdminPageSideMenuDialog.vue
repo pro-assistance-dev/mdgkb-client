@@ -5,17 +5,26 @@
     <WysiwygEditor :key="pageSideMenu.name" v-model="pageSideMenu.description" />
     <el-button @click="() => openDrawer()"> Добавить раздел </el-button>
     <el-checkbox v-model="pageSideMenu.showContent" class="line"> Показывать содержание </el-checkbox>
-    <draggable v-if="pageSideMenu.pageSections.length" class="groups" :list="pageSideMenu.pageSections" item-key="id"
-      handle=".el-icon-s-grid" @end="sort(pageSideMenu.pageSections)">
+    <draggable
+      v-if="pageSideMenu.pageSections.length"
+      class="groups"
+      :list="pageSideMenu.pageSections"
+      item-key="id"
+      handle=".el-icon-s-grid"
+      @end="sort(pageSideMenu.pageSections)"
+    >
       <template #item="{ element, index }">
         <div class="side-menu-row">
           <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
           <div style="width: 100%">
             <a @click="openDrawer(index)"> {{ element.name }} </a>
           </div>
-          <TableButtonGroup :show-remove-button="true" :show-edit-button="true"
+          <TableButtonGroup
+            :show-remove-button="true"
+            :show-edit-button="true"
             @remove="$classHelper.RemoveFromClassByIndex(index, pageSideMenu.pageSections, pageSideMenu.pageSectionsForDelete)"
-            @edit="openDrawer(index)" />
+            @edit="openDrawer(index)"
+          />
         </div>
       </template>
     </draggable>
@@ -41,15 +50,15 @@ export default defineComponent({
 
   setup() {
     const form = ref();
-    const isSideMenuDialogActive: ComputedRef<boolean> = computed(() => Provider.store.getters['pages/isSideMenuDialogActive']);
-    const pageSideMenu: ComputedRef<PageSideMenu> = computed(() => Provider.store.getters['pages/sideMenu']);
+    const isSideMenuDialogActive: ComputedRef<boolean> = PagesStore.IsSideMenuDialogActive();
+    const pageSideMenu: ComputedRef<PageSideMenu> = PagesStore.SideMenu();
     const mounted: Ref<boolean> = ref(false);
     const rules = {
       name: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
 
     const handleClose = () => {
-      Provider.store.commit('pages/setSideMenuDialogActive', false);
+      PagesStore.SetSideMenuDialogActive(false);
     };
 
     onMounted(() => {
@@ -58,12 +67,13 @@ export default defineComponent({
 
     const openDrawer = async (index?: number) => {
       if (index !== undefined) {
-        Provider.store.commit('pages/setPageSectionIndex', index);
+        PagesStore.SetPageSectionIndex(index);
       } else {
-        await pageSideMenu.value.addPageSection();
-        Provider.store.commit('pages/setPageSectionIndex', pageSideMenu.value.pageSections.length - 1);
+        pageSideMenu.value.addPageSection();
+        PagesStore.SetSideMenuDialogActive(false);
+        PagesStore.SetPageSectionDialogActive(pageSideMenu.value.pageSections.length - 1);
       }
-      Provider.store.commit('pages/setPageSectionDialogActive', true);
+      PagesStore.SetSideMenuDialogActive(true);
     };
 
     return {

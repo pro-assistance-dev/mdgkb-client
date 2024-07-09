@@ -20,9 +20,7 @@
 </template>
 
 <script lang="ts">
-// import { BookOutlined, FlagOutlined } from '@ant-design/icons-vue';
 import { defineComponent, PropType, ref } from 'vue';
-import { useStore } from 'vuex';
 export default defineComponent({
   name: 'ModeButtons',
   // components: { FlagOutlined, BookOutlined },
@@ -51,7 +49,6 @@ export default defineComponent({
   emits: ['changeMode'],
   setup(props, { emit }) {
     const firstModeActive = ref(!props.secondModeActive);
-    const store = useStore();
 
     const changeMode = async (firstModeCondition: boolean) => {
       if (firstModeActive.value === firstModeCondition) {
@@ -59,8 +56,8 @@ export default defineComponent({
       }
       firstModeActive.value = firstModeCondition;
       if (props.storeMode) {
-        store.commit(`${props.storeModule}/setFirstModeCondition`, firstModeCondition);
-        await store.dispatch(`${props.storeModule}/getAll`);
+        Store.Commit(`${props.storeModule}/setFirstModeCondition`, firstModeCondition);
+        await Store.Dispatch(`${props.storeModule}/getAll`);
         return;
       }
       emit('changeMode', firstModeCondition);

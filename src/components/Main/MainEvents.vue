@@ -21,40 +21,21 @@
   </component>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Event from '@/classes/Event';
-import MainContainer from '@/components/Main/MainContainer.vue';
-import MainEventCard from '@/components/Main/MainEventCard.vue';
 import IEventTemplate from '@/interfaces/IEventTemplate';
 import makeCarousel from '@/services/MakeCarousel';
 
-export default defineComponent({
-  name: 'MainEvents',
-  components: { MainEventCard, MainContainer },
+const carousel: Ref<IEventTemplate[][]> = ref([]);
+const mounted: Ref<boolean> = ref(false);
+const carouselRef = ref();
 
-  setup() {
-    const carousel: Ref<IEventTemplate[][]> = ref([]);
-    const mounted: Ref<boolean> = ref(false);
-    const carouselRef = ref();
+const items: ComputedRef<Event[]> = Store.Items('events');
 
-    const store = useStore();
-    const items: ComputedRef<Event[]> = computed<Event[]>(() => store.getters['events/items']);
-
-    onBeforeMount(async () => {
-      await store.dispatch('events/getAllMain');
-      mounted.value = true;
-      carousel.value = makeCarousel<IEventTemplate>(items.value, 5);
-      mounted.value = true;
-    });
-
-    return {
-      carousel,
-      carouselRef,
-      mounted,
-    };
-  },
+onBeforeMount(async () => {
+  await Store.Dispatch('events/getAllMain');
+  mounted.value = true;
+  carousel.value = makeCarousel<IEventTemplate>(items.value, 5);
+  mounted.value = true;
 });
 </script>

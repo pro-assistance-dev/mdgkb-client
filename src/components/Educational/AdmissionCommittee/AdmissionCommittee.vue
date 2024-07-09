@@ -43,7 +43,7 @@ const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
 
 const toForm = () => {
   if (!isAuth.value) {
-    PHelp.Notification().Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
+    PHelp.Notification.Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
     authModal.value.open();
     return;
   }

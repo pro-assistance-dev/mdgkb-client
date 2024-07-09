@@ -4,7 +4,7 @@ import { Constructable } from '@/services/ClassHelper';
 import ItemsWithCount from '@/services/interfaces/ItemsWithCount';
 import IWithId from '@/services/interfaces/IWithId';
 import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
-import IBasicState from '@/services/store/baseModule/baseState';
+import IBasicState from '@//services/store/baseModule/baseState';
 
 export default function getBaseMutations<T extends IWithId, StateType extends IBasicState<T>>(
   passedClass: Constructable<T>

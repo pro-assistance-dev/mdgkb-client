@@ -33,7 +33,7 @@ const ServicesNames = [
   'Scheduler',
   'Scroll',
   'sort',
-  'Store',
+  // 'Store',
   'Strings',
   'Swapper',
   'Time',

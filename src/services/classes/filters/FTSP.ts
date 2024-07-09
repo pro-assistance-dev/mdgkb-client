@@ -18,7 +18,6 @@ export default class FTSP {
 
   constructor(i?: FTSP) {
     ClassHelper.BuildClass(this, i);
-    FTSP;
   }
 
   static Get(): FTSP {
@@ -30,8 +29,6 @@ export default class FTSP {
 
   createFrom(ftsp: string): void {
     const restored = new FTSP(JSON.parse(ftsp));
-    console.log(restored);
-
     this.f = restored.f;
   }
 

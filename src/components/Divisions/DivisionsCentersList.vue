@@ -1,75 +1,83 @@
 <template>
   <PageWrapper v-if="mounted">
     <template #filters>
-      <DivisionsListFilters :modes="modes" :mode="mode" @selectMode="selectMode" @load="loadDivisions" />
+      <DivisionsListFilters :modes="modes" :mode="mode" @select-mode="selectMode" @load="loadDivisions" />
     </template>
     <DivisionsList :divisions="divisions" @load="loadMore" />
   </PageWrapper>
 </template>
 
 <script lang="ts" setup>
-import LabelValue from '@/services/classes/LabelValue'
 import Division from '@/classes/Division';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
 import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import LabelValue from '@/services/classes/LabelValue';
+import createSortModels from '@/services/CreateSortModels';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-
-const modes: Ref<LabelValue[]> = ref([LabelValue.Create('Отделения', 'divisions'), LabelValue.Create('Центры', 'centers')])
+import SortListConst from '@/services/SortList';
+import { Orders } from '@/services/interfaces/Orders';
+const modes: Ref<LabelValue[]> = ref([LabelValue.Create('Отделения', 'divisions'), LabelValue.Create('Центры', 'centers')]);
 const mode: Ref<LabelValue> = ref(modes.value[0]);
 
-const divisions: Ref<Division[]> = Store.Items('divisions')
+const divisions: Division[] = DivisionsStore.Items();
 
 const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
 const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
 
 const count: Ref<number> = ref(1);
-const mounted = ref(false)
+const mounted = ref(false);
 
-const sortByName = DivisionsSortsLib.byName()
+const sortByName = DivisionsSortsLib.byName();
 
 const getInitMode = () => {
-  const routeMode = Router.GetStringQueryParam('mode')
+  const routeMode = Router.GetStringQueryParam('mode');
   const findedMode = modes.value.find((opt: LabelValue) => opt.value === routeMode);
   if (findedMode) {
-    mode.value = findedMode
+    mode.value = findedMode;
   }
 };
 
 const load = async () => {
-  FTSP.Get().setS(sortByName)
+  FTSP.Get().setS(sortByName);
 
-  onlyDivisionsFilterModel.value = DivisionsFiltersLib.onlyDivisions();
-  onlyCentersFilterModel.value = DivisionsFiltersLib.onlyCenters();
+  SortListConst.Set([
+    DivisionsSortsLib.byName(Orders.Asc),
+    DivisionsSortsLib.byName(Orders.Desc),
+    DivisionsSortsLib.byCommentsCount(Orders.Asc),
+    DivisionsSortsLib.byCommentsCount(Orders.Desc),
+  ]);
 
   if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
-    FTSP.Get().setF(onlyDivisionsFilterModel.value);
+    FTSP.Get().setF(DivisionsFiltersLib.onlyDivisions());
   } else {
-    FTSP.Get().setF(onlyCentersFilterModel.value);
+    FTSP.Get().setF(DivisionsFiltersLib.onlyCenters());
   }
 
   await loadDivisions();
-  mounted.value = true
+  mounted.value = true;
 };
 
 Hooks.onBeforeMount(load);
 
 const loadDivisions = async () => {
-  FTSP.Get().p.offset = 0
+  FTSP.Get().p.offset = 0;
+  // FTSP.Get().p.cursorMode = false;
   FTSP.Get().p.append = false;
-  FTSP.Get().p.limit = mode.value === 'divisions' ? 6 : 8;
+  // FTSP.Get().p.limit = mode.value === 'divisions' ? 6 : 8;
+  FTSP.Get().p.limit = 6;
   if (!mode.value) {
     FTSP.Get().p.limit = 6;
   }
-  await Store.FTSP('divisions');
+  await DivisionsStore.FTSP();
 };
 
 const loadMore = async () => {
+  // FTSP.Get().p.cursorMode = true;
   FTSP.Get().p.append = true;
-  FTSP.Get().p.offset = divisions.value.length;
-  await Store.FTSP('divisions');
+  FTSP.Get().p.offset = divisions.length;
+  await DivisionsStore.FTSP();
 };
 
 const selectMode = async (selectedMode: string) => {

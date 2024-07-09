@@ -8,14 +8,21 @@
       </div>
       <div class="flex-column right-side">
         <div class="division-line">{{ division.treatDirection.name }}</div>
-        <div class="card-name" @click="$router.push(`/divisions/${division.id}`)">
+        <div class="card-name" @click="Router.To(`/divisions/${division.id}`)">
           {{ division.name }}
         </div>
         <div class="line">
           <div class="line-item">
             <Rating :comments="division.divisionComments" />
           </div>
-          <PButton skin="profile" type="c_blue" text="На карте" width="100px" height="26px" @click="$router.push(`/map/${division.id}`)" />
+          <PButton
+            skin="profile"
+            type="c_blue"
+            text="На карте"
+            width="100px"
+            height="26px"
+            @click="$router.push(`/isometric-map/${division.id}`)"
+          />
         </div>
         <div class="spec-list"></div>
       </div>
@@ -36,14 +43,13 @@
               <div class="hidden-block">
                 <div class="hidden-line">
                   <div class="hidden-item">
-                    <span style="color: #0a216f"><b>сегодня</b></span>: {{
-                      division.timetable.getTodayWorkday().getTimetable() }}
+                    <span style="color: #0a216f"><b>сегодня</b></span
+                    >: {{ division.timetable.getTodayWorkday().getTimetable() }}
                   </div>
                   <div v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-2">
                     Перерыв:
                     <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="hidden-item-list">
-                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{
-                        item.getPeriod() }}</li>
+                      <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">{{ item.getPeriod() }}</li>
                     </ul>
                   </div>
                 </div>
@@ -67,8 +73,7 @@
           <div v-if="division.timetable.getTodayWorkday().breaksExists" class="item">
             Перерыв:
             <ul v-if="division.timetable.getTodayWorkday().breaksExists" class="item-list">
-              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{
-                item.getPeriod() }}&nbsp;</li>
+              <li v-for="item in division.timetable.getTodayWorkday().breakPeriods" :key="item.id">&nbsp;{{ item.getPeriod() }}&nbsp;</li>
             </ul>
           </div>
         </div>
@@ -85,21 +90,21 @@
           </a>
         </div>
       </div>
-      <div class="contact-h3">
+      <div v-if="division.contact.phones.length > 0" class="contact-h3">
         <div class="item">
-          <!-- <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone"> -->
-          <!--   <use xlink:href="#phone"></use> -->
-          <!-- </svg> -->
+          <svg v-if="division.contact.phones[0].number" class="icon-phone">
+            <use xlink:href="#phone"></use>
+          </svg>
         </div>
+        <div class="item">{{ division.contact.phones[0].number }}</div>
       </div>
-      <!-- <div class="item">{{ division.contactInfo.[0].number }}</div> -->
-      <div class="contact-h3">
+      <div v-if="division.contact.emails.length > 0" class="contact-h3">
         <div class="item">
-          <!-- <svg v-if="division.contactInfo.emails[0].address" class="icon-email"> -->
-          <!--   <use xlink:href="#email"></use> -->
-          <!-- </svg> -->
+          <svg v-if="division.contact.emails[0].address" class="icon-email">
+            <use xlink:href="#email"></use>
+          </svg>
+          <div class="item">{{ division.contact.emails[0].address }}</div>
         </div>
-        <!-- <div class="item">{{ division.contactInfo.emails[0].address }}</div> -->
       </div>
       <div class="contact-h3">
         <div class="icon-block">
@@ -115,9 +120,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="division-card-footer">
-      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
-    </div> -->
+    <div class="division-card-footer">
+      <button @click="Router.To('/appointments/oms')">Запись на прием</button>
+    </div>
   </div>
   <Phone />
   <Email />
@@ -128,9 +133,7 @@
   <Attention />
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
 import Attention from '@/assets/svg/DivisionCard/Attention.svg';
 import CreditCard from '@/assets/svg/DivisionCard/CreditCard.svg';
 import Email from '@/assets/svg/DivisionCard/Email.svg';
@@ -139,25 +142,8 @@ import Phone from '@/assets/svg/DivisionCard/Phone.svg';
 import Ruble from '@/assets/svg/DivisionCard/Ruble.svg';
 import Time from '@/assets/svg/DivisionCard/Time.svg';
 import Division from '@/classes/Division';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Rating from '@/components/Rating.vue';
-
-export default defineComponent({
-  name: 'DivisionCard',
-  components: {
-    CreditCard,
-    Phone,
-    Email,
-    MapMarker,
-    Time,
-    Ruble,
-    Attention,
-    Rating,
-    FavouriteIcon,
-  },
-  props: {
-    division: { type: Object as PropType<Division>, required: true },
-  },
+defineProps({
+  division: { type: Object as PropType<Division>, required: true },
 });
 </script>
 

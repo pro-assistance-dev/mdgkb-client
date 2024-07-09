@@ -226,12 +226,12 @@ const editButtonTitle: Ref<string> = ref('Режим редактировани�
 const emailExists: ComputedRef<boolean> = Store.Getters('residencyApplications');
 
 onBeforeMount(async () => {
-  PHelp.Loading().Show();
+  PHelp.Loading.Show();
   await loadCourses();
   await loadItem();
   await updateNew();
   await findEmail();
-  PHelp.Loading().Hide();
+  PHelp.Loading.Hide();
 });
 
 const loadCourses = async () => {
@@ -271,7 +271,7 @@ const loadItem = async () => {
     Store.Commit('residencyApplications/resetItem');
     isEditMode.value = true;
   }
-  PHelp.AdminHead().Set(pageTitle, [Button.Success(editButtonTitle, changeEditMode), Button.Success('Сохранить', submit)]);
+  PHelp.AdminUI.Head.Set(pageTitle, [Button.Success(editButtonTitle, changeEditMode), Button.Success('Сохранить', submit)]);
   mounted.value = true;
   window.addEventListener('beforeunload', beforeWindowUnload);
   watch(application, formUpdated, { deep: true });
@@ -281,11 +281,11 @@ const submit = async (next?: NavigationGuardNext) => {
   application.value.formValue.validate();
   saveButtonClick.value = true;
   if (!validate(form, true) || !application.value.formValue.validated) {
-    PHelp.Notification().Error(application.value.formValue.getErrorMessage());
+    PHelp.Notification.Error(application.value.formValue.getErrorMessage());
     saveButtonClick.value = false;
     return;
   }
-  PHelp.Loading().Show();
+  PHelp.Loading.Show();
   if (Router.Id()) {
     application.value.formValue.updateViewedByUser(initialStatus);
     await Store.Update('residencyApplications');
@@ -293,7 +293,7 @@ const submit = async (next?: NavigationGuardNext) => {
     application.value.formValue.clearIds();
     await Store.Create('residencyApplications');
   }
-  PHelp.Loading().Hide();
+  PHelp.Loading.Hide();
   next ? next() : await Router.To(`/admin/residency-applications`);
 };
 
@@ -312,7 +312,7 @@ const courseChangeHandler = async () => {
 
 const clickCopyHandler = async (copyValue: string, fieldName: string) => {
   await navigator.clipboard.writeText(copyValue);
-  PHelp.Notification().Success(`${fieldName} скопирован в буфер обмена`);
+  PHelp.Notification.Success(`${fieldName} скопирован в буфер обмена`);
 };
 
 onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

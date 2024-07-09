@@ -6,6 +6,7 @@ import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';
 import Timetable from '@/classes/Timetable';
+import Comment from '@/classes/Comment';
 import FileInfo from '@/services/classes/FileInfo';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
@@ -112,5 +113,8 @@ export default class Doctor {
   resetPosition(): void {
     this.positionId = undefined;
     this.position = undefined;
+  }
+  getComments(): Comment[] {
+    return this.doctorComments.map((c: DoctorComment) => c.comment);
   }
 }

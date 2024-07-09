@@ -96,7 +96,7 @@ const load = async () => {
   }
   await Store.FTSP('employees');
 
-  PHelp.AdminHead().Set('Сотрудники', [Button.Success('Добавить сотрудника', Provider.createAdmin)]);
+  PHelp.AdminUI.Head.Set('Сотрудники', [Button.Success('Добавить сотрудника', Provider.createAdmin)]);
 
   mounted.value = true;
 };

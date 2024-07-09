@@ -42,15 +42,15 @@ export default class HttpError {
     }
     if (error.response.status >= 500) {
       if (error.response.data === 'неверный логин или пароль') {
-        PHelp.Notification().Error('Неверный логин или пароль');
+        PHelp.Notification.Error('Неверный логин или пароль');
         return;
       }
-      PHelp.Notification().Error('Ошибка на сервере, попробуйте позже');
+      PHelp.Notification.Error('Ошибка на сервере, попробуйте позже');
     }
     if (error.response.status >= 400 && error.response.status < 500) {
       const err = new HttpError(error.response.data).getErr();
       if (err) {
-        PHelp.Notification().Error(err);
+        PHelp.Notification.Error(err);
       }
     }
     return Promise.reject(error);

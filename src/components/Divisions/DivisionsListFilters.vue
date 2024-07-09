@@ -1,10 +1,9 @@
 <template>
   <FiltersWrapper>
     <template #header-right>
-      <ModeChoice :modes="modes" @selectMode="selectMode" :mode="mode" />
+      <!-- <ModeChoice :modes="modes" :mode="mode" @select-mode="selectMode" /> -->
     </template>
-    <template #header-left-top>
-    </template>
+    <template #header-left-top> </template>
 
     <template #header-left-bottom>
       <FilterCheckbox :filter-model="hospitalizationFilter" @load="$emit('load')" />
@@ -13,25 +12,18 @@
       <FilterCheckbox :filter-model="withDiagnosticFilter" @load="$emit('load')" />
     </template>
     <template #footer>
-      <SortList :models="sortList" @load="$emit('load')" />
+      <SortSelect @load="$emit('load')" />
     </template>
   </FiltersWrapper>
 </template>
 
 <script lang="ts" setup>
-import LabelValue from '@/services/classes/LabelValue'
-import TreatDirection from '@/classes/TreatDirection';
-import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
-import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import ModeChoice from '@/components/ModeChoice.vue';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import ISearchObject from '@/services/interfaces/ISearchObject';
-import { Operators } from '@/services/interfaces/Operators';
 import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
+import LabelValue from '@/services/classes/LabelValue';
+import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   mode: {
     type: LabelValue as PropType<LabelValue>,
     required: true,
@@ -42,9 +34,9 @@ const props = defineProps({
     required: false,
     default: () => [],
   },
-})
+});
 
-const emits = defineEmits(['selectMode', 'load'])
+const emits = defineEmits(['selectMode', 'load']);
 // const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
@@ -55,11 +47,10 @@ const selectMode = async (value: string) => {
   emits('selectMode', value);
 };
 
-
-const hospitalizationFilter = DivisionsFiltersLib.withHospitalization().toRef()
-const withCommentsFilter = DivisionsFiltersLib.withComments().toRef()
-const withAmbulatoryFilter = DivisionsFiltersLib.withAmbulatory().toRef()
-const withDiagnosticFilter = DivisionsFiltersLib.withDiagnostic().toRef()
+const hospitalizationFilter = DivisionsFiltersLib.withHospitalization().toRef();
+const withCommentsFilter = DivisionsFiltersLib.withComments().toRef();
+const withAmbulatoryFilter = DivisionsFiltersLib.withAmbulatory().toRef();
+const withDiagnosticFilter = DivisionsFiltersLib.withDiagnostic().toRef();
 </script>
 
 <style lang="scss" scoped>

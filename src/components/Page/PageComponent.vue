@@ -63,27 +63,33 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['selectMenu']);
-const page: ComputedRef<Page> = Store.Item('pages');
-watch(
-  () => page.value.filterStr,
-  () => page.value.filter()
-);
 const path = computed(() => Provider.route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const mounted = ref(false);
 
-const pageSideMunusExists = () => {
-  return (!props.getPage || page.value.id) && page.value.pageSideMenus.length;
-};
-
+const page: ComputedRef<Page> = PagesStore.Item();
 const load = async () => {
-  Store.Commit('pages/resetItem');
+  console.log(PagesStore === PagesStore);
+  // PagesStore.ResetItem();
   mounted.value = false;
+  // console.log(page.value);
   if (props.getPage) {
-    await Store.Dispatch('pages/getBySlug', Provider.getPath());
+    await PagesStore.GetBySlug(Provider.getPath());
   }
-  page.value.addCustomSectionsToSideMenu(props.customSections);
+  // console.log(page.value);
+  page.addCustomSectionsToSideMenu(props.customSections);
   mounted.value = true;
+  console.log(page);
+};
+Hooks.onBeforeMount(load);
+
+watch(
+  () => page.filterStr,
+  () => page.filter()
+);
+
+const pageSideMunusExists = () => {
+  return (!props.getPage || page.id) && page.pageSideMenus.length;
 };
 
 let redirect = false;
@@ -95,7 +101,6 @@ watch(path, async () => {
     await load();
   }
 });
-Hooks.onBeforeMount(load);
 
 const selectMenu = (e: PageSideMenu): void => {
   selectedMenu.value = e;

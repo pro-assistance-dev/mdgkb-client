@@ -10,8 +10,8 @@
           <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
         </div>
         <div v-if="comments?.length" id="comments-block">
-          <div v-for="item in comments" :key="item.comment.id" class="reviews-point">
-            <CommentCard :comment="item.comment" :is-review="isReviews" />
+          <div v-for="comment in comments" :key="comment.id" class="reviews-point">
+            <CommentCard :comment="comment" :is-review="isReviews" />
           </div>
         </div>
       </div>
@@ -19,41 +19,22 @@
   </CollapseItem>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
-import CommentCard from '@/components/Comments/CommentCard.vue';
-import CommentForm from '@/components/Comments/CommentForm.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import IWithComment from '@/interfaces/IWithComment';
+<script lang="ts" setup>
+import Comment from '@/classes/Comment';
 import scroll from '@/services/Scroll';
 
-export default defineComponent({
-  name: 'Comments',
-  components: { CommentCard, CommentForm, CollapseItem },
-  props: {
-    storeModule: {
-      type: String,
-      required: true,
-    },
-    parentId: {
-      type: String,
-      required: true,
-    },
-    isReviews: {
-      type: Boolean,
-      default: true,
-    },
+defineProps({
+  comments: {
+    type: Array<Comment>,
+    required: true,
   },
-  setup(prop) {
-    const store = useStore();
-    const comments: ComputedRef<IWithComment[]> = computed(() => store.getters[`${prop.storeModule}/comments`]);
-
-    return {
-      comments,
-      scroll,
-    };
+  parentId: {
+    type: String,
+    required: true,
+  },
+  isReviews: {
+    type: Boolean,
+    default: true,
   },
 });
 </script>

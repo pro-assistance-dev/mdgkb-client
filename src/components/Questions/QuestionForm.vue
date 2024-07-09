@@ -138,7 +138,7 @@ const sendQuestion = async () => {
     // store.commit('auth/setUser', question.value.user);
     Store.Commit('questions/set');
     emits('close');
-    PHelp.Notification().Succsess('Спасибо за вопрос.\nМы ответим Вам в ближайшее время');
+    PHelp.Notification.Succsess('Спасибо за вопрос.\nМы ответим Вам в ближайшее время');
   } catch (e) {
     console.log(e);
   }

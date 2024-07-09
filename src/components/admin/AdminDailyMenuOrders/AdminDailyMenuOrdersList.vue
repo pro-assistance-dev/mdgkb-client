@@ -91,7 +91,7 @@ const load = async () => {
   Store.FTSP('dailyMenuOrders');
   loadFilters();
   filterByStatus.value = DailyMenuOrdersFiltersLib.byStatus();
-  PHelp.AdminHead().Set('Буфет.Заказы', []);
+  PHelp.AdminUI.Head.Set('Буфет.Заказы', []);
 };
 
 Hooks.onBeforeMount(load, {
