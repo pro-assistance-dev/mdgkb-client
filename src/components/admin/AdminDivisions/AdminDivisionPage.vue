@@ -27,8 +27,8 @@
           </el-card>
 
           <AdminDivisionVisitingRules />
-          <TimetableConstructorV2 :store-module="'divisions'" />
-          <ScheduleConstructor :store-module="'divisions'" />
+          <!-- <TimetableConstructorV2 :store-module="'divisions'" /> -->
+          <!-- <ScheduleConstructor :store-module="'divisions'" /> -->
           <CollapseItem :collapsed="false">
             <template #inside-title>
               <div class="title-in">Фотографии</div>
@@ -54,7 +54,7 @@
         <el-container direction="vertical">
           <CollapseItem title="Контакты" :tab-id="1012">
             <template #inside-content>
-              <ContactsForm :contact="division.contactInfo" />
+              <ContactForm :contact="division.contact" />
             </template>
           </CollapseItem>
           <!-- <el-button type="success" style="margin-bottom: 20px;" @click="submit">Сохранить</el-button> -->
@@ -153,7 +153,6 @@ import Building from '@/classes/Building';
 import DivisioinRules from '@/classes/DivisioinRules';
 import Division from '@/classes/Division';
 import Doctor from '@/classes/Doctor';
-import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
@@ -162,7 +161,7 @@ import Provider from '@/services/Provider/Provider';
 const form = ref();
 Provider.form = form;
 const rules = ref(DivisioinRules);
-
+const mounted = ref(false);
 const division: Division = DivisionsStore.Item();
 const doctors: ComputedRef<Doctor[]> = computed(() => Provider.store.getters['doctors/items']);
 const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
@@ -173,46 +172,43 @@ const buildingOption = computed(() => Provider.store.getters['buildings/item']);
 const buildingsOptions = computed(() => Provider.store.getters['buildings/items']);
 
 const load = async (): Promise<void> => {
+  await DivisionsStore.Get(Router.Id());
   await Provider.store.dispatch('buildings/getAll');
   await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
-  if (division.value.floorId) {
-    Provider.store.commit('buildings/setBuildingByFloorId', division.value.floorId);
-    division.value.buildingId = buildingOption.value.id;
+  if (division.floorId) {
+    Provider.store.commit('buildings/setBuildingByFloorId', division.floorId);
+    division.buildingId = buildingOption.value.id;
   }
+  PHelp.AdminUI.Head.Set(division.name, [Button.Success('Сохранить', Hooks.submit)]);
+  mounted.value = true;
 };
 
-Hooks.onBeforeMount(load, {
-  adminHeader: {
-    title: computed(() => (Provider.route().params['id'] ? division.value.name : 'Добавить отделение')),
-    showBackButton: true,
-    buttons: [{ action: Hooks.submit() }],
-  },
-});
+Hooks.onBeforeMount(load, {});
 Hooks.onBeforeRouteLeave(Hooks.submit);
 
 const changeBuildingHandler = (id: string) => {
   const building = buildingsOptions.value.find((item: Building) => item.id == id);
   Provider.store.commit('buildings/set', building);
   if (buildingOption.value.floors.length === 1) {
-    division.value.floorId = buildingOption.value.floors[0].id;
+    division.floorId = buildingOption.value.floors[0].id;
   } else {
-    division.value.floorId = '';
+    division.floorId = '';
   }
   if (buildingOption.value.entrances.length === 1) {
-    division.value.entranceId = buildingOption.value.entrances[0].id;
+    division.entranceId = buildingOption.value.entrances[0].id;
   } else {
-    division.value.entranceId = '';
+    division.entranceId = '';
   }
   changeDivisionAddress();
 };
 
 const selectDoctorSearch = async (item: ISearchObject) => {
   await Provider.store.dispatch('doctors/get', item.value);
-  division.value.setChief(doctor.value);
+  division.setChief(doctor.value);
 };
 
 const changeDivisionAddress = () => {
-  division.value.setAddressFromBuilding(buildingOption.value);
+  division.setAddressFromBuilding(buildingOption.value);
 };
 
 const addDoctor = async (search: ISearchObject) => {

@@ -1,18 +1,13 @@
 <template>
-  <PSelect width="200" v-model="value" :options="modes" :init-value="mode" @change="selectMode" />
-  <!-- <el-form :style="{ maxWidth: `${maxWidth}${typeof maxWidth === 'number' ? 'px' : ''}` }"> -->
-  <!--   <el-form-item> -->
-  <!--     <el-select v-model="selectedMode" class="m-2" placeholder="Выберите раздел" @change="selectMode"> -->
-  <!--       <el-option v-for="item in modes" :key="item.value" :label="item.label" :value="item.value" /> -->
-  <!--     </el-select> -->
-  <!--   </el-form-item> -->
-  <!-- </el-form> -->
+  <PSelect v-model="value" width="200" :options="modes" :init-value="mode" @change="selectMode">
+    <option v-for="(model, i) in modes" :key="i" :value="model" :label="model.label" />
+  </PSelect>
 </template>
 
 <script lang="ts" setup>
-import LabelValue from '@/services/classes/LabelValue'
+import LabelValue from '@/services/classes/LabelValue';
 
-const props = defineProps({
+defineProps({
   modes: {
     type: Array as PropType<LabelValue[]>,
     required: false,
@@ -32,9 +27,9 @@ const props = defineProps({
     type: [Number, String],
     default: 200,
   },
-})
+});
 
-const emits = defineEmits(['selectMode'])
+const emits = defineEmits(['selectMode']);
 const value: Ref<string> = ref('');
 
 const selectMode = (value: string): void => {

@@ -79,6 +79,10 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
     if (Array.isArray(res.data)) {
       this.SetAll(res.data);
     } else {
+      if (f.p.append) {
+        this.AppendToAll(res.data?.items);
+        return;
+      }
       this.SetAllWithCount(res.data);
     }
   }
@@ -150,7 +154,7 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
     const index = this.items.findIndex((i: T) => i.id === id);
     this.items.splice(index, 1);
   }
-  AppendToAll(items?: []) {
+  AppendToAll(items?: T[] | undefined) {
     if (!items) {
       return;
     }

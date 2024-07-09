@@ -64,8 +64,8 @@ export default class Division {
   divisionVideos: DivisionVideo[] = [];
   divisionVideosForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(Contact)
-  contactInfo: Contact = new Contact();
-  contactInfoId?: string;
+  contact: Contact = new Contact();
+  contactId?: string;
   @ClassHelper.GetClassConstructor(TreatDirection)
   treatDirection: TreatDirection = new TreatDirection();
   treatDirectionId?: string;

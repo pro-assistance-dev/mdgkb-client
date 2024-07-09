@@ -17,7 +17,6 @@ export default abstract class Router {
   }
 
   static Id(): string {
-    console.log('ID', Router.GetStringParam('id'));
     return Router.GetStringParam('id');
   }
 

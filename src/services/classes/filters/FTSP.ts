@@ -29,8 +29,6 @@ export default class FTSP {
 
   createFrom(ftsp: string): void {
     const restored = new FTSP(JSON.parse(ftsp));
-    console.log(restored);
-
     this.f = restored.f;
   }
 

@@ -83,21 +83,21 @@
           </a>
         </div>
       </div>
-      <div class="contact-h3">
+      <div v-if="division.contact.phones.length > 0" class="contact-h3">
         <div class="item">
-          <!-- <svg v-if="division.contactInfo.telephoneNumbers[0].number" class="icon-phone"> -->
-          <!--   <use xlink:href="#phone"></use> -->
-          <!-- </svg> -->
+          <svg v-if="division.contact.phones[0].number" class="icon-phone">
+            <use xlink:href="#phone"></use>
+          </svg>
         </div>
+        <div class="item">{{ division.contact.phones[0].number }}</div>
       </div>
-      <!-- <div class="item">{{ division.contactInfo.[0].number }}</div> -->
-      <div class="contact-h3">
+      <div v-if="division.contact.emails.length > 0" class="contact-h3">
         <div class="item">
-          <!-- <svg v-if="division.contactInfo.emails[0].address" class="icon-email"> -->
-          <!--   <use xlink:href="#email"></use> -->
-          <!-- </svg> -->
+          <svg v-if="division.contact.emails[0].address" class="icon-email">
+            <use xlink:href="#email"></use>
+          </svg>
+          <div class="item">{{ division.contact.emails[0].address }}</div>
         </div>
-        <!-- <div class="item">{{ division.contactInfo.emails[0].address }}</div> -->
       </div>
       <div class="contact-h3">
         <div class="icon-block">
@@ -113,9 +113,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="division-card-footer">
-      <button @click="$router.push('/appointments/oms')">Запись на прием</button>
-    </div> -->
+    <div class="division-card-footer">
+      <button @click="Router.To('/appointments/oms')">Запись на прием</button>
+    </div>
   </div>
   <Phone />
   <Email />
