@@ -1,19 +1,22 @@
 <template>
-  <div id="drop-area" @click="openUploadDialog">
-    <template v-if="uploadedImg">
-      <div class="div1" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
+  <div class="img-container" id="drop-area" @click="openUploadDialog">
+    <div v-if="uploadedImg">
+      <div class="img-block" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
         <img class="el-upload-list__item-thumbnail" :src="uploadedImg.url" alt="upload-image" />
       </div>
-      <div class="el-upload-list__item-actions">
-        <div class="inside">
-          <div class="b1" @click="openCropper(uploadedImg)">Изменить</div>
-          <div class="b2" @click="handleRemove()">Удалить</div>
+      <div class="tools-button">
+        <div class="ins">
+          <PButton skin="text" text="Изменить" @click="openCropper(uploadedImg)" font-size="20px" width="300px" margin="100px 0 0 0" />
+          <PButton skin="text" text="Удалить" @click="handleRemove()" font-size="20px" width="300px" margin="50px 0 0 0" />
         </div>
       </div>
-    </template>
-    <template v-else>
-      <div class="plus-cr" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">Добавить</div>
-    </template>
+    </div>
+
+    <div v-else>
+      <div class="add-button" :style="{ width: height * defaultRatio - 2 + 'px', height: height + 'px' }">
+        <PButton skin="text" text="Добавить" font-size="20px" />
+      </div>
+    </div>
   </div>
   <input type="file" id="file-input" hidden @change="uploadFile" />
   <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
@@ -189,39 +192,49 @@ const uploadFile = () => {
   background-color: #eee;
 }
 
-.inside {
+.ins {
   display: block;
-  margin: 0 auto;
-  text-align: center;
+  width: 300px;
+  height: 300px;
 }
 
-.b1 {
-  cursor: pointer;
-  color: #dcdfe6;
-  margin-bottom: 30px;
+.img-container {
+  position: relative;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
-.b1:hover {
-  cursor: pointer;
-  color: #ffffff;
-}
-
-.b2 {
-  cursor: pointer;
-  color: #dcdfe6;
-}
-
-.b2:hover {
-  cursor: pointer;
-  color: #ffffff;
-}
-
-:deep(.el-upload-list__item.is-success) {
-  margin: 0px;
-}
-
-.plus-cr {
+.add-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
   font-size: 20px;
+  opacity: 0.5;
+}
+
+.add-button:hover {
+  opacity: 1;
+}
+
+.tools-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 20px;
+  opacity: 0;
+}
+
+.tools-button:hover {
+  background: #000;
+  opacity: 0.8;
 }
 
 .hideUpload {
@@ -245,45 +258,13 @@ const uploadFile = () => {
   margin: 0;
 }
 
-:deep(.el-upload) {
-  max-height: var(--height);
-  height: 100% !important;
-  width: auto !important;
-  background: white;
-  text-align: center;
-  line-height: var(--height);
-}
-
-:deep(.el-upload-list__item) {
-  width: auto !important;
-  max-height: var(--height) !important;
-  height: 100% !important;
-  margin: 0px;
-}
-
-:deep(.el-upload-list__item-thumbnail) {
-  width: auto !important;
-  max-height: var(--height) !important;
-  height: 100% !important;
-}
-
-:deep(.el-upload-list--picture-card) {
-  display: flex;
-  justify-content: center;
-  width: calc(100% - 2px);
-}
-
-:deep(.el-upload-list__item) {
-  transition: unset;
-}
-
 .flex-group {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
 
-.div1 {
+.img-block {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
