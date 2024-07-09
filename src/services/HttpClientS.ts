@@ -120,8 +120,8 @@ export default abstract class HttpClient {
 
   private static buildUrl(query: string): string {
     const queryString = query ?? '';
-    apiVersion.replace('/', '');
-    return baseUrl + apiVersion + '/' + queryString;
+    const a = apiVersion.replace('/', '');
+    return baseUrl + a + '/' + queryString;
   }
 
   private static getResponseType(blob?: boolean): 'blob' | 'json' {
