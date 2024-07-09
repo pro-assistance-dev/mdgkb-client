@@ -1,10 +1,10 @@
 <template>
   <div v-if="mounted">
     <div class="info">
-      <span class="info-text"
-        >Для получения информации о конкурсе нажмите
-        <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span
-      >
+      <!-- <span class="info-text" -->
+      <!--   >Для получения информации о конкурсе нажмите -->
+      <!--   <a v-if="isFound" target="_blank" href="/files/contest.pdf" download="Конкурс" class="info-text">сюда</a></span -->
+      <!-- > -->
       <span class="info-text-alt">Информация о конкурсе появится позднее</span>
     </div>
     <el-collapse v-model="activeName" accordion @change="collapseChange">

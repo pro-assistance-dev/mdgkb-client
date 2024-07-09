@@ -87,7 +87,7 @@
         <el-form-item>
           <FieldValueFile
             :form="residencyApplicationValue.formValue"
-            :field="residencyApplicationValue.formValue.getFieldByCode('ExamPlaceApplication')"
+            :field="residencyApplicationValue.formValue.getFieldByCode('MdgkbExamApplication')"
           />
         </el-form-item>
         <el-form-item label="Баллы вступительных испытаний (если баллы неизвестны - поставьте 0)" prop="primaryAccreditationPoints">

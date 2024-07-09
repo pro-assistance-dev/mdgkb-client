@@ -147,6 +147,7 @@ declare module 'vue' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
@@ -259,6 +260,7 @@ declare module '@vue/runtime-core' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
