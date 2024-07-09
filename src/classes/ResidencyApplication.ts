@@ -74,31 +74,38 @@ export default class ResidencyApplication {
   }
 
   private filterAchievements(onlyApproved: boolean): ResidencyApplicationPointsAchievement[] {
-    const achievements: ResidencyApplicationPointsAchievement[] = [];
+    let achievements: ResidencyApplicationPointsAchievement[] = [];
     const simpleAchievementsCodes: string[] = ['А', 'Б', 'В', 'Д', 'Е', 'Ж'];
-    const additionalAchievementsCodes: string[] = ['К.1', 'К.2', 'К.3', 'К.4', 'К.5'];
+    // const additionalAchievementsCodes: string[] = ['К.1', 'К.2', 'К.3', 'К.4', 'К.5'];
     const orCodes: string[] = ['З', 'И', 'Г.1', 'Г.2', 'Г.3'];
 
-    const maxAdditionalPoints = 20;
-    let additionalPointsSum = 0;
+    // const maxAdditionalPoints = 20;
+    // let additionalPointsSum = 0;
 
     this.residencyApplicationPointsAchievements.forEach((item: ResidencyApplicationPointsAchievement) => {
-      if (onlyApproved && !item.approved) {
-        return;
-      }
-      if (simpleAchievementsCodes.includes(String(item.pointsAchievement.code))) {
-        achievements.push(item);
-      }
-      const canPlusAdditionalAchievement = additionalPointsSum + item.pointsAchievement.points <= maxAdditionalPoints;
-      if (additionalAchievementsCodes.includes(String(item.pointsAchievement.code)) && canPlusAdditionalAchievement) {
-        additionalPointsSum += item.pointsAchievement.points;
-        achievements.push(item);
-      }
-      if (orCodes.includes(String(item.pointsAchievement.code))) {
-        achievements.push(item);
-      }
+      // if (onlyApproved && !item.approved) {
+      //   return;
+      // }
+      // if (simpleAchievementsCodes.includes(String(item.pointsAchievement.code))) {
+      //   achievements.push(item);
+      // }
+      // const canPlusAdditionalAchievement = additionalPointsSum + item.pointsAchievement.points <= maxAdditionalPoints;
+      // if (additionalAchievementsCodes.includes(String(item.pointsAchievement.code)) && canPlusAdditionalAchievement) {
+      //   additionalPointsSum += item.pointsAchievement.points;
+      //   achievements.push(item);
+      // }
+      // if (orCodes.includes(String(item.pointsAchievement.code))) {
+      //   achievements.push(item);
+      // }
+      achievements.push(item);
     });
 
+    const orExists = achievements.filter((a: ResidencyApplicationPointsAchievement) => {
+      return a.pointsAchievement.code === 'З*' || a.pointsAchievement.code === 'И*';
+    });
+    if (orExists) {
+      achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => a.pointsAchievement.code !== 'З*');
+    }
     // let a = achievements.filter(
     //   (a: ResidencyApplicationPointsAchievement) => String(a.pointsAchievement.code) === '7' || String(a.pointsAchievement.code) === '8'
     // );
