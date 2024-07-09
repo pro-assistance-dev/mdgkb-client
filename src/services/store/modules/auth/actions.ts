@@ -21,12 +21,21 @@ export default function getActions<UserT extends IWithId>(): ActionTree<State<Us
         await httpClient.post<EmailPassword, AuthInfo<UserT>>({ isFormData: true, query: 'login', payload: state.form.toEmailPassword() })
       );
     },
-    loginAs: async ({ commit, state }): Promise<void> => {
+    loginAs: async ({ commit }, email: string): Promise<void> => {
       commit(
         'setAuth',
-        await httpClient.post<EmailPassword, AuthInfo<UserT>>({ isFormData: true, query: 'login', payload: state.form.toEmailPassword() })
+        await httpClient.post<{ email: string }, { user: User; tokens: ITokens }>({
+          query: 'login-as',
+          payload: { email: email },
+        })
       );
     },
+    // loginAs: async ({ commit, state }): Promise<void> => {
+    //   commit(
+    //     'setAuth',
+    //     await httpClient.post<EmailPassword, AuthInfo<UserT>>({ isFormData: true, query: 'login', payload: state.form.toEmailPassword() })
+    //   );
+    // },
     register: async ({ state }): Promise<void> => {
       await httpClient.post<EmailPassword, AuthInfo<UserT>>({ query: 'register', payload: state.form.toEmailPassword() });
     },
