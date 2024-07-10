@@ -1,5 +1,5 @@
 <template>
-  <GridContainer max-width="100%" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
+  <GridContainer max-width="100%" grid-template-columns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
     <PInput v-model="human.surname" label="ФАМИЛИЯ" placeholder="Введите фамилию" />
     <PInput v-model="human.name" label="ИМЯ" placeholder="Введите имя" />
     <PInput v-model="human.patronymic" label="ОТЧЕСТВО" placeholder="Введите отчество" />
@@ -13,88 +13,10 @@
     <PInput v-model="human.snils" label="СНИЛС" placeholder="Введите СНИЛС" />
     <PInput v-model="human.address" label="АДРЕС" placeholder="Введите адрес" />
   </GridContainer>
-
-  <!-- <div :class="{ 'human-form-container': withStyles }">
-    <div class="mobile-help">
-      <div class="line-item">
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Фамилия">
-              <el-input
-                v-model="human.surname"
-                placeholder="Введите фамилию"
-                formatter="firstLetterUpper"
-                @blur="checkCompleteName"
-              ></el-input>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Имя">
-              <el-input v-model="human.name" placeholder="Введите имя" @blur="checkCompleteName"></el-input>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Отчество">
-              <el-input v-model="human.patronymic" placeholder="Введите отчество" @blur="checkCompleteName"></el-input>
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Пол">
-              <el-select v-model="human.isMale" placeholder="Выберите пол">
-                <el-option label="Мужчина" :value="true"></el-option>
-                <el-option label="Женщина" :value="false"></el-option>
-              </el-select>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Место&nbsp;рождения">
-              <el-input v-model="human.placeBirth" placeholder="Введите страну"></el-input>
-            </el-form-item>
-          </div>
-        </div>
-        <div class="item-block">
-          <div class="item-data">
-            <el-form-item label="Дата рождения">
-              <DatePicker v-model="human.dateBirth" />
-            </el-form-item>
-          </div>
-        </div>
-      </div>
-
-      <div class="line-item">
-        <div class="item-block">
-          <el-form-item label="Гражданство">
-            <el-input v-model="human.citizenship" placeholder="Введите гражданство"></el-input>
-          </el-form-item>
-        </div>
-        <div class="item-block">
-          <el-form-item label="СНИЛС">
-            <el-input v-model="human.snils" placeholder="Введите СНИЛС"></el-input>
-          </el-form-item>
-        </div>
-        <div class="item-block">
-          <el-form-item label="Адрес">
-            <el-input v-model="human.address" placeholder="Введите адрес"></el-input>
-          </el-form-item>
-        </div>
-      </div>
-    </div>
-  </div> -->
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
+import { watch } from 'vue';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 

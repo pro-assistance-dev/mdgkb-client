@@ -14,7 +14,7 @@
           <li>
             <PButton skin="pag" :type="activeOrNeutral(curPage === 1)" text="1" @click="currentChange(1)" />
           </li>
-          <li v-if="pagesCount > 8 && curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
+          <li v-if="paginator.pagesCount() > 8 && curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
             <PButton skin="pag" type="neutral" @click="currentChange(curPage - 5)">
               <DoubleArrowLeft v-if="hoveringL" />
               <Ellipsis v-else />
@@ -23,17 +23,26 @@
           <li v-for="num in pagesNums" :key="num">
             <PButton skin="pag" :type="activeOrNeutral(num === curPage)" :text="num" @click="currentChange(num)" />
           </li>
-          <li v-if="pagesCount > 8 && curPage < pagesCount - 3" @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
+          <li
+            v-if="paginator.pagesCount() > 8 && curPage < paginator.pagesCount() - 3"
+            @mouseenter="hoveringR = true"
+            @mouseleave="hoveringR = false"
+          >
             <PButton skin="pag" type="neutral" @click="currentChange(curPage + 5)">
               <DoubleArrowRight v-if="hoveringR" />
               <Ellipsis v-else />
             </PButton>
           </li>
-          <li v-if="pagesCount > 1">
-            <PButton skin="pag" :type="activeOrNeutral(pagesCount === curPage)" :text="pagesCount" @click="currentChange(pagesCount)" />
+          <li v-if="paginator.pagesCount() > 1">
+            <PButton
+              skin="pag"
+              :type="activeOrNeutral(paginator.pagesCount() === curPage)"
+              :text="paginator.pagesCount()"
+              @click="currentChange(paginator.pagesCount())"
+            />
           </li>
         </ul>
-        <PButton skin="pag" :type="notActiveOrNeutral(curPage === pagesCount)" @click="currentChange(curPage + 1)">
+        <PButton skin="pag" :type="notActiveOrNeutral(curPage === paginator.pagesCount())" @click="currentChange(curPage + 1)">
           <ArrowRight />
         </PButton>
       </div>
@@ -42,6 +51,7 @@
 </template>
 
 <script lang="ts" setup>
+import IStorePaginator from '@/services/interfaces/IStorePaginator';
 import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
@@ -53,17 +63,25 @@ const props = defineProps({
     type: String,
     default: 'center',
   },
+  store: {
+    type: Object as PropType<IStorePaginator>,
+    required: true,
+  },
 });
+
 const activeOrNeutral = (isActive: boolean) => (isActive ? 'active' : 'neutral');
 const notActiveOrNeutral = (notActive: boolean) => (notActive ? 'not-active' : 'neutral');
 const pagination = FTSP.Get().p;
+const paginator = PHelp.Paginator;
+
 const hoveringL = ref(false);
 const hoveringR = ref(false);
-const emit = defineEmits(['cancel', 'save']);
-const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
 
-const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
-const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / pagination.limit) ?? 1);
+const emit = defineEmits(['cancel', 'save']);
+// const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
+
+const count: Ref<Number> = props.store.Count();
+// const pagesCount: ComputedRef<number> =  paginator.pageCount());
 const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
 
 const currentChange = async (toPage: number) => {
@@ -73,12 +91,13 @@ const currentChange = async (toPage: number) => {
   if (toPage < 1) {
     toPage = 1;
   }
-  if (toPage > pagesCount.value) {
-    toPage = pagesCount.value;
+  if (toPage > paginator.pagesCount()) {
+    toPage = paginator.pagesCount();
   }
   if (!props.showConfirm) {
     return await setPage(toPage, true);
   }
+
   PHelp.Dialog.Save()
     .then(async () => {
       emit('save');
@@ -93,20 +112,21 @@ const currentChange = async (toPage: number) => {
 
 const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   Provider.loadingDecor(async () => {
-    Store.Commit('pagination/setCurPage', pageNum);
-    Store.Commit('filter/setOffset', pageNum - 1);
+    paginator.setCurPage(pageNum);
+    pagination.offset = pageNum - 1;
     if (load) {
-      await Store.FTSP(storeModule.value);
+      await props.store.FTSP();
     }
     scrollToBack();
   });
 };
 
 const pagesNums = computed(() => {
-  if (pagesCount.value < 8) {
-    return Arrays.GenerateNumsRange(2, pagesCount.value - 2).filter((p: number) => p < pagesCount.value && p > 1);
+  const pc = paginator.pagesCount();
+  if (pc < 8) {
+    return Arrays.GenerateNumsRange(2, pc - 2).filter((p: number) => p < pc && p > 1);
   }
-  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3).filter((p: number) => p < pagesCount.value && p > 1);
+  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3).filter((p: number) => p < pc && p > 1);
 });
 
 const scrollToBack = () => {

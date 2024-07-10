@@ -1,4 +1,4 @@
-class PaginationService {
+class Paginator {
   limit = 25;
 
   count = 0;
@@ -8,10 +8,10 @@ class PaginationService {
     this.curPage = page;
   }
 
-  pageCount(): number {
+  pagesCount(): number {
     return Math.ceil(this.count / this.limit) ?? 1;
   }
 }
 
-const s = new PaginationService();
+const s = new Paginator();
 export default s;

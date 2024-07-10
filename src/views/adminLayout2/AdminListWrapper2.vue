@@ -21,7 +21,10 @@
     <div>
       <slot name="footer" />
     </div>
-    <div v-if="pagination">
+    <div v-if="pagination && !paginationV2">
+      <PPagination />
+    </div>
+    <div v-if="paginationV2">
       <PPagination />
     </div>
   </div>
@@ -34,6 +37,10 @@ const props = defineProps({
     default: false,
   },
   pagination: {
+    type: Boolean,
+    default: false,
+  },
+  paginationV2: {
     type: Boolean,
     default: false,
   },
