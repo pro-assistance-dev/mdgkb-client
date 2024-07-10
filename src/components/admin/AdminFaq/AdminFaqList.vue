@@ -64,7 +64,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      Provider.store.commit('admin/showLoading');
       await Provider.store.dispatch('faqs/getAll');
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Часто задаваемые вопросы',
@@ -74,7 +73,6 @@ export default defineComponent({
           { text: 'Добавить', type: 'primary', action: create },
         ],
       });
-      Provider.store.commit('admin/closeLoading');
     });
 
     return {

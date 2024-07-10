@@ -131,7 +131,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('questions/get', route.params['id']);
       if (question.value.isNew) {
         question.value.changeNewStatus();
@@ -152,7 +151,6 @@ export default defineComponent({
       });
       // question.value.isNew = false;
       mounted.value = true;
-      store.commit('admin/closeLoading');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(question, formUpdated, { deep: true });
     });

@@ -44,16 +44,11 @@ export default defineComponent({
     const sideOrganizations = computed(() => store.getters['sideOrganizations/items']);
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadSideOrganizations();
-      store.commit('admin/closeLoading');
     });
 
     const loadSideOrganizations = async (): Promise<void> => {
-      store.commit('admin/setHeaderParams', {
-        title: 'Организации здравоохранения',
-        buttons: [{ text: 'Добавить организацию', type: 'primary', action: create }],
-      });
+      PHelp.AdminUI.Head.Set('Организации здравоохранения', [Button.Success('Создать', create)]);
       await store.dispatch('sideOrganizations/getAll');
     };
 

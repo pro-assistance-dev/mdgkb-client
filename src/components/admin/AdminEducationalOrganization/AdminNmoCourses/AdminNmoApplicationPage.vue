@@ -83,12 +83,10 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadDpoCourses();
       await loadItem();
       await updateNew();
       await findEmail();
-      store.commit('admin/closeLoading');
     });
 
     const loadDpoCourses = async () => {

@@ -2,9 +2,7 @@ import Vuex, { StoreOptions } from 'vuex';
 
 import User from '@/classes/User';
 import * as lib from '@/services/store/index';
-// import auth from '@/store/modules/auth';
 import { authStateConstructor } from '@/services/store/modules/auth';
-import { admin } from '@/store/modules/admin';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
@@ -107,7 +105,6 @@ const s: StoreOptions<RootState> = {
     tags,
     news,
     users,
-    admin,
     timetables,
     map,
     vacancies,

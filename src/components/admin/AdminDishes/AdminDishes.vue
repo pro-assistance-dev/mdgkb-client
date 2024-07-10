@@ -78,10 +78,8 @@ const paste = async () => {
 };
 
 const openDishesConstructor = (dishSample?: DishSample) => {
-  Provider.store.commit('admin/showLoading');
   selectedSample.value = dishSample;
   dishesConstructorVisible.value = true;
-  Provider.store.commit('admin/closeLoading');
 };
 
 Hooks.onBeforeMount(load);

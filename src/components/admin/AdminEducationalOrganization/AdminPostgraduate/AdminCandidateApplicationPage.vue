@@ -72,11 +72,9 @@ export default defineComponent({
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadExam();
       await loadItem();
       await updateNew();
-      store.commit('admin/closeLoading');
     });
 
     const loadExam = async () => {

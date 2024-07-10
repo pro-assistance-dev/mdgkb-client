@@ -99,7 +99,6 @@ export default defineComponent({
     onBeforeUnmount(async () => {
       user.value.setResidencyApplicationsViewed();
       await Provider.store.dispatch('formValues/updateMany', user.value.formValues);
-      Provider.store.commit('admin/resetState');
     });
 
     const filledApplicationDownload = () => {

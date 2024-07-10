@@ -62,18 +62,13 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('roles/getAll');
       store.commit('roles/seedFormStatusToFormStatuses');
-      store.commit('admin/setHeaderParams', {
-        title: 'Роли юзеров',
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: openEditMode, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: updateAll, condition: isEditMode },
-          { text: 'Добавить', type: 'primary', action: create },
-        ],
-      });
-      store.commit('admin/closeLoading');
+      PHelp.AdminUI.Head.Set('Роли юзеров', [
+        Button.Success('Редактировать', openEditMode, isNotEditMode),
+        Button.Success('Сохранить', updateAll, isNotEditMode),
+        Button.Success('Добавить', create, isNotEditMode),
+      ]);
     });
 
     return {

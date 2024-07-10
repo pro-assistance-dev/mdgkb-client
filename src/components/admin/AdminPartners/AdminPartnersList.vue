@@ -49,14 +49,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('partners/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Наши партнеры',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
-      mounted.value = true;
-      store.commit('admin/closeLoading');
+      PHelp.AdminUI.Head.Set('Наши партнеры', [Button.Success('Добавить', create)]);
     });
 
     return {

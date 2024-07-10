@@ -29,7 +29,6 @@ const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
-      Store.Commit('admin/showLoading');
       FTSP.Get().reset();
       SortList.Set(options?.sortsLib);
       FTSP.Get().setSortModel(SortList.GetDefault());
@@ -42,10 +41,6 @@ const Hooks = (() => {
       Store.Commit('pagination/setCurPage', 1);
 
       await f();
-      if ((options?.adminHeader, options?.adminHeader)) {
-        Store.Commit('admin/setHeaderParams', options.adminHeader);
-      }
-      Store.Commit('admin/closeLoading');
       Provider.mounted.value = true;
     });
   };

@@ -73,11 +73,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(async () => {
       await Provider.store.dispatch('hospitalizationsTypes/get', Provider.route().params['id']);
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Ответить на вопрос',
-        showBackButton: true,
-        buttons: [{ text: 'Сохранить и выйти', type: 'primary', action: save }],
-      });
+      PHelp.AdminUI.Head.Set('Ответить на вопрос', [Button.Success('Сохранить и выйти', save)]);
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(hospitalizationType, formUpdated, { deep: true });
     });

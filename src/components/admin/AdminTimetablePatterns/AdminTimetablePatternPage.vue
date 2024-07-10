@@ -50,19 +50,15 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('timetables/getAllWeekdays');
       if (route.params['id']) {
         await store.dispatch('timetablePatterns/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
         store.commit(`timetablePatterns/set`, Timetable.CreateStandartTimetable(weekdays.value));
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(timetablePattern, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

@@ -80,18 +80,13 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('visitingRules/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Общие правила посещения',
-        buttons: [
-          { text: 'Редактировать', type: 'primary', action: edit, condition: isNotEdit },
-          { text: 'Сохранить', type: 'success', action: save, condition: isEdit },
-          { text: 'Добавить', type: 'primary', action: create, condition: isEdit },
-        ],
-      });
+      PHelp.AdminUI.Head.Set('Общие правила посещения', [
+        Button.Success('Сохранить', save, isNotEdit),
+        Button.Success('Редактировать', edit, isNotEdit),
+        Button.Success('Создать', create, isEdit),
+      ]);
       mounted.value = true;
-      store.commit('admin/closeLoading');
     });
 
     return {

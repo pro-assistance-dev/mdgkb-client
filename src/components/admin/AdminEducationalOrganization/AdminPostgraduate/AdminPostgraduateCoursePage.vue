@@ -224,13 +224,11 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('teachers/getAll');
       await store.dispatch('specializations/getAll');
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');
       await loadItem();
-      store.commit('admin/closeLoading');
     });
 
     const loadItem = async () => {

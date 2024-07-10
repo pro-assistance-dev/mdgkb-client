@@ -67,9 +67,7 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadItem();
-      store.commit('admin/closeLoading');
     });
 
     const loadItem = async () => {
@@ -87,7 +85,6 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(medicalProfile, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     };
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

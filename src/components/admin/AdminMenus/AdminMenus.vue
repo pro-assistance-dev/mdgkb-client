@@ -81,14 +81,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('menus/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Меню',
-        buttons: [{ text: 'Сохранить', type: 'primary', action: save }],
-      });
-      mounted.value = true;
-      store.commit('admin/closeLoading');
+      PHelp.AdminUI.Head.Set('Меню', [Button.Success('Сохранить', save)]);
     });
 
     const addMenu = () => {

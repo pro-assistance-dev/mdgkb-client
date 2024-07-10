@@ -50,10 +50,8 @@ export default defineComponent({
     const paidProgramsGroupsForDelete: Ref<string[]> = computed(() => store.getters['paidProgramsGroups/itemsForDelete']);
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('paidProgramsGroups/getAll', false);
-      store.commit('admin/setHeaderParams', { title: 'Платные программы' });
-      store.commit('admin/closeLoading');
+      PHelp.AdminUI.Head.Set('Платные программы', []);
     });
 
     const addGroup = () => {

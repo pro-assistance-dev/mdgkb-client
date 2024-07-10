@@ -132,10 +132,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Клиентские доступы',
-        buttons: [{ text: 'Сохранить', action: savePaths }],
-      });
+      PHelp.AdminUI.Head.Set('Клиентские доступы'[Button.Success('Сохранить', submit)]);
       Provider.store.commit('filter/setStoreModule', 'auth');
       Provider.store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
       Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));

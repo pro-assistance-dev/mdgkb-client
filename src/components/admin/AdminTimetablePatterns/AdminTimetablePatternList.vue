@@ -50,13 +50,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('timetablePatterns/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Шаблоны графика работы',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
-      store.commit('admin/closeLoading');
+      PHelp.AdminUI.Head.Set('Шаблоны графика работы', [Button.Success('Добавить', create)]);
     });
 
     return {

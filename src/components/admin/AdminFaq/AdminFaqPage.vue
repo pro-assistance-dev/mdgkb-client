@@ -61,7 +61,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       if (route.params['id']) {
         await store.dispatch('faqs/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить вопрос', showBackButton: true, buttons: [{ action: submit }] });
@@ -71,7 +70,6 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(faq, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

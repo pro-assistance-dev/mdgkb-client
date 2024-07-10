@@ -113,16 +113,12 @@ const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
 const editMany = async () => {
-  Store.Commit('admin/showLoading');
   await Store.GetAll('formPatterns');
   isEditMode.value = true;
-  Store.Commit('admin/closeLoading');
 };
 const saveMany = async () => {
-  Store.Commit('admin/showLoading');
   await Store.Dispatch('vacancies/updateMany');
   isEditMode.value = false;
-  Store.Commit('admin/closeLoading');
 };
 
 const loadVacancies = async () => {

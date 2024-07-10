@@ -75,12 +75,10 @@ export default defineComponent({
     const emailExists: ComputedRef<boolean> = computed(() => store.getters['postgraduateApplications/emailExists']);
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadCourses();
       await loadItem();
       await updateNew();
       await findEmail();
-      store.commit('admin/closeLoading');
     });
 
     const loadCourses = async () => {
