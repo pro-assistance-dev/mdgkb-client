@@ -1,5 +1,5 @@
 <template>
-  <GridContainer max-width="1024px" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
+  <GridContainer max-width="100%" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" grid-gap="30px" margin="0">
     <PInput v-model="human.surname" label="ФАМИЛИЯ" placeholder="Введите фамилию" />
     <PInput v-model="human.name" label="ИМЯ" placeholder="Введите имя" />
     <PInput v-model="human.patronymic" label="ОТЧЕСТВО" placeholder="Введите отчество" />

@@ -2,9 +2,16 @@
   <div v-if="mounted" class="size" data-test="profile-info-component">
     <div class="title">
       <h2><b>Мой профиль</b></h2>
-      <PButton skin="profile" type="primary" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
-        <IconEdit size="26px" color="#A3A9BE" />
-      </PButton>
+      <div class="button">
+        <PButton skin="profile" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
+          <IconEdit size="26px" />
+        </PButton>
+      </div>
+      <div class="button-less-800">
+        <PButton skin="profile" @click="$router.push('/profile/edit')" width="32px" padding="0">
+          <IconEdit margin="0" />
+        </PButton>
+      </div>
     </div>
     <div class="right-block">
       <div class="column-left">
@@ -54,7 +61,7 @@
                   width="100px"
                   @click="isEditPhoneModalOpen = true"
                 />
-                <PButton v-else skin="profile" text="Добавить" height="28px" @click="isEditPhoneModalOpen = true" />
+                <PButton v-else skin="profile" text="Добавить" height="28px" width="120px" @click="isEditPhoneModalOpen = true" />
                 <EditPhone v-if="isEditPhoneModalOpen" @close="isEditPhoneModalOpen = false" />
               </div>
             </div>
@@ -585,6 +592,14 @@ ul.parent-info-list li:last-child {
   margin: 0px;
 }
 
+.button {
+  display: block;
+}
+
+.button-less-800 {
+  display: none;
+}
+
 @media screen and (max-width: 980px) {
   .size {
     max-width: 890px;
@@ -618,6 +633,15 @@ ul.parent-info-list li:last-child {
     h2 {
       font-size: 18px;
     }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .button-less-800 {
+    display: block;
+  }
+  .button {
+    display: none;
   }
 }
 
