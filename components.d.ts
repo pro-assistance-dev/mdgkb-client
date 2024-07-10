@@ -7,6 +7,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    2: typeof import('./src/components/Icons/IconSettings copy 2.vue')['default']
     AcademicCard: typeof import('./src/components/Educational/AcademicCard.vue')['default']
     AdaptiveContainer: typeof import('./src/services/components/AdaptiveContainer.vue')['default']
     AdaptiveContainerHorizontal: typeof import('./src/services/components/AdaptiveContainerHorizontal.vue')['default']
@@ -199,6 +200,7 @@ declare module '@vue/runtime-core' {
     ContactsBlock: typeof import('./src/components/ContactsBlock.vue')['default']
     ContactsForm: typeof import('./src/components/admin/Contacts/ContactsForm.vue')['default']
     ContextWindow: typeof import('./src/services/components/ContextWindow.vue')['default']
+    copy: typeof import('./src/components/Icons/IconSettings copy.vue')['default']
     CopyWindow: typeof import('./src/components/admin/AdminDishes/CopyWindow.vue')['default']
     CourseCard: typeof import('./src/components/Educational/Dpo/CourseCard.vue')['default']
     CubeLine: typeof import('./src/components/StopComa/CubeLine.vue')['default']
@@ -374,6 +376,7 @@ declare module '@vue/runtime-core' {
     HumanForm: typeof import('./src/components/admin/HumanForm.vue')['default']
     IconArrowDrop: typeof import('./src/components/Icons/IconArrowDrop.vue')['default']
     IconArrowRight: typeof import('./src/components/Icons/IconArrowRight.vue')['default']
+    IconBack: typeof import('./src/components/Icons/IconBack.vue')['default']
     IconClose: typeof import('./src/services/components/Icons/IconClose.vue')['default']
     IconEdit: typeof import('./src/services/components/Icons/IconEdit.vue')['default']
     IconEducation: typeof import('./src/components/Icons/IconEducation.vue')['default']
@@ -382,6 +385,7 @@ declare module '@vue/runtime-core' {
     IconMenuLines: typeof import('./src/components/Icons/IconMenuLines.vue')['default']
     IconPhone: typeof import('./src/services/components/Icons/IconPhone.vue')['default']
     IconQuestion: typeof import('./src/components/Icons/IconQuestion.vue')['default']
+    IconSave: typeof import('./src/components/Icons/IconSave.vue')['default']
     IconSearch: typeof import('./src/services/components/Icons/IconSearch.vue')['default']
     IconSettings: typeof import('./src/components/Icons/IconSettings.vue')['default']
     ImageCropper: typeof import('./src/services/components/ImageCropper.vue')['default']

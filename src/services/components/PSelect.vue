@@ -11,8 +11,8 @@
         <div v-if="clearable" class="clear" @click="clear">
           <IconClose margin="3px 0 0 0" />
         </div>
-        <div v-if="ph" class="ph">{{ placeholder }}</div>
         <select v-model="model" class="text-field__input" @change="select">
+          <option selected hidden>{{ placeholder }}</option>
           <slot />
         </select>
       </div>
@@ -114,7 +114,7 @@ option {
   width: 100%;
   font-family: $input-font;
   color: $input-label-color;
-  font-size: $base-font-small-size;
+  font-size: $base-font-size;
   margin: $input-label-margin;
 }
 
