@@ -37,8 +37,8 @@ export default class Page {
   pageSectionsForDelete: string[] = [];
   @ClassHelper.GetClassConstructor(PageDocument)
   pageDocuments: PageDocument[] = [];
-  @ClassHelper.GetClassConstructor(PageComment)
-  pageComments: PageComment[] = [];
+  // @ClassHelper.GetClassConstructor(PageComment)
+  // pageComments: PageComment[] = [];
   contact: Contact = new Contact();
   contactId?: string;
   role: Role = new Role();

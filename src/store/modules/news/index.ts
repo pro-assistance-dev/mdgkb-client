@@ -2,7 +2,6 @@ import { Module } from 'vuex';
 
 import EventApplication from '@/classes/EventApplication';
 import News from '@/classes/News';
-import NewsComment from '@/classes/NewsComment';
 import NewsParams from '@/classes/NewsParams';
 import Tag from '@/classes/Tag';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
@@ -23,8 +22,6 @@ export interface State extends IBasicState<News> {
   allNewsLoaded: boolean;
   calendarNews: News[];
   calendarMeta?: ICalendarMeta;
-  comment: NewsComment;
-  comments: NewsComment[];
   eventMode: boolean;
   eventApplication: EventApplication;
   params: NewsParams;
@@ -42,8 +39,6 @@ export const getDefaultState = (): State => {
     allNewsLoaded: false,
     calendarNews: [new News()],
     calendarMeta: undefined,
-    comment: new NewsComment(),
-    comments: [],
     eventMode: false,
     eventApplication: new EventApplication(),
     params: new NewsParams(),

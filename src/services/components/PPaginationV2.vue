@@ -7,28 +7,28 @@
       }"
     >
       <div class="pag-number">
-        <PButton skin="pag" :type="notActiveOrNeutral(curPage === 1)" @click="currentChange(curPage - 1)">
+        <PButton skin="pag" :type="notActiveOrNeutral(paginator.curPage === 1)" @click="currentChange(paginator.curPage - 1)">
           <ArrowLeft />
         </PButton>
         <ul class="pag-ul">
           <li>
-            <PButton skin="pag" :type="activeOrNeutral(curPage === 1)" text="1" @click="currentChange(1)" />
+            <PButton skin="pag" :type="activeOrNeutral(paginator.curPage === 1)" text="1" @click="currentChange(1)" />
           </li>
-          <li v-if="paginator.pagesCount() > 8 && curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
-            <PButton skin="pag" type="neutral" @click="currentChange(curPage - 5)">
+          <li v-if="paginator.pagesCount() > 8 && paginator.curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
+            <PButton skin="pag" type="neutral" @click="currentChange(paginator.curPage - 5)">
               <DoubleArrowLeft v-if="hoveringL" />
               <Ellipsis v-else />
             </PButton>
           </li>
           <li v-for="num in pagesNums" :key="num">
-            <PButton skin="pag" :type="activeOrNeutral(num === curPage)" :text="num" @click="currentChange(num)" />
+            <PButton skin="pag" :type="activeOrNeutral(num === paginator.curPage)" :text="num" @click="currentChange(num)" />
           </li>
           <li
-            v-if="paginator.pagesCount() > 8 && curPage < paginator.pagesCount() - 3"
+            v-if="paginator.pagesCount() > 8 && paginator.curPage < paginator.pagesCount() - 3"
             @mouseenter="hoveringR = true"
             @mouseleave="hoveringR = false"
           >
-            <PButton skin="pag" type="neutral" @click="currentChange(curPage + 5)">
+            <PButton skin="pag" type="neutral" @click="currentChange(paginator.curPage + 5)">
               <DoubleArrowRight v-if="hoveringR" />
               <Ellipsis v-else />
             </PButton>
@@ -36,13 +36,17 @@
           <li v-if="paginator.pagesCount() > 1">
             <PButton
               skin="pag"
-              :type="activeOrNeutral(paginator.pagesCount() === curPage)"
+              :type="activeOrNeutral(paginator.pagesCount() === paginator.curPage)"
               :text="paginator.pagesCount()"
               @click="currentChange(paginator.pagesCount())"
             />
           </li>
         </ul>
-        <PButton skin="pag" :type="notActiveOrNeutral(curPage === paginator.pagesCount())" @click="currentChange(curPage + 1)">
+        <PButton
+          skin="pag"
+          :type="notActiveOrNeutral(paginator.curPage === paginator.pagesCount())"
+          @click="currentChange(paginator.curPage + 1)"
+        >
           <ArrowRight />
         </PButton>
       </div>
@@ -78,14 +82,10 @@ const hoveringL = ref(false);
 const hoveringR = ref(false);
 
 const emit = defineEmits(['cancel', 'save']);
-// const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
-
-const count: Ref<Number> = props.store.Count();
-// const pagesCount: ComputedRef<number> =  paginator.pageCount());
-const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
+paginator.count = props.store.Count();
 
 const currentChange = async (toPage: number) => {
-  if (toPage === curPage.value) {
+  if (toPage === paginator.curPage) {
     return;
   }
   if (toPage < 1) {
@@ -123,10 +123,11 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
 
 const pagesNums = computed(() => {
   const pc = paginator.pagesCount();
+  console.log(pc);
   if (pc < 8) {
     return Arrays.GenerateNumsRange(2, pc - 2).filter((p: number) => p < pc && p > 1);
   }
-  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3).filter((p: number) => p < pc && p > 1);
+  return Arrays.GenerateNumsRange(paginator.curPage - 2, paginator.curPage + 3).filter((p: number) => p < pc && p > 1);
 });
 
 const scrollToBack = () => {

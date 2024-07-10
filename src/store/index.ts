@@ -1,12 +1,13 @@
 import Vuex, { StoreOptions } from 'vuex';
 
+import User from '@/classes/User';
 import * as lib from '@/services/store/index';
+// import auth from '@/store/modules/auth';
+import { authStateConstructor } from '@/services/store/modules/auth';
 import { admin } from '@/store/modules/admin';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
-// import auth from '@/store/modules/auth';
-import { authStateConstructor } from '@/services/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { calendar } from '@/store/modules/calendar';
@@ -84,7 +85,7 @@ import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { visitingRules } from '@/store/modules/visitingRules';
 import { visitsApplications } from '@/store/modules/visitsApplications';
-import User from '@/classes/User';
+
 import RootState from './types';
 
 const s: StoreOptions<RootState> = {

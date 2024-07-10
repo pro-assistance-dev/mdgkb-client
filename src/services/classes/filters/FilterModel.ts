@@ -247,4 +247,17 @@ export default class FilterModel {
     this.setDate1();
     this.setDate2();
   }
+  setDatesRange(date1?: Date, date2?: Date): void {
+    if (!date1 && !date2) {
+      this.dropDates();
+      return;
+    }
+    if (!date2) {
+      this.setDate1(date1);
+      this.operator = Operators.Eq;
+      return;
+    }
+    this.setDate2(date2);
+    this.operator = Operators.Btw;
+  }
 }

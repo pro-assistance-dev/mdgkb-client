@@ -21,17 +21,18 @@
     <div>
       <slot name="footer" />
     </div>
-    <div v-if="pagination && !paginationV2">
+    <div v-if="pagination && !store">
       <PPagination />
     </div>
-    <div v-if="paginationV2">
-      <PPagination />
+    <div v-if="store">
+      <PPaginationV2 :store="store" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+import IStorePaginator from '@/services/interfaces/IStorePaginator';
+defineProps({
   showHeader: {
     type: Boolean,
     default: false,
@@ -40,9 +41,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  paginationV2: {
-    type: Boolean,
-    default: false,
+  store: {
+    type: Object as PropType<IStorePaginator>,
+    default: undefined,
   },
 });
 </script>

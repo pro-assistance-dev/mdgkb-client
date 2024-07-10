@@ -1,5 +1,5 @@
 <template>
-  <PSelect :clearable="filterModel ? true : false" :placeholder="defaultLabel" @change="selectFilter" v-model="filterModel">
+  <PSelect v-model="filterModel" :clearable="filterModel ? true : false" :placeholder="defaultLabel" @change="selectFilter">
     <option v-for="(model, i) in models" :key="i" :value="model" :label="model.label" />
   </PSelect>
 </template>
@@ -38,9 +38,6 @@ const filterModel: Ref<FilterModel | undefined> = ref(undefined);
 const setFilter = async (model?: FilterModel) => {
   ftsp.replaceF(model, filterModel.value);
   filterModel.value = model;
-  // Provider.dropPagination();
-  // Provider.getPagination().drop();
-  console.log(ftsp);
 };
 
 const selectFilter = async (model?: FilterModel) => {
@@ -49,7 +46,6 @@ const selectFilter = async (model?: FilterModel) => {
   } else {
     await setFilter(filterModel.value);
   }
-  console.log(filterModel.value);
   emits('load');
 };
 </script>
