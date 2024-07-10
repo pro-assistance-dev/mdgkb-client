@@ -13,80 +13,58 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Faq from '@/classes/Faq';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminFaqPage',
-  components: { WysiwygEditor },
+const form = ref();
+const mounted: Ref<boolean> = ref(false);
+const faq: Faq = FaqsStore.Item();
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-  setup() {
-    const store = useStore();
-    const route = useRoute();
-    const router = useRouter();
-    const form = ref();
-    const mounted: Ref<boolean> = ref(false);
-    const faq: ComputedRef<Faq> = computed<Faq>(() => store.getters['faqs/item']);
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const rules = {
-      question: [{ required: true, message: 'Необходимо указать вопрос', trigger: 'blur' }],
-      answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
-    };
+const rules = {
+  question: [{ required: true, message: 'Необходимо указать вопрос', trigger: 'blur' }],
+  answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
+};
 
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      try {
-        if (route.params['id']) {
-          await store.dispatch('faqs/update', faq.value);
-        } else {
-          await store.dispatch('faqs/create', faq.value);
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : router.push('/admin/faqs');
-    };
+const submit = async (next?: NavigationGuardNext) => {
+  saveButtonClick.value = true;
+  if (!validate(form)) {
+    saveButtonClick.value = false;
+    return;
+  }
+  try {
+    if (Router.Id()) {
+      await FaqsStore.Update();
+    } else {
+      await FaqsStore.Create();
+    }
+  } catch (error) {
+    PHelp.Notification.Error('Что-то пошло не так');
+    return;
+  }
+  next ? next() : Router.To('/admin/faqs');
+};
 
-    onBeforeMount(async () => {
-      if (route.params['id']) {
-        await store.dispatch('faqs/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить вопрос', showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить вопрос', showBackButton: true, buttons: [{ action: submit }] });
-      }
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(faq, formUpdated, { deep: true });
-    });
+onBeforeMount(async () => {
+  if (Router.Id()) {
+    await FaqsStore.Get(Router.Id());
+    PHelp.AdminUI.Head.Set('Обновить вопрос', [Button.Success('Обновить вопрос', submit)]);
+  } else {
+    PHelp.AdminUI.Head.Set('Добавить вопрос', [Button.Success('Обновить вопрос', submit)]);
+  }
+  mounted.value = true;
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(faq, formUpdated, { deep: true });
+});
 
-    onBeforeUnmount(() => {
-      store.commit('faqs/resetItem');
-    });
+onBeforeUnmount(() => {
+  FaqsStore.ResetItem();
+});
 
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    return {
-      faq,
-      mounted,
-      form,
-      rules,
-    };
-  },
+onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  showConfirmModal(submit, next);
 });
 </script>
 

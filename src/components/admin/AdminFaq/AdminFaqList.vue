@@ -27,62 +27,39 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Faq from '@/classes/Faq';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TableMover from '@/components/admin/TableMover.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdminFaqList',
-  components: { TableMover, TableButtonGroup },
+const faqs: Faq[] = FaqsStore.Items();
+const isEdit: Ref<boolean> = ref(false);
+const isNotEdit: Ref<boolean> = ref(true);
 
-  setup() {
-    const faqs: ComputedRef<Faq[]> = computed<Faq[]>(() => Provider.store.getters['faqs/items']);
-    const isEdit: Ref<boolean> = ref(false);
-    const isNotEdit: Ref<boolean> = ref(true);
+const create = (): void => {
+  Router.To('/admin/faqs/new');
+};
+const remove = async (id: string): Promise<void> => {
+  await FaqsStore.Remove(id);
+};
+const edit = (id: string): void => {
+  Router.To(`/admin/faqs/${id}`);
+};
+const editOrder = () => {
+  isEdit.value = true;
+  isNotEdit.value = false;
+};
+const saveOrder = async () => {
+  await FaqsStore.UpdateMany();
+  isEdit.value = false;
+  isNotEdit.value = true;
+};
 
-    const create = (): void => {
-      Provider.router.push('/admin/faqs/new');
-    };
-    const remove = async (id: string): Promise<void> => {
-      await Provider.store.dispatch('faqs/remove', id);
-    };
-    const edit = (id: string): void => {
-      Provider.router.push(`/admin/faqs/${id}`);
-    };
-    const editOrder = () => {
-      isEdit.value = true;
-      isNotEdit.value = false;
-    };
-    const saveOrder = async () => {
-      await Provider.store.dispatch('faqs/updateAll', { faqs: faqs.value, faqsWithDeleted: [] });
-      isEdit.value = false;
-      isNotEdit.value = true;
-    };
-
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('faqs/getAll');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Часто задаваемые вопросы',
-        buttons: [
-          { text: 'Редактировать порядок', type: 'primary', action: editOrder, condition: isNotEdit },
-          { text: 'Сохранить порядок', type: 'success', action: saveOrder, condition: isEdit },
-          { text: 'Добавить', type: 'primary', action: create },
-        ],
-      });
-    });
-
-    return {
-      faqs,
-      create,
-      remove,
-      edit,
-      isEdit,
-    };
-  },
+onBeforeMount(async () => {
+  await FaqsStore.FTSP();
+  PHelp.AdminUI.Head.Set('Часто задаваемые вопросы', [
+    Button.Success('Редактировать порядок', editOrder, isNotEdit),
+    Button.Success('Сохранить порядок', saveOrder, isEdit),
+    Button.Success('Добавить', create),
+  ]);
 });
 </script>
 
