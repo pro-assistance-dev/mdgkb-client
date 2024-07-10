@@ -38,7 +38,7 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
   // ======= //
   // ACTIONS //
   // ======= //
-  protected getUrl(query: string): string {
+  protected getUrl(query?: string): string {
     if (!query) {
       return this.url;
     }
@@ -89,7 +89,7 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
 
   async Create(item?: T): Promise<T | void> {
     const param = item ?? this.item;
-    const opts: IBodyfulParams<T> = { payload: item };
+    const opts: IBodyfulParams<T> = { payload: param, query: this.getUrl() };
     if (param.getFileInfos) {
       opts.fileInfos = param.getFileInfos();
       opts.fileInfos.forEach((f: FileInfo) => (f.url = ''));
@@ -168,7 +168,7 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
   }
 
   ResetItem() {
-    ClassHelper.BuildClass(this.item);
+    ClassHelper.BuildClass(this.item, new this.classConstructor());
     // this.item = new this.classConstructor();
   }
 

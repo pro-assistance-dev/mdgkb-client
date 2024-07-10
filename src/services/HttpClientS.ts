@@ -132,6 +132,7 @@ export default abstract class HttpClient {
   private static createFormDataPayload<PayloadType>(payload?: PayloadType, fileInfos?: FileInfo[]): FormData {
     const data = new FormData();
     data.append('form', JSON.stringify(payload));
+    // console.log(data, payload);
 
     if (fileInfos) {
       for (const fileInfo of fileInfos) {

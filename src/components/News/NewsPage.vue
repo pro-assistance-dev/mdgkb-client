@@ -33,7 +33,7 @@
         <el-divider />
         <NewsPageFooter v-if="news" :news="news" />
         <el-divider />
-        <Comments v-if="news.id" store-module="news" :parent-id="news.id" :is-reviews="false" />
+        <Comments :comments="news.comments" v-if="news.id" domen="news" :item-id="news.id" :is-reviews="false" />
       </div>
     </div>
   </div>

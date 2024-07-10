@@ -18,16 +18,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus';
-
 import CommentRules from '@/classes/CommentRules';
 
 const props = defineProps({
-  storeModule: {
+  domen: {
     type: String,
     required: true,
   },
-  parentId: {
+  itemId: {
     type: String,
     default: '',
   },
@@ -46,8 +44,8 @@ const props = defineProps({
 });
 const emit = defineEmits(['closeDialog', 'scroll']);
 
-const commentInput = ref();
-const comment = Store.Item('comments');
+const commentForm = ref();
+const comment = CommentsStore.Item();
 const auth = Store.Getters('auth/auth');
 const authModal = Store.Getters('auth/modal');
 const userId = computed(() => auth.value.user.get().id);
@@ -61,20 +59,22 @@ const openLoginModal = () => {
 };
 
 const sendComment = async () => {
-  PHelp.Notification.Warning('В режиме разработки');
-  return;
   // if (!validate(commentForm)) {
   //   return;
   // }
-  comment.value.user.email = userEmail.value;
-  comment.value.userId = userId.value;
+  comment.user.email = userEmail.value;
+  comment.userId = userId.value;
+  comment.domen = props.domen;
+  comment.itemId = props.itemId;
+  console.log(comment);
   try {
-    await Store.Create('comments');
+    await CommentsStore.Create();
     PHelp.Notification.Success('Ваш отзыв отправлен и будет опубликован после модерации');
   } catch (e) {
     PHelp.Notification.Error('Что-то пошло не так');
     return;
   }
+  CommentsStore.ResetItem();
   // commentForm.value.clearValidate();
   if (props.fromDialog) {
     emit('closeDialog');
@@ -93,7 +93,7 @@ const saveCommentChanges = async (item: Comment) => {
   try {
     await Store.Update('comments', item);
   } catch (e) {
-    ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+    PHelp.Notification.Error('Что-то пошло не так');
     return;
   }
 };

@@ -12,7 +12,7 @@
         placeholder="Дата публикации"
         @load="loadNews"
       />
-      <SortSelect :max-width="400" :models="sortList" :store-mode="true" @load="loadNews" />
+      <SortSelect :max-width="400" @load="loadNews" />
     </template>
     <template #sort> </template>
     <el-table :data="news">

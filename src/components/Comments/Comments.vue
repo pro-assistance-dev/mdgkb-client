@@ -7,7 +7,7 @@
       <div id="reviews" :class="{ reviews: isReviews }">
         <div id="leave-a-review" class="leave-a-review">
           <h4>Оставить {{ !isReviews ? 'комментарий' : 'отзыв' }}:</h4>
-          <CommentForm :store-module="storeModule" :parent-id="parentId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
+          <CommentForm :domen="domen" :item-id="itemId" :is-reviews="isReviews" @scroll="scroll('#comments-block')" />
         </div>
         <div v-if="comments?.length" id="comments-block">
           <div v-for="comment in comments" :key="comment.id" class="reviews-point">
@@ -28,7 +28,11 @@ defineProps({
     type: Array<Comment>,
     required: true,
   },
-  parentId: {
+  itemId: {
+    type: String,
+    required: true,
+  },
+  domen: {
     type: String,
     required: true,
   },

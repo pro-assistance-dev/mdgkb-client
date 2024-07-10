@@ -3,7 +3,7 @@
     <div class="spec-serv-card-img">
       <img v-if="item.fileInfo && item.fileInfo.fileSystemPath" :src="item.fileInfo.getImageUrl()" alt="file-info" />
       <!-- <img v-else-if="item.imgName" :src="require(`@/assets/img/main-page/templates/${item.imgName}`)" alt="file-info" /> -->
-      <img v-else src="src/assets/img/310x310.webp" alt="file-info" />
+      <img v-else :src="ServiceImage" alt="file-info" />
     </div>
     <div class="spec-serv-card-container">
       <div class="spec-serv-card-title">{{ item.title }}</div>
@@ -12,31 +12,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
+<script lang="ts" setup>
+import ServiceImage from '@/assets/img/310x310.webp';
 import SpecialService from '@/classes/SpecialService';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'SpecialServiceCard',
-  props: {
-    item: {
-      type: Object as PropType<SpecialService>,
-      required: true,
-    },
-  },
-  setup(props) {
-    const toLink = () => {
-      if (props.item.link) {
-        Provider.router.push(props.item.link);
-      }
-    };
-    return {
-      toLink,
-    };
+const props = defineProps({
+  item: {
+    type: Object as PropType<SpecialService>,
+    required: true,
   },
 });
+const toLink = () => {
+  if (props.item.link) {
+    Router.To(props.item.link);
+  }
+};
 </script>
 
 <style lang="scss" scoped>

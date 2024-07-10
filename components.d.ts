@@ -500,6 +500,7 @@ declare module '@vue/runtime-core' {
     PostgraduatePage: typeof import('./src/components/Educational/Postgraduate/PostgraduatePage.vue')['default']
     PostgraducateAcademics: typeof import('./src/components/Educational/Postgraduate/PostgraducateAcademics.vue')['default']
     PPagination: typeof import('./src/services/components/PPagination.vue')['default']
+    PPaginationV2: typeof import('./src/services/components/PPaginationV2.vue')['default']
     PreparationsPage: typeof import('./src/components/Preparations/PreparationsPage.vue')['default']
     ProfileChildrenPage: typeof import('./src/components/Profile/ProfileChildrenPage.vue')['default']
     ProfileCommentCard: typeof import('./src/components/Profile/ProfileCommentCard.vue')['default']

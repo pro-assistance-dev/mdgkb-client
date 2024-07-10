@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper pagination show-header>
     <template #header>
-      <SortList class="filters-block" :models="sortList" @load="loadComments" />
+      <SortSelect :max-width="400" @load="loadComments" />
       <FilterSelectDate class="filters-block" :table="'comments'" :col="'publishedOn'" @load="loadComments" />
       <FilterCheckbox
         class="filters-block"
@@ -28,24 +28,21 @@ import Comment from '@/classes/Comment';
 import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
-
-const comments: ComputedRef<Comment[]> = Store.Items('comments');
+import SortListConst from '@/services/SortList';
+const comments: ComputedRef<Comment[]> = CommentsStore.Items();
 // const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('comments'));
 const searchString: Ref<string> = ref('');
 const sourceSSE: EventSource | undefined = undefined;
 
 const load = async () => {
-  // Provider.setSortList(...createSortModels(CommentsSortsLib, Orders.Desc));
-  // Provider.setSortModels(CommentsSortsLib.byPublishedOn(Orders.Desc));
+  SortListConst.Set(CommentsSortsLib);
   FTSP.Get().setS(CommentsSortsLib.byPublishedOn(Orders.Desc));
-  await Store.FTSP('comments');
-  PHelp.AdminUI.Head.Set('Заявления на посещение', []);
+  await CommentsStore.FTSP();
+  PHelp.AdminUI.Head.Set('Комментарии', []);
 };
 
 Hooks.onBeforeMount(load, {
@@ -53,7 +50,7 @@ Hooks.onBeforeMount(load, {
 });
 
 const loadComments = async () => {
-  await Store.FTSP('comments');
+  await CommentsStore.FTSP();
 };
 
 onBeforeUnmount(async () => {

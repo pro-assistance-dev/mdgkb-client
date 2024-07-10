@@ -13,6 +13,7 @@ declare global {
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
   const ClassHelper: typeof import('@/services/Main')['ClassHelper']
   const Color: typeof import('@/services/Main')['Color']
+  const CommentsStore: typeof import('@/store/StoreModules')['CommentsStore']
   const Confirm: typeof import('@/services/Main')['Confirm']
   const Contact: typeof import('@/services/Main')['Contact']
   const CreateSortModels: typeof import('@/services/Main')['CreateSortModels']
@@ -135,6 +136,7 @@ declare module 'vue' {
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
+    readonly CommentsStore: UnwrapRef<typeof import('@/store/StoreModules')['CommentsStore']>
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
@@ -147,6 +149,7 @@ declare module 'vue' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
@@ -247,6 +250,7 @@ declare module '@vue/runtime-core' {
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
+    readonly CommentsStore: UnwrapRef<typeof import('@/store/StoreModules')['CommentsStore']>
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
@@ -259,6 +263,7 @@ declare module '@vue/runtime-core' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>

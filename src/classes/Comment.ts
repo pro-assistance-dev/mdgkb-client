@@ -15,8 +15,7 @@ export default class Comment {
   answer = '';
   link = '';
   commentTo = '';
-  news?: News;
-
+  domen = '';
   user: User = new User();
 
   constructor(comment?: Comment) {
@@ -46,5 +45,15 @@ export default class Comment {
 
   static GetClassName(): string {
     return 'comment';
+  }
+
+  markPositive(): void {
+    this.modChecked = true;
+    this.positive = true;
+  }
+
+  markNegative(): void {
+    this.modChecked = false;
+    this.positive = true;
   }
 }
