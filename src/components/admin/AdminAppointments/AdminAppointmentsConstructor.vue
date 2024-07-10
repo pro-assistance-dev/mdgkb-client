@@ -20,9 +20,6 @@ export default defineComponent({
     //
     // onBeforeMount(async () => {
     //
-    //   store.commit('filter/setStoreModule', 'doctors');
-    //   await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
-    //
     //   store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
     //   store.commit('pagination/setCurPage', 1);
     // });

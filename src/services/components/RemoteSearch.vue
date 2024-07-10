@@ -126,15 +126,6 @@ const createModel = (): FilterModel => {
   return fm;
 };
 
-const filterModel = ref(createModel());
-
-const onEnter = async (): Promise<void> => {
-  filterModel.value.value1 = queryString.value;
-  Provider.store.commit('filter/setFilterModel', filterModel.value);
-  emit('load');
-  searchForm.value.close();
-};
-
 const handleInput = (value: string) => {
   emit('input', value);
   if (value.length === 0) {

@@ -48,7 +48,6 @@ export default defineComponent({
     };
 
     const dropFilterModel = () => {
-      Provider.store.commit('filter/spliceFilterModel', filterModel.id);
       filterModel = NewsFiltersLib.filterByTags([]);
     };
 

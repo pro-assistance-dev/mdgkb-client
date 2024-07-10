@@ -78,7 +78,6 @@ export default defineComponent({
     });
 
     const loadExam = async () => {
-      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('candidateExams/get');
     };
 
@@ -103,6 +102,7 @@ export default defineComponent({
     };
 
     let initialStatus: FormStatus;
+
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

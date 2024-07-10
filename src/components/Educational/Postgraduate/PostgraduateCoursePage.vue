@@ -7,9 +7,12 @@
             <el-divider /> -->
           <div v-if="postgraduateCourse.getMainTeacher()">
             <b>Руководитель:</b> <br />
-            <router-link v-if="postgraduateCourse.getMainTeacher()" class="recent-news-item"
+            <router-link
+              v-if="postgraduateCourse.getMainTeacher()"
+              class="recent-news-item"
               :to="`/doctors/${postgraduateCourse.getMainTeacher().doctor.employee.human.slug}`"
-              style="padding-left: 0">
+              style="padding-left: 0"
+            >
               {{ postgraduateCourse.getMainTeacher()?.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
@@ -17,8 +20,11 @@
             <b>Преподаватели:</b> <br />
             <router-link
               v-for="postgraduateCoursesTeacher in postgraduateCourse.postgraduateCoursesTeachers.filter((i) => !i.main)"
-              :key="postgraduateCoursesTeacher.id" class="recent-news-item"
-              :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.employee.human.slug}`" style="padding-left: 0">
+              :key="postgraduateCoursesTeacher.id"
+              class="recent-news-item"
+              :to="`/doctors/${postgraduateCoursesTeacher.teacher.doctor.employee.human.slug}`"
+              style="padding-left: 0"
+            >
               {{ postgraduateCoursesTeacher.teacher.doctor.employee.human.getFullName() }}
             </router-link>
           </div>
@@ -56,53 +62,85 @@
           </div>
           <!-- <el-divider /> -->
           <div class="info-tags-block">
-            <el-tag v-if="postgraduateCourse.educationForm" class="tag">Форма обучения: {{
-              postgraduateCourse.educationForm }}</el-tag>
+            <el-tag v-if="postgraduateCourse.educationForm" class="tag">Форма обучения: {{ postgraduateCourse.educationForm }}</el-tag>
             <el-divider v-if="postgraduateCourse.educationForm" direction="vertical" class="hidden-mobile" />
-            <el-tag v-if="postgraduateCourse.years > 0" class="tag">Нормативный срок обучения: {{
-              postgraduateCourse.years }} года </el-tag>
+            <el-tag v-if="postgraduateCourse.years > 0" class="tag">Нормативный срок обучения: {{ postgraduateCourse.years }} года </el-tag>
             <el-divider v-if="postgraduateCourse.years > 0" direction="vertical" class="hidden-mobile" />
             <el-tag class="tag">Язык обучения: русский</el-tag>
           </div>
           <!-- <el-divider /> -->
           <div class="info-tags-block">
-            <a v-if="postgraduateCourse.programFile.fileSystemPath" :href="postgraduateCourse.programFile.getFileUrl()"
-              :download="postgraduateCourse.programFile.originalName" target="_blank" style="margin-right: 10px">
-              Образовательная программа</a>
-            <a v-if="postgraduateCourse.annotation.fileSystemPath" :href="postgraduateCourse.annotation.getFileUrl()"
-              :download="postgraduateCourse.annotation.originalName" target="_blank" style="margin-right: 10px">
-              Аннотации рабочих программ дисциплин</a>
-            <a v-if="postgraduateCourse.calendar.fileSystemPath" :href="postgraduateCourse.calendar.getFileUrl()"
-              :download="postgraduateCourse.calendar.originalName" target="_blank" style="margin-right: 10px">
-              Календарный учебный график</a>
-            <a v-if="postgraduateCourse.questionsFile.fileSystemPath"
+            <a
+              v-if="postgraduateCourse.programFile.fileSystemPath"
+              :href="postgraduateCourse.programFile.getFileUrl()"
+              :download="postgraduateCourse.programFile.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Образовательная программа</a
+            >
+            <a
+              v-if="postgraduateCourse.annotation.fileSystemPath"
+              :href="postgraduateCourse.annotation.getFileUrl()"
+              :download="postgraduateCourse.annotation.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Аннотации рабочих программ дисциплин</a
+            >
+            <a
+              v-if="postgraduateCourse.calendar.fileSystemPath"
+              :href="postgraduateCourse.calendar.getFileUrl()"
+              :download="postgraduateCourse.calendar.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Календарный учебный график</a
+            >
+            <a
+              v-if="postgraduateCourse.questionsFile.fileSystemPath"
               :href="postgraduateCourse.questionsFile.getFileUrl()"
-              :download="postgraduateCourse.questionsFile.originalName" target="_blank" style="margin-right: 10px">
-              Вопросы для подготовки к кандидатскому экзамену</a>
+              :download="postgraduateCourse.questionsFile.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              Вопросы для подготовки к кандидатскому экзамену</a
+            >
           </div>
           <!-- <el-divider /> -->
           <div v-if="postgraduateCourse.postgraduateCoursePlans.length > 0" class="info-block">
             <div>Учебные планы</div>
             <div>:</div>
-            <a v-for="plan in postgraduateCourse.postgraduateCoursePlans" :key="plan.id" :href="plan.plan.getFileUrl()"
-              :download="plan.plan.originalName" target="_blank" style="margin-right: 10px">
-              {{ plan.year.getFullYear() }}</a>
+            <a
+              v-for="plan in postgraduateCourse.postgraduateCoursePlans"
+              :key="plan.id"
+              :href="plan.plan.getFileUrl()"
+              :download="plan.plan.originalName"
+              target="_blank"
+              style="margin-right: 10px"
+            >
+              {{ plan.year.getFullYear() }}</a
+            >
           </div>
           <!-- <el-divider /> -->
           <div v-if="postgraduateCourse.documentType.pageSectionDocuments.length > 0">
             <h4>Документы</h4>
             <ul>
               <li v-for="document in postgraduateCourse.documentType.pageSectionDocuments" :key="document.id">
-                <a :href="document.documentsScans[0].scan.getFileUrl()"
-                  :download="document.documentsScans[0]?.scan.originalName" target="_blank" style="margin-right: 10px">
-                  {{ document.name }}</a>
+                <a
+                  :href="document.documentsScans[0].scan.getFileUrl()"
+                  :download="document.documentsScans[0]?.scan.originalName"
+                  target="_blank"
+                  style="margin-right: 10px"
+                >
+                  {{ document.name }}</a
+                >
               </li>
             </ul>
           </div>
           <!-- <el-divider /> -->
           <div class="bottom-footer">
-            <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description"
-              :url="getUrl()" />
+            <SharesBlock :title="postgraduateCourse.name" :description="postgraduateCourse.description" :url="getUrl()" />
             <button class="response-btn" @click="openRespondForm">Подать заявление</button>
           </div>
         </div>
@@ -133,7 +171,6 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const route = useRoute();
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const postgraduateCourse: Ref<PostgraduateCourse> = computed<PostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
@@ -151,8 +188,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit(`filter/resetQueryFilter`);
-      await store.dispatch('postgraduateCourses/get', filterQuery.value);
+      // await store.dispatch('postgraduateCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();

@@ -36,8 +36,7 @@ const Hooks = (() => {
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);
       //
-      Store.Commit('filter/setStoreModule', options?.pagination?.storeModule);
-      Store.Commit('filter/setAction', options?.pagination?.action);
+      PHelp.Paginator.storeModule = options?.pagination?.storeModule;
       Store.Commit('pagination/setCurPage', 1);
 
       await f();

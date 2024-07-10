@@ -1,6 +1,5 @@
 <template>
-  <FiltersWrapper v-if="mounted">
-  </FiltersWrapper>
+  <FiltersWrapper v-if="mounted"> </FiltersWrapper>
 </template>
 
 <script lang="ts">
@@ -51,10 +50,7 @@ export default defineComponent({
       await Provider.router.push(`/courses/${event.value}`);
     };
 
-    const resetFilter = () => {
-      Provider.store.commit(`filter/resetQueryFilter`);
-      Provider.store.commit('filter/setDefaultSortModel');
-    };
+    const resetFilter = () => {};
 
     return {
       nmoOptions,

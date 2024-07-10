@@ -66,8 +66,6 @@ export default defineComponent({
     const route = useRoute();
 
     const candidateApplications: ComputedRef<CandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
-    // const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    // const filterModel = ref();
 
     onBeforeMount(async () => {
       await store.dispatch('candidateApplications/getAll');

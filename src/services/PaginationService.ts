@@ -3,6 +3,7 @@ class Paginator {
 
   count = 0;
   curPage = 0;
+  storeModule? = '';
 
   setCurPage(page: number): void {
     this.curPage = page;

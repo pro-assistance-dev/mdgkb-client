@@ -27,11 +27,8 @@ export default defineComponent({
     onBeforeMount(async () => {
       filterQuery.value.pagination.cursorMode = false;
       filterQuery.value.pagination.limit = 6;
-      Store.Commit('filter/setStoreModule', 'educationalManagers');
       await Store.Dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
     });
-
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
 
     const loadMore = async () => {
       // const lastCursor = managers.value[managers.value.length - 1].name;

@@ -60,7 +60,7 @@ const pagination = FTSP.Get().p;
 const hoveringL = ref(false);
 const hoveringR = ref(false);
 const emit = defineEmits(['cancel', 'save']);
-const storeModule: ComputedRef<string> = Store.Getters('filter/storeModule');
+const storeModule: ComputedRef<string> = computed(() => PHelp.Paginator.storeModule);
 
 const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
 const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / pagination.limit) ?? 1);
@@ -79,8 +79,7 @@ const currentChange = async (toPage: number) => {
   if (!props.showConfirm) {
     return await setPage(toPage, true);
   }
-  PHelp.Dialog
-    .Save()
+  PHelp.Dialog.Save()
     .then(async () => {
       emit('save');
       await setPage(toPage, true);
@@ -95,7 +94,7 @@ const currentChange = async (toPage: number) => {
 const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   Provider.loadingDecor(async () => {
     Store.Commit('pagination/setCurPage', pageNum);
-    Store.Commit('filter/setOffset', pageNum - 1);
+    FTSP.Get().p.offset = (pageNum - 1) * FTSP.Get().p.limit;
     if (load) {
       await Store.FTSP(storeModule.value);
     }
@@ -125,7 +124,7 @@ onBeforeUnmount(() => {
 });
 
 onBeforeMount(async () => {
-  await setPage(Provider.getPagination().getPageNum(), false);
+  await setPage(FTSP.Get().p.getPageNum(), false);
 });
 </script>
 

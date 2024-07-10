@@ -35,18 +35,13 @@ export default defineComponent({
   setup(props, { emit }) {
     const visible: Ref<boolean> = ref(false);
     const store = useStore();
-    const trigger: Ref<string> = computed(() => store.getters['filter/trigger']);
-    const storeModule: string = store.getters['filter/storeModule'];
-    const storeAction: string = store.getters['filter/storeAction'];
 
     const setFilter = async () => {
       emit('addFilterModel');
       await sendQueryAndClose();
     };
 
-    const setTrigger = (trigger: string) => {
-      store.commit('filter/setTrigger', trigger);
-    };
+    const setTrigger = (trigger: string) => {};
 
     const dropFilter = async () => {
       emit('dropFilterModel');
@@ -54,18 +49,14 @@ export default defineComponent({
     };
 
     const sendQueryAndClose = async () => {
-      store.commit('filter/setOffset', 0);
-      await store.dispatch(`${storeModule}/${storeAction}`, store.getters['filter/filterQuery']);
       store.commit(`pagination/setCurPage`, 1);
       visible.value = !visible.value;
-      store.commit('filter/setTrigger', 'click');
     };
 
     return {
       setTrigger,
       dropFilter,
       setFilter,
-      trigger,
       visible,
     };
   },

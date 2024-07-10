@@ -130,7 +130,6 @@ const newsSubMain1 = Store.Item('news', 'subMain1');
 const newsSubMain2 = Store.Item('news', 'subMain2');
 
 const mounted = ref(false);
-// const filterExists: ComputedRef<boolean> = computed(() => Provider.store.getters['filter/filterExists']);
 
 const sortList: Ref<SortModel[]> = ref([]);
 

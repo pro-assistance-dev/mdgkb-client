@@ -82,7 +82,6 @@ export default defineComponent({
     });
 
     const loadCourses = async () => {
-      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('postgraduateCourses/getAll');
     };
 
