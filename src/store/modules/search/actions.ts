@@ -8,6 +8,7 @@ import RootState from '@/store/types';
 import State from './state';
 
 const httpClient = new HttpClient('search');
+const httpClient1 = new HttpClient('meta');
 
 const actions: ActionTree<State, RootState> = {
   search: async ({ commit }, searchModel: SearchModel): Promise<void> => {
@@ -22,7 +23,11 @@ const actions: ActionTree<State, RootState> = {
     commit('setSearchModel', await httpClient.get<SearchModel>({ query: `/main?searchModel=${searchModel.toUrl()}` }));
   },
   full: async ({ commit }, searchModel: SearchModel): Promise<void> => {
-    commit('setSearchModel', await httpClient.get<SearchModel>({ query: `full?searchModel=${searchModel.toUrl()}` }));
+    searchModel.options = [];
+    searchModel.searchGroups.forEach((s: searchGroup) => {
+      s.options = [];
+    });
+    commit('setSearchModel', await httpClient1.get<SearchModel>({ query: `main?searchModel=${searchModel.toUrl()}` }));
   },
   searchGroups: async ({ commit, state }): Promise<void> => {
     if (state.searchModel.searchGroups.length > 0) {

@@ -50,7 +50,7 @@ const submit = async (next?: NavigationGuardNext) => {
 onBeforeMount(async () => {
   if (Router.Id()) {
     await FaqsStore.Get(Router.Id());
-    PHelp.AdminUI.Head.Set('Обновить вопрос', [Button.Success('Обновить вопрос', submit)]);
+    PHelp.AdminUI.Head.Set('Обновить вопрос', [Button.Success('Добавить вопрос', submit)]);
   } else {
     PHelp.AdminUI.Head.Set('Добавить вопрос', [Button.Success('Обновить вопрос', submit)]);
   }
@@ -61,10 +61,6 @@ onBeforeMount(async () => {
 
 onBeforeUnmount(() => {
   FaqsStore.ResetItem();
-});
-
-onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  showConfirmModal(submit, next);
 });
 </script>
 

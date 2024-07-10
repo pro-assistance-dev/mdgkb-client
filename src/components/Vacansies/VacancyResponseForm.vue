@@ -1,9 +1,12 @@
 <template>
   <el-form>
-
     <div v-if="mounted" class="contact-form">
-      <UserForm :form="vacancyResponse.formValue" :email-exists="emailExists"
-        :active-fields="UserFormFields.CreateWithAllUserFields()" @findEmail="findEmail" />
+      <UserForm
+        :form="vacancyResponse.formValue"
+        :email-exists="emailExists"
+        :active-fields="UserFormFields.CreateWithAllUserFields()"
+        @findEmail="findEmail"
+      />
       <FieldValuesForm :form="vacancyResponse.formValue" />
       <el-divider />
       <div class="response-child">
@@ -25,16 +28,16 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import validate from '@/services/validate';
 
-const emits = defineEmits(['close'])
+const emits = defineEmits(['close']);
 
 const filter = ref('');
 const mounted = ref(false);
 const rules = ref(VacancyResponseRules);
 const form = ref();
-const vacancyResponse: ComputedRef<VacancyResponse> = Store.Item('vacancyResponses')
-const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies')
-const auth: ComputedRef<User> = Store.Getters('auth/auth')
-const user = computed(() => auth.value.user.get())
+const vacancyResponse: ComputedRef<VacancyResponse> = Store.Item('vacancyResponses');
+const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies');
+const auth: ComputedRef<User> = Store.Getters('auth/auth');
+const user = computed(() => auth.value.user.get());
 
 const submit = async () => {
   vacancyResponse.value.formValue.validate();
