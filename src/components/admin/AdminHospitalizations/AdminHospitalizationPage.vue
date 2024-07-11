@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted">
+  <div v-if="mounted" class="wrapper">
     <el-form
       ref="form"
       v-model="hospitalization"
@@ -112,6 +112,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
 $margin: 20px 0;
+
+.wrapper {
+  height: calc(100% - 80px);
+  overflow: hidden;
+  overflow-y: auto;
+}
 
 .flex-column {
   width: 100%;
