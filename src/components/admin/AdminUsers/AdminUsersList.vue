@@ -70,12 +70,12 @@ export default defineComponent({
     };
 
     const loadUsers = async (): Promise<void> => {
-      await Provider.store.dispatch('users/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('users/getAll');
     };
 
     const load = async () => {
-      await Provider.store.dispatch('users/getAll', Provider.filterQuery.value);
-      await Provider.store.dispatch('roles/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('users/getAll');
+      await Provider.store.dispatch('roles/getAll');
       // Provider.setSortList(...createSortModels(UsersSortsLib));
       await loadUsers();
       mounted.value = true;

@@ -13,7 +13,7 @@
         <StringItem :string="defaultLabel" font-size="10px" padding="0" color="#c4c4c4" />
       </template>
       <DateInputRange v-model:start="startDate" v-model:end="endDate" @set-start="setStart" @set-end="setEnd" />
-      <PButton type="admin" color="blue" text="Сбросить" @click="reset"/>
+      <PButton type="admin" color="blue" text="Сбросить" @click="reset" />
     </GridContainer>
   </InfoItem>
 </template>
@@ -41,14 +41,6 @@ const filterModel: Ref<FilterModel | undefined> = ref(undefined);
 
 const startDate = ref(props.model.date1);
 const endDate = ref(props.model.date2);
-// onBeforeMount((): void => {
-//   const findedModel = props.models?.find((m: FilterModel) => Provider.filterQuery.value.findFilterModel(m));
-//   if (findedModel) {
-//     selectedFilterModel.value = findedModel;
-//     return;
-//   }
-//   setDefaultFilterModel();
-// });
 const setStart = async (date: Date): Promise<void> => {
   props.model.setDate1(date);
   console.log(props.model.date2);

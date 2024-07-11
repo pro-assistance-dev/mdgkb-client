@@ -83,7 +83,7 @@ export default defineComponent({
       setType();
       await unsubscribe();
       await subscribe();
-      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoApplications/getAll');
     });
 
     const setType = () => {
@@ -100,7 +100,7 @@ export default defineComponent({
     };
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoApplications/getAll');
     };
 
     const loadFilters = async () => {

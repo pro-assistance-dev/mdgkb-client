@@ -34,7 +34,6 @@ const recentNewsList = Store.Getters('news/mainPageRecentNewsList');
 
 const load = async () => {
   new Promise(() => {
-    // Provider.store.dispatch('news/getAll', { filterQuery: Provider.filterQuery.value });
     Store.Dispatch('news/getMain', true);
     Store.Dispatch('news/getSubMain', true);
   }).then(() => {

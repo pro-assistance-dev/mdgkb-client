@@ -88,7 +88,6 @@ const mounted = ref(false);
 const load = async () => {
   const findedMode = modes?.find((m: ListMode) => {
     if (m.filter) {
-      return Provider.filterQuery.value.findFilterModel(m.filter());
     }
   });
   if (findedMode) {
@@ -116,7 +115,6 @@ const createGenderFilterModels = (): FilterModel[] => {
 
 const resetFilterModels = () => {
   Provider.dropPagination();
-  Provider.filterQuery.value.reset();
   Provider.setDefaultSortModel();
 };
 
@@ -131,7 +129,6 @@ const selectMode = async (modeLabel: string) => {
     Provider.setFilterModel(selectedMode.value.filter());
   }
   await Provider.loadItems();
-  await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
 };
 
 const resetFilter = async () => {

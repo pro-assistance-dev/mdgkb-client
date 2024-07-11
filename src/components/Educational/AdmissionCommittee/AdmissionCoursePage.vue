@@ -118,8 +118,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.filterQuery.value.setParams(ClassHelper.GetPropertyName(ResidencyCourse).id, Provider.route().params['id'] as string);
-      await Provider.store.dispatch('residencyCourses/get', Provider.filterQuery.value);
+      await Provider.store.dispatch('residencyCourses/get', Router.Id);
       Provider.mounted.value = true;
       if (Provider.route().query.respondForm) {
         await openRespondForm();

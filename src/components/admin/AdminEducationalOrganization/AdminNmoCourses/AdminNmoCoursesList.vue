@@ -7,8 +7,7 @@
       <el-table-column label="Название" width="400" class-name="sticky-left">
         <template #default="scope">
           <div v-if="isEditMode">
-            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small"
-              placeholder="Заголовок"></el-input>
+            <el-input v-model="scope.row.name" type="textarea" :autosize="{ minRows: 1 }" size="small" placeholder="Заголовок"></el-input>
           </div>
           <div v-else>
             {{ scope.row.name }}
@@ -45,8 +44,7 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
-            @edit="edit(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +66,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminNmoCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, },
+  components: { TableButtonGroup, AdminListWrapper },
   setup() {
     const nmoCourses: Ref<NmoCourse[]> = computed(() => Provider.store.getters['nmoCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
@@ -81,7 +79,7 @@ export default defineComponent({
     };
 
     const loadCourses = async () => {
-      await Provider.store.dispatch('nmoCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('nmoCourses/getAll');
     };
 
     const load = async () => {

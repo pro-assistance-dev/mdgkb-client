@@ -105,12 +105,6 @@ const find = async (query: string, resolve: (arg: unknown) => void): Promise<voi
   resolve([]);
 };
 
-const handleSearchInput = async (value: string): Promise<void> => {
-  if (value.length === 0) {
-    await Provider.store.dispatch(`search/search`, Provider.filterQuery.value);
-    Provider.store.commit('pagination/setCurPage', 0);
-  }
-};
 const handleSelect = async (item: ISearch): Promise<void> => {
   if (props.storeModule != '') {
     await Provider.store.dispatch(`${props.storeModule}/getAllById`, item.id);

@@ -34,18 +34,7 @@ const Provider = (() => {
   }
 
   async function loadItem(col?: string | FilterQuery): Promise<void> {
-    const { beforeWindowUnload } = useConfirmLeavePage();
-    if (Router.id()) {
-      if (typeof col === 'string') {
-        // Provider.filterQuery.value.setParams(col, Router.id() as string);
-        // await Store.get(Provider.filterQuery.value);
-      } else {
-        // await Store.get(Router.route().params['id']);
-      }
-    } else {
-      // Store.resetState();
-    }
-    window.addEventListener('beforeunload', beforeWindowUnload);
+    // const { beforeWindowUnload } = useConfirmLeavePage();
     // watch(Store.store.getters[Store.getStoreModule() + '/item'], formUpdated, { deep: true });
   }
 

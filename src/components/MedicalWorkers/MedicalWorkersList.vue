@@ -39,7 +39,6 @@ const loadHeads = async () => {
 };
 
 const load = async () => {
-  Provider.filterQuery.value.pagination.limit = 8;
   if (doctorsMode.value) {
     // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
     await loadDoctors();
@@ -51,14 +50,10 @@ const load = async () => {
 Hooks.onBeforeMount(load);
 
 const loadMore = async () => {
-  Provider.filterQuery.value.pagination.append = true;
-  Provider.filterQuery.value.pagination.offset = doctorsMode.value ? doctors.value.length : heads.value.length;
   await Store.GetAll(doctorsMode.value ? 'doctors' : 'heads');
 };
 
 const changeMode = async (doctorsModeActive: boolean) => {
-  Provider.resetFilterQuery();
-  Provider.filterQuery.value.pagination.limit = 8;
   PHelp.Loading.Show();
   if (doctorsModeActive) {
     await Router.Replace('/doctors');

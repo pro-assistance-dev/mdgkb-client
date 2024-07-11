@@ -1,11 +1,8 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
     <template #header>
-      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания"
-        @load="loadHospitalizations" />
-      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения"
-        @load="loadHospitalizations" />
-
+      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
+      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
@@ -50,8 +47,7 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)"
-            @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +89,7 @@ export default defineComponent({
     const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
 
     const loadHospitalizations = async () => {
-      await Provider.store.dispatch('hospitalizations/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('hospitalizations/getAll');
     };
 
     const load = async () => {

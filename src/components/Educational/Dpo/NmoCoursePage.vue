@@ -20,9 +20,7 @@ export default defineComponent({
   setup() {
     const nmoCourse: Ref<NmoCourse> = computed<NmoCourse>(() => Provider.store.getters['nmoCourses/item']);
 
-    const load = async () => {
-      await Provider.store.dispatch('nmoCourses/get', Provider.filterQuery.value);
-    };
+    const load = async () => {};
 
     Hooks.onBeforeMount(load);
 

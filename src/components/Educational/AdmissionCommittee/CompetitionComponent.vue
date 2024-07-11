@@ -54,8 +54,6 @@ const loadPrograms = async () => {
   // Provider.resetFilterQuery();
   // Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
   // filterQuery.value.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
-  // Provider.filterQuery.value.pagination.cursorMode = false;
-  // await Provider.store.dispatch('residencyCourses/getAll', Provider.filterQuery.value);
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));

@@ -11,10 +11,13 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue?.createdAt, {
-            month: '2-digit', hour: 'numeric', minute:
-              'numeric'
-          }) }}
+          {{
+            $dateTimeFormatter.format(scope.row.formValue?.createdAt, {
+              month: '2-digit',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -64,7 +67,7 @@ export default defineComponent({
     );
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('postgraduateApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('postgraduateApplications/getAll');
     };
 
     const load = async () => {
