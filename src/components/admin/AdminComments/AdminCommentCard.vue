@@ -12,7 +12,13 @@
           <span class="name">{{ comment.user.email }}</span>
           <span class="name">{{ comment.user.human.getFullName() }}</span>
           <span class="time">{{
-            $dateTimeFormatter.format(comment.publishedOn, { month: 'long', hour: 'numeric', minute: 'numeric' })
+            $dateTimeFormatter.format(comment.publishedOn, {
+              month: '2-digit',
+              day: '2-digit',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
           }}</span>
           <Rating :with-numbers="false" :comments="[{ comment: comment }]" />
         </div>
@@ -34,7 +40,7 @@
           margin="0 10px 0 0"
           @click="markPositive"
         />
-        <PButton v-if="!comment.modChecked || comment.positive" skin="profile" color="danger" text="Не отображать" @click="markNegative" />
+        <PButton v-if="!comment.modChecked || comment.positive" skin="profile" color="danger" text="Не отображать" @click="markNegative" />
       </div>
     </div>
   </el-card>

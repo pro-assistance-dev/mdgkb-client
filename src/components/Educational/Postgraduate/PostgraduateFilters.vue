@@ -1,10 +1,8 @@
 <template>
   <FiltersWrapper v-if="mounted" :header-right-max-width="350">
-    <template v-if="condition" #header-left-top>
-    </template>
+    <template v-if="condition" #header-left-top> </template>
     <template #header-right>
-      <ModeChoice :max-width="350" path="postgraduate" :modes="modes"
-        @selectMode="(value) => $emit('selectMode', value)" />
+      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
     </template>
     <template v-if="condition" #footer>
       <SortList :models="sortList" :store-mode="true" @load="$emit('load')" />
@@ -53,11 +51,7 @@ export default defineComponent({
       await Provider.router.push(`/postgraduate-courses/${event.value}`);
     };
 
-
-    const resetFilter = () => {
-      Provider.store.commit(`filter/resetQueryFilter`);
-      Provider.store.commit('filter/setDefaultSortModel');
-    };
+    const resetFilter = () => {};
 
     return {
       resetFilter,

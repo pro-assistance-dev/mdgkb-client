@@ -45,10 +45,7 @@ export default defineComponent({
 
     const loadNews = async (): Promise<void> => {
       await store.dispatch('medicalProfiles/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Медицинские профили',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
+      PHelp.AdminUI.Head.Set('Медицинские профили', [Button.Success('Создать', create)]);
     };
 
     const edit = async (id: string): Promise<void> => {
@@ -67,9 +64,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadNews();
-      store.commit('admin/closeLoading');
     });
 
     return { pages, edit, remove };

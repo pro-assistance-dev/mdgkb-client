@@ -18,18 +18,27 @@
               {{ item.childFormStatus.label }}
             </div>
           </div>
-          <el-select v-else v-model="scope.row.formStatusToFormStatuses" value-key="childFormStatusId" multiple
-            placeholder="Выберите статусы" style="width: 100%"
-            @remove-tag="(i) => scope.row.removeFormStatusToFormStatuses(i)">
-            <el-option v-for="item in formStatusesByGroupId(scope.row.formStatusGroupId)" :key="item.id"
-              :label="item.childFormStatus.label" :value="item" />
+          <el-select
+            v-else
+            v-model="scope.row.formStatusToFormStatuses"
+            value-key="childFormStatusId"
+            multiple
+            placeholder="Выберите статусы"
+            style="width: 100%"
+            @remove-tag="(i) => scope.row.removeFormStatusToFormStatuses(i)"
+          >
+            <el-option
+              v-for="item in formStatusesByGroupId(scope.row.formStatusGroupId)"
+              :key="item.id"
+              :label="item.childFormStatus.label"
+              :value="item"
+            />
           </el-select>
         </template>
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
-            @edit="edit(scope.row.id)" />
+          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)" @edit="edit(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -47,7 +56,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
 const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroups');
-const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = Store.Getters('formStatuses/formStatusToFormStatuses')
+const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = Store.Getters('formStatuses/formStatusToFormStatuses');
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 
@@ -64,7 +73,7 @@ const edit = (id: string): void => {
 };
 
 const updateAll = async (): Promise<void> => {
-  await Store.UpdateAll('formStatuses')
+  await Store.UpdateAll('formStatuses');
   isEditMode.value = false;
   isNotEditMode.value = true;
 };
@@ -81,15 +90,11 @@ const load = async () => {
   // }
   await Store.Get('formStatusGroups', Provider.route().params['groupId']);
   Store.Commit('formStatuses/seedFormStatusToFormStatuses');
-  Store.Commit('admin/setHeaderParams', {
-    title: Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм',
-    showBackButton: true,
-    buttons: [
-      { text: 'Редактировать', type: 'success', action: openEditMode, condition: isNotEditMode },
-      { text: 'Сохранить', type: 'success', action: updateAll, condition: isEditMode },
-      { text: 'Добавить', type: 'primary', action: create },
-    ],
-  });
+  PHelp.AdminUI.Head.Set(Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм', [
+    Button.Success('Редактировать', openEditMode, isNotEditMode),
+    Button.Success('Сохранить', updateAll, isEditMode),
+    Button.Success('Добавить', create),
+  ]);
 };
 
 const formStatusesByGroupId = (groupId: string): FormStatusToFormStatus[] => {

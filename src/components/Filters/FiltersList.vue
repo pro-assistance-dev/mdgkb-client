@@ -37,11 +37,11 @@ export default defineComponent({
       selectedFilterModel.value = emptyFilterModel.value;
     };
     onBeforeMount((): void => {
-      const findedModel = Provider.findFilterModel(props.models);
-      if (findedModel) {
-        selectedFilterModel.value = findedModel;
-        return;
-      }
+      // const findedModel = Provider.findFilterModel(props.models);
+      // if (findedModel) {
+      //   selectedFilterModel.value = findedModel;
+      //   return;
+      // }
       setDefaultFilterModel();
     });
 
@@ -53,7 +53,6 @@ export default defineComponent({
         await Provider.spliceFilterModel(selectedId.value);
       }
       Provider.dropPagination();
-      // await Provider.router.replace({ query: { q: Provider.filterQuery.value.toUrlQuery() } });
       emit('load');
     };
 

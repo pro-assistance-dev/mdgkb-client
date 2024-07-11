@@ -13,8 +13,14 @@
       </el-table-column>
       <el-table-column width="50" fixed="right" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-open-button="true" :show-remove-button="true"
-            @remove="remove(scope.row.id)" @edit="openDialog(scope.row.id)" @open="edit(scope.row.id)" />
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-open-button="true"
+            :show-remove-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="openDialog(scope.row.id)"
+            @open="edit(scope.row.id)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -27,16 +33,13 @@ import FormStatusGroup from '@/classes/FormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-const formStatusGroups: ComputedRef<FormStatusGroup[]> = Store.Items('formStatusGroups')
-const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroup')
+const formStatusGroups: ComputedRef<FormStatusGroup[]> = Store.Items('formStatusGroups');
+const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroup');
 const mounted: Ref<boolean> = ref(false);
 
 const load = async () => {
   await Store.FTSP('formStatusGroups');
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Группы статусов заявок',
-    buttons: [{ text: 'Создать группу', type: 'primary', action: create }],
-  });
+  PHelp.AdminUI.Head.Set('Группы статусов заявок', [Button.Success('Создать', create)]);
   mounted.value = true;
 };
 

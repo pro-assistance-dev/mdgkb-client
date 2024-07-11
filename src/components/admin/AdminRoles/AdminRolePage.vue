@@ -54,17 +54,15 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       if (route.params['id']) {
         await store.dispatch('roles/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить роль', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Обновить роль', [Button.Success('Сохранить', submit)]);
       } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить роль', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Добавить роль', [Button.Success('Сохранить', submit)]);
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(role, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

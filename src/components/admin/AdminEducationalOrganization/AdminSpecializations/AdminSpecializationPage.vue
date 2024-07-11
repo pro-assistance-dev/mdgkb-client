@@ -59,7 +59,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       if (route.params['id']) {
         await store.dispatch('specializations/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
@@ -69,7 +68,6 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(specialization, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

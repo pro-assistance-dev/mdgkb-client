@@ -65,6 +65,7 @@ import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
+import SortListConst from '@/services/SortList';
 
 const questions: Ref<Question[]> = Store.Items('questions');
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
@@ -102,7 +103,7 @@ const loadQuestions = async () => {
 
 const load = async () => {
   FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc));
-  Provider.sortList.push(...createSortModels(QuestionsSortsLib, Orders.Desc));
+  // SortListConst.Set(...createSortModels(QuestionsSortsLib, Orders.Desc));
   await loadQuestions();
   onlyNewFilter.value = QuestionsFiltersLib.onlyNew(true);
   PHelp.AdminUI.Head.Set('Вопросы', [

@@ -1,12 +1,11 @@
 import Vuex, { StoreOptions } from 'vuex';
 
+import User from '@/classes/User';
 import * as lib from '@/services/store/index';
-import { admin } from '@/store/modules/admin';
+import { authStateConstructor } from '@/services/store/modules/auth';
 import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
-// import auth from '@/store/modules/auth';
-import { authStateConstructor } from '@/services/store/modules/auth';
 import { banners } from '@/store/modules/banners';
 import { buildings } from '@/store/modules/buildings';
 import { calendar } from '@/store/modules/calendar';
@@ -16,7 +15,6 @@ import { candidateExams } from '@/store/modules/candidateExams';
 import { chatMessages } from '@/store/modules/chatMessages';
 import { chats } from '@/store/modules/chats';
 import { children } from '@/store/modules/children';
-import comments from '@/store/modules/comments';
 import { cropper } from '@/store/modules/cropper';
 import { dailyMenuOrders } from '@/store/modules/dailyMenuOrders';
 import { dailyMenus } from '@/store/modules/dailyMenus';
@@ -36,7 +34,6 @@ import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { fileInfos } from '@/store/modules/fileInfos';
-import { filter } from '@/store/modules/filter';
 import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
@@ -84,7 +81,7 @@ import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { visitingRules } from '@/store/modules/visitingRules';
 import { visitsApplications } from '@/store/modules/visitsApplications';
-import User from '@/classes/User';
+
 import RootState from './types';
 
 const s: StoreOptions<RootState> = {
@@ -106,14 +103,12 @@ const s: StoreOptions<RootState> = {
     tags,
     news,
     users,
-    admin,
     timetables,
     map,
     vacancies,
     vacancyResponses,
     search,
     hospitalizations,
-    comments,
     newsSlides,
     questions,
     events,
@@ -127,7 +122,6 @@ const s: StoreOptions<RootState> = {
     partnerTypes,
     preparations,
     donorRules,
-    filter,
     meta,
     pagination,
     publicDocumentTypes: pageSideMenus,

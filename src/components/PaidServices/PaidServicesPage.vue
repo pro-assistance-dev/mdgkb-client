@@ -45,8 +45,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.filterQuery.value.pagination.limit = 100;
-      await Provider.store.dispatch('paidServices/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('paidServices/getAll');
     };
 
     Hooks.onBeforeMount(load);

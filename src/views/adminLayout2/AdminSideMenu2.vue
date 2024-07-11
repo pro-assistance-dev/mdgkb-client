@@ -58,8 +58,6 @@ watch(
 );
 
 onBeforeMount(async () => {
-  await Store.Dispatch('admin/updateApplicationsCounts');
-
   PHelp.AdminUI.Menu.Set(menuList);
   PHelp.AdminUI.Menu.SetPath(Router.GetPath());
   mounted.value = true;

@@ -9,8 +9,12 @@
         </el-table-column>
         <el-table-column width="50" fixed="right" align="center">
           <template #default="scope">
-            <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
-              @edit="edit(scope.row.id)" />
+            <TableButtonGroup
+              :show-edit-button="true"
+              :show-remove-button="true"
+              @remove="remove(scope.row.id)"
+              @edit="edit(scope.row.id)"
+            />
           </template>
         </el-table-column>
       </el-table>
@@ -21,7 +25,7 @@
 <script lang="ts" setup>
 import Form from '@/classes/Form';
 
-const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns')
+const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
 const create = (): void => {
   Router.ToAdmin('/form-patterns/new');
@@ -35,13 +39,8 @@ const edit = (id: string): void => {
 };
 
 onBeforeMount(async () => {
-  Store.Commit('admin/showLoading');
   await Store.FTSP('formPatterns');
-  Store.Commit('admin/setHeaderParams', {
-    title: 'Шаблоны форм для заявок',
-    buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-  });
-  Store.Commit('admin/closeLoading');
+  PHelp.AdminUI.Head.Set('Шаблоны форм для заявок', [Button.Success('Создать', create)]);
 });
 </script>
 

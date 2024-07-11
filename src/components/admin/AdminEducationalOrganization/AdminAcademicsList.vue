@@ -65,7 +65,7 @@ export default defineComponent({
     const load = async () => {
       Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
       Provider.setLimit(9999);
-      await Provider.store.dispatch('educationalAcademics/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('educationalAcademics/getAll');
       await Provider.store.dispatch('employees/getAll');
     };
     const save = async () => {

@@ -125,28 +125,22 @@ export default defineComponent({
     const filteredRoles: Ref<Role[]> = ref([]);
     const chosenRole: Ref<Role> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => Provider.store.getters['filter/filterQuery']);
 
     const loadPaths = async () => {
-      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
     };
 
     const load = async () => {
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Клиентские доступы',
-        buttons: [{ text: 'Сохранить', action: savePaths }],
-      });
-      Provider.store.commit('filter/setStoreModule', 'auth');
-      Provider.store.commit('filter/setAction', 'getAllPathPermissionsAdmin');
+      PHelp.AdminUI.Head.Set('Клиентские доступы'[Button.Success('Сохранить', submit)]);
       Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
 
       // TODO: проверить лимит по-умолчанию при отсутствии пагинации
       // ===========================================
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 1000;
+      // filterQuery.value.pagination.cursorMode = false;
+      // filterQuery.value.pagination.limit = 1000;
       // ===========================================
 
-      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       // await Provider.store.dispatch('auth/getAllPathPermissions');
       await Provider.store.dispatch('roles/getAll');
       filteredRoles.value = roles.value.filter((role: Role) => role.name === RoleName.User);
@@ -160,7 +154,7 @@ export default defineComponent({
         return permission;
       });
       await Provider.store.dispatch('auth/savePathPermissions', permissions.value);
-      await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
     };
 
     Hooks.onBeforeMount(load);

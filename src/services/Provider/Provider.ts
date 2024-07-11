@@ -1,12 +1,10 @@
 import { ElLoading } from 'element-plus';
 import { Ref, ref, watch } from 'vue';
-import { NavigationGuardNext } from 'vue-router';
 
 // import { CallbackFunction } from '@/interfaces/elements/elements/Callback';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Pagination from '@/services/classes/filters/Pagination';
-import Filter from '@/services/Provider/Filter';
 import Router from '@/services/Provider/Router';
 // import Store from '@/services/Store';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -17,7 +15,7 @@ const Provider = (() => {
   const saveButtonClicked: Ref<boolean> = ref(false);
 
   function dropPagination(): void {
-    Filter.filterQuery.value.pagination = new Pagination();
+    // Filter.filterQuery.value.pagination = new Pagination();
     // Store.store.commit('pagination/setCurPage', 1);
   }
 
@@ -36,24 +34,13 @@ const Provider = (() => {
   }
 
   async function loadItem(col?: string | FilterQuery): Promise<void> {
-    const { beforeWindowUnload } = useConfirmLeavePage();
-    if (Router.id()) {
-      if (typeof col === 'string') {
-        Provider.filterQuery.value.setParams(col, Router.id() as string);
-        // await Store.get(Provider.filterQuery.value);
-      } else {
-        // await Store.get(Router.route().params['id']);
-      }
-    } else {
-      // Store.resetState();
-    }
-    window.addEventListener('beforeunload', beforeWindowUnload);
+    // const { beforeWindowUnload } = useConfirmLeavePage();
     // watch(Store.store.getters[Store.getStoreModule() + '/item'], formUpdated, { deep: true });
   }
 
   async function replaceFilterModel(newFilterModel: FilterModel, previousFilterModelId: string | undefined) {
-    Filter.filterQuery.value.spliceFilterModel(previousFilterModelId);
-    Filter.filterQuery.value.setFilterModel(newFilterModel);
+    // Filter.filterQuery.value.spliceFilterModel(previousFilterModelId);
+    // Filter.filterQuery.value.setFilterModel(newFilterModel);
     await Provider.router.replace({ query: {} });
   }
 
@@ -109,7 +96,7 @@ const Provider = (() => {
     //
     loadItem,
     ...Router,
-    ...Filter,
+    // ...Filter,
     replaceFilterModel,
     spliceFilterModel,
   };

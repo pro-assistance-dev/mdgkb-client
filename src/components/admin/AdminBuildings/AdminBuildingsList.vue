@@ -45,9 +45,7 @@ export default defineComponent({
     const buildings = computed(() => store.getters['buildings/buildings']);
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadBuildings();
-      store.commit('admin/closeLoading');
     });
     const loadBuildings = async (): Promise<void> => {
       await store.dispatch('buildings/getAll');

@@ -72,15 +72,12 @@ export default defineComponent({
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadExam();
       await loadItem();
       await updateNew();
-      store.commit('admin/closeLoading');
     });
 
     const loadExam = async () => {
-      store.commit(`filter/resetQueryFilter`);
       await store.dispatch('candidateExams/get');
     };
 
@@ -105,6 +102,7 @@ export default defineComponent({
     };
 
     let initialStatus: FormStatus;
+
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {

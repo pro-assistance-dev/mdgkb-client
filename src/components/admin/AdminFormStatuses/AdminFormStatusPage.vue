@@ -83,19 +83,17 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       if (route.params['id']) {
         await store.dispatch('formStatuses/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить статус', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Обновить статус', [Button.Success('Создать', submit)]);
       } else {
         store.commit('formStatuses/setGroupId', route.params['groupId']);
-        store.commit('admin/setHeaderParams', { title: 'Добавить статус', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Создать статус', [Button.Success('Создать', submit)]);
       }
       await store.dispatch('formStatusGroups/getAll');
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formStatus, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

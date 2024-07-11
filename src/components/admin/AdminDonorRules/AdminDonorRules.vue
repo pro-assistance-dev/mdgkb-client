@@ -51,14 +51,12 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('donorRules/getAll');
       store.commit('admin/setHeaderParams', {
         title: 'Информация для доноров крови',
         buttons: [{ text: 'Сохранить', type: 'primary', action: save }],
       });
       mounted.value = true;
-      store.commit('admin/closeLoading');
     });
 
     return {

@@ -6,8 +6,10 @@
     <el-table :data="postgraduateCourses">
       <el-table-column label="Код специализации" min-width="200" class-name="sticky-left">
         <template #default="scope">
-          <div v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
-            :key="postgraduateCoursesSpecialization.id">
+          <div
+            v-for="postgraduateCoursesSpecialization in scope.row.postgraduateCoursesSpecializations"
+            :key="postgraduateCoursesSpecialization.id"
+          >
             {{ postgraduateCoursesSpecialization.specialization.code }}
           </div>
         </template>
@@ -54,8 +56,12 @@
       </el-table-column>
       <el-table-column width="50" align="center" class-name="sticky-right">
         <template #default="scope">
-          <TableButtonGroup :show-edit-button="true" :show-remove-button="true" @remove="remove(scope.row.id)"
-            @edit="open(scope.row.getMainSpecialization().slug)" />
+          <TableButtonGroup
+            :show-edit-button="true"
+            :show-remove-button="true"
+            @remove="remove(scope.row.id)"
+            @edit="open(scope.row.getMainSpecialization().slug)"
+          />
         </template>
       </el-table-column>
     </el-table>
@@ -82,7 +88,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
-  components: { TableButtonGroup, AdminListWrapper, },
+  components: { TableButtonGroup, AdminListWrapper },
   setup() {
     const postgraduateCourses: Ref<PostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
     const isEditMode: Ref<boolean> = ref(false);
@@ -115,7 +121,7 @@ export default defineComponent({
 
     const loadCourses = async () => {
       Provider.store.commit('postgraduateCourses/clearItems');
-      await Provider.store.dispatch('postgraduateCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('postgraduateCourses/getAll');
     };
 
     const load = async () => {
@@ -129,7 +135,7 @@ export default defineComponent({
           { text: 'Добавить программу', type: 'primary', action: create },
         ],
       });
-      await Provider.store.dispatch('postgraduateCourses/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('postgraduateCourses/getAll');
       window.addEventListener('beforeunload', beforeWindowUnload);
     };
 

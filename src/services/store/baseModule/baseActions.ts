@@ -58,7 +58,7 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       }
     },
     ftsp: async ({ commit, rootGetters }, options?: GetAllOptions) => {
-      const ftsp: FTSP = options?.ftsp ?? rootGetters['filter/ftsp'];
+      const ftsp: FTSP = options?.ftsp ?? FTSP.Get();
       // const qid = new URLSearchParams(window.location.search).get('qid');
 
       const f = ftsp.clearForHTTP();
@@ -71,7 +71,6 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
       const res: HttpResponse<T> = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
       // if qid wrong - repeat query with new ftsp
       // if (!res || !res.ftsp || !res.ftsp.id) {
-      //   commit('filter/filterExists', false, { root: true });
       //   await Provider.router.replace({ query: {} });
       //   p.payload = { qid: '', ftsp: ftsp };
       //   res = (await httpClient.post<unknown, HttpResponse<T>>(p)) as HttpResponse<T>;
@@ -81,7 +80,6 @@ export default function getBaseActions<T extends IWithId & IFileInfosGetter, Sta
         return;
       }
 
-      // commit('filter/setFTSP', res.ftsp, { root: true });
       // try {
       //   await Provider.router.replace({ query: { qid: res.ftsp.id } });
       // } catch (error) {

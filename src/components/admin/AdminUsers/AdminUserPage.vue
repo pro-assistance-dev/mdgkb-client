@@ -70,19 +70,10 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
-
-      if (route.params['id']) {
-        await store.dispatch('users/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: user.value.email, showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить пользователя', showBackButton: true, buttons: [{ action: submit }] });
-      }
       await store.dispatch('roles/getAll');
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(user, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeUnmount(() => {

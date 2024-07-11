@@ -29,7 +29,6 @@ const Hooks = (() => {
   const onBeforeMountWithLoading = (f: func, options?: IHooksOptions) => {
     return onBeforeMount(async () => {
       Provider.mounted.value = false;
-      Store.Commit('admin/showLoading');
       FTSP.Get().reset();
       SortList.Set(options?.sortsLib);
       FTSP.Get().setSortModel(SortList.GetDefault());
@@ -37,15 +36,10 @@ const Hooks = (() => {
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);
       //
-      Store.Commit('filter/setStoreModule', options?.pagination?.storeModule);
-      Store.Commit('filter/setAction', options?.pagination?.action);
+      PHelp.Paginator.storeModule = options?.pagination?.storeModule;
       Store.Commit('pagination/setCurPage', 1);
 
       await f();
-      if ((options?.adminHeader, options?.adminHeader)) {
-        Store.Commit('admin/setHeaderParams', options.adminHeader);
-      }
-      Store.Commit('admin/closeLoading');
       Provider.mounted.value = true;
     });
   };

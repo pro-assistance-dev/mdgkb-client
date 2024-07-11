@@ -14,10 +14,13 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
-            month: '2-digit', hour: 'numeric', minute:
-              'numeric'
-          }) }}
+          {{
+            $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+              month: '2-digit',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Email заявителя" min-width="150">
@@ -80,7 +83,7 @@ export default defineComponent({
       setType();
       await unsubscribe();
       await subscribe();
-      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoApplications/getAll');
     });
 
     const setType = () => {
@@ -94,11 +97,10 @@ export default defineComponent({
         title.value = 'Заявки ДПО';
         tableName = 'dpo_applications';
       }
-      Provider.store.commit('filter/setFilterModel', filterModel.value);
     };
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('dpoApplications/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dpoApplications/getAll');
     };
 
     const loadFilters = async () => {

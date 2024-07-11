@@ -94,13 +94,11 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadBuilding();
-      store.commit('admin/closeLoading');
     });
     const loadBuilding = async (): Promise<void> => {
       await store.dispatch('buildings/get', route.params['id']);
-      store.commit('admin/setHeaderParams', { title: building.value.name, showBackButton: true, buttons: [{ action: submit }] });
+      PHelp.AdminUI.Head.Set(building.value.name, [Button.Success('Сохранить', submit)]);
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(building, formUpdated, { deep: true });

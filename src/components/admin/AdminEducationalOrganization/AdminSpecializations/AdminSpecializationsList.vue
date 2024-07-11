@@ -38,14 +38,12 @@ export default defineComponent({
     const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('specializations/getAll');
       store.commit('admin/setHeaderParams', {
         title: 'Специальности',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
       mounted.value = true;
     });
 

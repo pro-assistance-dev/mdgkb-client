@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import User from '@/classes/User';
 import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
@@ -41,7 +40,7 @@ const load = async (): Promise<void> => {
   // Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
   // }
   // Provider.setSortModels(PagesSortsLib.byTitle());
-  await PagesStore.FTSP({ ftsp: Provider.ftsp.value });
+  await PagesStore.FTSP();
   // if (user.value.role.name === 'ADMIN') {
   //   Provider.store.commit('admin/setHeaderParams', {
   //     title: 'Страницы',

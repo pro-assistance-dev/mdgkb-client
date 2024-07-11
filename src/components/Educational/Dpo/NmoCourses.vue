@@ -24,12 +24,9 @@ export default defineComponent({
 
   setup() {
     const sortModels: Ref<ISortModel[]> = ref([]);
-    const loadCourses = async () => {
-      await Provider.store.dispatch('nmoCourses/getAll', Provider.filterQuery.value);
-    };
+    const loadCourses = async () => {};
 
     const load = async () => {
-      Provider.filterQuery.value.pagination.limit = 100;
       Provider.setSortModels(NmoCoursesSortsLib.byName(Orders.Asc));
       Provider.setSortList(...createSortModels(NmoCoursesSortsLib));
       await loadCourses();

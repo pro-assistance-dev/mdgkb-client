@@ -51,16 +51,9 @@ export default defineComponent({
       await Provider.router.push(`/residency-courses/${event.value}`);
     };
 
-    onBeforeMount(async () => {
-    });
-
-    const resetFilter = () => {
-      Provider.store.commit(`filter/resetQueryFilter`);
-      Provider.store.commit('filter/setDefaultSortModel');
-    };
+    onBeforeMount(async () => {});
 
     return {
-      resetFilter,
       selectSearch,
       TokenService,
       Operators,

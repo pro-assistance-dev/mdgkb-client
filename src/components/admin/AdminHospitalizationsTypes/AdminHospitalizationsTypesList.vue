@@ -49,9 +49,7 @@ export default defineComponent({
 
     const load = async () => {
       await loadHospitalizationsTypes();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Виды госпитализации',
-      });
+      PHelp.AdminUI.Head.Set('Виды госпитализации', []);
     };
 
     Hooks.onBeforeMount(load);

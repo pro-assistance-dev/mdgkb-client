@@ -42,9 +42,7 @@
 
 <script setup lang="ts">
 import Close from '@/assets/svg/Filter/Close.svg';
-import CommentRules from '@/classes/CommentRules';
 import News from '@/classes/News';
-import NewsComment from '@/classes/NewsComment';
 import Comments from '@/components/Comments/Comments.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
@@ -56,8 +54,6 @@ const SuggestionNews = defineAsyncComponent({
   delay: 100,
 });
 
-let comment = ref(new NewsComment());
-const commentInput = ref();
 const mounted: Ref<boolean> = ref(false);
 const slug = computed(() => Provider.route().params['slug']);
 const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
@@ -74,7 +70,6 @@ watch(slug, async () => {
 
 const load = async () => {
   await Provider.store.dispatch('news/get', slug.value);
-  Provider.store.dispatch('news/getComments', slug.value);
   mounted.value = true;
   window.scrollTo(0, 0);
 };
@@ -82,10 +77,6 @@ const load = async () => {
 Hooks.onBeforeMount(load);
 
 const newsContent = computed(() => (news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'));
-
-const commentForm = ref();
-const editCommentForm = ref();
-const rules = ref(CommentRules);
 
 const openModalWindow = async () => {
   modalOpen.value = true;

@@ -7,7 +7,16 @@
       <div class="left-field">
         <slot />
       </div>
-      <input class="text-field__input" type="date" :name="label" :id="label" v-model="model" @blur="$emit('blur')">
+      <input
+        max="2100"
+        min="1900"
+        :id="label"
+        :value="format(model)"
+        class="text-field__input"
+        type="date"
+        :name="label"
+        @input="handleInput"
+      />
       <div class="right-field">
         <slot name="right" />
       </div>
@@ -16,12 +25,11 @@
 </template>
 
 <script setup lang="ts">
-
-const model = defineModel();
-defineEmits(["blur"]);
+const model = defineModel<Date>({ required: true });
+defineEmits(['blur']);
 defineOptions({ inheritAttrs: false });
 
-const props = defineProps({
+defineProps({
   text: { type: String as PropType<string>, default: '', required: false },
   label: { type: String as PropType<string>, default: '', required: false },
   placeholder: { type: String as PropType<string>, default: '', required: false },
@@ -31,6 +39,13 @@ const props = defineProps({
   padding: { type: String as PropType<string>, default: '', required: false },
 });
 
+const handleInput = (input: Event) => {
+  model.value = input.target?.valueAsDate;
+};
+
+const format = (d: Date): Date => {
+  return d && new Date(d.getTime() - d.getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0];
+};
 </script>
 
 <style lang="scss" scoped>

@@ -37,6 +37,9 @@ export default class HttpClient {
   }
 
   private static getDownloadFileName(clientFileName: string | undefined, headers: any): string {
+    if (clientFileName) {
+      return clientFileName;
+    }
     const headerLine = headers['content-disposition'];
     const startFileNameIndex = headerLine.indexOf('"') + 1;
     const endFileNameIndex = headerLine.lastIndexOf('"');

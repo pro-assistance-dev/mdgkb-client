@@ -66,7 +66,6 @@ export default defineComponent({
 
     const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
     const dpoApplicationFormValue: ComputedRef<Form> = computed<Form>(() => store.getters['dpoApplications/formValue']);
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
@@ -79,23 +78,18 @@ export default defineComponent({
     });
     const setProgramsType = () => {
       filterModel.value.boolean = route.meta.isNmo;
-      store.commit('filter/setFilterModel', filterModel.value);
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadDpoCourses();
       await loadItem();
       await updateNew();
       await findEmail();
-      store.commit('admin/closeLoading');
     });
 
     const loadDpoCourses = async () => {
-      store.commit(`filter/resetQueryFilter`);
-      filterQuery.value.pagination.cursorMode = false;
       setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
 
     const changeEditMode = () => {

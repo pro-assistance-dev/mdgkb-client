@@ -15,9 +15,8 @@ const props = defineProps({
     type: Boolean as PropType<boolean>,
     default: false,
   },
-})
-const emits = defineEmits(['loadMore'])
-const allLoaded = Store.Getters('filter/allLoaded')
+});
+const emits = defineEmits(['loadMore']);
 const text = computed(() => (props.loading ? 'Загрузка...' : 'Показать ещё'));
 </script>
 
@@ -42,10 +41,11 @@ const text = computed(() => (props.loading ? 'Загрузка...' : 'Показ
   /* get rid of bad outlines */
   background: conic-gradient(#0000, var(--c)) content-box;
   --_m:
-    /* we use +/-1deg between colors to avoid jagged edges */
-    repeating-conic-gradient(#0000 0deg,
+    /* we use +/-1deg between colors to avoid jagged edges */ repeating-conic-gradient(
+      #0000 0deg,
       #000 1deg calc(360deg / var(--n) - var(--g) - 1deg),
-      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))),
+      #0000 calc(360deg / var(--n) - var(--g)) calc(360deg / var(--n))
+    ),
     radial-gradient(farthest-side, #0000 calc(98% - var(--b)), #000 calc(100% - var(--b)));
   -webkit-mask: var(--_m);
   mask: var(--_m);

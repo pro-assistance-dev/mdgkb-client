@@ -42,16 +42,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('paidPrograms/get', route.params['id']);
-      store.commit('admin/setHeaderParams', {
-        title: 'Программа',
-        showBackButton: true,
-        buttons: [{ text: 'Сохранить и выйти', type: 'primary', action: submit }],
-      });
-      // question.value.isNew = false;
+      PHelp.AdminUI.Head.Set('Программа', [Button.Success('Сохранить и выйти', submit)]);
       mounted.value = true;
-      store.commit('admin/closeLoading');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(paidProgram, formUpdated, { deep: true });
     });

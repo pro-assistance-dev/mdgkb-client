@@ -50,7 +50,6 @@ export default defineComponent({
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
     onBeforeMount(async () => {
-      Provider.store.commit('filter/setStoreModule', 'doctors');
       await loadFilters();
     });
 

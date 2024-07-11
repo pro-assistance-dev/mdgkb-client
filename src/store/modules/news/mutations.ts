@@ -1,7 +1,6 @@
 import { MutationTree } from 'vuex';
 
 import News from '@/classes/News';
-import NewsComment from '@/classes/NewsComment';
 import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
@@ -90,42 +89,6 @@ const mutations: MutationTree<State> = {
     }
     // state.params =
   },
-  // setComment(state, item: NewsComment) {
-  //   if (state.item) state.item.comments.unshift(item);
-  //   state.comment = new NewsComment();
-  // },
-  // removeComment(state, commentId: string) {
-  //   if (state.item) {
-  //     const index = state.item.newsComments.findIndex((item: NewsComment) => item.id === commentId);
-  //     state.item.newsComments.splice(index, 1);
-  //   }
-  // },
-  editComment(state, commentId: string) {
-    if (state.item) {
-      state.item.newsComments = state.item.newsComments.map((item: NewsComment) => {
-        if (item.comment.id === commentId) item.comment.isEditing = true;
-        return item;
-      });
-    }
-  },
-  updateComment(state, commentId: string) {
-    if (state.item) {
-      state.item.newsComments = state.item.newsComments.map((item: NewsComment) => {
-        if (item.comment.id === commentId) item.comment.isEditing = false;
-        return item;
-      });
-    }
-  },
-  setParentIdToComment(state, parentId: string) {
-    state.comment.newsId = parentId;
-  },
-  deleteCommentFromNews(state, item: NewsComment) {
-    const news = state.items.find((i: News) => i.id === item.newsId);
-    if (news) {
-      const index = news.newsComments.findIndex((i: NewsComment) => i.id === item.id);
-      news.newsLikes.splice(index);
-    }
-  },
   updateCalendarMeta(state, meta: ICalendarMeta) {
     state.calendarMeta = meta;
   },
@@ -133,12 +96,6 @@ const mutations: MutationTree<State> = {
     state.eventMode = eventMode;
     state.params.events = eventMode;
     state.items = [];
-  },
-  resetComment(state) {
-    state.comment = new NewsComment();
-  },
-  setComments(state, items: NewsComment[]) {
-    state.comments = items.map((i: NewsComment) => new NewsComment(i));
   },
   ...getBaseMutations,
 };

@@ -15,80 +15,63 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-
+<script lang="ts" setup>
 import IOption from '@/interfaces/IOption';
 import SearchModel from '@/services/classes/SearchModel';
 
-export default defineComponent({
-  name: 'SearchBar',
-  props: {
-    isSearchPage: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-  },
-  emits: ['search'],
-
-  setup(props, { emit }) {
-    const router = useRouter();
-    const route = useRoute();
-    const searchInputText = ref<string>('');
-    const searchInput = ref<HTMLInputElement | null>(null);
-    const searchModel: Ref<SearchModel> = Store.Getters('search/searchModel');
-
-    onBeforeMount((): void => {
-      if (!route.query.query || !route.query.query.length) {
-        searchModel.value.query = '';
-        return;
-      }
-      searchModel.value.query = route.query.q as string;
-    });
-
-    const showDrawer = () => {
-      Store.Commit('search/toggleDrawer', true);
-      // searchModel.value.query.blur();
-    };
-
-    const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
-      console.log(queryString);
-      if (queryString.length < 3) {
-        cb([]);
-        return;
-      }
-      searchModel.value.suggester = true;
-      searchModel.value.query = queryString;
-      searchModel.value.options = [];
-      searchModel.value.searchGroup.options = [];
-      await Store.Dispatch('search/full', searchModel.value);
-      const options = searchModel.value.options.map((opt: IOption) => {
-        return { label: opt.value, value: opt.label };
-      });
-      cb(options);
-    };
-
-    const submitSearch = async () => {
-      await router.push(`/search?query=${searchModel.value.query}`);
-      emit('search');
-    };
-
-    const search = async () => {
-      emit('search');
-    };
-
-    return {
-      suggestSearch,
-      search,
-      searchModel,
-      searchInput,
-      searchInputText,
-      showDrawer,
-      submitSearch,
-    };
+const props = defineProps({
+  isSearchPage: {
+    type: Boolean as PropType<boolean>,
+    default: false,
   },
 });
+const emit = defineEmits(['search']);
+
+const searchInputText = ref<string>('');
+const searchInput = ref<HTMLInputElement | null>(null);
+const searchModel: Ref<SearchModel> = Store.Getters('search/searchModel');
+
+onBeforeMount((): void => {
+  if (!Router.Route().query.query || !Router.Route().query.length) {
+    searchModel.value.query = '';
+    return;
+  }
+  searchModel.value.query = Router.Route().query.q as string;
+});
+
+const showDrawer = () => {
+  Store.Commit('search/toggleDrawer', true);
+};
+
+const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
+  console.log(queryString);
+  if (queryString.length < 3) {
+    cb([]);
+    return;
+  }
+  searchModel.value.suggester = true;
+  searchModel.value.query = queryString;
+  searchModel.value.options = [];
+  searchModel.value.searchGroup.options = [];
+  await Store.Dispatch('search/full', searchModel.value);
+  const options = [];
+  searchModel.value.searchGroups.forEach((g: SearchGroup) => {
+    g.options.forEach((opt: IOption) => {
+      options.push({ label: opt.value, value: opt.label });
+    });
+  });
+  cb(options);
+};
+
+const submitSearch = async (v: IOption) => {
+  await Router.To(v.label);
+  // await Router.To(`/search?query=${searchModel.value.query}`);
+  emit('search');
+};
+
+const search = async () => {
+  emit('search');
+};
 </script>
 
 <style lang="scss" scoped>

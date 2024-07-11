@@ -6,7 +6,8 @@
       position: 'relative',
     }"
   >
-    <el-input v-model="date" :placeholder="placeholder" @change="changeHandler" @input="inputHandler" @keydown.enter.prevent="undefined" />
+    <PInput v-model="date" :placeholder="placeholder" @change="changeHandler" @input="inputHandler" @keydown.enter.prevent="undefined" />
+    <!-- <el-input v-model="date" :placeholder="placeholder" @change="changeHandler" @input="inputHandler" @keydown.enter.prevent="undefined" /> -->
   </div>
 </template>
 
@@ -50,32 +51,32 @@ const changeHandler = (value: string) => {
 const valid = (value: string): boolean => {
   if (value.length != 10) {
     date.value = modelValueString;
-    Message.Error('Неверный формат даты');
+    PHelp.Notification.Error('Неверный формат даты');
     return false;
   }
 
   if (Number(date.value.slice(0, 2)) > 31) {
     date.value = modelValueString;
-    Message.Error('Неверный день месяца');
+    PHelp.Notification.Error('Неверный день месяца');
     return false;
   }
 
   if (Number(date.value.slice(3, 5)) > 12) {
     date.value = modelValueString;
-    Message.Error('Неверный месяц');
+    PHelp.Notification.Error('Неверный месяц');
     return false;
   }
 
   if (Number(date.value.slice(6, 10)) > 2100) {
     date.value = modelValueString;
-    Message.Error('Неверный год');
+    PHelp.Notification.Error('Неверный год');
     return false;
   }
   return true;
 };
 
-const inputHandler = (value: string) => {
-  date.value = value.replace(/[^0-9.]/g, '');
+const inputHandler = () => {
+  date.value = date.value.replace(/[^0-9.]/g, '');
 
   if ((date.value.length == 3 || date.value.length == 6) && date.value[date.value.length - 1] !== '.') {
     date.value = date.value.substring(0, date.value.length - 1) + '.' + date.value.substring(date.value.length - 1);
@@ -83,6 +84,7 @@ const inputHandler = (value: string) => {
   if (date.value.length > 10) {
     date.value = date.value.substring(0, date.value.length - 1);
   }
+  emits('update:modelValue', date.value);
 };
 </script>
 

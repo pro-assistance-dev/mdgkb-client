@@ -28,12 +28,8 @@
 <script lang="ts" setup>
 import { LogoutOutlined } from '@ant-design/icons-vue';
 
-import User from '@/classes/User';
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
 const auth = Store.Getters('auth/auth');
-
-const collapseSideMenu = () => Store.Commit('admin/collapseSideMenu');
-const openDrawer = () => Store.Commit('admin/openDrawer');
 
 const logout = async () => {
   auth.value.logout();

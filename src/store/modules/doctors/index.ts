@@ -1,7 +1,6 @@
 import { Module } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
-import DoctorComment from '@/classes/DoctorComment';
 import getBaseDefaultState from '@/services/store/baseModule/baseIndex';
 import IBasicState from '@/services/store/baseModule/baseState';
 import RootState from '@/store/types';
@@ -10,14 +9,11 @@ import actions from './actions';
 import getters from './getters';
 import mutations from './mutations';
 
-export interface State extends IBasicState<Doctor> {
-  comment: DoctorComment;
-}
+export interface State extends IBasicState<Doctor> {}
 
 export const getDefaultState = (): State => {
   return {
     ...getBaseDefaultState(Doctor),
-    comment: new DoctorComment(),
   };
 };
 

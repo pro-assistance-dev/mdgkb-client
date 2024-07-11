@@ -87,7 +87,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('partners/resetItem');
-      store.commit('admin/showLoading');
       await store.dispatch('partnerTypes/getAll');
       if (route.params['id']) {
         await store.dispatch('partners/get', route.params['id']);
@@ -98,7 +97,6 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(partner, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

@@ -1,18 +1,10 @@
 <template>
-  <AdminListWrapper pagination show-header>
+  <AdminListWrapper pagination show-header :store="CommentsStore">
     <template #header>
       <SortSelect :max-width="400" @load="loadComments" />
-      <FilterSelectDate class="filters-block" :table="'comments'" :col="'publishedOn'" @load="loadComments" />
-      <FilterCheckbox
-        class="filters-block"
-        label="Отмодерированные"
-        :table="Comment.GetClassName()"
-        :col="$classHelper.GetPropertyName(Comment).modChecked"
-        :data-type="DataTypes.Boolean"
-        :operator="Operators.Eq"
-        @load="loadComments"
-      />
-      <FilterSelectV2 :filter-models="createFilterModels()" @load="loadComments" />
+      <!-- <FilterSelectDate :model="CommentsFiltersLib.byDatesRange()" @load="loadComments" /> -->
+      <!-- <FilterCheckbox :model="CommentsFiltersLib.onlyChecked()" @load="loadComments" /> -->
+      <FilterSelect :models="createDomenFilters()" @load="loadComments" />
     </template>
     <div class="comments-container">
       <div id="list" style="overflow: scroll; padding-right: 5px">
@@ -29,14 +21,10 @@ import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib';
 import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
 import SortListConst from '@/services/SortList';
-const comments: ComputedRef<Comment[]> = CommentsStore.Items();
-// const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('comments'));
-const searchString: Ref<string> = ref('');
-const sourceSSE: EventSource | undefined = undefined;
+const comments: Comment[] = CommentsStore.Items();
+// const sourceSSE: EventSource | undefined = undefined;
 
 const load = async () => {
   SortListConst.Set(CommentsSortsLib);
@@ -45,21 +33,22 @@ const load = async () => {
   PHelp.AdminUI.Head.Set('Комментарии', []);
 };
 
-Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'comments', action: 'ftsp' },
-});
+Hooks.onBeforeMount(load);
 
 const loadComments = async () => {
   await CommentsStore.FTSP();
 };
 
 onBeforeUnmount(async () => {
-  sourceSSE?.close();
-  // await Provider.store.dispatch('comments/unsubscribeCreate');
+  // sourceSSE?.close();
 });
 
-const createFilterModels = (): FilterModel[] => {
-  return [CommentsFiltersLib.onlyNewsComments(), CommentsFiltersLib.onlyDoctorsComments(), CommentsFiltersLib.onlyDivisionsComments()];
+const createDomenFilters = (): FilterModel[] => {
+  return [
+    CommentsFiltersLib.byDomen('doctors', 'Врачи'),
+    CommentsFiltersLib.byDomen('divisions', 'Отделения'),
+    CommentsFiltersLib.byDomen('news', 'Новости'),
+  ];
 };
 </script>
 

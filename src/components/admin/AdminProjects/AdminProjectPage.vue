@@ -108,7 +108,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       store.commit('projects/resetItem');
-      store.commit('admin/showLoading');
       if (route.params['id']) {
         await store.dispatch('projects/get', route.params['id']);
         store.commit('admin/setHeaderParams', { title: 'Обновить проект', showBackButton: true, buttons: [{ action: submit }] });
@@ -118,7 +117,6 @@ export default defineComponent({
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(project, formUpdated, { deep: true });
-      store.commit('admin/closeLoading');
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

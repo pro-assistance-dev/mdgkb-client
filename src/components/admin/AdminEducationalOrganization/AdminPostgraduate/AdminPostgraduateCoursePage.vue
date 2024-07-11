@@ -213,7 +213,6 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
     const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );
@@ -224,18 +223,16 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('teachers/getAll');
       await store.dispatch('specializations/getAll');
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');
       await loadItem();
-      store.commit('admin/closeLoading');
     });
 
     const loadItem = async () => {
       if (route.params['id']) {
-        await store.dispatch('postgraduateCourses/get', filterQuery.value);
+        // await store.dispatch('postgraduateCourses/get', filterQuery.value);
         store.commit('admin/setHeaderParams', {
           title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization().name}"`,
           showBackButton: true,

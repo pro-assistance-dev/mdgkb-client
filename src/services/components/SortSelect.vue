@@ -27,7 +27,6 @@ const mounted = ref(false);
 
 const emits = defineEmits(['load']);
 
-const setDefaultSortModel: Ref<boolean> = Store.Getters('filter/setDefaultSortModel');
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
@@ -36,7 +35,7 @@ onBeforeMount((): void => {
   FTSP.Get().setSortModel(sortModel.value as SortModel);
 });
 
-watch(setDefaultSortModel, () => setSort());
+// watch(setDefaultSortModel, () => setSort());
 
 const changeModel = async (e?: Event): Promise<void> => {
   if (!e) {

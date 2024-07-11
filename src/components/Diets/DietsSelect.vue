@@ -48,8 +48,7 @@
         </template>
         <template v-if="selectedDiet && !selectedAge">
           <div class="field-2">
-            <button v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" class="field-item-2"
-              @click="selectAge(dietAge)">
+            <button v-for="dietAge in selectedDiet.dietAges" :key="dietAge.id" class="field-item-2" @click="selectAge(dietAge)">
               {{ dietAge.name }}
             </button>
           </div>
@@ -62,8 +61,7 @@
           </h3>
           <DietPage v-if="selectedDiet && selectedAge" :timetable="selectedAge.timetable" />
           <div v-if="motherDiet && selectedAge">
-            <h3 v-if="motherDiet" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">{{
-              motherDiet.siteName }}</h3>
+            <h3 v-if="motherDiet" style="text-align: left; color: #a1a7bd; margin: 10px 0px 20px 20px">{{ motherDiet.siteName }}</h3>
             <DietPage v-if="selectedDiet && selectedAge && motherDiet" :timetable="motherDiet.dietAges[0].timetable" />
             <div></div>
           </div>
@@ -106,7 +104,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const loadDiets = async () => {
-      await Provider.store.dispatch('dietsGroups/getAll', Provider.filterQuery.value);
+      await Provider.store.dispatch('dietsGroups/getAll');
     };
 
     const selectAge = (age: DietAge): void => {

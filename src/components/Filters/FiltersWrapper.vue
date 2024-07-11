@@ -45,15 +45,11 @@ export default defineComponent({
   },
   emit: ['load'],
   setup() {
-    const showClearButton: ComputedRef<boolean> = computed(
-      () => Provider.filterQuery.value.filterModels.length > 0 && Provider.filterQuery.value.sortModels.length > 0
-    );
-
     const clearFilterModel = () => {
       Provider.resetFilterQuery();
     };
 
-    return { clearFilterModel, showClearButton };
+    return { clearFilterModel };
   },
 });
 </script>

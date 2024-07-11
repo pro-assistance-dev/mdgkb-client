@@ -19,14 +19,9 @@ export default defineComponent({
     // const doctors = computed(() => store.getters['doctors/items']);
     //
     // onBeforeMount(async () => {
-    //   store.commit('admin/showLoading');
-    //
-    //   store.commit('filter/setStoreModule', 'doctors');
-    //   await store.dispatch('doctors/getAll', store.getters['filter/filterQuery']);
     //
     //   store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
     //   store.commit('pagination/setCurPage', 1);
-    //   store.commit('admin/closeLoading');
     // });
 
     const init = async () => await store.dispatch(`appointments/init`);

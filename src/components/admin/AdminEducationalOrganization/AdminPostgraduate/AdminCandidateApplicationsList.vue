@@ -3,16 +3,23 @@
     <el-table-column label="Статус">
       <template #default="scope">
         <el-tag v-if="scope.row.formValue.isNew" size="small" type="warning">Не просмотрено</el-tag>
-        <el-tag v-if="scope.row.formValue.formStatus.label" size="small"
-          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`">{{
-            scope.row.formValue.formStatus.label }}</el-tag>
+        <el-tag
+          v-if="scope.row.formValue.formStatus.label"
+          size="small"
+          :style="`background-color: inherit; color: ${scope.row.formValue.formStatus.color}; border-color: ${scope.row.formValue.formStatus.color}`"
+          >{{ scope.row.formValue.formStatus.label }}</el-tag
+        >
       </template>
     </el-table-column>
     <el-table-column label="Дата подачи заявления" sortable>
       <template #default="scope">
-        {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
-          month: 'long', hour: 'numeric', minute: 'numeric'
-        }) }}
+        {{
+          $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+            month: 'long',
+            hour: 'numeric',
+            minute: 'numeric',
+          })
+        }}
       </template>
     </el-table-column>
     <el-table-column label="Email заявителя" sortable>
@@ -27,8 +34,7 @@
     </el-table-column>
     <el-table-column label="Специальности для защиты" sortable>
       <template #default="scope">
-        <div v-for="(candidateSpecialization, i) in scope.row.candidateApplicationSpecializations"
-          :key="candidateSpecialization.id">
+        <div v-for="(candidateSpecialization, i) in scope.row.candidateApplicationSpecializations" :key="candidateSpecialization.id">
           {{ i + 1 }}. {{ candidateSpecialization.specialization.name }}
         </div>
       </template>
@@ -60,18 +66,14 @@ export default defineComponent({
     const route = useRoute();
 
     const candidateApplications: ComputedRef<CandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
-    // const filterQuery: ComputedRef<FilterQuery> = computed(() => store.getters['filter/filterQuery']);
-    // const filterModel = ref();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('candidateApplications/getAll');
       store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в аспирантуре',
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
       });
       store.commit('pagination/setCurPage', 1);
-      store.commit('admin/closeLoading');
       mounted.value = true;
     });
 

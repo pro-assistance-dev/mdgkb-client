@@ -95,11 +95,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await loadItem();
       await updateNew();
       await findEmail();
-      store.commit('admin/closeLoading');
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(vacancyResponse, formUpdated, { deep: true });
     });

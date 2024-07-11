@@ -73,19 +73,17 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       isEdit.value = route.params['id'] ? true : false;
       await loadSideOrganization();
-      store.commit('admin/closeLoading');
     });
 
     const loadSideOrganization = async (): Promise<void> => {
       if (!isEdit.value) {
         store.commit('sideOrganizations/set', new SideOrganization());
-        store.commit('admin/setHeaderParams', { title: 'Создать организацию', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Создать организацию', [Button.Success('Создать', submit)]);
       } else {
         await store.dispatch('sideOrganizations/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: sideOrganization.value.name, showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set(sideOrganization.value.name, [Button.Success('Создать', submit)]);
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(sideOrganization, formUpdated, { deep: true });

@@ -44,14 +44,12 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('admin/showLoading');
       await store.dispatch('projects/getAll');
       store.commit('admin/setHeaderParams', {
         title: 'Наши проекты',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
       });
       mounted.value = true;
-      store.commit('admin/closeLoading');
     });
 
     return {

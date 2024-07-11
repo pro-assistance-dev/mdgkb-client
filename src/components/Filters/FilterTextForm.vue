@@ -1,13 +1,16 @@
 <template>
-  <component :is="'FilterPopover'" :filter-model="filterModel" @addFilterModel="addFilterModel"
-    @dropFilterModel="dropFilterModel">
+  <component :is="'FilterPopover'" :filter-model="filterModel" @addFilterModel="addFilterModel" @dropFilterModel="dropFilterModel">
     <div class="filter-form">
       <el-form label-position="top">
         <el-form-item>
-          <el-select v-model="filterModel.operator" size="mini" placeholder="Выберите дату..."
-            @click="setTrigger('manual')">
-            <el-option v-for="(item, index) in filterList" :key="index" :label="item.label" :value="item.value"
-              @click="setTrigger('click')"></el-option>
+          <el-select v-model="filterModel.operator" size="mini" placeholder="Выберите дату..." @click="setTrigger('manual')">
+            <el-option
+              v-for="(item, index) in filterList"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+              @click="setTrigger('click')"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -48,15 +51,10 @@ export default defineComponent({
     const filterModel = ref(FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String));
     filterModel.value.operator = Operators.Like;
 
-    const setTrigger = (trigger: string) => {
-      store.commit('filter/setTrigger', trigger);
-    };
-    const addFilterModel = () => {
-      store.commit('filter/setFilterModel', filterModel.value);
-    };
+    const setTrigger = (trigger: string) => {};
+    const addFilterModel = () => {};
 
     const dropFilterModel = () => {
-      store.commit('filter/spliceFilterModel', filterModel.value.id);
       filterModel.value = FilterModel.CreateFilterModel(table.value, col.value, DataTypes.String);
       filterModel.value.operator = Operators.Like;
     };
@@ -74,4 +72,5 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-// @import '@/assets/elements/filterForm.scss';</style>
+// @import '@/assets/elements/filterForm.scss';
+</style>

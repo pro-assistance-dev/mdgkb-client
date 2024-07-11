@@ -1,13 +1,23 @@
 import Comment from '@/classes/Comment';
-import DivisionComment from '@/classes/DivisionComment';
-import DoctorComment from '@/classes/DoctorComment';
-import NewsComment from '@/classes/NewsComment';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import ClassHelper from '@/services/ClassHelper';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
 
 const CommentsFiltersLib = (() => {
+  function onlyChecked(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Comment, ClassHelper.GetPropertyName(Comment).modChecked, DataTypes.Boolean);
+    filterModel.label = 'Только проверенные';
+    filterModel.boolean = true;
+    return filterModel;
+  }
+
+  function onlyNotChecked(): FilterModel {
+    const filterModel = FilterModel.CreateFilterModel(Comment, ClassHelper.GetPropertyName(Comment).modChecked, DataTypes.Boolean);
+    filterModel.boolean = false;
+    return filterModel;
+  }
+
   function onlyPublished(): FilterModel {
     const filterModel = FilterModel.CreateFilterModel(Comment, ClassHelper.GetPropertyName(Comment).publishedOn, DataTypes.Date);
     filterModel.date1 = new Date();
@@ -22,30 +32,26 @@ const CommentsFiltersLib = (() => {
     return filterModel;
   }
 
-  function onlyDoctorsComments(): FilterModel {
-    const f = FilterModel.OnlyIfSecondModelExists(Comment, DoctorComment);
-    f.label = 'Комментарии к докторам';
+  function byDomen(domen: string, label: string): FilterModel {
+    const f = FilterModel.Create(Comment, ClassHelper.GetPropertyName(Comment).domen, DataTypes.String);
+    f.value1 = domen;
+    f.label = label;
     return f;
   }
-
-  function onlyDivisionsComments(): FilterModel {
-    const f = FilterModel.OnlyIfSecondModelExists(Comment, DivisionComment);
-    f.label = 'Комментарии к отделениям';
-    return f;
-  }
-
-  function onlyNewsComments(): FilterModel {
-    const f = FilterModel.OnlyIfSecondModelExists(Comment, NewsComment);
-    f.label = 'Комментарии к новостям';
+  function byDatesRange(): FilterModel {
+    const f = FilterModel.Create(Comment, ClassHelper.GetPropertyName(Comment).publishedOn, DataTypes.Date);
+    f.label = 'По периоду';
+    f.operator = Operators.Btw;
     return f;
   }
 
   return {
+    byDomen,
+    onlyChecked,
+    onlyNotChecked,
+    byDatesRange,
     onlyPublished,
     onlyPositive,
-    onlyDoctorsComments,
-    onlyDivisionsComments,
-    onlyNewsComments,
   };
 })();
 
