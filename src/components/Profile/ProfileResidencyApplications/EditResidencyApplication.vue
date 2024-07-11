@@ -25,6 +25,7 @@
     <div class="card-item">
       <h3>Данные формы</h3>
       <el-form ref="form" v-model="application.formValue" :model="application" label-position="top">
+        <el-button size="small" type="success" @click="filledApplicationDownload">Скачать заявление</el-button>
         <FieldValuesForm
           :form="application.formValue"
           :show-mod-comments="true"
@@ -111,18 +112,18 @@ onBeforeMount(async () => {
 });
 
 const filledApplicationDownload = () => {
-  ElMessageBox.alert(
-    'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
-    'После закрытия этого окна скачается предзаполненное заявление',
-    {
-      confirmButtonText: 'OK',
-      callback: () => {
-        Provider.store.dispatch('residencyApplications/filledApplicationDownload', application.value);
-        return;
-      },
-    }
-  );
-  return;
+  // ElMessageBox.alert(
+  //   'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
+  //   'После закрытия этого окна скачается предзаполненное заявление',
+  //   {
+  // confirmButtonText: 'OK',
+  // callback: () => {
+  Provider.store.dispatch('residencyApplications/filledApplicationDownload', application.value);
+  //       return;
+  //     },
+  //   }
+  // );
+  // return;
 };
 </script>
 
