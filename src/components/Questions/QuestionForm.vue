@@ -43,7 +43,7 @@
             minlength="5"
             maxlength="1000"
             show-word-limit
-            :autosize="{ minRows: 5, maxRows: 10 }"
+            :autosize="{ minRows: 5, maxRows: 5 }"
           />
         </el-form-item>
         <el-form-item style="margin: 0">

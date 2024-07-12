@@ -3,8 +3,13 @@
     <template #filters>
       <FiltersWrapper :header-right-max-width="300">
         <template #header-right>
-          <ModeButtons :store-mode="false" :store-module="'comments'" :first-mode="'FAQ'" :second-mode="'Вопрос-ответ'"
-            @changeMode="setFaqMode" />
+          <ModeButtons
+            :store-mode="false"
+            :store-module="'comments'"
+            :first-mode="'FAQ'"
+            :second-mode="'Вопрос-ответ'"
+            @changeMode="setFaqMode"
+          />
         </template>
         <template #header-left-top>
           <div>
@@ -17,7 +22,8 @@
       <FAQ v-if="faqMode" />
       <Questions v-else />
     </div>
-    <QuestionForm :opened="opened" />
+    <RightSliderContainer titleOpen="Задать вопрос" titleClose="Задать вопрос" sliderOnWidth="320px" />
+    <!-- <QuestionForm :opened="opened" /> -->
   </PageWrapper>
 </template>
 
@@ -36,7 +42,7 @@ const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто �
 const setFaqMode = (faqModeCondition: boolean) => {
   faqMode.value = faqModeCondition;
 };
-const openQuestion = () => opened.value = !opened.value;
+const openQuestion = () => (opened.value = !opened.value);
 </script>
 
 <style lang="scss" scoped>
