@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted">
+  <div v-if="mounted" class="wrapper">
     <el-form ref="form" :model="visitsApplication" label-position="top">
       <AdminFormValue
         :validate-email="false"
@@ -137,3 +137,13 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
+.wrapper {
+  height: calc(100% - 80px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+</style>
