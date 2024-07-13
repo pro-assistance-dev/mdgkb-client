@@ -21,7 +21,6 @@ export default abstract class Router {
   }
 
   static Slug(): string {
-    console.log('SLUG', Router.GetStringParam('slug'));
     return Router.GetStringParam('slug');
   }
 

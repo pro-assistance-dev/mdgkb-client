@@ -126,6 +126,7 @@
     "FaqsStore": true,
     "PagesStore": true,
     "DivisionsStore": true,
-    "CommentsStore": true
+    "CommentsStore": true,
+    "EmployeesStore": true
   }
 }

@@ -10,6 +10,8 @@ import SortList from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
+import SortListConst from '@/services/SortList';
+
 export interface IHooksOptions {
   pagination?: IPaginationOptions;
   sortsLib?: SortModelBuildersLib;
@@ -32,10 +34,12 @@ const Hooks = (() => {
       FTSP.Get().reset();
       SortList.Set(options?.sortsLib);
       FTSP.Get().setSortModel(SortList.GetDefault());
-      Provider.setStoreModule(undefined);
       // Provider.setGetAction(options?.getAction);
       // Provider.initPagination(options?.pagination);
       //
+      SortListConst.Set(options?.sortsLib);
+      FTSP.Get().setSortModel(SortListConst.GetDefault());
+
       PHelp.Paginator.storeModule = options?.pagination?.storeModule;
       Store.Commit('pagination/setCurPage', 1);
 

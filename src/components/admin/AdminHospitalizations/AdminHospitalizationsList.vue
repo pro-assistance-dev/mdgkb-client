@@ -1,9 +1,5 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
-    <template #header>
-      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
-      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
-    </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
     </template>

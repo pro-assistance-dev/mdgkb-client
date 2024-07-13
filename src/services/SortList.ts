@@ -6,6 +6,7 @@ import SortModel from './classes/SortModel';
 class SortListC {
   private list: SortModel[] = [];
   private defaultSortModel: SortModel | undefined;
+  changeFlag = false;
 
   Set(sorts?: SortModelBuildersLib | SortModel[]): void {
     this.Reset();
@@ -17,11 +18,12 @@ class SortListC {
     } else {
       this.list = createSortModels(sorts);
     }
-    this.setDefaultSortModel();
+    this.SetDefault();
   }
 
-  private setDefaultSortModel() {
+  SetDefault() {
     this.defaultSortModel = this.list.find((s: SortModel) => s.default) ?? this.list[0];
+    this.changeFlag = !this.changeFlag;
   }
 
   Get(): SortModel[] {

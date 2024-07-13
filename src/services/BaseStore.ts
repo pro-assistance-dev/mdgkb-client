@@ -148,7 +148,6 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
     }
     this.SetAll(items.items);
     this.count.value = items.count;
-    console.log(this.count);
   }
 
   RemoveItem(id: string) {

@@ -30,6 +30,7 @@ declare global {
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const Email: typeof import('@/services/Main')['Email']
+  const EmployeesStore: typeof import('@/store/StoreModules')['EmployeesStore']
   const FTSP: typeof import('@/services/Main')['FTSP']
   const FaqsStore: typeof import('@/store/StoreModules')['FaqsStore']
   const Favourite: typeof import('@/services/Main')['Favourite']
@@ -150,6 +151,7 @@ declare module 'vue' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
+    readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
@@ -263,6 +265,7 @@ declare module '@vue/runtime-core' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
+    readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>

@@ -1,23 +1,18 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination show-header>
+  <AdminListWrapper v-if="mounted" show-header :store="EmployeesStore">
     <template #header>
-      <RemoteSearch
-        :must-be-translated="true"
-        :key-value="'employee'"
-        placeholder="Начните вводить ФИО сотрудника"
-        @select="selectSearch"
-      />
-      <FiltersList :models="createGenderFilterModels()" @load="loadItems" />
-      <el-select :model-value="selectedMode.label" clearable @change="selectMode" @clear="resetFilter">
-        <el-option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode.label" />
-      </el-select>
-      <el-button class="reset" @click="resetFilter">Сбросить фильтры</el-button>
+      <RemoteSearchNew placeholder="Начните вводить ФИО сотрудника" key-value="employee" @select="selectSearch" />
+      <FilterSelect default-label="Все" :models="createGenderFilterModels()" @load="loadItems" />
+
+      <PSelect v-model="selectedMode" :clearable="selectedMode.filter" @change="selectMode" @clear="resetFilter">
+        <option v-for="mode in modes" :key="mode.label" :label="mode.label" :value="mode" />
+      </PSelect>
       <el-button v-if="selectedMode && (selectedMode.isClassOf(Head) || selectedMode.isClassOf(EducationalAcademic))" @click="editOrder"
         >Редактировать порядок</el-button
       >
     </template>
     <template #sort>
-      <SortList :max-width="400" @load="loadItems" />
+      <SortSelect :max-width="400" @load="loadItems" />
     </template>
     <el-table :data="employees" :border="false">
       <el-table-column label="ФИО" sortable>
@@ -71,70 +66,66 @@ import EducationalAcademic from '@/classes/EducationalAcademic';
 import Head from '@/classes/Head';
 import modes, { ListMode } from '@/components/admin/AdminEmployees/employeesModes';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FiltersList from '@/components/Filters/FiltersList.vue';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
+import EmployeesSortsLib from '@/libs/sorts/EmployeesSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
-import EmployeesSortsLib from '@/libs/sorts/EmployeesSortsLib';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
+import SortListConst from '@/services/SortList';
+
 const selectedMode: Ref<ListMode> = ref(modes[0]);
-const employees = Store.Items('employees');
+const employees = EmployeesStore.Items();
 const editOrderMode: Ref<boolean> = ref(false);
 const mounted = ref(false);
 
 const load = async () => {
-  const findedMode = modes?.find((m: ListMode) => {
-    if (m.filter) {
-    }
-  });
+  const findedMode = modes?.find((m: ListMode) => {});
+
   if (findedMode) {
     selectedMode.value = findedMode;
   }
-  await Store.FTSP('employees');
 
-  PHelp.AdminUI.Head.Set('Сотрудники', [Button.Success('Добавить сотрудника', Provider.createAdmin)]);
-
+  PHelp.AdminUI.Head.Set('Сотрудники', [Button.Success('Добавить сотрудника', create)]);
+  await loadItems();
   mounted.value = true;
+};
+
+const loadItems = async () => {
+  await EmployeesStore.FTSP();
+};
+
+const create = async () => {
+  PHelp.Notification.Warning('Временно недоступно');
 };
 
 Hooks.onBeforeMount(load, {
   sortsLib: EmployeesSortsLib,
-  pagination: { storeModule: 'employees', action: 'ftsp' },
 });
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Provider.router.push({ name: `AdminEditEmployeePage`, params: { id: event.value } });
+  await Router.To('/admin/employees/' + event.id);
 };
 
 const createGenderFilterModels = (): FilterModel[] => {
   return [EmployeesFiltersLib.onlyMale(), EmployeesFiltersLib.onlyFemale()];
 };
 
-const resetFilterModels = () => {
-  Provider.dropPagination();
-  Provider.setDefaultSortModel();
-};
-
-const selectMode = async (modeLabel: string) => {
-  const findedMode = modes.find((m: ListMode) => m.label === modeLabel);
-  if (!findedMode) {
-    return;
-  }
-  selectedMode.value = findedMode;
-  resetFilterModels();
+const selectMode = async () => {
+  PHelp.Paginator.reset();
+  FTSP.Get().resetF();
   if (selectedMode.value.filter) {
-    Provider.setFilterModel(selectedMode.value.filter());
+    FTSP.Get().setF(selectedMode.value.filter());
   }
-  await Provider.loadItems();
+  await loadItems();
 };
 
 const resetFilter = async () => {
-  resetFilterModels();
   selectedMode.value = modes[0];
-  await Provider.loadItems();
+  SortListConst.SetDefault();
+  FTSP.Get().setSortModel(SortListConst.GetDefault());
+  await selectMode();
 };
 
 const editOrder = () => {
