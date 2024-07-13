@@ -3,9 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent } from 'vue';
-
-const props = defineProps({
+defineProps({
   content: {
     type: String,
     default: '',

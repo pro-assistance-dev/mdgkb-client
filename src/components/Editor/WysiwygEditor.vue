@@ -1,13 +1,10 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor"
-      @fullScreen="toggleDialog" />
-    <editor-content v-if="!showDialog" :editor="editor" class="scroll"
-      :style="{ height: height, 'max-height': maxHeight }" />
+    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+    <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
-      <editor-content v-if="showDialog" :editor="editor" class="scroll"
-        :style="{ height: 'auto', 'max-height': '80vh' }" />
+      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
     <!-- <div class="counter">{{ counter }}&nbsp;{{ limit }}</div> -->
   </div>
@@ -211,11 +208,11 @@ export default defineComponent({
     // border-bottom: 1px solid #d1d5db;
   }
 
-  >p {
+  > p {
     margin: 0;
   }
 
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 
@@ -287,7 +284,7 @@ export default defineComponent({
       box-sizing: border-box;
       position: relative;
 
-      >* {
+      > * {
         margin-bottom: 0;
       }
     }
@@ -346,13 +343,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    >label {
+    > label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    >div {
+    > div {
       flex: 1 1 auto;
     }
   }
@@ -396,4 +393,5 @@ ul[data-type='taskList'] {
 // }
 // .cursor-pointer {
 //   cursor: pointer;
-// }</style>
+// }
+</style>

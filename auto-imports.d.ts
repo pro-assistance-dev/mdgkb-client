@@ -55,6 +55,7 @@ declare global {
   const TimeFormatter: typeof import('@/services/Main')['TimeFormatter']
   const Token: typeof import('@/services/Main')['Token']
   const User: typeof import('@/services/Main')['User']
+  const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
   const ValueType: typeof import('@/services/Main')['ValueType']
   const WaitElement: typeof import('@/services/Main')['WaitElement']
   const WebSocketClient: typeof import('@/services/Main')['WebSocketClient']
@@ -176,6 +177,7 @@ declare module 'vue' {
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
+    readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>
@@ -290,6 +292,7 @@ declare module '@vue/runtime-core' {
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
+    readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>

@@ -127,6 +127,7 @@
     "PagesStore": true,
     "DivisionsStore": true,
     "CommentsStore": true,
-    "EmployeesStore": true
+    "EmployeesStore": true,
+    "UsersStore": true
   }
 }

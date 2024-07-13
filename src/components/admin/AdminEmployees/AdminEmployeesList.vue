@@ -71,9 +71,8 @@ import EmployeesSortsLib from '@/libs/sorts/EmployeesSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
-
 import SortListConst from '@/services/SortList';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const selectedMode: Ref<ListMode> = ref(modes[0]);
 const employees = EmployeesStore.Items();
@@ -81,12 +80,6 @@ const editOrderMode: Ref<boolean> = ref(false);
 const mounted = ref(false);
 
 const load = async () => {
-  const findedMode = modes?.find((m: ListMode) => {});
-
-  if (findedMode) {
-    selectedMode.value = findedMode;
-  }
-
   PHelp.AdminUI.Head.Set('Сотрудники', [Button.Success('Добавить сотрудника', create)]);
   await loadItems();
   mounted.value = true;
