@@ -21,7 +21,7 @@
             <el-card>
               <template #header> Основное изображение </template>
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
-                <UploaderSingleScan
+                <UploaderImage
                   :file-info="news.mainImage"
                   :height="300"
                   @remove-file="news.removeMainImage()"
@@ -109,7 +109,7 @@ const submit = async (next?: NavigationGuardNext) => {
     saveButtonClick.value = false;
     return;
   }
-  if (!Provider.route().params['slug']) {
+  if (!Router.Id()) {
     await Store.Create('news');
     await Router.ToAdmin('/news');
     return;

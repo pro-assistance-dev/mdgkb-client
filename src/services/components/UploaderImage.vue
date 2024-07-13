@@ -18,7 +18,7 @@
       </div>
     </div>
   </div>
-  <input id="file-input" type="file" hidden @change="uploadFile" />
+  <input :id="fileInputId" type="file" hidden @change="uploadFile" />
   <ImageCropper v-if="withCrop" :open="cropperOpened" :default-ratio="defaultRatio" @crop="crop" @close="cropperOpened = false" />
 </template>
 
@@ -65,6 +65,7 @@ const heightWeight = computed(() => {
     '--height': `${props.height}px`,
   };
 });
+const fileInputId = Strings.CreateGuid();
 const cropperOpened = ref(false);
 const uploader = ref();
 
@@ -91,15 +92,11 @@ const handleRemove = () => {
     text: 'Вы хотите удалить изображение',
     confirmButtonText: 'Удалить',
     cancelButtonText: 'Не удалять',
-  })
-    .then(() => {
-      uploadedImg.value = undefined;
-      uploader.value.clearFiles();
-      emits('removeFile');
-    })
-    .catch(() => {
-      return;
-    });
+  }).then(() => {
+    uploadedImg.value = undefined;
+    uploader.value.clearFiles();
+    emits('removeFile');
+  });
 };
 
 const crop = (file: any) => {
@@ -141,7 +138,7 @@ onMounted(() => {
   dropArea.addEventListener('dragleave', preventDefaults);
   dropArea.addEventListener('drop', handleDrop);
 
-  fileInput = document.getElementById('file-input') as HTMLInputElement;
+  fileInput = document.getElementById(fileInputId) as HTMLInputElement;
 });
 //
 function preventDefaults(e: any) {
