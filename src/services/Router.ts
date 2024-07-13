@@ -24,7 +24,7 @@ export default abstract class Router {
     return Router.GetStringParam('slug');
   }
 
-  static Back() {
+  static async Back() {
     PHelp.Loading.Show();
     router.go(-1);
     PHelp.Loading.Hide();

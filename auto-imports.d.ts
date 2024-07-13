@@ -43,6 +43,7 @@ declare global {
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
+  const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
   const Provider: typeof import('@/services/Main')['Provider']
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
@@ -165,6 +166,7 @@ declare module 'vue' {
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
@@ -280,6 +282,7 @@ declare module '@vue/runtime-core' {
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>

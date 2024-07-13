@@ -63,7 +63,6 @@ import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { preparations } from '@/store/modules/preparations';
-import { projects } from '@/store/modules/projects';
 import { questions } from '@/store/modules/questions';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
@@ -116,7 +115,6 @@ const s: StoreOptions<RootState> = {
     heads,
     paidProgramsGroups,
     visitingRules,
-    projects,
     paidPrograms,
     partners,
     partnerTypes,

@@ -9,20 +9,10 @@
   </el-card>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Project from '@/classes/Project';
 
-export default defineComponent({
-  name: 'ProjectPage',
-
-  setup() {
-    const project: ComputedRef<Project> = Store.Item('project');
-
-    return {
-      project,
-    };
-  },
-});
+const project: ComputedRef<Project> = ProjectsStore.Item();
 </script>
 
 <style lang="scss" scoped>
