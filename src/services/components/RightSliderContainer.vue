@@ -67,7 +67,7 @@ watch(
   }
 );
 
-const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
+// const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
 const toggleSlider = (toggle: boolean) => {
   isToggle.value = !isToggle.value;
   emit('toggle', toggle);

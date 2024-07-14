@@ -1,75 +1,70 @@
 <template>
-  <el-drawer :model-value="open" direction="rtl" title="Задать вопрос">
-    <div class="contact-form">
-      <el-form ref="form" :model="question" :rules="rules" label-position="top">
-        <el-form-item
-          prop="user.human.name"
-          :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
-          label="Ваше имя"
-        >
-          <el-input v-model="question.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
-        </el-form-item>
-        <el-form-item
-          prop="user.human.surname"
-          :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
-          label="Ваша фамилия"
-        >
-          <el-input v-model="question.user.human.surname" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
-        </el-form-item>
-        <el-form-item
-          prop="user.human.patronymic"
-          :rules="[{ required: true, message: 'Необходимо указать отчество', trigger: 'blur' }]"
-          label="Ваше отчество"
-        >
-          <el-input v-model="question.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
-        </el-form-item>
+  <div class="contact-form">
+    <el-form ref="form" :model="question" :rules="rules" label-position="top">
+      <el-form-item
+        prop="user.human.name"
+        :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
+        label="Ваше имя"
+      >
+        <el-input v-model="question.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+      </el-form-item>
+      <el-form-item
+        prop="user.human.surname"
+        :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
+        label="Ваша фамилия"
+      >
+        <el-input v-model="question.user.human.surname" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+      </el-form-item>
+      <el-form-item
+        prop="user.human.patronymic"
+        :rules="[{ required: true, message: 'Необходимо указать отчество', trigger: 'blur' }]"
+        label="Ваше отчество"
+      >
+        <el-input v-model="question.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+      </el-form-item>
 
-        <el-form-item
-          prop="user.email"
-          :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
-          label="Ваш email"
-        >
-          <el-input v-model="question.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
-        </el-form-item>
+      <el-form-item prop="user.email" :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]" label="Ваш email">
+        <el-input v-model="question.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
+      </el-form-item>
 
-        <el-form-item label="Тема вопроса" prop="theme">
-          <el-input v-model="question.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
+      <el-form-item label="Тема вопроса" prop="theme">
+        <el-input v-model="question.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
+      </el-form-item>
+      <el-form-item label="Содержание обращения" prop="originalQuestion">
+        <el-input
+          v-model="question.originalQuestion"
+          type="textarea"
+          placeholder="Содержание обращения"
+          minlength="5"
+          maxlength="1000"
+          show-word-limit
+          :autosize="{ minRows: 5, maxRows: 5 }"
+        />
+      </el-form-item>
+      <div class="flex-column">
+        <el-form-item prop="publishAgreement">
+          <el-checkbox v-model="question.publishAgreement">
+            Я не против публичного размеще-<br />ния моего обращения на сайте<br />
+            морозовской детской больницы.
+          </el-checkbox>
         </el-form-item>
-        <el-form-item label="Содержание обращения" prop="originalQuestion">
-          <el-input
-            v-model="question.originalQuestion"
-            type="textarea"
-            placeholder="Содержание обращения"
-            minlength="5"
-            maxlength="1000"
-            show-word-limit
-            :autosize="{ minRows: 5, maxRows: 10 }"
-          />
+        <el-form-item prop="agreedWithPrivacyPolicy">
+          <el-checkbox v-model="question.agreedWithPrivacyPolicy">
+            Я согласен на обработку своих <br />
+            персональных данных
+          </el-checkbox>
         </el-form-item>
-        <el-form-item style="margin: 0">
-          <FileUploader :file-info="question.file" />
-        </el-form-item>
-        <div class="flex-column">
-          <el-form-item prop="publishAgreement">
-            <el-checkbox v-model="question.publishAgreement">
-              Я не против публичного размещения моего обращения<br />
-              на сайте морозовской детской больницы
-            </el-checkbox>
-          </el-form-item>
-          <div class="publish-comment">
-            <div>Ваш вопрос может помочь другим людям.</div>
-            <div>При размещении будет убрана личная информация, с целью сохранения конфеденцальности.</div>
-          </div>
-          <el-form-item prop="agreedWithPrivacyPolicy">
-            <el-checkbox v-model="question.agreedWithPrivacyPolicy"> Я согласен на обработку своих персональных данных </el-checkbox>
-          </el-form-item>
+        <div class="publish-comment">
+          <div>Ваш вопрос может помочь другим людям.</div>
+          <div>При размещении будет убрана личная информация, с целью сохранения конфеденцальности.</div>
         </div>
-        <div class="right-button">
-          <el-button type="success" @click="sendQuestion()">Отправить</el-button>
-        </div>
-      </el-form>
-    </div>
-  </el-drawer>
+      </div>
+      <FileUploader :file-info="question.file" />
+      <div class="right-button">
+        <el-button type="success" @click="sendQuestion()">Отправить</el-button>
+      </div>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -162,8 +157,9 @@ const sendQuestion = async () => {
 }
 
 .publish-comment {
-  margin-left: 25px;
+  margin: 10px 0;
   font-style: italic;
+  font-size: 12px;
 }
 
 :deep(.el-drawer) {
