@@ -2,12 +2,12 @@ import Doctor from '@/classes/Doctor';
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
 import Head from '@/classes/Head';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
+import AcademicsSortsLib from '@/libs/sorts/AcademicsSortsLib';
+import HeadsSortsLib from '@/libs/sorts/HeadsSortsLib';
 import SortModel from '@/services/classes/SortModel';
 import { Constructable } from '@/services/ClassHelper';
 import { FilterModelBuilder } from '@/services/interfaces/Filter';
-import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
-import EducationAcademicsSortsLib from '@/libs/sorts/EducationOrganizationAcademicsSortsLib';
-import HeadsSortsLib from '@/libs/sorts/HeadsSortsLib';
 
 export interface ListMode {
   condition: (e: never) => boolean;
@@ -44,7 +44,7 @@ const modes: ListMode[] = [
     filter: EmployeesFiltersLib.onlyEducationalAcademics,
     label: 'Учёный совет',
     store: 'educationalAcademics',
-    sortModel: EducationAcademicsSortsLib.byOrder(),
+    sortModel: AcademicsSortsLib.byOrder(),
   },
 ];
 
