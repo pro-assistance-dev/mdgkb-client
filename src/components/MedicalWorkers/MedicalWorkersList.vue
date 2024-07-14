@@ -1,9 +1,9 @@
 <template>
-  <PageWrapper v-if="mounted" :title="title">
+  <PageWrapper :title="title">
     <template #filters>
       <DoctorsListFilters @change-mode="changeMode" @load="loadDoctors" />
     </template>
-    <div v-if="doctorsMode" style="display: flex; flex-wrap: wrap; jestify-content: center">
+    <div v-if="doctorsMode" style="display: flex; flex-wrap: wrap; justify-content: center">
       <div v-for="doctor in doctors" :key="doctor.id" style="margin: 0 auto; height: 350px; padding: 10px">
         <DoctorInfoCard :doctor="doctor" />
       </div>
@@ -17,12 +17,9 @@
 
 <script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
-import Head from '@/classes/Head';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 const doctors: Ref<Doctor[]> = Store.Items('doctors');
-const heads: Ref<Head[]> = Store.Items('heads');
 const doctorsMode: ComputedRef<boolean> = computed(() => Router.Route().path === '/doctors');
 
 const title: ComputedRef<string> = computed(() => {
@@ -35,7 +32,7 @@ const loadDoctors = async () => {
 
 const loadHeads = async () => {
   // Provider.setSortModel(HeadsSortsLib.byOrder());
-  await Store.FTSP('heads');
+  await HeadsStore.FTSP();
 };
 
 const load = async () => {

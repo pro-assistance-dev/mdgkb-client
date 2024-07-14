@@ -4,7 +4,7 @@
       <div class="main-doctor-info">
         <div class="main-doctor-avatar">
           <div class="doctor-avatar">
-            <img src="../../assets/doctors/Gorev_V_3.webp" alt="doctor-Gorev" />
+            <img :src="GorevPic" alt="doctor-Gorev" />
           </div>
         </div>
         <div class="main-doctor-title">
@@ -139,28 +139,11 @@
   </svg>
 </template>
 
-<script lang="ts">
-import { computed, Ref } from 'vue';
-
+<script lang="ts" setup>
 import Head from '@/classes/Head';
-import ContactBlock from '@/components/ContactBlock.vue';
-import countRating from '@/services/countRating';
-import Provider from '@/services/Provider/Provider';
-
-export default {
-  name: 'MedicalOrganizationStructureVertical',
-  components: { ContactBlock },
-  setup() {
-    const heads: Ref<Head[]> = computed<Head[]>(() => Provider.store.getters['heads/items']);
-    const mainDoctor: Ref<Head> = computed<Head>(() => Provider.store.getters['heads/mainDoctor']);
-
-    return {
-      countRating,
-      heads,
-      mainDoctor,
-    };
-  },
-};
+import GorevPic from '@/assets/doctors/Gorev_V_3.webp';
+const heads: Head[] = HeadsStore.Items();
+const mainDoctor: Head = HeadsStore.MainDoctor();
 </script>
 
 <style lang="scss" scoped>

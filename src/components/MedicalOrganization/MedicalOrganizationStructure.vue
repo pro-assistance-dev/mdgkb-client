@@ -114,12 +114,12 @@
 <script lang="ts" setup>
 import Head from '@/classes/Head';
 
-const heads: Ref<Head[]> = Store.Items('heads');
-const mainDoctor: Ref<Head> = Store.Getters('heads/mainDoctor');
+const heads: Head[] = HeadsStore.Items();
+const mainDoctor: Head = HeadsStore.MainDoctor();
 const mount = ref(false);
 
 onBeforeMount(async () => {
-  await Store.GetAll('heads');
+  await HeadsStore.FTSP();
   mount.value = true;
 });
 </script>

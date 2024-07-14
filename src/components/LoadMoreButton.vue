@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!allLoaded" class="load-more">
+  <div class="load-more">
     <PButton skin="profile" type="c_blue" margin="0 auto" @click="$emit('loadMore')" width="130px">
       <div v-if="!loading">{{ text }}</div>
       <div v-if="loading" class="loader" style="--b: 5px; width: 26px; --n: 16"></div>
@@ -8,15 +8,14 @@
 </template>
 
 <script lang="ts" setup>
-import Provider from '@/services/Provider/Provider';
-
 const props = defineProps({
   loading: {
     type: Boolean as PropType<boolean>,
     default: false,
   },
 });
-const emits = defineEmits(['loadMore']);
+
+defineEmits(['loadMore']);
 const text = computed(() => (props.loading ? 'Загрузка...' : 'Показать ещё'));
 </script>
 
