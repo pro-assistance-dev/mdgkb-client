@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" show-header pagination>
+  <AdminListWrapper v-if="mounted" show-header :store="NewsStore">
     <template #header>
       <RemoteSearchNew :key-value="'news'" @select="selectSearch" />
       <!-- <RemoteSearchNew :key-value="'news'" @select="selectSearch" /> -->
@@ -8,7 +8,7 @@
       <FilterSelectDate
         class="filters-block"
         :table="News.GetClassName()"
-        :col="$classHelper.GetPropertyName(News).publishedOn"
+        :col="ClassHelper.GetPropertyName(News).publishedOn"
         placeholder="Дата публикации"
         @load="loadNews"
       />
@@ -122,16 +122,14 @@ import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import SortListConst from '@/services/SortList';
 
-const news = Store.Items('news');
+const news = NewsStore.Items();
 
-const newsMain = Store.Item('news', 'main');
-const searchResult = Store.Item('news');
-const newsSubMain1 = Store.Item('news', 'subMain1');
-const newsSubMain2 = Store.Item('news', 'subMain2');
+const newsMain = NewsStore.Main();
+// const searchResult = Store.Item('news');
+const newsSubMain1 = NewsStore.SubMain1();
+const newsSubMain2 = NewsStore.SubMain2();
 
 const mounted = ref(false);
-
-const sortList: Ref<SortModel[]> = ref([]);
 
 const edit = async (id: string): Promise<void> => {
   await Router.To(`/admin/news/${id}`);
@@ -140,11 +138,11 @@ const edit = async (id: string): Promise<void> => {
 const isModalOpened: Ref<boolean> = ref(false);
 
 const remove = async (id: string) => {
-  await Store.Remove('news', id);
+  await NewsStore.Remove(id);
 };
 
 const loadNews = async (): Promise<void> => {
-  await Store.FTSP('news');
+  await NewsStore.FTSP();
 };
 
 const load = async (): Promise<void> => {
@@ -163,7 +161,7 @@ const load = async (): Promise<void> => {
 };
 
 const loadMain = async () => {
-  await Promise.all([Store.Dispatch('news/getMain'), Store.Dispatch('news/getSubMain')]);
+  await Promise.all([NewsStore.GetMain(), NewsStore.GetSubMain()]);
 };
 
 const openModal = () => {
@@ -171,9 +169,9 @@ const openModal = () => {
 };
 
 const clearMain = async () => {
-  newsMain.value.main = false;
-  await Store.Update('news', newsMain.value);
-  Store.Update('news/setMain', { news: [new News()] });
+  newsMain.main = false;
+  await NewsStore.Update(newsMain.value);
+  // Store.Update('news/setMain', { news: [new News()] });
 };
 
 const clearHandler = async (previousItem: News, storeName: string, isMain: boolean) => {
@@ -183,7 +181,7 @@ const clearHandler = async (previousItem: News, storeName: string, isMain: boole
     previousItem.subMain = false;
   }
   await Store.Update('news', previousItem);
-  Store.Commit(`news/${storeName}`, { news: [new News()] });
+  // Store.Commit(`news/${storeName}`, { news: [new News()] });
 };
 
 const selectMainNewsHandler = async (newItem: News, previousItem: News, storeName: string, isMain: boolean) => {
@@ -192,20 +190,20 @@ const selectMainNewsHandler = async (newItem: News, previousItem: News, storeNam
   } else {
     previousItem.subMain = false;
   }
-  await Store.Update('news', previousItem);
+  await NewsStore.Update(previousItem);
   if (newItem) {
     if (isMain) {
       newItem.main = true;
     } else {
       newItem.subMain = true;
     }
-    Store.Commit(`news/${storeName}`, { news: [newItem] });
-    await Store.Update('news', newItem);
+    // Store.Commit(`news/${storeName}`, { news: [newItem] });
+    await NewsStore.Update(newItem);
   }
 };
 
 Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'news', action: 'ftsp' },
+  sortsLib: NewsSortsLib,
 });
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {

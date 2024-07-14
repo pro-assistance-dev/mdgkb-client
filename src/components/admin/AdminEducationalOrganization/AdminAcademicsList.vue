@@ -63,8 +63,8 @@ export default defineComponent({
       newId.value = '';
     };
     const load = async () => {
-      Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
-      Provider.setLimit(9999);
+      // Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
+      // Provider.setLimit(9999);
       await Provider.store.dispatch('educationalAcademics/getAll');
       await Provider.store.dispatch('employees/getAll');
     };

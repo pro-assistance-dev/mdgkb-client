@@ -1,5 +1,5 @@
 <template>
-  <MainContainer header-button-link="/news" header-title="Главные новости" header-button-title="Все новости">
+  <MainContainer v-if="mounted" header-button-link="/news" header-title="Главные новости" header-button-title="Все новости">
     <div class="wrapper">
       <div class="main-news-block-left">
         <MainBigNewsCard :news="newsMain" />
@@ -11,7 +11,7 @@
       </div>
       <div class="height2"></div>
       <div class="main-news-block-right">
-        <NewsSmallList :news-list="recentNewsList" style="height: 100%" />
+        <NewsSmallList :news-list="recentNewsList.splice(0, 5)" style="height: 100%" />
       </div>
     </div>
     <div class="main-news-block-middle2">
@@ -19,7 +19,7 @@
       <div class="size"><NewsCard :news="newsSubMain2" /></div>
     </div>
     <div class="main-news-block-right2">
-      <NewsSmallList :news-list="recentNewsList" style="height: 100%" />
+      <NewsSmallList :news-list="recentNewsList.splice(0, 5)" style="height: 100%" />
     </div>
   </MainContainer>
 </template>
@@ -27,18 +27,17 @@
 <script lang="ts" setup>
 import Hooks from '@/services/Hooks/Hooks';
 
-const newsMain = Store.Getters('news/main');
-const newsSubMain1 = Store.Getters('news/subMain1');
-const newsSubMain2 = Store.Getters('news/subMain2');
-const recentNewsList = Store.Getters('news/mainPageRecentNewsList');
+const newsMain = NewsStore.Main();
+const newsSubMain1 = NewsStore.SubMain1();
+const newsSubMain2 = NewsStore.SubMain2();
+const recentNewsList = NewsStore.Items();
+const mounted = ref(false);
 
 const load = async () => {
-  new Promise(() => {
-    Store.Dispatch('news/getMain', true);
-    Store.Dispatch('news/getSubMain', true);
-  }).then(() => {
-    Store.Commit('news/setFilteredNews');
-  });
+  await NewsStore.GetMain(true);
+  await NewsStore.GetSubMain(true);
+  await NewsStore.FTSP({ ftsp: new FTSP() });
+  mounted.value = true;
 };
 
 Hooks.onBeforeMount(load);

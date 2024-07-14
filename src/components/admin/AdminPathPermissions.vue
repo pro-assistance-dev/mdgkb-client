@@ -132,7 +132,7 @@ export default defineComponent({
 
     const load = async () => {
       PHelp.AdminUI.Head.Set('Клиентские доступы'[Button.Success('Сохранить', submit)]);
-      Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
+      // Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
 
       // TODO: проверить лимит по-умолчанию при отсутствии пагинации
       // ===========================================

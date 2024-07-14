@@ -129,6 +129,7 @@
     "CommentsStore": true,
     "EmployeesStore": true,
     "UsersStore": true,
-    "ProjectsStore": true
+    "ProjectsStore": true,
+    "NewsStore": true
   }
 }

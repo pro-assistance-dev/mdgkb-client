@@ -39,22 +39,6 @@ const actions: ActionTree<State, RootState> = {
   createLike: async (_, newsLike: NewsLike): Promise<void> => {
     await httpClient.post<NewsLike, NewsLike>({ query: `like`, payload: newsLike });
   },
-  removeComment: async ({ commit }, id: string): Promise<void> => {
-    await httpClient.delete({ query: `comment/${id}` });
-    commit('removeComment', id);
-  },
-  createComment: async ({ commit }, comment: NewsComment): Promise<void> => {
-    const res = await httpClient.post<NewsComment, NewsComment>({ query: `comment`, payload: comment });
-    commit('resetComment', res);
-  },
-  updateComment: async ({ commit }, newComment: NewsComment): Promise<void> => {
-    await httpClient.put({ query: `comment/${newComment.id}`, payload: newComment });
-    commit('updateComment', newComment.comment.id);
-  },
-  deleteComment: async ({ commit }, comment: NewsComment): Promise<void> => {
-    await httpClient.delete({ query: `comment/${comment.id}` });
-    commit('deleteCommentFromNews', comment);
-  },
   deleteLike: async (_, newsLike: NewsLike): Promise<void> => {
     await httpClient.delete({ query: `like/${newsLike.id}` });
   },
@@ -74,10 +58,6 @@ const actions: ActionTree<State, RootState> = {
   },
   getSuggestionNews: async ({ commit }, id: string): Promise<void> => {
     commit('setAll', await httpClient.get<News[]>({ query: `get-suggestion/${id}` }));
-  },
-  getComments: async ({ commit }, id: string): Promise<void> => {
-    const items = await httpClient.get<NewsComment[]>({ query: `comments/${id}` });
-    commit('setComments', items);
   },
   // sendToTg: async (_, message: string): Promise<void> => {
   //   if (!process.env.VUE_APP_TG_TOKEN || process.env.VUE_APP_TG_CHAT_ID) {
