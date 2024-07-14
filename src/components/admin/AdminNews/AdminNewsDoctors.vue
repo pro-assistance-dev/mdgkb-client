@@ -28,16 +28,16 @@ export default defineComponent({
   name: 'AdminNewsDoctors',
   components: { TableButtonGroup },
   setup() {
-    const news: ComputedRef<News> = computed(() => Provider.store.getters['news/item']);
+    const news: News = NewsStore.Item();
     const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.store.dispatch('doctors/get', event.value);
-      news.value.addDoctor(doctor.value);
+      news.addDoctor(doctor.value);
     };
 
     const remove = (index: number) => {
-      news.value.removeDoctor(index);
+      news.removeDoctor(index);
     };
 
     return {

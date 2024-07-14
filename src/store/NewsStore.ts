@@ -103,7 +103,7 @@ class S extends BaseStore<News> {
   }
 
   async GetSuggestionNews(id: string): Promise<void> {
-    const res = await HttpClient.Get<News[]>({ query: `get-suggestion/${id}` });
+    const res = await HttpClient.Get<News[]>({ query: this.getUrl(`get-suggestion/${id}`) });
     if (!res) {
       return;
     }

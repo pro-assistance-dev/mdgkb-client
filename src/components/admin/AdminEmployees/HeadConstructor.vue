@@ -39,32 +39,10 @@
   </CollapseContainer>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
-
+<script lang="ts" setup>
 import Employee from '@/classes/Employee';
-import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
-import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
-import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'HeadConstructor',
-  components: {
-    ContactsForm,
-    CollapseItem,
-    CollapseContainer,
-    TimetableConstructorV2New,
-  },
-  setup() {
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-
-    return {
-      employee,
-    };
-  },
-});
+const employee: Employee = EmployeesStore.Item();
 </script>
 
 <style lang="scss" scoped>

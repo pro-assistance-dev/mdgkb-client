@@ -15,7 +15,7 @@ export default [
     meta: { carousel: true, title: 'Новости' },
   },
   {
-    path: '/news/:slug',
+    path: '/news/:id',
     name: 'NewsPage',
     meta: { title: 'Новости - ' },
     component: NewsPage,

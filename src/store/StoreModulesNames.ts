@@ -7,6 +7,7 @@ const StoreModulesNames = [
   'EmployeesStore',
   'UsersStore',
   'NewsStore',
+  'AcademicsStore',
 ];
 
 export default StoreModulesNames;

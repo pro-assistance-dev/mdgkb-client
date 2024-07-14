@@ -38,14 +38,12 @@ export default defineComponent({
         return;
       }
       if (like.value) {
-        await Provider.store.dispatch('news/deleteLike', like.value);
+        await NewsStore.DeleteLike(like.value);
         ClassHelper.RemoveFromClassById(like.value.id, props.news.newsLikes, []);
         return;
       }
       const l = props.news.createLike(user.value.id);
-      console.log(l);
-
-      await Provider.store.dispatch('news/createLike', l);
+      await NewsStore.CreateLike(l);
     };
 
     return {

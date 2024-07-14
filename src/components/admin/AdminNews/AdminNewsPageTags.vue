@@ -53,7 +53,7 @@ export default defineComponent({
 
     onMounted(loadTags);
 
-    let news = computed(() => Provider.store.getters['news/item']);
+    let news = NewsStore.Item();
     let tags = computed(() => Provider.store.getters['tags/items']);
     let tag = computed(() => Provider.store.getters['tags/item']);
 
@@ -63,7 +63,7 @@ export default defineComponent({
     };
 
     const chooseTag = (tag: Tag) => {
-      news.value.addOrRemoveTag(tag);
+      news.addOrRemoveTag(tag);
     };
 
     const removeTag = async (tagId: string) => {

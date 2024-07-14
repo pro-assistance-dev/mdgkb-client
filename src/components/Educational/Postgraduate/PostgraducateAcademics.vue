@@ -1,6 +1,6 @@
 <template>
-  <div v-if="mounted && educationalAcademics.length" class="flex">
-    <div v-for="item in educationalAcademics" :key="item.id" class="doctors-wrapper">
+  <div v-if="mounted && academics.length" class="flex">
+    <div v-for="item in academics" :key="item.id" class="doctors-wrapper">
       <AcademicCard :employee="item.employee" />
     </div>
   </div>
@@ -8,12 +8,16 @@
 
 <script lang="ts" setup>
 import EducationalAcademic from '@/classes/EducationalAcademic';
+import AcademicsSortsLib from '@/libs/sorts/AcademicsSortsLib';
 
 const mounted = ref(false);
-const educationalAcademics: Ref<EducationalAcademic[]> = Store.Items('educationalAcademics');
+const academics: EducationalAcademic[] = AcademicsStore.Items();
 
 onBeforeMount(async () => {
-  await Store.GetAll('educationalAcademics');
+  const ftsp = new FTSP();
+  ftsp.setS(AcademicsSortsLib.byOrder());
+  ftsp.p.limit = 999999;
+  await AcademicsStore.FTSP({ ftsp: ftsp });
   mounted.value = true;
 });
 </script>

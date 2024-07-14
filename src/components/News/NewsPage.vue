@@ -47,7 +47,6 @@ import Comments from '@/components/Comments/Comments.vue';
 import EventRegistration from '@/components/News/EventRegistration.vue';
 import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 const SuggestionNews = defineAsyncComponent({
   loader: () => import('@/components/News/SuggestionNews.vue' /* webpackChunkName: "mainReviews" */),
@@ -55,28 +54,26 @@ const SuggestionNews = defineAsyncComponent({
 });
 
 const mounted: Ref<boolean> = ref(false);
-const slug = computed(() => Provider.route().params['slug']);
-const news: ComputedRef<News> = computed<News>(() => Provider.store.getters['news/item']);
+const id = computed(() => Router.Id());
+const news: News = NewsStore.Item();
 const modalOpen: Ref<boolean> = ref(false);
 const mobileWindow = ref(
   window.innerWidth < 1600 ? (window.innerWidth < 600 ? window.innerWidth / 1.6 : window.innerWidth / 2.5) : window.innerWidth / 3.5
 );
 
-watch(slug, async () => {
-  if (slug.value) {
-    await load();
-  }
+watch(id, async () => {
+  await load();
 });
 
 const load = async () => {
-  await Provider.store.dispatch('news/get', slug.value);
+  await NewsStore.Get(Router.Id());
   mounted.value = true;
   window.scrollTo(0, 0);
 };
 
 Hooks.onBeforeMount(load);
 
-const newsContent = computed(() => (news.value.content ? news.value.content : '<p style="text-align: center">Описание отсутствует</p>'));
+const newsContent = computed(() => (news.content ? news.content : '<p style="text-align: center">Описание отсутствует</p>'));
 
 const openModalWindow = async () => {
   modalOpen.value = true;

@@ -25,7 +25,7 @@ const changeNewsEvents = async (eventMode: boolean) => {
     return;
   }
   eventModeActive.value = eventMode;
-  await Store.Commit('news/setEventMode', eventModeActive.value);
+  // await NewsStore.SetEventMode(eventModeActive.value);
   emit('load');
 };
 </script>

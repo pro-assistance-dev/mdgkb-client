@@ -176,10 +176,10 @@ export default defineComponent({
       residencyCourse.value.formPatternId = residencyCourse.value.formPattern.id;
     };
 
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Employee = EmployeesStore.Item();
     const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
-      await Provider.store.dispatch('employees/get', searchObject.value);
-      residencyCourse.value.setMainTeacher(employee.value);
+      await EmployeesStore.Get(searchObject.value);
+      residencyCourse.value.setMainTeacher(employee);
     };
 
     return {

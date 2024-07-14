@@ -3,7 +3,7 @@ import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
 
-const EducationOrganizationAcademicsSortsLib = (() => {
+const AcademicsSortsLib = (() => {
   function byFullName(order?: Orders): SortModel {
     return SortModel.Create(
       EducationalAcademic,
@@ -29,4 +29,4 @@ const EducationOrganizationAcademicsSortsLib = (() => {
   };
 })();
 
-export default EducationOrganizationAcademicsSortsLib;
+export default AcademicsSortsLib;

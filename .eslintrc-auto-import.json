@@ -130,6 +130,8 @@
     "EmployeesStore": true,
     "UsersStore": true,
     "ProjectsStore": true,
-    "NewsStore": true
+    "NewsStore": true,
+    "EducationalAcademicsStore": true,
+    "AcademicsStore": true
   }
 }

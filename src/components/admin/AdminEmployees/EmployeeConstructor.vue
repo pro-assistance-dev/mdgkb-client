@@ -156,8 +156,8 @@ export default defineComponent({
     CollapseContainer,
   },
   setup() {
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
-    const employees: Ref<Employee[]> = computed(() => Provider.store.getters['employees/items']);
+    const employee: Employee = EmployeesStore.Item();
+    const employees: Employee[] = EmployeesStore.Items();
     let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
 
     const completeInput = async (human: Human) => {
@@ -165,14 +165,14 @@ export default defineComponent({
       filterModel.value1 = human.getFullName();
       Provider.setFilterModel(filterModel);
       await Provider.loadItems();
-      if (employees.value.length === 0) {
+      if (employees.length === 0) {
         return;
       }
       await offerEditExistingDoctor();
     };
 
     const offerEditExistingDoctor = async () => {
-      const existing = employees.value[0];
+      const existing = employees[0];
       if (!existing) {
         return;
       }
@@ -181,7 +181,7 @@ export default defineComponent({
         confirmButtonText: 'Перейти к редактированию',
         cancelButtonText: 'Остаться в создании нового',
       }).then(async () => {
-        await Provider.router.push(`/admin/employees/${existing.human.slug}`);
+        await Router.To(`/admin/employees/${existing.human.slug}`);
         await Provider.loadItem();
       });
     };

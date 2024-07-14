@@ -22,6 +22,11 @@ class NotificationConstructor extends Message {
   private GetDuration(): number {
     return this.duration;
   }
+  Dev() {
+    const m = 'В режиме разработки';
+    const t = Statuses.Warning;
+    super.showMessage(m, t);
+  }
 }
 
 const Notification: NotificationConstructor = new NotificationConstructor();
