@@ -11,40 +11,28 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-
+<script lang="ts" setup>
 import News from '@/classes/News';
-import NewsSmallList from '@/components/News/NewsSmallList.vue';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'SuggestionNews',
-  components: { NewsSmallList },
-  props: {
-    newsNumber: {
-      type: Number,
-      default: 3,
-    },
+const props = defineProps({
+  newsNumber: {
+    type: Number,
+    default: 3,
   },
-  setup(props) {
-    const generalNewsId = Provider.route().params['slug'];
-    const suggestionNews: ComputedRef<News[]> = computed(() => {
-      return Provider.store.getters['news/items'].filter((item: News) => item.id !== generalNewsId).slice(0, props.newsNumber);
-    });
+});
+// const generalNewsId = Provider.route().params['slug'];
+const suggestionNews: News[] = NewsStore.Items();
+// computed(() => {
+//   return Provider.store.getters['news/items'].filter((item: News) => item.id !== generalNewsId).slice(0, props.newsNumber);
+// });
 
-    const loadRelatedNews = async () => {
-      await Provider.store.dispatch('news/getSuggestionNews', generalNewsId);
-    };
+const loadRelatedNews = async () => {
+  await NewsStore.GetSuggestionNews(Router.Id());
+};
 
-    onBeforeMount(async () => {
-      await loadRelatedNews();
-    });
-
-    return {
-      suggestionNews,
-    };
-  },
+onBeforeMount(async () => {
+  await loadRelatedNews();
 });
 </script>
 

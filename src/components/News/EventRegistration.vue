@@ -24,12 +24,9 @@
 
 <script lang="ts" setup>
 import Event from '@/classes/Event';
-import EventApplication from '@/classes/EventApplication';
 import validate from '@/services/validate';
 
 const event: Ref<Event> = Store.Getters('news');
-const eventApplication: Ref<EventApplication> = Store.Getters('news/eventApplication');
-eventApplication.value.eventId = event.value.id;
 const form = ref();
 const eventFormVisible = ref(false);
 // const user: Ref<User> = computed(() => store.getters['auth/user']);
@@ -47,7 +44,7 @@ const eventFormVisible = ref(false);
 const send = async () => {
   if (!validate(form)) return;
   try {
-    await Store.Dispatch(`events/sendEventApplications`, eventApplication.value);
+    // await Store.Dispatch(`events/sendEventApplications`, eventApplication.value);
   } catch (e) {
     PHelp.Notification.Error('Что-то пошло не так');
     return;

@@ -28,9 +28,11 @@ export default function (): IReturn {
 
   const showConfirmModal = (submit: SubmitCallback, next: NavigationGuardNext): void => {
     if (confirmLeave.value && !saveButtonClick.value) {
-      PHelp.Dialog
-        .Save()
-        .then(() => submit())
+      PHelp.Dialog.Save()
+        .then(() => {
+          submit();
+          next();
+        })
         .catch(() => {
           PHelp.Notification.Warning('Изменения не были сохранены');
           next();

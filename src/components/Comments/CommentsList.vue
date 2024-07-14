@@ -42,7 +42,7 @@ import PageWrapper from '@/components/PageWrapper.vue';
 import CommentsSortsLib from '@/libs/sorts/CommentsSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 
-const comments: Ref<Comment[]> = Store.Items('comments');
+const comments: Comment[] = CommentsStore.Items();
 const showDialog: Ref<boolean> = ref(false);
 const auth = Store.Getters('auth/auth');
 const authModal = Store.Getters('auth/modal');
@@ -62,15 +62,15 @@ const load = async () => {
 };
 
 const loadComments = async () => {
-  await Store.FTSP('comments');
+  await CommentsStore.FTSP();
 };
 
 Hooks.onBeforeMount(load);
 
 const loadMore = async () => {
   FTSP.Get().p.append = true;
-  FTSP.Get().p.offset = comments.value.length;
-  Store.FTSP('comments');
+  FTSP.Get().p.offset = comments.length;
+  CommentsStore.FTSP();
 };
 </script>
 

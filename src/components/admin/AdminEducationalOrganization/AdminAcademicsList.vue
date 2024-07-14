@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" show-header>
+  <AdminListWrapper show-header>
     <template #header>
       <el-select v-model="newId" style="min-width: 400px" filterable placeholder="Выберите сотрудника">
         <el-option v-for="item in employees" :key="item.id" :label="item.human.getFullName()" :value="item.id" />
@@ -37,84 +37,66 @@
   </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import EducationalAcademic from '@/classes/EducationalAcademic';
 import Employee from '@/classes/Employee';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TableMover from '@/components/admin/TableMover.vue';
+import AcademicsSortsLib from '@/libs/sorts/AcademicsSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
-import EducationOrganizationAcademicsSortsLib from '@/libs/sorts/EducationOrganizationAcademicsSortsLib';
-import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
+const newId: Ref<string> = ref('');
+const educationalAcademics: EducationalAcademic[] = AcademicsStore.Items();
+const employees: Employee[] = EmployeesStore.Items();
+const isEditMode: Ref<boolean> = ref(false);
 
-export default defineComponent({
-  name: 'AdminAcademicsList',
-  components: { TableButtonGroup, AdminListWrapper, TableMover },
-  setup() {
-    const newId: Ref<string> = ref('');
-    const educationalAcademics: ComputedRef<EducationalAcademic[]> = computed(() => Provider.store.getters['educationalAcademics/items']);
-    const employees: ComputedRef<Employee[]> = computed(() => Provider.store.getters['employees/items']);
-    const isEditMode: Ref<boolean> = ref(false);
+const clearSelect = () => {
+  newId.value = '';
+};
+const load = async () => {
+  // Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
+  // Provider.setLimit(9999);
+  FTSP.Get().setS(AcademicsSortsLib.byOrder());
+  FTSP.Get().p.limit = 999999;
+  await AcademicsStore.FTSP();
+  await EmployeesStore.GetAll();
+  PHelp.AdminUI.Head.Set('Учёный совет', [
+    Button.Success(
+      computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
+      headBtnClick
+    ),
+  ]);
+};
+const headBtnClick = async () => {
+  if (isEditMode.value) {
+    await save();
+  } else {
+    isEditMode.value = true;
+  }
+};
+const save = async () => {
+  await AcademicsStore.UpdateMany();
+  isEditMode.value = false;
+};
+const remove = async (id: string) => {
+  await AcademicsStore.Remove(id);
+};
+const add = async () => {
+  if (!newId.value) {
+    PHelp.Notification.Warning('Необходимо выбрать сотрудника');
+    return;
+  }
+  if (educationalAcademics.find((el) => el.employeeId == newId.value)) {
+    PHelp.Notification.Warning('Выбранный сотрудник уже добавлен');
+    return;
+  }
+  const newItem = new EducationalAcademic();
+  newItem.employee = new Employee(employees.find((el) => el.id == newId.value));
+  newItem.employeeId = newId.value;
+  newItem.order = educationalAcademics.length;
+  await AcademicsStore.Create(newItem);
+  await load();
+  clearSelect();
+  PHelp.Notification.Success('Сотрудник добавлен');
+  document.querySelector('.el-table__body-wrapper')?.scrollTo({ top: 9999, behavior: 'smooth' });
+};
 
-    const clearSelect = () => {
-      newId.value = '';
-    };
-    const load = async () => {
-      Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
-      Provider.setLimit(9999);
-      await Provider.store.dispatch('educationalAcademics/getAll');
-      await Provider.store.dispatch('employees/getAll');
-    };
-    const save = async () => {
-      await Provider.store.dispatch('educationalAcademics/updateMany');
-      isEditMode.value = false;
-    };
-    const remove = async (id: string) => {
-      await Provider.store.dispatch('educationalAcademics/remove', id);
-    };
-    const add = async () => {
-      if (!newId.value) {
-        ElMessage({ message: 'Необходимо выбрать сотрудника', type: 'error' });
-        return;
-      }
-      if (educationalAcademics.value.find((el) => el.employeeId == newId.value)) {
-        ElMessage({ message: 'Выбранный сотрудник уже добавлен', type: 'error' });
-        return;
-      }
-      const newItem = new EducationalAcademic();
-      newItem.employee = new Employee(employees.value.find((el) => el.id == newId.value));
-      newItem.employeeId = newId.value;
-      newItem.order = educationalAcademics.value.length;
-      await Provider.store.dispatch('educationalAcademics/create', newItem);
-      await load();
-      clearSelect();
-      ElMessage({ message: 'Сотрудник добавлен', type: 'success' });
-      document.querySelector('.el-table__body-wrapper')?.scrollTo({ top: 9999, behavior: 'smooth' });
-    };
-
-    Hooks.onBeforeMount(load, {
-      adminHeader: {
-        title: 'Ученый совет',
-        buttons: [
-          {
-            text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
-            action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
-          },
-        ],
-      },
-    });
-    return {
-      educationalAcademics,
-      mounted: Provider.mounted,
-      remove,
-      add,
-      newId,
-      employees,
-      isEditMode,
-    };
-  },
-});
+Hooks.onBeforeMount(load);
 </script>

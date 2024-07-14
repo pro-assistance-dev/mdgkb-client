@@ -1,5 +1,5 @@
 <template>
-  <div :key="count" style="display: flex; justify-content: center; width: 100%">
+  <div style="display: flex; justify-content: center; width: 100%">
     <div
       class="pag-container"
       :style="{
@@ -113,7 +113,7 @@ const currentChange = async (toPage: number) => {
 const setPage = async (pageNum: number, load: boolean): Promise<void> => {
   Provider.loadingDecor(async () => {
     paginator.setCurPage(pageNum);
-    pagination.offset = pageNum - 1;
+    FTSP.Get().p.offset = (pageNum - 1) * paginator.limit;
     if (load) {
       await props.store.FTSP();
     }
@@ -123,7 +123,6 @@ const setPage = async (pageNum: number, load: boolean): Promise<void> => {
 
 const pagesNums = computed(() => {
   const pc = paginator.pagesCount();
-  console.log(pc);
   if (pc < 8) {
     return Arrays.GenerateNumsRange(2, pc - 2).filter((p: number) => p < pc && p > 1);
   }
@@ -142,10 +141,6 @@ const scrollToBack = () => {
 
 onBeforeUnmount(() => {
   Provider.dropPagination();
-});
-
-onBeforeMount(async () => {
-  await setPage(Provider.getPagination().getPageNum(), false);
 });
 </script>
 

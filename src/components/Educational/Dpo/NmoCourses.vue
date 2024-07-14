@@ -27,8 +27,8 @@ export default defineComponent({
     const loadCourses = async () => {};
 
     const load = async () => {
-      Provider.setSortModels(NmoCoursesSortsLib.byName(Orders.Asc));
-      Provider.setSortList(...createSortModels(NmoCoursesSortsLib));
+      // Provider.setSortModels(NmoCoursesSortsLib.byName(Orders.Asc));
+      // Provider.setSortList(...createSortModels(NmoCoursesSortsLib));
       await loadCourses();
     };
 

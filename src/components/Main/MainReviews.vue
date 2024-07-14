@@ -24,7 +24,7 @@ import CommentsFiltersLib from '@/libs/filters/CommentsFiltersLib';
 
 const showDialog: Ref<boolean> = ref(false);
 const mounted = ref(false);
-const reviews: ComputedRef<Comment[]> = Store.Items('comments');
+const reviews: Comment[] = CommentsStore.Items();
 const dialogComment: Ref<Comment | undefined> = ref();
 
 const showMore = (item: Comment) => {
@@ -39,7 +39,7 @@ onBeforeMount(async () => {
   ftsp.p.limit = 4;
   ftsp.setF(CommentsFiltersLib.onlyPositive());
   ftsp.setF(CommentsFiltersLib.onlyPublished());
-  await Store.FTSP('comments', { ftsp: ftsp, withCache: true });
+  await CommentsStore.FTSP({ ftsp: ftsp, withCache: true });
   mounted.value = true;
 });
 </script>

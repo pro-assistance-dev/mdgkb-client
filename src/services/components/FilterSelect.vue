@@ -1,5 +1,5 @@
 <template>
-  <PSelect v-model="filterModel" :clearable="filterModel ? true : false" :placeholder="defaultLabel" @change="selectFilter">
+  <PSelect v-model="filterModel" :clearable="filterModel" :placeholder="defaultLabel" @change="selectFilter">
     <option v-for="(model, i) in models" :key="i" :value="model" :label="model.label" />
   </PSelect>
 </template>

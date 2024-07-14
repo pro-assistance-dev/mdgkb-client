@@ -96,17 +96,17 @@ export default defineComponent({
     SetEntity,
   },
   setup() {
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Employee = EmployeesStore.Item();
     const division: Ref<Division> = DivisionsStore.Item();
 
     const addDivision = async (search: ISearchObject) => {
-      const alreadyAdded = employee.value.doctor?.doctorsDivisions.find((d: DoctorDivision) => d.divisionId === search.value);
+      const alreadyAdded = employee.doctor?.doctorsDivisions.find((d: DoctorDivision) => d.divisionId === search.value);
       if (alreadyAdded) {
         PHelp.Notification.Warning('Выбранное отделение уже добавлено');
         return;
       }
       await DivisionsStore.Get(search.value);
-      employee.value.doctor?.addDoctorDivision(division.value);
+      employee.doctor?.addDoctorDivision(division.value);
     };
 
     return {

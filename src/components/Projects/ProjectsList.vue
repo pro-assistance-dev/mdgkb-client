@@ -6,45 +6,26 @@
   </PageComponent>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import CustomSection from '@/classes/CustomSection';
 import Project from '@/classes/Project';
-import PageComponent from '@/components/Page/PageComponent.vue';
 import ProjectPage from '@/components/Projects/ProjectPage.vue';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'ProjectsList',
-  components: {
-    PageComponent,
-    ProjectPage,
-  },
-  setup() {
-    const projects: ComputedRef<Project[]> = computed(() => Provider.store.getters['projects/items']);
-    const customSections: Ref<CustomSection[]> = ref([]);
-    const mounted = ref(false);
+const projects: Project[] = ProjectsStore.Items();
+const customSections: Ref<CustomSection[]> = ref([]);
+const mounted = ref(false);
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('projects/getAll');
-      const sections = projects.value.map((p: Project) => CustomSection.Create(p.id as string, p.title, 'ProjectPage'));
-      customSections.value.push(...sections);
-      mounted.value = true;
-    });
-
-    const selectProject = async (e: PageSideMenu) => {
-      await Provider.store.dispatch('projects/get', e.id);
-    };
-    return {
-      selectProject,
-      customSections,
-      projects,
-      mounted,
-    };
-  },
+onBeforeMount(async () => {
+  await ProjectsStore.FTSP();
+  const sections = projects.map((p: Project) => CustomSection.Create(p.id as string, p.title, ProjectPage));
+  customSections.value.push(...sections);
+  mounted.value = true;
 });
+
+const selectProject = async (e: PageSideMenu) => {
+  await ProjectsStore.Get(e.id);
+};
 </script>
 
 <style lang="scss" scoped>

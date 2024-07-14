@@ -1,7 +1,7 @@
 <template>
-  <component :is="'AdminListWrapper'" show-header>
+  <AdminListWrapper v-if="mounted" show-header :store="UsersStore">
     <template #header>
-      <SortList class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
+      <SortSelect class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
     </template>
     <el-table v-if="users" :data="users">
       <el-table-column prop="email" label="email" sortable>
@@ -35,79 +35,46 @@
     <template #footer>
       <Pagination />
     </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import User from '@/classes/User';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminUsersList',
-  components: { TableButtonGroup, AdminListWrapper },
+const users: User[] = UsersStore.Items();
+const mounted: Ref<boolean> = ref(false);
 
-  setup() {
-    const users: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['users/items']);
-    const roles: ComputedRef<User[]> = computed<User[]>(() => Provider.store.getters['roles/items']);
-    const mounted: Ref<boolean> = ref(false);
-    const isEditMode: Ref<boolean> = ref(false);
+const create = (): void => {
+  Router.To('/admin/users/new');
+};
 
-    const create = (): void => {
-      Provider.router.push('/admin/users/new');
-    };
-    const remove = async (id: string): Promise<void> => {
-      await Provider.store.dispatch('users/remove', id);
-    };
-    const edit = (id: string): void => {
-      Provider.router.push(`/admin/users/${id}`);
-    };
+const remove = async (id: string): Promise<void> => {
+  await UsersStore.Remove(id);
+};
+const edit = (id: string): void => {
+  Router.To(`/admin/users/${id}`);
+};
 
-    const loadUsers = async (): Promise<void> => {
-      await Provider.store.dispatch('users/getAll');
-    };
+const loadUsers = async (): Promise<void> => {
+  await UsersStore.FTSP();
+};
 
-    const load = async () => {
-      await Provider.store.dispatch('users/getAll');
-      await Provider.store.dispatch('roles/getAll');
-      // Provider.setSortList(...createSortModels(UsersSortsLib));
-      await loadUsers();
-      mounted.value = true;
-    };
+const load = async () => {
+  await loadUsers();
+  PHelp.AdminUI.Head.Set('Пользователи', [Button.Success('Создаить', open)]);
+  mounted.value = true;
+};
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'users', action: 'getAll' },
-      adminHeader: {
-        title: 'Пользователи',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      },
-    });
-
-    const loginAs = async (email: string) => {
-      await Provider.store.dispatch('auth/loginAs', email);
-      await Provider.router.push('/');
-    };
-
-    return {
-      loginAs,
-      mounted,
-      roles,
-      users,
-      create,
-      remove,
-      edit,
-      isEditMode,
-      sortList: Provider.sortList,
-      loadUsers,
-    };
-  },
+Hooks.onBeforeMount(load, {
+  sortsLib: UsersSortsLib,
 });
+
+const loginAs = async (email: string) => {
+  await Store.Dispatch('auth/loginAs', email);
+  await Router.To('/');
+};
 </script>
 
 <style lang="scss" scoped>

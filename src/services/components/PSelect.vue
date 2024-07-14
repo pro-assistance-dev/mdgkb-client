@@ -7,8 +7,8 @@
       <div class="left-field">
         <slot name="left" />
       </div>
-      <div class="sl">
-        <div v-if="clearable" class="clear" @click="clear">
+      <div class="sl" @mouseover="showClearIcon = true" @mouseleave="showClearIcon = false">
+        <div v-if="clearable" v-show="showClearIcon" class="clear" @click="clear">
           <IconClose margin="3px 0 0 0" />
         </div>
         <select v-model="model" class="text-field__input" @change="select">
@@ -31,6 +31,8 @@ const ph: Ref<boolean> = ref(true);
 const emits = defineEmits(['change', 'clear']);
 defineOptions({ inheritAttrs: false });
 
+const showClearIcon = ref(false);
+
 defineProps({
   text: { type: String as PropType<string>, default: '', required: false },
   label: { type: String as PropType<string>, default: '', required: false },
@@ -48,8 +50,8 @@ const select = (v: unknown) => {
   emits('change', v);
 };
 const clear = () => {
-  emits('change');
-  emits('clear');
+  emits('clear', undefined);
+  emits('change', undefined);
   ph.value = true;
 };
 </script>
@@ -82,10 +84,6 @@ option {
 .sl {
   width: 100%;
   position: relative;
-}
-
-.sl:hover > .clear {
-  visibility: visible;
 }
 
 .right-field {
@@ -164,7 +162,6 @@ option {
 }
 
 .clear {
-  visibility: hidden;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);

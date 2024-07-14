@@ -380,10 +380,11 @@ export default defineComponent({
       // }
     };
 
-    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
+    const news: Ref<News> = NewsStore.Item();
 
     const sendToTg = async () => {
-      await Provider.store.dispatch('news/sendToTg', news.value.content);
+      PHelp.Notification.Dev();
+      // await NewsStore.SendToTg(news.content);
     };
 
     return { items, showDialog, image, saveDialog, activeName, inputLink, clearDialogData, dialogType };

@@ -31,16 +31,16 @@ export default defineComponent({
   components: { MainContainer, NewsCard },
 
   setup() {
-    const news = Store.Items('news');
+    const news = NewsStore.Items();
     const carousel: Ref<News[][]> = ref([]);
     const mounted: Ref<boolean> = ref(false);
     const carouselRef = ref();
 
     onBeforeMount(async () => {
-      Store.Commit('news/clearNews');
+      NewsStore.ClearItems();
       // await Store.dispatch('news/getAllMain');
-      await Store.Commit('news/setFilteredNews');
-      carousel.value = makeCarousel<News>(news.value, 4);
+      // await Store.Commit('news/setFilteredNews');
+      carousel.value = makeCarousel<News>(news, 4);
       mounted.value = true;
     });
 

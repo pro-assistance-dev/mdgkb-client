@@ -1,19 +1,16 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor"
-      @fullScreen="toggleDialog" />
-    <editor-content v-if="!showDialog" :editor="editor" class="scroll"
-      :style="{ height: height, 'max-height': maxHeight }" />
+    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+    <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
       <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
-      <editor-content v-if="showDialog" :editor="editor" class="scroll"
-        :style="{ height: 'auto', 'max-height': '80vh' }" />
+      <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
     <!-- <div class="counter">{{ counter }}&nbsp;{{ limit }}</div> -->
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Highlight from '@tiptap/extension-highlight';
 import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
@@ -51,143 +48,134 @@ import { defineComponent, Ref, ref, watch } from 'vue';
 
 import MenuBar from './MenuBar.vue';
 
-export default defineComponent({
-  name: 'WysiwygEditor',
-  components: {
-    EditorContent,
-    MenuBar,
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
   },
-  props: {
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    height: {
-      type: String,
-      default: 'auto',
-    },
-    maxHeight: {
-      type: String,
-      default: '700px',
-    },
-    // limit: {
-    //   type: Number,
-    //   default: 500,
-    // },
-    hideTgButton: {
-      type: Boolean,
-      default: true,
-    },
+  height: {
+    type: String,
+    default: 'auto',
   },
-  emits: ['update:modelValue'],
-  setup(props, { emit }) {
-    const showDialog: Ref<boolean> = ref(false);
-    const toggleDialog = (value: boolean) => {
-      showDialog.value = value;
-    };
-    const Video = Node.create({
-      name: 'video', // unique name for the Node
-      group: 'block', // belongs to the 'block' group of extensions
-      selectable: true, // so we can select the video
-      draggable: true, // so we can drag the video
-      atom: true, // is a single unit
-
-      addAttributes() {
-        return {
-          src: {
-            default: null,
-            autoplay: false,
-          },
-        };
-      },
-
-      parseHTML() {
-        return [
-          {
-            tag: 'video',
-          },
-        ];
-      },
-
-      renderHTML({ HTMLAttributes }) {
-        return ['video', mergeAttributes(HTMLAttributes)];
-      },
-
-      addNodeView() {
-        return ({ editor, node }) => {
-          const div = document.createElement('div');
-          div.className = 'aspect-w-16 aspect-h-9' + (editor.isEditable ? ' cursor-pointer' : '');
-          const iframe = document.createElement('iframe');
-          if (editor.isEditable) {
-            iframe.className = 'pointer-events-none';
-          }
-          iframe.width = '640';
-          iframe.height = '360';
-          iframe.frameBorder = '0';
-          iframe.allowFullscreen = false;
-          iframe.src = node.attrs.src;
-          div.append(iframe);
-          return {
-            dom: div,
-          };
-        };
-      },
-    });
-    const editor = new Editor({
-      extensions: [
-        StarterKit.configure(),
-        Table.configure({
-          resizable: true,
-          HTMLAttributes: {
-            class: 'editor-table',
-          },
-        }),
-        TableRow,
-        TableHeader,
-        CustomTableCell,
-        Link.configure({
-          HTMLAttributes: { target: '_blank' },
-          linkOnPaste: false,
-          openOnClick: true,
-        }),
-        Image,
-        TaskList,
-        TaskItem.configure({
-          nested: true,
-        }),
-        Underline,
-        Highlight.configure({
-          multicolor: true,
-        }),
-        Youtube.configure({
-          controls: false,
-        }),
-        Video,
-      ],
-      content: props.modelValue,
-      onUpdate: () => {
-        emit('update:modelValue', editor.getHTML());
-      },
-    });
-
-    watch(
-      () => props.modelValue,
-      (value) => {
-        const v = value as unknown as string;
-        const isSame = editor.getHTML() == v;
-        if (isSame) {
-          return;
-        }
-        editor.commands.setContent(value, false);
-      }
-    );
-
-    return { editor, showDialog, toggleDialog };
+  maxHeight: {
+    type: String,
+    default: '700px',
+  },
+  // limit: {
+  //   type: Number,
+  //   default: 500,
+  // },
+  hideTgButton: {
+    type: Boolean,
+    default: true,
   },
 });
+const emit = defineEmits(['update:modelValue']);
+const showDialog: Ref<boolean> = ref(false);
+const toggleDialog = (value: boolean) => {
+  showDialog.value = value;
+};
+const Video = Node.create({
+  name: 'video', // unique name for the Node
+  group: 'block', // belongs to the 'block' group of extensions
+  selectable: true, // so we can select the video
+  draggable: true, // so we can drag the video
+  atom: true, // is a single unit
+
+  addAttributes() {
+    return {
+      src: {
+        default: null,
+        autoplay: false,
+      },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: 'video',
+      },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return ['video', mergeAttributes(HTMLAttributes)];
+  },
+
+  addNodeView() {
+    return ({ editor, node }) => {
+      const div = document.createElement('div');
+      div.className = 'aspect-w-16 aspect-h-9' + (editor.isEditable ? ' cursor-pointer' : '');
+      const iframe = document.createElement('iframe');
+      if (editor.isEditable) {
+        iframe.className = 'pointer-events-none';
+      }
+      iframe.width = '640';
+      iframe.height = '360';
+      iframe.frameBorder = '0';
+      iframe.allowFullscreen = false;
+      iframe.src = node.attrs.src;
+      div.append(iframe);
+      return {
+        dom: div,
+      };
+    };
+  },
+});
+const editor = new Editor({
+  extensions: [
+    StarterKit.configure(),
+    Table.configure({
+      resizable: true,
+      HTMLAttributes: {
+        class: 'ProseMirror',
+      },
+    }),
+    TableRow,
+    TableHeader,
+    CustomTableCell,
+    Link.configure({
+      HTMLAttributes: { target: '_blank' },
+      linkOnPaste: false,
+      openOnClick: true,
+    }),
+    Image,
+    TaskList,
+    TaskItem.configure({
+      nested: true,
+    }),
+    Underline,
+    Highlight.configure({
+      multicolor: true,
+    }),
+    Youtube.configure({
+      controls: false,
+    }),
+    Video,
+  ],
+  content: props.modelValue,
+  onUpdate: () => {
+    emit('update:modelValue', editor.getHTML());
+  },
+});
+
+watch(
+  () => props.modelValue,
+  (value) => {
+    const v = value as unknown as string;
+    const isSame = editor.getHTML() == v;
+    if (isSame) {
+      return;
+    }
+    editor.commands.setContent(value, false);
+  }
+);
 </script>
+
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
+
 .editor {
   margin: 10px 0 10px 0;
   border: 1px solid #d1d5db;
@@ -211,11 +199,11 @@ export default defineComponent({
     // border-bottom: 1px solid #d1d5db;
   }
 
-  >p {
+  > p {
     margin: 0;
   }
 
-  >*+* {
+  > * + * {
     margin-top: 0.75em;
   }
 
@@ -287,7 +275,7 @@ export default defineComponent({
       box-sizing: border-box;
       position: relative;
 
-      >* {
+      > * {
         margin-bottom: 0;
       }
     }
@@ -346,13 +334,13 @@ ul[data-type='taskList'] {
   li {
     display: flex;
 
-    >label {
+    > label {
       flex: 0 0 auto;
       margin-right: 0.5rem;
       user-select: none;
     }
 
-    >div {
+    > div {
       flex: 1 1 auto;
     }
   }
@@ -396,4 +384,5 @@ ul[data-type='taskList'] {
 // }
 // .cursor-pointer {
 //   cursor: pointer;
-// }</style>
+// }
+</style>

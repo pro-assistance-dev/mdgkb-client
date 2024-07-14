@@ -26,7 +26,6 @@ export default defineComponent({
   name: 'NewsFilters',
   emits: ['load', 'loadNews'],
   setup(_, { emit }) {
-    const filterTags = computed(() => Provider.store.getters['news/filterTags']);
     const tagList = computed(() => Provider.store.getters['tags/items']);
     const filteredTagList = computed(() => Provider.store.getters['tags/filteredTagList']);
     const tagListVisible = ref(false);
@@ -39,7 +38,6 @@ export default defineComponent({
     const resetFilterTags = async () => {
       dropFilterModel();
       filteredTagList.value.forEach((tag: Tag) => (tag.selected = false));
-      await Provider.store.dispatch('news/resetFilterTags');
       emit('loadNews');
     };
 
@@ -71,7 +69,6 @@ export default defineComponent({
       chooseTag,
       resetFilterTags,
       removeFilterTag,
-      filterTags,
       tagList,
       filteredTagList,
       tagListVisible,

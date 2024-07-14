@@ -1,9 +1,5 @@
 <template>
   <AdminListWrapper v-if="mounted" pagination show-header>
-    <template #header>
-      <FilterSelectV2 :filter-models="createFilterAllDayModels()" placeholder="Тип пребывания" @load="loadHospitalizations" />
-      <FilterSelectV2 :filter-models="createFilterConservativeModels()" placeholder="Тип лечения" @load="loadHospitalizations" />
-    </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
     </template>
@@ -58,11 +54,11 @@
 import { computed, defineComponent, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterMultipleSelect from '@/components/Filters/FilterMultipleSelect.vue';
-import FilterSelectV2 from '@/components/Filters/FilterSelectV2.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
+import HospitalizationsFiltersLib from '@/libs/filters/HospitalizationsFiltersLib';
+import HospitalizationsSortsLib from '@/libs/sorts/HospitalizationsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
@@ -70,8 +66,6 @@ import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
 import { Orders } from '@/services/interfaces/Orders';
-import HospitalizationsFiltersLib from '@/libs/filters/HospitalizationsFiltersLib';
-import HospitalizationsSortsLib from '@/libs/sorts/HospitalizationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -80,8 +74,6 @@ export default defineComponent({
   components: {
     AdminListWrapper,
     TableButtonGroup,
-    FilterMultipleSelect,
-    FilterSelectV2,
     TableFormStatus,
   },
   setup() {

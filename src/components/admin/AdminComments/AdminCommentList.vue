@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper pagination show-header :store="CommentsStore">
+  <AdminListWrapper show-header :store="CommentsStore">
     <template #header>
       <SortSelect :max-width="400" @load="loadComments" />
       <!-- <FilterSelectDate :model="CommentsFiltersLib.byDatesRange()" @load="loadComments" /> -->

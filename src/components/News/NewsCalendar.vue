@@ -17,8 +17,8 @@ import { computed, defineComponent, onMounted, ref } from 'vue';
 
 import News from '@/classes/News';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -27,8 +27,8 @@ export default defineComponent({
 
   setup() {
     const calendar = ref();
-    const news = computed(() => Provider.store.getters['news/calendarNews']);
-    const calendarMeta = computed(() => Provider.store.getters['news/calendarMeta']);
+    const news = News.CalendarNews();
+    const calendarMeta = News.CalendarMeta();
     const randomDotColor = () => {
       const colors = ['gray', 'red', 'orange', 'yellow', 'green', 'teal', 'blue', 'indigo', 'purple', 'pink'];
       return colors[Math.floor(Math.random() * colors.length)];
@@ -60,10 +60,10 @@ export default defineComponent({
       const dateTo = new Date(page.year, page.month, 1);
 
       fq.filterModels.push(NewsFiltersLib.byPeriod(dateFrom, dateTo), NewsFiltersLib.onlyPublished());
-      await Provider.store.dispatch('news/getByMonth', fq);
+      await NewsStore.GetByMonth();
 
       const params: ICalendarMeta = { month: page.month, year: page.year };
-      Provider.store.commit('news/updateCalendarMeta', params);
+      NewsStore.UpdateCalendarMeta(params);
     };
     const loadCalendarMeta = async () => {
       if (calendarMeta.value) {

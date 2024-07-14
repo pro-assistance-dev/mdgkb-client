@@ -8,7 +8,6 @@ import SortModel from '../SortModel';
 export default class FTSP {
   private static instance: FTSP;
   id?: string;
-
   @ClassHelper.GetClassConstructor(FilterModel)
   f: FilterModel[] = [];
   @ClassHelper.GetClassConstructor(SortModel)
@@ -81,8 +80,6 @@ export default class FTSP {
 
   removeF(model?: FilterModel): void {
     const index = this.f.findIndex((f: FilterModel) => f.eq(model));
-    console.log(index);
-
     ClassHelper.RemoveFromClassByIndex(index, this.f);
   }
 

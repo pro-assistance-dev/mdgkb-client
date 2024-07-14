@@ -52,6 +52,7 @@ class DialogConstructor extends Message {
     this.hide();
   }
   Cancel() {
+    this.reject();
     this.hide();
   }
 

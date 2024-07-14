@@ -27,6 +27,8 @@
 const buttonClicked: Ref<boolean> = ref(false);
 const head = PHelp.AdminUI.Head;
 const action = (f: CallableFunction) => {
+  console.log(f, 'click');
+
   buttonClicked.value = true;
   f();
   buttonClicked.value = false;

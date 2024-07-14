@@ -16,7 +16,7 @@
             </div>
           </el-col>
         </el-row>
-        <LoadMoreButton v-if="!allNewsLoaded" :loading="loading" @load-more="loadMore" />
+        <LoadMoreButton :loading="loading" @load-more="loadMore" />
       </el-col>
     </el-row>
   </div>
@@ -28,15 +28,11 @@ import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
 import Pagination from '@/services/classes/filters/Pagination';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
-defineEmits(['add', 'remove']);
-
-const allNewsLoaded = computed(() => Store.Getters['news/allNewsLoaded']);
 const mount = ref(false);
 const loading = ref(false);
 
-const news: ComputedRef<News[]> = Store.Items('news');
+const news: News[] = NewsStore.Items();
 const ftsp = FTSP.Get();
 
 const setDefaultPagination = () => {
@@ -55,8 +51,8 @@ const loadNews = async () => {
 
 const load = async () => {
   setDefaultPagination();
-  Store.Commit('news/clearNews');
-  Store.FTSP('news');
+  NewsStore.ClearItems();
+  NewsStore.FTSP();
   mount.value = true;
 };
 
@@ -65,9 +61,8 @@ Hooks.onBeforeMount(loadNews);
 const loadMore = async () => {
   loading.value = true;
   ftsp.p.append = true;
-  ftsp.p.offset = news.value.length;
-  ftsp.p.initial = false;
-  await Store.FTSP('news');
+  ftsp.p.offset = news.length;
+  await NewsStore.FTSP();
   loading.value = false;
 };
 </script>

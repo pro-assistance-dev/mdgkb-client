@@ -27,10 +27,8 @@ import { dishesSamples } from '@/store/modules/dishesSamples';
 import { doctors } from '@/store/modules/doctors';
 import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
-import { educationalAcademics } from '@/store/modules/educationalAcademics';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationYears } from '@/store/modules/educationYears';
-import { employees } from '@/store/modules/employees';
 import { entrances } from '@/store/modules/entrances';
 import { events } from '@/store/modules/events';
 import { fileInfos } from '@/store/modules/fileInfos';
@@ -48,7 +46,6 @@ import { mapNodes } from '@/store/modules/mapNodes';
 import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { meta } from '@/store/modules/meta';
-import { news } from '@/store/modules/news';
 import { newsSlides } from '@/store/modules/newsSlides';
 import { nmoCourses } from '@/store/modules/nmoCourses';
 import { pageSections } from '@/store/modules/pageSections';
@@ -63,7 +60,6 @@ import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { preparations } from '@/store/modules/preparations';
-import { projects } from '@/store/modules/projects';
 import { questions } from '@/store/modules/questions';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
@@ -101,7 +97,6 @@ const s: StoreOptions<RootState> = {
     doctors,
     sideOrganizations,
     tags,
-    news,
     users,
     timetables,
     map,
@@ -116,7 +111,6 @@ const s: StoreOptions<RootState> = {
     heads,
     paidProgramsGroups,
     visitingRules,
-    projects,
     paidPrograms,
     partners,
     partnerTypes,
@@ -148,13 +142,11 @@ const s: StoreOptions<RootState> = {
     educationYears,
     formValues,
     residencyApplications,
-    educationalAcademics,
     formStatusGroups,
     pointsAchievements,
     diets,
     dietsGroups,
     agePeriods,
-    employees,
     dishesGroups,
     dailyMenus,
     dishesSamples,

@@ -4,8 +4,7 @@
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical" class="vertical-block">
           <div class="status-panel" :style="collapsed ? 'margin-top: -166px' : 'margin-top: 0'">
-            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами
-            </div>
+            <div v-if="collapsed" class="panel-title" @click.prevent="handClick">Открыть панель управления статусами</div>
             <div v-else class="panel-title" @click.prevent="handClick">Скрыть панель управления статусами</div>
             <div class="panel-body">
               <div class="line">
@@ -22,8 +21,7 @@
                 <div class="line-item">
                   <div v-if="employee.doctor" class="yes">ДА</div>
                   <div v-else class="no">НЕТ</div>
-                  <button v-if="employee.doctor" class="revoke"
-                    @click.prevent="employee.resetDoctor()">Отозвать</button>
+                  <button v-if="employee.doctor" class="revoke" @click.prevent="employee.resetDoctor()">Отозвать</button>
                   <button v-else class="appoint" @click.prevent="employee.setDoctor()">Назначить</button>
                 </div>
               </div>
@@ -45,12 +43,20 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan :file-info="employee.human.photo" :height="300"
-              @remove-file="employee.human.removePhoto()" @ratio="(e) => (element.ratio = e)" />
+            <UploaderSingleScan
+              :file-info="employee.human.photo"
+              :height="300"
+              @remove-file="employee.human.removePhoto()"
+              @ratio="(e) => (element.ratio = e)"
+            />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan :file-info="employee.human.photoMini" :height="300" :width="300"
-              @remove-file="employee.human.removePhotoMini()" />
+            <UploaderSingleScan
+              :file-info="employee.human.photoMini"
+              :height="300"
+              :width="300"
+              @remove-file="employee.human.removePhotoMini()"
+            />
           </el-card>
         </el-container>
       </el-col>
@@ -80,7 +86,7 @@ export default defineComponent({
   setup() {
     const form = ref();
     Provider.form = form;
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Employee = EmployeesStore.Item();
     const collapsed: Ref<boolean> = ref(true);
 
     const handClick = () => {
@@ -89,7 +95,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? employee.value?.human?.getFullName() : 'Добавить сотрудника')),
+        title: computed(() => (Provider.route().params['id'] ? employee.human?.getFullName() : 'Добавить сотрудника')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },

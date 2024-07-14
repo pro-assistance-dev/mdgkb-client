@@ -5,7 +5,7 @@ import AdminUI from './AdminUI';
 import Dialog from './Dialog';
 import Loading from './Loading';
 import Notification from './Notification';
-import PaginationService from './PaginationService';
+import Paginator from './Paginator';
 
 export default abstract class PHelp {
   static Dialog = reactive(Dialog);
@@ -13,7 +13,7 @@ export default abstract class PHelp {
   static Loading = reactive(Loading);
   static adminHead = ref(AdminHead);
   static AdminUI = reactive(AdminUI);
-  static Paginator = reactive(PaginationService);
+  static Paginator = reactive(Paginator);
 
   static AdminHead() {
     return PHelp.adminHead.value;

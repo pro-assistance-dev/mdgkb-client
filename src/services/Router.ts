@@ -21,11 +21,10 @@ export default abstract class Router {
   }
 
   static Slug(): string {
-    console.log('SLUG', Router.GetStringParam('slug'));
     return Router.GetStringParam('slug');
   }
 
-  static Back() {
+  static async Back() {
     PHelp.Loading.Show();
     router.go(-1);
     PHelp.Loading.Hide();

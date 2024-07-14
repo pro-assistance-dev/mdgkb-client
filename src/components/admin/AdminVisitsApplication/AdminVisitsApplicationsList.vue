@@ -1,8 +1,8 @@
 <template>
   <AdminListWrapper pagination show-header>
     <template #header>
-      <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()"
-        @load="loadApplications" />
+      <!-- <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" -->
+      <!--   @load="loadApplications" /> -->
     </template>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
@@ -20,10 +20,13 @@
       </el-table-column>
       <el-table-column label="Дата подачи заявления" align="center" width="150">
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.formValue.createdAt, {
-            month: '2-digit', hour: 'numeric', minute:
-              'numeric'
-          }) }}
+          {{
+            $dateTimeFormatter.format(scope.row.formValue.createdAt, {
+              month: '2-digit',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Даты посещения" align="center" width="150">
@@ -63,7 +66,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import FormStatus from '@/classes/FormStatus';
 import VisitsApplication from '@/classes/VisitsApplication';
 import FilterModel from '@/services/classes/filters/FilterModel';
@@ -78,22 +80,21 @@ import VisitsApplicationsFiltersLib from '@/libs/filters/VisitsApplicationsFilte
 import VisitsApplicationsSortsLib from '@/libs/sorts/VisitsApplicationsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
 const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
-const visitsApplications: ComputedRef<VisitsApplication[]> = Store.Items('visitsApplications')
+const visitsApplications: ComputedRef<VisitsApplication[]> = Store.Items('visitsApplications');
 // const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
 
 const create = () => Provider.router.push(`${Provider.route().path}/new`);
 const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
 
 const loadApplications = async () => {
-  await Store.FTSP('visitsApplications')
+  await Store.FTSP('visitsApplications');
 };
 
 const load = async () => {
   // Provider.setSortList(...createSortModels(VisitsApplicationsSortsLib));
-  FTSP.Get().setS(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc))
+  FTSP.Get().setS(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc));
   await loadApplications();
   await loadFilters();
   filterByStatus.value = VisitsApplicationsFiltersLib.byStatus();

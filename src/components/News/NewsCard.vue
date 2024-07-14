@@ -98,7 +98,6 @@ const filterNews = async (tag: Tag): Promise<void> => {
   //     filterTag.selected = true;
   //   }
   // });
-  // await store.dispatch('news/getAll');
 };
 </script>
 

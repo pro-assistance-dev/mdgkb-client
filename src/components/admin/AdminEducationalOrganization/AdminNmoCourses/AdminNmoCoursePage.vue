@@ -130,21 +130,11 @@ export default defineComponent({
       nmoCourse.value.formPatternId = nmoCourse.value.formPattern.id;
     };
 
-    const employee: Ref<Employee> = computed(() => Provider.store.getters['employees/item']);
+    const employee: Employee = EmployeesStore.Item();
     const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
-      await Provider.store.dispatch('employees/get', searchObject.value);
-      nmoCourse.value.setMainTeacher(employee.value);
+      await EmployeesStore.Get(searchObject.value);
+      nmoCourse.value.setMainTeacher(employee);
     };
-
-    // const addTeacher = async (searchObject: ISearchObject) => {
-    //   if (nmoCourse.value.teacherExists(searchObject.id)) {
-    //     ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
-    //     return;
-    //   }
-    //   await Provider.store.dispatch('employees/get', searchObject.id);
-    //   nmoCourse.value.addTeacher(employee.value);
-    //   Provider.store.commit('employees/resetItem');
-    // };
 
     return {
       Employee,

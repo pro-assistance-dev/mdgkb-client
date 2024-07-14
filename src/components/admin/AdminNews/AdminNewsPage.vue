@@ -21,7 +21,7 @@
             <el-card>
               <template #header> Основное изображение </template>
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
-                <UploaderSingleScan
+                <UploaderImage
                   :file-info="news.mainImage"
                   :height="300"
                   @remove-file="news.removeMainImage()"
@@ -94,12 +94,10 @@ import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-const isCropGalleryOpen = ref(false);
 const form = ref();
 const rules = ref(NewsRules);
 
-const galleryList = Store.Getters('news/galleryList');
-const news: Ref<News> = Store.Item('news');
+const news: News = NewsStore.Item();
 
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -109,21 +107,21 @@ const submit = async (next?: NavigationGuardNext) => {
     saveButtonClick.value = false;
     return;
   }
-  if (!Provider.route().params['slug']) {
+  if (!Router.Id()) {
     await Store.Create('news');
     await Router.ToAdmin('/news');
     return;
   }
-  await Store.Update('news');
+  await NewsStore.Update();
   next ? next() : Router.ToAdmin('news');
 };
 
 const loadNewsItem = async () => {
   if (Router.Id()) {
-    await Store.Get('news', Router.Id());
-    PHelp.AdminUI.Head.Set(news.value.title, [Button.Success('Статистика', open), Button.Success('Сохранить', submit)]);
+    await NewsStore.Get(Router.Id());
+    PHelp.AdminUI.Head.Set(news.title, [Button.Success('Статистика', open), Button.Success('Сохранить', submit)]);
   } else {
-    Store.Commit('news/resetState');
+    NewsStore.ResetState();
     PHelp.AdminUI.Head.Set('Добавить новость', [Button.Success('Сохранить', submit)]);
   }
   window.addEventListener('beforeunload', beforeWindowUnload);
@@ -146,7 +144,7 @@ const open = () => {
   ChartsModalRef.value?.open();
 };
 
-const chartsModalIds: string[] = Router.Id() ? Router.Id() : [];
+const chartsModalIds: string[] = Router.Id() ? [Router.Id()] : [];
 </script>
 
 <style lang="scss" scoped>

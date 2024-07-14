@@ -24,11 +24,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
-
 import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import Role from '@/services/classes/Role';

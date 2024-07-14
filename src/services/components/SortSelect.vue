@@ -1,12 +1,5 @@
 <template>
-  <PSelect
-    v-if="mounted"
-    v-model="sortModel"
-    :popper-append-to-body="false"
-    :clearable="!sortModel?.default"
-    value-key="label"
-    @change="setSort"
-  >
+  <PSelect v-model="sortModel" :popper-append-to-body="false" :clearable="!sortModel?.default" value-key="label" @change="setSort">
     <option v-for="(item, i) in SortList.Get()" :key="i" :label="item.label" :value="item" />
   </PSelect>
 </template>
@@ -23,19 +16,18 @@ defineProps({
   },
 });
 
-const mounted = ref(false);
-
 const emits = defineEmits(['load']);
 
 const sortModel: Ref<SortModel | undefined> = ref();
 
 onBeforeMount((): void => {
-  mounted.value = true;
   sortModel.value = SortList.GetDefault();
-  FTSP.Get().setSortModel(sortModel.value as SortModel);
 });
 
-// watch(setDefaultSortModel, () => setSort());
+// watch(
+// () => FTSP.Get().resetFlag,
+// () => setSort()
+// );
 
 const changeModel = async (e?: Event): Promise<void> => {
   if (!e) {
@@ -47,7 +39,7 @@ const changeModel = async (e?: Event): Promise<void> => {
 };
 
 const setSort = async (s?: Event) => {
-  Provider.dropPagination();
+  console.log('Def');
   await changeModel(s);
 };
 </script>
