@@ -9,7 +9,6 @@
     <div class="click-line" @click="toggleSlider(!isToggle)">
       <StringItem v-if="isToggle" :string="titleClose" font-size="16px" padding="0" color="#343E5C" />
       <StringItem v-if="!isToggle" :string="titleOpen" font-size="16px" padding="0" color="#343E5C" />
-      {{ isToggle }}
     </div>
     <div class="right-slider-content">
       <div class="right-slider-content-header">

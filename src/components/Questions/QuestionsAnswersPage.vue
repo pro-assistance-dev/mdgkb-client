@@ -11,18 +11,18 @@
             @changeMode="setFaqMode"
           />
         </template>
-        <template #header-left-top>
-          <div>
-            <button @click="openQuestion">Задать вопрос</button>
-          </div>
-        </template>
       </FiltersWrapper>
     </template>
     <div style="width: 100%">
       <FAQ v-if="faqMode" />
       <Questions v-else />
     </div>
-    <RightSliderContainer titleOpen="Задать вопрос" titleClose="Задать вопрос" sliderOnWidth="320px" />
+    <RightSliderContainer titleOpen="Скрыть форму" titleClose="Задать вопрос" sliderOnWidth="320px">
+      <template #header>
+        <StringItem string="Задать вопрос" font-size="16px" padding="0" color="#343E5C" />
+      </template>
+      <QuestionForm />
+    </RightSliderContainer>
     <!-- <QuestionForm :opened="opened" /> -->
   </PageWrapper>
 </template>
