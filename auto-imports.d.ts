@@ -38,6 +38,7 @@ declare global {
   const Favourite: typeof import('@/services/Main')['Favourite']
   const FilterModel: typeof import('@/services/Main')['FilterModel']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
+  const HeadsStore: typeof import('@/store/StoreModules')['HeadsStore']
   const Hooks: typeof import('@/services/Main')['Hooks']
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
@@ -156,7 +157,6 @@ declare module 'vue' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -164,6 +164,7 @@ declare module 'vue' {
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
+    readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
@@ -275,7 +276,6 @@ declare module '@vue/runtime-core' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -283,6 +283,7 @@ declare module '@vue/runtime-core' {
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
+    readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>

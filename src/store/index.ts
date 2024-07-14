@@ -37,7 +37,6 @@ import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
 import { gates } from '@/store/modules/gates';
-import { heads } from '@/store/modules/heads';
 import { holidayForms } from '@/store/modules/holidayforms';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
@@ -108,7 +107,6 @@ const s: StoreOptions<RootState> = {
     questions,
     events,
     timetablePatterns,
-    heads,
     paidProgramsGroups,
     visitingRules,
     paidPrograms,
