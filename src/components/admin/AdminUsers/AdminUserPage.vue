@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import Role from '@/services/classes/Role';
