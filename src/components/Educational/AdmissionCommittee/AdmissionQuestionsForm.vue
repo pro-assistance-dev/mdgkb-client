@@ -251,18 +251,10 @@ const submitFreeFile = () => {
   showFreeDialog.value = false;
 };
 
-const checkTypeExists = async (value: boolean) => {
-  // TODO: добавить условия
-  // await Provider.store.dispatch('residencyApplications/typeExists', value);
-  // if (typeExists.value) {
-  //   ElMessageBox.alert(`Вы уже подавали заявление на ${value ? 'приоритетную' : 'дополнительную'} специальность`, {
-  //     confirmButtonText: 'OK',
-  //     callback: () => {
-  //       residencyApplicationValue.value.main = !value;
-  //     },
-  //   });
-  //   return;
-  // }
+const checkTypeExists = async () => {
+  PHelp.Notification
+    .Warning(`Внимание! При условии, что вы подаёте два заявления, и оба заявления подаются на одну основу (бюджетную/внебюджет),
+  Вы можете подать основное заявление только на одну специальность. Если вы уже подали заявление на основную специальность, требуется подать следующее заявление на дополнительную.`);
 };
 </script>
 
