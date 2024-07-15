@@ -195,6 +195,10 @@ const menuList: IAdminMenu[] = [
         name: 'Страницы',
         to: '/admin/pages',
       },
+      {
+        name: 'СтраницыV2',
+        to: '/admin/pages-2',
+      },
       // {
       //   name: 'Роли',
       //   to: '/admin/roles',

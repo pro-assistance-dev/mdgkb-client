@@ -1,6 +1,7 @@
 <template>
   <div class="mainblock">
     <div
+      ref="menuRef"
       class="top-menu"
       :style="{
         gridTemplateColumns: `repeat(auto-fit, minmax(${minMenuItemWidth}, 1fr))`,
@@ -37,6 +38,32 @@ const props = defineProps({
     default: '#ffffff',
   },
 });
+const windowWidth = ref(window.innerWidth);
+const menuRef = ref();
+const onWidthChange = () => (windowWidth.value = window.innerWidth);
+onMounted(() => window.addEventListener('resize', onWidthChange));
+onUnmounted(() => window.removeEventListener('resize', onWidthChange));
+
+// const h = () => {
+//   console.log(menuRef);
+//   // const w = windowWidth.value;
+//   const dif = menuRef.value.clientHeight;
+//   console.log(dif);
+//   // if (w < 1050 && w >= 992) {
+//   //   dif = 81;
+//   // }
+//   // if (w < 992 && w >= 822) {
+//   //   dif = 40;
+//   // }
+//   return `calc(100%-${dif}px)`;
+// };
+// const he = ref(h());
+//
+// watch(windowWidth, () => {
+//   he.value = h();
+// });
+
+// const width = computed(() => windowWidth.value);
 </script>
 
 <style lang="scss" scoped>
@@ -48,7 +75,7 @@ const props = defineProps({
   border: $custom-border;
   overflow: hidden;
   margin: 0 10px 10px 0;
-  height: calc(100% - 10px);
+  height: calc(100% - 100px);
 }
 
 .top-menu {
@@ -75,34 +102,10 @@ const props = defineProps({
   padding-bottom: 50px;
 }
 
-@media (max-width: 1436px) {
-  .body-container {
-    height: calc(100% - 55px);
-    height: 100%;
-  }
-}
-
-@media (max-width: 1050px) {
-  .body-container {
-    height: calc(100% - 81px);
-  }
-}
-
 @media (max-width: 992px) {
   .mainblock {
     margin: 0 10px;
     width: calc(100% - 22px);
-  }
-  .body-container {
-    height: calc(100% - 40px);
-    // height: 100%;
-    // height: calc(100vh - 10px);
-  }
-}
-
-@media (max-width: 822px) {
-  .body-container {
-    height: calc(100% - 45px);
   }
 }
 
