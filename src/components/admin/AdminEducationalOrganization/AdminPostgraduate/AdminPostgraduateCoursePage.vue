@@ -217,13 +217,13 @@ export default defineComponent({
       () => store.getters['postgraduateCourses/item']
     );
     const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
-    const selectedTeacher: ComputedRef<Teacher> = computed<Teacher>(() => store.getters['teachers/item']);
+    const selectedTeacher: Teacher = TeachersStore.Item();
     const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
     const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      await store.dispatch('teachers/getAll');
+      await TeachersStore.GetAll('teachers');
       await store.dispatch('specializations/getAll');
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');
@@ -267,9 +267,9 @@ export default defineComponent({
     };
 
     const addTeacher = async (searchObject: ISearchObject) => {
-      await store.dispatch('teachers/get', searchObject.id);
+      await TeachersStore.Get(searchObject.id);
       postgraduateCourse.value.addTeacher(selectedTeacher.value);
-      store.commit('teachers/resetItem');
+      TeachersStore.ResetItem();
     };
 
     const changeFormPatternHandler = () => {

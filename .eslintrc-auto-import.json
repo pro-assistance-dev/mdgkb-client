@@ -133,6 +133,7 @@
     "NewsStore": true,
     "EducationalAcademicsStore": true,
     "AcademicsStore": true,
-    "HeadsStore": true
+    "HeadsStore": true,
+    "TeachersStore": true
   }
 }

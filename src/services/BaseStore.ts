@@ -169,7 +169,6 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
 
   ResetItem() {
     ClassHelper.BuildClass(this.item, new this.classConstructor());
-    // this.item = new this.classConstructor();
   }
 
   ClearItems() {

@@ -3,7 +3,6 @@ import Vuex, { StoreOptions } from 'vuex';
 import User from '@/classes/User';
 import * as lib from '@/services/store/index';
 import { authStateConstructor } from '@/services/store/modules/auth';
-import { agePeriods } from '@/store/modules/agePeriods';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
 import { banners } from '@/store/modules/banners';
@@ -68,7 +67,6 @@ import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { specializations } from '@/store/modules/specializations';
 import { supportMessages } from '@/store/modules/supportMessages';
 import { tags } from '@/store/modules/tags';
-import { teachers } from '@/store/modules/teachers';
 import { timetablePatterns } from '@/store/modules/timetablePatterns';
 import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
@@ -122,7 +120,6 @@ const s: StoreOptions<RootState> = {
     callbacks,
     appointments,
     nmoCourses,
-    teachers,
     entrances,
     educationalManagers,
     children,
@@ -144,7 +141,6 @@ const s: StoreOptions<RootState> = {
     pointsAchievements,
     diets,
     dietsGroups,
-    agePeriods,
     dishesGroups,
     dailyMenus,
     dishesSamples,

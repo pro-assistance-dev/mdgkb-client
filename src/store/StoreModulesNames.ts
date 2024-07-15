@@ -9,6 +9,7 @@ const StoreModulesNames = [
   'NewsStore',
   'AcademicsStore',
   'HeadsStore',
+  'TeachersStore',
 ];
 
 export default StoreModulesNames;

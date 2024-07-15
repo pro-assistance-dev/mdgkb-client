@@ -56,6 +56,7 @@ declare global {
   const Store: typeof import('@/classes/Main')['Store']
   const Strings: typeof import('@/services/Main')['Strings']
   const Swapper: typeof import('@/services/Main')['Swapper']
+  const TeachersStore: typeof import('@/store/StoreModules')['TeachersStore']
   const Time: typeof import('@/services/Main')['Time']
   const TimeFormatter: typeof import('@/services/Main')['TimeFormatter']
   const Token: typeof import('@/services/Main')['Token']
@@ -182,6 +183,7 @@ declare module 'vue' {
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
+    readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
@@ -301,6 +303,7 @@ declare module '@vue/runtime-core' {
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
+    readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>

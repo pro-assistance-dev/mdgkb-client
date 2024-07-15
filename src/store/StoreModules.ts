@@ -7,7 +7,9 @@ import HeadsStore from './HeadsStore';
 import NewsStore from './NewsStore';
 import PagesStore from './PagesStore';
 import ProjectsStore from './ProjectsStore';
+import TeachersStore from './TeachersStore';
 import UsersStore from './UsersStore';
+
 export {
   AcademicsStore,
   CommentsStore,
@@ -18,5 +20,6 @@ export {
   NewsStore,
   PagesStore,
   ProjectsStore,
+  TeachersStore,
   UsersStore,
 };

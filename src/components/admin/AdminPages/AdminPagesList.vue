@@ -29,7 +29,6 @@
 import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const pages: Page[] = PagesStore.Items();
