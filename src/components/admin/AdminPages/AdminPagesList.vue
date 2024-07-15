@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper show-header>
+  <AdminListWrapper show-header pagination>
     <template #header>
       <!-- <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" /> -->
       <RemoteSearchNew :key-value="'page'" @select="(e) => Router.ToAdmin(`pages/${e.id}`)" />
@@ -30,7 +30,7 @@ import PagesFiltersLib from '@/libs/filters/PagesFiltersLib';
 import Page from '@/services/classes/page/Page';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout2/AdminListWrapper2.vue';
+import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const pages: Page[] = PagesStore.Items();
 // const user: ComputedRef<User> = Store.Item('auth', 'user');

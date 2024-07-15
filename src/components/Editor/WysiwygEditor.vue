@@ -173,7 +173,7 @@ watch(
 );
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles/base-style.scss';
 
 .editor {
