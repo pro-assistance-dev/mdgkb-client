@@ -9,9 +9,11 @@
     >
       <slot name="menu" />
     </div>
+    {{ h }}
     <div
       class="body-container"
       :style="{
+        height: h,
         background: background,
       }"
     >
@@ -40,30 +42,17 @@ const props = defineProps({
 });
 const windowWidth = ref(window.innerWidth);
 const menuRef = ref();
-const onWidthChange = () => (windowWidth.value = window.innerWidth);
+const menuH = ref(50);
+const onWidthChange = () => {
+  windowWidth.value = window.innerWidth;
+  menuH.value = menuRef.value ? menuRef.value.clientHeight : 50;
+};
 onMounted(() => window.addEventListener('resize', onWidthChange));
 onUnmounted(() => window.removeEventListener('resize', onWidthChange));
 
-// const h = () => {
-//   console.log(menuRef);
-//   // const w = windowWidth.value;
-//   const dif = menuRef.value.clientHeight;
-//   console.log(dif);
-//   // if (w < 1050 && w >= 992) {
-//   //   dif = 81;
-//   // }
-//   // if (w < 992 && w >= 822) {
-//   //   dif = 40;
-//   // }
-//   return `calc(100%-${dif}px)`;
-// };
-// const he = ref(h());
-//
-// watch(windowWidth, () => {
-//   he.value = h();
-// });
-
-// const width = computed(() => windowWidth.value);
+const h = computed(() => {
+  return `calc(100%-${menuH.value}px)`;
+});
 </script>
 
 <style lang="scss" scoped>
@@ -75,7 +64,7 @@ onUnmounted(() => window.removeEventListener('resize', onWidthChange));
   border: $custom-border;
   overflow: hidden;
   margin: 0 10px 10px 0;
-  height: calc(100% - 100px);
+  height: calc(100% - 10px);
 }
 
 .top-menu {
