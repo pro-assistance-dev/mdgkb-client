@@ -1,6 +1,8 @@
 <template>
   <el-descriptions :column="1" border>
-    <el-descriptions-item v-if="activeFields.userEmail" label="Электронная почта">{{ formValue.user.email }}</el-descriptions-item>
+    <el-descriptions-item v-if="activeFields.userEmail" label="Электронная почта">{{
+      formValue.user.userAccount?.email
+    }}</el-descriptions-item>
     <el-descriptions-item v-if="activeFields.userName || activeFields.userSurname || activeFields.userPatronymic" label="ФИО">
       {{ formValue.user.human.getFullName() }}
     </el-descriptions-item>
