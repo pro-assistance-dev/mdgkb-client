@@ -61,6 +61,7 @@ declare global {
   const User: typeof import('@/services/Main')['User']
   const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
   const ValueType: typeof import('@/services/Main')['ValueType']
+  const VisitsApplicationsStore: typeof import('@/store/StoreModules')['VisitsApplicationsStore']
   const WaitElement: typeof import('@/services/Main')['WaitElement']
   const WebSocketClient: typeof import('@/services/Main')['WebSocketClient']
   const brandColors: typeof import('@/services/Main')['brandColors']
@@ -156,6 +157,7 @@ declare module 'vue' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -186,6 +188,7 @@ declare module 'vue' {
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>
     readonly brandColors: UnwrapRef<typeof import('@/services/Main')['brandColors']>
@@ -274,6 +277,7 @@ declare module '@vue/runtime-core' {
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -304,6 +308,7 @@ declare module '@vue/runtime-core' {
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>
     readonly brandColors: UnwrapRef<typeof import('@/services/Main')['brandColors']>

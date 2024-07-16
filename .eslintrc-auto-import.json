@@ -132,6 +132,7 @@
     "ProjectsStore": true,
     "NewsStore": true,
     "EducationalAcademicsStore": true,
-    "AcademicsStore": true
+    "AcademicsStore": true,
+    "VisitsApplicationsStore": true
   }
 }

@@ -35,14 +35,12 @@ import DoctorsRoutes from '@/router/DoctorsRoutes';
 import EducationalOrganizationRoutes from '@/router/EducationalOrganizationRoutes';
 import HospitalizationsRoutes from '@/router/HospitalizationsRoutes';
 import indexAdminRoutes from '@/router/indexAdminRoutes';
-import MapRoutes from '@/router/MapRoutes';
 import NewsRoutes from '@/router/NewsRoutes';
 import PaidProgramsRoutes from '@/router/PaidProgramsRoutes';
 import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-
 import Store from '@/store/Store';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
@@ -251,7 +249,6 @@ const routes: Array<RouteRecordRaw> = [
   ...HospitalizationsRoutes,
   ...DoctorsRoutes,
   ...DivisionsRoutes,
-  ...MapRoutes,
   ...NewsRoutes,
   ...PaidServicesRoutes,
   ...CommentsRoutes,

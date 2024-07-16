@@ -1,11 +1,11 @@
 <template>
-  <AdminListWrapper pagination show-header>
+  <AdminListWrapper v-if="mounted" show-header :store="VisitsApplicationsStore">
     <template #header>
       <!-- <FilterMultipleSelect class="filters-block" :filter-model="filterByStatus" :options="filtersToOptions()" -->
       <!--   @load="loadApplications" /> -->
     </template>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadApplications" />
+      <SortSelect :max-width="400" @load="loadApplications" />
     </template>
     <el-table :key="visitsApplications" :data="visitsApplications">
       <el-table-column label="Статус" width="200" class-name="sticky-left">
@@ -23,6 +23,8 @@
           {{
             $dateTimeFormatter.format(scope.row.formValue.createdAt, {
               month: '2-digit',
+              year: 'numeric',
+              day: '2-digit',
               hour: 'numeric',
               minute: 'numeric',
             })
@@ -32,7 +34,15 @@
       <el-table-column label="Даты посещения" align="center" width="150">
         <template #default="scope">
           <div v-for="(item, i) in scope.row.visits" :key="i">
-            {{ $dateTimeFormatter.format(item.date, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+            {{
+              $dateTimeFormatter.format(item.date, {
+                month: '2-digit',
+                year: 'numeric',
+                day: '2-digit',
+                hour: 'numeric',
+                minute: 'numeric',
+              })
+            }}
           </div>
         </template>
       </el-table-column>
@@ -68,45 +78,39 @@
 <script lang="ts" setup>
 import FormStatus from '@/classes/FormStatus';
 import VisitsApplication from '@/classes/VisitsApplication';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Operators } from '@/services/interfaces/Operators';
-import { Orders } from '@/services/interfaces/Orders';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import VisitsApplicationsFiltersLib from '@/libs/filters/VisitsApplicationsFiltersLib';
 import VisitsApplicationsSortsLib from '@/libs/sorts/VisitsApplicationsSortsLib';
-import Provider from '@/services/Provider/Provider';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
+
+import SortListConst from '@/services/SortList';
 
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
 const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
-const visitsApplications: ComputedRef<VisitsApplication[]> = Store.Items('visitsApplications');
-// const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('visits_applications'));
+const visitsApplications: VisitsApplication[] = VisitsApplicationsStore.Items();
 
-const create = () => Provider.router.push(`${Provider.route().path}/new`);
-const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
-
+const create = () => Router.To(`${Router.Route().path}/new`);
+const edit = (id: string) => Router.To(`${Router.Route().path}/${id}`);
+const mounted = ref(false);
 const loadApplications = async () => {
-  await Store.FTSP('visitsApplications');
+  await VisitsApplicationsStore.FTSP();
 };
 
 const load = async () => {
   // Provider.setSortList(...createSortModels(VisitsApplicationsSortsLib));
+  SortListConst.Set(VisitsApplicationsSortsLib);
   FTSP.Get().setS(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc));
   await loadApplications();
   await loadFilters();
   filterByStatus.value = VisitsApplicationsFiltersLib.byStatus();
-  Provider.store.commit('admin/setHeaderParams', {
-    title: 'Заявления на посещение',
-    buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-  });
+  PHelp.AdminUI.Head.Set('Заявления на посещение', [Button.Success('Добавить', create)]);
+  mounted.value = true;
 };
 
-Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'visitsApplications', action: 'ftsp' },
-});
+Hooks.onBeforeMount(load);
 
 const filtersToOptions = (): IOption[] => {
   const options: IOption[] = [];
@@ -121,6 +125,6 @@ const filtersToOptions = (): IOption[] => {
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
-  await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+  await Store.Dispatch('formStatuses/getAll', filterQuery);
 };
 </script>
