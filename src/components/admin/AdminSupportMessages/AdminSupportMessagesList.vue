@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <AdminListWrapper show-header :store="SupportMessagesStore">
     <template #header>
       <FilterCheckbox class="filters-block" :filter-model="onlyNewFilter" @load="loadSupportMessages" />
     </template>
@@ -14,7 +14,15 @@
       </el-table-column>
       <el-table-column label="Дата" sortable>
         <template #default="scope">
-          {{ $dateTimeFormatter.format(scope.row.date, { month: '2-digit', hour: 'numeric', minute: 'numeric' }) }}
+          {{
+            $dateTimeFormatter.format(scope.row.date, {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+            })
+          }}
         </template>
       </el-table-column>
       <el-table-column label="Статус">
@@ -24,105 +32,80 @@
       </el-table-column>
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-check-button="true" :show-more-button="true"
-            @showMore="$router.push(`/admin/support-messages/${scope.row.id}`)" @check="changeNewStatus(scope.row)" />
+          <TableButtonGroup
+            :show-check-button="true"
+            :show-more-button="true"
+            @show-more="$router.push(`/admin/support-messages/${scope.row.id}`)"
+            @check="changeNewStatus(scope.row)"
+          />
         </template>
       </el-table-column>
     </el-table>
     <template #footer>
       <Pagination />
     </template>
-  </component>
+  </AdminListWrapper>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref } from 'vue';
-import { NavigationGuardNext } from 'vue-router';
-
+<script lang="ts" setup>
 import SupportMessage from '@/classes/SupportMessage';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-import { Orders } from '@/services/interfaces/Orders';
 import SupportMessagesFiltersLib from '@/libs/filters/SupportMessagesFiltersLib';
 import SupportMessagesSortsLib from '@/libs/sorts/SupportMessagesSortsLib';
-import Provider from '@/services/Provider/Provider';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import Hooks from '@/services/Hooks/Hooks';
+import SortListConst from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-export default defineComponent({
-  name: 'AdminSupportMessagesList',
-  components: { FilterCheckbox, TableButtonGroup, AdminListWrapper },
-  setup() {
-    const supportMessages: Ref<SupportMessage[]> = computed(() => Provider.store.getters['supportMessages/items']);
-    const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
-    const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: Ref<boolean> = ref(true);
-    const { saveButtonClick } = useConfirmLeavePage();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount']('supportMessages'));
-    let sourceSSE: EventSource | undefined = undefined;
-    const edit = () => {
-      if (isEditMode.value) {
-        return;
-      }
-      isEditMode.value = true;
-      isNotEditMode.value = false;
-    };
+const supportMessages: SupportMessage[] = SupportMessagesStore.Items();
+const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
+const isEditMode: Ref<boolean> = ref(false);
+const isNotEditMode: Ref<boolean> = ref(true);
+const { saveButtonClick } = useConfirmLeavePage();
+const sourceSSE: EventSource | undefined = undefined;
 
-    const save = async (next?: NavigationGuardNext) => {
-      if (!isEditMode.value) {
-        return;
-      }
-      saveButtonClick.value = true;
-      await Provider.store.dispatch('supportMessages/updateMany');
-      isEditMode.value = false;
-      isNotEditMode.value = true;
-      if (next) next();
-    };
+const edit = () => {
+  if (isEditMode.value) {
+    return;
+  }
+  isEditMode.value = true;
+  isNotEditMode.value = false;
+};
 
-    const loadSupportMessages = async () => {
-      await Store.GetAll('supportMessages');
-    };
+const save = async (next?: NavigationGuardNext) => {
+  if (!isEditMode.value) {
+    return;
+  }
+  saveButtonClick.value = true;
+  await SupportMessagesStore.UpdateMany();
+  isEditMode.value = false;
+  isNotEditMode.value = true;
+  if (next) next();
+};
 
-    const load = async () => {
-      Provider.setSortModels(SupportMessagesSortsLib.byDate(Orders.Desc));
-      Provider.setSortList(...createSortModels(SupportMessagesSortsLib, Orders.Desc));
-      await loadSupportMessages();
-      onlyNewFilter.value = SupportMessagesFiltersLib.onlyNew();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Вопросы',
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-        ],
-        applicationsCount,
-      });
-    };
+const loadSupportMessages = async () => {
+  await SupportMessagesStore.FTSP();
+};
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'supportMessages', action: 'getAll' },
-    });
+const load = async () => {
+  SortListConst.Set(SupportMessagesSortsLib);
+  await loadSupportMessages();
+  onlyNewFilter.value = SupportMessagesFiltersLib.onlyNew();
+  PHelp.AdminUI.Head.Set('Вопросы в тех.поддержку', [
+    Button.Success('Редактировать', edit, isNotEditMode),
+    Button.Success('Сохранить', save, isEditMode),
+  ]);
+};
 
-    onBeforeUnmount(async () => {
-      sourceSSE?.close();
-    });
+Hooks.onBeforeMount(load);
 
-    const changeNewStatus = async (question: SupportMessage) => {
-      question.changeNewStatus();
-      await Provider.store.dispatch('supportMessages/changeNewStatus', question);
-    };
-    return {
-      supportMessages,
-      loadSupportMessages,
-      changeNewStatus,
-      mounted: Provider.mounted,
-      onlyNewFilter,
-      isEditMode,
-    };
-  },
+onBeforeUnmount(async () => {
+  sourceSSE?.close();
 });
+
+const changeNewStatus = async (question: SupportMessage) => {
+  question.changeNewStatus();
+  await SupportMessagesStore.ChangeNewStatus(question);
+};
 </script>
 
 <style lang="scss" scoped>

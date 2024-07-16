@@ -40,65 +40,36 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
-
+<script lang="ts" setup>
 import SupportMessage from '@/classes/SupportMessage';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-export default defineComponent({
-  name: 'AdminSupportMessagePage',
-  components: { WysiwygEditor },
-  setup() {
-    const form = ref();
-    const supportMessage: Ref<SupportMessage> = computed<SupportMessage>(() => Provider.store.getters['supportMessages/item']);
-    const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const rules = {
-      answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
-    };
+const form = ref();
+const supportMessage: SupportMessage = SupportMessagesStore.Item();
+const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
-    const save = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      await Provider.store.dispatch('supportMessages/update', supportMessage.value);
-      next ? next() : Provider.router.push('/admin/support-messages');
-      ElMessage({
-        type: 'info',
-        message: 'Изменения сохранены',
-      });
-      Provider.store.commit('supportMessages/resetSupportMessage');
-    };
+const rules = {
+  answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
+};
 
-    Hooks.onBeforeMount(async () => {
-      await Provider.store.dispatch('supportMessages/get', Provider.route().params['id']);
-      if (supportMessage.value.isNew) {
-        supportMessage.value.changeNewStatus();
-        await Provider.store.dispatch('supportMessages/changeNewStatus', supportMessage.value);
-      }
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Ответить на вопрос',
-        showBackButton: true,
-        buttons: [{ text: 'Сохранить и выйти', type: 'primary', action: save, condition: confirmLeave }],
-      });
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(supportMessage, formUpdated, { deep: true });
-    });
+const save = async () => {
+  saveButtonClick.value = true;
+  await SupportMessagesStore.Update();
+  await Router.To('/admin/support-messages');
+  PHelp.Notification.Success('Измениня успешно сохранены');
+  SupportMessagesStore.ResetItem();
+};
 
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(save, next);
-    });
-
-    return {
-      mounted: Provider.mounted,
-      supportMessage,
-      form,
-      rules,
-    };
-  },
+Hooks.onBeforeMount(async () => {
+  await SupportMessagesStore.Get(Router.Id());
+  if (supportMessage.isNew) {
+    supportMessage.changeNewStatus();
+    await SupportMessagesStore.ChangeNewStatus(supportMessage);
+  }
+  PHelp.AdminUI.Head.Set('Ответить на вопрос', [Button.Success('Сохранить и выйти', save)]);
+  window.addEventListener('beforeunload', beforeWindowUnload);
+  watch(supportMessage, formUpdated, { deep: true });
 });
 </script>
 

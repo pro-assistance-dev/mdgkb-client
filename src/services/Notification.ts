@@ -27,6 +27,11 @@ class NotificationConstructor extends Message {
     const t = Statuses.Warning;
     super.showMessage(m, t);
   }
+  Save() {
+    const m = 'Изменения успешно сохранены';
+    const t = Statuses.Success;
+    super.showMessage(m, t);
+  }
 }
 
 const Notification: NotificationConstructor = new NotificationConstructor();

@@ -11,6 +11,7 @@ const StoreModulesNames = [
   'HeadsStore',
   'TeachersStore',
   'VisitsApplicationsStore',
+  'SupportMessagesStore',
 ];
 
 export default StoreModulesNames;

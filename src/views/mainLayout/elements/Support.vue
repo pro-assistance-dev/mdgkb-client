@@ -3,7 +3,10 @@
     <input id="support__toggle" type="checkbox" />
     <label
       :style="{ visibility: isDrawerOpen ? 'hidden' : 'visible', 'transition-delay': !isDrawerOpen ? '0.25s' : '' }"
-      class="support__btn" for="support__toggle" @click="toggleDrawer(true)">
+      class="support__btn"
+      for="support__toggle"
+      @click="toggleDrawer(true)"
+    >
       <div class="support">
         <div class="avatar">
           <div class="helper-avatar">
@@ -14,41 +17,74 @@
         <div class="text-mobile">ТЕСТ РЕЖИМ</div>
       </div>
     </label>
-    <div id="support__box" :style="{ visibility: !isDrawerOpen ? 'hidden' : 'visible' }" class="support__box"
-      @click="(e) => drawerLeaveHandler(e)">
+    <div
+      id="support__box"
+      :style="{ visibility: !isDrawerOpen ? 'hidden' : 'visible' }"
+      class="support__box"
+      @click="(e) => drawerLeaveHandler(e)"
+    >
       <div id="support-zone" class="support-zone" :style="{ right: !isDrawerOpen ? '-100%' : '0' }">
         <div class="support-title">Задать вопрос техподдержке</div>
         <el-form ref="form" :model="supportMessage" label-position="top">
-          <el-form-item v-if="!supportMessage.user?.human?.name" prop="user.human.name"
-            :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]" label="Ваше имя">
-            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100"
-              show-word-limit></el-input>
+          <el-form-item
+            v-if="!supportMessage.user?.human?.name"
+            prop="user.human.name"
+            :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
+            label="Ваше имя"
+          >
+            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
-          <el-form-item v-if="!supportMessage.user?.human?.surname" prop="user.human.surname"
-            :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]" label="Ваша фамилия">
-            <el-input v-model="supportMessage.user.human.surname" placeholder="Имя" minlength="1" maxlength="100"
-              show-word-limit></el-input>
+          <el-form-item
+            v-if="!supportMessage.user?.human?.surname"
+            prop="user.human.surname"
+            :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
+            label="Ваша фамилия"
+          >
+            <el-input
+              v-model="supportMessage.user.human.surname"
+              placeholder="Имя"
+              minlength="1"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
           </el-form-item>
-          <el-form-item v-if="!supportMessage.user?.human?.patronymic" prop="user.human.patronymic"
+          <el-form-item
+            v-if="!supportMessage.user?.human?.patronymic"
+            prop="user.human.patronymic"
             :rules="[{ required: true, message: 'Необходимо указать отчество', trigger: 'blur' }]"
-            label="Ваше отчество">
-            <el-input v-model="supportMessage.user.human.patronymic" placeholder="Имя" minlength="1" maxlength="100"
-              show-word-limit></el-input>
+            label="Ваше отчество"
+          >
+            <el-input
+              v-model="supportMessage.user.human.patronymic"
+              placeholder="Имя"
+              minlength="1"
+              maxlength="100"
+              show-word-limit
+            ></el-input>
           </el-form-item>
 
-          <el-form-item v-if="!supportMessage.user?.email" prop="user.email"
-            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]" label="Ваш email">
-            <el-input v-model="supportMessage.user.email" placeholder="Адрес электронной почты"
-              minlength="1"></el-input>
+          <el-form-item
+            v-if="!supportMessage.user?.email"
+            prop="user.email"
+            :rules="[{ required: true, message: 'Необходимо указать email', trigger: 'blur' }]"
+            label="Ваш email"
+          >
+            <el-input v-model="supportMessage.user.email" placeholder="Адрес электронной почты" minlength="1"></el-input>
           </el-form-item>
 
           <el-form-item label="Тема вопроса" prop="theme">
-            <el-input v-model="supportMessage.theme" placeholder="Тема вопроса" minlength="1" maxlength="100"
-              show-word-limit></el-input>
+            <el-input v-model="supportMessage.theme" placeholder="Тема вопроса" minlength="1" maxlength="100" show-word-limit></el-input>
           </el-form-item>
           <el-form-item label="Содержание обращения" prop="originalQuestion">
-            <el-input v-model="supportMessage.question" type="textarea" placeholder="Содержание обращения" minlength="5"
-              maxlength="1000" show-word-limit :autosize="{ minRows: 5, maxRows: 10 }" />
+            <el-input
+              v-model="supportMessage.question"
+              type="textarea"
+              placeholder="Содержание обращения"
+              minlength="5"
+              maxlength="1000"
+              show-word-limit
+              :autosize="{ minRows: 5, maxRows: 10 }"
+            />
           </el-form-item>
 
           <div class="right-button">
@@ -61,14 +97,14 @@
 </template>
 
 <script lang="ts" setup>
-import ElenaImg from '@/assets/img/avatar-helper-elena.jpg'
+import ElenaImg from '@/assets/img/avatar-helper-elena.jpg';
 import SupportMessage from '@/classes/SupportMessage';
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 
-const emits = defineEmits(['changeDrawerStatus'])
+defineEmits(['changeDrawerStatus']);
 const activePath: Ref<string> = ref('');
-const supportMessage: ComputedRef<SupportMessage> = Store.Item('supportMessages')
+const supportMessage: SupportMessage = SupportMessagesStore.Item();
 
 const isDrawerOpen: Ref<boolean> = ref(false);
 
@@ -81,11 +117,11 @@ const drawerLeaveHandler = (e: any) => {
 };
 const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 watch(user, () => {
-  supportMessage.value.user = user.value;
+  supportMessage.user = user.value;
 });
 
 onBeforeMount(async () => {
-  supportMessage.value.user = new User(user.value);
+  supportMessage.user = new User(user.value);
   activePath.value = Provider.route().path;
 });
 watch(
@@ -96,10 +132,10 @@ watch(
 );
 
 const submit = async () => {
-  supportMessage.value.date = new Date();
-  await Provider.store.dispatch('supportMessages/create', supportMessage.value);
-  Provider.store.commit('supportMessages/resetSupportMessage');
-  supportMessage.value.user = user.value;
+  supportMessage.date = new Date();
+  await SupportMessagesStore.Create();
+  SupportMessagesStore.ResetItem();
+  supportMessage.user = user.value;
 };
 </script>
 
@@ -141,9 +177,9 @@ body {
   z-index: 101;
 }
 
-.support__btn>span,
-.support__btn>span::before,
-.support__btn>span::after {
+.support__btn > span,
+.support__btn > span::before,
+.support__btn > span::after {
   display: block;
   position: absolute;
   width: 100%;
@@ -151,18 +187,18 @@ body {
   background-color: #343e5c;
 }
 
-.support__btn:hover>span,
-.support__btn:hover>span::before,
-.support__btn:hover>span::after {
+.support__btn:hover > span,
+.support__btn:hover > span::before,
+.support__btn:hover > span::after {
   background-color: #22abe2;
 }
 
-.support__btn>span::before {
+.support__btn > span::before {
   content: '';
   top: -8px;
 }
 
-.support__btn>span::after {
+.support__btn > span::after {
   content: '';
   top: 8px;
 }
@@ -206,7 +242,7 @@ body {
   background-color: #cfd8dc;
 }
 
-#support__toggle:checked~.support__box {
+#support__toggle:checked ~ .support__box {
   visibility: visible;
 
   .support-zone {
@@ -394,7 +430,8 @@ a.btn:active {
   width: 100%;
 }
 
-:deep(.el-button el-button--success) {}
+:deep(.el-button el-button--success) {
+}
 
 .text-mobile {
   display: none;

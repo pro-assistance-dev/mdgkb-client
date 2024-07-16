@@ -65,7 +65,6 @@ import { roles } from '@/store/modules/roles';
 import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { specializations } from '@/store/modules/specializations';
-import { supportMessages } from '@/store/modules/supportMessages';
 import { tags } from '@/store/modules/tags';
 import { timetablePatterns } from '@/store/modules/timetablePatterns';
 import { timetables } from '@/store/modules/timetables';
@@ -143,7 +142,6 @@ const s: StoreOptions<RootState> = {
     dailyMenus,
     dishesSamples,
     hospitalizationsTypes,
-    supportMessages,
     dailyMenuItems,
     appointmentsTypes,
     dailyMenuOrders,
