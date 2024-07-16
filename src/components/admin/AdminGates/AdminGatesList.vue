@@ -25,50 +25,30 @@
   </el-table>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdminGatesList',
+const gates: Gate[] = GatesStore.Item();
+const formPatterns: ComputedRef<Form[]> = computed(() => Provider.store.getters['formPatterns/items']);
+const isEditMode: Ref<boolean> = ref(false);
+const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 
-  setup() {
-    const gates: ComputedRef<Gate[]> = computed(() => Provider.store.getters['gates/items']);
-    const formPatterns: ComputedRef<Form[]> = computed(() => Provider.store.getters['formPatterns/items']);
-    const isEditMode: Ref<boolean> = ref(false);
-    const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
+const edit = async () => {
+  await Provider.store.dispatch('formPatterns/getAll');
+  isEditMode.value = true;
+};
+const save = async () => {
+  await GatesStore.UpdateMany();
+  isEditMode.value = false;
+};
 
-    const edit = async () => {
-      await Provider.store.dispatch('formPatterns/getAll');
-      isEditMode.value = true;
-    };
-    const save = async () => {
-      await Provider.store.dispatch('gates/updateMany');
-      isEditMode.value = false;
-    };
+const load = async () => {
+  await GatesStore.GetAll();
+  PHelp.AdminUI.Head.Set('Входы', [Button.Success('Сохранить', save), Button.Success('Редактировать', edti)]);
+};
 
-    const load = async () => {
-      await Provider.store.dispatch('gates/getAll');
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Входы',
-        buttons: [
-          { text: 'Сохранить', condition: isEditMode, action: save },
-          { text: 'Редактировать', type: 'primary', condition: isNotEditMode, action: edit },
-        ],
-      });
-    };
-
-    Hooks.onBeforeMount(load);
-
-    return {
-      gates,
-      isEditMode,
-      formPatterns,
-    };
-  },
-});
+Hooks.onBeforeMount(load);
 </script>

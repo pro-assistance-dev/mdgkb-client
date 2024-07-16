@@ -85,7 +85,7 @@
           </svg>
         </div>
         <div class="item">
-          <a @click="$router.push(`/map/${division.id}`)">
+          <a @click="Router.To(`/isometric-map/${division.id}`)">
             {{ division.address }}
           </a>
         </div>

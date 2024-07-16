@@ -73,7 +73,6 @@ import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
 import { visitingRules } from '@/store/modules/visitingRules';
-import { visitsApplications } from '@/store/modules/visitsApplications';
 
 import RootState from './types';
 
@@ -116,7 +115,6 @@ const s: StoreOptions<RootState> = {
     pagination,
     publicDocumentTypes: pageSideMenus,
     medicalProfiles,
-    visitsApplications,
     callbacks,
     appointments,
     nmoCourses,

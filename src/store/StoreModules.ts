@@ -9,6 +9,7 @@ import PagesStore from './PagesStore';
 import ProjectsStore from './ProjectsStore';
 import TeachersStore from './TeachersStore';
 import UsersStore from './UsersStore';
+<<<<<<< HEAD
 
 export {
   AcademicsStore,
@@ -23,3 +24,20 @@ export {
   TeachersStore,
   UsersStore,
 };
+||||||| aee1f270
+export { AcademicsStore, CommentsStore, DivisionsStore, EmployeesStore, FaqsStore, NewsStore, PagesStore, ProjectsStore, UsersStore };
+=======
+import VisitsApplicationsStore from './VisitsApplicationsStore';
+export {
+  AcademicsStore,
+  CommentsStore,
+  DivisionsStore,
+  EmployeesStore,
+  FaqsStore,
+  NewsStore,
+  PagesStore,
+  ProjectsStore,
+  UsersStore,
+  VisitsApplicationsStore,
+};
+>>>>>>> master

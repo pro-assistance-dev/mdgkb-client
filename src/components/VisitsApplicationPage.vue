@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="form-container">
+  <div class="form-container">
     <h2>Заявка на оформление пропуска</h2>
     <div class="card-item">
       <el-form ref="form" :model="visitsApplication" label-position="top" :rules="rules">
@@ -81,8 +81,8 @@ import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
-const visitsApplication: ComputedRef<VisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
-const gate: ComputedRef<Gate> = computed(() => Provider.store.getters['gates/item']);
+const visitsApplication: VisitsApplication = VisitsApplicationsStore.Item();
+const gate: Gate = GatesStore.Item();
 const divisions: Division[] = DivisionsStore.Items();
 const division: Division = DivisionsStore.Item();
 const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
@@ -95,37 +95,37 @@ const rules = ref({
 });
 
 watch(isAuth, async () => {
-  Provider.store.commit('visitsApplications/setUser', user.value);
+  VisitsApplicationsStore.SetUser(user.value);
 });
 
 const submit = async () => {
-  visitsApplication.value.formValue.validate();
-  if (!validate(form, true) || !visitsApplication.value.formValue.validated) {
+  visitsApplication.formValue.validate();
+  if (!validate(form, true) || !visitsApplication.formValue.validated) {
     return;
   }
-  visitsApplication.value.formValue.clearIds();
-  await Provider.store.dispatch('visitsApplications/create');
+  visitsApplication.formValue.clearIds();
+  await VisitsApplicationsStore.Create();
   PHelp.Notification.Success('Форма успешно отправлена');
-  Router.Back(-1);
+  Router.Back();
 };
 
 const load = async () => {
   DivisionsStore.FTSP({ ftsp: new FTSP() });
-  await Provider.store.dispatch('gates/get', route.params['gateId']);
-  Provider.store.commit('visitsApplications/resetItem');
-  Provider.store.commit('visitsApplications/setFormValue', gate.value.formPattern);
-  visitsApplication.value.formValue.initFieldsValues();
-  Provider.store.commit('visitsApplications/setGate', gate.value);
-  Provider.store.commit('visitsApplications/setUser', user.value);
-  Provider.store.commit('visitsApplications/setInitVisit');
+  await GatesStore.Get(Router.GetStringParam('gateId'));
+  VisitsApplicationsStore.ResetItem();
+  VisitsApplicationsStore.SetFormValue(gate.formPattern);
+  visitsApplication.formValue.initFieldsValues();
+  VisitsApplicationsStore.SetGate(gate);
+  VisitsApplicationsStore.SetUser(user.value);
+  VisitsApplicationsStore.SetInitVisit();
 };
 
 Hooks.onBeforeMount(load);
 
 const selectDivision = async (event: ISearchObject) => {
-  visitsApplication.value.divisionId = event.id;
+  visitsApplication.divisionId = event.id;
   DivisionsStore.Get(event.id);
-  visitsApplication.value.division = new Division(division.value);
+  visitsApplication.division = new Division(division);
 };
 </script>
 

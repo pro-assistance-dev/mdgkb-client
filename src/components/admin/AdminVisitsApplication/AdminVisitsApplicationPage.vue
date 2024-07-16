@@ -31,111 +31,82 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute } from 'vue-router';
-
+<script lang="ts" setup>
 import FormStatus from '@/classes/FormStatus';
 import UserFormFields from '@/classes/UserFormFields';
 import VisitsApplication from '@/classes/VisitsApplication';
-import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminVisitsApplicationPage',
-  components: { AdminFormValue },
-
-  setup() {
-    const route = useRoute();
-    const form = ref();
-    const visitsApplication: ComputedRef<VisitsApplication> = computed(() => Provider.store.getters['visitsApplications/item']);
-    const isEditMode: Ref<boolean> = ref(false);
-
-    const editButtonTitle: ComputedRef<string> = computed(() => {
-      if (isEditMode.value) {
-        return 'Режим просмотра';
-      } else {
-        return 'Режим редактирования';
-      }
-    });
-
-    const changeEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-    };
-
-    const submit = async (next?: NavigationGuardNext) => {
-      visitsApplication.value.formValue.validate();
-      saveButtonClick.value = true;
-      if (!validate(form, true) || !visitsApplication.value.formValue.validated) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (route.params['id']) {
-        visitsApplication.value.formValue.updateViewedByUser(initialStatus);
-        await Provider.store.dispatch('visitsApplications/update');
-      } else {
-        visitsApplication.value.formValue.clearIds();
-        await Provider.store.dispatch('visitsApplications/create');
-      }
-      next ? next() : await Provider.router.go(-1);
-    };
-
-    let initialStatus: FormStatus;
-    const loadItem = async () => {
-      let pageTitle = '';
-      if (route.params['id']) {
-        await Provider.store.dispatch('visitsApplications/get', route.params['id']);
-        initialStatus = visitsApplication.value.formValue.formStatus;
-        pageTitle = `Заявка на посещение. Заявление от ${visitsApplication.value.formValue.user.email}`;
-      } else {
-        pageTitle = 'Добавить заявку на посещение';
-        Provider.store.commit('visitsApplications/resetItem');
-        isEditMode.value = true;
-      }
-      Provider.store.commit('admin/setHeaderParams', {
-        title: pageTitle,
-        showBackButton: true,
-        buttons: [{ text: editButtonTitle, type: 'primary', action: changeEditMode }, { action: submit }],
-      });
-    };
-
-    const updateNew = async () => {
-      if (!route.params['id']) {
-        return;
-      }
-      if (!visitsApplication.value.formValue.isNew) {
-        return;
-      }
-      visitsApplication.value.formValue.isNew = false;
-      await Provider.store.dispatch('visitsApplications/update', visitsApplication.value);
-    };
-
-    const load = async () => {
-      await loadItem();
-      // await updateNew();
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(visitsApplication, formUpdated, { deep: true });
-    };
-
-    Hooks.onBeforeMount(load);
-
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    return {
-      form,
-      mounted: Provider.mounted,
-      isEditMode,
-      visitsApplication,
-      UserFormFields,
-    };
-  },
+const form = ref();
+const visitsApplication: VisitsApplication = VisitsApplicationsStore.Item();
+const isEditMode: Ref<boolean> = ref(false);
+const mounted = ref(false);
+const editButtonTitle: ComputedRef<string> = computed(() => {
+  if (isEditMode.value) {
+    return 'Режим просмотра';
+  } else {
+    return 'Режим редактирования';
+  }
 });
+
+const changeEditMode = () => {
+  isEditMode.value = !isEditMode.value;
+};
+
+const submit = async (next?: NavigationGuardNext) => {
+  visitsApplication.formValue.validate();
+  saveButtonClick.value = true;
+  if (!validate(form, true) || !visitsApplication.formValue.validated) {
+    saveButtonClick.value = false;
+    return;
+  }
+  if (Router.Id()) {
+    visitsApplication.formValue.updateViewedByUser(initialStatus);
+    await VisitsApplicationsStore.Update();
+  } else {
+    visitsApplication.formValue.clearIds();
+    await VisitsApplicationsStore.Create();
+  }
+  next ? next() : await Router.Back();
+};
+
+let initialStatus: FormStatus;
+const loadItem = async () => {
+  let pageTitle = '';
+  if (Router.Id()) {
+    await VisitsApplicationsStore.Get(Router.Id());
+    initialStatus = visitsApplication.formValue.formStatus;
+    pageTitle = `Заявка на посещение. Заявление от ${visitsApplication.formValue.user.email}`;
+  } else {
+    pageTitle = 'Добавить заявку на посещение';
+    VisitsApplicationsStore.ResetItem();
+    isEditMode.value = true;
+  }
+  PHelp.AdminUI.Head.Set(pageTitle, [Button.Success(editButtonTitle, changeEditMode), Button.Success('Сохранить', submit)]);
+  mounted.value = true;
+};
+
+const updateNew = async () => {
+  if (!Router.Id()) {
+    return;
+  }
+  if (!visitsApplication.formValue.isNew) {
+    return;
+  }
+  visitsApplication.formValue.isNew = false;
+  await VisitsApplicationsStore.Update();
+};
+
+const load = async () => {
+  await loadItem();
+  // await updateNew();
+  // window.addEventListener('beforeunload', beforeWindowUnload);
+  // watch(visitsApplication, formUpdated, { deep: true });
+};
+
+Hooks.onBeforeMount(load);
 </script>
 
 <style lang="scss" scoped>
