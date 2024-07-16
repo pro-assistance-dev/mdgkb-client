@@ -9,24 +9,6 @@ import PagesStore from './PagesStore';
 import ProjectsStore from './ProjectsStore';
 import TeachersStore from './TeachersStore';
 import UsersStore from './UsersStore';
-<<<<<<< HEAD
-
-export {
-  AcademicsStore,
-  CommentsStore,
-  DivisionsStore,
-  EmployeesStore,
-  FaqsStore,
-  HeadsStore,
-  NewsStore,
-  PagesStore,
-  ProjectsStore,
-  TeachersStore,
-  UsersStore,
-};
-||||||| aee1f270
-export { AcademicsStore, CommentsStore, DivisionsStore, EmployeesStore, FaqsStore, NewsStore, PagesStore, ProjectsStore, UsersStore };
-=======
 import VisitsApplicationsStore from './VisitsApplicationsStore';
 export {
   AcademicsStore,
@@ -39,5 +21,6 @@ export {
   ProjectsStore,
   UsersStore,
   VisitsApplicationsStore,
+  TeachersStore,
+  HeadsStore,
 };
->>>>>>> master
