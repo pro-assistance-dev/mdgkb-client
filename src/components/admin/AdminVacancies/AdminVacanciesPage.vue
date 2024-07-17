@@ -86,17 +86,17 @@ import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 const form = ref();
-const vacancy: Ref<Vacancy> = Store.Item('vacancies');
+const vacancy: Vacancy = VacanciesStore.Item();
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
 const load = async () => {
   await Store.FTSP('divisions', { ftsp: new FTSP() });
   if (Router.Id()) {
-    await Store.Get('vacancies', Router.Id());
-    PHelp.AdminUI.Head.Set(vacancy.value.title, [Button.Success('Сохранить', submit)]);
+    await VacanciesStore.Get(Router.Id());
+    PHelp.AdminUI.Head.Set(vacancy.title, [Button.Success('Сохранить', submit)]);
   } else {
-    Store.Commit('vacancies/resetState');
+    VacanciesStore.ResetState();
     PHelp.AdminUI.Head.Set('Добавить вакансию', [Button.Success('Сохранить', submit)]);
   }
   await Store.FTSP('formPatterns', { ftsp: new FTSP() });
@@ -117,22 +117,22 @@ const submit = async (next?: NavigationGuardNext) => {
     return;
   }
   if (Router.Id()) {
-    await Store.Create('vacancies', vacancy.value);
+    await VacanciesStore.Create();
     await Router.ToAdmin('/vacancies');
     return;
   }
-  await Store.Update('vacancies', vacancy.value);
+  await VacanciesStore.Update();
   next ? next() : await Router.To('/admin/vacancies');
 };
 
 const selectDivisionSearch = async (item: ISearchObject) => {
-  vacancy.value.divisionId = item.id;
-  vacancy.value.division = new Division();
-  vacancy.value.division.name = item.label;
+  vacancy.divisionId = item.id;
+  vacancy.division = new Division();
+  vacancy.division.name = item.label;
 };
 
 const removeResponse = (index: number) => {
-  ClassHelper.RemoveFromClassByIndex(index, vacancy.value.vacancyResponses, vacancy.value.vacancyResponsesForDelete);
+  ClassHelper.RemoveFromClassByIndex(index, vacancy.vacancyResponses, vacancy.vacancyResponsesForDelete);
 };
 </script>
 

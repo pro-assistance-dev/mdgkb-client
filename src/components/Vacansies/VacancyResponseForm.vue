@@ -23,29 +23,25 @@ import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
-import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import UserForm from '@/components/FormConstructor/UserForm.vue';
 import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import validate from '@/services/validate';
 
 const emits = defineEmits(['close']);
 
-const filter = ref('');
 const mounted = ref(false);
-const rules = ref(VacancyResponseRules);
 const form = ref();
-const vacancyResponse: ComputedRef<VacancyResponse> = Store.Item('vacancyResponses');
-const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies');
+const vacancyResponse: VacancyResponse = VacancyResponsesStore.Item();
+const vacancy: Vacancy = VacanciesStore.Item();
 const auth: ComputedRef<User> = Store.Getters('auth/auth');
 const user = computed(() => auth.value.user.get());
 
 const submit = async () => {
-  vacancyResponse.value.formValue.validate();
-  if (!validate(form, true) || !vacancyResponse.value.formValue.validated) {
+  vacancyResponse.formValue.validate();
+  if (!validate(form, true) || !vacancyResponse.formValue.validated) {
     return;
   }
-  vacancyResponse.value.formValue.clearIds();
-  await Store.Create('vacancyResponses', vacancyResponse.value);
+  vacancyResponse.formValue.clearIds();
+  await Store.Create('vacancyResponses', vacancyResponse);
   ElMessage({
     type: 'success',
     message: 'Форма успешно отправлена',
@@ -55,11 +51,11 @@ const submit = async () => {
 };
 
 onBeforeMount(async () => {
-  Store.Commit('vacancyResponses/resetItem');
-  Store.Commit('vacancyResponses/setFormValue', vacancy.value.formPattern);
-  vacancyResponse.value.formValue.initFieldsValues();
-  Store.Commit('vacancyResponses/setVacancy', vacancy.value);
-  Store.Commit('vacancyResponses/setUser', user.value);
+  VacancyResponsesStore.ResetItem();
+  VacancyResponsesStore.SetFormValue(vacancy.value.formPattern);
+  vacancyResponse.formValue.initFieldsValues();
+  VacancyResponsesStore.SetVacancy(vacancy.value);
+  VacancyResponsesStore.SetUser(user.value);
 
   mounted.value = true;
 });

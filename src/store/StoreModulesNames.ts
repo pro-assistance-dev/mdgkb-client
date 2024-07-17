@@ -13,6 +13,8 @@ const StoreModulesNames = [
   'VisitsApplicationsStore',
   'SupportMessagesStore',
   'VisitingRulesStore',
+  'VacanciesStore',
+  'VacancyResponsesStore',
   'MapNodesStore',
 ];
 

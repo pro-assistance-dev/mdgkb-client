@@ -11,6 +11,8 @@ import ProjectsStore from './ProjectsStore';
 import SupportMessagesStore from './SupportMessagesStore';
 import TeachersStore from './TeachersStore';
 import UsersStore from './UsersStore';
+import VacanciesStore from './VacanciesStore';
+import VacancyResponsesStore from './VacancyResponsesStore';
 import VisitingRulesStore from './VisitingRulesStore';
 import VisitsApplicationsStore from './VisitsApplicationsStore';
 
@@ -28,6 +30,8 @@ export {
   SupportMessagesStore,
   TeachersStore,
   UsersStore,
+  VacanciesStore,
+  VacancyResponsesStore,
   VisitingRulesStore,
   VisitsApplicationsStore,
 };

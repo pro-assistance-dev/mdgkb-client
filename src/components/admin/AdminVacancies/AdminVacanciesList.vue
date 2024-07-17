@@ -104,10 +104,8 @@ import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
-import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-const vacancies: ComputedRef<Vacancy[]> = Store.Items('vacancies');
+const vacancies: Vacancy[] = VacanciesStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
@@ -117,12 +115,12 @@ const editMany = async () => {
   isEditMode.value = true;
 };
 const saveMany = async () => {
-  await Store.Dispatch('vacancies/updateMany');
+  await VacanciesStore.UpdateMany();
   isEditMode.value = false;
 };
 
 const loadVacancies = async () => {
-  await Store.FTSP('vacancies');
+  await VacanciesStore.FTSP();
 };
 
 const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
@@ -140,26 +138,24 @@ const load = async () => {
   ]);
 };
 
-Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'vacancies', action: 'ftsp' },
-});
+Hooks.onBeforeMount(load, { sortsLib: VacanciesSortsLib });
 
 const remove = async (id: string) => {
-  await Store.Remove('vacancies', id);
+  await VacanciesStore.Remove(id);
 };
 
 const create = () => Router.To(`/admin/vacancies/new`);
 
 const newResponsesExists = (): boolean => {
-  return vacancies.value.some((vacancy: Vacancy) => vacancy.withNewResponses());
+  return vacancies.some((vacancy: Vacancy) => vacancy.withNewResponses());
 };
 
 const setActive = async (vacancy: Vacancy) => {
-  await Store.Update('vacancies', vacancy);
+  await VacanciesStore.Update(vacancy);
 };
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Provider.router.push({ name: `AdminVacanciesEdit`, params: { id: event.id, slug: event.id } });
+  await Router.To(`/admin/vacancies/${event.id}`);
 };
 </script>
 

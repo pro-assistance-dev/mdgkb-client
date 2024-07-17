@@ -41,8 +41,8 @@ import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 
 import FormStatus from '@/classes/FormStatus';
 import VacancyResponse from '@/classes/VacancyResponse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -56,32 +56,25 @@ export default defineComponent({
     const form = ref();
     const achievementsForm = ref();
     const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const application: ComputedRef<VacancyResponse> = computed<VacancyResponse>(() => Provider.store.getters['vacancyResponses/item']);
+    const application: VacancyResponse = VacancyResponsesStore.Item();
     const buttonOff: Ref<boolean> = ref(false);
 
     const submit = async () => {
       await loadFilters();
-      application.value.formValue.validate();
-      if ((form.value && !validate(form, true)) || !application.value.formValue.validated) {
+      application.formValue.validate();
+      if ((form.value && !validate(form, true)) || !application.formValue.validated) {
         return;
       }
       buttonOff.value = true;
-      const loading = ElLoading.service({
-        lock: true,
-        text: 'Загрузка',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)',
-      });
-      application.value.formValue.isNew = true;
-      application.value.formValue.setCpecifyStatus(formStatuses.value);
-      await Provider.store.dispatch('vacancyResponses/update', application.value);
+      application.formValue.isNew = true;
+      application.formValue.setCpecifyStatus(formStatuses.value);
+      await VacancyResponsesStore.Update();
       buttonOff.value = false;
-      loading.close();
-      Provider.router.push('/profile/vacancy-responses');
+      Router.To('/profile/vacancy-responses');
     };
 
     const load = async () => {
-      await Provider.store.dispatch('vacancyResponses/get', Provider.route().params.id);
+      await VacancyResponsesStore.Get(Router.Id());
       mounted.value = true;
     };
 

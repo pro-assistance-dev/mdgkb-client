@@ -64,6 +64,8 @@ declare global {
   const Token: typeof import('@/services/Main')['Token']
   const User: typeof import('@/services/Main')['User']
   const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
+  const VacanciesStore: typeof import('@/store/StoreModules')['VacanciesStore']
+  const VacancyResponsesStore: typeof import('@/store/StoreModules')['VacancyResponsesStore']
   const ValueType: typeof import('@/services/Main')['ValueType']
   const VisitingRulesStore: typeof import('@/store/StoreModules')['VisitingRulesStore']
   const VisitsApplicationsStore: typeof import('@/store/StoreModules')['VisitsApplicationsStore']
@@ -195,6 +197,8 @@ declare module 'vue' {
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
+    readonly VacanciesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacanciesStore']>
+    readonly VacancyResponsesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacancyResponsesStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
     readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
@@ -319,6 +323,8 @@ declare module '@vue/runtime-core' {
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
+    readonly VacanciesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacanciesStore']>
+    readonly VacancyResponsesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacancyResponsesStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
     readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>

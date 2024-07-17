@@ -58,36 +58,31 @@ import User from '@/classes/User';
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-import Message from '@/services/Message';
-
 const showForm: Ref<boolean> = ref(false);
-const vacancy: ComputedRef<Vacancy> = Store.Item('vacancies')
+const vacancy: Vacancy = VacanciesStore.Item();
 const mounted: Ref<boolean> = ref(false);
-const auth = Store.Getters('auth/auth')
-const modal = Store.Getters('auth/modal')
+const auth = Store.Getters('auth/auth');
+const modal = Store.Getters('auth/modal');
 const user: ComputedRef<User> = computed(() => auth.value.user.get());
 
 const isAuth: ComputedRef<boolean> = computed(() => auth.value.isAuth);
-const emailExists: ComputedRef<boolean> = Store.Getters('vacancyResponses/emailExists')
 
 watch(isAuth, async () => await findEmail());
 
 const findEmail = async () => {
-  Store.Commit('vacancyResponses/setUser', user.value);
-  await Provider.store.dispatch('vacancyResponses/emailExists', vacancy.value.id);
+  VacancyResponsesStore.SetUser(user.value);
 };
 
 const showFormFunc = async () => (showForm.value = true);
 
 const openRespondForm = async () => {
   await findEmail();
-  if (emailExists.value) {
-    Message.Error('Вы уже откликались на эту вакансию');
-    return;
-  }
+  // if (emailExists.value) {
+  //   PHelp.Notification.Error('Вы уже откликались на эту вакансию');
+  //   return;
+  // }
   await showFormFunc();
   scroll('#vacancy-form');
 };
@@ -98,10 +93,10 @@ const closeRespondForm = () => {
 };
 
 onBeforeMount(async () => {
-  await Store.Get('vacancies', Router.Id())
+  await VacanciesStore.Get(Router.Id());
   await findEmail();
   mounted.value = true;
-  if (Provider.route().query.respondForm) {
+  if (Router.Route().query.respondForm) {
     await openRespondForm();
   }
 });

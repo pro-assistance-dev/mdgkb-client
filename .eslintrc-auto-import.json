@@ -129,6 +129,8 @@
     "watchSyncEffect": true,
     "SupportMessagesStore": true,
     "VisitingRulesStore": true,
-    "MapNodesStore": true
+    "MapNodesStore": true,
+    "VacanciesStore": true,
+    "VacancyResponsesStore": true
   }
 }

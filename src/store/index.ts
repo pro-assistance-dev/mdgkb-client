@@ -68,8 +68,6 @@ import { tags } from '@/store/modules/tags';
 import { timetablePatterns } from '@/store/modules/timetablePatterns';
 import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
-import { vacancies } from '@/store/modules/vacancies';
-import { vacancyResponses } from '@/store/modules/vacancyResponses';
 
 import RootState from './types';
 
@@ -93,8 +91,6 @@ const s: StoreOptions<RootState> = {
     users,
     timetables,
     map,
-    vacancies,
-    vacancyResponses,
     search,
     hospitalizations,
     newsSlides,
