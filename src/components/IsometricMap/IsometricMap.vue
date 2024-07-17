@@ -92,7 +92,7 @@ onMounted(async () => {
  * Const createRoutes = async () => {
  *   const nodes = mapModel.getNodes();
  *   const requestNodes = nodes.map((n: MapNode) => new MapNodeRequestObject(n));
- *   await Provider.store.dispatch('mapNodes/upload', requestNodes);
+ *   await MapNodesStore.Upload(requestNodes);
  * };
  */
 </script>

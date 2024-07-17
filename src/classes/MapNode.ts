@@ -3,6 +3,7 @@ import { Mesh, Object3D, Vector3 } from 'three';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class MapNode extends Object3D {
+  id?: string;
   isEntry?: string;
   mapNodeName = '';
   neighbors: MapNode[] = [];

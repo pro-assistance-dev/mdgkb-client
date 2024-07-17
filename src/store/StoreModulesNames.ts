@@ -12,6 +12,8 @@ const StoreModulesNames = [
   'TeachersStore',
   'VisitsApplicationsStore',
   'SupportMessagesStore',
+  'VisitingRulesStore',
+  'MapNodesStore',
 ];
 
 export default StoreModulesNames;

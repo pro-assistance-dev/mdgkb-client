@@ -42,6 +42,7 @@ declare global {
   const Hooks: typeof import('@/services/Main')['Hooks']
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
+  const MapNodesStore: typeof import('@/store/StoreModules')['MapNodesStore']
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
@@ -64,6 +65,7 @@ declare global {
   const User: typeof import('@/services/Main')['User']
   const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
   const ValueType: typeof import('@/services/Main')['ValueType']
+  const VisitingRulesStore: typeof import('@/store/StoreModules')['VisitingRulesStore']
   const VisitsApplicationsStore: typeof import('@/store/StoreModules')['VisitsApplicationsStore']
   const WaitElement: typeof import('@/services/Main')['WaitElement']
   const WebSocketClient: typeof import('@/services/Main')['WebSocketClient']
@@ -171,6 +173,7 @@ declare module 'vue' {
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
+    readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
@@ -193,6 +196,7 @@ declare module 'vue' {
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>
@@ -293,6 +297,7 @@ declare module '@vue/runtime-core' {
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
+    readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
@@ -315,6 +320,7 @@ declare module '@vue/runtime-core' {
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
     readonly WebSocketClient: UnwrapRef<typeof import('@/services/Main')['WebSocketClient']>

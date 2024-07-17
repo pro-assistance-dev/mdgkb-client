@@ -40,7 +40,6 @@ import { holidayForms } from '@/store/modules/holidayforms';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
 import { map } from '@/store/modules/map';
-import { mapNodes } from '@/store/modules/mapNodes';
 import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { meta } from '@/store/modules/meta';
@@ -71,7 +70,6 @@ import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 import { vacancies } from '@/store/modules/vacancies';
 import { vacancyResponses } from '@/store/modules/vacancyResponses';
-import { visitingRules } from '@/store/modules/visitingRules';
 
 import RootState from './types';
 
@@ -104,7 +102,6 @@ const s: StoreOptions<RootState> = {
     events,
     timetablePatterns,
     paidProgramsGroups,
-    visitingRules,
     paidPrograms,
     partners,
     partnerTypes,
@@ -153,7 +150,6 @@ const s: StoreOptions<RootState> = {
     dataExport,
     holidayForms,
     mapRoutes,
-    mapNodes,
     ...lib,
   },
 };

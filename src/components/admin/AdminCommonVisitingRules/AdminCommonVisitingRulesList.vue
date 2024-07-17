@@ -39,63 +39,42 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import TableMover from '@/components/admin/TableMover.vue';
+<script lang="ts" setup>
 import IVisitingRule from '@/interfaces/IVisitingRule';
 import validate from '@/services/validate';
 
-export default defineComponent({
-  name: 'AdminCommonVisitingRulesList',
-  components: { TableMover, TableButtonGroup },
+const form = ref();
+const visitingRules: IVisitingRule[] = VisitingRulesStore.Items();
+const isEdit: Ref<boolean> = ref(false);
+const isNotEdit: Ref<boolean> = ref(true);
+const mounted: Ref<boolean> = ref(false);
 
-  setup() {
-    const store = useStore();
-    const form = ref();
-    const visitingRules: ComputedRef<IVisitingRule[]> = computed(() => store.getters['visitingRules/items']);
-    const isEdit: Ref<boolean> = ref(false);
-    const isNotEdit: Ref<boolean> = ref(true);
-    const mounted: Ref<boolean> = ref(false);
+const edit = () => {
+  isEdit.value = true;
+  isNotEdit.value = false;
+};
+const save = async () => {
+  if (!validate(form)) {
+    return;
+  }
+  await VisitingRulesStore.UpdateAll();
+  isEdit.value = false;
+  isNotEdit.value = true;
+};
+const create = () => {
+  VisitingRulesStore.Create();
+};
+const remove = (index: number) => {
+  VisitingRulesStore.Remove(index);
+};
 
-    const edit = () => {
-      isEdit.value = true;
-      isNotEdit.value = false;
-    };
-    const save = async () => {
-      if (!validate(form)) {
-        return;
-      }
-      await store.dispatch('visitingRules/updateAll');
-      isEdit.value = false;
-      isNotEdit.value = true;
-    };
-    const create = () => {
-      store.commit('visitingRules/create');
-    };
-    const remove = (index: number) => {
-      store.commit('visitingRules/remove', index);
-    };
-
-    onBeforeMount(async () => {
-      await store.dispatch('visitingRules/getAll');
-      PHelp.AdminUI.Head.Set('Общие правила посещения', [
-        Button.Success('Сохранить', save, isNotEdit),
-        Button.Success('Редактировать', edit, isNotEdit),
-        Button.Success('Создать', create, isEdit),
-      ]);
-      mounted.value = true;
-    });
-
-    return {
-      visitingRules,
-      isEdit,
-      remove,
-      form,
-      mounted,
-    };
-  },
+onBeforeMount(async () => {
+  await VisitingRulesStore.GetAll();
+  PHelp.AdminUI.Head.Set('Общие правила посещения', [
+    Button.Success('Сохранить', save, isNotEdit),
+    Button.Success('Редактировать', edit, isNotEdit),
+    Button.Success('Создать', create, isEdit),
+  ]);
+  mounted.value = true;
 });
 </script>

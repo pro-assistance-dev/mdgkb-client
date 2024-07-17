@@ -127,6 +127,8 @@
     "watchEffect": true,
     "watchPostEffect": true,
     "watchSyncEffect": true,
-    "SupportMessagesStore": true
+    "SupportMessagesStore": true,
+    "VisitingRulesStore": true,
+    "MapNodesStore": true
   }
 }
