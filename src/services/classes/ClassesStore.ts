@@ -3,7 +3,6 @@ import Doctor from '@/classes/Doctor';
 import Entrance from '@/classes/Entrance';
 import Schedule from '@/classes/Schedule';
 import Timetable from '@/classes/Timetable';
-import TreatDirection from '@/classes/TreatDirection';
 import Contact from '@/services/classes/Contact';
 
 const ClassesStore: any = {
@@ -11,7 +10,6 @@ const ClassesStore: any = {
   Entrance,
   Timetable,
   Schedule,
-  TreatDirection,
   Contact,
   Doctor,
 };

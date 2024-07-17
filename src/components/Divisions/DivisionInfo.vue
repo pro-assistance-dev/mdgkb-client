@@ -10,10 +10,6 @@
       />
     </template>
 
-    <template #small-title>
-      {{ division.treatDirection.name }}
-    </template>
-
     <template #big-title>
       {{ division.name }}
     </template>

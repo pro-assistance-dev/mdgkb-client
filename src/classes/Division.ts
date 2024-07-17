@@ -12,7 +12,6 @@ import NewsDivision from '@/classes/NewsDivision';
 import Schedule from '@/classes/Schedule';
 import SocialMedia from '@/classes/SocialMedia';
 import Timetable from '@/classes/Timetable';
-import TreatDirection from '@/classes/TreatDirection';
 import Vacancy from '@/classes/Vacancy';
 import VisitingRuleGroup from '@/classes/VisitingRuleGroup';
 import Contact from '@/services/classes/Contact';
@@ -66,9 +65,6 @@ export default class Division {
   @ClassHelper.GetClassConstructor(Contact)
   contact: Contact = new Contact();
   contactId?: string;
-  @ClassHelper.GetClassConstructor(TreatDirection)
-  treatDirection: TreatDirection = new TreatDirection();
-  treatDirectionId?: string;
   chiefId?: string;
   chief: Doctor = new Doctor();
   @ClassHelper.GetClassConstructor(SocialMedia)

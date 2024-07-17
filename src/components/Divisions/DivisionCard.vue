@@ -7,7 +7,6 @@
         </div>
       </div>
       <div class="flex-column right-side">
-        <div class="division-line">{{ division.treatDirection.name }}</div>
         <div class="card-name" @click="Router.To(`/divisions/${division.id}`)">
           {{ division.name }}
         </div>

@@ -37,8 +37,6 @@ defineProps({
 });
 
 const emits = defineEmits(['selectMode', 'load']);
-// const treatDirections: Ref<TreatDirection[]> = computed<TreatDirection[]>(() => Provider.store.getters['treatDirections/items']);
-
 const selectSearch = async (event: ISearchObject): Promise<void> => {
   await Provider.router.push(`/divisions/${event.value}`);
 };
