@@ -23,6 +23,10 @@ const StoreModulesNames = [
   'QuestionsStore',
   'TimetablesStore',
   'TimetablesPatternsStore',
+  'HospitalizationsTypesStore',
+  'HospitalizationsStore',
+  'PartnersStore',
+  'PartnersTypesStore',
 ];
 
 export default StoreModulesNames;

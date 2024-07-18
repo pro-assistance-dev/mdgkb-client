@@ -77,11 +77,11 @@ export default defineComponent({
     TableFormStatus,
   },
   setup() {
-    const hospitalizations = computed(() => Provider.store.getters['hospitalizations/items']);
+    const hospitalizations = HospitalizationsStore.Items();
     const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
 
     const loadHospitalizations = async () => {
-      await Provider.store.dispatch('hospitalizations/getAll');
+      await HospitalizationsStore.GetAll();
     };
 
     const load = async () => {
@@ -89,19 +89,14 @@ export default defineComponent({
       // Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
       filterByDivision.value = HospitalizationsFiltersLib.byDivisions([]);
       await loadHospitalizations();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Госпитализации',
-        buttons: [{ text: 'Добавить госпитализацию', type: 'primary', action: create }],
-      });
+      PHelp.AdminUI.Head.Set('Госпитализация', [Button.Success('Добавить госпитализацию', create)]);
     };
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'hospitalizations', action: 'getAll' },
-    });
+    Hooks.onBeforeMount(load);
 
-    const create = () => Provider.router.push(`/admin/hospitalizations/new`);
-    const edit = (id: string) => Provider.router.push(`/admin/hospitalizations/${id}`);
-    const remove = async (id: string) => await Provider.store.dispatch('hospitalizations/remove', id);
+    const create = () => Router.To(`/admin/hospitalizations/new`);
+    const edit = (id: string) => Router.To(`/admin/hospitalizations/${id}`);
+    const remove = async (id: string) => await HospitalizationsStore.Remove(id);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
       await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
@@ -130,7 +125,6 @@ export default defineComponent({
       selectSearch,
       // genderFilter,
       loadHospitalizations,
-      sortList: Provider.sortList,
       DataTypes,
       Operators,
     };

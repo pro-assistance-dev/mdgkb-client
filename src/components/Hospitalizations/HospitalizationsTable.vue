@@ -78,19 +78,17 @@ import HospitalizationAnalyzes from '@/components/Hospitalizations/Hospitalizati
 import HospitalizationDocuments from '@/components/Hospitalizations/HospitalizationDocuments.vue';
 import HospitalizationsHowSendApplication from '@/components/Hospitalizations/HospitalizationsHowSendApplication.vue';
 import HospitalizationStages from '@/components/Hospitalizations/HospitalizationStages.vue';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({
   name: 'HospitalizationsTable',
   components: { HospitalizationsHowSendApplication, HospitalizationStages, HospitalizationAnalyzes, HospitalizationDocuments },
   emits: ['downloadDocs', 'selectHospitalization'],
-
   setup(props, { emit }) {
     const showInfo: Ref<boolean> = ref(false);
-    const hospitalizationsTypes: ComputedRef<HospitalizationType[]> = computed(() => Provider.store.getters['hospitalizationsTypes/items']);
+    const hospitalizationsTypes: HospitalizationType[] = HospitalizationsTypesStore.Items();
     const selectedHospitalizationsType: Ref<HospitalizationType | undefined> = ref(undefined);
-    const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const hospitalization: Hospitalization = HospitalizationsStore.Item();
     const showDialog: Ref<boolean> = ref(false);
     const showContacts: Ref<boolean> = ref(false);
     const contacts = [
@@ -119,19 +117,19 @@ export default defineComponent({
     ];
 
     onBeforeMount(() => {
-      Provider.store.dispatch('hospitalizationsTypes/getAll');
+      HospitalizationsTypesStore.GetAll();
     });
 
     const downloadDocs = (hospitalization: HospitalizationType): void => {
-      Provider.store.commit('hospitalizations/selectHospitalization', hospitalization);
+      HospitalizationsStore.SelectHospitalization(hospitalization);
       selectedHospitalizationsType.value = hospitalization;
       emit('downloadDocs');
       showDialog.value = true;
     };
 
     const selectHospitalization = (hospitalizationType: HospitalizationType): void => {
-      Provider.store.commit('hospitalizations/selectHospitalization', hospitalizationType);
-      if (hospitalization.value.isMoscowReferral()) {
+      HospitalizationsStore.SelectHospitalization(hospitalizationType);
+      if (hospitalization.isMoscowReferral()) {
         ElMessageBox.alert(
           'Запись на плановую госпитализацию в ГБУЗ «Морозовская ДГКБ ДЗМ» пациентов, прикрепленных к московским поликлиникам, производится через детскую поликлинику по месту жительства',
           '',
@@ -145,8 +143,8 @@ export default defineComponent({
 
     const showContactsHandler = () => {
       showContacts.value = true;
-      setTimeout(() => scroll('#contacts'), 100);
     };
+    setTimeout(() => scroll('#contacts'), 100);
 
     return {
       selectedHospitalizationsType,

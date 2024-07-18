@@ -6,10 +6,14 @@ import DivisionsStore from './DivisionsStore';
 import EmployeesStore from './EmployeesStore';
 import FaqsStore from './FaqsStore';
 import HeadsStore from './HeadsStore';
+import HospitalizationsStore from './HospitalizationsStore';
+import HospitalizationsTypesStore from './HospitalizationsTypesStore';
 import MapNodesStore from './MapNodesStore';
 import MapRoutesStore from './MapRoutesStore';
 import NewsStore from './NewsStore';
 import PagesStore from './PagesStore';
+import PartnersStore from './PartnersStore';
+import PartnersTypesStore from './PartnersTypesStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
 import SpecializationsStore from './SpecializationsStore';
@@ -32,10 +36,14 @@ export {
   EmployeesStore,
   FaqsStore,
   HeadsStore,
+  HospitalizationsStore,
+  HospitalizationsTypesStore,
   MapNodesStore,
   MapRoutesStore,
   NewsStore,
   PagesStore,
+  PartnersStore,
+  PartnersTypesStore,
   ProjectsStore,
   QuestionsStore,
   SpecializationsStore,

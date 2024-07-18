@@ -35,23 +35,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-import { useStore } from 'vuex';
-
-import HospitalizationType from '@/classes/HospitalizationType';
-
-export default defineComponent({
-  name: 'HospitalizationsHowSendApplication',
-  setup() {
-    const store = useStore();
-    const hospitalization: ComputedRef<HospitalizationType> = computed(() => store.getters['hospitalizations/item']);
-
-    return {
-      hospitalization,
-    };
-  },
-});
+<script lang="ts" setup>
+const hospitalization: HospitalizationType = HospitalizationsStore.Item();
 </script>
 
 <style lang="scss" scoped>

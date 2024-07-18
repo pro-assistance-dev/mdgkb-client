@@ -52,9 +52,7 @@ export default defineComponent({
   components: { WysiwygEditor },
   setup() {
     const form = ref();
-    const hospitalizationType: Ref<HospitalizationType> = computed<HospitalizationType>(
-      () => Provider.store.getters['hospitalizationsTypes/item']
-    );
+    const hospitalizationType: HospitalizationType = HospitalizationsTypesStore.Item();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const rules = {
       answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
@@ -62,17 +60,16 @@ export default defineComponent({
 
     const save = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
-      await Provider.store.dispatch('hospitalizationsTypes/update');
-      next ? next() : await Provider.router.push('/admin/hospitalizations-types');
+      await HospitalizationsTypesStore.Update();
+      next ? next() : await Router.To('/admin/hospitalizations-types');
       ElMessage({
         type: 'info',
         message: 'Изменения сохранены',
       });
-      Provider.store.commit('hospitalizationsTypes/resetSupportMessage');
     };
 
     Hooks.onBeforeMount(async () => {
-      await Provider.store.dispatch('hospitalizationsTypes/get', Provider.route().params['id']);
+      await HospitalizationsTypesStore.Get(Router.Id());
       PHelp.AdminUI.Head.Set('Ответить на вопрос', [Button.Success('Сохранить и выйти', save)]);
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(hospitalizationType, formUpdated, { deep: true });

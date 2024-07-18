@@ -12,24 +12,11 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
-
 import Partner from '@/classes/Partner';
 import PartnerType from '@/classes/PartnerType';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'PartnersList',
-  setup() {
-    const partners: ComputedRef<Partner[]> = computed(() => Provider.store.getters['partners/filteredItems']);
-    const partnerType: ComputedRef<PartnerType[]> = computed(() => Provider.store.getters['partnerTypes/item']);
-
-    return {
-      partners,
-      partnerType,
-    };
-  },
-});
+const partners: Partner[] = PartnersStore.Items();
+const partnerType: PartnerType[] = ParnersTypesStore.Items();
 </script>
 
 <style lang="scss" scoped>

@@ -41,7 +41,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref(DoctorRules);
     const isEditMode: Ref<boolean> = ref(false);
-    const hospitalization: Ref<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
+    const hospitalization: Hospitalization = HospitalizationsStore.Item();
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {
@@ -49,7 +49,7 @@ export default defineComponent({
         return;
       }
       try {
-        await Provider.store.dispatch('hospitalizations/update');
+        await HospitalizationsStore.Update();
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
@@ -58,11 +58,11 @@ export default defineComponent({
     };
 
     const updateNew = async () => {
-      if (!hospitalization.value.formValue.isNew) {
+      if (!hospitalization.formValue.isNew) {
         return;
       }
-      hospitalization.value.formValue.isNew = false;
-      await Provider.store.dispatch('hospitalizations/update');
+      hospitalization.formValue.isNew = false;
+      await HospitalizationsStore.Update();
     };
 
     const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
@@ -79,16 +79,14 @@ export default defineComponent({
     };
 
     const loadHospitalization = async (): Promise<void> => {
-      if (Provider.route().params['id']) {
-        await Provider.store.dispatch('hospitalizations/get', Provider.route().params['id']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: hospitalization.value.formValue.user.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: toggleEditMode, text: 'Редактировать заявление', type: 'primary' }, { action: submit }],
-        });
+      if (Router.Id()) {
+        await HospitalizationsStore.Get(Router.Id());
+        PHelp.AdminUI.Head.Set(hospitalization.formValue.user.human.getFullName(), [
+          Button.Success('Редактировать заявление', toggleEditMode),
+          Button.Success('Сохранить', submit),
+        ]);
       } else {
-        Provider.store.commit('hospitalizations/resetState');
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
+        await HospitalizationsStore.ResetState();
       }
     };
 

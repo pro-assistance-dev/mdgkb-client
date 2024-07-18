@@ -33,9 +33,6 @@ import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
-import { holidayForms } from '@/store/modules/holidayforms';
-import { hospitalizations } from '@/store/modules/hospitalizations';
-import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { meta } from '@/store/modules/meta';
 import { newsSlides } from '@/store/modules/newsSlides';
@@ -46,8 +43,6 @@ import { pagination } from '@/store/modules/pagination';
 import { paidPrograms } from '@/store/modules/paidPrograms';
 import { paidProgramsGroups } from '@/store/modules/paidProgramsGroups';
 import { paidServices } from '@/store/modules/paidServices';
-import { partners } from '@/store/modules/partners';
-import { partnerTypes } from '@/store/modules/partnerTypes';
 import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
@@ -82,13 +77,10 @@ const s: StoreOptions<RootState> = {
     tags,
     users,
     search,
-    hospitalizations,
     newsSlides,
     events,
     paidProgramsGroups,
     paidPrograms,
-    partners,
-    partnerTypes,
     preparations,
     donorRules,
     meta,
@@ -119,7 +111,6 @@ const s: StoreOptions<RootState> = {
     dishesGroups,
     dailyMenus,
     dishesSamples,
-    hospitalizationsTypes,
     dailyMenuItems,
     appointmentsTypes,
     dailyMenuOrders,
@@ -129,7 +120,6 @@ const s: StoreOptions<RootState> = {
     chatMessages,
     fileInfos,
     dataExport,
-    holidayForms,
     ...lib,
   },
 };

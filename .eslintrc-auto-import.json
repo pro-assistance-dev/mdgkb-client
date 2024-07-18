@@ -139,6 +139,10 @@
     "QuestionsStore": true,
     "ElMessageBox": true,
     "TimetablesPatternsStore": true,
-    "TimetablesStore": true
+    "TimetablesStore": true,
+    "HospitalizationsTypesStore": true,
+    "HospitalizationsStore": true,
+    "PartnersStore": true,
+    "PartnersTypesStore": true
   }
 }

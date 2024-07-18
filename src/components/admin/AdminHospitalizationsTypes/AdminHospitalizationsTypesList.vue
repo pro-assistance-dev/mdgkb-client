@@ -41,10 +41,10 @@ export default defineComponent({
   name: 'AdminHospitalizationsTypesList',
   components: { TableButtonGroup, AdminListWrapper },
   setup() {
-    const hospitalizationsTypes: Ref<SupportMessage[]> = computed(() => Provider.store.getters['hospitalizationsTypes/items']);
+    const hospitalizationsTypes: SupportMessage[] = HospitalizationsTypesStore.Items();
 
     const loadHospitalizationsTypes = async () => {
-      await Store.GetAll('hospitalizationsTypes');
+      await HospitalizationsTypesStore.GetAll();
     };
 
     const load = async () => {

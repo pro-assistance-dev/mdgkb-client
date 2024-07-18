@@ -46,11 +46,11 @@ export default defineComponent({
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const partner: ComputedRef<Partner> = computed(() => store.getters['partners/item']);
-    const partnerTypes: ComputedRef<PartnerType[]> = computed(() => store.getters['partnerTypes/items']);
+    const partner: Partner[] = PartnersStore.Item();
+    const partnerTypes: PartnerType[] = PartnersTypesStore.Items();
 
     const imageRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
-      if (partner.value.partnerType && partner.value.partnerType.showImage) {
+      if (partner.value.partnerType && partner.partnerType.showImage) {
         if (!value) {
           callback(new Error('Необходимо приложить лого'));
         }
@@ -73,10 +73,10 @@ export default defineComponent({
         return;
       }
       try {
-        if (route.params['id']) {
-          await store.dispatch('partners/update', partner.value);
+        if (Router.Id()) {
+          await PartnersStore.Update();
         } else {
-          await store.dispatch('partners/create', partner.value);
+          await PartnersStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -86,13 +86,13 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('partners/resetItem');
-      await store.dispatch('partnerTypes/getAll');
-      if (route.params['id']) {
-        await store.dispatch('partners/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить партнера', showBackButton: true, buttons: [{ action: submit }] });
+      await PartnersStore.ResetItem();
+      await PartnersStore.GetAll();
+      if (Router.Id()) {
+        await PartnersStore.Get(Router.Id());
+        PHelp.AdminUI.Head.Set('Обновить партнера', [Button.Success('Сохранить', submit)]);
       } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить партнера', showBackButton: true, buttons: [{ action: submit }] });
+        PHelp.AdminUI.Head.Set('Добавить партнера', [Button.Success('Сохранить', submit)]);
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

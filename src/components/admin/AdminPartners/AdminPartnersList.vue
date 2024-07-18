@@ -35,7 +35,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const partners: ComputedRef<Partner[]> = computed(() => store.getters['partners/items']);
+    const partners: Partner[] = PartnersStore.Items();
     const mounted: Ref<boolean> = ref(false);
 
     const edit = (id: string): void => {
@@ -45,11 +45,11 @@ export default defineComponent({
       router.push('/admin/partners/new');
     };
     const remove = (id: string) => {
-      store.dispatch('partners/remove', id);
+      await PartnersStore.Remove(id);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('partners/getAll');
+      await PartnersStore.GetAll(id);
       PHelp.AdminUI.Head.Set('Наши партнеры', [Button.Success('Добавить', create)]);
     });
 

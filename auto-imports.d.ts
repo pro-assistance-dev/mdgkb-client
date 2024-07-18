@@ -42,6 +42,8 @@ declare global {
   const GetExtension: typeof import('@/services/Main')['GetExtension']
   const HeadsStore: typeof import('@/store/StoreModules')['HeadsStore']
   const Hooks: typeof import('@/services/Main')['Hooks']
+  const HospitalizationsStore: typeof import('@/store/StoreModules')['HospitalizationsStore']
+  const HospitalizationsTypesStore: typeof import('@/store/StoreModules')['HospitalizationsTypesStore']
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
   const MapNodesStore: typeof import('@/store/StoreModules')['MapNodesStore']
@@ -49,6 +51,8 @@ declare global {
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
+  const PartnersStore: typeof import('@/store/StoreModules')['PartnersStore']
+  const PartnersTypesStore: typeof import('@/store/StoreModules')['PartnersTypesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
@@ -182,6 +186,8 @@ declare module 'vue' {
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
+    readonly HospitalizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['HospitalizationsStore']>
+    readonly HospitalizationsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['HospitalizationsTypesStore']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
@@ -189,6 +195,8 @@ declare module 'vue' {
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
+    readonly PartnersStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersStore']>
+    readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
@@ -315,6 +323,8 @@ declare module '@vue/runtime-core' {
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
+    readonly HospitalizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['HospitalizationsStore']>
+    readonly HospitalizationsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['HospitalizationsTypesStore']>
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
@@ -322,6 +332,8 @@ declare module '@vue/runtime-core' {
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
+    readonly PartnersStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersStore']>
+    readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>

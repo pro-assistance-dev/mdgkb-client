@@ -56,14 +56,10 @@ const userForm = ref();
 const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 const activeStep: Ref<number> = ref(0);
 const buttonOff: Ref<boolean> = ref(false);
-const hospitalization: ComputedRef<Hospitalization> = computed(() => Provider.store.getters['hospitalizations/item']);
-
-const getPDF = (id: string) => {
-  Provider.store.dispatch('hospitalizations/pdf', id);
-};
+const hospitalization: Hospitalization = HospitalizationsStore.Item();
 
 const load = async () => {
-  // await Provider.store.dispatch('hospitalizationsTypes/getAll');
+  await HospitalizationsTypesStore.GetAll();
 };
 
 Hooks.onBeforeMount(load);
@@ -75,8 +71,8 @@ watch(isAuth, async () => {
 });
 
 const submit = (): void => {
-  hospitalization.value.formValue.clearIds();
-  Provider.store.dispatch('hospitalizations/create');
+  hospitalization.formValue.clearIds();
+  HospitalizationsStore.Create();
 };
 
 const toStep = async (stepNum: number) => {
@@ -94,10 +90,10 @@ const submitStep = async () => {
     return;
   }
   hospitalization.value.formValue.validate();
-  if (activeStep.value === 2 && !hospitalization.value.formValue.validated) {
+  if (activeStep.value === 2 && !hospitalization.formValue.validated) {
     ElNotification.error({
       dangerouslyUseHTMLString: true,
-      message: hospitalization.value.formValue.getErrorMessage(),
+      message: hospitalization.formValue.getErrorMessage(),
     });
     return;
   }
@@ -130,8 +126,8 @@ const selectedDivision: Division = DivisionsStore.Item();
 const selectDivision = async (divisionId?: string) => {
   if (divisionId) {
     await DivisionsStore.Get(divisionId);
-    hospitalization.value.divisionId = divisionId;
-    hospitalization.value.division = selectedDivision.value;
+    hospitalization.divisionId = divisionId;
+    hospitalization.division = selectedDivision;
   }
   activeStep.value++;
 };
