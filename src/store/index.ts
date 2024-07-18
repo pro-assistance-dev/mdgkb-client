@@ -19,8 +19,6 @@ import { dailyMenuOrders } from '@/store/modules/dailyMenuOrders';
 import { dailyMenus } from '@/store/modules/dailyMenus';
 import { dailyMenuItems } from '@/store/modules/dailyMenusItems';
 import dataExport from '@/store/modules/dataExport';
-import { diets } from '@/store/modules/diets';
-import { dietsGroups } from '@/store/modules/dietsGroups';
 import { dishesGroups } from '@/store/modules/dishesGroups';
 import { dishesSamples } from '@/store/modules/dishesSamples';
 import { doctors } from '@/store/modules/doctors';
@@ -35,12 +33,9 @@ import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
-import { gates } from '@/store/modules/gates';
 import { holidayForms } from '@/store/modules/holidayforms';
 import { hospitalizations } from '@/store/modules/hospitalizations';
 import { hospitalizationsTypes } from '@/store/modules/hospitalizationsTypes';
-import { map } from '@/store/modules/map';
-import { mapRoutes } from '@/store/modules/mapRoutes';
 import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { meta } from '@/store/modules/meta';
 import { newsSlides } from '@/store/modules/newsSlides';
@@ -57,7 +52,6 @@ import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { preparations } from '@/store/modules/preparations';
-import { questions } from '@/store/modules/questions';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
 import { roles } from '@/store/modules/roles';
@@ -90,11 +84,9 @@ const s: StoreOptions<RootState> = {
     tags,
     users,
     timetables,
-    map,
     search,
     hospitalizations,
     newsSlides,
-    questions,
     events,
     timetablePatterns,
     paidProgramsGroups,
@@ -113,7 +105,6 @@ const s: StoreOptions<RootState> = {
     entrances,
     educationalManagers,
     children,
-    gates,
     specializations,
     dpoApplications,
     formPatterns,
@@ -129,8 +120,6 @@ const s: StoreOptions<RootState> = {
     residencyApplications,
     formStatusGroups,
     pointsAchievements,
-    diets,
-    dietsGroups,
     dishesGroups,
     dailyMenus,
     dishesSamples,
@@ -145,7 +134,6 @@ const s: StoreOptions<RootState> = {
     fileInfos,
     dataExport,
     holidayForms,
-    mapRoutes,
     ...lib,
   },
 };

@@ -34,7 +34,7 @@
           <CollapseItem :active-id="scope.activeId" title="Расписание" :tab-id="2017" :is-collaps="false">
             <template #inside-content>
               <div class="background-container">
-                <TimetableConstructorV2New :store-module="'doctors'" />
+                <TimetableConstructor :store-module="'doctors'" />
               </div>
             </template>
           </CollapseItem>
@@ -71,7 +71,6 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref } from 'vue';
 
 import Division from '@/classes/Division';
@@ -79,7 +78,6 @@ import DoctorDivision from '@/classes/DoctorDivision';
 import Employee from '@/classes/Employee';
 import Position from '@/classes/Position';
 import SetEntity from '@/components/admin/SetEntity.vue';
-import TimetableConstructorV2New from '@/components/admin/TimetableConstructorV2New.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import ClassHelper from '@/services/ClassHelper';
@@ -92,7 +90,6 @@ export default defineComponent({
   components: {
     CollapseItem,
     CollapseContainer,
-    TimetableConstructorV2New,
     SetEntity,
   },
   setup() {

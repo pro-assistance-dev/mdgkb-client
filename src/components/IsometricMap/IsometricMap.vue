@@ -30,7 +30,7 @@ const buildingModalOpened: Ref<boolean> = ref(false);
 const engine: Engine3D = new Engine3D();
 const mapRouter: MapRouter = new MapRouter(engine);
 let mapModel: MapModel = new MapModel();
-const route: ComputedRef<MapRoute> = Store.Item('mapRoutes');
+const route: MapRoute = MapRoutesStore.Item();
 
 const buildingClick = async (event: { id: string }) => {
   await Store.Get('buildings', event.id);
@@ -51,11 +51,11 @@ const getRoute = async (endNode: string) => {
   if (endNode) {
     mapRouter.endNodeName = endNode;
   }
-  await Store.Dispatch('mapRoutes/getRoute', mapRouter.getNodesForRequest());
+  await MapRoutesStore.GetRoute(mapRouter.getNodesForRequest());
   mapRouter.add(
-    MapPainter.GetLineFromPoints(mapModel.getRouteVector(route.value)),
+    MapPainter.GetLineFromPoints(mapModel.getRouteVector(route)),
     mapModel.getMark(mapRouter.endNodeName, false, 0x0aa249),
-    mapModel.getRouteVector(route.value)
+    mapModel.getRouteVector(route)
   );
 };
 

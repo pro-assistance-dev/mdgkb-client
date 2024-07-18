@@ -29,7 +29,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await store.dispatch('users/get', userId.value);
-      await store.dispatch('questions/readAnswers', userId.value);
+      await QuestionsStore.ReadAnswers(userId.value);
       mounted.value = true;
     });
 

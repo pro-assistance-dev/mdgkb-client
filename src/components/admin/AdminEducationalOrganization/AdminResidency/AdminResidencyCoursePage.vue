@@ -150,9 +150,7 @@ export default defineComponent({
   },
   setup() {
     const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
-    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
-      () => Provider.store.getters['specializations/items']
-    );
+    const specializations: Specialization[] = SpecializationsStore.Items();
     const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
     const educationYears: ComputedRef<EducationYear[]> = computed<EducationYear[]>(() => Provider.store.getters['educationYears/items']);
 

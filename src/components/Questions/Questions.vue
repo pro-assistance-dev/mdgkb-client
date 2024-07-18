@@ -16,39 +16,31 @@ import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import Provider from '@/services/Provider/Provider';
 
 const filter = ref('');
-const filePath = ref('');
-const questions: Ref<Question[]> = Store.Items('questions')
+const questions: Ref<Question[]> = QuestionsStore.Items();
 
 const questionsList = computed((): Question[] => {
   if (filter.value) {
     return questions.value.filter((o: Question) => {
-      return (
-        o.question.toLowerCase().includes(filter.value.toLowerCase()) || o.answer.toLowerCase().includes(filter.value.toLowerCase())
-      );
+      return o.question.toLowerCase().includes(filter.value.toLowerCase()) || o.answer.toLowerCase().includes(filter.value.toLowerCase());
     });
   } else {
     return questions.value;
   }
 });
 
-const activeName = ref(1);
-
 const load = async () => {
-  FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc))
-  FTSP.Get().setF(QuestionsFiltersLib.onlyPublished())
+  FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc));
+  FTSP.Get().setF(QuestionsFiltersLib.onlyPublished());
   FTSP.Get().p.append = false;
   await Store.FTSP('questions');
 };
 
 Hooks.onBeforeMount(load);
 
-const openQuestion = () => Store.Commit('questions/openQuestion');
-
 const loadMore = async () => {
-  FTSP.Get().p.offset = questions.value.length
-  await Store.FTSP('questions');
+  FTSP.Get().p.offset = questions.value.length;
+  await QuestionsStore.FTSP();
 };
-
 </script>
 
 <style lang="scss" scoped>

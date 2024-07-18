@@ -216,14 +216,14 @@ export default defineComponent({
     const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
       () => store.getters['postgraduateCourses/item']
     );
-    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
+    const specializations: Specialization[] = SpecializationsStore.Items();
     const selectedTeacher: Teacher = TeachersStore.Item();
     const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
     const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      await TeachersStore.GetAll('teachers');
+      await TeachersStore.GetAll();
       await store.dispatch('specializations/getAll');
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');

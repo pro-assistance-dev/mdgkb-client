@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper v-if="mounted" title="Питание и диеты">
+  <PageWrapper title="Питание и диеты">
     <button class="bufet" @click="$router.push('/bufet')">Буфет</button>
     <FiltersWrapper>
       <template #header-left-top>
@@ -72,146 +72,117 @@
   <ArrowRight />
 </template>
 
-<script lang="ts">
-import { v4 as uuidv4 } from 'uuid';
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Diet from '@/classes/Diet';
 import DietAge from '@/classes/DietAge';
 import DietGroup from '@/classes/DietGroup';
 import DietPage from '@/components/Diets/DietPage.vue';
-import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'DietsSelect',
-  components: { DietPage, PageWrapper, FiltersWrapper, ArrowRight },
+const selectedGroup: Ref<DietGroup | undefined> = ref(undefined);
+const selectedDiet: Ref<Diet | undefined> = ref(undefined);
+const motherDiet: Ref<Diet | undefined> = ref(undefined);
+const selectedAge: Ref<DietAge | undefined> = ref(undefined);
+const dietsGroups: DietGroup[] = DietsGroupsStore.Items();
+const DietRouter: { id: string; name: string; goBack: string }[] = [];
+const load = async () => {
+  await loadDiets();
+};
 
-  setup() {
-    const selectedGroup: Ref<DietGroup | undefined> = ref(undefined);
-    const selectedDiet: Ref<Diet | undefined> = ref(undefined);
-    const motherDiet: Ref<Diet | undefined> = ref(undefined);
-    const selectedAge: Ref<DietAge | undefined> = ref(undefined);
-    const dietsGroups: ComputedRef<DietGroup[]> = computed<DietGroup[]>(() => Provider.store.getters['dietsGroups/items']);
-    const DietRouter: { id: string; name: string; goBack: string }[] = [];
-    const load = async () => {
-      await loadDiets();
-    };
+Hooks.onBeforeMount(load);
 
-    Hooks.onBeforeMount(load);
+const loadDiets = async () => {
+  await DietsGroupsStore.GetAll();
+};
 
-    const loadDiets = async () => {
-      await Provider.store.dispatch('dietsGroups/getAll');
-    };
-
-    const selectAge = (age: DietAge): void => {
-      selectedAge.value = age;
-      if (selectedAge.value && selectedGroup.value && selectedDiet.value?.motherDietId) {
-        dietsGroups.value.forEach((dg: DietGroup) => {
-          const md = dg.diets.find((d: Diet) => d.id === selectedDiet.value?.motherDietId);
-          if (md) {
-            motherDiet.value = md;
-          }
-        });
+const selectAge = (age: DietAge): void => {
+  selectedAge.value = age;
+  if (selectedAge.value && selectedGroup.value && selectedDiet.value?.motherDietId) {
+    dietsGroups.forEach((dg: DietGroup) => {
+      const md = dg.diets.find((d: Diet) => d.id === selectedDiet.value?.motherDietId);
+      if (md) {
+        motherDiet.value = md;
       }
-      DietRouter.push({ id: uuidv4(), name: age.name, goBack: 'noLink' });
-      DietRouter[0].goBack = 'toAge';
-      if (DietRouter[2].goBack) {
-        DietRouter[1].goBack = 'toAge';
-        DietRouter[0].goBack = 'toDiet';
-      }
-    };
+    });
+  }
+  DietRouter.push({ id: uuidv4(), name: age.name, goBack: 'noLink' });
+  DietRouter[0].goBack = 'toAge';
+  if (DietRouter[2].goBack) {
+    DietRouter[1].goBack = 'toAge';
+    DietRouter[0].goBack = 'toDiet';
+  }
+};
 
-    const selectDiet = (diet: Diet): void => {
-      selectedDiet.value = diet;
+const selectDiet = (diet: Diet): void => {
+  selectedDiet.value = diet;
+  DietRouter[0].goBack = 'toDiet';
+  DietRouter.push({ id: uuidv4(), name: diet.siteName, goBack: 'noLink' });
+
+  if (selectedDiet.value?.dietAges.length === 1) {
+    selectAge(selectedDiet.value?.dietAges[0]);
+    DietRouter.pop();
+    DietRouter[1].goBack = 'noLink';
+  }
+};
+
+const selectGroup = (group: DietGroup): void => {
+  selectedGroup.value = group;
+  DietRouter.push({ id: uuidv4(), name: group.name, goBack: 'noLink' });
+  if (selectedGroup.value?.diets.length === 1) {
+    selectDiet(selectedGroup.value?.diets[0]);
+    DietRouter.pop();
+    DietRouter[0].goBack = 'noLink';
+  }
+};
+
+const toMenu = (): void => {
+  selectedAge.value = undefined;
+  selectedGroup.value = undefined;
+  selectedDiet.value = undefined;
+  DietRouter.pop();
+  DietRouter.pop();
+  DietRouter.pop();
+  DietRouter.pop();
+  return;
+};
+
+const toDiet = (): void => {
+  if (selectedGroup.value?.diets.length === 1) {
+    selectedGroup.value = undefined;
+    selectedAge.value = undefined;
+    selectedDiet.value = undefined;
+    DietRouter.pop();
+  } else {
+    selectedAge.value = undefined;
+    selectedDiet.value = undefined;
+    DietRouter.pop();
+    DietRouter[0].goBack = 'noLink';
+    if (DietRouter[1].goBack) {
       DietRouter[0].goBack = 'toDiet';
-      DietRouter.push({ id: uuidv4(), name: diet.siteName, goBack: 'noLink' });
-
-      if (selectedDiet.value?.dietAges.length === 1) {
-        selectAge(selectedDiet.value?.dietAges[0]);
-        DietRouter.pop();
-        DietRouter[1].goBack = 'noLink';
-      }
-    };
-
-    const selectGroup = (group: DietGroup): void => {
-      selectedGroup.value = group;
-      DietRouter.push({ id: uuidv4(), name: group.name, goBack: 'noLink' });
-      if (selectedGroup.value?.diets.length === 1) {
-        selectDiet(selectedGroup.value?.diets[0]);
-        DietRouter.pop();
-        DietRouter[0].goBack = 'noLink';
-      }
-    };
-
-    const toMenu = (): void => {
-      selectedAge.value = undefined;
-      selectedGroup.value = undefined;
-      selectedDiet.value = undefined;
       DietRouter.pop();
-      DietRouter.pop();
-      DietRouter.pop();
-      DietRouter.pop();
-      return;
-    };
+    }
+    return;
+  }
+};
 
-    const toDiet = (): void => {
-      if (selectedGroup.value?.diets.length === 1) {
-        selectedGroup.value = undefined;
-        selectedAge.value = undefined;
-        selectedDiet.value = undefined;
-        DietRouter.pop();
-      } else {
-        selectedAge.value = undefined;
-        selectedDiet.value = undefined;
-        DietRouter.pop();
-        DietRouter[0].goBack = 'noLink';
-        if (DietRouter[1].goBack) {
-          DietRouter[0].goBack = 'toDiet';
-          DietRouter.pop();
-        }
-        return;
-      }
-    };
-
-    const toAge = (): void => {
-      if (selectedDiet.value?.dietAges.length === 1) {
-        selectedAge.value = undefined;
-        selectedDiet.value = undefined;
-        DietRouter.pop();
-        DietRouter[0].goBack = 'noLink';
-      } else {
-        selectedAge.value = undefined;
-        DietRouter.pop();
-        DietRouter[0].goBack = 'noLink';
-        if (DietRouter[1]) {
-          DietRouter[0].goBack = 'toDiet';
-          DietRouter[1].goBack = 'noLink';
-        }
-      }
-      return;
-    };
-
-    return {
-      selectAge,
-      selectDiet,
-      selectGroup,
-      selectedAge,
-      selectedDiet,
-      selectedGroup,
-      dietsGroups,
-      mounted: Provider.mounted,
-      motherDiet,
-      toMenu,
-      toDiet,
-      toAge,
-      DietRouter,
-    };
-  },
-});
+const toAge = (): void => {
+  if (selectedDiet.value?.dietAges.length === 1) {
+    selectedAge.value = undefined;
+    selectedDiet.value = undefined;
+    DietRouter.pop();
+    DietRouter[0].goBack = 'noLink';
+  } else {
+    selectedAge.value = undefined;
+    DietRouter.pop();
+    DietRouter[0].goBack = 'noLink';
+    if (DietRouter[1]) {
+      DietRouter[0].goBack = 'toDiet';
+      DietRouter[1].goBack = 'noLink';
+    }
+  }
+  return;
+};
 </script>
 
 <style lang="scss" scoped>

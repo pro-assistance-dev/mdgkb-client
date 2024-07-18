@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper pagination show-header>
+  <AdminListWrapper pagination show-header :store="DivisionsStore">
     <el-table :data="divisions">
       <el-table-column prop="name" label="Наименование" sortable> </el-table-column>
       <el-table-column prop="entrance.building.name" label="Корпус" sortable> </el-table-column>
@@ -52,7 +52,7 @@ const load = async (): Promise<void> => {
 };
 
 Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'divisions', action: 'ftsp' },
+  sortsLib: DivisionsSortsLib,
 });
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
@@ -63,7 +63,7 @@ const createFilterModels = (): FilterModel[] => {
   return [];
 };
 
-const update = async (division: Division) => await Store.Update('divisions', division);
+const update = async (division: Division) => await DivisionsStore.Update(division);
 </script>
 
 <style lang="scss" scoped>

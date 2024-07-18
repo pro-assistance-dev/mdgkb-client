@@ -1,168 +1,331 @@
 <template>
-  <el-card>
-    <template #header>
-      <div class="flex-row-between">
-        <div>
-          <span> Расписание </span>
-          <el-button
-            v-if="timetable && timetable.timetableDays.length > 0"
-            size="small"
-            type="danger"
-            icon="el-icon-minus"
-            circle
-            @click="removeTimetable"
-          ></el-button>
-          <el-button v-else size="small" type="success" icon="el-icon-plus" circle @click="addTimetable" />
-        </div>
-
-        <el-button s size="small" type="success" icon="el-icon-plus" @click="createCustomTimetableDay"
-          >Создать элемент расписания</el-button
-        >
-      </div>
-    </template>
-    <div v-if="timetable && timetable.timetableDays.length > 0">
-      <el-row v-for="(day, i) in timetable.timetableDays" :key="day">
-        <el-col :span="5">
-          <div>
-            <el-input v-if="day.isCustom" v-model="day.customName" class="timetable-row" />
-            <div v-else class="timetable-row" :class="{ weekend: day.weekday.isWeekend() || day.isWeekend }">{{ day.weekday.name }}</div>
-            <div v-if="day.breaksExists && !day.isWeekend" class="timetable-row">Перерыв</div>
-          </div>
-        </el-col>
-        <el-col :span="19">
-          <div v-if="!day.isWeekend">
-            {{ day.startTimeLimit }}
-            <div class="timetable-row">
-              <el-time-select
-                :model-value="day.getTime(day.startTime)"
-                class="time-select"
-                step="00:15"
-                :start="day.startTimeLimit"
-                :end="day.endTimeLimit"
-                @change="day.startTime = $event"
-              />
-              -
-              <el-time-select
-                :model-value="day.getTime(day.endTime)"
-                class="time-select"
-                :start="day.startTimeLimit"
-                :end="day.endTimeLimit"
-                step="00:15"
-                @change="day.endTime = $event"
-              />
-              <el-checkbox v-model="day.breaksExists" class="add-break-checkbox">Перерыв</el-checkbox>
-              <el-checkbox v-model="day.isWeekend" class="add-break-checkbox">Выходной</el-checkbox>
-              <el-button type="danger" size="mini" icon="el-icon-delete" circle @click="removeTimetableDay(i)" />
-            </div>
-            <div v-if="day.breaksExists">
-              <el-time-select
-                :model-value="day.getTime(day.breakStartTime)"
-                class="time-select"
-                :start="day.startTimeLimit"
-                :end="day.endTimeLimit"
-                step="00:15"
-                @change="day.breakStartTime = $event"
-              />
-              -
-              <el-time-select
-                :model-value="day.getTime(day.breakEndTime)"
-                class="time-select"
-                :start="day.startTimeLimit"
-                :end="day.endTimeLimit"
-                step="00:15"
-                @change="day.breakEndTime = $event"
-              />
-            </div>
-          </div>
-          <div v-else class="timetable-row">
-            <div>
-              <el-checkbox v-model="day.isWeekend" class="add-break-checkbox" label="Выходной" />
-            </div>
-          </div>
-        </el-col>
-        <el-divider v-if="i < timetable.timetableDays.length"></el-divider>
-      </el-row>
+  <div v-if="!pattern" class="line">
+    <el-select v-model="chosenPattern" class="line-item" value-key="id" placeholder="Выберите шаблон">
+      <el-option v-for="item in timetablePatterns" :key="item.id" :label="item.title" :value="item"> </el-option>
+    </el-select>
+    <div class="button-block">
+      <button class="admin-add" @click.prevent="addTimetable">Применить</button>
+      <button v-if="timetable.timetableDays.length" class="admin-del" @click.prevent="removeTimetable">Очистить</button>
     </div>
-  </el-card>
+  </div>
+  <el-table
+    v-if="timetable.timetableDays"
+    :data="timetable.timetableDays"
+    :row-class-name="tableRowClassName"
+    :expand-row-keys="expandRowKeys"
+    :row-key="(row) => row.weekday.name"
+    @expand-change="handleExpandChange"
+  >
+    <el-table-column header-align="center" type="expand">
+      <template #default="scope">
+        <div style="margin-left: 50px" class="background-150-container">
+          <el-table :data="scope.row.breakPeriods">
+            <el-table-column label="С" align="center" width="150">
+              <template #default="scope2">
+                <el-time-select
+                  :model-value="scope2.row.getTime(scope2.row.startTime)"
+                  class="time-select"
+                  step="00:15"
+                  :start="scope.row.startTime"
+                  :end="scope2.row.endTime"
+                  @change="scope2.row.startTime = $event"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column label="До" align="center" width="150">
+              <template #default="scope2">
+                <el-time-select
+                  :model-value="scope2.row.getTime(scope2.row.endTime)"
+                  class="time-select"
+                  :start="scope2.row.startTime"
+                  :end="scope.row.endTime"
+                  step="00:15"
+                  @change="scope2.row.endTime = $event"
+                />
+              </template>
+            </el-table-column>
+            <el-table-column width="70">
+              <template #header>
+                <el-button size="mini" icon="el-icon-plus" @click="addBreak(scope.row)"></el-button>
+              </template>
+              <template #default="scope2">
+                <TableButtonGroup :show-remove-button="true" @remove="removeBreak(scope.row, scope2.$index)" />
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column label="День недели" width="120">
+      <template #default="scope">
+        <span>{{ scope.row.weekday.name }}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="Выходной" align="center" width="200">
+      <template #default="scope">
+        <el-switch v-if="!scope.row.aroundTheClock" v-model="scope.row.isWeekend" inline-prompt active-text="Да" inactive-text="Нет" />
+      </template>
+    </el-table-column>
+    <el-table-column label="С" align="center" width="150">
+      <template #default="scope">
+        <el-time-select
+          v-if="!scope.row.isWeekend && !scope.row.aroundTheClock"
+          :model-value="scope.row.getTime(scope.row.startTime)"
+          class="time-select"
+          step="00:15"
+          :start="scope.row.startTimeLimit"
+          :end="scope.row.endTimeLimit"
+          @change="scope.row.startTime = $event"
+        />
+      </template>
+    </el-table-column>
+    <el-table-column label="До" align="center" width="150">
+      <template #default="scope">
+        <el-time-select
+          v-if="!scope.row.isWeekend && !scope.row.aroundTheClock"
+          :model-value="scope.row.getTime(scope.row.endTime)"
+          class="time-select"
+          :start="scope.row.startTimeLimit"
+          :end="scope.row.endTimeLimit"
+          step="00:15"
+          @change="scope.row.endTime = $event"
+        />
+      </template>
+    </el-table-column>
+    <el-table-column label="Перерыв" align="center" width="200">
+      <template #default="scope">
+        <el-switch
+          v-if="scope.row.showBreakSwitcher()"
+          v-model="scope.row.breaksExists"
+          inline-prompt
+          active-text="Да"
+          inactive-text="Нет"
+          @change="(value) => handleBreakChange(value, scope.row)"
+        />
+      </template>
+    </el-table-column>
+    <el-table-column label="Весь день" align="center" width="200">
+      <template #default="scope">
+        <el-switch v-if="!scope.row.isWeekend" v-model="scope.row.aroundTheClock" inline-prompt active-text="Да" inactive-text="Нет" />
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
+import { ElMessage } from 'element-plus';
+import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useStore } from 'vuex';
 
 import Timetable from '@/classes/Timetable';
+import TimetableDay from '@/classes/TimetableDay';
+import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 export default defineComponent({
-  name: 'TimetableConstructor',
+  name: 'TimetableConstructorV2New',
+  components: { TableButtonGroup },
   props: {
     storeModule: {
       type: String,
       default: '',
     },
+    pattern: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
     const store = useStore();
-    const weekdays = computed(() => store.getters['timetables/weekdays']);
-    const timetable: Ref<Timetable> = computed<Timetable>(() => store.getters[`${props.storeModule}/timetable`]);
-
-    onBeforeMount(async () => {
-      await store.dispatch('timetables/getAllWeekdays');
-    });
+    const weekdays = TimetableStore.Weekdays();
+    const expandRowKeys: Ref<string[]> = ref(['']);
+    const timetable: Ref<Timetable> = computed<Timetable>(
+      () => store.getters[`${props.storeModule}/${props.pattern ? 'item' : 'timetable'}`]
+    );
+    const timetablePatterns: Ref<Timetable[]> = computed<Timetable[]>(() => store.getters[`timetablePatterns/items`]);
+    const chosenPattern: Ref<Timetable> = ref(timetablePatterns.value[0]);
 
     const addTimetable = () => {
-      store.commit(`${props.storeModule}/setTimetable`, Timetable.CreateStandartTimetable(weekdays.value));
+      if (!chosenPattern.value) {
+        ElMessage({ message: 'Пожалуйста, выберите шаблон', type: 'error' });
+        return;
+      }
+      store.commit(`${props.storeModule}/setTimetable`, Timetable.ApplyTimetablePattern(chosenPattern.value));
     };
 
     const removeTimetable = () => {
       store.commit(`${props.storeModule}/removeTimetable`);
     };
 
-    const removeTimetableDay = (i: number) => {
-      store.commit(`${props.storeModule}/removeTimetableDay`, i);
+    const addBreak = (day: TimetableDay): void => {
+      day.addBreak();
     };
 
-    // const createCustomTimetableDay = () => {
-    //   store.commit(`${props.storeModule}/createCustomTimetableDay`, TimetableDay.CreateCustomTimetableDay());
-    // };
+    const removeBreak = (day: TimetableDay, index: number): void => {
+      day.removeBreak(index);
+    };
+
+    const tableRowClassName = ({ row }: { row: TimetableDay; rowIndex: number }): string => {
+      if (row.breaksExists) {
+        return 'timetable-row expand';
+      }
+
+      if (row.isWeekend) {
+        return 'timetable-row weekend';
+      }
+      return 'timetable-row';
+    };
+
+    const handleExpandChange = (row: TimetableDay) => {
+      const key = row.weekday.name;
+      const lastKey = expandRowKeys.value[0];
+      expandRowKeys.value = key === lastKey ? [] : [key];
+    };
+
+    const handleBreakChange = (value: boolean, row: TimetableDay) => {
+      if (value) {
+        handleExpandChange(row);
+        row.addBreak();
+      } else {
+        row.breakPeriods = [];
+        expandRowKeys.value = [''];
+      }
+    };
+
+    onBeforeMount(async () => {
+      if (!props.pattern) {
+        await store.dispatch('timetablePatterns/getAll');
+      } else {
+        await TimetablesStore.GetAllWeekdays();
+      }
+    });
 
     return {
-      // createCustomTimetableDay,
-      removeTimetableDay,
+      timetablePatterns,
       removeTimetable,
       timetable,
       addTimetable,
       weekdays,
+      chosenPattern,
+      tableRowClassName,
+      expandRowKeys,
+      handleExpandChange,
+      addBreak,
+      removeBreak,
+      handleBreakChange,
     };
   },
 });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/styles/base-style.scss';
+
 .flex-row-between {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.timetable-row {
-  line-height: 40px;
-  height: 40px;
-  margin-bottom: 5px;
-}
-.weekend {
-  color: red;
-}
-:deep(.el-button) {
-  padding: 5px;
-  margin: 0 !important;
-  min-height: unset;
-  border: none;
-}
-.time-select {
-  width: 100px;
-  margin: 0;
+
+:deep(.el-select .el-input .el-select__caret) {
+  color: #343e5c;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 5px;
+  margin-top: 1px;
 }
 
-.add-break-checkbox {
-  margin-left: 10px;
+:deep(.el-select .el-input .el-select__caret.el-icon-circle-close) {
+  height: 40px;
+}
+
+:deep(.el-select .el-input__suffix) {
+  top: -3px;
+}
+
+:deep(.el-select__caret .el-input__icon .el-icon-circle-close::before) {
+  margin-top: -3px;
+}
+
+.line {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: auto;
+  margin: 15px 0 25px 0;
+}
+
+.line-item {
+  width: 250px;
+}
+
+.admin-add {
+  border: none;
+  background: inherit;
+  color: #1979cf;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-add:hover {
+  color: darken($color: #1979cf, $amount: 10%);
+  background: inherit;
+}
+
+.admin-del {
+  border: none;
+  background: inherit;
+  color: $base-light-font-color;
+  padding: 0 10px;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.admin-del:hover {
+  color: darken($color: #cf3d19, $amount: 5%);
+}
+
+.button-block {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  width: 170px;
+}
+
+.background-150-container {
+  width: 394px;
+  padding: 10px;
+  margin: 0 20px 20px 20px;
+  background: #dff2f8;
+  border-radius: 5px;
+  border: 1px solid #c3c3c3;
+}
+
+@media screen and (max-width: 400px) {
+  .container {
+    width: calc(100% - 42px);
+    margin: 0px 10px 20px 10px;
+  }
+
+  .background-container {
+    margin: 0 10px 20px 10px;
+  }
+
+  .line {
+    display: block;
+    height: auto;
+  }
+
+  .line-item {
+    width: 100%;
+  }
+
+  .button-block {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width: 170px;
+    margin-top: 20px;
+  }
 }
 </style>

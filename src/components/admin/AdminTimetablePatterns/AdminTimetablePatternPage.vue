@@ -6,7 +6,7 @@
           <el-input v-model="timetablePattern.title" placeholder="Название"></el-input>
         </el-form-item>
       </el-card>
-      <TimetableConstructorV2 :pattern="true" :store-module="'timetablePatterns'" />
+      <TimetableConstructor :pattern="true" :store-module="'timetablePatterns'" />
     </el-form>
   </div>
 </template>
@@ -18,12 +18,12 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import Timetable from '@/classes/Timetable';
-import TimetableConstructorV2 from '@/components/admin/TimetableConstructorV2.vue';
+import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminTimetablePatternPage',
-  components: { TimetableConstructorV2 },
+  components: { TimetableConstructor },
 
   setup() {
     const store = useStore();
@@ -31,7 +31,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const timetablePattern: ComputedRef<Timetable> = computed<Timetable>(() => store.getters['timetablePatterns/item']);
-    const weekdays = computed(() => store.getters['timetables/weekdays']);
+    const weekdays = TimetablesStore.Weekdays();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -50,7 +50,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('timetables/getAllWeekdays');
+      await TimetableStore.GetAllWeekdays();
       if (route.params['id']) {
         await store.dispatch('timetablePatterns/get', route.params['id']);
       } else {

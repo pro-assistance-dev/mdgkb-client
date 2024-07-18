@@ -7,39 +7,23 @@
   </el-card>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, ref } from 'vue';
-import { useStore } from 'vuex';
-
+<script lang="ts" setup>
 import Question from '@/classes/Question';
-import QuestionCard from '@/components/Questions/QuestionCard.vue';
 
-export default defineComponent({
-  name: 'ProfileQuestionPage',
-  components: { QuestionCard },
-
-  setup() {
-    const store = useStore();
-    const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const userQuestions: ComputedRef<Question[]> = computed(() => {
-      const user = store.getters['users/item'];
-      return user.questions.sort((a: Question, b: Question) => b.date.getTime() - a.date.getTime());
-    });
-
-    const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
-      await store.dispatch('questions/readAnswers', userId.value);
-      mounted.value = true;
-    };
-    onMounted(loadUser);
-
-    return {
-      mounted,
-      userQuestions,
-    };
-  },
+const store = useStore();
+const mounted = ref(false);
+const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
+const userQuestions: ComputedRef<Question[]> = computed(() => {
+  const user = store.getters['users/item'];
+  return user.questions.sort((a: Question, b: Question) => b.date.getTime() - a.date.getTime());
 });
+
+const loadUser = async () => {
+  await store.dispatch('users/get', userId.value);
+  await QuestionsStore.ReadAnswers(userId.value);
+  mounted.value = true;
+};
+onMounted(loadUser);
 </script>
 
 <style lang="scss" scoped>

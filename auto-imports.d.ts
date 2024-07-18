@@ -23,6 +23,8 @@ declare global {
   const DateMask: typeof import('@/services/Main')['DateMask']
   const Dates: typeof import('@/services/Main')['Dates']
   const DatesFormatter: typeof import('@/services/Main')['DatesFormatter']
+  const DietsGroupsStore: typeof import('@/store/StoreModules')['DietsGroupsStore']
+  const DietsStore: typeof import('@/store/StoreModules')['DietsStore']
   const DivisionsStore: typeof import('@/store/StoreModules')['DivisionsStore']
   const Doctor: typeof import('@/classes/Main')['Doctor']
   const Dragger: typeof import('@/services/Main')['Dragger']
@@ -43,6 +45,7 @@ declare global {
   const HttpClient: typeof import('@/services/Main')['HttpClient']
   const MakeCarousel: typeof import('@/services/Main')['MakeCarousel']
   const MapNodesStore: typeof import('@/store/StoreModules')['MapNodesStore']
+  const MapRoutesStore: typeof import('@/store/StoreModules')['MapRoutesStore']
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
@@ -50,10 +53,12 @@ declare global {
   const PhoneService: typeof import('@/services/Main')['PhoneService']
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
   const Provider: typeof import('@/services/Main')['Provider']
+  const QuestionsStore: typeof import('@/store/StoreModules')['QuestionsStore']
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
   const SortModel: typeof import('@/services/Main')['SortModel']
+  const SpecializationsStore: typeof import('@/store/StoreModules')['SpecializationsStore']
   const Store: typeof import('@/classes/Main')['Store']
   const Strings: typeof import('@/services/Main')['Strings']
   const SupportMessagesStore: typeof import('@/store/StoreModules')['SupportMessagesStore']
@@ -160,6 +165,8 @@ declare module 'vue' {
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
+    readonly DietsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsGroupsStore']>
+    readonly DietsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsStore']>
     readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
@@ -176,6 +183,7 @@ declare module 'vue' {
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
+    readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
@@ -183,10 +191,12 @@ declare module 'vue' {
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
+    readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
+    readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>
@@ -286,6 +296,8 @@ declare module '@vue/runtime-core' {
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
+    readonly DietsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsGroupsStore']>
+    readonly DietsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsStore']>
     readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
@@ -302,6 +314,7 @@ declare module '@vue/runtime-core' {
     readonly HttpClient: UnwrapRef<typeof import('@/services/Main')['HttpClient']>
     readonly MakeCarousel: UnwrapRef<typeof import('@/services/Main')['MakeCarousel']>
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
+    readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
@@ -309,10 +322,12 @@ declare module '@vue/runtime-core' {
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
+    readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
+    readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>

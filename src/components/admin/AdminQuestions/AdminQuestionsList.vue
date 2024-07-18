@@ -1,8 +1,8 @@
 <template>
-  <AdminListWrapper show-header pagination>
+  <AdminListWrapper show-header pagination :store="QuestionsStore">
     <template #header>
       <SortSelect @load="loadQuestions" />
-      <FiltersButtonsSelect @load="loadQuestions" :models="[onlyNewFilter]" />
+      <FiltersButtonsSelect :models="[onlyNewFilter]" @load="loadQuestions" />
     </template>
     <el-table v-if="questions" :data="questions">
       <el-table-column label="Тема вопроса" sortable>
@@ -44,7 +44,7 @@
           <TableButtonGroup
             :show-check-button="true"
             :show-more-button="true"
-            @showMore="$router.push(`/admin/questions/${scope.row.id}`)"
+            @show-more="$router.push(`/admin/questions/${scope.row.id}`)"
             @check="changeNewStatus(scope.row)"
           />
         </template>
@@ -57,24 +57,20 @@
 import { NavigationGuardNext } from 'vue-router';
 
 import Question from '@/classes/Question';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
-import Provider from '@/services/Provider/Provider';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import SortListConst from '@/services/SortList';
 
-const questions: Ref<Question[]> = Store.Items('questions');
+const questions: Question[] = QuestionsStore.Items();
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 const { saveButtonClick } = useConfirmLeavePage();
-const applicationsCount: ComputedRef<number> = Store.Getters('admin/applicationsCount');
 
-let sourceSSE: EventSource | undefined = undefined;
+const sourceSSE: EventSource | undefined = undefined;
 
 const mounted = ref(false);
 
@@ -91,14 +87,14 @@ const save = async (next?: NavigationGuardNext) => {
     return;
   }
   saveButtonClick.value = true;
-  await Store.Dispatch('questions/updateMany');
+  await QuestionsStore.UpdateMany();
   isEditMode.value = false;
   isNotEditMode.value = true;
   if (next) next();
 };
 
 const loadQuestions = async () => {
-  await Store.FTSP('questions');
+  await QuestionsStore.FTSP();
 };
 
 const load = async () => {
@@ -115,13 +111,12 @@ const load = async () => {
 };
 
 Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'questions', action: 'ftsp' },
   sortsLib: QuestionsSortsLib,
 });
 
 const publish = async (question: Question) => {
   question.publish();
-  await Store.Dispatch('questions/publish', question.id);
+  await QuestionsStore.Publish(question.id);
 };
 
 onBeforeUnmount(async () => {
@@ -130,7 +125,7 @@ onBeforeUnmount(async () => {
 
 const changeNewStatus = async (question: Question) => {
   question.changeNewStatus();
-  await Store.Dispatch('questions/changeNewStatus', question);
+  await QuestionsStore.ChangeNewStatus(question);
 };
 </script>
 

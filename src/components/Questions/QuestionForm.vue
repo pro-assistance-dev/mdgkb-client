@@ -75,7 +75,7 @@ import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import validate from '@/services/validate';
 
 const form = ref();
-const question: Ref<Question> = Store.Item('questions');
+const question: Question = QuestionsStore.Item();
 const auth = Store.Getters('auth/auth');
 const props = defineProps({
   opened: {
@@ -127,9 +127,9 @@ const sendQuestion = async () => {
     return;
   }
   try {
-    await Store.Create('questions');
+    await QuestionsStore.Create();
     // store.commit('auth/setUser', question.value.user);
-    Store.Commit('questions/set');
+    QuestionsStore.ResetItem();
     emits('close');
     PHelp.Notification.Succsess('Спасибо за вопрос.\nМы ответим Вам в ближайшее время');
   } catch (e) {

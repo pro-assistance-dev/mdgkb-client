@@ -131,6 +131,11 @@
     "VisitingRulesStore": true,
     "MapNodesStore": true,
     "VacanciesStore": true,
-    "VacancyResponsesStore": true
+    "VacancyResponsesStore": true,
+    "SpecializationsStore": true,
+    "DietsGroupsStore": true,
+    "DietsStore": true,
+    "MapRoutesStore": true,
+    "QuestionsStore": true
   }
 }

@@ -16,6 +16,11 @@ const StoreModulesNames = [
   'VacanciesStore',
   'VacancyResponsesStore',
   'MapNodesStore',
+  'SpecializationsStore',
+  'DietsStore',
+  'DietsGroupsStore',
+  'MapRoutesStore',
+  'QuestionsStore',
 ];
 
 export default StoreModulesNames;

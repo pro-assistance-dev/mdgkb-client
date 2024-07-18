@@ -30,7 +30,7 @@
         <CollapseItem title="Расписание" :tab-id="2017" :collapsed="false" :active-id="scope.activeId">
           <template #inside-content>
             <div class="background-container">
-              <TimetableConstructorV2New :store-module="'heads'" />
+              <TimetableConstructor :store-module="'heads'" />
             </div>
           </template>
         </CollapseItem>

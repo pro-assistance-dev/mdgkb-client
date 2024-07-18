@@ -91,7 +91,7 @@ const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = u
 const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
 
 const load = async () => {
-  await Store.FTSP('divisions', { ftsp: new FTSP() });
+  await DivisionsStore.FTSP({ ftsp: new FTSP() });
   if (Router.Id()) {
     await VacanciesStore.Get(Router.Id());
     PHelp.AdminUI.Head.Set(vacancy.title, [Button.Success('Сохранить', submit)]);

@@ -3,6 +3,8 @@ import IOrdered from '@/services/interfaces/IOrdered';
 import IWithId from './interfaces/IWithId';
 import IWithName from './interfaces/IWithName';
 
+export type Constructable<T> = { new (...args: any[]): T };
+
 export default abstract class Arrays {
   static Shuffle<ArrayType>(array: ArrayType[]) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -29,6 +31,11 @@ export default abstract class Arrays {
 
   static Sort(ordered: IOrdered[]): void {
     ordered.forEach((o: IOrdered, i: number) => (o.order = i));
+  }
+
+  static Refill<T>(arr: T[], refilled: T[]): void {
+    arr.splice(0, arr.length);
+    arr.push(...refilled);
   }
 
   static Eq<ArrayType>(arr1: ArrayType[], arr2: ArrayType[]): boolean {

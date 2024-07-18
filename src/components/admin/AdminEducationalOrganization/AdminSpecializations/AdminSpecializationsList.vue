@@ -35,7 +35,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
-    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(() => store.getters['specializations/items']);
+    const specializations: Specialization[] = SpecializationsStore.Items();
 
     onBeforeMount(async () => {
       await store.dispatch('specializations/getAll');
