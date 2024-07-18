@@ -27,7 +27,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const form = ref();
-    const paidProgram: Ref<IPaidProgram> = computed<IPaidProgram>(() => store.getters['paidPrograms/item']);
+    const paidProgram: IPaidProgram = PaidProgramsStore.Item();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -36,13 +36,13 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      await store.dispatch('paidPrograms/update', paidProgram.value);
+      await PaidProgramsStore.Update();
       next ? next() : await router.push('/admin/paid-programs-groups');
-      store.commit('paidPrograms/reset');
+      PaidProgramsStore.ResetItem();
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('paidPrograms/get', route.params['id']);
+      await PaidProgramsStore.Get(Router.Id());
       PHelp.AdminUI.Head.Set('Программа', [Button.Success('Сохранить и выйти', submit)]);
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

@@ -170,15 +170,14 @@ const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['docto
 const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
 const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
 const newDoctorId = ref();
-const buildingOption = computed(() => Provider.store.getters['buildings/item']);
-const buildingsOptions = computed(() => Provider.store.getters['buildings/items']);
+const buildingOption = BuildingsStore.Item();
+const buildingsOptions = BuildingsStore.Items();
 
 const load = async (): Promise<void> => {
   await DivisionsStore.Get(Router.Id());
-  await Provider.store.dispatch('buildings/getAll');
+  await BuildingsStore.GetAll();
   await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
   if (division.floorId) {
-    Provider.store.commit('buildings/setBuildingByFloorId', division.floorId);
     division.buildingId = buildingOption.value.id;
   }
   PHelp.AdminUI.Head.Set(division.name, [Button.Success('Сохранить', Hooks.submit)]);
@@ -190,7 +189,7 @@ Hooks.onBeforeRouteLeave(Hooks.submit);
 
 const changeBuildingHandler = (id: string) => {
   const building = buildingsOptions.value.find((item: Building) => item.id == id);
-  Provider.store.commit('buildings/set', building);
+  BuildingsStore.Set(building);
   if (buildingOption.value.floors.length === 1) {
     division.floorId = buildingOption.value.floors[0].id;
   } else {

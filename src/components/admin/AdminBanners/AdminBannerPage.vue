@@ -41,13 +41,13 @@ export default defineComponent({
     Provider.form = form;
     const rules = ref(BannerRules);
 
-    const banner: ComputedRef<Banner> = computed<Banner>(() => Provider.store.getters['banners/item']);
+    const banner: Banner = BannersStore.Item();
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? banner.value.name : 'Добавить баннер')),
+        title: computed(() => (Provider.route().params['id'] ? banner.name : 'Добавить баннер')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },

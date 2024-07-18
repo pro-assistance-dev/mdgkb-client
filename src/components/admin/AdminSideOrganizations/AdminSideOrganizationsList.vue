@@ -41,7 +41,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const sideOrganizations = computed(() => store.getters['sideOrganizations/items']);
+    const sideOrganizations = SideOrganizationsStore.Items();
 
     onBeforeMount(async () => {
       await loadSideOrganizations();
@@ -49,7 +49,7 @@ export default defineComponent({
 
     const loadSideOrganizations = async (): Promise<void> => {
       PHelp.AdminUI.Head.Set('Организации здравоохранения', [Button.Success('Создать', create)]);
-      await store.dispatch('sideOrganizations/getAll');
+      await SideOrganizationsStore.GetAll();
     };
 
     const create = (): void => {
@@ -59,7 +59,7 @@ export default defineComponent({
       router.push(`/admin/side-organizations/${id}`);
     };
     const remove = async (id: string): Promise<void> => {
-      await store.dispatch('sideOrganizations/remove', id);
+      await SideOrganizationsStore.Remove(id);
     };
 
     return { sideOrganizations, create, edit, remove };

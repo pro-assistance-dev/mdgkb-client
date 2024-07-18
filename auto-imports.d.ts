@@ -9,6 +9,7 @@ declare global {
   const Arrays: typeof import('@/services/Main')['Arrays']
   const Auth: typeof import('@/services/Main')['Auth']
   const Axios: typeof import('@/services/Main')['Axios']
+  const BannersStore: typeof import('@/store/StoreModules')['BannersStore']
   const Button: typeof import('@/services/Main')['Button']
   const Cache: typeof import('@/services/Main')['Cache']
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
@@ -51,6 +52,9 @@ declare global {
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
+  const PaidProgramsGroupsStore: typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']
+  const PaidProgramsStore: typeof import('@/store/StoreModules')['PaidProgramsStore']
+  const PaidServicesStore: typeof import('@/store/StoreModules')['PaidServicesStore']
   const PartnersStore: typeof import('@/store/StoreModules')['PartnersStore']
   const PartnersTypesStore: typeof import('@/store/StoreModules')['PartnersTypesStore']
   const Period: typeof import('@/services/Main')['Period']
@@ -61,6 +65,7 @@ declare global {
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
+  const SideOrganizationsStore: typeof import('@/store/StoreModules')['SideOrganizationsStore']
   const SortModel: typeof import('@/services/Main')['SortModel']
   const SpecializationsStore: typeof import('@/store/StoreModules')['SpecializationsStore']
   const Store: typeof import('@/classes/Main')['Store']
@@ -157,6 +162,7 @@ declare module 'vue' {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
+    readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
@@ -195,6 +201,9 @@ declare module 'vue' {
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
+    readonly PaidProgramsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']>
+    readonly PaidProgramsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsStore']>
+    readonly PaidServicesStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidServicesStore']>
     readonly PartnersStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersStore']>
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
@@ -205,6 +214,7 @@ declare module 'vue' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SideOrganizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SideOrganizationsStore']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
@@ -294,6 +304,7 @@ declare module '@vue/runtime-core' {
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
+    readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
@@ -332,6 +343,9 @@ declare module '@vue/runtime-core' {
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
+    readonly PaidProgramsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']>
+    readonly PaidProgramsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsStore']>
+    readonly PaidServicesStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidServicesStore']>
     readonly PartnersStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersStore']>
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
@@ -342,6 +356,7 @@ declare module '@vue/runtime-core' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SideOrganizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SideOrganizationsStore']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>

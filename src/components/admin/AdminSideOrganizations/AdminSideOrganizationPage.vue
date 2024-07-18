@@ -10,30 +10,30 @@
         <el-input v-model="sideOrganization.description" placeholder="Описание" />
       </el-form-item>
     </el-card>
-    <AdminContactAttribute
-      attribute-label="Телефоны"
-      column-value-label="Телефон"
-      list-name="telephoneNumbers"
-      property-value-name="number"
-    />
-    <AdminContactAttribute
-      attribute-label="Почтовые адреса"
-      column-value-label="Адрес"
-      list-name="postAddresses"
-      property-value-name="address"
-    />
-    <AdminContactAttribute
-      attribute-label="Адреса электронной почты"
-      column-value-label="Email"
-      list-name="emails"
-      property-value-name="address"
-    />
-    <AdminContactAttribute
-      attribute-label="Сайты в сети интернет"
-      column-value-label="URL-адрес сайта"
-      list-name="websites"
-      property-value-name="address"
-    />
+    <!-- <AdminContactAttribute -->
+    <!--   attribute-label="Телефоны" -->
+    <!--   column-value-label="Телефон" -->
+    <!--   list-name="telephoneNumbers" -->
+    <!--   property-value-name="number" -->
+    <!-- /> -->
+    <!-- <AdminContactAttribute -->
+    <!--   attribute-label="Почтовые адреса" -->
+    <!--   column-value-label="Адрес" -->
+    <!--   list-name="postAddresses" -->
+    <!--   property-value-name="address" -->
+    <!-- /> -->
+    <!-- <AdminContactAttribute -->
+    <!--   attribute-label="Адреса электронной почты" -->
+    <!--   column-value-label="Email" -->
+    <!--   list-name="emails" -->
+    <!--   property-value-name="address" -->
+    <!-- /> -->
+    <!-- <AdminContactAttribute -->
+    <!--   attribute-label="Сайты в сети интернет" -->
+    <!--   column-value-label="URL-адрес сайта" -->
+    <!--   list-name="websites" -->
+    <!--   property-value-name="address" -->
+    <!-- /> -->
 
     <!-- <el-button type="success" style="margin-bottom: 20px;" @click.prevent="submit">Сохранить</el-button> -->
   </el-form>
@@ -61,14 +61,7 @@ export default defineComponent({
     const isEdit = ref(false);
     const form = ref();
     const rules = ref(SideOrganizationRules);
-    const sideOrganization: WritableComputedRef<SideOrganization> = computed({
-      get(): SideOrganization {
-        return store.getters['sideOrganizations/item'];
-      },
-      set(organization: SideOrganization): void {
-        store.commit('sideOrganizations/set', organization);
-      },
-    });
+    const sideOrganization: SideOrganization = SideOrganizationsStore.Item();
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -79,11 +72,11 @@ export default defineComponent({
 
     const loadSideOrganization = async (): Promise<void> => {
       if (!isEdit.value) {
-        store.commit('sideOrganizations/set', new SideOrganization());
+        SideOrganizationsStore.ResetItem();
         PHelp.AdminUI.Head.Set('Создать организацию', [Button.Success('Создать', submit)]);
       } else {
-        await store.dispatch('sideOrganizations/get', route.params['id']);
-        PHelp.AdminUI.Head.Set(sideOrganization.value.name, [Button.Success('Создать', submit)]);
+        SideOrganizationsStore.Get(Router.Id());
+        PHelp.AdminUI.Head.Set(sideOrganization.name, [Button.Success('Создать', submit)]);
       }
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(sideOrganization, formUpdated, { deep: true });
@@ -101,9 +94,9 @@ export default defineComponent({
       }
       try {
         if (!isEdit.value) {
-          store.dispatch('sideOrganizations/create', sideOrganization.value);
+          SideOrganizationsStore.Create();
         } else {
-          store.dispatch('sideOrganizations/update', sideOrganization.value);
+          SideOrganizationsStore.Update();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });

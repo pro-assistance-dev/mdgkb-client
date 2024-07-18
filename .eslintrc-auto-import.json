@@ -143,6 +143,11 @@
     "HospitalizationsTypesStore": true,
     "HospitalizationsStore": true,
     "PartnersStore": true,
-    "PartnersTypesStore": true
+    "PartnersTypesStore": true,
+    "BannersStore": true,
+    "PaidProgramsGroupsStore": true,
+    "PaidProgramsStore": true,
+    "PaidServicesStore": true,
+    "SideOrganizationsStore": true
   }
 }

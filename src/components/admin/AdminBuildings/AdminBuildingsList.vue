@@ -42,13 +42,13 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const buildings = computed(() => store.getters['buildings/buildings']);
+    const buildings = BuildingsStore.Items();
 
     onBeforeMount(async () => {
       await loadBuildings();
     });
     const loadBuildings = async (): Promise<void> => {
-      await store.dispatch('buildings/getAll');
+      BuildingsStore.GetAll();
       store.commit('admin/setHeaderParams', { title: 'Здания' });
     };
 

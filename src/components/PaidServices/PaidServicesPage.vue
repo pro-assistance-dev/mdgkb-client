@@ -34,7 +34,7 @@ export default defineComponent({
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
-    const paidServices: Ref<IPaidService[]> = computed<IPaidService[]>(() => Provider.store.getters['paidServices/items']);
+    const paidServices: IPaidService[] = PaidServicesStore.Items();
 
     const handleScroll = () => {
       if (scrollOffset.value > previousOffset.value && rememberedOffset.value != 0) {
@@ -45,7 +45,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.store.dispatch('paidServices/getAll');
+      await PaidServicesStore.GetAll();
     };
 
     Hooks.onBeforeMount(load);

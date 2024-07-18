@@ -43,10 +43,10 @@ import IPaidProgram from '@/interfaces/IPaidProgram';
 
 const route = useRoute();
 const mounted: Ref<boolean> = ref(false);
-const paidProgram: Ref<IPaidProgram> = Store.Item('paidPrograms');
+const paidProgram: IPaidProgram = PaidProgramsStore.Item();
 
 onBeforeMount(async () => {
-  await Store.Get('paidPrograms', route.params['id']);
+  await PaidProgramsStore.Get(route.params['id']);
   mounted.value = true;
 });
 </script>

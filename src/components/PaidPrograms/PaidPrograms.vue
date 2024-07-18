@@ -20,10 +20,10 @@ import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
 export default defineComponent({
   name: 'PaidPrograms',
   setup() {
-    const paidProgramsGroups: Ref<IPaidProgramsGroup[]> = Store.Items('paidPrograms');
+    const paidProgramsGroups: IPaidProgramsGroup[] = PaidProgramsStore.Items();
 
     onBeforeMount(async () => {
-      await Store.GetAll('paidProgramsGroups');
+      await PaidProgramsStore.GetAll();
     });
 
     return { paidProgramsGroups };

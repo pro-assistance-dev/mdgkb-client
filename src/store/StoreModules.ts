@@ -1,4 +1,6 @@
 import AcademicsStore from './AcademicsStore';
+import BannersStore from './BannersStore';
+import BuildingsStore from './BuildingsStore';
 import CommentsStore from './CommentsStore';
 import DietsGroupsStore from './DietsGroupsStore';
 import DietsStore from './DietsStore';
@@ -12,10 +14,14 @@ import MapNodesStore from './MapNodesStore';
 import MapRoutesStore from './MapRoutesStore';
 import NewsStore from './NewsStore';
 import PagesStore from './PagesStore';
+import PaidProgramsGroupsStore from './PaidProgramsGroupsStore';
+import PaidProgramsStore from './PaidProgramsStore';
+import PaidServicesStore from './PaidServicesStore';
 import PartnersStore from './PartnersStore';
 import PartnersTypesStore from './PartnersTypesStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
+import SideOrganizationsStore from './SideOrganizationsStore';
 import SpecializationsStore from './SpecializationsStore';
 import SupportMessagesStore from './SupportMessagesStore';
 import TeachersStore from './TeachersStore';
@@ -29,6 +35,8 @@ import VisitsApplicationsStore from './VisitsApplicationsStore';
 
 export {
   AcademicsStore,
+  BannersStore,
+  BuildingsStore,
   CommentsStore,
   DietsGroupsStore,
   DietsStore,
@@ -42,10 +50,14 @@ export {
   MapRoutesStore,
   NewsStore,
   PagesStore,
+  PaidProgramsGroupsStore,
+  PaidProgramsStore,
+  PaidServicesStore,
   PartnersStore,
   PartnersTypesStore,
   ProjectsStore,
   QuestionsStore,
+  SideOrganizationsStore,
   SpecializationsStore,
   SupportMessagesStore,
   TeachersStore,

@@ -64,18 +64,16 @@ export default defineComponent({
     const store = useStore();
     const mounted: Ref<boolean> = ref(false);
     const form = ref();
-    const paidPackage: Ref<IPaidProgramPackage> = computed<IPaidProgramPackage>(() =>
-      store.getters['paidPrograms/item'].getSelectedPackage()
-    );
+    const paidPackage: IPaidProgramPackage = PaidProgramsStore.Item().getSelectedPackage();
 
-    const paidProgram: Ref<IPaidProgram> = computed<IPaidProgram>(() => store.getters['paidPrograms/item']);
+    const paidProgram: IPaidProgram = PaidProgramsStore.Item();
 
     const addToAllPackages = async (group: IPaidProgramServicesGroup, i: number) => {
-      store.getters['paidPrograms/item'].addGroupToAllPackages(group, i);
+      PaidProgramsStore.Item().addGroupToAllPackages(group, i);
     };
 
     const removePackage = async (id: string) => {
-      const program = store.getters['paidPrograms/item'];
+      const program = PaidProgramsStore.Item();
       const index = program.paidProgramPackages.findIndex((group: IPaidProgramServicesGroup) => group.id === id);
       if (index > -1) {
         program.paidProgramPackagesForDelete.push(program.paidProgramPackages[index].id);
@@ -88,7 +86,7 @@ export default defineComponent({
     };
 
     const sortGroups = (): void => {
-      paidPackage.value.paidProgramServicesGroups.forEach((group: IPaidProgramServicesGroup, i: number) => (group.order = i));
+      paidPackage.paidProgramServicesGroups.forEach((group: IPaidProgramServicesGroup, i: number) => (group.order = i));
     };
 
     return {

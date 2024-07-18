@@ -11,9 +11,13 @@
           <el-table-column label="Наименование" prop="name"> </el-table-column>
           <el-table-column width="50" fixed="right" align="center">
             <template #default="scope">
-              <TableButtonGroup :show-edit-button="true" :show-remove-button="true"
+              <TableButtonGroup
+                :show-edit-button="true"
+                :show-remove-button="true"
                 :popconfirm-title="`Вы уверены что хотите удалить баннер '${scope.row.name}'?`"
-                @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
+                @edit="edit(scope.row.id)"
+                @remove="remove(scope.row.id)"
+              />
             </template>
           </el-table-column>
         </el-table>
@@ -26,14 +30,15 @@
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-const mounted = ref(false)
-const banners = computed(() => Provider.store.getters['banners/items']);
+const mounted = ref(false);
+const banners = BannersStore.Items();
 const isEditMode = ref(false);
 
 const load = async () => {
-  await Store.GetAll('banners')
-  mounted.value = true
-}
+  await BannersStore.GetAll();
+  mounted.value = true;
+};
+
 Hooks.onBeforeMount(load, {
   adminHeader: {
     title: 'Рекламные баннеры',
@@ -49,7 +54,7 @@ Hooks.onBeforeMount(load, {
 });
 
 const saveOrder = async () => {
-  await Provider.store.dispatch('banners/updateMany', banners.value);
+  await BannersStore.UpdateMany();
   isEditMode.value = false;
 };
 </script>

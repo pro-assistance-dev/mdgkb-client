@@ -19,14 +19,14 @@
 import Banner from '@/classes/Banner';
 import makeCarousel from '@/services/MakeCarousel';
 
-const banners = Store.Items('banners');
+const banners = BannersStore.Items();
 const carousel: Ref<Banner[][]> = ref([]);
 const mounted = ref(false);
 const carouselRef = ref();
 
 const loadBanners = async () => {
-  await Store.GetAll('banners');
-  carousel.value = makeCarousel<Banner>(banners.value, 4);
+  await BannersStore.GetAll();
+  carousel.value = makeCarousel<Banner>(banners, 4);
   mounted.value = true;
 };
 

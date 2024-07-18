@@ -144,7 +144,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const filter = ref('');
-    const sideOrganizations = computed(() => store.getters['sideOrganizations/items']);
+    const sideOrganizations = SideOrganizationsStore.Items();
     const activeName = ref(1);
     const mounted: Ref<boolean> = ref(false);
 
@@ -160,7 +160,7 @@ export default defineComponent({
     // watch(sideOrganizations, openedOrganization);
 
     onBeforeMount(async () => {
-      await store.dispatch('sideOrganizations/getAll');
+      await SideOrganizationsStore.GetAll();
       mounted.value = true;
     });
 

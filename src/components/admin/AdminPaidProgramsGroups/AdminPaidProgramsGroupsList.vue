@@ -46,8 +46,7 @@ export default defineComponent({
     const store = useStore();
     const router = useRouter();
     const editMode = ref(false);
-    const paidProgramsGroups: Ref<IPaidProgramsGroup[]> = computed(() => store.getters['paidProgramsGroups/items']);
-    const paidProgramsGroupsForDelete: Ref<string[]> = computed(() => store.getters['paidProgramsGroups/itemsForDelete']);
+    const paidProgramsGroups: IPaidProgramsGroup[] = PaidProgramsGroupStore.Items();
 
     onBeforeMount(async () => {
       await store.dispatch('paidProgramsGroups/getAll', false);
@@ -63,22 +62,13 @@ export default defineComponent({
     };
 
     const save = async () => {
-      await store.dispatch('paidProgramsGroups/updateMany', {
-        paidProgramsGroups: paidProgramsGroups.value,
-        paidProgramsGroupsForDelete: paidProgramsGroupsForDelete.value,
-      });
+      // await store.dispatch('paidProgramsGroups/updateMany', {
+      //   paidProgramsGroups: paidProgramsGroups.value,
+      // });
       editMode.value = false;
     };
 
-    const removeGroup = (index: number) => {
-      const idForDelete = paidProgramsGroups.value[index].id;
-      if (idForDelete) {
-        paidProgramsGroupsForDelete.value.push(idForDelete);
-      }
-      paidProgramsGroups.value.splice(index, 1);
-    };
-
-    return { editProgram, addGroup, paidProgramsGroups, save, editMode, removeGroup };
+    return { editProgram, addGroup, paidProgramsGroups, save, editMode };
   },
 });
 </script>

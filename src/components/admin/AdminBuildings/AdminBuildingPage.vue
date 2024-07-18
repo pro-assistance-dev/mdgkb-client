@@ -49,7 +49,7 @@
               </el-table-column>
               <el-table-column width="50" align="center">
                 <template #header>
-                  <el-button icon="el-icon-plus" @click="addEntrance"></el-button>
+                  <!-- <el-button icon="el-icon-plus" @click="addEntrance"></el-button> -->
                 </template>
                 <template #default="scope">
                   <TableButtonGroup
@@ -86,7 +86,7 @@ export default defineComponent({
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
-    const building = computed(() => store.getters['buildings/item']);
+    const building = BuildingsStore.Item();
     const rules = ref(BuildingRules);
     const form = ref();
     const mounted = ref(false);
@@ -97,7 +97,7 @@ export default defineComponent({
       await loadBuilding();
     });
     const loadBuilding = async (): Promise<void> => {
-      await store.dispatch('buildings/get', route.params['id']);
+      await BuildingsStore.Get(Router.Id());
       PHelp.AdminUI.Head.Set(building.value.name, [Button.Success('Сохранить', submit)]);
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -108,17 +108,11 @@ export default defineComponent({
       showConfirmModal(submit, next);
     });
 
-    const addFloor = () => store.commit('buildings/addFloor');
-    const addEntrance = () => store.commit('buildings/addEntrance');
-    const removeEntrance = (id: string) => store.commit('buildings/removeEntrance', id);
     const showRemoveWarning = () => {
       ElMessage({
         type: 'warning',
         message: 'Удаление отменено. Есть привязанные отделения',
       });
-    };
-    const removeFloor = (id: string) => {
-      store.commit('buildings/removeFloor', id);
     };
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -133,10 +127,6 @@ export default defineComponent({
 
     return {
       building,
-      addFloor,
-      removeFloor,
-      addEntrance,
-      removeEntrance,
       submit,
       rules,
       form,

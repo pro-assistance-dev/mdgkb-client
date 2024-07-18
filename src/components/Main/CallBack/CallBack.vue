@@ -74,7 +74,7 @@ const submit = () => {
   if (!validate(callbackForm)) {
     return;
   }
-  Store.Dispatch('callbacks/create');
+  CallbackRequestsStore.Create();
   emits('close');
   PHelp.Notification.Success('Спасибо за заявку.\nМы Вам перезвоним в ближайшее время');
 };

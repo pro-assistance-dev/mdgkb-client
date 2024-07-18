@@ -27,6 +27,11 @@ const StoreModulesNames = [
   'HospitalizationsStore',
   'PartnersStore',
   'PartnersTypesStore',
+  'BannersStore',
+  'PaidProgramsStore',
+  'PaidProgramsGroupsStore',
+  'PaidServicesStore',
+  'SideOrganizationsStore',
 ];
 
 export default StoreModulesNames;
