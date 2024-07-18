@@ -136,6 +136,9 @@
     "DietsGroupsStore": true,
     "DietsStore": true,
     "MapRoutesStore": true,
-    "QuestionsStore": true
+    "QuestionsStore": true,
+    "ElMessageBox": true,
+    "TimetablesPatternsStore": true,
+    "TimetablesStore": true
   }
 }

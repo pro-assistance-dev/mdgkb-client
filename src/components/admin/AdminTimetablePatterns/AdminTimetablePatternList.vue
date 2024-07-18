@@ -37,20 +37,20 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const timetablePatterns: ComputedRef<Timetable[]> = computed<Timetable[]>(() => store.getters['timetablePatterns/items']);
+    const timetablePatterns: Timetable[] = TimetablesPatternsStore.Items();
 
     const create = (): void => {
       router.push('/admin/timetable-patterns/new');
     };
     const remove = async (id: string): Promise<void> => {
-      await store.dispatch('timetablePatterns/remove', id);
+      await TimetablesPatternsStore.Remove(id);
     };
     const edit = (id: string): void => {
       router.push(`/admin/timetable-patterns/${id}`);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('timetablePatterns/getAll');
+      await TimetablesPatternsStore.GetAll();
       PHelp.AdminUI.Head.Set('Шаблоны графика работы', [Button.Success('Добавить', create)]);
     });
 

@@ -59,8 +59,6 @@ import search from '@/store/modules/search';
 import { sideOrganizations } from '@/store/modules/sideOrganizations';
 import { specializations } from '@/store/modules/specializations';
 import { tags } from '@/store/modules/tags';
-import { timetablePatterns } from '@/store/modules/timetablePatterns';
-import { timetables } from '@/store/modules/timetables';
 import { users } from '@/store/modules/users';
 
 import RootState from './types';
@@ -83,12 +81,10 @@ const s: StoreOptions<RootState> = {
     sideOrganizations,
     tags,
     users,
-    timetables,
     search,
     hospitalizations,
     newsSlides,
     events,
-    timetablePatterns,
     paidProgramsGroups,
     paidPrograms,
     partners,

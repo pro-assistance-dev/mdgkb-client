@@ -30,7 +30,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const timetablePattern: ComputedRef<Timetable> = computed<Timetable>(() => store.getters['timetablePatterns/item']);
+    const timetablePattern: Timetable = TimetablesPatternsStore.Item();
     const weekdays = TimetablesStore.Weekdays();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -38,9 +38,9 @@ export default defineComponent({
       saveButtonClick.value = true;
       try {
         if (route.params['id']) {
-          await store.dispatch('timetablePatterns/update', timetablePattern.value);
+          await TimetablesPatternsStore.Update();
         } else {
-          await store.dispatch('timetablePatterns/create', timetablePattern.value);
+          await TimetablesPatternsStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -51,10 +51,10 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await TimetableStore.GetAllWeekdays();
-      if (route.params['id']) {
-        await store.dispatch('timetablePatterns/get', route.params['id']);
+      if (Router.Id()) {
+        TimetablesPatternsStore.Get(Router.Id());
       } else {
-        store.commit(`timetablePatterns/set`, Timetable.CreateStandartTimetable(weekdays.value));
+        TimetablesPatternsStore.Set(Timetable.CreateStandartTimetable(weekdays.value));
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -62,7 +62,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      store.commit('timetablePatterns/resetState');
+      TimetablesPatternsStore.ResetState();
     });
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);

@@ -15,6 +15,8 @@ import QuestionsStore from './QuestionsStore';
 import SpecializationsStore from './SpecializationsStore';
 import SupportMessagesStore from './SupportMessagesStore';
 import TeachersStore from './TeachersStore';
+import TimetablesPatternsStore from './TimetablesPatternsStore';
+import TimetablesStore from './TimetablesStore';
 import UsersStore from './UsersStore';
 import VacanciesStore from './VacanciesStore';
 import VacancyResponsesStore from './VacancyResponsesStore';
@@ -39,6 +41,8 @@ export {
   SpecializationsStore,
   SupportMessagesStore,
   TeachersStore,
+  TimetablesPatternsStore,
+  TimetablesStore,
   UsersStore,
   VacanciesStore,
   VacancyResponsesStore,

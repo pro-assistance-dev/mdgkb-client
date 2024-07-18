@@ -21,6 +21,8 @@ const StoreModulesNames = [
   'DietsGroupsStore',
   'MapRoutesStore',
   'QuestionsStore',
+  'TimetablesStore',
+  'TimetablesPatternsStore',
 ];
 
 export default StoreModulesNames;

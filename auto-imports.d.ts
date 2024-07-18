@@ -66,6 +66,8 @@ declare global {
   const TeachersStore: typeof import('@/store/StoreModules')['TeachersStore']
   const Time: typeof import('@/services/Main')['Time']
   const TimeFormatter: typeof import('@/services/Main')['TimeFormatter']
+  const TimetablesPatternsStore: typeof import('@/store/StoreModules')['TimetablesPatternsStore']
+  const TimetablesStore: typeof import('@/store/StoreModules')['TimetablesStore']
   const Token: typeof import('@/services/Main')['Token']
   const User: typeof import('@/services/Main')['User']
   const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
@@ -204,6 +206,8 @@ declare module 'vue' {
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
+    readonly TimetablesPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesPatternsStore']>
+    readonly TimetablesStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesStore']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
@@ -335,6 +339,8 @@ declare module '@vue/runtime-core' {
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
+    readonly TimetablesPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesPatternsStore']>
+    readonly TimetablesStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesStore']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
