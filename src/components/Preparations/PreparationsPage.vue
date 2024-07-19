@@ -72,18 +72,18 @@ import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'PreparationsPage',
   async setup() {
-    const preparations: ComputedRef<Preparation[]> = computed<Preparation[]>(() => Provider.store.getters['preparations/items']);
-    const preparation: ComputedRef<Preparation> = computed<Preparation>(() => Provider.store.getters['preparations/item']);
+    const preparations: Preparation[] = PreparationsStore.Items();
+    const preparation: Preparation = PreparationsStore.Item();
     const curStep: Ref<number> = ref(0);
     const curStepTwoAgree: Ref<boolean> = ref(false);
     const curStepThreeAgree: Ref<boolean> = ref(false);
 
     Hooks.onBeforeMount(async () => {
-      await Provider.store.dispatch('preparations/getAll');
+      await PreparationsStore.GetAll();
     });
 
     const toStepTwo = (selectedPreparation: Preparation): void => {
-      Provider.store.commit('preparations/set', selectedPreparation);
+      PreparationsStore.Set(selectedPreparation);
       curStep.value = 2;
     };
 
@@ -97,7 +97,7 @@ export default defineComponent({
     };
 
     const toStepThree = (): void => {
-      if (!preparation.value.laboratory) {
+      if (!preparation.laboratory) {
         toStepFour();
         return;
       }

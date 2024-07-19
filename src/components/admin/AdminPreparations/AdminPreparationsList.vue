@@ -15,8 +15,7 @@
 
       <el-table-column width="50" align="center">
         <template #default="scope">
-          <TableButtonGroup :show-remove-button="true" :show-edit-button="true" @edit="edit(scope.row.id)"
-            @remove="remove(scope.row.id)" />
+          <TableButtonGroup :show-remove-button="true" :show-edit-button="true" @edit="edit(scope.row.id)" @remove="remove(scope.row.id)" />
         </template>
       </el-table-column>
     </el-table>
@@ -38,9 +37,9 @@ export default defineComponent({
   name: 'AdminPreparationsList',
   components: { AdminListWrapper, TableButtonGroup },
   setup() {
-    const preparations: Ref<Preparation[]> = computed(() => Provider.store.getters['preparations/items']);
+    const preparations: Preparation[] = PreparationsStore.Items();
 
-    Hooks.onBeforeMount(() => Store.GetAll('preparations'), {
+    Hooks.onBeforeMount(async () => await PreparationsStore.GetAll(), {
       adminHeader: {
         title: 'Подготовка к исследованиям',
         buttons: [{ text: 'Добавить исследование', type: 'primary', action: Provider.createAdmin }],
@@ -55,8 +54,8 @@ export default defineComponent({
     };
 
     return { preparations, selectSearch };
-  }
-})
+  },
+});
 </script>
 
 <style lang="scss" scoped>

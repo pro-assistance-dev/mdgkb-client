@@ -41,10 +41,10 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
-    const pages = computed(() => store.getters['medicalProfiles/items']);
+    const pages = MedicalProfilesStore.Items();
 
     const loadNews = async (): Promise<void> => {
-      await store.dispatch('medicalProfiles/getAll');
+      await MedicalProfilesStore.GetAll();
       PHelp.AdminUI.Head.Set('Медицинские профили', [Button.Success('Создать', create)]);
     };
 
@@ -56,7 +56,7 @@ export default defineComponent({
     };
 
     const remove = async (id: string) => {
-      await store.dispatch('medicalProfile/remove', id);
+      await MedicalProfilesStore.Remove(id);
     };
 
     const create = () => {

@@ -51,7 +51,7 @@ export default defineComponent({
 
     const removeRule = async (ruleId: string) => {
       user.value.removeDonorRule(ruleId);
-      await store.dispatch('donorRules/deleteFromUser', ruleId);
+      await DonorRulesStore.DeleteFromUser(ruleId);
     };
 
     const showRule = (rule: DonorRule) => {

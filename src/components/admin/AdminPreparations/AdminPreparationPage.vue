@@ -52,7 +52,7 @@ export default defineComponent({
   setup() {
     const form = ref();
     Provider.form = form;
-    const preparation: Ref<Preparation> = computed(() => Provider.store.getters['preparations/item']);
+    const preparation: Preparation = PreparationsStore.Item();
 
     Hooks.onBeforeMount(Provider.loadItem, {
       adminHeader: {
@@ -65,10 +65,10 @@ export default defineComponent({
 
     const createPreparation = (laboratory: boolean) => {
       const newPreparation = Preparation.CreatePreparation(laboratory);
-      newPreparation.id = preparation.value.id;
-      newPreparation.name = preparation.value.name;
-      newPreparation.laboratory = preparation.value.laboratory;
-      Provider.store.commit('preparations/set', newPreparation);
+      newPreparation.id = preparation.id;
+      newPreparation.name = preparation.name;
+      newPreparation.laboratory = preparation.laboratory;
+      PreparationsStore.Set(newPreparation);
     };
 
     return {

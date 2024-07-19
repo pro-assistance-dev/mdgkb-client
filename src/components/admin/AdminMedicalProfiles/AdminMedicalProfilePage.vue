@@ -56,13 +56,11 @@ export default defineComponent({
         ],
       },
     };
-    const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     let mounted = ref(false);
     const form = ref();
 
-    const medicalProfile: Ref<MedicalProfile> = computed(() => store.getters['medicalProfiles/item']);
+    const medicalProfile: MedicalProfile = MedicalProfilesStore.Item();
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
@@ -71,16 +69,12 @@ export default defineComponent({
     });
 
     const loadItem = async () => {
-      if (route.params['id']) {
-        await store.dispatch('medicalProfiles/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: medicalProfile.value.name, showBackButton: true, buttons: [{ action: submit }] });
+      if (Router.Id()) {
+        await MedicalProfilesStore.Get(Router.Id());
+        PHelp.AdminUI.Head.Set(medicalProfile.name, []);
       } else {
-        store.commit('medicalProfiles/resetState');
-        store.commit('admin/setHeaderParams', {
-          title: 'Добавить медицинский профиль',
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
+        PHelp.AdminUI.Head.Set('Добавить медицинский профиль', [Button.Success('Сохранить', submit)]);
+        MedicalProfilesStore.ResetState();
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -97,12 +91,12 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['id']) {
-        await store.dispatch('medicalProfiles/create', medicalProfile.value);
+      if (Router.Id()) {
+        await MedicalProfilesStore.Create();
         await router.push('/admin/pages');
         return;
       }
-      await store.dispatch('medicalProfiles/update', medicalProfile.value);
+      await MedicalProfilesStore.Update();
       next ? next() : await router.push('/admin/medical-profiles');
     };
 

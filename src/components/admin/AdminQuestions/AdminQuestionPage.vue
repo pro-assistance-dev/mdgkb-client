@@ -73,8 +73,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+<script lang="ts" setup>
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
+
 import Question from '@/classes/Question';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -82,7 +83,7 @@ import validate from '@/services/validate';
 const mounted: Ref<boolean> = ref(false);
 const form = ref();
 const question: Question = QuestionsStore.Item();
-const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 const rules = {
   question: [{ required: true, message: 'Необходимо указать вопрос для публикации', trigger: 'blur' }],
   answer: [{ required: true, message: 'Необходимо указать ответ для публикации', trigger: 'blur' }],

@@ -6,12 +6,11 @@
 <script lang="ts" setup>
 import DonorRule from '@/classes/DonorRule';
 
-const donorRules: ComputedRef<DonorRule[]> = Store.Items('donorRules')
+const donorRules: DonorRule[] = DonorRulesStore.Items();
 
 onBeforeMount(async () => {
-  await Store.GetAll('donorRules');
+  await DonorRulesStore.GetAll();
 });
-
 </script>
 
 <style lang="scss" scoped>

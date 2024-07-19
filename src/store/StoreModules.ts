@@ -5,6 +5,7 @@ import CommentsStore from './CommentsStore';
 import DietsGroupsStore from './DietsGroupsStore';
 import DietsStore from './DietsStore';
 import DivisionsStore from './DivisionsStore';
+import DonorRulesStore from './DonorRulesStore';
 import EmployeesStore from './EmployeesStore';
 import FaqsStore from './FaqsStore';
 import HeadsStore from './HeadsStore';
@@ -12,6 +13,7 @@ import HospitalizationsStore from './HospitalizationsStore';
 import HospitalizationsTypesStore from './HospitalizationsTypesStore';
 import MapNodesStore from './MapNodesStore';
 import MapRoutesStore from './MapRoutesStore';
+import MedicalProfilesStore from './MedicalProfilesStore';
 import NewsStore from './NewsStore';
 import PagesStore from './PagesStore';
 import PaidProgramsGroupsStore from './PaidProgramsGroupsStore';
@@ -19,6 +21,7 @@ import PaidProgramsStore from './PaidProgramsStore';
 import PaidServicesStore from './PaidServicesStore';
 import PartnersStore from './PartnersStore';
 import PartnersTypesStore from './PartnersTypesStore';
+import PreparationsStore from './PreparationsStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
 import SideOrganizationsStore from './SideOrganizationsStore';
@@ -32,7 +35,6 @@ import VacanciesStore from './VacanciesStore';
 import VacancyResponsesStore from './VacancyResponsesStore';
 import VisitingRulesStore from './VisitingRulesStore';
 import VisitsApplicationsStore from './VisitsApplicationsStore';
-
 export {
   AcademicsStore,
   BannersStore,
@@ -41,6 +43,7 @@ export {
   DietsGroupsStore,
   DietsStore,
   DivisionsStore,
+  DonorRulesStore,
   EmployeesStore,
   FaqsStore,
   HeadsStore,
@@ -48,6 +51,7 @@ export {
   HospitalizationsTypesStore,
   MapNodesStore,
   MapRoutesStore,
+  MedicalProfilesStore,
   NewsStore,
   PagesStore,
   PaidProgramsGroupsStore,
@@ -55,6 +59,7 @@ export {
   PaidServicesStore,
   PartnersStore,
   PartnersTypesStore,
+  PreparationsStore,
   ProjectsStore,
   QuestionsStore,
   SideOrganizationsStore,

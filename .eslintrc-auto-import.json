@@ -148,6 +148,10 @@
     "PaidProgramsGroupsStore": true,
     "PaidProgramsStore": true,
     "PaidServicesStore": true,
-    "SideOrganizationsStore": true
+    "SideOrganizationsStore": true,
+    "ElMessage": true,
+    "DonorRulesStore": true,
+    "MedicalProfilesStore": true,
+    "PreparationsStore": true
   }
 }

@@ -46,7 +46,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const route = useRoute();
     const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
-    const medicalProfiles: Ref<MedicalProfile[]> = computed<MedicalProfile[]>(() => Provider.store.getters['medicalProfiles/items']);
+    const medicalProfiles: MedicalProfile[] = MedicalProfilesStore.Items();
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
     onBeforeMount(async () => {

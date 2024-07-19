@@ -44,7 +44,7 @@ export default defineComponent({
     const create = () => {
       router.push('/admin/partners/new');
     };
-    const remove = (id: string) => {
+    const remove = async (id: string) => {
       await PartnersStore.Remove(id);
     };
 

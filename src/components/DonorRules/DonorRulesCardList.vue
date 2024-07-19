@@ -53,8 +53,9 @@ export default defineComponent({
         return;
       }
       // rule.addFavourite(userId.value);
-      await store.dispatch('donorRules/addToUser', rule.donorRulesUsers[0]);
+      await DonorRulesStore.AddToUser(rule.donorRulesUsers[0]);
     };
+
     const removeFromUser = async (rule: DonorRule) => {
       const token = TokenService.getAccessToken();
       if (!token) {
@@ -65,7 +66,7 @@ export default defineComponent({
         return;
       }
       rule.removeFavourite();
-      await store.dispatch('donorRules/deleteFromUser', rule.id);
+      await DonorRulesStore.DeleteFromUser(rule.id);
     };
 
     const showRule = (rule: DonorRule) => {

@@ -28,11 +28,8 @@
 
 <script lang="ts">
 import { Grid } from '@element-plus/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
-import { useStore } from 'vuex';
 
-import DonorRulesWithDeleted from '@/classes/DonorRulesWithDeleted';
 import Menu from '@/services/classes/Menu';
 import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import sort from '@/services/sort';
@@ -41,21 +38,17 @@ export default defineComponent({
   name: 'AdminDonorRules',
   components: { draggable, Grid, UploaderSingleScan },
   setup() {
-    const store = useStore();
-    const donorRulesWithDeleted: ComputedRef<DonorRulesWithDeleted> = computed(() => store.getters['donorRules/items']);
+    const donorRulesWithDeleted: DonorRule[] = DonorRulesStore.Items();
     const mounted: Ref<boolean> = ref(false);
     const selectedMenu: Ref<Menu | undefined> = ref(undefined);
 
     const save = async () => {
-      await store.dispatch('donorRules/updateMany');
+      await DonorRulesStore.UpdateMany();
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('donorRules/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Информация для доноров крови',
-        buttons: [{ text: 'Сохранить', type: 'primary', action: save }],
-      });
+      await DonorRulesStore.GetAll();
+      PHelp.AdminUI.Head.Set('Информация для доноров крови', [Button.Success('Сохранить', save)]);
       mounted.value = true;
     });
 

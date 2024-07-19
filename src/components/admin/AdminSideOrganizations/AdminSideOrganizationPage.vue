@@ -47,13 +47,11 @@ import { useStore } from 'vuex';
 
 import SideOrganization from '@/classes/SideOrganization';
 import SideOrganizationRules from '@/classes/SideOrganizationRules';
-import AdminContactAttribute from '@/components/admin/Contacts/AdminContactAttribute.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
-  components: { AdminContactAttribute },
   setup() {
     const store = useStore();
     const route = useRoute();

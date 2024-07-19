@@ -18,7 +18,6 @@ import dataExport from '@/store/modules/dataExport';
 import { dishesGroups } from '@/store/modules/dishesGroups';
 import { dishesSamples } from '@/store/modules/dishesSamples';
 import { doctors } from '@/store/modules/doctors';
-import { donorRules } from '@/store/modules/donorRules';
 import { dpoApplications } from '@/store/modules/dpoApplications';
 import { educationalManagers } from '@/store/modules/educationalManagers';
 import { educationYears } from '@/store/modules/educationYears';
@@ -28,7 +27,6 @@ import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
-import { medicalProfiles } from '@/store/modules/medicalProfiles';
 import { meta } from '@/store/modules/meta';
 import { newsSlides } from '@/store/modules/newsSlides';
 import { nmoCourses } from '@/store/modules/nmoCourses';
@@ -36,7 +34,6 @@ import { pagination } from '@/store/modules/pagination';
 import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
-import { preparations } from '@/store/modules/preparations';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
 import { roles } from '@/store/modules/roles';
@@ -64,11 +61,8 @@ const s: StoreOptions<RootState> = {
     search,
     newsSlides,
     events,
-    preparations,
-    donorRules,
     meta,
     pagination,
-    medicalProfiles,
     appointments,
     nmoCourses,
     educationalManagers,
