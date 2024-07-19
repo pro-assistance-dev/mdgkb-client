@@ -5,12 +5,12 @@
     </template>
     <template #bottom>
       <div class="button-container">
-        <PButton text="Подать документы" type="success" style="margin: 10px 0" @click="toForm()" />
+        <PButton text="Подать документы" type="success" style="margin: 10px 0" @click="toForm()" height="60px" />
       </div>
     </template>
     <template #title>
       <div class="title-button-container">
-        <PButton type="success" text="Подать документы" style="margin: 10px 0" @click="toForm()" />
+        <PButton type="success" text="Подать документы" style="margin: 10px 0" @click="toForm()" height="60px" width="160px" />
       </div>
     </template>
   </PageComponent>
