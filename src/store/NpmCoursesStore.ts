@@ -1,9 +1,9 @@
-import Faq from '@/classes/Faq';
+import NpmCourse from '@/classes/NpmCourse';
 import BaseStore from '@/services/BaseStore';
 
-class S extends BaseStore<Faq> {
+class S extends BaseStore<NpmCourse> {
   constructor() {
-    super(Faq, 'faqs');
+    super(NpmCourse, 'nmo-course');
   }
 }
 

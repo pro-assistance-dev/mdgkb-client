@@ -5,7 +5,6 @@ import * as lib from '@/services/store/index';
 import { authStateConstructor } from '@/services/store/modules/auth';
 import { appointments } from '@/store/modules/appointments';
 import { appointmentsTypes } from '@/store/modules/appointmentsTypes';
-import { calendar } from '@/store/modules/calendar';
 import { candidateApplications } from '@/store/modules/candidateApplications';
 import { candidateExams } from '@/store/modules/candidateExams';
 import { chatMessages } from '@/store/modules/chatMessages';
@@ -29,7 +28,6 @@ import { formStatusGroups } from '@/store/modules/formStatusGroups';
 import { formValues } from '@/store/modules/formValues';
 import { meta } from '@/store/modules/meta';
 import { newsSlides } from '@/store/modules/newsSlides';
-import { nmoCourses } from '@/store/modules/nmoCourses';
 import { pagination } from '@/store/modules/pagination';
 import { pointsAchievements } from '@/store/modules/pointsAchievements';
 import { postgraduateApplications } from '@/store/modules/postgraduateApplications';
@@ -63,7 +61,6 @@ const s: StoreOptions<RootState> = {
     meta,
     pagination,
     appointments,
-    nmoCourses,
     educationalManagers,
     specializations,
     dpoApplications,
@@ -85,7 +82,6 @@ const s: StoreOptions<RootState> = {
     dailyMenuItems,
     appointmentsTypes,
     dailyMenuOrders,
-    calendar,
     chats,
     chatMessages,
     fileInfos,

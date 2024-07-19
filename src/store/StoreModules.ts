@@ -15,6 +15,7 @@ import MapNodesStore from './MapNodesStore';
 import MapRoutesStore from './MapRoutesStore';
 import MedicalProfilesStore from './MedicalProfilesStore';
 import NewsStore from './NewsStore';
+import NmoCoursesStore from './NpmCoursesStore';
 import PagesStore from './PagesStore';
 import PaidProgramsGroupsStore from './PaidProgramsGroupsStore';
 import PaidProgramsStore from './PaidProgramsStore';
@@ -54,6 +55,7 @@ export {
   MapRoutesStore,
   MedicalProfilesStore,
   NewsStore,
+  NmoCoursesStore,
   PagesStore,
   PaidProgramsGroupsStore,
   PaidProgramsStore,

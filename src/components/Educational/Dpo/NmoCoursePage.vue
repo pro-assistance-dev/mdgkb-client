@@ -18,7 +18,7 @@ export default defineComponent({
   components: { NmoCourseInfo },
 
   setup() {
-    const nmoCourse: Ref<NmoCourse> = computed<NmoCourse>(() => Provider.store.getters['nmoCourses/item']);
+    const nmoCourse: NmoCourse = NmoCoursesStore.Item();
 
     const load = async () => {};
 

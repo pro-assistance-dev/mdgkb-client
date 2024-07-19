@@ -65,7 +65,7 @@ export default defineComponent({
   },
   emits: ['selectDay', 'backToToday', 'move'],
   setup(_, { emit }) {
-    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
+    const calendar: Ref<Calendar> = ref(Calendar.InitFull());
     const moveCounter: Ref<number> = ref(0);
     const isToDay: Ref<boolean> = ref(true);
 

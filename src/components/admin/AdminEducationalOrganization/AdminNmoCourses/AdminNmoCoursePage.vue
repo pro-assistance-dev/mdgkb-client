@@ -104,7 +104,7 @@ export default defineComponent({
     SetEntity,
   },
   setup() {
-    const nmoCourse: ComputedRef<NmoCourse> = computed<NmoCourse>(() => Provider.store.getters['nmoCourses/item']);
+    const nmoCourse: NmoCourse = NmoCoursesStore.Item();
     const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
       () => Provider.store.getters['specializations/items']
     );
@@ -119,7 +119,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? nmoCourse.value.name : 'Добавить программу')),
+        title: computed(() => (Provider.route().params['id'] ? nmoCourse.name : 'Добавить программу')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },
@@ -127,13 +127,13 @@ export default defineComponent({
     Hooks.onBeforeRouteLeave(Hooks.submit);
 
     const changeFormPatternHandler = () => {
-      nmoCourse.value.formPatternId = nmoCourse.value.formPattern.id;
+      nmoCourse.formPatternId = nmoCourse.formPattern.id;
     };
 
     const employee: Employee = EmployeesStore.Item();
     const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
       await EmployeesStore.Get(searchObject.value);
-      nmoCourse.value.setMainTeacher(employee);
+      nmoCourse.setMainTeacher(employee);
     };
 
     return {

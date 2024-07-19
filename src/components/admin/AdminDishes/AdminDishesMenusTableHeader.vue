@@ -105,7 +105,7 @@ export default defineComponent({
     const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
     const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
 
-    const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
+    const calendar: Ref<Calendar> = ref(Calendar.InitFull());
     const saveMenusOrder = async () => {
       sort(dailyMenus.value);
       await Provider.store.dispatch('dailyMenus/updateMany');

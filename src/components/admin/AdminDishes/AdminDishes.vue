@@ -47,7 +47,7 @@ const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dail
 const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
 const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
 const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-const calendar: Ref<Calendar> = computed(() => Provider.store.getters['calendar/calendar']);
+const calendar: Ref<Calendar> = ref(Calendar.InitFull());
 const dayFilter: Ref<FilterModel> = ref(new FilterModel());
 const selectedSample: Ref<DishSample | undefined> = ref(undefined);
 const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);

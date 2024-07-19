@@ -57,9 +57,9 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import NmoCourse from '@/classes/NmoCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
@@ -68,18 +68,18 @@ export default defineComponent({
   name: 'AdminNmoCoursesList',
   components: { TableButtonGroup, AdminListWrapper },
   setup() {
-    const nmoCourses: Ref<NmoCourse[]> = computed(() => Provider.store.getters['nmoCourses/items']);
+    const nmoCourses: NmoCourse[] = NmoCoursesStore.Items();
     const isEditMode: Ref<boolean> = ref(false);
 
     const save = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
-      await Provider.store.dispatch('nmoCourses/updateMany');
+      await NmoCoursesStore.UpdateMany();
       isEditMode.value = false;
       if (next) next();
     };
 
     const loadCourses = async () => {
-      await Provider.store.dispatch('nmoCourses/getAll');
+      await NmoCoursesStore.GetAll();
     };
 
     const load = async () => {
