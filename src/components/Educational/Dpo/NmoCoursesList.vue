@@ -119,7 +119,7 @@ import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'NmoCoursesList',
   setup() {
-    const nmoCourses: Ref<NmoCourse[]> = computed<NmoCourse[]>(() => Provider.store.getters['nmoCourses/items']);
+    const nmoCourses: NmoCourse[] = NmoCoursesStore.Items();
 
     return {
       nmoCourses,
