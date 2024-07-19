@@ -63,6 +63,7 @@ declare global {
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
   const Provider: typeof import('@/services/Main')['Provider']
   const QuestionsStore: typeof import('@/store/StoreModules')['QuestionsStore']
+  const RolesStore: typeof import('@/store/StoreModules')['RolesStore']
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
@@ -215,6 +216,7 @@ declare module 'vue' {
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
+    readonly RolesStore: UnwrapRef<typeof import('@/store/StoreModules')['RolesStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
@@ -360,6 +362,7 @@ declare module '@vue/runtime-core' {
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
+    readonly RolesStore: UnwrapRef<typeof import('@/store/StoreModules')['RolesStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>

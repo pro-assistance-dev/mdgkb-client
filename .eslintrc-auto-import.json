@@ -152,6 +152,7 @@
     "ElMessage": true,
     "DonorRulesStore": true,
     "MedicalProfilesStore": true,
-    "PreparationsStore": true
+    "PreparationsStore": true,
+    "RolesStore": true
   }
 }

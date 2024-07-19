@@ -36,7 +36,6 @@ import { postgraduateApplications } from '@/store/modules/postgraduateApplicatio
 import { postgraduateCourses } from '@/store/modules/postgraduateCourses';
 import { residencyApplications } from '@/store/modules/residencyApplications';
 import { residencyCourses } from '@/store/modules/residencyCourses';
-import { roles } from '@/store/modules/roles';
 import search from '@/store/modules/search';
 import { specializations } from '@/store/modules/specializations';
 import { tags } from '@/store/modules/tags';
@@ -73,7 +72,6 @@ const s: StoreOptions<RootState> = {
     postgraduateApplications,
     candidateExams,
     candidateApplications,
-    roles,
     residencyCourses,
     formStatuses,
     educationYears,

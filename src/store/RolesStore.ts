@@ -1,5 +1,5 @@
-import Role from '@/classes/Role';
 import BaseStore from '@/services/BaseStore';
+import Role from '@/services/classes/Role';
 
 class S extends BaseStore<Role> {
   constructor() {
