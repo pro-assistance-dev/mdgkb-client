@@ -35,6 +35,7 @@ const StoreModulesNames = [
   'DonorRulesStore',
   'PreparationsStore',
   'MedicalProfilesStore',
+  'RolesStore',
 ];
 
 export default StoreModulesNames;

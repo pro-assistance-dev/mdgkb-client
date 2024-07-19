@@ -34,17 +34,17 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const role: ComputedRef<Role> = computed<Role>(() => store.getters['roles/item']);
+    const role: Role = RolesStore.Item();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       try {
-        if (route.params['id']) {
-          await store.dispatch('roles/update', role.value);
+        if (Router.Id()) {
+          await RolesStore.Update();
         } else {
-          await store.dispatch('roles/create', role.value);
+          await RolesStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -54,8 +54,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      if (route.params['id']) {
-        await store.dispatch('roles/get', route.params['id']);
+      if (Router.Id()) {
+        RolesStore.Get(Router.Id());
         PHelp.AdminUI.Head.Set('Обновить роль', [Button.Success('Сохранить', submit)]);
       } else {
         PHelp.AdminUI.Head.Set('Добавить роль', [Button.Success('Сохранить', submit)]);

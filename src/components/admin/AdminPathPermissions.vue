@@ -120,7 +120,7 @@ export default defineComponent({
       });
     });
     const searchFilterPathPermissions: Ref<string[]> = ref([]);
-    const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
+    const roles: Role[] = RolesStore.Items();
     const selectRolesList: ComputedRef<Role[]> = computed(() => roles.value.filter((role: Role) => !filteredRoles.value.includes(role)));
     const filteredRoles: Ref<Role[]> = ref([]);
     const chosenRole: Ref<Role> = ref(new Role());
@@ -131,7 +131,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      PHelp.AdminUI.Head.Set('Клиентские доступы'[Button.Success('Сохранить', submit)]);
+      PHelp.AdminUI.Head.Set('Клиентские доступы', [Button.Success('Сохранить', submit)]);
       // Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
 
       // TODO: проверить лимит по-умолчанию при отсутствии пагинации
@@ -142,8 +142,8 @@ export default defineComponent({
 
       // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
       // await Provider.store.dispatch('auth/getAllPathPermissions');
-      await Provider.store.dispatch('roles/getAll');
-      filteredRoles.value = roles.value.filter((role: Role) => role.name === RoleName.User);
+      await RolesStore.GetAll();
+      filteredRoles.value = roles.filter((role: Role) => role.name === RoleName.User);
       permissions.value = paths.map((path: RouteRecordNormalized) => {
         let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
         if (permission) {
@@ -153,18 +153,12 @@ export default defineComponent({
         permission.resource = path.path;
         return permission;
       });
-      await Provider.store.dispatch('auth/savePathPermissions', permissions.value);
       // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
     };
 
     Hooks.onBeforeMount(load);
 
     const savePaths = async () => {
-      try {
-        await Provider.store.dispatch('auth/savePathPermissions', clientPermissions.value);
-      } catch {
-        return;
-      }
       ElMessage({
         message: 'Сохранено',
         type: 'success',
@@ -195,7 +189,7 @@ export default defineComponent({
       chosenRole.value = new Role();
     };
     const addAllRoles = () => {
-      filteredRoles.value = roles.value;
+      filteredRoles.value = roles;
       chosenRole.value = new Role();
     };
     const filterList = (search: string) => {

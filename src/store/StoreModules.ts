@@ -24,6 +24,7 @@ import PartnersTypesStore from './PartnersTypesStore';
 import PreparationsStore from './PreparationsStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
+import RolesStore from './RolesStore';
 import SideOrganizationsStore from './SideOrganizationsStore';
 import SpecializationsStore from './SpecializationsStore';
 import SupportMessagesStore from './SupportMessagesStore';
@@ -62,6 +63,7 @@ export {
   PreparationsStore,
   ProjectsStore,
   QuestionsStore,
+  RolesStore,
   SideOrganizationsStore,
   SpecializationsStore,
   SupportMessagesStore,

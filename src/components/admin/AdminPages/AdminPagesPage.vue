@@ -84,8 +84,8 @@ export default defineComponent({
     const rules = {
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
-    const page: ComputedRef<Page> = computed(() => Provider.store.getters['pages/item']);
-    const roles: ComputedRef<Role[]> = computed(() => Provider.store.getters['roles/items']);
+    const page: Page = PagesStore.Item();
+    const roles: ComputedRef<Role[]> = RolesStore.Items();
 
     const openPage = () => {
       const route = Provider.router.resolve(page.value.getLink());
@@ -99,22 +99,22 @@ export default defineComponent({
         { action: submit, text: 'Сохранить' },
         { action: submitAndExit, text: 'Сохранить и выйти' },
       ];
-      if (Provider.route().params['slug']) {
-        await Provider.store.dispatch('pages/getBySlug', Provider.route().params['slug']);
+      if (Router.Slug()) {
+        await PagesStore.GetBySlug(Router.Slug());
         Provider.store.commit('admin/setHeaderParams', {
           title: page.value.title,
           showBackButton: true,
           buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
         });
       } else {
-        Provider.store.commit('pages/resetState');
+        PagesStore.ResetState();
         Provider.store.commit('admin/setHeaderParams', {
           title: 'Добавить страницу',
           showBackButton: true,
           buttons: buttons,
         });
       }
-      await Provider.store.dispatch('roles/getAll');
+      await RolesStore.GetAll();
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(page, formUpdated, { deep: true });
     };
@@ -131,8 +131,8 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!Provider.route().params['slug']) {
-        await PagesStore.Create(page.value);
+      if (Router.Slug()) {
+        await PagesStore.Create();
         await Router.To('/admin/pages');
         return;
       }
@@ -147,7 +147,7 @@ export default defineComponent({
 
     const openDialog = async (index?: number) => {
       if (index === undefined) {
-        await page.value.addSideMenu();
+        await page.addSideMenu();
         PagesStore.SetIndex(page.value.pageSideMenus.length - 1);
       } else {
         PagesStore.SetIndex(index);

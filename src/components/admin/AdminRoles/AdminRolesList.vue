@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const store = useStore();
-    const roles: ComputedRef<Role[]> = computed<Role[]>(() => store.getters['roles/items']);
+    const roles: Role[] = RolesStore.Items();
 
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
@@ -46,13 +46,13 @@ export default defineComponent({
       router.push('/admin/roles/new');
     };
     const remove = async (id: string): Promise<void> => {
-      await store.dispatch('roles/remove', id);
+      await RolesStore.Remove(id);
     };
     const edit = (id: string): void => {
       router.push(`/admin/roles/${id}`);
     };
     const updateAll = async (): Promise<void> => {
-      await store.dispatch('roles/updateAll');
+      await RolesStore.UpdateAll();
       isEditMode.value = false;
       isNotEditMode.value = true;
     };
@@ -62,7 +62,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('roles/getAll');
+      await RolesStore.GetAll();
       store.commit('roles/seedFormStatusToFormStatuses');
       PHelp.AdminUI.Head.Set('Роли юзеров', [
         Button.Success('Редактировать', openEditMode, isNotEditMode),

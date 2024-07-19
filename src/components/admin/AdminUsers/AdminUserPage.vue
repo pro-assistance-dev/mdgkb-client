@@ -41,7 +41,7 @@ export default defineComponent({
     const user: ComputedRef<User> = computed<User>(() => store.getters['users/item']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
-    const roles: ComputedRef<Role[]> = computed(() => store.getters['roles/items']);
+    const roles: Role[] = RolesStore.Items();
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -65,7 +65,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('roles/getAll');
+      await RolesStore.GetAll();
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(user, formUpdated, { deep: true });

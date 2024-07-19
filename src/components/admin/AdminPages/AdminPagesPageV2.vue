@@ -160,7 +160,7 @@ const rules = {
   title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
 };
 const page: Page = PagesStore.Item();
-const roles: ComputedRef<Role[]> = Store.Items('roles');
+const roles: Role[] = RolesStore.Items();
 // const pageSideMenu = PagesStore.SideMenu();
 // const activeMenuId = PagesStore.ActiveMenuId();
 // const activeMenu: Ref<number> = ref(999);
@@ -181,7 +181,7 @@ const loadNewsItem = async () => {
     PagesStore.ResetState();
     PHelp.AdminUI.Head.Set('Добавить страницу', buttons);
   }
-  await Store.GetAll('roles');
+  await RolesStore.GetAll();
   window.addEventListener('beforeunload', beforeWindowUnload);
   watch(page, formUpdated, { deep: true });
   mounted.value = true;
