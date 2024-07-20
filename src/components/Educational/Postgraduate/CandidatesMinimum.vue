@@ -3,8 +3,7 @@
     <div class="candidate-container">
       <div class="card-flex-container card-item">
         <div class="bottom-footer">
-          <SharesBlock title="Кандидатский экзамен" description="Кандидатские экзамены в МДГКБ"
-            :url="$buildUrl('candidate')" />
+          <SharesBlock title="Кандидатский экзамен" description="Кандидатские экзамены в МДГКБ" :url="$buildUrl('candidate')" />
           <button class="response-btn" @click="openRespondForm">Подать заявление</button>
         </div>
       </div>
@@ -24,7 +23,6 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import DocumentsList from '@/components/Educational/Dpo/DocumentsList.vue';
 import CandidateApplicationForm from '@/components/Educational/Postgraduate/CandidateApplicationForm.vue';
@@ -37,8 +35,7 @@ export default defineComponent({
   components: { CandidateApplicationForm, DocumentsList, SharesBlock },
   setup() {
     const route = useRoute();
-    const store = useStore();
-    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => store.getters['candidateExams/item']);
+    const candidateExam: ICandidateExam = CandidateExamsStore.Item();
     const mounted = ref(false);
     // const documentTypes: ComputedRef<ICandidateDocumentType[]> = computed(() => store.getters['candidateDocumentTypes/items']);
     const showForm: Ref<boolean> = ref(false);
@@ -56,7 +53,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('candidateExams/get');
+      // await    CandidateExamsStore.Get()
       mounted.value = true;
       if (route.query.respondForm) {
         await openRespondForm();

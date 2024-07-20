@@ -16,7 +16,6 @@
         <template #header>
           <div class="flex-row-between">
             <span>Кнопки</span>
-            <el-button size="small" type="success" icon="el-icon-plus" circle @click="addButton"></el-button>
           </div>
         </template>
         <el-table :data="slide.newsSlideButtons">
@@ -50,9 +49,7 @@
             </template>
           </el-table-column>
           <el-table-column width="50" fixed="right" align="center">
-            <template #default="scope">
-              <TableButtonGroup :show-remove-button="true" @remove="removeButton(scope.$index)" />
-            </template>
+            <template #default="scope"> </template>
           </el-table-column>
         </el-table>
       </el-card>
@@ -97,7 +94,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminNewsSlidePage',
-  components: { TableMover, TableButtonGroup, UploaderSingleScan, AdminNewsSlidePreview },
+  components: { TableMover, UploaderSingleScan, AdminNewsSlidePreview },
 
   setup() {
     const urlRegex =
@@ -117,17 +114,10 @@ export default defineComponent({
     const form = ref();
     const showPreview: Ref<boolean> = ref(false);
     const previewFullScreen: Ref<boolean> = ref(false);
-    const slide: ComputedRef<NewsSlide> = computed<NewsSlide>(() => Provider.store.getters['newsSlides/item']);
-    const slides: ComputedRef<NewsSlide[]> = computed<NewsSlide[]>(() => Provider.store.getters['newsSlides/items']);
+    const slide: NewsSlide = NewsSlidesStore.Item();
+    const slides: NewsSlide[] = NewsSlidesStore.Items();
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    const addButton = () => {
-      Provider.store.commit('newsSlides/addButton');
-    };
-    const removeButton = (index: number) => {
-      Provider.store.commit('newsSlides/removeButton', index);
-    };
 
     const openPreview = () => {
       saveButtonClick.value = true;
@@ -139,12 +129,11 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
-      Provider.store.commit('newsSlides/setOrder', slides.value.length);
       try {
         if (Provider.route().params['id']) {
-          await Provider.store.dispatch('newsSlides/update', slide.value);
+          await NewsSlidesStore.Update();
         } else {
-          await Provider.store.dispatch('newsSlides/create', slide.value);
+          await NewsSlidesStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -155,9 +144,10 @@ export default defineComponent({
 
     const load = async () => {
       if (!slides.value.length) {
-        Provider.store.dispatch('newsSlides/getAll');
+        await NewsSlidesStore.GetAll();
       }
       if (Provider.route().params['id']) {
+        await NewsSlidesStore.Get(Router.Id());
         await Provider.store.dispatch('newsSlides/get', Provider.route().params['id']);
         Provider.store.commit('admin/setHeaderParams', {
           title: 'Обновить новость (слайдер)',
@@ -179,7 +169,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     onBeforeUnmount(() => {
-      Provider.store.commit('newsSlides/resetState');
+      NewsSlidesStore.ResetState();
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -189,8 +179,6 @@ export default defineComponent({
     return {
       slide,
       mounted: Provider.mounted,
-      addButton,
-      removeButton,
       showPreview,
       openPreview,
       previewFullScreen,

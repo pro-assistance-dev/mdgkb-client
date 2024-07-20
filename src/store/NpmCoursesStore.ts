@@ -1,9 +1,9 @@
-import NpmCourse from '@/classes/NpmCourse';
+import NmoCourse from '@/classes/NmoCourse';
 import BaseStore from '@/services/BaseStore';
 
-class S extends BaseStore<NpmCourse> {
+class S extends BaseStore<NmoCourse> {
   constructor() {
-    super(NpmCourse, 'nmo-course');
+    super(NmoCourse, 'nmo-course');
   }
 }
 

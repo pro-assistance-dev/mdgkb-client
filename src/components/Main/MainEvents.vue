@@ -30,12 +30,11 @@ const carousel: Ref<IEventTemplate[][]> = ref([]);
 const mounted: Ref<boolean> = ref(false);
 const carouselRef = ref();
 
-const items: ComputedRef<Event[]> = Store.Items('events');
+const items: Event[] = EventsStore.Items();
 
 onBeforeMount(async () => {
-  await Store.Dispatch('events/getAllMain');
   mounted.value = true;
-  carousel.value = makeCarousel<IEventTemplate>(items.value, 5);
+  carousel.value = makeCarousel<IEventTemplate>(items, 5);
   mounted.value = true;
 });
 </script>

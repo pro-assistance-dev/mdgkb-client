@@ -146,8 +146,8 @@ export default defineComponent({
     },
   },
   setup(props) {
-    let client: Ref<WebSocketClient> = computed(() => Provider.store.getters['chats/client']);
-    const chat: Ref<Chat> = computed(() => Provider.store.getters['chats/item']);
+    const client: WebSocketClient = ChatsStore.Client();
+    const chat: Ref<Chat> = ChatsStore.Item();
     const newMessage: Ref<string> = ref('');
     const chatBody = ref();
 
@@ -156,7 +156,6 @@ export default defineComponent({
         return;
       }
       const message = ChatMessage.Create(props.chatId, props.userId, newMessage.value, props.userName);
-      await Provider.store.dispatch('chatMessages/create', message);
       client.value.send(JSON.stringify(message));
       chat.value.chatMessages.push(message);
       newMessage.value = '';
@@ -167,8 +166,8 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('chats/get', props.chatId);
-      await Provider.store.dispatch('chats/connect', { chatId: props.chatId, userId: props.userId });
+      ChatsStore.Get(props.chatId);
+      ChatsStore.Connect({ chatId: props.chatId, userId: props.userId });
       document.getElementById(`${chat.value.chatMessages[chat.value.chatMessages.length - 2].id}`)?.scrollIntoView();
     });
 

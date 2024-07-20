@@ -82,7 +82,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import Provider from '@/services/Provider/Provider';
 
-const dailyMenuOrders = Store.Items('dailyMenuOrders');
+const dailyMenuOrders = DailyMenuOrdersStore.Items();
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
 const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
@@ -95,7 +95,6 @@ const load = async () => {
 };
 
 Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'dailyMenuOrders', action: 'getAll' },
   sortsLib: DailyMenuOrdersSortsLib,
 });
 

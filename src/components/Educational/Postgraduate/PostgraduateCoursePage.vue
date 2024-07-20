@@ -147,7 +147,6 @@
         <div v-if="showForm" id="responce-form" class="card-item" style="padding: 30px">
           <h2 class="title article-title">Форма для подачи заявления</h2>
           <!-- <el-divider /> -->
-          <PostgraduateApplicationForm style="margin-top: 20px" @close="closeRespondForm" />
         </div>
       </div>
     </div>
@@ -160,18 +159,16 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
-import PostgraduateApplicationForm from '@/components/Educational/Postgraduate/PostgraduateApplicationForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import scroll from '@/services/Scroll';
 export default defineComponent({
   name: 'PostgraduateCoursePage',
-  components: { SharesBlock, PostgraduateApplicationForm },
+  components: { SharesBlock },
   setup() {
     const store = useStore();
     const route = useRoute();
-    const postgraduateCourse: Ref<PostgraduateCourse> = computed<PostgraduateCourse>(() => store.getters['postgraduateCourses/item']);
+    const postgraduateCourse: PostgraduateCourse = PostgraduateCoursesStore.Item();
     const mounted: Ref<boolean> = ref(false);
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
@@ -188,7 +185,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      // await store.dispatch('postgraduateCourses/get', filterQuery.value);
       mounted.value = true;
       if (route.query.respondForm) {
         openRespondForm();

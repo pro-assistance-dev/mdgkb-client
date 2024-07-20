@@ -10,8 +10,11 @@
     <template #left>
       <div class="line-title">Ваш заказ</div>
       <div class="scroll">
-        <TableCard v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems" :key="dailyMenuOrderItem.id"
-          :daily-menu-order-item="dailyMenuOrderItem" />
+        <TableCard
+          v-for="dailyMenuOrderItem in dailyMenuOrder.dailyMenuOrderItems"
+          :key="dailyMenuOrderItem.id"
+          :daily-menu-order-item="dailyMenuOrderItem"
+        />
       </div>
       <div class="line-button">
         <button class="clear-cart" @click="clearOrder">
@@ -33,8 +36,15 @@
       <div class="line-item"></div>
 
       <div class="info">
-        <el-form ref="userForm" v-model="dailyMenuOrder" class="phone" :model="dailyMenuOrder" label-width="150px"
-          style="max-width: 320px" label-position="left">
+        <el-form
+          ref="userForm"
+          v-model="dailyMenuOrder"
+          class="phone"
+          :model="dailyMenuOrder"
+          label-width="150px"
+          style="max-width: 320px"
+          label-position="left"
+        >
           <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
           <FieldValuesForm :form="dailyMenuOrder.formValue" />
         </el-form>
@@ -78,42 +88,41 @@ export default defineComponent({
   },
   emits: ['close', 'orderCreated'],
   setup(props, { emit }) {
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
     const userForm = ref();
     let costOfDelivery = Number(0);
     const totalPrice: Ref<number> = ref(dailyMenuOrder.value.getPriceSum() + costOfDelivery);
 
     const checkDailyMenuOrderIsEmpty = () => {
-      if (dailyMenuOrder.value.isEmpty()) {
+      if (dailyMenuOrder.isEmpty()) {
         emit('close');
       }
     };
 
-    watch(dailyMenuOrder.value, checkDailyMenuOrderIsEmpty);
+    watch(dailyMenuOrder, checkDailyMenuOrderIsEmpty);
 
     const createOrder = async () => {
       // dailyMenuOrder.value.formValue.validate();
       // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
       //   return;
       // }
-      if (dailyMenuOrder.value.getPriceSum() < 150) {
+      if (dailyMenuOrder.getPriceSum() < 150) {
         return ElMessage.warning('Минимальная сумма заказа - 150 рублей');
       }
       const loading = ElLoading.service({
         lock: true,
         text: 'Загрузка',
       });
-      dailyMenuOrder.value.formValue.clearIds();
+      dailyMenuOrder.formValue.clearIds();
       try {
-        await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
+        await DailyMenuOrdersStore.Create();
       } catch (e) {
         loading.close();
         return ElMessage.error('Произошла ошибка приложения - напишите в службу поддержки');
       }
-
-      await Provider.store.commit('dailyMenuOrders/resetItem');
+      DailyMenuOrdersStore.ResetItem();
       emit('orderCreated');
-      dailyMenuOrder.value.removeFromLocalStore();
+      dailyMenuOrder.removeFromLocalStore();
 
       emit('close');
       loading.close();
@@ -141,7 +150,7 @@ export default defineComponent({
         cancelButtonText: 'Отмена',
       })
         .then(() => {
-          dailyMenuOrder.value.clear();
+          dailyMenuOrder.clear();
           emit('close');
         })
         .catch(() => {

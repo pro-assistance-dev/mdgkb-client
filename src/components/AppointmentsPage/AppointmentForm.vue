@@ -45,7 +45,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const chosenDay: Ref<string | undefined> = ref();
     const mount = ref(false);
-    const appointment: ComputedRef<Appointment> = Store.Item('appointments');
+    const appointment: ComputedRef<Appointment> = AppointmentsStore.Item();
     const isAuth = Store.Getters('auth/isAuth');
     const createChildMode: Ref<boolean> = ref(false);
 

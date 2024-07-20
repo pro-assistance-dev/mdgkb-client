@@ -9,7 +9,15 @@
         <template #info>
           <div v-if="sameNamesExists" class="attention">Вкладки с такими названиями уже есть в меню!</div>
           <PButton skin="profile" type="primary" text="Вставить" margin="5px 0 0 0" width="80px" @click="paste(false)" />
-          <PButton skin="profile" type="success" v-if="sameNamesExists" text="Заменить" margin="5px 0 0 0" width="80px" @click="paste(true)" />
+          <PButton
+            skin="profile"
+            type="success"
+            v-if="sameNamesExists"
+            text="Заменить"
+            margin="5px 0 0 0"
+            width="80px"
+            @click="paste(true)"
+          />
           <PButton skin="profile" color="neutral" text="Отмена" margin="5px 0 0 0" :width="'80px'" @click="togglePasteWindow" />
         </template>
       </ClickWindow>
@@ -24,36 +32,35 @@ import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
 import Paste from '@/assets/svg/Buffet/Paste.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
-import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'PasteWindow',
   components: { ClickWindow, Paste },
   emits: ['onClick'],
-  setup(_, { emit }) {
-    const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+  setup() {
+    const menusCopies: DailyMenu[] = DailyMenusStore.MenusCopies();
+    const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
     const sameNamesExists: ComputedRef<boolean> = computed(() =>
-      dailyMenus.value.some((d: DailyMenu) => menusCopies.value.some((c: DailyMenu) => c.name === d.name))
+      dailyMenus.some((d: DailyMenu) => menusCopies.some((c: DailyMenu) => c.name === d.name))
     );
     const isOpenPaste: Ref<boolean> = ref(false);
 
     const paste = async (replace: boolean) => {
-      menusCopies.value.forEach((m: DailyMenu) => {
+      menusCopies.forEach((m: DailyMenu) => {
         m.initGroups();
-        const findedSameNameIndex = dailyMenus.value.findIndex((d: DailyMenu) => m.name === d.name);
+        const findedSameNameIndex = dailyMenus.findIndex((d: DailyMenu) => m.name === d.name);
         if (findedSameNameIndex > -1) {
           if (replace) {
-            dailyMenus.value[findedSameNameIndex] = m;
+            dailyMenus[findedSameNameIndex] = m;
           } else {
             m.name += '-копия';
-            dailyMenus.value.push(m);
+            dailyMenus.push(m);
           }
         } else {
-          dailyMenus.value.push(m);
+          dailyMenus.push(m);
         }
       });
-      for (const menu of menusCopies.value) {
-        await Provider.store.dispatch('dailyMenus/create', menu);
+      for (const menu of menusCopies) {
+        await DailyMenusStore.Create(menu);
       }
       togglePasteWindow();
     };

@@ -101,28 +101,29 @@ export default defineComponent({
     PasteWindow,
   },
   setup() {
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
+    const selectedMenu: DailyMenu = DailyMenusStore.Item();
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 
     const calendar: Ref<Calendar> = ref(Calendar.InitFull());
+
     const saveMenusOrder = async () => {
-      sort(dailyMenus.value);
-      await Provider.store.dispatch('dailyMenus/updateMany');
+      sort(dailyMenus);
+      await DailyMenusStore.UpdateMany();
     };
 
     const selectMenu = (menu: DailyMenu): void => {
-      Provider.store.commit('dailyMenus/set', menu);
-      selectedMenu.value.initGroups();
+      DailyMenusStore.Set(menu);
+      selectedMenu.initGroups();
     };
 
     const addMenu = async () => {
       const menu = DailyMenu.Create(calendar.value.getDateWithOffset());
       menu.editMode = true;
-      dailyMenus.value.push(menu);
-      menu.dishesGroups = dishesGroups.value;
+      dailyMenus.push(menu);
+      menu.dishesGroups = dishesGroups;
       selectMenu(menu);
-      await Provider.store.dispatch('dailyMenus/createWithoutReset', menu);
+      await DailyMenusStore.Create(menu);
       if (menu.id) {
         const input = document.getElementById(Strings.toCamelCase(menu.id));
         if (input) {
@@ -136,9 +137,9 @@ export default defineComponent({
         return ElMessage.error('Нельзя удалить едиственное меню');
       }
       const removeF = async () => {
-        dailyMenus.value = dailyMenus.value.filter((dm: DailyMenu) => dm.id === menu.id);
-        await Provider.store.dispatch('dailyMenus/remove', menu.id);
-        selectMenu(dailyMenus.value[dailyMenus.value.length - 1]);
+        dailyMenus = dailyMenus.filter((dm: DailyMenu) => dm.id === menu.id);
+        await DailyMenusStore.Remove(menu.id);
+        selectMenu(dailyMenus[dailyMenus.value.length - 1]);
       };
       if (menu.dailyMenuItems.length === 0) {
         return await removeF();
@@ -153,11 +154,11 @@ export default defineComponent({
     };
 
     const pdf = async () => {
-      await Provider.store.dispatch('dailyMenus/pdf', selectedMenu.value);
+      await DailyMenusStore.Pdf(selectedMenu);
     };
 
     const saveMenu = async (menu: DailyMenu) => {
-      await Provider.store.dispatch('dailyMenus/updateWithoutReset', menu);
+      await DailyMenusStore.Update(menu);
       menu.editMode = false;
     };
 

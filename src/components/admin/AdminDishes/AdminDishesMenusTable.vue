@@ -18,8 +18,11 @@
           </colgroup>
           <thead>
             <tr>
-              <td v-for="(h, i) in ['Блюдо', 'Количество', 'Вес', 'Цена', 'Калории']" :key="h"
-                :style="{ 'text-align': i > 1 ? 'center' : '' }">
+              <td
+                v-for="(h, i) in ['Блюдо', 'Количество', 'Вес', 'Цена', 'Калории']"
+                :key="h"
+                :style="{ 'text-align': i > 1 ? 'center' : '' }"
+              >
                 {{ h }}
               </td>
             </tr>
@@ -29,28 +32,37 @@
               <td colspan="6" style="background: #f1f2f7">
                 <div class="schedule-name">
                   <div class="table-tools">
-                    <svg :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
-                      class="table-icon active-fill" @click="removeFromMenu(dishesGroup)">
+                    <svg
+                      :style="{ fill: dishesGroup.containAvailableItems() ? '' : '#a1a7bd' }"
+                      class="table-icon active-fill"
+                      @click="removeFromMenu(dishesGroup)"
+                    >
                       <use xlink:href="#delete" />
                     </svg>
-                    <svg v-if="dishesGroup.containAvailableItems()" class="table-icon active-fill eye"
-                      @click="setGroupAvailable(dishesGroup, false)">
+                    <svg
+                      v-if="dishesGroup.containAvailableItems()"
+                      class="table-icon active-fill eye"
+                      @click="setGroupAvailable(dishesGroup, false)"
+                    >
                       <use xlink:href="#eye" />
                     </svg>
-                    <svg v-if="!dishesGroup.containAvailableItems()" class="table-icon hidden-fill eye"
-                      @click="setGroupAvailable(dishesGroup, true)">
+                    <svg
+                      v-if="!dishesGroup.containAvailableItems()"
+                      class="table-icon hidden-fill eye"
+                      @click="setGroupAvailable(dishesGroup, true)"
+                    >
                       <use xlink:href="#eye-closed" />
                     </svg>
                   </div>
                   <h4
                     :class="{ visible: dishesGroup.containAvailableItems(), hidden: !dishesGroup.containAvailableItems() }"
-                    style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'">
+                    style="font-size: 15px; padding-left: 15px; font-weight: bold; font-family: 'Open Sans'"
+                  >
                     {{ dishesGroup.name }}
                   </h4>
                 </div>
               </td>
-              <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id"
-                :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }">
+              <tr v-for="dish in dishesGroup.dailyMenuItems" :key="dish.id" :style="{ backgroundColor: dish.highlight ? 'lightcyan' : '' }">
                 <td style="font-size: 12px">
                   <div class="table-tools">
                     <svg class="table-icon hidden-fill" @click="removeFromMenu(dishesGroup, dish)">
@@ -62,18 +74,14 @@
                     <svg v-if="!dish.available" class="table-icon eye" @click="setDailyMenuItemAvailable(dish, true)">
                       <use xlink:href="#eye-closed" />
                     </svg>
-                    <svg :class="[dish.cook ? 'active-stroke' : 'hidden-stroke', 'table-icon', 'food']"
-                      @click="setDailyMenuItemCook(dish)">
+                    <svg :class="[dish.cook ? 'active-stroke' : 'hidden-stroke', 'table-icon', 'food']" @click="setDailyMenuItemCook(dish)">
                       <use xlink:href="#food"></use>
                     </svg>
                   </div>
                 </td>
-                <td :class="[]" style="font-size: 12px">
-                  {{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}
-                </td>
+                <td :class="[]" style="font-size: 12px">{{ dish.name }} {{ dish.fromOtherMenu ? '(Перенесено)' : '' }}</td>
                 <td style="text-align: center">
-                  <el-input-number v-model="dish.quantity" :disabled="!dish.available" size="mini"
-                    @change="updateSelectedMenu" />
+                  <el-input-number v-model="dish.quantity" :disabled="!dish.available" size="mini" @change="updateSelectedMenu" />
                 </td>
                 <td style="text-align: center">
                   <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-size: 13px">
@@ -81,12 +89,10 @@
                   </h4>
                 </td>
                 <td style="text-align: center; font-weight: bold">
-                  <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-weight: bold">{{ dish.price }}.00р.
-                  </h4>
+                  <h4 :class="[dish.available ? 'visible' : 'hidden']" style="font-weight: bold">{{ dish.price }}.00р.</h4>
                 </td>
                 <td style="text-align: center">
-                  <h4 :class="[dish.available ? 'visible2' : 'hidden']" style="font-size: 13px">{{ dish.caloric }}ккал
-                  </h4>
+                  <h4 :class="[dish.available ? 'visible2' : 'hidden']" style="font-size: 13px">{{ dish.caloric }}ккал</h4>
                 </td>
               </tr>
             </template>
@@ -107,7 +113,6 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref } from 'vue';
 
 import Active from '@/assets/svg/Buffet/Active.svg';
 import Eye from '@/assets/svg/Buffet/Eye.svg';
@@ -119,7 +124,6 @@ import DailyMenuItem from '@/classes/DailyMenuItem';
 import DishesGroup from '@/classes/DishesGroup';
 import AdminDishesMenusTableHeader from '@/components/admin/AdminDishes/AdminDishesMenusTableHeader.vue';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminDishesMenusTable',
@@ -132,19 +136,19 @@ export default defineComponent({
     Food,
   },
   setup() {
-    const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+    const selectedMenu: DailyMenu = DailyMenusStore.Item();
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
+    const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
     const saveMenu = async (menu: DailyMenu) => {
-      await Provider.store.dispatch('dailyMenus/update', menu);
+      await DailyMenusStore.Update();
       menu.editMode = false;
       syncMenus();
     };
 
     const startMenu = async (): Promise<void> => {
-      const selectedMenuIndex = dailyMenus.value.findIndex((d: DailyMenu) => d.id === selectedMenu.value.id);
+      const selectedMenuIndex = dailyMenus.findIndex((d: DailyMenu) => d.id === selectedMenu.id);
       if (selectedMenuIndex === 0) {
-        dailyMenus.value.forEach((dmi: DailyMenu, i: number) => {
+        dailyMenus.forEach((dmi: DailyMenu, i: number) => {
           if (selectedMenuIndex === i) {
             dmi.active = !dmi.active;
           } else {
@@ -152,17 +156,17 @@ export default defineComponent({
           }
           dmi.removeDailyMenuItemsFromOthersMenus();
         });
-        selectedMenu.value.active = true;
+        selectedMenu.active = true;
 
-        for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/update', dmi);
+        for (const dmi of dailyMenus) {
+          await DailyMenusStore.Update(dmi);
         }
         return;
       }
-      const previousActiveMenuIndex = dailyMenus.value.findIndex((menu: DailyMenu) => menu.active);
+      const previousActiveMenuIndex = dailyMenus.findIndex((menu: DailyMenu) => menu.active);
       if (previousActiveMenuIndex > -1) {
         let textConfirm = 'Вы хотите запустить следующее меню?';
-        if (dailyMenus.value[previousActiveMenuIndex].availableDishesExists()) {
+        if (dailyMenus[previousActiveMenuIndex].availableDishesExists()) {
           textConfirm += `\n В предыдущем меню есть доступные блюда - они перенесутся в запущенное меню`;
         }
         ElMessageBox.confirm(textConfirm, {
@@ -171,68 +175,68 @@ export default defineComponent({
           cancelButtonText: 'Нет',
         })
           .then(async () => {
-            dailyMenus.value.forEach((m: DailyMenu) => {
+            dailyMenus.forEach((m: DailyMenu) => {
               m.active = false;
               m.removeDailyMenuItemsFromOthersMenus();
             });
-            selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
-            selectedMenu.value.active = true;
+            selectedMenu.addActiveDishesFromOthersMenus([dailyMenus[previousActiveMenuIndex]], dishesGroups);
+            selectedMenu.active = true;
 
-            for (const dmi of dailyMenus.value) {
-              await Provider.store.dispatch('dailyMenus/update', dmi);
+            for (const dmi of dailyMenus) {
+              await DailyMenusStore.Update(dmi);
             }
           })
           .catch(() => {
             return;
           });
       } else {
-        dailyMenus.value.forEach((m: DailyMenu) => {
+        dailyMenus.forEach((m: DailyMenu) => {
           m.active = false;
           m.removeDailyMenuItemsFromOthersMenus();
         });
-        selectedMenu.value.addActiveDishesFromOthersMenus([dailyMenus.value[previousActiveMenuIndex]], dishesGroups.value);
-        selectedMenu.value.active = true;
+        selectedMenu.addActiveDishesFromOthersMenus([dailyMenus[previousActiveMenuIndex]], dishesGroups);
+        selectedMenu.active = true;
 
-        for (const dmi of dailyMenus.value) {
-          await Provider.store.dispatch('dailyMenus/update', dmi);
+        for (const dmi of dailyMenus) {
+          await DailyMenusStore.Update(dmi);
         }
       }
     };
 
     const stopMenu = async (): Promise<void> => {
-      selectedMenu.value.active = false;
-      for (const dmi of dailyMenus.value) {
+      selectedMenu.active = false;
+      for (const dmi of dailyMenus) {
         dmi.active = false;
-        await Provider.store.dispatch('dailyMenus/update', dmi);
+        await DailyMenusStore.Update(dmi);
       }
       syncMenus();
     };
 
     const setDailyMenuItemAvailable = async (dailyMenuItem: DailyMenuItem, available: boolean) => {
       dailyMenuItem.available = available;
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+      await DailyMenusStore.Update(selectedMenu);
       syncMenus();
     };
 
     const setDailyMenuItemCook = async (dailyMenuItem: DailyMenuItem) => {
       dailyMenuItem.cook = !dailyMenuItem.cook;
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+      await DailyMenusStore.Update(selectedMenu);
     };
 
     const updateSelectedMenu = async (): Promise<void> => {
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+      await DailyMenusStore.Update(selectedMenu);
       syncMenus();
     };
     const setGroupAvailable = async (dishesGroup: DishesGroup, available: boolean) => {
       dishesGroup.setAvailable(available);
-      await Provider.store.dispatch('dailyMenus/update', selectedMenu.value);
+      await DailyMenusStore.Update(selectedMenu);
       syncMenus();
     };
 
     const syncMenus = (): void => {
-      dailyMenus.value.forEach((d, i) => {
-        if (d.id === selectedMenu.value.id) {
-          dailyMenus.value[i] = selectedMenu.value;
+      dailyMenus.forEach((d, i) => {
+        if (d.id === selectedMenu.id) {
+          dailyMenus[i] = selectedMenu;
         }
       });
     };
@@ -244,14 +248,14 @@ export default defineComponent({
         cancelButtonText: 'Нет',
       })
         .then(async () => {
-          if (!selectedMenu.value) {
+          if (!selectedMenu) {
             return;
           }
           if (!dishItem) {
             for (const id of dishesGroup.getDailyMenuItemsIds()) {
-              await Provider.store.dispatch('dailyMenuItems/remove', id);
+              await DailyMenusItemsStore.Remove(id);
             }
-            selectedMenu.value?.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups.value);
+            selectedMenu.removeMenuItems(dishesGroup.getDailyMenuItemsIds(), dishesGroups);
             return;
           }
           const i = dishesGroup.dailyMenuItems.findIndex((di: DailyMenuItem) => di.id === dishItem.id);
@@ -260,11 +264,11 @@ export default defineComponent({
           }
           ClassHelper.RemoveFromClassById(dishItem.id, dishesGroup.dailyMenuItems, []);
           if (dishItem.id) {
-            selectedMenu.value.removeMenuItem(dishItem.id, dishesGroups.value);
+            selectedMenu.removeMenuItem(dishItem.id, dishesGroups);
           }
-          selectedMenu.value.groupDishes(dishesGroups.value);
-          await Provider.store.dispatch('dailyMenuItems/remove', dishItem.id);
-          await Provider.store.dispatch('dailyMenus/update');
+          selectedMenu.groupDishes(dishesGroups);
+          await DailyMenusItemsStore.Remove(dishItem.id as string);
+          await DailyMenusStore.Update();
           syncMenus();
         })
         .catch(() => {

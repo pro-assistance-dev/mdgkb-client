@@ -38,7 +38,7 @@ export default defineComponent({
     const specializations: Specialization[] = SpecializationsStore.Items();
 
     onBeforeMount(async () => {
-      await store.dispatch('specializations/getAll');
+      await SpecializationsStore.GetAll();
       store.commit('admin/setHeaderParams', {
         title: 'Специальности',
         buttons: [{ text: 'Добавить', type: 'primary', action: create }],
@@ -48,7 +48,7 @@ export default defineComponent({
     });
 
     const create = () => router.push(`${route.path}/new`);
-    const remove = async (id: string) => await store.dispatch('specializations/remove', id);
+    const remove = async (id: string) => await SpecializationsStore.Remove(id);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
 
     return {

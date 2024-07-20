@@ -34,7 +34,7 @@ export default defineComponent({
     const form = ref();
     const rules = ref(DoctorRules);
     const isEditMode: Ref<boolean> = ref(false);
-    const appointment: Ref<Appointment> = computed(() => Provider.store.getters['appointments/item']);
+    const appointment: Appointment = AppointmentsStore.Item();
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       if (!validate(form)) {
@@ -42,7 +42,7 @@ export default defineComponent({
         return;
       }
       try {
-        await Provider.store.dispatch('appointments/update');
+        await AppointmentsStore.Update();
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
@@ -51,11 +51,11 @@ export default defineComponent({
     };
 
     const updateNew = async () => {
-      if (!appointment.value.formValue.isNew) {
+      if (!appointment.formValue.isNew) {
         return;
       }
-      appointment.value.formValue.isNew = false;
-      await Provider.store.dispatch('appointments/update');
+      appointment.formValue.isNew = false;
+      await AppointmentsStore.Update();
     };
 
     const { saveButtonClick, showConfirmModal } = useConfirmLeavePage();
@@ -73,14 +73,14 @@ export default defineComponent({
 
     const loadAppointment = async (): Promise<void> => {
       if (Provider.route().params['id']) {
-        await Provider.store.dispatch('appointments/get', Provider.route().params['id']);
+        AppointmentsStore.Get(Router.Id());
         Provider.store.commit('admin/setHeaderParams', {
           title: appointment.value.formValue.user.human.getFullName(),
           showBackButton: true,
           buttons: [{ action: toggleEditMode, text: 'Редактировать заявление', type: 'primary' }, { action: submit }],
         });
       } else {
-        Provider.store.commit('appointments/resetState');
+        AppointmentsStore.ResetState();
         Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
     };

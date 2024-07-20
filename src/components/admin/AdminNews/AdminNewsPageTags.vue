@@ -48,18 +48,19 @@ export default defineComponent({
   setup() {
     let tagsVisible = ref(false);
     const loadTags = async () => {
-      await Provider.store.dispatch('tags/getAll');
+      await TagsStore.GetAll();
     };
 
     onMounted(loadTags);
 
     let news = NewsStore.Item();
-    let tags = computed(() => Provider.store.getters['tags/items']);
-    let tag = computed(() => Provider.store.getters['tags/item']);
+
+    const tags = TagsStore.Items();
+    const tag = TagsStore.Item();
 
     const createTag = async () => {
       tagsVisible.value = false;
-      await Provider.store.dispatch('tags/create', tag.value);
+      await TagsStore.Create();
     };
 
     const chooseTag = (tag: Tag) => {
@@ -67,11 +68,10 @@ export default defineComponent({
     };
 
     const removeTag = async (tagId: string) => {
-      await Provider.store.dispatch('tags/remove', tagId);
+      await TagsStore.Remove(tagId);
     };
 
     const findTag = (tagId: string): boolean => {
-      const tags = Provider.store.getters['news/findTags'];
       const index = tags.findIndex((tag: Tag) => tag.id === tagId);
       return index > -1;
     };

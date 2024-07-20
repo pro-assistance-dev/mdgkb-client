@@ -61,20 +61,16 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const mounted = ref(false);
-    const candidateApplication: ComputedRef<CandidateApplication> = computed<CandidateApplication>(
-      () => Provider.store.getters['candidateApplications/item']
-    );
-    const candidateExam: Ref<ICandidateExam> = computed<ICandidateExam>(() => Provider.store.getters['candidateExams/item']);
+    const candidateApplication: CandidateApplication = CandidateApplicationsStore.Item();
+    const candidateExam: ICandidateExam = CandidateExamsStore.Item();
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
-    const specializations: ComputedRef<Specialization[]> = computed<Specialization[]>(
-      () => Provider.store.getters['specializations/items']
-    );
+    const specializations: Specialization[] = SpecializationsStore.Items();
     const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['candidateApplications/emailExists']);
 
     watch(isAuth, async () => {
-      Provider.store.commit('candidateApplications/setUser', user.value);
+      // Provider.store.commit('candidateApplications/setUser', user.value);
     });
 
     const submit = async () => {
@@ -87,12 +83,13 @@ export default defineComponent({
         scroll('#error-block-message');
         return;
       }
-      candidateApplication.value.formValue.validate();
-      if (!validate(form, true) || !candidateApplication.value.formValue.validated) {
+      candidateApplication.formValue.validate();
+      if (!validate(form, true) || !candidateApplication.formValue.validated) {
         return;
       }
-      candidateApplication.value.formValue.clearIds();
-      await Provider.store.dispatch('candidateApplications/create');
+      candidateApplication.formValue.clearIds();
+
+      await CandidateApplicationsStore.Create();
       ElMessage({
         type: 'success',
         message: 'Заявка отправлена',
@@ -101,14 +98,9 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      Provider.resetFilterQuery();
-      Provider.setFilterModels(SpecializationsFiltersLib.onlyPostgraduate());
-      await Store.GetAll('specializations');
-      Provider.store.commit('candidateApplications/resetItem');
-      Provider.store.commit('candidateApplications/setFormValue', candidateExam.value.formPattern);
-      candidateApplication.value.formValue.initFieldsValues();
-      Provider.store.commit('candidateApplications/setExam', candidateExam.value);
-      Provider.store.commit('candidateApplications/setUser', user.value);
+      await SpecializationsStore.GetAll();
+      CandidateApplicationsStore.ResetItem();
+      candidateApplication.formValue.initFieldsValues();
       mounted.value = true;
     });
 

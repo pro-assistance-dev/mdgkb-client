@@ -35,18 +35,6 @@
             </el-card>
             <el-card>
               <template #header> Основная профессиональная программа Высшего образования </template>
-              <div class="files-block">
-                <el-form-item label="Год начала">
-                  <el-select v-model="residencyCourse.startYearId">
-                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="Год конца">
-                  <el-select v-model="residencyCourse.endYearId">
-                    <el-option v-for="year in educationYears" :key="year.id" :label="year.year.getFullYear()" :value="year.id" />
-                  </el-select>
-                </el-form-item>
-              </div>
             </el-card>
             <el-card>
               <template #header> Специализации </template>
@@ -152,11 +140,9 @@ export default defineComponent({
     const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const specializations: Specialization[] = SpecializationsStore.Items();
     const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
-    const educationYears: ComputedRef<EducationYear[]> = computed<EducationYear[]>(() => Provider.store.getters['educationYears/items']);
 
     const load = async () => {
-      await Provider.store.dispatch('educationYears/getAll');
-      // await Provider.store.dispatch('specializations/getAll');
+      await SpecializationsStore.GetAll();
       await Provider.store.dispatch('formPatterns/getAll');
       await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
     };
@@ -181,7 +167,6 @@ export default defineComponent({
     };
 
     return {
-      educationYears,
       specializations,
       selectMainTeacherSearch,
       Employee,

@@ -1,4 +1,3 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import PostgraduateCourseDates from '@/classes/PostgraduateCourseDates';
 import PostgraduateCoursePlan from '@/classes/PostgraduateCoursePlan';
@@ -6,6 +5,7 @@ import PostgraduateCourseSpecialization from '@/classes/PostgraduateCourseSpecia
 import PostgraduateCourseTeacher from '@/classes/PostgraduateCourseTeacher';
 import Specialization from '@/classes/Specialization';
 import Teacher from '@/classes/Teacher';
+import FileInfo from '@/services/classes/FileInfo';
 import PageSection from '@/services/classes/page/PageSection';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';

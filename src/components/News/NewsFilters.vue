@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="filter-for-tags-button">
-      <div v-for="tag in filteredTagList" :key="tag.id" class="filter-for-tags-button-child">
+      <div v-for="tag in tagsList" :key="tag.id" class="filter-for-tags-button-child">
         <button :class="{ 'filter-button-selected': tag.selected }" class="filter-button" @click="chooseTag(tag)">{{ tag.label }}</button>
       </div>
     </div>
@@ -15,19 +15,15 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref } from 'vue';
-
 import Tag from '@/classes/Tag';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsFilters',
   emits: ['load', 'loadNews'],
   setup(_, { emit }) {
-    const tagList = computed(() => Provider.store.getters['tags/items']);
-    const filteredTagList = computed(() => Provider.store.getters['tags/filteredTagList']);
+    const tagList = TagsStore.Items();
     const tagListVisible = ref(false);
 
     let filterModel: FilterModel = NewsFiltersLib.filterByTags([]);
@@ -37,12 +33,11 @@ export default defineComponent({
 
     const resetFilterTags = async () => {
       dropFilterModel();
-      filteredTagList.value.forEach((tag: Tag) => (tag.selected = false));
       emit('loadNews');
     };
 
     const loadTagList = async () => {
-      await Provider.store.dispatch('tags/getAll');
+      await TagsStore.GetAll();
     };
 
     const dropFilterModel = () => {
@@ -56,7 +51,6 @@ export default defineComponent({
       tag.selected = !tag.selected;
       filterModel.addToSet(tag.id);
       if (filterModel.set.length > 0) {
-        Provider.setFilterModels(filterModel);
         emit('load');
       } else {
         dropFilterModel();
@@ -70,7 +64,6 @@ export default defineComponent({
       resetFilterTags,
       removeFilterTag,
       tagList,
-      filteredTagList,
       tagListVisible,
     };
   },

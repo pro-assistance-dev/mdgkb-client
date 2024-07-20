@@ -25,11 +25,11 @@ import NewsSlider from '@/components/NewsSlider.vue';
 import PaidServices from '@/components/PaidServices/PaidServices.vue';
 import ScansSlider from '@/components/ScansSlider.vue';
 
-const doctor: Ref<Doctor> = Store.Item('doctors');
+const doctor: Ref<Doctor> = DoctorsStore.Item();
 const mounted = ref(false);
 
 onBeforeMount(async () => {
-  Store.Get('doctors', Router.Slug());
+  DoctorsStore.Get(Router.Slug());
   mounted.value = true;
 });
 </script>

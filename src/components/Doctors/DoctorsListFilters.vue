@@ -45,7 +45,7 @@ export default defineComponent({
 
   setup(_, { emit }) {
     const route = useRoute();
-    const doctors: Ref<Doctor[]> = computed<Doctor[]>(() => Provider.store.getters['doctors/items']);
+    const doctors: Doctor[] = DoctorsStore.Items();
     const medicalProfiles: MedicalProfile[] = MedicalProfilesStore.Items();
     const doctorsMode: ComputedRef<boolean> = computed(() => route.path === '/doctors');
 
@@ -60,7 +60,7 @@ export default defineComponent({
     };
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/doctors/${event.value}`);
+      await Router.To(`/doctors/${event.value}`);
     };
 
     return {

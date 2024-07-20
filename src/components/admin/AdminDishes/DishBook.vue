@@ -17,8 +17,11 @@
         </div>
       </div>
       <div v-if="dishSamplesFlat.length === 0" class="column">
-        <CollapseItem v-for="dishesGroup in dishesGroups.filter((d) => d.getSamplesNotFromMenu(menu).length)"
-          :key="dishesGroup.id" :tab-id="dishesGroup.id">
+        <CollapseItem
+          v-for="dishesGroup in dishesGroups.filter((d) => d.getSamplesNotFromMenu(menu).length)"
+          :key="dishesGroup.id"
+          :tab-id="dishesGroup.id"
+        >
           <template #inside-title>
             <div class="title-in">
               {{ dishesGroup.name }}
@@ -26,16 +29,20 @@
           </template>
           <template #inside-content>
             <div class="scroll-container">
-              <div v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)" :key="dishSample.id" class="group-item"
-                :class="{ checked: dishSample.selected }" @click="selectSample(dishSample)"
-                @dblclick="addOneDishToMenu(dishSample)">
+              <div
+                v-for="dishSample in dishesGroup.getSamplesNotFromMenu(menu)"
+                :key="dishSample.id"
+                class="group-item"
+                :class="{ checked: dishSample.selected }"
+                @click="selectSample(dishSample)"
+                @dblclick="addOneDishToMenu(dishSample)"
+              >
                 <label :for="999">
                   <div class="dish-item">
                     <div class="left-field">
                       {{ dishSample.name }}
                     </div>
-                    <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{
-                      dishSample.caloric }}ккал</div>
+                    <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
                   </div>
                 </label>
                 <svg class="icon-edit" @click.stop="$emit('editDishSample', dishSample)">
@@ -47,8 +54,13 @@
         </CollapseItem>
       </div>
       <div v-else>
-        <div v-for="dishSample in dishSamplesFlat" :key="dishSample.id" class="group-item"
-          :class="{ checked: dishSample.selected }" @click="selectSample(dishSample)">
+        <div
+          v-for="dishSample in dishSamplesFlat"
+          :key="dishSample.id"
+          class="group-item"
+          :class="{ checked: dishSample.selected }"
+          @click="selectSample(dishSample)"
+        >
           <label :for="999">
             <div class="dish-item">
               <div class="left-field">
@@ -57,9 +69,7 @@
                   <use xlink:href="#profile-edit" />
                 </svg>
               </div>
-              <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric
-                }}ккал
-              </div>
+              <div class="right-field">{{ dishSample.weight }} гр/{{ dishSample.price }},00руб/{{ dishSample.caloric }}ккал</div>
             </div>
           </label>
         </div>
@@ -81,9 +91,8 @@ import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
-const props = defineProps({
+defineProps({
   visible: {
     type: Boolean,
     default: false,
@@ -92,13 +101,13 @@ const props = defineProps({
     type: Object as PropType<DailyMenu>,
     required: true,
   },
-})
-const emits = defineEmits(['editDishSample'])
-const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dishSamples.length > 0));
+});
+const emits = defineEmits(['editDishSample']);
+const dishesGroupsSource: DishesGroup[] = DishesGroupsStore.Items();
+const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.filter((d: DishesGroup) => d.dishSamples.length > 0));
 const dishSamplesFlat: Ref<DishSample[]> = ref([]);
-const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+const selectedMenu: DailyMenu = DailyMenusStore.Item();
+const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
 const searchDishSamples = (searchSource: string) => {
   if (searchSource === '') {
     dishSamplesFlat.value = [];
@@ -115,7 +124,7 @@ const searchDishSamples = (searchSource: string) => {
   });
 };
 
-const addToMenu = () => {
+const addToMenu = async () => {
   const dishesSamples: DishSample[] = [];
   dishesGroups.value.forEach((dgs: DishesGroup) => {
     dgs.dishSamples.forEach((ds: DishSample) => {
@@ -127,23 +136,23 @@ const addToMenu = () => {
   });
   selectedMenu.value.addDishesFromSamples(dishesSamples, dishesGroups.value);
   syncMenus();
-  Provider.store.dispatch('dailyMenus/update');
+  await DailyMenusStore.Update();
 };
 
 const syncMenus = (): void => {
-  dailyMenus.value.forEach((d, i) => {
-    if (d.id === selectedMenu.value.id) {
-      dailyMenus.value[i] = selectedMenu.value;
+  dailyMenus.forEach((d, i) => {
+    if (d.id === selectedMenu.id) {
+      dailyMenus[i] = selectedMenu;
     }
     d.initGroups();
   });
-  selectedMenu.value.initGroups();
+  selectedMenu.initGroups();
 };
 
-const addOneDishToMenu = (dishSample: DishSample) => {
+const addOneDishToMenu = async (dishSample: DishSample) => {
   dishSample.selected = false;
-  selectedMenu.value.addDishesFromSamples([dishSample], dishesGroups.value);
-  Provider.store.dispatch('dailyMenus/update');
+  selectedMenu.addDishesFromSamples([dishSample], dishesGroups.value);
+  await DailyMenusStore.Update();
   syncMenus();
 };
 
@@ -364,7 +373,7 @@ const dishesSelected = (): boolean => {
   width: 210px;
 }
 
-.group-item:hover>.icon-edit {
+.group-item:hover > .icon-edit {
   display: block;
 }
 </style>

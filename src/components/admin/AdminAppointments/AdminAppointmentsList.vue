@@ -49,7 +49,7 @@ export default defineComponent({
   name: 'AdminAppointmentsList',
   components: { TableButtonGroup },
   setup() {
-    const appointments = computed(() => Provider.store.getters['appointments/items']);
+    const appointments = AppointmentsStore.Items();
 
     const load = async () => {
       Provider.store.commit('admin/setHeaderParams', {
@@ -58,13 +58,11 @@ export default defineComponent({
       });
     };
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'appointments', action: 'getAll' },
-    });
+    Hooks.onBeforeMount(load);
 
     const create = () => Provider.router.push(`/admin/appointments/new`);
     const edit = (id: string) => Provider.router.push(`/admin/appointments/${id}`);
-    const remove = async (id: string) => await Provider.store.dispatch('appointments/remove', id);
+    const remove = async (id: string) => await AppointmentsStore.Remove(id);
 
     return { appointments, remove, edit, create };
   },

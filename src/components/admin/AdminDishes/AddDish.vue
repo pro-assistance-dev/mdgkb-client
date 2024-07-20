@@ -101,12 +101,12 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dishesGroupsSource: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.value.filter((d: DishesGroup) => d.dailyMenuItems.length > 0));
+    const dishesGroupsSource: DishesGroup[] = DishesGroupsStore.Items();
+    const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.filter((d: DishesGroup) => d.dailyMenuItems.length > 0));
 
     const addToMenu = () => {
       const dishesSamples: DishSample[] = [];
-      dishesGroupsSource.value.forEach((dgs: DishesGroup) => {
+      dishesGroupsSource.forEach((dgs: DishesGroup) => {
         dgs.dishSamples.forEach((ds: DishSample) => {
           if (ds.selected) {
             dishesSamples.push(ds);

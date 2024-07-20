@@ -58,7 +58,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
 
     const removeItem = () => {
       ElMessageBox.confirm('Убрать блюдо из корзины?', {
@@ -67,7 +67,7 @@ export default defineComponent({
         cancelButtonText: 'Отмена',
       })
         .then(() => {
-          dailyMenuOrder.value.removeDailyMenuOrderItem(props.dailyMenuOrderItem);
+          dailyMenuOrder.removeDailyMenuOrderItem(props.dailyMenuOrderItem);
         })
         .catch(() => {
           return;
@@ -78,7 +78,7 @@ export default defineComponent({
       if (newNum === 0) {
         return removeItem();
       }
-      dailyMenuOrder.value.changeDailyMenuOrderItemQuantity(newNum, oldNum, props.dailyMenuOrderItem.dailyMenuItem);
+      dailyMenuOrder.changeDailyMenuOrderItemQuantity(newNum, oldNum, props.dailyMenuOrderItem.dailyMenuItem);
     };
 
     return {

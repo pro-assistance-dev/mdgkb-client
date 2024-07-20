@@ -9,9 +9,6 @@
   <MainArticles />
   <MainReviews />
   <!-- <MainCertificates /> -->
-  <div class="hidden">
-    <MainSocialMedia />
-  </div>
   <MainPageFooter />
 </template>
 
@@ -34,22 +31,15 @@ const MainReviews = defineAsyncComponent({
   delay: 100,
 });
 
-const MainSocialMedia = defineAsyncComponent({
-  loader: () => import('@/components/Main/MainSocialMedia.vue' /* webpackChunkName: "mainSocialMedia" */),
-  delay: 200,
-});
-
 export default defineComponent({
   name: 'MainPage',
   components: {
     MainSpecialServices,
     MainDoctors,
     MainReviews,
-    MainMedicalProfiles,
     // MainEvents,
     MainArticles,
     // MainCertificates,
-    MainSocialMedia,
     // MainHeaderButtons,
     MainInfo,
     MainPageFooter,

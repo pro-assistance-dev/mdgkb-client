@@ -11,8 +11,14 @@
       </div>
     </div>
     <div class="table-main">
-      <el-form ref="userForm" v-model="dailyMenuOrder" :model="dailyMenuOrder" label-width="150px"
-        style="max-width: 700px" label-position="left">
+      <el-form
+        ref="userForm"
+        v-model="dailyMenuOrder"
+        :model="dailyMenuOrder"
+        label-width="150px"
+        style="max-width: 700px"
+        label-position="left"
+      >
         <UserForm :form="dailyMenuOrder.formValue" :active-fields="UserFormFields.CreateWithPhone()" />
         <FieldValuesForm :form="dailyMenuOrder.formValue" />
       </el-form>
@@ -44,15 +50,15 @@ export default defineComponent({
   name: 'BufetOrder',
   components: { UserForm, FieldValuesForm },
   setup() {
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
     const userForm = ref();
     const checkDailyMenuOrderItemsLength = () => {
-      if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
+      if (dailyMenuOrder.dailyMenuOrderItems.length === 0) {
         Provider.router.push('/bufet');
       }
     };
 
-    watch(dailyMenuOrder.value.dailyMenuOrderItems, checkDailyMenuOrderItemsLength);
+    watch(dailyMenuOrder.dailyMenuOrderItems, checkDailyMenuOrderItemsLength);
 
     const load = () => {
       checkDailyMenuOrderItemsLength();
@@ -61,7 +67,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const createOrder = async () => {
-      console.log('createOrder')
+      console.log('createOrder');
       // dailyMenuOrder.value.formValue.validate();
       // if (!validate(userForm, true) || !dailyMenuOrder.value.formValue.validated) {
       //   return;
@@ -71,7 +77,7 @@ export default defineComponent({
       //   text: 'Загрузка',
       // });
       // dailyMenuOrder.value.formValue.clearIds();
-      await Provider.store.dispatch('dailyMenuOrders/create', dailyMenuOrder.value);
+      await DailyMenuOrdersStore.Create();
       // ElNotification({
       //   dangerouslyUseHTMLString: true,
       //   message:
@@ -79,7 +85,6 @@ export default defineComponent({
       //   type: 'success',
       //   duration: 0,
       // });
-      // await Provider.store.commit('dailyMenuOrders/resetItem');
       // dailyMenuOrder.value.removeFromLocalStore();
       // await Provider.router.push('/bufet');
       // loading.close();
@@ -214,7 +219,7 @@ input[type='text'] {
   height: 100vh;
 }
 
-.main>div {
+.main > div {
   object-fit: cover;
 }
 

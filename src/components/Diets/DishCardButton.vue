@@ -117,7 +117,7 @@ export default defineComponent({
   },
   setup(props) {
     const select: Ref<boolean> = ref(false);
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
     const hovering = ref(false);
 
     const handClick = () => {
@@ -173,7 +173,7 @@ export default defineComponent({
     };
 
     const clickPlus = () => {
-      dailyMenuOrder.value.increaseDailyMenuOrderItem(props.dailyMenuItem);
+      dailyMenuOrder.increaseDailyMenuOrderItem(props.dailyMenuItem);
       move_to_cart();
     };
 

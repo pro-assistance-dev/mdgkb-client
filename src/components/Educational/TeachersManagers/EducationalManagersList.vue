@@ -10,37 +10,18 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref } from 'vue';
-
+<script lang="ts" setup>
 import EducationalManager from '@/classes/EducationalManager';
-import EducationalManagerCard from '@/components/Educational/TeachersManagers/EducationalManagerCard.vue';
-import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 
-export default defineComponent({
-  name: 'EducationalManagersList',
-  components: { EducationalManagerCard, LoadMoreButton },
-  setup() {
-    const educationalManagers: Ref<EducationalManager[]> = Store.Items('educationalManagers');
+const educationalManagers: EducationalManager[] = EducationalManagersStore.Items();
 
-    onBeforeMount(async () => {
-      filterQuery.value.pagination.cursorMode = false;
-      filterQuery.value.pagination.limit = 6;
-      await Store.Dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
-    });
-
-    const loadMore = async () => {
-      // const lastCursor = managers.value[managers.value.length - 1].name;
-      await Store.Dispatch('educationalManagers/getAll', { filterQuery: filterQuery.value });
-    };
-
-    return {
-      educationalManagers,
-      loadMore,
-    };
-  },
+onBeforeMount(async () => {
+  await EducationalManagersStore.GetAll();
 });
+
+const loadMore = async () => {
+  await EducationalManagersStore.GetAll();
+};
 </script>
 
 <style lang="scss" scoped>

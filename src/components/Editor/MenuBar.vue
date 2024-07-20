@@ -307,13 +307,13 @@ export default defineComponent({
           ElMessage({ message: 'Не загружена картинка', type: 'error' });
           return;
         }
-        const result = await Provider.store.dispatch('fileInfos/create', image.value);
-        console.log(new FileInfo(result).getImageUrl());
-        if (dialogType.value === 'image') {
-          saveImage(new FileInfo(result).getImageUrl());
-        } else {
-          saveVideo(new FileInfo(result).getImageUrl());
-        }
+        // const result = await Provider.store.dispatch('fileInfos/create', image.value);
+        // console.log(new FileInfo(result).getImageUrl());
+        // if (dialogType.value === 'image') {
+        //   saveImage(new FileInfo(result).getImageUrl());
+        // } else {
+        //   saveVideo(new FileInfo(result).getImageUrl());
+        // }
       }
       showDialog.value = false;
     };

@@ -64,17 +64,15 @@ export default defineComponent({
     const form = ref();
     const filterModel = ref();
 
-    const dpoApplication: ComputedRef<DpoApplication> = computed<DpoApplication>(() => store.getters['dpoApplications/item']);
-    const dpoApplicationFormValue: ComputedRef<Form> = computed<Form>(() => store.getters['dpoApplications/formValue']);
+    const dpoApplication: DpoApplication = DpoApplicationsStore.Item();
     const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
-    const emailExists: ComputedRef<boolean> = computed(() => store.getters['dpoApplications/emailExists']);
 
     watch(route, async () => {
       setProgramsType();
-      await store.dispatch('dpoCourses/getAll', filterQuery.value);
+      await DpoApplicationsStore.GetAll();
     });
     const setProgramsType = () => {
       filterModel.value.boolean = route.meta.isNmo;
@@ -105,20 +103,20 @@ export default defineComponent({
       if (!route.params['id']) {
         return;
       }
-      if (!dpoApplication.value.formValue.isNew) {
+      if (!dpoApplication.formValue.isNew) {
         return;
       }
-      dpoApplication.value.formValue.isNew = false;
-      await store.dispatch('dpoApplications/update', dpoApplication.value);
+      dpoApplication.formValue.isNew = false;
+      await DpoApplicationsStore.Update();
     };
 
     let initialStatus: FormStatus;
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
-        await store.dispatch('dpoApplications/get', route.params['id']);
-        initialStatus = dpoApplication.value.formValue.formStatus;
-        pageTitle = `Заявление от ${dpoApplication.value.formValue.user.email}`;
+        await DpoApplicationsStore.Get(Router.Id());
+        initialStatus = dpoApplication.formValue.formStatus;
+        pageTitle = `Заявление от ${dpoApplication.formValue.user.email}`;
       } else {
         store.commit('dpoApplications/resetItem');
         pageTitle = 'Подача заявления ДПО';
@@ -137,23 +135,21 @@ export default defineComponent({
       watch(dpoApplication, formUpdated, { deep: true });
     };
 
-    const findEmail = async () => {
-      await store.dispatch('dpoApplications/emailExists', dpoApplication.value.nmoCourse.id);
-    };
+    const findEmail = async () => {};
 
     const submit = async (next?: NavigationGuardNext) => {
       dpoApplication.value.formValue.validate();
       saveButtonClick.value = true;
-      if (!validate(form, true) || !dpoApplication.value.formValue.validated) {
+      if (!validate(form, true) || !dpoApplication.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
       if (route.params['id']) {
-        dpoApplication.value.formValue.updateViewedByUser(initialStatus);
-        await store.dispatch('dpoApplications/update');
+        dpoApplication.formValue.updateViewedByUser(initialStatus);
+        await DpoApplicationsStore.Update();
       } else {
         dpoApplication.value.formValue.clearIds();
-        await store.dispatch('dpoApplications/create');
+        await DpoApplicationsStore.Create();
       }
       const typeCourse = dpoApplication.value.nmoCourse.isNmo ? 'nmo' : 'dpo';
       next ? next() : await router.push(`/admin/${typeCourse}/applications`);
@@ -161,9 +157,7 @@ export default defineComponent({
 
     const courseChangeHandler = async () => {
       if (!route.params['id']) {
-        store.commit('dpoApplications/setCourse', dpoApplication.value.nmoCourse);
-        store.commit('dpoApplications/setFormValue', dpoApplication.value.nmoCourse.formPattern);
-        dpoApplication.value.formValue.initFieldsValues();
+        dpoApplication.formValue.initFieldsValues();
       }
       await findEmail();
       // store.commit('dpoApplications/changeFormPattern', dpoApplication.value.nmoCourse.formPattern);
@@ -185,9 +179,7 @@ export default defineComponent({
       dpoCourses,
       isEditMode,
       courseChangeHandler,
-      dpoApplicationFormValue,
       findEmail,
-      emailExists,
     };
   },
 });

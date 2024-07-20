@@ -65,10 +65,10 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const candidateApplications: ComputedRef<CandidateApplication[]> = computed(() => store.getters['candidateApplications/items']);
+    const candidateApplications: CandidateApplication[] = CandidateApplicationsStore.Items();
 
     onBeforeMount(async () => {
-      await store.dispatch('candidateApplications/getAll');
+      CandidateApplicationsStore.GetAll();
       store.commit('admin/setHeaderParams', {
         title: 'Заявки на обучение в аспирантуре',
         buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],

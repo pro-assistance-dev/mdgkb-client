@@ -26,7 +26,7 @@ export default defineComponent({
   emits: ['close'],
 
   setup(_, { emit }) {
-    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroup: DishesGroup = DishesGroupsStore.Item();
     const close = () => {
       emit('close');
     };
@@ -39,10 +39,10 @@ export default defineComponent({
       if (!validate(form)) {
         return;
       }
-      if (dishesGroup.value.id) {
-        await Provider.store.dispatch('dishesGroups/update', dishesGroup.value);
+      if (dishesGroup.id) {
+        await DishesGroupsStore.Update();
       } else {
-        await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
+        await DishesGroupsStore.Create();
       }
       close();
     };
@@ -151,7 +151,9 @@ export default defineComponent({
   margin: -1px;
 }
 :deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .new-group {

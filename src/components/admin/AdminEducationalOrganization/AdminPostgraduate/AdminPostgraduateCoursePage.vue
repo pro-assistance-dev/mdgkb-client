@@ -213,9 +213,8 @@ export default defineComponent({
     let mounted = ref(false);
     const form = ref();
 
-    const postgraduateCourse: ComputedRef<PostgraduateCourse> = computed<PostgraduateCourse>(
-      () => store.getters['postgraduateCourses/item']
-    );
+    const postgraduateCourse: PostgraduateCourse = PostgraduateCoursesStore.Item();
+
     const specializations: Specialization[] = SpecializationsStore.Items();
     const selectedTeacher: Teacher = TeachersStore.Item();
     const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
@@ -224,7 +223,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await TeachersStore.GetAll();
-      await store.dispatch('specializations/getAll');
+      await SpecializationsStore.GetAll();
       await store.dispatch('formPatterns/getAll');
       await store.dispatch('documentTypes/getAll');
       await loadItem();
@@ -258,22 +257,22 @@ export default defineComponent({
         return;
       }
       if (!route.params['id']) {
-        await store.dispatch('postgraduateCourses/create', postgraduateCourse.value);
+        await PostgraduateCoursesStore.Create();
         await router.push(`/admin/postgraduate-courses`);
         return;
       }
-      await store.dispatch('postgraduateCourses/update', postgraduateCourse.value);
+      await PostgraduateCoursesStore.Update();
       next ? next() : await router.push(`/admin/postgraduate-courses`);
     };
 
     const addTeacher = async (searchObject: ISearchObject) => {
       await TeachersStore.Get(searchObject.id);
-      postgraduateCourse.value.addTeacher(selectedTeacher.value);
+      postgraduateCourse.addTeacher(selectedTeacher);
       TeachersStore.ResetItem();
     };
 
     const changeFormPatternHandler = () => {
-      postgraduateCourse.value.formPatternId = postgraduateCourse.value.formPattern.id;
+      postgraduateCourse.formPatternId = postgraduateCourse.formPattern.id;
     };
     const changeDocumentTypeHandler = () => {
       // postgraduateCourse.value.documentTypeId = postgraduateCourse.value.documentType.id;

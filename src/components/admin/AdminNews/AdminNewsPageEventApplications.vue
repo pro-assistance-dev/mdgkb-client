@@ -16,7 +16,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Event from '@/classes/Event';
 import EventApplication from '@/classes/EventApplication';
@@ -32,14 +31,13 @@ export default defineComponent({
     },
   },
   setup() {
-    const store = useStore();
     let mounted = ref(false);
     const form = ref();
     const show = ref(false);
     let showedItem: Ref<EventApplication | undefined> = ref(undefined);
 
     const eventApplicationsPdf = async (id: string) => {
-      await store.dispatch('events/eventApplicationsPdf', id);
+      await EventsStore.EventApplicationsPdf(id);
     };
 
     return {

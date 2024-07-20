@@ -51,14 +51,8 @@
 <script lang="ts" setup>
 import FoodImg from '@/assets/svg/Buffet/food.webp';
 import DailyMenuItem from '@/classes/DailyMenuItem';
-import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import DishCardButton from '@/components/Diets/DishCardButton.vue';
-import DishInfoTable from '@/components/Diets/DishInfoTable.vue';
-import ModalDishCard from '@/components/Diets/ModalDishCard.vue';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   dailyMenuItem: {
     type: Object as PropType<DailyMenuItem>,
     required: true,
@@ -72,8 +66,7 @@ const props = defineProps({
     required: true,
   },
 });
-const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-let status = 'inStock';
+const status = 'inStock';
 const modalDishIsOpen: Ref<boolean> = ref(false);
 
 const toggleModalDishCard = () => {

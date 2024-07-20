@@ -121,18 +121,17 @@ const createBufetContacts = () => {
   contact.postAddresses[0] = address;
   return contact;
 };
-const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
+const dailyMenu: DailyMenu = DailyMenusStore.Item();
+const todayMenu: DailyMenu = DailyMenusStore.TodayMenu();
 const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
-const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 const cartIsOpen: Ref<boolean> = ref(false);
-const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
 const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
 let intervalID: number;
 
 // watch(isAuth, () => {
-//   Provider.store.commit('dailyMenuOrders/resetItem');
 //   Provider.router.push('/bufet');
 //   if (isAuth.value === true) {
 //     console.log(isAuth);
@@ -141,36 +140,35 @@ let intervalID: number;
 // });
 
 const initForm = () => {
-  dailyMenuOrder.value.formValue.reproduceFromPattern(formPattern.value);
-  dailyMenuOrder.value.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
-  dailyMenuOrder.value.formValue.user = new User(user.value);
+  dailyMenuOrder.formValue.reproduceFromPattern(formPattern.value);
+  dailyMenuOrder.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
+  dailyMenuOrder.formValue.user = new User(user.value);
 };
 
 const load = async () => {
-  console.log(1);
-  await Provider.store.dispatch('dailyMenus/todayMenu');
-  dailyMenu.value.actualize(todayMenu.value);
-  dailyMenuOrder.value.reproduceFromStore();
+  await DailyMenusStore.GetTodayMenu();
+  dailyMenu.actualize(todayMenu);
+  dailyMenuOrder.reproduceFromStore();
   checkDailyMenuItemsAvailable();
   initForm();
   await getDishesGroups();
-  dailyMenu.value.dishesGroups = dishesGroups.value;
-  dailyMenu.value.initGroups();
+  dailyMenu.dishesGroups = dishesGroups;
+  dailyMenu.initGroups();
 
   intervalID = window.setInterval(async () => {
-    await Provider.store.dispatch('dailyMenus/todayMenu');
-    dailyMenu.value.actualize(todayMenu.value);
-    dailyMenu.value.dishesGroups = dishesGroups.value;
-    dailyMenu.value.initGroups();
+    await DailyMenusStore.GetTodayMenu();
+    dailyMenu.actualize(todayMenu);
+    dailyMenu.dishesGroups = dishesGroups;
+    dailyMenu.initGroups();
   }, 5000);
 };
 
 const checkDailyMenuItemsAvailable = () => {
   setInterval(() => {
-    if (!dailyMenu.value.id) {
+    if (!dailyMenu.id) {
       return;
     }
-    const nonAvailableItems = dailyMenuOrder.value.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+    const nonAvailableItems = dailyMenuOrder.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
     if (nonAvailableItems.length === 0) {
       return;
     }
@@ -184,19 +182,19 @@ const checkDailyMenuItemsAvailable = () => {
         })
       ),
     });
-    if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
-      Provider.router.push('/bufet');
+    if (dailyMenuOrder.dailyMenuOrderItems.length === 0) {
+      Router.To('/bufet');
     }
   }, 2000);
 };
 const getDishesGroups = async () => {
   const queryFilter = new FilterQuery();
   queryFilter.sortModels.push(DishesGroupsSortsLib.byOrder());
-  await Provider.store.dispatch('dishesGroups/getAll', queryFilter);
+  await DishesGroupsStore.GetAll();
 };
 
 const toggleModalCart = () => {
-  if (dailyMenuOrder.value.isEmpty() && !cartIsOpen.value) {
+  if (dailyMenuOrder.isEmpty() && !cartIsOpen.value) {
     return ElMessage.warning('Необходимо выбрать блюда');
   }
   cartIsOpen.value = !cartIsOpen.value;

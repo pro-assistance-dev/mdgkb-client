@@ -71,7 +71,7 @@ export default defineComponent({
   components: { TableButtonGroup, AdminListWrapper, TableFormStatus },
 
   setup() {
-    const dpoApplications: ComputedRef<DpoApplication[]> = computed(() => Provider.store.getters['dpoApplications/items']);
+    const dpoApplications: DpoApplication[] = DpoApplicationsStore.Items();
     const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](tableName));
 
@@ -83,7 +83,7 @@ export default defineComponent({
       setType();
       await unsubscribe();
       await subscribe();
-      await Provider.store.dispatch('dpoApplications/getAll');
+      await DpoApplicationsStore.GetAll();
     });
 
     const setType = () => {
@@ -100,7 +100,7 @@ export default defineComponent({
     };
 
     const loadApplications = async () => {
-      await Provider.store.dispatch('dpoApplications/getAll');
+      await DpoApplicationsStore.GetAll();
     };
 
     const loadFilters = async () => {
@@ -126,21 +126,7 @@ export default defineComponent({
       window.addEventListener('beforeunload', unsubscribe);
     };
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'dpoApplications', action: 'getAll' },
-    });
-
-    const subscribe = async () => {
-      const isNmo = Provider.route().path === '/admin/nmo/applications';
-      await Provider.store.dispatch('dpoApplications/subscribeCreate', isNmo);
-    };
-
-    const unsubscribe = async () => {
-      await Provider.store.dispatch('dpoApplications/unsubscribeCreate');
-    };
-    onBeforeUnmount(async () => {
-      await Provider.store.dispatch('dpoApplications/unsubscribeCreate');
-    });
+    Hooks.onBeforeMount(load);
 
     const create = () => Provider.router.push(`${Provider.route().path}/new`);
     // const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
@@ -159,7 +145,6 @@ export default defineComponent({
     return {
       createFilterModels,
       mounted: Provider.mounted,
-      sortList: Provider.sortList,
       dpoApplications,
       loadApplications,
       edit,

@@ -46,9 +46,9 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRo
 import { useStore } from 'vuex';
 
 import CandidateApplication from '@/classes/CandidateApplication';
+import CandidateExam from '@/classes/CandidateExam';
 import FormStatus from '@/classes/FormStatus';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import ICandidateExam from '@/interfaces/ICandidateExam';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -63,10 +63,8 @@ export default defineComponent({
     const mounted = ref(false);
     const form = ref();
 
-    const application: ComputedRef<CandidateApplication> = computed<CandidateApplication>(
-      () => store.getters['candidateApplications/item']
-    );
-    const candidateExams: Ref<ICandidateExam[]> = computed<ICandidateExam[]>(() => [store.getters['candidateExams/item']]);
+    const application: CandidateApplication = CandidateApplicationsStore.Item();
+    const candidateExams: CandidateExam[] = CandidateExamsStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
     const editButtonTitle: Ref<string> = ref('Режим редактирования');
@@ -78,7 +76,7 @@ export default defineComponent({
     });
 
     const loadExam = async () => {
-      await store.dispatch('candidateExams/get');
+      await CandidateExamsStore.GetAll();
     };
 
     const changeEditMode = () => {
@@ -94,11 +92,11 @@ export default defineComponent({
       if (!route.params['id']) {
         return;
       }
-      if (!application.value.formValue.isNew) {
+      if (!application.formValue.isNew) {
         return;
       }
-      application.value.formValue.isNew = false;
-      await store.dispatch('candidateApplications/update', application.value);
+      application.formValue.isNew = false;
+      await CandidateApplicationsStore.Update();
     };
 
     let initialStatus: FormStatus;
@@ -106,12 +104,12 @@ export default defineComponent({
     const loadItem = async () => {
       let pageTitle = '';
       if (route.params['id']) {
-        await store.dispatch('candidateApplications/get', route.params['id']);
+        await CandidateApplicationsStore.Get(Router.Id());
         initialStatus = application.value.formValue.formStatus;
-        pageTitle = `Заявление от ${application.value.formValue.user.email}`;
+        pageTitle = `Заявление от ${application.formValue.user.email}`;
       } else {
         pageTitle = 'Подача заявления на сдачу кандидатского';
-        store.commit('candidateApplications/resetItem');
+        CandidateApplicationsStore.ResetItem();
         isEditMode.value = true;
       }
       store.commit('admin/setHeaderParams', {
@@ -125,27 +123,26 @@ export default defineComponent({
     };
 
     const submit = async (next?: NavigationGuardNext) => {
-      application.value.formValue.validate();
+      application.formValue.validate();
       saveButtonClick.value = true;
-      if (!validate(form, true) || !application.value.formValue.validated) {
+      if (!validate(form, true) || !application.formValue.validated) {
         saveButtonClick.value = false;
         return;
       }
       if (route.params['id']) {
-        application.value.formValue.updateViewedByUser(initialStatus);
-        await store.dispatch('candidateApplications/update');
+        application.formValue.updateViewedByUser(initialStatus);
+        await CandidateApplicationsStore.Update();
       } else {
-        application.value.formValue.clearIds();
-        await store.dispatch('candidateApplications/create');
+        application.formValue.clearIds();
+
+        await CandidateApplicationsStore.Create();
       }
       next ? next() : await router.push(`/admin/candidate-applications`);
     };
 
     const courseChangeHandler = () => {
       if (!route.params['id']) {
-        store.commit('candidateApplications/setExam', application.value.candidateExam);
-        store.commit('candidateApplications/setFormValue', application.value.candidateExam.formPattern);
-        application.value.formValue.initFieldsValues();
+        application.formValue.initFieldsValues();
       }
       // application.value.candidateExamId = application.value.candidateExam.id;
       // application.value.removeAllFieldValues();

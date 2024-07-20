@@ -52,13 +52,13 @@ export default defineComponent({
     const store = useStore();
     const isEdit: Ref<boolean> = ref(false);
     const isNotEdit: Ref<boolean> = ref(true);
-    const slides: ComputedRef<NewsSlide[]> = computed(() => store.getters['newsSlides/items']);
+    const slides: NewsSlide[] = NewsSlidesStore.Items();
 
     const create = (): void => {
       router.push('/admin/news-slides/new');
     };
     const remove = async (id: string): Promise<void> => {
-      await store.dispatch('newsSlides/remove', id);
+      await NewsSlidesStore.Remove();
     };
     const edit = (id: string): void => {
       router.push(`/admin/news-slides/${id}`);
@@ -70,13 +70,13 @@ export default defineComponent({
     };
 
     const saveOrder = async () => {
-      await store.dispatch('newsSlides/updateAll');
+      await NewsSlidesStore.UpdateAll();
       isEdit.value = false;
       isNotEdit.value = true;
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('newsSlides/getAll');
+      await NewsSlidesStore.GetAll();
       store.commit('admin/setHeaderParams', {
         title: 'Новости (слайдер)',
         buttons: [

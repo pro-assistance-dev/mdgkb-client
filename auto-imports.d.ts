@@ -6,12 +6,15 @@
 export {}
 declare global {
   const AcademicsStore: typeof import('@/store/StoreModules')['AcademicsStore']
+  const AppointmentsStore: typeof import('@/store/StoreModules')['AppointmentsStore']
   const Arrays: typeof import('@/services/Main')['Arrays']
   const Auth: typeof import('@/services/Main')['Auth']
   const Axios: typeof import('@/services/Main')['Axios']
   const BannersStore: typeof import('@/store/StoreModules')['BannersStore']
   const Button: typeof import('@/services/Main')['Button']
   const Cache: typeof import('@/services/Main')['Cache']
+  const CandidateApplicationsStore: typeof import('@/store/StoreModules')['CandidateApplicationsStore']
+  const CandidateExamsStore: typeof import('@/store/StoreModules')['CandidateExamsStore']
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
   const ClassHelper: typeof import('@/services/Main')['ClassHelper']
   const Color: typeof import('@/services/Main')['Color']
@@ -20,16 +23,24 @@ declare global {
   const Contact: typeof import('@/services/Main')['Contact']
   const CreateSortModels: typeof import('@/services/Main')['CreateSortModels']
   const Cursor: typeof import('@/services/Main')['Cursor']
+  const DailyMenuOrdersStore: typeof import('@/store/StoreModules')['DailyMenuOrdersStore']
+  const DailyMenusItemsStore: typeof import('@/store/StoreModules')['DailyMenusItemsStore']
+  const DailyMenusStore: typeof import('@/store/StoreModules')['DailyMenusStore']
   const DateFormat: typeof import('@/services/Main')['DateFormat']
   const DateMask: typeof import('@/services/Main')['DateMask']
   const Dates: typeof import('@/services/Main')['Dates']
   const DatesFormatter: typeof import('@/services/Main')['DatesFormatter']
   const DietsGroupsStore: typeof import('@/store/StoreModules')['DietsGroupsStore']
   const DietsStore: typeof import('@/store/StoreModules')['DietsStore']
+  const DishesGroupsStore: typeof import('@/store/StoreModules')['DishesGroupsStore']
+  const DishesSamplesStore: typeof import('@/store/StoreModules')['DishesSamplesStore']
   const DivisionsStore: typeof import('@/store/StoreModules')['DivisionsStore']
   const Doctor: typeof import('@/classes/Main')['Doctor']
+  const DoctorsStore: typeof import('@/store/StoreModules')['DoctorsStore']
   const DonorRulesStore: typeof import('@/store/StoreModules')['DonorRulesStore']
+  const DpoApplicationsStore: typeof import('@/store/StoreModules')['DpoApplicationsStore']
   const Dragger: typeof import('@/services/Main')['Dragger']
+  const EducationalManagersStore: typeof import('@/store/StoreModules')['EducationalManagersStore']
   const EffectScope: typeof import('vue')['EffectScope']
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
@@ -49,7 +60,9 @@ declare global {
   const MapNodesStore: typeof import('@/store/StoreModules')['MapNodesStore']
   const MapRoutesStore: typeof import('@/store/StoreModules')['MapRoutesStore']
   const MedicalProfilesStore: typeof import('@/store/StoreModules')['MedicalProfilesStore']
+  const NewsSlidesStore: typeof import('@/store/StoreModules')['NewsSlidesStore']
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
+  const NmoCoursesStore: typeof import('@/store/StoreModules')['NmoCoursesStore']
   const PHelp: typeof import('@/services/Main')['PHelp']
   const PagesStore: typeof import('@/store/StoreModules')['PagesStore']
   const PaidProgramsGroupsStore: typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']
@@ -59,6 +72,7 @@ declare global {
   const PartnersTypesStore: typeof import('@/store/StoreModules')['PartnersTypesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
+  const PostgraduateCoursesStore: typeof import('@/store/StoreModules')['PostgraduateCoursesStore']
   const PreparationsStore: typeof import('@/store/StoreModules')['PreparationsStore']
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
   const Provider: typeof import('@/services/Main')['Provider']
@@ -74,6 +88,7 @@ declare global {
   const Strings: typeof import('@/services/Main')['Strings']
   const SupportMessagesStore: typeof import('@/store/StoreModules')['SupportMessagesStore']
   const Swapper: typeof import('@/services/Main')['Swapper']
+  const TagsStore: typeof import('@/store/StoreModules')['TagsStore']
   const TeachersStore: typeof import('@/store/StoreModules')['TeachersStore']
   const Time: typeof import('@/services/Main')['Time']
   const TimeFormatter: typeof import('@/services/Main')['TimeFormatter']
@@ -161,12 +176,15 @@ declare module 'vue' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly AcademicsStore: UnwrapRef<typeof import('@/store/StoreModules')['AcademicsStore']>
+    readonly AppointmentsStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
+    readonly CandidateApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateApplicationsStore']>
+    readonly CandidateExamsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateExamsStore']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
@@ -175,16 +193,24 @@ declare module 'vue' {
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
+    readonly DailyMenuOrdersStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenuOrdersStore']>
+    readonly DailyMenusItemsStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusItemsStore']>
+    readonly DailyMenusStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusStore']>
     readonly DateFormat: UnwrapRef<typeof import('@/services/Main')['DateFormat']>
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
     readonly DietsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsGroupsStore']>
     readonly DietsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsStore']>
+    readonly DishesGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DishesGroupsStore']>
+    readonly DishesSamplesStore: UnwrapRef<typeof import('@/store/StoreModules')['DishesSamplesStore']>
     readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
+    readonly DoctorsStore: UnwrapRef<typeof import('@/store/StoreModules')['DoctorsStore']>
     readonly DonorRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['DonorRulesStore']>
+    readonly DpoApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['DpoApplicationsStore']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
+    readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
@@ -202,7 +228,9 @@ declare module 'vue' {
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly MedicalProfilesStore: UnwrapRef<typeof import('@/store/StoreModules')['MedicalProfilesStore']>
+    readonly NewsSlidesStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsSlidesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
+    readonly NmoCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['NmoCoursesStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly PaidProgramsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']>
@@ -212,6 +240,7 @@ declare module 'vue' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
@@ -227,6 +256,7 @@ declare module 'vue' {
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
+    readonly TagsStore: UnwrapRef<typeof import('@/store/StoreModules')['TagsStore']>
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>
@@ -307,12 +337,15 @@ declare module '@vue/runtime-core' {
   interface GlobalComponents {}
   interface ComponentCustomProperties {
     readonly AcademicsStore: UnwrapRef<typeof import('@/store/StoreModules')['AcademicsStore']>
+    readonly AppointmentsStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
+    readonly CandidateApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateApplicationsStore']>
+    readonly CandidateExamsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateExamsStore']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
@@ -321,16 +354,24 @@ declare module '@vue/runtime-core' {
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
+    readonly DailyMenuOrdersStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenuOrdersStore']>
+    readonly DailyMenusItemsStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusItemsStore']>
+    readonly DailyMenusStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusStore']>
     readonly DateFormat: UnwrapRef<typeof import('@/services/Main')['DateFormat']>
     readonly DateMask: UnwrapRef<typeof import('@/services/Main')['DateMask']>
     readonly Dates: UnwrapRef<typeof import('@/services/Main')['Dates']>
     readonly DatesFormatter: UnwrapRef<typeof import('@/services/Main')['DatesFormatter']>
     readonly DietsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsGroupsStore']>
     readonly DietsStore: UnwrapRef<typeof import('@/store/StoreModules')['DietsStore']>
+    readonly DishesGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['DishesGroupsStore']>
+    readonly DishesSamplesStore: UnwrapRef<typeof import('@/store/StoreModules')['DishesSamplesStore']>
     readonly DivisionsStore: UnwrapRef<typeof import('@/store/StoreModules')['DivisionsStore']>
     readonly Doctor: UnwrapRef<typeof import('@/classes/Main')['Doctor']>
+    readonly DoctorsStore: UnwrapRef<typeof import('@/store/StoreModules')['DoctorsStore']>
     readonly DonorRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['DonorRulesStore']>
+    readonly DpoApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['DpoApplicationsStore']>
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
+    readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
@@ -348,7 +389,9 @@ declare module '@vue/runtime-core' {
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly MedicalProfilesStore: UnwrapRef<typeof import('@/store/StoreModules')['MedicalProfilesStore']>
+    readonly NewsSlidesStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsSlidesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
+    readonly NmoCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['NmoCoursesStore']>
     readonly PHelp: UnwrapRef<typeof import('@/services/Main')['PHelp']>
     readonly PagesStore: UnwrapRef<typeof import('@/store/StoreModules')['PagesStore']>
     readonly PaidProgramsGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['PaidProgramsGroupsStore']>
@@ -358,6 +401,7 @@ declare module '@vue/runtime-core' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
@@ -373,6 +417,7 @@ declare module '@vue/runtime-core' {
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>
     readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
+    readonly TagsStore: UnwrapRef<typeof import('@/store/StoreModules')['TagsStore']>
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
     readonly TimeFormatter: UnwrapRef<typeof import('@/services/Main')['TimeFormatter']>

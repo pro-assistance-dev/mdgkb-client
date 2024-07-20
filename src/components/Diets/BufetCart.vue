@@ -45,11 +45,11 @@ export default defineComponent({
   name: 'BufetCart',
   components: { TableCard },
   setup() {
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
 
     const checkDailyMenuOrderItemsLength = () => {
-      console.log('check', dailyMenuOrder.value.dailyMenuOrderItems);
-      if (dailyMenuOrder.value.dailyMenuOrderItems.length === 0) {
+      console.log('check', dailyMenuOrder.dailyMenuOrderItems);
+      if (dailyMenuOrder.dailyMenuOrderItems.length === 0) {
         Provider.router.push('/bufet');
       }
     };
@@ -63,7 +63,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     const createOrder = () => {
-      if (!dailyMenuOrder.value.dailyMenuOrderItems.length) {
+      if (!dailyMenuOrder.dailyMenuOrderItems.length) {
         ElMessage({
           message: 'Необходимо выбрать блюдо',
           type: 'warning',

@@ -32,8 +32,7 @@
                 </div>
 
                 <p>{{ manager.doctor.employee.human.getFullName() }}</p>
-                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок
-                  1/9 корпус 8</div>
+                <div v-if="i === 2" style="font-size: 12px"><b>Место нахождения:</b> Москва, 4-й Добрынинский переулок 1/9 корпус 8</div>
                 <ContactsBlock :contact="manager.doctor.employee.human.contact" />
                 <div v-if="i !== 2" class="contact-h3">
                   <div class="item">
@@ -43,8 +42,7 @@
                   </div>
                   <div class="time-block">
                     <span v-if="i === 0" class="item">Прием граждан ведёт во вторник и пятницу с 11:00 до 13:00</span>
-                    <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до
-                      16:00</span>
+                    <span v-if="i === 1" class="item">Прием граждан и медработников в понедельник и четверг с 14:00 до 16:00</span>
                   </div>
                 </div>
               </div>
@@ -53,8 +51,10 @@
         </el-timeline-item>
       </el-timeline>
       <span class="info-text">
-        <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования"
-          class="info-text">Положение об отделе постдипломного образования</a></span>
+        <a target="_blank" href="/files/pol.pdf" download="Положение об отделе постдипломного образования" class="info-text"
+          >Положение об отделе постдипломного образования</a
+        ></span
+      >
     </el-card>
   </el-container>
   <Time />
@@ -67,16 +67,13 @@ import Time from '@/assets/svg/StructurePage/Time.svg';
 import EducationalManager from '@/classes/EducationalManager';
 import ContactsBlock from '@/components/ContactsBlock.vue';
 import EducationOrganizationManagersSortsLib from '@/libs/sorts/EducationanlManagersSortsLib';
-import Provider from '@/services/Provider/Provider';
 
-
-const educationalManagers: ComputedRef<EducationalManager[]> = Store.Items('educationalManagers')
+const educationalManagers: EducationalManager[] = EducationalManagersStore.Items();
 onBeforeMount(async () => {
-  const ftsp = new FTSP()
+  const ftsp = new FTSP();
   ftsp.setS(EducationOrganizationManagersSortsLib.byOrder());
-  await Store.FTSP('educationalManagers', { ftsp: ftsp })
+  await EducationalManagersStore.FTSP({ ftsp: ftsp });
 });
-
 </script>
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';

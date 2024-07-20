@@ -90,13 +90,13 @@ export default defineComponent({
   name: 'AdminPostgraduateCoursesList',
   components: { TableButtonGroup, AdminListWrapper },
   setup() {
-    const postgraduateCourses: Ref<PostgraduateCourse[]> = computed(() => Provider.store.getters['postgraduateCourses/items']);
+    const postgraduateCourses: PostgraduateCourse[] = PostgraduateCoursesStore.Items();
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 
     const create = () => Provider.router.push(`${Provider.route().path}/new`);
     const open = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
-    const remove = async (id: string) => await Provider.store.dispatch('postgraduateCourses/remove', id);
+    const remove = async (id: string) => await PostgraduateCoursesStore.Remoce(id);
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -109,7 +109,7 @@ export default defineComponent({
         return;
       }
       saveButtonClick.value = true;
-      await Provider.store.dispatch('postgraduateCourses/updateMany');
+      await PostgraduateCoursesStore.UpdateMany();
       isEditMode.value = false;
       isNotEditMode.value = true;
       if (next) next();
@@ -120,13 +120,10 @@ export default defineComponent({
     };
 
     const loadCourses = async () => {
-      Provider.store.commit('postgraduateCourses/clearItems');
-      await Provider.store.dispatch('postgraduateCourses/getAll');
+      await PostgraduateCoursesStore.GetAll();
     };
 
     const load = async () => {
-      Provider.store.commit('postgraduateCourses/clearItems');
-      // Provider.setSortModels(PostgraduateCoursesSortsLib.byName(Orders.Asc));
       Provider.store.commit('admin/setHeaderParams', {
         title: 'Программы аспирантуры',
         buttons: [
@@ -135,13 +132,11 @@ export default defineComponent({
           { text: 'Добавить программу', type: 'primary', action: create },
         ],
       });
-      await Provider.store.dispatch('postgraduateCourses/getAll');
+      await loadCourses();
       window.addEventListener('beforeunload', beforeWindowUnload);
     };
 
-    Hooks.onBeforeMount(load, {
-      pagination: { storeModule: 'postgraduateCourses', action: 'getAll' },
-    });
+    Hooks.onBeforeMount(load);
 
     const createResidencySortModels = (): SortModel[] => {
       return createSortModels(PostgraduateCoursesSortsLib);

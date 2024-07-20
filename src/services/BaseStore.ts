@@ -117,8 +117,8 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
     this.Set(result);
   }
 
-  async UpdateAndReset(item: T): Promise<void> {
-    await this.Update(item);
+  async UpdateAndReset(item?: T): Promise<void> {
+    await this.Update(item ?? this.item);
     this.Set();
   }
 

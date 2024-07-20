@@ -43,37 +43,36 @@ import DailyMenusSortsLib from '@/libs/sorts/DailyMenus';
 import Provider from '@/services/Provider/Provider';
 
 const dishesConstructorVisible: Ref<boolean> = ref(false);
-const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
-const menusCopies: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/menusCopies']);
-const periodMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/periodItems']);
-const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
+const menusCopies: DailyMenu[] = DailyMenusStore.MenusCopies();
+const periodMenus: DailyMenu[] = DailyMenusStore.PeriodItems();
+const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 const calendar: Ref<Calendar> = ref(Calendar.InitFull());
 const dayFilter: Ref<FilterModel> = ref(new FilterModel());
 const selectedSample: Ref<DishSample | undefined> = ref(undefined);
-const selectedMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
+const selectedMenu: DailyMenu = DailyMenusStore.Item();
 const mounted = ref(false);
 const load = async () => {
   // await Provider.store.dispatch('search/searchGroups');
-  await Provider.store.dispatch('dishesGroups/getAll');
+  await DishesGroupsStore.GetAll();
 
   dayFilter.value = DailyMenusFiltersLib.byDate(new Date());
   // const ftsp = new FTSP()
   // ftsp.setF(dayFilter.value)
   // await Store.FTSP('dailyMenus', { ftsp: ftsp, withCache: true })
   PHelp.AdminUI.Head.Set('Меню буфета', [Button.Success('Создать блюда', openDishesConstructor)]);
-
   await selectDay(calendar.value.getToday());
   // await fillCalendar()
   mounted.value = true;
 };
 
 const paste = async () => {
-  menusCopies.value.forEach((m: DailyMenu) => {
+  menusCopies.forEach((m: DailyMenu) => {
     m.initGroups();
-    dailyMenus.value.push(m);
+    dailyMenus.push(m);
   });
-  for (const menu of menusCopies.value) {
-    await Provider.store.dispatch('dailyMenus/create', menu);
+  for (const menu of menusCopies) {
+    await DailyMenusStore.Create(menu);
   }
 };
 
@@ -90,8 +89,8 @@ const getTodayMenus = async () => {
   const ftsp = new FTSP();
   ftsp.setF(dayFilter.value);
   ftsp.setS(DailyMenusSortsLib.byOrder());
-  await Store.FTSP('dailyMenus', { ftsp: ftsp });
-  dailyMenus.value.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups.value));
+  await DailyMenusStore.FTSP({ ftsp: ftsp });
+  dailyMenus.forEach((d: DailyMenu) => d.dishesGroups.push(...dishesGroups));
 };
 
 const fillCalendar = async () => {
@@ -101,9 +100,9 @@ const fillCalendar = async () => {
   }
   const fq = new FilterQuery();
   fq.filterModels.push(DailyMenusFiltersLib.byPeriod(period[0].date, period[period.length - 1].date));
-  await Provider.store.dispatch('dailyMenus/getPeriodItems', fq);
+  await DailyMenusStore.GetPeriodItems();
   period.forEach((day: Day) => {
-    const menu = periodMenus.value.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
+    const menu = periodMenus.find((m: DailyMenu) => m.date.getDate() === day.date.getDate());
     if (!menu) {
       return;
     }
@@ -112,16 +111,16 @@ const fillCalendar = async () => {
 };
 
 const findMenu = () => {
-  if (dailyMenus.value.length < 1) {
+  if (dailyMenus.length < 1) {
     return;
   }
-  Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
-  selectedMenu.value.initGroups();
+  DailyMenusStore.Set(dailyMenus[0]);
+  selectedMenu.initGroups();
 };
 
 const selectDay = async (): Promise<void> => {
   await getTodayMenus();
-  if (dailyMenus.value.length === 0) {
+  if (dailyMenus.length === 0) {
     return;
   }
   findMenu();
@@ -132,12 +131,12 @@ const createNewDailyMenus = async () => {
   const date = calendar.value.getDateWithOffset();
   const breakfast = DailyMenu.CreateBreakfast(calendar.value.getDateWithOffset());
   const lunch = DailyMenu.CreateDinner(date);
-  await Provider.store.dispatch('dailyMenus/create', breakfast);
-  await Provider.store.dispatch('dailyMenus/create', lunch);
-  dailyMenus.value.push(breakfast, lunch);
-  breakfast.dishesGroups = dishesGroups.value;
-  lunch.dishesGroups = dishesGroups.value;
-  Provider.store.commit('dailyMenus/set', dailyMenus.value[0]);
+  await DailyMenusStore.Create(breakfast);
+  await DailyMenusStore.Create(lunch);
+  dailyMenus.push(breakfast, lunch);
+  breakfast.dishesGroups = dishesGroups;
+  lunch.dishesGroups = dishesGroups;
+  DailyMenusStore.Set(dailyMenus[0]);
 };
 </script>
 

@@ -33,7 +33,7 @@ import Doctor from '@/classes/Doctor';
 import { Operators } from '@/services/interfaces/Operators';
 import Provider from '@/services/Provider/Provider';
 
-const doctors: Ref<Doctor[]> = Store.Items('doctors');
+const doctors: Doctor[] = DoctorsStore.Items();
 const mount = ref(false);
 
 onBeforeMount(async () => {
@@ -41,14 +41,13 @@ onBeforeMount(async () => {
 });
 
 const loadMore = async () => {
-  const lastCursor = doctors.value[doctors.value.length - 1].employee.human.getFullName();
-  filterQuery.value.pagination.cursor.value = lastCursor;
-  filterQuery.value.pagination.cursor.initial = false;
-  filterQuery.value.pagination.cursor.operation = Operators.Gt;
-  filterQuery.value.pagination.cursor.column = 'fullName';
-  filterQuery.value.pagination.cursorMode = true;
-
-  await Provider.store.dispatch('doctors/getAll', { filterQuery: filterQuery.value });
+  // const lastCursor = doctors[doctors.length - 1].employee.human.getFullName();
+  // filterQuery.value.pagination.cursor.value = lastCursor;
+  // filterQuery.value.pagination.cursor.initial = false;
+  // filterQuery.value.pagination.cursor.operation = Operators.Gt;
+  // filterQuery.value.pagination.cursor.column = 'fullName';
+  // filterQuery.value.pagination.cursorMode = true;
+  // await Doctors.GetAll();
 };
 </script>
 

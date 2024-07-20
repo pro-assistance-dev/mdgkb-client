@@ -3,17 +3,10 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 const AdminDpoApplicationsListContainer = () =>
   import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminDpoApplicationsListContainer.vue');
 const AdminNmoApplicationPage = () => import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoApplicationPage.vue');
-const AdminNmoCoursePage = () => import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursePage.vue');
 const AdminNmoCoursesListContainer = () =>
   import('@/components/admin/AdminEducationalOrganization/AdminNmoCourses/AdminNmoCoursesListContainer.vue');
 const AdminCandidateApplicationPage = () =>
   import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationPage.vue');
-const AdminCandidateApplicationsList = () =>
-  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminCandidateApplicationsList.vue');
-const AdminPostgraduateApplicationPage = () =>
-  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationPage.vue');
-const AdminPostgraduateApplicationsList = () =>
-  import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateApplicationsList.vue');
 const AdminPostgraduateCoursePage = () =>
   import('@/components/admin/AdminEducationalOrganization/AdminPostgraduate/AdminPostgraduateCoursePage.vue');
 const AdminPostgraduateCoursesList = () =>
@@ -51,30 +44,6 @@ export default [
     },
   },
   {
-    path: '/admin/nmo-courses/new',
-    name: 'AdminNmoCoursePageCreate',
-    component: AdminNmoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/nmo-courses/:id',
-    name: 'AdminNmoCoursePageEdit',
-    component: AdminNmoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
     path: '/admin/nmo-courses',
     name: 'AdminNmoCoursesList',
     component: AdminNmoCoursesListContainer,
@@ -85,31 +54,6 @@ export default [
     meta: {
       layout: 'AdminLayout',
       adminLayout: AdminLayout.TableList,
-    },
-  },
-  {
-    path: '/admin/nmo-courses/new',
-    name: 'AdminNmoCoursePageCreate',
-    component: AdminNmoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      isNmo: true,
-    },
-  },
-  {
-    path: '/admin/nmo-courses/:id',
-    name: 'AdminNmoCoursePageEdit',
-    component: AdminNmoCoursePage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
     },
   },
   {
@@ -186,56 +130,6 @@ export default [
     },
     meta: {
       layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/postgraduate-applications',
-    name: 'AdminPostgraduateApplicationsList',
-    component: AdminPostgraduateApplicationsList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      adminLayout: AdminLayout.TableList,
-    },
-  },
-  {
-    path: '/admin/postgraduate-applications/new',
-    name: 'AdminPostgraduateApplicationPageNew',
-    component: AdminPostgraduateApplicationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/postgraduate-applications/:id',
-    name: 'AdminPostgraduateApplicationPage',
-    component: AdminPostgraduateApplicationPage,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-    },
-  },
-  {
-    path: '/admin/candidate-applications',
-    name: 'AdminCandidateApplicationsList',
-    component: AdminCandidateApplicationsList,
-    beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      isAuthorized(next);
-      authGuard();
-    },
-    meta: {
-      layout: 'AdminLayout',
-      adminLayout: AdminLayout.TableList,
     },
   },
   {

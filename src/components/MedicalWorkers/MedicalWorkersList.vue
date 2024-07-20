@@ -19,7 +19,7 @@
 import Doctor from '@/classes/Doctor';
 import Hooks from '@/services/Hooks/Hooks';
 
-const doctors: Ref<Doctor[]> = Store.Items('doctors');
+const doctors: Doctor[] = DoctorsStore.Items();
 const doctorsMode: ComputedRef<boolean> = computed(() => Router.Route().path === '/doctors');
 
 const title: ComputedRef<string> = computed(() => {
@@ -27,7 +27,7 @@ const title: ComputedRef<string> = computed(() => {
 });
 
 const loadDoctors = async () => {
-  await Store.FTSP('doctors');
+  await DoctorsStore.FTSP();
 };
 
 const loadHeads = async () => {

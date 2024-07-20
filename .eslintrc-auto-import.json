@@ -153,6 +153,21 @@
     "DonorRulesStore": true,
     "MedicalProfilesStore": true,
     "PreparationsStore": true,
-    "RolesStore": true
+    "RolesStore": true,
+    "NmoCoursesStore": true,
+    "CandidateApplicationsStore": true,
+    "CandidateExamsStore": true,
+    "TagsStore": true,
+    "DoctorsStore": true,
+    "DpoApplicationsStore": true,
+    "AppointmentsStore": true,
+    "NewsSlidesStore": true,
+    "PostgraduateCoursesStore": true,
+    "EducationalManagersStore": true,
+    "DishesGroupsStore": true,
+    "DishesSamplesStore": true,
+    "DailyMenuOrdersStore": true,
+    "DailyMenusItemsStore": true,
+    "DailyMenusStore": true
   }
 }

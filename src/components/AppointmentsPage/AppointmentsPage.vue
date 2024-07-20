@@ -89,31 +89,31 @@ export default defineComponent({
   setup() {
     const chosenDay: Ref<string> = ref(new Date().toString());
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    const appointment: ComputedRef<Appointment> = computed(() => Provider.store.getters['appointments/item']);
-    const appointmentsTypes: ComputedRef<AppointmentType[]> = computed(() => Provider.store.getters['appointmentsTypes/items']);
-    const appointmentsType: Ref<AppointmentType> = computed(() => Provider.store.getters['appointmentsTypes/item']);
+    const appointment: Appointment = AppointmentsStore.Item();
+    const appointmentsTypes: AppointmentType[] = AppointmentsTypesStore.Items();
+    const appointmentsType: AppointmentType = AppointmentsTypesStore.Item();
     const createChildMode: Ref<boolean> = ref(false);
     const form = ref();
 
     const load = async () => {
-      await Provider.store.dispatch('appointmentsTypes/getAll');
-      appointment.value.formValue.user = new User(user.value);
+      await AppointmentsTypesStore.GetAll();
+      appointment.formValue.user = new User(user.value);
     };
 
     Hooks.onBeforeMount(load);
 
     const sendApplication = async () => {
-      await Provider.store.dispatch('appointments/create', appointment.value);
+      AppointmentsStore.Create();
     };
 
     const chooseDay = (day: Record<string, string>) => {
-      appointment.value.date = new Date(day.id);
-      console.log(appointment.value.date);
+      appointment.date = new Date(day.id);
+      console.log(appointment.date);
       chosenDay.value = day.toString();
     };
 
     const chooseSlot = (slot: string) => {
-      appointment.value.time = slot;
+      appointment.time = slot;
     };
 
     const changeCreateChildMode = () => {
@@ -131,8 +131,8 @@ export default defineComponent({
 
     const submit = async () => {
       if (!validate(form)) return;
-      await Provider.store.dispatch('appointments/create', appointment.value);
-      Provider.store.commit('appointments/resetItem');
+      await AppointmentsStore.Create();
+      AppointmentsStore.ResetItem();
       ElNotification({
         title: 'Запись к врачу',
         message: 'Запись успешно создана!',
@@ -142,10 +142,10 @@ export default defineComponent({
     };
 
     const selectType = async (appointmentType: AppointmentType) => {
-      Provider.store.commit('appointmentsTypes/set', appointmentType);
-      appointment.value.appointmentType = new AppointmentType(appointmentType);
-      appointment.value.appointmentTypeId = appointmentType.id;
-      appointment.value.formValue.reproduceFromPattern(appointmentsType.value.formPattern);
+      AppointmentsTypesStore.Set(appointmentType);
+      appointment.appointmentType = new AppointmentType(appointmentType);
+      appointment.appointmentTypeId = appointmentType.id;
+      appointment.formValue.reproduceFromPattern(appointmentsType.value.formPattern);
       // appointment.value.formValue = new Form(appointmentType.formPattern);
       // appointment.value.formValue.user = new User(user.value);
       // appointment.value.formValue.initFieldsValues();

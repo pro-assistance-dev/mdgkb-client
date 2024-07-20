@@ -105,10 +105,10 @@ export default defineComponent({
   setup() {
     const form = ref();
     const isEditMode: Ref<boolean> = ref(false);
-    const dailyMenuOrder: Ref<DailyMenuOrder> = computed(() => Provider.store.getters['dailyMenuOrders/item']);
-    const todayMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/todayMenu']);
-    const dailyMenu: Ref<DailyMenu> = computed(() => Provider.store.getters['dailyMenus/item']);
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
+    const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
+    const todayMenu: DailyMenu = DailyMenusStore.TodayMenu();
+    const dailyMenu: DailyMenu = DailyMenusStore.Item();
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -117,7 +117,7 @@ export default defineComponent({
         return;
       }
       try {
-        await Provider.store.dispatch('dailyMenuOrders/update');
+        await DailyMenuOrdersStore.Update();
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
@@ -126,30 +126,29 @@ export default defineComponent({
     };
 
     const updateNew = async () => {
-      if (!dailyMenuOrder.value.formValue.isNew) {
+      if (!dailyMenuOrder.formValue.isNew) {
         return;
       }
-      dailyMenuOrder.value.formValue.isNew = false;
-      await Provider.store.dispatch('dailyMenuOrders/updateWithoutReset');
+      dailyMenuOrder.formValue.isNew = false;
+      await DailyMenuOrdersStore.UpdateAndReset();
     };
 
     const { saveButtonClick } = useConfirmLeavePage();
 
     const load = async () => {
       try {
-        await Provider.store.dispatch('dailyMenus/todayMenu');
-        dailyMenu.value.actualize(todayMenu.value);
+        await DailyMenusStore.GetTodayMenu();
+        dailyMenu.actualize(todayMenu);
       } catch (e) {
         ElMessage.warning('Нет активных меню на сегодня');
       }
-      await Store.GetAll('dishesGroups');
-      dailyMenu.value.dishesGroups = dishesGroups.value;
-      dailyMenu.value.initGroups();
+      await DishesGroupsStore.GetAll();
+      dailyMenu.dishesGroups = dishesGroups;
+      dailyMenu.initGroups();
       await Provider.loadItem();
       await updateNew();
 
       // setInterval(async () => {
-      //   await Provider.store.dispatch('dailyMenus/todayMenu');
       //   dailyMenu.value.actualize(todayMenu.value);
       //   dailyMenu.value.dishesGroups = dishesGroups.value;
       //   dailyMenu.value.initGroups();

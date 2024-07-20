@@ -37,6 +37,20 @@ const StoreModulesNames = [
   'MedicalProfilesStore',
   'RolesStore',
   'NmoCoursesStore',
+  'CandidateApplicationsStore',
+  'CandidateExamsStore',
+  'TagsStore',
+  'DoctorsStore',
+  'DpoApplicationsStore',
+  'AppointmentsStore',
+  'DishesGroupsStore',
+  'DishesSamplesStore',
+  'NewsSlidesStore',
+  'PostgraduateCoursesStore',
+  'EducationalManagersStore',
+  'DailyMenuOrdersStore',
+  'DailyMenusItemsStore',
+  'DailyMenusStore',
 ];
 
 export default StoreModulesNames;

@@ -50,7 +50,7 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const form = ref();
-    const doctors = computed(() => store.getters['doctors/items']);
+    const doctors = DoctorsStore.Items();
     const educationalOrganization: Ref<IEducationalOrganization> = computed(
       () => store.getters['educationalOrganization/educationalOrganization']
     );

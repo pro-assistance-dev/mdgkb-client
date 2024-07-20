@@ -31,7 +31,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const specialization: ComputedRef<Specialization> = computed<Specialization>(() => store.getters['specializations/item']);
+    const specialization: Specialization = SpecializationsStore.Item();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const rules = ref({
@@ -47,9 +47,9 @@ export default defineComponent({
       }
       try {
         if (route.params['id']) {
-          await store.dispatch('specializations/update', specialization.value);
+          await SpecializationsStore.Update();
         } else {
-          await store.dispatch('specializations/create', specialization.value);
+          await SpecializationsStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -60,7 +60,7 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       if (route.params['id']) {
-        await store.dispatch('specializations/get', route.params['id']);
+        await SpecializationsStore.Get(Router.Id());
         store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
       } else {
         store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
@@ -71,7 +71,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      store.commit('specializations/resetItem');
+      SpecializationsStore.ResetItem();
     });
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);

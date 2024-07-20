@@ -12,8 +12,7 @@
             <label for="scales">Выделить всё</label>
           </div>
           <div v-for="dailyMenu in dailyMenus" :key="dailyMenu" class="line">
-            <input id="scales" v-model="dailyMenu.selectedForCopy" type="checkbox" :name="dailyMenu.name"
-              @click="setCopy(dailyMenu)" />
+            <input id="scales" v-model="dailyMenu.selectedForCopy" type="checkbox" :name="dailyMenu.name" @click="setCopy(dailyMenu)" />
             <label for="scales">{{ dailyMenu.name }} </label>
           </div>
           <PButton skin="profile" type="primary" text="Копировать" margin="5px 0 0 0" @click="copy" />
@@ -26,35 +25,33 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import Copy from '@/assets/svg/Buffet/Copy.svg';
 import DailyMenu from '@/classes/DailyMenu';
 import ClickWindow from '@/components/admin/AdminDishes/ClickWindow.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'CopyWindow',
   components: { ClickWindow, Copy },
   emits: ['copy'],
-  setup(_, { emit }) {
-    const dailyMenus: Ref<DailyMenu[]> = computed(() => Provider.store.getters['dailyMenus/items']);
+  setup() {
+    const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
     const copyAll: Ref<boolean> = ref(true);
     const isOpenCopy: Ref<boolean> = ref(false);
     const copy = () => {
       const copies: DailyMenu[] = [];
-      dailyMenus.value.forEach((d: DailyMenu) => {
+      dailyMenus.forEach((d: DailyMenu) => {
         if (copyAll.value || d.selectedForCopy) {
           copies.push(d.getCopy());
         }
       });
-      Provider.store.commit('dailyMenus/setMenusCopies', copies);
       ElMessage.success('Меню скопированы в буфер');
       isOpenCopy.value = false;
     };
 
     const setCopyAll = () => {
-      dailyMenus.value.forEach((d: DailyMenu) => {
+      dailyMenus.forEach((d: DailyMenu) => {
         d.selectedForCopy = !copyAll.value;
       });
     };
@@ -66,7 +63,7 @@ export default defineComponent({
 
     const setCopy = (menu: DailyMenu) => {
       menu.selectedForCopy = !menu.selectedForCopy;
-      copyAll.value = dailyMenus.value.every((d: DailyMenu) => d.selectedForCopy);
+      copyAll.value = dailyMenus.every((d: DailyMenu) => d.selectedForCopy);
     };
 
     return {
@@ -108,7 +105,9 @@ export default defineComponent({
 
 p,
 label {
-  font: 1rem 'Fira Sans', sans-serif;
+  font:
+    1rem 'Fira Sans',
+    sans-serif;
 }
 
 input {
