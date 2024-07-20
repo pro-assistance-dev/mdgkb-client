@@ -222,7 +222,6 @@ declare module 'vue' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
@@ -394,7 +393,6 @@ declare module '@vue/runtime-core' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
     readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>

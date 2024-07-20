@@ -83,15 +83,15 @@ const sendComment = async () => {
 };
 
 const removeComment = async (id: string) => {
-  await Store.Remove('comments', id);
+  await CommentsStore.Remove(id);
 };
 const editComment = async (id: string) => {
-  await Store.commit('comments', id);
+  // await CommentsStore.E('comments', id);
 };
 const saveCommentChanges = async (item: Comment) => {
   // if (!validate(editCommentForm)) return;
   try {
-    await Store.Update('comments', item);
+    await CommentsStore.Update(item);
   } catch (e) {
     PHelp.Notification.Error('Что-то пошло не так');
     return;

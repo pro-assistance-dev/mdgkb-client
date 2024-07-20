@@ -4,7 +4,6 @@
 
 <script lang="ts" setup>
 import User from '@/classes/User';
-import Provider from '@/services/Provider/Provider';
 
 import AuthStatuses from '@/services/interfaces/AuthStatuses';
 const user: Ref<User> = computed(() => new User());
