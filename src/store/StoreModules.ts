@@ -20,6 +20,7 @@ import DonorRulesStore from './DonorRulesStore';
 import DpoApplicationsStore from './DpoApplicationsStore';
 import EducationalManagersStore from './EducationalManagersStore';
 import EmployeesStore from './EmployeesStore';
+import ExportsStore from './ExportsStore';
 import FaqsStore from './FaqsStore';
 import HeadsStore from './HeadsStore';
 import HospitalizationsStore from './HospitalizationsStore';
@@ -77,6 +78,7 @@ export {
   DpoApplicationsStore,
   EducationalManagersStore,
   EmployeesStore,
+  ExportsStore,
   FaqsStore,
   HeadsStore,
   HospitalizationsStore,

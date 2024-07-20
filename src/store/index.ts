@@ -4,7 +4,6 @@ import User from '@/classes/User';
 import * as lib from '@/services/store/index';
 import { authStateConstructor } from '@/services/store/modules/auth';
 import { cropper } from '@/store/modules/cropper';
-import dataExport from '@/store/modules/dataExport';
 import { formPatterns } from '@/store/modules/formPatterns';
 import { formStatuses } from '@/store/modules/formStatuses';
 import { formStatusGroups } from '@/store/modules/formStatusGroups';
@@ -39,7 +38,6 @@ const s: StoreOptions<RootState> = {
     residencyApplications,
     formStatusGroups,
     pointsAchievements,
-    dataExport,
     ...lib,
   },
 };
