@@ -42,15 +42,20 @@ const StoreModulesNames = [
   'TagsStore',
   'DoctorsStore',
   'DpoApplicationsStore',
+  'CropperStore',
   'AppointmentsStore',
   'DishesGroupsStore',
   'DishesSamplesStore',
+  'FormStatusGroupsStore',
   'NewsSlidesStore',
   'PostgraduateCoursesStore',
   'EducationalManagersStore',
   'DailyMenuOrdersStore',
   'DailyMenusItemsStore',
   'DailyMenusStore',
+  'SearchStore',
+  'FormPatternsStore',
+  'PointsAchievementsStore',
 ];
 
 export default StoreModulesNames;

@@ -44,12 +44,12 @@ const login = () => {
 
 const register = () => Provider.store.commit('auth/openModal', 'register');
 const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+const user: User = UsersStore.Item();
 const curUser: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
 const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
 
 const loadUser = async () => {
-  await Provider.store.dispatch('users/get', userId.value);
+  await UsersStore.Get(userId.value);
 };
 
 const logout = async () => {

@@ -14,7 +14,7 @@
             <el-input v-model="element.name" />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click.stop="donorRulesWithDeleted.removeDonorRule(index)" />
             <el-button type="info" size="medium" icon="el-icon-edit" @click="element.editMode = true" />
-            <UploaderSingleScan :file-info="element.image" @ratio="(e) => (element.ratio = e)" />
+            <UploaderImage :file-info="element.image" @ratio="(e) => (element.ratio = e)" />
           </div>
         </div>
       </template>
@@ -36,7 +36,7 @@ import sort from '@/services/sort';
 
 export default defineComponent({
   name: 'AdminDonorRules',
-  components: { draggable, Grid, UploaderSingleScan },
+  components: { draggable, Grid },
   setup() {
     const donorRulesWithDeleted: DonorRule[] = DonorRulesStore.Items();
     const mounted: Ref<boolean> = ref(false);

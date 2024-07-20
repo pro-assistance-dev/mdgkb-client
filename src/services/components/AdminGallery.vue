@@ -9,7 +9,7 @@
             </svg>
             <button class="admin-del2" @click.prevent="remove(element)">Удалить</button>
           </div>
-          <UploaderSingleScan
+          <UploderImage
             :file-info="element.fileInfo"
             :height="150"
             :default-ratio="defaultRatio"
@@ -32,7 +32,6 @@ import { defineComponent, PropType } from 'vue';
 import draggable from 'vuedraggable';
 
 import Move from '@/services/assets/svg/Move.svg';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import IFiler from '@/services/interfaces/IFiler';
 import Arrays from '@/services/Arrays';
 import ClassHelper from '@/services/ClassHelper';

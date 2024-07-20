@@ -57,7 +57,7 @@
           <el-input v-model="dishSample.description" autosize type="textarea" />
         </el-form-item>
         <el-form-item label="&nbsp;&nbsp;Изображение:" prop="image">
-          <UploaderSingleScan
+          <UploderImage
             :file-info="dishSample.image"
             :height="200"
             @remove-file="dishSample.removeImage()"
@@ -79,13 +79,11 @@ import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AddForm',
-  components: { UploaderSingleScan },
   props: {
     closeFunction: {
       type: Function,
@@ -269,7 +267,9 @@ export default defineComponent({
   margin: -1px;
 }
 :deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .new-group {

@@ -13,7 +13,7 @@
       </el-card>
       <el-card>
         <el-form-item label="Лого" prop="image.fileSystemPath" :rules="rules.image">
-          <UploaderSingleScan :file-info="partner.image" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
+          <UploaderImage :file-info="partner.image" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
         </el-form-item>
         <el-form-item label="Ссылка" prop="link">
           <el-input v-model="partner.link" placeholder="Ссылка"></el-input>
@@ -32,17 +32,12 @@ import { useStore } from 'vuex';
 import Partner from '@/classes/Partner';
 import PartnerType from '@/classes/PartnerType';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminPartnerPage',
-  components: { UploaderSingleScan },
-
   setup() {
-    const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
@@ -50,7 +45,7 @@ export default defineComponent({
     const partnerTypes: PartnerType[] = PartnersTypesStore.Items();
 
     const imageRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
-      if (partner.value.partnerType && partner.partnerType.showImage) {
+      if (partner.partnerType && partner.partnerType.showImage) {
         if (!value) {
           callback(new Error('Необходимо приложить лого'));
         }

@@ -115,12 +115,12 @@ export default defineComponent({
   components: { HumanForm },
   setup() {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
+    const user: User = UsersStore.Item();
     const rules = ref(UserRules);
     const form = ref();
 
     const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
     };
     onMounted(loadUser);
 
@@ -128,7 +128,7 @@ export default defineComponent({
       if (!validate(form)) {
         return;
       }
-      await Provider.store.dispatch('users/update', user.value);
+      await UsersStore.Update();
       await Provider.router.push('/profile');
     }
 

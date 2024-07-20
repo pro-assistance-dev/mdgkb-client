@@ -22,6 +22,7 @@ declare global {
   const Confirm: typeof import('@/services/Main')['Confirm']
   const Contact: typeof import('@/services/Main')['Contact']
   const CreateSortModels: typeof import('@/services/Main')['CreateSortModels']
+  const CropperStore: typeof import('@/store/StoreModules')['CropperStore']
   const Cursor: typeof import('@/services/Main')['Cursor']
   const DailyMenuOrdersStore: typeof import('@/store/StoreModules')['DailyMenuOrdersStore']
   const DailyMenusItemsStore: typeof import('@/store/StoreModules')['DailyMenusItemsStore']
@@ -50,6 +51,8 @@ declare global {
   const FaqsStore: typeof import('@/store/StoreModules')['FaqsStore']
   const Favourite: typeof import('@/services/Main')['Favourite']
   const FilterModel: typeof import('@/services/Main')['FilterModel']
+  const FormPatternsStore: typeof import('@/store/StoreModules')['FormPatternsStore']
+  const FormStatusGroupsStore: typeof import('@/store/StoreModules')['FormStatusGroupsStore']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
   const HeadsStore: typeof import('@/store/StoreModules')['HeadsStore']
   const Hooks: typeof import('@/services/Main')['Hooks']
@@ -72,6 +75,7 @@ declare global {
   const PartnersTypesStore: typeof import('@/store/StoreModules')['PartnersTypesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
+  const PointsAchievementsStore: typeof import('@/store/StoreModules')['PointsAchievementsStore']
   const PostgraduateCoursesStore: typeof import('@/store/StoreModules')['PostgraduateCoursesStore']
   const PreparationsStore: typeof import('@/store/StoreModules')['PreparationsStore']
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
@@ -81,6 +85,7 @@ declare global {
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
   const Scroll: typeof import('@/services/Main')['Scroll']
+  const SearchStore: typeof import('@/store/StoreModules')['SearchStore']
   const SideOrganizationsStore: typeof import('@/store/StoreModules')['SideOrganizationsStore']
   const SortModel: typeof import('@/services/Main')['SortModel']
   const SpecializationsStore: typeof import('@/store/StoreModules')['SpecializationsStore']
@@ -192,6 +197,7 @@ declare module 'vue' {
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
+    readonly CropperStore: UnwrapRef<typeof import('@/store/StoreModules')['CropperStore']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
     readonly DailyMenuOrdersStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenuOrdersStore']>
     readonly DailyMenusItemsStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusItemsStore']>
@@ -218,6 +224,8 @@ declare module 'vue' {
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
+    readonly FormPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormPatternsStore']>
+    readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
@@ -240,6 +248,7 @@ declare module 'vue' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PointsAchievementsStore: UnwrapRef<typeof import('@/store/StoreModules')['PointsAchievementsStore']>
     readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
@@ -249,6 +258,7 @@ declare module 'vue' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SearchStore: UnwrapRef<typeof import('@/store/StoreModules')['SearchStore']>
     readonly SideOrganizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SideOrganizationsStore']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>
@@ -353,6 +363,7 @@ declare module '@vue/runtime-core' {
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
+    readonly CropperStore: UnwrapRef<typeof import('@/store/StoreModules')['CropperStore']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
     readonly DailyMenuOrdersStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenuOrdersStore']>
     readonly DailyMenusItemsStore: UnwrapRef<typeof import('@/store/StoreModules')['DailyMenusItemsStore']>
@@ -379,6 +390,8 @@ declare module '@vue/runtime-core' {
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
+    readonly FormPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormPatternsStore']>
+    readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
@@ -401,6 +414,7 @@ declare module '@vue/runtime-core' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PointsAchievementsStore: UnwrapRef<typeof import('@/store/StoreModules')['PointsAchievementsStore']>
     readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
@@ -410,6 +424,7 @@ declare module '@vue/runtime-core' {
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
     readonly Scroll: UnwrapRef<typeof import('@/services/Main')['Scroll']>
+    readonly SearchStore: UnwrapRef<typeof import('@/store/StoreModules')['SearchStore']>
     readonly SideOrganizationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SideOrganizationsStore']>
     readonly SortModel: UnwrapRef<typeof import('@/services/Main')['SortModel']>
     readonly SpecializationsStore: UnwrapRef<typeof import('@/store/StoreModules')['SpecializationsStore']>

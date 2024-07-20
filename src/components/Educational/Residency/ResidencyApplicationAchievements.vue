@@ -54,7 +54,7 @@ const props = defineProps({
 });
 defineEmits(['close']);
 
-const pointsAchievements: Ref<PointsAchievement[]> = Store.Items('pointsAchievements');
+const pointsAchievements: PointsAchievement[] = PointsAchievementsStore.Items();
 const selectedAchievement: Ref<PointsAchievement | undefined> = ref(undefined);
 const addAchievement = (achievement: PointsAchievement) => {
   if (!achievement.id || props.residencyApplication.achievementExists(achievement.id)) {
@@ -67,7 +67,7 @@ const addAchievement = (achievement: PointsAchievement) => {
 };
 
 onBeforeMount(async () => {
-  await Store.GetAll('pointsAchievements');
+  await PointsAchievementsStore.GetAll();
 });
 </script>
 

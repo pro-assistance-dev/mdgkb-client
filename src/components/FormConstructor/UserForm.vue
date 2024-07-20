@@ -145,17 +145,12 @@ const emits = defineEmits(['findEmail']);
 
 const auth: ComputedRef<boolean> = Store.Getters('auth/auth');
 const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
-const user: ComputedRef<User> = computed(auth.value.user.get());
 const formValue = ref(new Form());
 
 const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
   if (!value.trim().length) {
     callback(new Error('Необходимо указать email'));
     return;
-  }
-  await Store.Dispatch('users/findEmail', value);
-  if (value && props.emailExists && props.validateEmail) {
-    callback(new Error('Ведённый email уже существует'));
   }
   callback();
   return;

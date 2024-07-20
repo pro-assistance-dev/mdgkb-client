@@ -40,10 +40,10 @@ export default defineComponent({
   setup() {
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const user: User = UsersStore.Item();
 
     const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
       mounted.value = true;
     };
 

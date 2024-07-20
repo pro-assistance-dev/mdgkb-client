@@ -37,20 +37,20 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
+    const user: User = UsersStore.Item();
     const donorRules: ComputedRef<DonorRule[]> = computed(() => {
-      return user.value.getDonorRules();
+      return user.getDonorRules();
     });
     const currentRule: Ref<DonorRule> = ref(new DonorRule());
     const visible: Ref<boolean> = ref(false);
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
       mounted.value = true;
     };
 
     const removeRule = async (ruleId: string) => {
-      user.value.removeDonorRule(ruleId);
+      user.removeDonorRule(ruleId);
       await DonorRulesStore.DeleteFromUser(ruleId);
     };
 

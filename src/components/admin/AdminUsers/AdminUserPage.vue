@@ -38,7 +38,7 @@ export default defineComponent({
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const isNew: ComputedRef<boolean> = computed(() => !route.params['id']);
-    const user: ComputedRef<User> = computed<User>(() => store.getters['users/item']);
+    const user: User = UsersStore.Item();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const roles: Role[] = RolesStore.Items();
@@ -47,9 +47,9 @@ export default defineComponent({
       saveButtonClick.value = true;
       try {
         if (route.params['id']) {
-          await store.dispatch('users/update', user.value);
+          await UsersStore.Update();
         } else {
-          await store.dispatch('users/create', user.value);
+          await UsersStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -61,7 +61,6 @@ export default defineComponent({
       if (email.length < 3) {
         return;
       }
-      await store.dispatch('users/findEmail', email);
     };
 
     onBeforeMount(async () => {
@@ -72,7 +71,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      store.commit('users/resetItem');
+      UserStore.ResetItem();
     });
 
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {

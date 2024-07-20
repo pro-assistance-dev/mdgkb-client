@@ -88,7 +88,7 @@ import validate from '@/services/validate';
 const form = ref();
 const vacancy: Vacancy = VacanciesStore.Item();
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
+const formPatterns: Form[] = FormPatternsStore.Items();
 
 const load = async () => {
   await DivisionsStore.FTSP({ ftsp: new FTSP() });
@@ -99,7 +99,7 @@ const load = async () => {
     VacanciesStore.ResetState();
     PHelp.AdminUI.Head.Set('Добавить вакансию', [Button.Success('Сохранить', submit)]);
   }
-  await Store.FTSP('formPatterns', { ftsp: new FTSP() });
+  await FormPatternsStore.FTSP({ ftsp: new FTSP() });
   window.addEventListener('beforeunload', beforeWindowUnload);
   watch(vacancy, formUpdated, { deep: true });
 };

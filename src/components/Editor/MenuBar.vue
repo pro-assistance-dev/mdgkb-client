@@ -24,12 +24,7 @@
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="Файлом" name="file">
-          <UploaderSingleScan
-            v-if="showDialog && dialogType === 'image'"
-            :file-info="image"
-            :height="300"
-            @ratio="(e) => (element.ratio = e)"
-          />
+          <UploderImage v-if="showDialog && dialogType === 'image'" :file-info="image" :height="300" @ratio="(e) => (element.ratio = e)" />
           <FileUploader v-if="showDialog && dialogType === 'video'" :file-info="image" :formats="['webm', 'mp4']" />
         </el-tab-pane>
       </el-tabs>
@@ -45,7 +40,6 @@ import FileInfo from '@/services/classes/FileInfo.ts';
 import News from '@/classes/News';
 import FileUploader from '@/components/FileUploader.vue';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Provider from '@/services/Provider/Provider';
 
 import MenuItem from './MenuItem.vue';
@@ -53,7 +47,6 @@ import MenuItem from './MenuItem.vue';
 export default defineComponent({
   name: 'MenuBar',
   components: {
-    UploaderSingleScan,
     MenuItem,
     FileUploader,
   },

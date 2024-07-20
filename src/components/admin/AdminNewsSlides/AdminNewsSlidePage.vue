@@ -55,16 +55,16 @@
       </el-card>
       <el-card header="Фон под разные разрешения">
         <el-form-item label="Desktop:" prop="desktopImg.fileSystemPath" :rules="rules.desktopImg">
-          <UploaderSingleScan :file-info="slide.desktopImg" :height="300" :default-ratio="1920 / 300" @ratio="(e) => (element.ratio = e)" />
+          <UploderImage :file-info="slide.desktopImg" :height="300" :default-ratio="1920 / 300" @ratio="(e) => (element.ratio = e)" />
         </el-form-item>
         <el-form-item label="Laptop:" prop="laptopImg.fileSystemPath" :rules="rules.laptopImg">
-          <UploaderSingleScan :file-info="slide.laptopImg" :height="300" :default-ratio="1200 / 300" />
+          <UploderImage :file-info="slide.laptopImg" :height="300" :default-ratio="1200 / 300" />
         </el-form-item>
         <el-form-item label="Tablet:" prop="tabletImg.fileSystemPath" :rules="rules.tabletImg">
-          <UploaderSingleScan :file-info="slide.tabletImg" :height="300" :default-ratio="768 / 300" />
+          <UploderImage :file-info="slide.tabletImg" :height="300" :default-ratio="768 / 300" />
         </el-form-item>
         <el-form-item label="Mobile:" prop="mobileImg.fileSystemPath" :rules="rules.mobileImg">
-          <UploaderSingleScan :file-info="slide.mobileImg" :height="300" :default-ratio="480 / 300" />
+          <UploderImage :file-info="slide.mobileImg" :height="300" :default-ratio="480 / 300" />
         </el-form-item>
       </el-card>
     </div>
@@ -84,9 +84,7 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 
 import NewsSlide from '@/classes/NewsSlide';
 import AdminNewsSlidePreview from '@/components/admin/AdminNewsSlides/AdminNewsSlidePreview.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -94,7 +92,7 @@ import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'AdminNewsSlidePage',
-  components: { TableMover, UploaderSingleScan, AdminNewsSlidePreview },
+  components: { TableMover, AdminNewsSlidePreview },
 
   setup() {
     const urlRegex =

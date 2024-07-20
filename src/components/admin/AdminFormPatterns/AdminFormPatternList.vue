@@ -25,13 +25,13 @@
 <script lang="ts" setup>
 import Form from '@/classes/Form';
 
-const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
+const formPatterns: Form[] = FormPatternsStore.Items();
 
 const create = (): void => {
   Router.ToAdmin('/form-patterns/new');
 };
 const remove = async (id: string): Promise<void> => {
-  await Store.Remove('formPatterns', id);
+  await FormPatternsStore.Remove(id);
 };
 
 const edit = (id: string): void => {
@@ -39,7 +39,7 @@ const edit = (id: string): void => {
 };
 
 onBeforeMount(async () => {
-  await Store.FTSP('formPatterns');
+  await FormPatternsStore.FTSP();
   PHelp.AdminUI.Head.Set('Шаблоны форм для заявок', [Button.Success('Создать', create)]);
 });
 </script>

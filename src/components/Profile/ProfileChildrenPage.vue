@@ -43,15 +43,15 @@ export default defineComponent({
     const store = useStore();
 
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: Ref<User> = computed(() => store.getters['users/item']);
+    const user: User = UsersStore.Item();
 
     const loadUser = async () => {
-      await store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
     };
     onMounted(loadUser);
 
     const save = async () => {
-      await store.dispatch('users/update', user.value);
+      await UsersStore.Update();
     };
 
     return {

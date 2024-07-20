@@ -51,7 +51,7 @@ onBeforeMount(() => {
   setActiveMenu();
 });
 
-const user: Ref<User> = Store.Item('users');
+const user: Ref<User> = UsersStore.Item();
 const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
 const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
 

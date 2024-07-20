@@ -1,6 +1,5 @@
 <template>
-  <Component :is="getIcon('heartfill')" v-if="isFavourite" id="heartfill-svg" class="heart"
-    @click.stop="removeFromUser" />
+  <Component :is="getIcon('heartfill')" v-if="isFavourite" id="heartfill-svg" class="heart" @click.stop="removeFromUser" />
   <Component v-else :is="getIcon('heartstroke')" id="heartstroke-svg" class="heart" @click.stop="add" />
 </template>
 
@@ -19,22 +18,22 @@ const props = defineProps({
     type: String,
     required: true,
   },
-})
+});
 const isFavourite = ref(FavouriteService.isFavourite(props.domainName, props.domainId));
-const auth = Store.Getters('auth/auth')
+const auth = Store.Getters('auth/auth');
 
 const modules = import.meta.glob('@/assets/doctors/svg/*.svg');
 const getIcon = (icon: string) => {
   const path = '/src/assets/doctors/svg/' + icon + '.svg';
   const comp = defineAsyncComponent(() => modules[path]());
-  return comp
-}
+  return comp;
+};
 
 const add = async () => {
   if (!checkAuth()) {
     return;
   }
-  await Store.Dispatch('users/addToUser', { domain: props.domainName, id: props.domainId });
+  await UsersStore.AddtoUser({ domain: props.domainName, id: props.domainId });
   isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
 };
 
@@ -42,7 +41,7 @@ const removeFromUser = async () => {
   if (!checkAuth()) {
     return;
   }
-  await Store.Dispatch('users/removeFromUser', { domain: props.domainName, id: props.domainId });
+  await UsersStore.RemoveFromUser({ domain: props.domainName, id: props.domainId });
   isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
 };
 
@@ -59,14 +58,16 @@ const checkAuth = (): boolean => {
   }
   return true;
 };
-watch(() => auth.value.isAuth, () => {
-  if (!auth.value.isAuth) {
-    clearFav();
-  } else {
-    isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
+watch(
+  () => auth.value.isAuth,
+  () => {
+    if (!auth.value.isAuth) {
+      clearFav();
+    } else {
+      isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);
+    }
   }
-});
-
+);
 </script>
 
 <style lang="scss" scoped>

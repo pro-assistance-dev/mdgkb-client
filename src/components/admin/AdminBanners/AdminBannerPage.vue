@@ -15,7 +15,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <UploaderSingleScan crop-ratio="1" :file-info="banner.fileInfo" :height="150" @ratio="(e) => (element.ratio = e)" />
+          <UploderImage crop-ratio="1" :file-info="banner.fileInfo" :height="150" @ratio="(e) => (element.ratio = e)" />
         </el-container>
       </el-col>
     </el-row>
@@ -27,14 +27,12 @@ import { computed, ComputedRef, defineComponent, ref } from 'vue';
 
 import Banner from '@/classes/Banner';
 import BannerRules from '@/classes/BannerRules';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminBannerPage',
-  components: { UploaderSingleScan },
 
   setup() {
     const form = ref();

@@ -168,6 +168,11 @@
     "DishesSamplesStore": true,
     "DailyMenuOrdersStore": true,
     "DailyMenusItemsStore": true,
-    "DailyMenusStore": true
+    "DailyMenusStore": true,
+    "SearchStore": true,
+    "FormPatternsStore": true,
+    "CropperStore": true,
+    "FormStatusGroupsStore": true,
+    "PointsAchievementsStore": true
   }
 }

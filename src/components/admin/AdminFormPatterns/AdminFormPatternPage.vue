@@ -55,8 +55,9 @@ export default defineComponent({
   components: { FormConstructor, FileUploader, WysiwygEditor },
 
   setup() {
-    const formPattern: ComputedRef<Form> = computed<Form>(() => Provider.store.getters['formPatterns/item']);
-    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => Provider.store.getters['formStatusGroups/items']);
+    const formPattern: Form = FormPatternsStore.Item();
+    const formStatusGroups: FormStatusGroup[] = FormStatusGroupsStore.Items();
+
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
     const rules = ref({
@@ -73,9 +74,9 @@ export default defineComponent({
       }
       try {
         if (Provider.route().params['id']) {
-          await Provider.store.dispatch('formPatterns/update', formPattern.value);
+          await FormPatternsStore.Update();
         } else {
-          await Provider.store.dispatch('formPatterns/create', formPattern.value);
+          await FormPatternsStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -91,7 +92,7 @@ export default defineComponent({
     const load = async () => {
       const id = Provider.route().params['id'];
       if (id && typeof id === 'string') {
-        await Provider.store.dispatch('formPatterns/get', id);
+        await FormPatternsStore.Get(id);
         PHelp.AdminUI.Head.Set('Обновить шаблон', [Button.Success('Сохранить', submit)]);
       } else {
         PHelp.AdminUI.Head.Set('Добавиь шаблон', [Button.Success('Сохранить', submit)]);
@@ -104,7 +105,7 @@ export default defineComponent({
     Hooks.onBeforeMount(load);
 
     onBeforeUnmount(() => {
-      Provider.store.commit('formPatterns/resetItem');
+      FormPatternsStore.ResetItem();
     });
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);

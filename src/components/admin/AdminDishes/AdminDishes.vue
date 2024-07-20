@@ -53,7 +53,6 @@ const selectedSample: Ref<DishSample | undefined> = ref(undefined);
 const selectedMenu: DailyMenu = DailyMenusStore.Item();
 const mounted = ref(false);
 const load = async () => {
-  // await Provider.store.dispatch('search/searchGroups');
   await DishesGroupsStore.GetAll();
 
   dayFilter.value = DailyMenusFiltersLib.byDate(new Date());

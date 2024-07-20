@@ -108,10 +108,10 @@ import ISearchObject from '@/services/interfaces/ISearchObject';
 const vacancies: Vacancy[] = VacanciesStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
-const formPatterns: ComputedRef<Form[]> = Store.Items('formPatterns');
+const formPatterns: Form[] = FormPatternsStore.Items();
 
 const editMany = async () => {
-  await Store.GetAll('formPatterns');
+  await FormPatternsStore.GetAll();
   isEditMode.value = true;
 };
 const saveMany = async () => {

@@ -2,7 +2,7 @@
   <CollapseContainer>
     <template #default="scope">
       <div class="margin-container">
-        <CollapseItem title="Личная информация" :active-id="scope.activeId" :tab-id="1011" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Личная информация" :active-id="scope.activeId" :tab-id="1011" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="background-container">
               <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
@@ -11,14 +11,14 @@
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Образование" :active-id="scope.activeId" :tab-id="1012" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Образование" :active-id="scope.activeId" :tab-id="1012" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <EducationForm :employee="employee" />
           </template>
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Опыт работы" :active-id="scope.activeId" :tab-id="1013" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="container">
               <el-form-item label="Совместитель">
@@ -57,7 +57,7 @@
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Сертификаты" :active-id="scope.activeId" :tab-id="1014" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="tools-buttons">
               <button class="admin-add" @click.prevent="employee.addCertificate()">+ Добавить</button>
@@ -71,14 +71,14 @@
                 <el-input v-model="certificate.description" />
               </el-form-item>
               <el-form-item label="Загрузить сертификат">
-                <UploaderSingleScan :height="238" :file-info="certificate.scan" @ratio="(e) => (element.ratio = e)" />
+                <UploderImage :height="238" :file-info="certificate.scan" @ratio="(e) => (element.ratio = e)" />
               </el-form-item>
             </div>
           </template>
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Ученая степень, звание" :active-id="scope.activeId" :tab-id="1016" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Ученая степень, звание" :active-id="scope.activeId" :tab-id="1016" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="background-container">
               <el-form-item label="Учёная степень">
@@ -92,7 +92,7 @@
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Регалии" :active-id="scope.activeId" :tab-id="1017" @changeActiveId="scope.changeActiveId">
+        <CollapseItem title="Регалии" :active-id="scope.activeId" :tab-id="1017" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="tools-buttons">
               <button class="admin-add" @click.prevent="employee.addRegalia()">+ Добавить</button>
@@ -110,7 +110,12 @@
         </CollapseItem>
       </div>
       <div class="margin-container">
-        <CollapseItem title="Педагогическая деятельность" :active-id="scope.activeId" :tab-id="1018" @changeActiveId="scope.changeActiveId">
+        <CollapseItem
+          title="Педагогическая деятельность"
+          :active-id="scope.activeId"
+          :tab-id="1018"
+          @change-active-id="scope.changeActiveId"
+        >
           <template #inside-content>
             <div class="tools-buttons">
               <button class="admin-add" @click.prevent="employee.addTeachingActivity()">+ Добавить</button>
@@ -133,17 +138,15 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref } from 'vue';
 
 import Employee from '@/classes/Employee';
 import EducationForm from '@/components/admin/EducationForm.vue';
 import HumanForm from '@/components/admin/HumanForm.vue';
-import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
+import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Human from '@/services/classes/Human';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
-import EmployeesFiltersLib from '@/libs/filters/EmployeesFiltersLib';
+import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
@@ -151,17 +154,15 @@ export default defineComponent({
   components: {
     HumanForm,
     EducationForm,
-    UploaderSingleScan,
     CollapseItem,
     CollapseContainer,
   },
   setup() {
     const employee: Employee = EmployeesStore.Item();
     const employees: Employee[] = EmployeesStore.Items();
-    let filterModel: FilterModel = EmployeesFiltersLib.byFullName();
+    const filterModel: FilterModel = EmployeesFiltersLib.byFullName();
 
     const completeInput = async (human: Human) => {
-      console.log('COMPLETEINPUT');
       filterModel.value1 = human.getFullName();
       Provider.setFilterModel(filterModel);
       await Provider.loadItems();

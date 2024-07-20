@@ -47,8 +47,8 @@ import User from '@/classes/User';
 import AdmissionQuestionsForm from '@/components/Educational/AdmissionCommittee/AdmissionQuestionsForm.vue';
 import ResidencyApplicationAchievements from '@/components/Educational/Residency/ResidencyApplicationAchievements.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -59,7 +59,7 @@ export default defineComponent({
   setup() {
     const mounted = ref(true);
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const user: User = UsersStore.Item();
 
     const form = ref();
     const formValue: ComputedRef<Form> = computed(() => Provider.store.getters['formValues/item']);
@@ -68,7 +68,7 @@ export default defineComponent({
 
     const submit = async () => {
       await loadFilters();
-      const application = user.value.residencyApplications[0];
+      const application = user.residencyApplications[0];
       application.formValue.validate();
       if (!validate(form, true) || !application.formValue.validated) {
         return;
@@ -83,7 +83,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
       // await Provider.store.dispatch('formValues/get', Prov?ider.route().params.id);
       mounted.value = true;
     };
@@ -97,12 +97,12 @@ export default defineComponent({
     onBeforeMount(() => load);
 
     onBeforeUnmount(async () => {
-      user.value.setResidencyApplicationsViewed();
-      await Provider.store.dispatch('formValues/updateMany', user.value.formValues);
+      user.setResidencyApplicationsViewed();
+      await Provider.store.dispatch('formValues/updateMany', user.formValues);
     });
 
     const filledApplicationDownload = () => {
-      const application = user.value.residencyApplications[0];
+      const application = user.residencyApplications[0];
       ElMessageBox.alert(
         'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
         'После закрытия этого окна скачается предзаполненное заявление',

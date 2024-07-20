@@ -34,7 +34,7 @@
           <div v-if="element.editMode" class="menu-card">
             <el-icon class="handle"><Grid /></el-icon>
             <el-input v-model="element.name"></el-input>
-            <UploaderSingleScan :file-info="element.icon" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
+            <UploaderImage :file-info="element.icon" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeMenu(index)" />
             <el-button type="success" size="medium" icon="el-icon-edit" @click="element.editMode = false" />
           </div>
@@ -62,11 +62,10 @@ import draggable from 'vuedraggable';
 import { useStore } from 'vuex';
 
 import Menu from '@/services/classes/Menu';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import sort from '@/services/sort';
 export default defineComponent({
   name: 'AdminMenus',
-  components: { draggable, Grid, UploaderSingleScan },
+  components: { draggable, Grid },
   setup() {
     const store = useStore();
     const menus: ComputedRef<Menu[]> = computed(() => store.getters['menus/items']);

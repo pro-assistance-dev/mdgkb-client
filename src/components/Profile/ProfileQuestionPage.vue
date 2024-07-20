@@ -14,12 +14,12 @@ const store = useStore();
 const mounted = ref(false);
 const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
 const userQuestions: ComputedRef<Question[]> = computed(() => {
-  const user = store.getters['users/item'];
+  const user = UsersStore.Item();
   return user.questions.sort((a: Question, b: Question) => b.date.getTime() - a.date.getTime());
 });
 
 const loadUser = async () => {
-  await store.dispatch('users/get', userId.value);
+  await UsersStore.Get(userId.value);
   await QuestionsStore.ReadAnswers(userId.value);
   mounted.value = true;
 };

@@ -10,7 +10,7 @@
         <el-checkbox v-model="user.rejectEmail">Запретить рассылку email</el-checkbox>
       </div>
       <div>
-        <PButton skin="profile" text="Сохранить" height="20px" @click="saveUser" margin/>
+        <PButton skin="profile" text="Сохранить" height="20px" @click="saveUser" margin />
       </div>
     </div>
   </div>
@@ -30,16 +30,16 @@ export default defineComponent({
     const mounted = ref(false);
     const store = useStore();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
+    const user: User = UsersStore.Item();
     const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => store.getters['formStatuses/items']);
 
     onBeforeMount(async () => {
-      await store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
       mounted.value = true;
     });
 
     const saveUser = async () => {
-      await store.dispatch('users/update', user.value);
+      await UsersStore.Update();
       await Provider.router.push('/profile');
     };
 
@@ -300,8 +300,8 @@ h4 {
   z-index: 1;
 }
 
-.give-button:focus~.drop-give-button,
-.give-button:active~.drop-give-button,
+.give-button:focus ~ .drop-give-button,
+.give-button:active ~ .drop-give-button,
 .drop-give-button:hover {
   display: block;
 }

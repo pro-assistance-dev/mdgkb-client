@@ -139,11 +139,11 @@ export default defineComponent({
   setup() {
     const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
     const specializations: Specialization[] = SpecializationsStore.Items();
-    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => Provider.store.getters['formPatterns/items']);
+    const formPatterns: ComputedRef<Form[]> = FormPatternsStore.Item();
 
     const load = async () => {
       await SpecializationsStore.GetAll();
-      await Provider.store.dispatch('formPatterns/getAll');
+      await FormPatternsStore.GetAll();
       await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
     };
 

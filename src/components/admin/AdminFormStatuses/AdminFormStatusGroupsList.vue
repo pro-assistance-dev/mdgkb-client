@@ -33,12 +33,12 @@ import FormStatusGroup from '@/classes/FormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
-const formStatusGroups: ComputedRef<FormStatusGroup[]> = Store.Items('formStatusGroups');
-const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroup');
+const formStatusGroups: FormStatusGroup[] = FormStatusGroupsStore.Items();
+const formStatusGroup: ComputedRef<FormStatusGroup> = FormStatusGroupsStore.Item();
 const mounted: Ref<boolean> = ref(false);
 
 const load = async () => {
-  await Store.FTSP('formStatusGroups');
+  await FormStatusGroupsStore.FTSP();
   PHelp.AdminUI.Head.Set('Группы статусов заявок', [Button.Success('Создать', create)]);
   mounted.value = true;
 };
@@ -46,28 +46,19 @@ const load = async () => {
 Hooks.onBeforeMount(load);
 
 const remove = async (id: string) => {
-  await Store.Remove('formStatusGroups', id);
+  await FormStatusGroupsStore.Remove(id);
 };
 
 const edit = async (id: string) => {
   Provider.router.push({ name: 'AdminFormStatusesList', params: { groupId: id } });
 };
 
-const create = () => {
-  Store.Commit('formStatusGroups/setDialogTitle', 'Добавить группу');
-  Store.Commit('formStatusGroups/resetItem');
-  Store.Commit('formStatusGroups/toggleDialog', true);
-};
+const create = () => {};
 
 const openDialog = async (id?: string) => {
   if (id) {
-    await Store.Get('formStatusGroups', id);
-    Store.Commit('formStatusGroups/setDialogTitle', formStatusGroup.value.name);
-  } else {
-    Store.Commit('formStatusGroups/setDialogTitle', 'Добавить группу');
-    Store.Commit('formStatusGroups/resetItem');
+    await FormStatusGroupsStore.Get(id);
   }
-  Store.Commit('formStatusGroups/toggleDialog', true);
 };
 </script>
 

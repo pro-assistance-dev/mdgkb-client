@@ -55,7 +55,7 @@ import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
-const formStatusGroup: ComputedRef<FormStatusGroup> = Store.Item('formStatusGroups');
+const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
 const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = Store.Getters('formStatuses/formStatusToFormStatuses');
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
@@ -88,7 +88,7 @@ const load = async () => {
   // } else {
   await Store.FTSP('formStatuses');
   // }
-  await Store.Get('formStatusGroups', Provider.route().params['groupId']);
+  await FormStatusGroupsStore.Get(Provider.route().params['groupId']);
   Store.Commit('formStatuses/seedFormStatusToFormStatuses');
   PHelp.AdminUI.Head.Set(Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм', [
     Button.Success('Редактировать', openEditMode, isNotEditMode),

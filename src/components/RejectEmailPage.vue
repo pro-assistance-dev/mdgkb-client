@@ -11,29 +11,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
-
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'RejectEmailPage',
-  async setup() {
-    const user: Ref<User> = computed(() => Provider.store.getters['users/item']);
+const user: User = UsersStore.Item();
 
-    onBeforeMount(async () => {
-      await Provider.store.dispatch('users/get', Provider.route().params['userId']);
-    });
-
-    const submit = async () => {
-      user.value.rejectEmail = true;
-      await Provider.store.dispatch('users/update', user.value);
-      await Provider.router.push('/main');
-    };
-
-    return { submit };
-  },
+onBeforeMount(async () => {
+  await UsersStore.Get(Provider.route().params['userId']);
 });
+
+const submit = async () => {
+  user.rejectEmail = true;
+  await UsersStore.Update();
+  await Provider.router.push('/main');
+};
 </script>
 
 <style lang="scss" scoped>

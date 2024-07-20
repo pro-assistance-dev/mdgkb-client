@@ -54,7 +54,7 @@ export default defineComponent({
   emits: ['close'],
   setup(_, { emit }) {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const user: User = UserStore.Item();
     const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const rules = {
@@ -62,7 +62,7 @@ export default defineComponent({
     };
 
     const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
     };
 
     const close = () => {
@@ -74,7 +74,7 @@ export default defineComponent({
     const submit = () => {
       router.push('/profile');
       emit('close');
-      Provider.store.dispatch('users/update', user.value);
+      await UsersStore.Update();
       emit('close');
       ElNotification({
         title: 'Телефон',

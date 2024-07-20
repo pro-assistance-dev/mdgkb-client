@@ -1,17 +1,18 @@
 <template>
   <div class="container">
-    <PButton skin="profile" text="Поиск" width="260px" margin="10px 0 0 0"
-      @click.stop="$router.push('/profile')" />
-    <PButton skin="profile" text="Мой профиль" width="260px" margin="10px 0 0 0"
-      @click.stop="$router.push('/profile')" />
-    <PButton skin="profile" text="Заказ еды" width="260px" margin="10px 0 0 0"
-      @click.stop="$router.push('/profile/daily-menu-orders')" />
-    <PButton skin="profile" text="Настройки" width="260px" margin="10px 0 0 0"
-      @click.stop="$router.push('/profile/settings')" />
-    <PButton skin="profile" v-if="UserService.isAdmin()" text="Кабинет администратора" width="260px"
-    margin="10px 0 0 0" @click="$router.push(`/admin/${curUser.role.startPage}`)" />
-    <PButton skin="profile" text="Выйти" width="260px" margin="10px 0 0 0"
-      @click="logout" />
+    <PButton skin="profile" text="Поиск" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile')" />
+    <PButton skin="profile" text="Мой профиль" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile')" />
+    <PButton skin="profile" text="Заказ еды" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile/daily-menu-orders')" />
+    <PButton skin="profile" text="Настройки" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile/settings')" />
+    <PButton
+      skin="profile"
+      v-if="UserService.isAdmin()"
+      text="Кабинет администратора"
+      width="260px"
+      margin="10px 0 0 0"
+      @click="$router.push(`/admin/${curUser.role.startPage}`)"
+    />
+    <PButton skin="profile" text="Выйти" width="260px" margin="10px 0 0 0" @click="logout" />
   </div>
 </template>
 
@@ -29,7 +30,7 @@ export default defineComponent({
     const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
 
     const loadUser = async () => {
-      await Provider.store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
     };
 
     const logout = async () => {

@@ -217,15 +217,13 @@ export default defineComponent({
 
     const specializations: Specialization[] = SpecializationsStore.Items();
     const selectedTeacher: Teacher = TeachersStore.Item();
-    const formPatterns: ComputedRef<Form[]> = computed<Form[]>(() => store.getters['formPatterns/items']);
-    const documentTypes: ComputedRef<PageSection[]> = computed<PageSection[]>(() => store.getters['documentTypes/items']);
+    const formPatterns: Form[] = FormPatternsStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
       await TeachersStore.GetAll();
       await SpecializationsStore.GetAll();
-      await store.dispatch('formPatterns/getAll');
-      await store.dispatch('documentTypes/getAll');
+      await FormPatternsStore.GetAll();
       await loadItem();
     });
 
@@ -278,7 +276,6 @@ export default defineComponent({
       // postgraduateCourse.value.documentTypeId = postgraduateCourse.value.documentType.id;
     };
     return {
-      documentTypes,
       specializations,
 
       addTeacher,

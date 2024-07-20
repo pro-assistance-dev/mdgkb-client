@@ -7,6 +7,7 @@ import CandidateApplicationsStore from './CandidateApplicationsStore';
 import CandidateExamsStore from './CandidateExamsStore';
 import ChatsStore from './ChatsStore';
 import CommentsStore from './CommentsStore';
+import CropperStore from './CropperStore';
 import DailyMenuOrdersStore from './DailyMenuOrdersStore';
 import DailyMenusItemsStore from './DailyMenusItemsStore';
 import DailyMenusStore from './DailyMenusStore';
@@ -22,6 +23,8 @@ import EducationalManagersStore from './EducationalManagersStore';
 import EmployeesStore from './EmployeesStore';
 import ExportsStore from './ExportsStore';
 import FaqsStore from './FaqsStore';
+import FormPatternsStore from './FormPatternsStore';
+import FormStatusGroupsStore from './FormStatusGroupsStore';
 import HeadsStore from './HeadsStore';
 import HospitalizationsStore from './HospitalizationsStore';
 import HospitalizationsTypesStore from './HospitalizationsTypesStore';
@@ -37,11 +40,13 @@ import PaidProgramsStore from './PaidProgramsStore';
 import PaidServicesStore from './PaidServicesStore';
 import PartnersStore from './PartnersStore';
 import PartnersTypesStore from './PartnersTypesStore';
+import PointsAchievementsStore from './PointsAchievementsStore';
 import PostgraduateCoursesStore from './PostgraduateCoursesStore';
 import PreparationsStore from './PreparationsStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
 import RolesStore from './RolesStore';
+import SearchStore from './SearchStore';
 import SideOrganizationsStore from './SideOrganizationsStore';
 import SpecializationsStore from './SpecializationsStore';
 import SupportMessagesStore from './SupportMessagesStore';
@@ -65,6 +70,7 @@ export {
   CandidateExamsStore,
   ChatsStore,
   CommentsStore,
+  CropperStore,
   DailyMenuOrdersStore,
   DailyMenusItemsStore,
   DailyMenusStore,
@@ -80,6 +86,8 @@ export {
   EmployeesStore,
   ExportsStore,
   FaqsStore,
+  FormPatternsStore,
+  FormStatusGroupsStore,
   HeadsStore,
   HospitalizationsStore,
   HospitalizationsTypesStore,
@@ -95,11 +103,13 @@ export {
   PaidServicesStore,
   PartnersStore,
   PartnersTypesStore,
+  PointsAchievementsStore,
   PostgraduateCoursesStore,
   PreparationsStore,
   ProjectsStore,
   QuestionsStore,
   RolesStore,
+  SearchStore,
   SideOrganizationsStore,
   SpecializationsStore,
   SupportMessagesStore,

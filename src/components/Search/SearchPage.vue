@@ -82,12 +82,9 @@ export default defineComponent({
     const results: Ref<SearchElement[]> = ref([]);
     const curPage: Ref<number> = ref(0);
     const searchTags: Record<string, string> = { doctor: 'Доктор', paidService: 'Платная услуга', division: 'Отделение' };
-    const searchModel: Ref<SearchModel> = computed<SearchModel>(() => Provider.store.getters['search/searchModel']);
-    const isDrawerOpen: ComputedRef<boolean> = computed<boolean>(() => Provider.store.getters['search/isSearchDrawerOpen']);
+    const searchModel: SearchModel = SearchStore.SearchModel();
     const pageCount: ComputedRef<number> = computed(() =>
-      Math.ceil(searchModel.value.count / searchModel.value.pagination.limit) > 0
-        ? Math.ceil(searchModel.value.count / searchModel.value.pagination.limit)
-        : 1
+      Math.ceil(searchModel.count / searchModel.pagination.limit) > 0 ? Math.ceil(searchModel.count / searchModel.pagination.limit) : 1
     );
     const openDrawer = () => {
       searchInput.value.inputRef.focus();
@@ -97,13 +94,13 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       // await Provider.store.dispatch('search/searchGroups');
-      await searchModel.value.reproduceFromRoute();
+      await searchModel.reproduceFromRoute();
       await search();
       // await selectSearchGroup(undefined);
     });
 
     onUnmounted(() => {
-      searchModel.value.query = '';
+      searchModel.query = '';
     });
     const handleSelect = async (link: string) => {
       Provider.store.commit('search/toggleDrawer', false);
@@ -111,33 +108,33 @@ export default defineComponent({
     };
     const changeFilter = (searchGroupIds: string[]) => {
       if (searchGroupIds.length) {
-        searchModel.value.searchGroupId = searchGroupIds[0];
+        searchModel.searchGroupId = searchGroupIds[0];
       }
     };
 
     const selectSearchGroup = async (searchGroupId: string | undefined) => {
-      await searchModel.value.setSearchGroup(searchGroupId);
+      await searchModel.setSearchGroup(searchGroupId);
       await search();
     };
 
     const search = async () => {
-      if (StringsService.canBeTranslited(searchModel.value.query)) {
+      if (StringsService.canBeTranslited(searchModel.query)) {
         ElMessage({
           type: 'success',
           message: 'Запрос переведен',
         });
       }
-      searchModel.value.options = [];
-      searchModel.value.searchGroup.options = [];
-      searchModel.value.query = StringsService.translit(searchModel.value.query);
-      await Provider.store.dispatch('search/full', searchModel.value);
-      results.value = searchModel.value.searchGroup.options;
-      results.value = searchModel.value.options;
+      searchModel.options = [];
+      searchModel.searchGroup.options = [];
+      searchModel.query = StringsService.translit(searchModel.query);
+      await SearchStore.Full(searchModel);
+      // results. = searchModel.searchGroup.options;
+      // results.value = searchModel.options;
     };
 
     const pageChange = async (pageNum: number) => {
-      searchModel.value.pagination.limit = 20;
-      searchModel.value.pagination.offset = (pageNum - 1) * searchModel.value.pagination.limit;
+      searchModel.pagination.limit = 20;
+      searchModel.pagination.offset = (pageNum - 1) * searchModel.pagination.limit;
       await search();
       curPage.value = pageNum;
     };
@@ -157,7 +154,6 @@ export default defineComponent({
       handleSelect,
       searchString,
       searchInput,
-      isDrawerOpen,
       closeDrawer,
       openDrawer,
     };

@@ -43,7 +43,7 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploaderSingleScan
+            <UploderImage
               :file-info="employee.human.photo"
               :height="300"
               @remove-file="employee.human.removePhoto()"
@@ -51,7 +51,7 @@
             />
           </el-card>
           <el-card header="Фото-миниатюра">
-            <UploaderSingleScan
+            <UploaderImage
               :file-info="employee.human.photoMini"
               :height="300"
               :width="300"
@@ -71,7 +71,6 @@ import Employee from '@/classes/Employee';
 import DoctorConstructor from '@/components/admin/AdminEmployees/DoctorConstructor.vue';
 import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConstructor.vue';
 import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
@@ -80,7 +79,6 @@ export default defineComponent({
   components: {
     DoctorConstructor,
     EmployeeConstructor,
-    UploaderSingleScan,
     HeadConstructor,
   },
   setup() {

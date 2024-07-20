@@ -25,16 +25,16 @@ export default defineComponent({
     const store = useStore();
     const mounted = ref(false);
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
-    const user: ComputedRef<User> = computed(() => store.getters['users/item']);
+    const user: User = UsersStore.Item();
 
     onBeforeMount(async () => {
-      await store.dispatch('users/get', userId.value);
+      await UsersStore.Get(userId.value);
       await QuestionsStore.ReadAnswers(userId.value);
       mounted.value = true;
     });
 
     onBeforeUnmount(async () => {
-      user.value.setAnswersViewed();
+      user.setAnswersViewed();
     });
 
     return {

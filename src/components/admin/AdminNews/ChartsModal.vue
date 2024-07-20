@@ -75,7 +75,7 @@ export default defineComponent({
     };
 
     const exportData = (exportOptions: ExportOptions): Promise<void | ChartData> => {
-      return Provider.store.dispatch('dataExport/data', exportOptions);
+      return ExportsStore.Data(exportOptions);
     };
 
     const chartjsTypesList = [

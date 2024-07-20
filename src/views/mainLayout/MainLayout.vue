@@ -70,7 +70,7 @@ const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/Foote
 const auth: ComputedRef<Auth> = Store.Getters('auth/auth');
 onBeforeMount(async () => {
   if (auth.value.isAuth) {
-    await Store.Get('users', auth.value.user.get().id);
+    await UsersStore.Get(auth.value.user.get().id);
   }
 });
 const cache = new Cache();

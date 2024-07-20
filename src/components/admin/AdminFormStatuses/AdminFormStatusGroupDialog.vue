@@ -27,15 +27,16 @@ export default defineComponent({
 
   setup() {
     const form = ref();
-    const formStatusGroup: ComputedRef<FormStatusGroup> = computed(() => Provider.store.getters['formStatusGroups/item']);
-    const showDialog: WritableComputedRef<boolean> = computed({
-      get(): boolean {
-        return Provider.store.getters['formStatusGroups/showDialog'];
-      },
-      set(value: boolean): void {
-        Provider.store.commit('formStatusGroups/toggleDialog', value);
-      },
-    });
+    const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
+
+    // const showDialog: WritableComputedRef<boolean> = computed({
+    //   get(): boolean {
+    //     return Provider.store.getters['formStatusGroups/showDialog'];
+    //   },
+    //   set(value: boolean): void {
+    //     Provider.store.commit('formStatusGroups/toggleDialog', value);
+    //   },
+    // });
 
     const dialogTitle: ComputedRef<string> = computed(() => Provider.store.getters['formStatusGroups/dialogTitle']);
 
@@ -47,13 +48,12 @@ export default defineComponent({
       if (!validate(form)) {
         return;
       }
-      if (formStatusGroup.value.id) {
-        await Provider.store.dispatch('formStatusGroups/update');
+      if (formStatusGroup.id) {
+        await FormStatusGroupsStore.Update();
       } else {
-        await Provider.store.dispatch('formStatusGroups/create');
+        await FormStatusGroupsStore.Create();
       }
-      await Provider.store.dispatch('formStatusGroups/getAll');
-      Provider.store.commit('formStatusGroups/toggleDialog', false);
+      await FormStatusGroupsStore.GetAll();
     };
     const handleClose = () => {
       ElMessageBox.confirm('У вас есть несохранённые изменения', 'Вы уверены, что хотите покинуть страницу?', {
@@ -71,7 +71,6 @@ export default defineComponent({
               type: 'warning',
               message: 'Изменения не были сохранены',
             });
-            Provider.store.commit('formStatusGroups/toggleDialog', false);
           }
         });
     };
@@ -81,7 +80,6 @@ export default defineComponent({
       form,
       rules,
       submit,
-      showDialog,
       dialogTitle,
       handleClose,
     };

@@ -34,7 +34,7 @@
           <el-color-picker v-model="formStatus.color"></el-color-picker>
         </el-form-item>
         <el-form-item label="Исконка" prop="icon">
-          <UploaderSingleScan :file-info="formStatus.icon" :crop-ratio="false" />
+          <UploaderImage :file-info="formStatus.icon" :crop-ratio="false" />
         </el-form-item>
       </el-card>
     </el-form>
@@ -50,27 +50,24 @@ import { useStore } from 'vuex';
 import FormStatus from '@/classes/FormStatus';
 import FormStatusGroup from '@/classes/FormStatusGroup';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminFormStatusPage',
-  components: { UploaderSingleScan },
-
   setup() {
     const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const formStatus: ComputedRef<FormStatus> = computed<FormStatus>(() => store.getters['formStatuses/item']);
-    const formStatusGroups: ComputedRef<FormStatusGroup[]> = computed(() => store.getters['formStatusGroups/items']);
+    const formStatusGroups: FormStatusGroup[] = FormStatusGroupsStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       try {
-        if (route.params['id']) {
+        if (Router.Id()) {
           await store.dispatch('formStatuses/update', formStatus.value);
         } else {
           await store.dispatch('formStatuses/create', formStatus.value);
@@ -90,7 +87,7 @@ export default defineComponent({
         store.commit('formStatuses/setGroupId', route.params['groupId']);
         PHelp.AdminUI.Head.Set('Создать статус', [Button.Success('Создать', submit)]);
       }
-      await store.dispatch('formStatusGroups/getAll');
+      await FormStatusGroupsStore.GetAll();
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formStatus, formUpdated, { deep: true });

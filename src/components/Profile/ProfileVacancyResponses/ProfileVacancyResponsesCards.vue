@@ -1,27 +1,45 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem v-for="vacancyResponse in user.vacancyResponses" :key="vacancyResponse.id"
-        :title="`${vacancyResponse.vacancy.title}`" :tab-id="vacancyResponse.id" :collapsed="false"
-        :active-id="scope.activeId" :show-tools-on-hover="false">
+      <CollapseItem
+        v-for="vacancyResponse in user.vacancyResponses"
+        :key="vacancyResponse.id"
+        :title="`${vacancyResponse.vacancy.title}`"
+        :tab-id="vacancyResponse.id"
+        :collapsed="false"
+        :active-id="scope.activeId"
+        :show-tools-on-hover="false"
+      >
         <template #tools>
           <div class="order-date" style="margin-right: 5px">
-            {{ $dateTimeFormatter.format(vacancyResponse.formValue.createdAt, {
-              day: '2-digit', month: 'long', year:
-                'numeric'
-            }) }}
+            {{
+              $dateTimeFormatter.format(vacancyResponse.formValue.createdAt, {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+              })
+            }}
           </div>
-          <el-tag v-if="vacancyResponse.formValue.formStatus.label" size="small"
-            :style="`background-color: inherit; color: ${vacancyResponse.formValue.formStatus.color}; border-color: ${vacancyResponse.formValue.formStatus.color}`">{{
-              vacancyResponse.formValue.formStatus.label }}</el-tag>
+          <el-tag
+            v-if="vacancyResponse.formValue.formStatus.label"
+            size="small"
+            :style="`background-color: inherit; color: ${vacancyResponse.formValue.formStatus.color}; border-color: ${vacancyResponse.formValue.formStatus.color}`"
+            >{{ vacancyResponse.formValue.formStatus.label }}</el-tag
+          >
         </template>
         <template #inside-content>
           <div class="margin-container">
             <div class="position">
               <div class="flex">
-                <PButton skin="profile" v-for="item in vacancyResponse.formValue.getUserActions()" :key="item.id"
-                  :text="item.childFormStatus.userActionName" margin="0 10px 0 0" width="120px"
-                  @click="updateFormStatus(vacancyResponse, item.childFormStatus)" />
+                <PButton
+                  skin="profile"
+                  v-for="item in vacancyResponse.formValue.getUserActions()"
+                  :key="item.id"
+                  :text="item.childFormStatus.userActionName"
+                  margin="0 10px 0 0"
+                  width="120px"
+                  @click="updateFormStatus(vacancyResponse, item.childFormStatus)"
+                />
               </div>
             </div>
           </div>
@@ -48,7 +66,7 @@ export default defineComponent({
     CollapseItem,
   },
   setup() {
-    const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+    const user: User = UsersStore.Item();
     const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 
     const updateFormStatus = async (application: VacancyResponse, status: FormStatus) => {

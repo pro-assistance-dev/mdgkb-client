@@ -65,7 +65,7 @@ import CollapseContainer from '@/services/components/Collapse/CollapseContainer.
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
-const user: ComputedRef<User> = computed(() => Provider.store.getters['users/item']);
+const user: User = UsersStore.Item();
 const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
 const cancelApplication = async (formValue: Form, status: FormStatus) => {
   ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
@@ -98,7 +98,7 @@ onBeforeMount(async () => {
 });
 
 onBeforeUnmount(async () => {
-  user.value.setResidencyApplicationsViewed();
+  user.setResidencyApplicationsViewed();
   await Provider.store.dispatch('formValues/updateMany', user.value.getResidencyApplicationsFormValues());
 });
 </script>

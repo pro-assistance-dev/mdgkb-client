@@ -112,7 +112,7 @@ export default defineComponent({
       }
       showDrawer.value = !showDrawer.value;
     };
-    const showSearchDrawer = () => Store.Commit('search/toggleDrawer', true);
+    const showSearchDrawer = () => SearchStore.ToggleDrawer(true);
 
     return {
       scrollOffset,

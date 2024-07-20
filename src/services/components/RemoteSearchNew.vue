@@ -56,7 +56,7 @@ const props = defineProps({
 const emit = defineEmits(['select', 'load', 'input']);
 const queryString: Ref<string> = ref(props.modelValue);
 const searchForm = ref();
-const searchModel: ComputedRef<SearchModel> = Store.Getters('search/searchModel');
+const searchModel: SearchModel = SearchStore.SearchModel();
 
 watch(
   () => props.focus,
@@ -75,22 +75,22 @@ const find = async (query: string): Promise<ISearchObject[] | undefined> => {
     return;
   }
   searchForm.value.activated = true;
-  searchModel.value.searchObjects = [];
-  searchModel.value.query = query;
-  searchModel.value.key = props.keyValue;
-  const groupForSearch = searchModel.value.searchGroups.find((group: SearchGroup) => group.key === props.keyValue);
+  searchModel.searchObjects = [];
+  searchModel.query = query;
+  searchModel.key = props.keyValue;
+  const groupForSearch = searchModel.searchGroups.find((group: SearchGroup) => group.key === props.keyValue);
   if (groupForSearch) {
-    searchModel.value.searchGroup = groupForSearch;
+    searchModel.searchGroup = groupForSearch;
   }
-  await Store.Dispatch(`search/search`, searchModel.value);
+  await SearchStore.Search(searchModel);
 
-  console.log(searchModel.value);
-  // emit('input', searchModel.value.searchObjects);
+  console.log(searchModel);
+  // emit('input', searchModel.searchObjects);
   // if (props.showSuggestions) {
-  //   resolve(searchModel.value.searchObjects);
+  //   resolve(searchModel.searchObjects);
   //   return;
   // }
-  return searchModel.value.searchObjects;
+  return searchModel.searchObjects;
 };
 
 const handleSelect = async (item: ISearch): Promise<void> => {

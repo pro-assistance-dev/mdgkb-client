@@ -123,7 +123,7 @@ const createBufetContacts = () => {
 };
 const dailyMenu: DailyMenu = DailyMenusStore.Item();
 const todayMenu: DailyMenu = DailyMenusStore.TodayMenu();
-const formPattern: Ref<Form> = computed(() => Provider.store.getters['formPatterns/item']);
+const formPattern: Form = FormPatterns.Item();
 const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 const cartIsOpen: Ref<boolean> = ref(false);
 const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
@@ -140,7 +140,7 @@ let intervalID: number;
 // });
 
 const initForm = () => {
-  dailyMenuOrder.formValue.reproduceFromPattern(formPattern.value);
+  dailyMenuOrder.formValue.reproduceFromPattern(formPattern);
   dailyMenuOrder.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
   dailyMenuOrder.formValue.user = new User(user.value);
 };
@@ -168,7 +168,7 @@ const checkDailyMenuItemsAvailable = () => {
     if (!dailyMenu.id) {
       return;
     }
-    const nonAvailableItems = dailyMenuOrder.filterAndGetNonActualDailyMenuItems(dailyMenu.value);
+    const nonAvailableItems = dailyMenuOrder.filterAndGetNonActualDailyMenuItems(dailyMenu);
     if (nonAvailableItems.length === 0) {
       return;
     }

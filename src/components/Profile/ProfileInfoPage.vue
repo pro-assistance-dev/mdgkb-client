@@ -17,7 +17,7 @@
       <div class="column-left">
         <div class="user-avatar">
           <div class="avatar-block">
-            <UploaderSingleScan
+            <UploaderImage
               :emit-crop="true"
               :file-info="user.human.photo"
               :height="273"
@@ -147,19 +147,19 @@ import FileInfo from '@/services/classes/FileInfo';
 
 const mounted = ref(false);
 const auth: ComputedRef<Auth> = Store.Getters('auth/auth');
-const user: ComputedRef<User> = Store.Item('users');
+const user: User = UsersStore.Item();
 
 const saveAvatar = async () => {
-  await Store.Update('users', user.value);
+  await UsersStore.Update(user);
 };
 
 const dropAvatar = async () => {
-  user.value.human.photoId = undefined;
-  user.value.human.photo = new FileInfo();
-  await Store.Update('users', user.value);
+  user.human.photoId = undefined;
+  user.human.photo = new FileInfo();
+  await UsersStore.Update(user);
 };
 onBeforeMount(async () => {
-  await Store.Get('users', auth.value.user.get().id);
+  await UsersStore.Get(auth.value.user.get().id);
   mounted.value = true;
 });
 

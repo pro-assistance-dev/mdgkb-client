@@ -32,12 +32,12 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 
 const gates: Gate[] = GatesStore.Item();
-const formPatterns: ComputedRef<Form[]> = computed(() => Provider.store.getters['formPatterns/items']);
+const formPatterns: Form[] = FormPatternsStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 
 const edit = async () => {
-  await Provider.store.dispatch('formPatterns/getAll');
+  await FormPatternsStore.GetAll();
   isEditMode.value = true;
 };
 const save = async () => {

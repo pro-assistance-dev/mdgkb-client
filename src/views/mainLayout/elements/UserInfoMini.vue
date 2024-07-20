@@ -31,7 +31,7 @@
 <script lang="ts" setup>
 import User from '@/classes/User';
 
-const user: Ref<User> = Store.Item('users');
+const user: User = UsersStore.Item();
 </script>
 
 <style lang="scss" scoped>

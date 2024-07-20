@@ -54,12 +54,12 @@ export default defineComponent({
     const groups: Ref<string[]> = ref([]);
     const router = useRouter();
 
-    const searchModel: ComputedRef<SearchModel> = Store.Getters('search/searchModel');
-    const searchGroups: ComputedRef<SearchGroup[]> = Store.Getters('search/searchGroups');
-    const isDrawerOpen: ComputedRef<boolean> = Store.Getters('search/isSearchDrawerOpen');
+    const searchModel: SearchModel = SearchStore.SearchModel();
+    const searchGroups: SearchGroup[] = SearchStore.SearchGroups();
+    const isDrawerOpen: Ref<boolean> = SearchStore.IsSearchDrawerOpen();
 
     const openDrawer = () => {
-      searchModel.value.searchGroups = [];
+      searchModel.searchGroups = [];
       searchInput.value.inputRef.focus();
     };
 
@@ -70,10 +70,10 @@ export default defineComponent({
     });
 
     const find = async (query: string) => {
-      searchModel.value.searchGroups = [];
+      searchModel.searchGroups = [];
       if (query.length > 2) {
-        searchModel.value.query = query;
-        await Store.Dispatch('search/mainSearch', searchModel.value);
+        searchModel.query = query;
+        await SearchStore.MainSearch(searchModel);
       }
     };
 
@@ -83,7 +83,7 @@ export default defineComponent({
     };
     const changeFilter = (searchGroupIds: string[]) => {
       if (searchGroupIds.length) {
-        searchModel.value.searchGroupId = searchGroupIds[0];
+        searchModel.searchGroupId = searchGroupIds[0];
       }
     };
     return {

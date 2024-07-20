@@ -60,30 +60,25 @@ const props = defineProps({
 
 const emits = defineEmits(['crop', 'removeFile']);
 const uploadedImg: Ref<FileInfo | undefined> = ref(undefined);
-const heightWeight = computed(() => {
-  return {
-    '--height': `${props.height}px`,
-  };
-});
 const fileInputId = Strings.CreateGuid();
 const cropperOpened = ref(false);
 const uploader = ref();
 
-const toggleUpload = (file: any) => {
-  props.fileInfo.uploadNewFile(file);
-  if (props.fileInfo.fileSystemPath) {
-    uploadedImg.value = props.fileInfo;
-    uploadedImg.value.url = props.fileInfo.getImageUrl();
-    // .push({ name: props.fileInfo.fileSystemPath, url: file.url });
-  }
-  if (props.withCrop) {
-    openCropper(file);
-  }
-};
+// const toggleUpload = (file: any) => {
+//   props.fileInfo.uploadNewFile(file);
+//   if (props.fileInfo.fileSystemPath) {
+//     uploadedImg.value = props.fileInfo;
+//     uploadedImg.value.url = props.fileInfo.getImageUrl();
+//     // .push({ name: props.fileInfo.fileSystemPath, url: file.url });
+//   }
+//   if (props.withCrop) {
+//     openCropper(file);
+//   }
+// };
 
 const openCropper = (file: any) => {
   const ratio = props.cropRatio ? props.defaultRatio : 0;
-  Store.Commit('cropper/open', Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
+  CropperStore.Open(Cropper.CreateCropper(file.url, ratio, props.fileInfo.id));
   cropperOpened.value = true;
 };
 
