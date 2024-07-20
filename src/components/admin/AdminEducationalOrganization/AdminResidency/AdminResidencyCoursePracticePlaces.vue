@@ -103,7 +103,7 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
-const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
 const divisions: Division[] = DivisionsStore.Items();
 
 onBeforeMount(async () => {

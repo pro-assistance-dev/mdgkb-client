@@ -12,8 +12,7 @@
           <div class="card-item">
             <div class="item-el">
               <div class="item-content">
-                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link
-                  :to="`/residency-courses/${residencyCourse.id}`">
+                {{ residencyCourse.getMainSpecialization().code }}&nbsp;<router-link :to="`/residency-courses/${residencyCourse.id}`">
                   {{ residencyCourse.getMainSpecialization().name }}
                 </router-link>
                 <!--                <button class="response-btn" @click="$router.push(`/residency-courses/${residencyCourse.id}?respondForm=open`)">-->
@@ -71,9 +70,8 @@
 
 <script lang="ts" setup>
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   paidPrograms: {
     type: Boolean,
     default: true,
@@ -90,9 +88,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-})
+});
 
-const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses')
+const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 </script>
 
 <style lang="scss" scoped>

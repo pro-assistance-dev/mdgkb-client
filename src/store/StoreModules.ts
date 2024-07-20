@@ -24,7 +24,9 @@ import EmployeesStore from './EmployeesStore';
 import ExportsStore from './ExportsStore';
 import FaqsStore from './FaqsStore';
 import FormPatternsStore from './FormPatternsStore';
+import FormStatusesStore from './FormStatusesStore';
 import FormStatusGroupsStore from './FormStatusGroupsStore';
+import FormValuesStore from './FormValuesStore';
 import HeadsStore from './HeadsStore';
 import HospitalizationsStore from './HospitalizationsStore';
 import HospitalizationsTypesStore from './HospitalizationsTypesStore';
@@ -45,6 +47,8 @@ import PostgraduateCoursesStore from './PostgraduateCoursesStore';
 import PreparationsStore from './PreparationsStore';
 import ProjectsStore from './ProjectsStore';
 import QuestionsStore from './QuestionsStore';
+import ResidencyApplicationsStore from './ResidencyApplicationsStore';
+import ResidencyCoursesStore from './ResidencyCoursesStore';
 import RolesStore from './RolesStore';
 import SearchStore from './SearchStore';
 import SideOrganizationsStore from './SideOrganizationsStore';
@@ -59,7 +63,6 @@ import VacanciesStore from './VacanciesStore';
 import VacancyResponsesStore from './VacancyResponsesStore';
 import VisitingRulesStore from './VisitingRulesStore';
 import VisitsApplicationsStore from './VisitsApplicationsStore';
-
 export {
   AcademicsStore,
   AppointmentsStore,
@@ -87,7 +90,9 @@ export {
   ExportsStore,
   FaqsStore,
   FormPatternsStore,
+  FormStatusesStore,
   FormStatusGroupsStore,
+  FormValuesStore,
   HeadsStore,
   HospitalizationsStore,
   HospitalizationsTypesStore,
@@ -108,6 +113,8 @@ export {
   PreparationsStore,
   ProjectsStore,
   QuestionsStore,
+  ResidencyApplicationsStore,
+  ResidencyCoursesStore,
   RolesStore,
   SearchStore,
   SideOrganizationsStore,

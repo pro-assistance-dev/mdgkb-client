@@ -6,20 +6,18 @@
 
 <script lang="ts" setup>
 import ResidencyCoursesList from '@/components/Educational/Residency/ResidencyCoursesList.vue';
-import createSortModels from '@/services/CreateSortModels';
-import { Orders } from '@/services/interfaces/Orders';
 import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
+import { Orders } from '@/services/interfaces/Orders';
 
 const loadCourses = async () => {
-  Store.Commit('residencyCourses/clearItems');
-  Store.FTSP('residencyCourses')
+  ResidencyCoursesStore.ClearItems();
+  ResidencyCoursesStore.FTSP();
 };
 
 const load = async () => {
-  FTSP.Get().reset()
-  FTSP.Get().p.limit = 100
+  FTSP.Get().reset();
+  FTSP.Get().p.limit = 100;
   FTSP.Get().setF(ResidencyCoursesFiltersLib.onlyThisYear());
   FTSP.Get().setS(ResidencyCoursesSortsLib.byName(Orders.Asc));
   await loadCourses();

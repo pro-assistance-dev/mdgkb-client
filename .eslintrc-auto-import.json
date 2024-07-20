@@ -173,6 +173,10 @@
     "FormPatternsStore": true,
     "CropperStore": true,
     "FormStatusGroupsStore": true,
-    "PointsAchievementsStore": true
+    "PointsAchievementsStore": true,
+    "FormStatusesStore": true,
+    "ResidencyApplicationsStore": true,
+    "ResidencyCoursesStore": true,
+    "FormValuesStore": true
   }
 }

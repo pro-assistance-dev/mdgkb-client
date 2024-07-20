@@ -102,7 +102,7 @@ export default defineComponent({
   name: 'AdmissionCoursePage',
   components: { AdmissionForm, SharesBlock },
   setup() {
-    const residencyCourse: Ref<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const residencyCourse: ResidencyCourse = ResidencyCoursesStorem.Item();
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;
@@ -118,7 +118,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await Provider.store.dispatch('residencyCourses/get', Router.Id);
+      await ResidencyCoursesStore.Get(Router.Id());
       Provider.mounted.value = true;
       if (Provider.route().query.respondForm) {
         await openRespondForm();
@@ -129,7 +129,7 @@ export default defineComponent({
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/residency-courses/${Provider.route().params['id']}`;
+      return `${host}/residency-courses/${Router.Id()}`;
     };
     // TODO убрать
     const svgDummy =

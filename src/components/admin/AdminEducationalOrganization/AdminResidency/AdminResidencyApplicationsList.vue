@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper pagination show-header>
+  <AdminListWrapper pagination show-header :store="ResidencyApplicationsStore">
     <template #header>
       <!-- TODO: пофиксить ошибку на бэке -->
       <!-- <FilterMultipleSelect :filter-model="filterByStatus" :options="filtersToOptions()" @load="loadApplications" /> -->
@@ -130,9 +130,9 @@ import Provider from '@/services/Provider/Provider';
 import SortList from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-const residencyApplications: ComputedRef<ResidencyApplication[]> = Store.Items('residencyApplications');
+const residencyApplications: ResidencyApplication[] = ResidencyApplicationsStore.Items();
 
-const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+const formStatuses: FormStatus[] = FormStatuses.Items();
 const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
 // const applicationsCount: ComputedRef<number> = computed(() =>
@@ -143,7 +143,7 @@ const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 
 const loadApplications = async () => {
-  await Store.FTSP('residencyApplications');
+  await ResidencyApplicationsStore.FTSP();
 };
 
 const enableEditMode = () => {
@@ -159,7 +159,7 @@ const save = async (next?: NavigationGuardNext) => {
     return;
   }
   saveButtonClick.value = true;
-  await Store.Dispatch('residencyApplications/updateMany');
+  await ResidencyApplicationsStore.UpdateMany();
   isEditMode.value = false;
   isNotEditMode.value = true;
   if (next) next();
@@ -180,21 +180,13 @@ const load = async () => {
     Button.Success('Сохранить', save, isEditMode),
     Button.Success('Подать заявление', create),
   ]);
-
-  await Store.Dispatch('residencyApplications/subscribeCreate');
 };
 
 watch(isEditMode, () => {
   confirmLeave.value = isEditMode.value;
 });
 
-Hooks.onBeforeMount(load, {
-  pagination: { storeModule: 'residencyApplications', action: 'ftsp' },
-});
-
-onBeforeUnmount(async () => {
-  await Store.Dispatch('residencyApplications/unsubscribeCreate');
-});
+Hooks.onBeforeMount(load);
 
 const create = () => Router.To(`${Provider.route().path}/new`);
 const edit = (id: string) => Router.To(`${Provider.route().path}/${id}`);
@@ -212,7 +204,7 @@ const edit = (id: string) => Router.To(`${Provider.route().path}/${id}`);
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-  await Store.GetAll('formStatuses');
+  await FormStatusesStore.GetAll();
 };
 
 const filterMainModels = [ResidencyApplicationsFiltersLib.onlyMain(true), ResidencyApplicationsFiltersLib.onlyMain(false)];

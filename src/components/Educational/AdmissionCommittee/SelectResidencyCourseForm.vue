@@ -26,15 +26,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';
-import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'SelectResidencyCourseForm',
   setup() {
-    const residencyCourses: Ref<ResidencyCourse[]> = computed<ResidencyCourse[]>(() => Provider.store.getters['residencyCourses/items']);
+    const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
     const selectedCourse: Ref<ResidencyCourse | undefined> = ref(undefined);
     const selectCourse = (course: ResidencyCourse) => {
       selectedCourse.value = course;

@@ -48,7 +48,7 @@ import scroll from '@/services/Scroll';
 import UserService from '@/services/User';
 
 const mounted: Ref<boolean> = ref(false);
-const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses');
+const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 const activeName = ref('Конкурс');
 const loadPrograms = async () => {
   // Provider.resetFilterQuery();
@@ -57,7 +57,7 @@ const loadPrograms = async () => {
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
-  await Store.FTSP('residencyCourses', { ftsp: ftsp });
+  await ResidencyCoursesStore.FTSP({ ftsp: ftsp });
 };
 
 const collapseChange = () => {

@@ -55,7 +55,7 @@ const loadPrograms = async () => {
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
-  await Store.FTSP('residencyCourses', { ftsp: ftsp });
+  await ResidencyCoursesStore.FTSP({ ftsp: ftsp });
 };
 </script>
 

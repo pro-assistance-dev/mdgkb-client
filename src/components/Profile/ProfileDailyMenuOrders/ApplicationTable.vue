@@ -99,7 +99,7 @@ export default defineComponent({
     },
   },
   setup() {
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const cancelDialogVisible: Ref<boolean> = ref(false);
     const selectedFormValue: Ref<Form | undefined> = ref(undefined);
     const selectedStatus: Ref<FormStatus | undefined> = ref(undefined);
@@ -110,11 +110,11 @@ export default defineComponent({
         cancelButtonText: 'Отмена',
         type: 'warning',
       }).then(() => {
-        formValue.setStatus(status, formStatuses.value);
+        formValue.setStatus(status, formStatuses);
         // selectedFormValue.value = formValue;
         // selectedStatus.value = status;
         // cancelDialogVisible.value = !cancelDialogVisible.value;
-        Provider.store.dispatch('formValues/update', formValue);
+        await FormValuesStore.Update(formValue);
       });
     };
 
@@ -128,16 +128,16 @@ export default defineComponent({
         return;
       }
       if (status.isEditable) {
-        formValue.setStatus(status, formStatuses.value);
+        formValue.setStatus(status, formStatuses);
       }
-      await Provider.store.dispatch('formValues/update', formValue);
+      await FormValuesStore.Update(formValue);
     };
 
     const updateApplication = async () => {
       if (selectedFormValue.value && selectedStatus.value) {
-        selectedFormValue.value.setStatus(selectedStatus.value, formStatuses.value);
+        selectedFormValue.value.setStatus(selectedStatus.value, formStatuses);
         selectedFormValue.value.clearAllFields();
-        await Provider.store.dispatch('formValues/update', selectedFormValue.value);
+        await FormValuesStore.Update(selectedFormValue.value);
       }
       cancelDialogVisible.value = false;
     };
@@ -146,7 +146,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('formStatuses/getAll');
+      await FormStatusesStore.GetAll();
     });
 
     return {

@@ -112,7 +112,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const formValue: Ref<Form | undefined> = ref();
     const getNameLabel = 'Наименование';
     const getDataLabel = 'Данные';
@@ -120,9 +120,9 @@ export default defineComponent({
     const mobileWindow = ref(window.matchMedia('(max-width: 1330px)').matches);
     onBeforeMount(async () => {
       formValue.value = props.form;
-      await Store.Dispatch('formStatuses/getAll');
+      await FormStatusesStore.GetAll();
       if (!formValue.value.formStatus.label && formValue.value.defaultFormStatus) {
-        formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses.value);
+        formValue.value.setStatus(formValue.value.defaultFormStatus, formStatuses);
       }
       if (props.showModComments && !props.form.formStatus.isNew() && !props.form.formStatus.isAccepted()) {
         formValue.value.fields = formValue.value.fields.filter((el: Field) => {

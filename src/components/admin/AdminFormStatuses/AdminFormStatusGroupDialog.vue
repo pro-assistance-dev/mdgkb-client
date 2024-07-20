@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" :title="dialogTitle" :before-close="handleClose">
+  <el-dialog v-model="showDialog" :before-close="handleClose">
     <el-form ref="form" :model="formStatusGroup" :rules="rules" label-width="200px">
       <el-form-item prop="name" label="Наименование группы">
         <el-input v-model="formStatusGroup.name" placeholder="Наименование группы"></el-input>
@@ -28,17 +28,6 @@ export default defineComponent({
   setup() {
     const form = ref();
     const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
-
-    // const showDialog: WritableComputedRef<boolean> = computed({
-    //   get(): boolean {
-    //     return Provider.store.getters['formStatusGroups/showDialog'];
-    //   },
-    //   set(value: boolean): void {
-    //     Provider.store.commit('formStatusGroups/toggleDialog', value);
-    //   },
-    // });
-
-    const dialogTitle: ComputedRef<string> = computed(() => Provider.store.getters['formStatusGroups/dialogTitle']);
 
     const rules = ref({
       name: [{ required: true, message: 'Необходимо указать наименование группы', trigger: 'blur' }],
@@ -80,7 +69,6 @@ export default defineComponent({
       form,
       rules,
       submit,
-      dialogTitle,
       handleClose,
     };
   },

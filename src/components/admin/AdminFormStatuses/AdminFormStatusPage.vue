@@ -59,7 +59,7 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
-    const formStatus: ComputedRef<FormStatus> = computed<FormStatus>(() => store.getters['formStatuses/item']);
+    const formStatus: FormStatus = FormStatusesStore.Item();
     const formStatusGroups: FormStatusGroup[] = FormStatusGroupsStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const form = ref();
@@ -68,9 +68,9 @@ export default defineComponent({
       saveButtonClick.value = true;
       try {
         if (Router.Id()) {
-          await store.dispatch('formStatuses/update', formStatus.value);
+          await FormStatusesStore.Update();
         } else {
-          await store.dispatch('formStatuses/create', formStatus.value);
+          await FormStatusesStore.Create();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -81,10 +81,10 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       if (route.params['id']) {
-        await store.dispatch('formStatuses/get', route.params['id']);
+        await FormStatusesStore.Get(Router.Id());
         PHelp.AdminUI.Head.Set('Обновить статус', [Button.Success('Создать', submit)]);
       } else {
-        store.commit('formStatuses/setGroupId', route.params['groupId']);
+        FormStatusesStore.SetGroupId(route.params['groupId']);
         PHelp.AdminUI.Head.Set('Создать статус', [Button.Success('Создать', submit)]);
       }
       await FormStatusGroupsStore.GetAll();
@@ -94,7 +94,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      store.commit('formStatuses/resetItem');
+      FormStatusesStore.ResetItem();
     });
     onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
       showConfirmModal(submit, next);

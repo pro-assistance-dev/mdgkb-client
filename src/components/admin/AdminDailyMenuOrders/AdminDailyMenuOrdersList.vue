@@ -84,7 +84,7 @@ import Provider from '@/services/Provider/Provider';
 
 const dailyMenuOrders = DailyMenuOrdersStore.Items();
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+const formStatuses: FormStatus[] = FormStatuses.Items();
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 const load = async () => {
   onlyNewFilter.value = DailyMenuOrdersFiltersLib.onlyNew();
@@ -119,7 +119,7 @@ const filtersToOptions = (): IOption[] => {
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('bufet'));
-  await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+  await FormStatuses.GetAll(filterQuery);
 };
 </script>
 

@@ -92,7 +92,7 @@ import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLi
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Provider from '@/services/Provider/Provider';
 
-const residencyCourses: Ref<ResidencyCourse[]> = Store.Items('residencyCourses');
+const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
 
 const save = async (next?: NavigationGuardNext) => {
@@ -103,7 +103,7 @@ const save = async (next?: NavigationGuardNext) => {
 };
 
 const loadCourses = async () => {
-  await Store.FTSP('residencyCourses');
+  await ResidencyCoursesStore.FTSP();
 };
 
 const load = async () => {
@@ -119,7 +119,6 @@ const load = async () => {
 
 Hooks.onBeforeMount(load, {
   sortsLib: ResidencyCoursesSortsLib,
-  pagination: { storeModule: 'residencyCourses' },
 });
 
 const createResidencySortModels = (): SortModel[] => {

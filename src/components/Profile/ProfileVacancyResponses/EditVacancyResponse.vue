@@ -55,7 +55,7 @@ export default defineComponent({
 
     const form = ref();
     const achievementsForm = ref();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const application: VacancyResponse = VacancyResponsesStore.Item();
     const buttonOff: Ref<boolean> = ref(false);
 
@@ -81,7 +81,7 @@ export default defineComponent({
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
       filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('vacancy'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+      await FormStatusesStore.GetAll(filterQuery);
     };
 
     onBeforeMount(async () => {

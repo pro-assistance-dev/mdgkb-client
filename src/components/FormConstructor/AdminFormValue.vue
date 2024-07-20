@@ -178,7 +178,8 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const formValue = ref(new Form());
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
+
     const mounted: Ref<boolean> = ref(false);
     const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 
@@ -195,11 +196,11 @@ export default defineComponent({
           return;
         }
       }
-      formValue.value.setStatus(status, formStatuses.value);
+      formValue.value.setStatus(status, formStatuses);
     };
 
     const load = async () => {
-      await Provider.store.dispatch('formStatuses/getAll');
+      await FormStatusesStore.GetAll();
       formValue.value = props.form;
       mounted.value = true;
     };
@@ -211,7 +212,7 @@ export default defineComponent({
 
     const downloadZip = async () => {
       if (formValue.value) {
-        await Provider.store.dispatch('formValues/documentsToZip', {
+        await FormValuesStore.DocumentsToZip({
           id: formValue.value.id,
           name: formValue.value.user.human.getFullName(),
         });

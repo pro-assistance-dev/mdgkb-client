@@ -55,7 +55,7 @@ export default defineComponent({
   setup(_, { emit }) {
     const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UserStore.Item();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     const rules = {
       phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
@@ -71,7 +71,7 @@ export default defineComponent({
 
     onMounted(loadUser);
 
-    const submit = () => {
+    const submit = async () => {
       router.push('/profile');
       emit('close');
       await UsersStore.Update();

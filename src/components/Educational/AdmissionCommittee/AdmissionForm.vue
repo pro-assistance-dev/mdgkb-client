@@ -157,10 +157,9 @@ import validate from '@/services/validate';
 import { licensyText, privacyText, steps, templateAlert, textFieldsAndDocuments } from './AdmissionData';
 
 const emits = defineEmits(['close']);
-const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['residencyApplications/emailExists']);
 const mounted = ref(false);
 const activeStep: Ref<number> = ref(0);
-const residencyApplication: ComputedRef<ResidencyApplication> = Store.Item('residencyApplications');
+const residencyApplication: ResidencyApplication = ResidencyApplicationsStore.Item();
 
 const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
 const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
@@ -185,8 +184,8 @@ const agreedWithPrivacyRule = async (_: unknown, value: boolean, callback: MyCal
 
 const buttonOff: Ref<boolean> = ref(false);
 
-const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
-const residencyCourses: ComputedRef<ResidencyCourse[]> = Store.Items('residencyCourses');
+const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
+const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 
 const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
 auth.value.preventLogout = true;
@@ -202,7 +201,7 @@ const achievementsForm = ref();
 
 watch(isAuth, async () => {
   if (!isAuth.value) {
-    residencyApplication.value.formValue.user = new User(user.value);
+    residencyApplication.formValue.user = new User(user.value);
     authModal.value.open(false);
   }
   // await findEmail();
@@ -217,9 +216,7 @@ watch(isAuth, async () => {
 //   }
 // );
 
-const findEmail = async () => {
-  await Store.Dispatch('residencyApplications/emailExists', residencyCourse.value.id);
-};
+const findEmail = async () => {};
 
 const submit = async () => {
   buttonOff.value = true;
@@ -232,9 +229,9 @@ const submit = async () => {
   //   scroll();
   //   return;
   // }
-  residencyApplication.value.formValue.clearIds();
-  residencyApplication.value.formValue.createdAt = new Date();
-  await Store.Create('residencyApplications');
+  residencyApplication.formValue.clearIds();
+  residencyApplication.formValue.createdAt = new Date();
+  await ResidencyApplicationsStore.Create();
   PHelp.Notification.Success('Заявка успешно отправлена');
   emits('close');
   buttonOff.value = false;
@@ -242,22 +239,23 @@ const submit = async () => {
 
 onBeforeMount(async () => {
   if (!isAuth.value) {
-    residencyApplication.value.formValue.user = new User(user.value);
+    residencyApplication.formValue.user = new User(user.value);
     authModal.value.open(false);
   }
 
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
   ftsp.setS(residencyCoursesSortsLib.byName(Orders.Asc));
-  await Store.FTSP('residencyCourses', { ftsp: ftsp });
+  await ResidencyCoursesStore.FTSP({ ftsp: ftsp });
 
   // Инициализация шаблона формы после выбора программы
-  Store.Commit('residencyApplications/setFormValue', residencyCourse.value.formPattern);
-  residencyApplication.value.formValue.initFieldsValues();
-  Store.Commit('residencyApplications/setCourse', residencyCourse.value);
 
-  Store.Commit('residencyApplications/resetItem');
-  Store.Commit('residencyApplications/setAdmissionCommittee', true);
+  ResidencyApplicationsStore.SetFormValue(residencyCourse.formPattern);
+  residencyApplication.formValue.initFieldsValues();
+  ResidencyApplicationsStore.SetCourse(residencyCourse);
+
+  ResidencyApplicationsStore.ResetItem();
+  ResidencyApplicationsStore.SetAdmissionCommittee(true);
   // Provider.store.commit('residencyApplications/setUser', user.value);
 
   // await findEmail();
@@ -265,11 +263,12 @@ onBeforeMount(async () => {
 });
 
 const courseChangeHandler = async () => {
-  Store.Commit('residencyApplications/setFormValue', residencyApplication.value.residencyCourse?.formPattern);
-  residencyApplication.value.formValue.initFieldsValues();
-  Store.Commit('residencyApplications/setAdmissionCommittee', true);
-  Store.Commit('residencyApplications/setCourse', residencyApplication.value.residencyCourse);
-  Store.Commit('residencyApplications/setUser', user.value);
+  ResidencyApplicationsStore.SetFormValue(residencyApplication.residencyCourse?.formPattern);
+  residencyApplication.formValue.initFieldsValues();
+
+  ResidencyApplicationsStore.SetAdmissionCommittee(true);
+  ResidencyApplicationsStore.SetCourse(residencyApplication.residencyCourse);
+  ResidencyApplicationsStore.SetUser(user.value);
 };
 
 const filledApplicationDownload = () => {
@@ -277,8 +276,8 @@ const filledApplicationDownload = () => {
     dangerouslyUseHTMLString: true,
     confirmButtonText: 'OK',
     callback: () => {
-      const form = new ResidencyApplication(residencyApplication.value);
-      Store.Dispatch('residencyApplications/filledApplicationDownload', form);
+      const form = new ResidencyApplication(residencyApplication);
+      ResidencyApplicationsStore.FilledApplicationDownload(form);
       scroll();
       return;
     },
@@ -306,9 +305,9 @@ const submitStep = async () => {
   if (activeStep.value === 4) {
     filledApplicationDownload();
   }
-  residencyApplication.value.formValue.validate(false);
-  if (activeStep.value === 5 && !residencyApplication.value.formValue.validated) {
-    PHelp.Notification.Error(residencyApplication.value.formValue.getErrorMessage());
+  residencyApplication.formValue.validate(false);
+  if (activeStep.value === 5 && !residencyApplication.formValue.validated) {
+    PHelp.Notification.Error(residencyApplication.formValue.getErrorMessage());
     return;
   }
   if (activeStep.value !== 6) {

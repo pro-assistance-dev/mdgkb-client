@@ -62,9 +62,9 @@ export default defineComponent({
     const user: User = UsersStore.Item();
 
     const form = ref();
-    const formValue: ComputedRef<Form> = computed(() => Provider.store.getters['formValues/item']);
+    const formValue: Form = FormValuesStore.Item();
     const questionsForm = ref();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     const submit = async () => {
       await loadFilters();
@@ -74,42 +74,43 @@ export default defineComponent({
         return;
       }
       application.formValue.isNew = true;
-      application.formValue.setCpecifyStatus(formStatuses.value);
+      application.formValue.setCpecifyStatus(formStatuses);
       if (application.formValue.residencyApplication?.id) {
         application.formValue.residencyApplication.changeUserEdit(false);
       }
-      await Provider.store.dispatch('residencyApplications/updateForm', application.formValue);
+      await ResidencyApplicationsStore.UpdateForm(application.formValue);
       Provider.router.push('/profile/education');
     };
 
     const load = async () => {
       await UsersStore.Get(userId.value);
-      // await Provider.store.dispatch('formValues/get', Prov?ider.route().params.id);
+      await FormValuesStore.Get(Router.Id());
       mounted.value = true;
     };
 
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
       filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+      await FormStatusesStore.GetAll(filterQuery);
     };
 
     onBeforeMount(() => load);
 
     onBeforeUnmount(async () => {
       user.setResidencyApplicationsViewed();
-      await Provider.store.dispatch('formValues/updateMany', user.formValues);
+      await FormValuesStore.UpdateMany(user.formValues);
     });
 
     const filledApplicationDownload = () => {
       const application = user.residencyApplications[0];
+
       ElMessageBox.alert(
         'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
         'После закрытия этого окна скачается предзаполненное заявление',
         {
           confirmButtonText: 'OK',
           callback: () => {
-            Provider.store.dispatch('residencyApplications/filledApplicationDownload', application.formValue.residencyApplication);
+            ResidencyApplicationsStore.FilledApplicationDownload(applcation.formValue.residencyApplication);
             return;
           },
         }

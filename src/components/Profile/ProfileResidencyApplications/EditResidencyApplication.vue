@@ -53,8 +53,8 @@ import { ElLoading, ElMessageBox } from 'element-plus';
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
@@ -63,19 +63,17 @@ const mounted = ref(false);
 const form = ref();
 const questionsForm = ref();
 const achievementsForm = ref();
-const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
-  () => Provider.store.getters['residencyApplications/item']
-);
+const formStatuses: FormStatus[] = FormStatusesStore.Items();
+const application: ResidencyApplication = ResidencyApplicationsStore.Item();
 const buttonOff: Ref<boolean> = ref(false);
 
 const submit = async () => {
   await loadFilters();
-  application.value.formValue.validate();
+  application.formValue.validate();
   if (
     (form.value && !validate(form, true)) ||
-    !application.value.formValue.validated ||
-    !application.value.validateAchievementsPoints() ||
+    !application.formValue.validated ||
+    !application.validateAchievementsPoints() ||
     (questionsForm.value && !validate(questionsForm))
   ) {
     return;
@@ -87,38 +85,38 @@ const submit = async () => {
     spinner: 'el-icon-loading',
     background: 'rgba(0, 0, 0, 0.7)',
   });
-  application.value.formValue.isNew = true;
-  application.value.formValue.setCpecifyStatus(formStatuses.value);
-  application.value.changeUserEdit(false);
-  await Provider.store.dispatch('residencyApplications/update', application.value);
+  application.formValue.isNew = true;
+  application.formValue.setCpecifyStatus(formStatuses);
+  application.changeUserEdit(false);
+  await ResidencyApplicationsStore.Update(application);
   buttonOff.value = false;
   loading.close();
   Provider.router.push('/profile/residency-applications');
 };
 
 const load = async () => {
-  await Provider.store.dispatch('residencyApplications/get', Provider.route().params.id);
+  await ResidencyApplicationsStore.Get(Router.Id());
   mounted.value = true;
 };
 
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-  await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+  await FormStatusesStore.GetAll(filterQuery);
 };
 
 onBeforeMount(async () => {
   await load();
 });
 
-const filledApplicationDownload = () => {
+const filledApplicationDownload = async () => {
   // ElMessageBox.alert(
   //   'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
   //   'После закрытия этого окна скачается предзаполненное заявление',
   //   {
   // confirmButtonText: 'OK',
   // callback: () => {
-  Provider.store.dispatch('residencyApplications/filledApplicationDownload', application.value);
+  await ResidencyApplicationsStore.FilledApplicationDownload(application);
   //       return;
   //     },
   //   }

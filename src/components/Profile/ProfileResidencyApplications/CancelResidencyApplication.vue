@@ -35,19 +35,18 @@ export default defineComponent({
     const form = ref();
     const questionsForm = ref();
     const achievementsForm = ref();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
-    const application: ComputedRef<ResidencyApplication> = computed<ResidencyApplication>(
-      () => Provider.store.getters['residencyApplications/item']
-    );
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
+
+    const application: ResidencyApplication = ResidencyApplicationsStore.Item();
     const buttonOff: Ref<boolean> = ref(false);
 
     const submit = async () => {
       await loadStatuses();
-      application.value.formValue.validate(false, true);
-      if (!application.value.formValue.validated) {
+      application.formValue.validate(false, true);
+      if (!application.formValue.validated) {
         ElNotification.error({
           dangerouslyUseHTMLString: true,
-          message: application.value.formValue.getErrorMessage(),
+          message: application.formValue.getErrorMessage(),
         });
         return;
       }
@@ -58,8 +57,8 @@ export default defineComponent({
         spinner: 'el-icon-loading',
         background: 'rgba(0, 0, 0, 0.7)',
       });
-      application.value.formValue.setCanceledStatus(formStatuses.value);
-      await Provider.store.dispatch('formValues/update', application.value.formValue);
+      application.formValue.setCanceledStatus(formStatuses.value);
+      await FormValuesStore.Update(application.formValue);
 
       buttonOff.value = false;
       loading.close();
@@ -73,11 +72,11 @@ export default defineComponent({
     const loadStatuses = async () => {
       const filterQuery = new FilterQuery();
       filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+      await FormStatusesStore.GetAll(filterQuery);
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('residencyApplications/get', Provider.route().params.id);
+      await ResidencyApplicationsStore.Get(Router.Id());
       mounted.value = true;
     });
 

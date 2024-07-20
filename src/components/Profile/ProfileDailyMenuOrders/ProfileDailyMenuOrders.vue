@@ -54,7 +54,6 @@ export default defineComponent({
     onUnmounted(async () => {
       // user.value.setApplicationsViewed();
       // TODO: восстановить просмотр
-      // await Provider.store.dispatch('formValues/updateMany', user.value.formValues);
     });
 
     return {

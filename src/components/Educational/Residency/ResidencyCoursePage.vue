@@ -53,7 +53,7 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-const residencyCourse: Ref<ResidencyCourse> = Store.Item('residencyCourses');
+const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
 const showForm: Ref<boolean> = ref(false);
 const mounted: Ref<boolean> = ref(false);
 const showFormFunc = () => {
@@ -70,7 +70,7 @@ const closeRespondForm = () => {
 };
 
 const load = async () => {
-  await Store.Get('residencyCourses', Router.Id());
+  await ResidencyCoursesStore.Get(Router.Id());
   if (Provider.route().query.respondForm) {
     await openRespondForm();
   }

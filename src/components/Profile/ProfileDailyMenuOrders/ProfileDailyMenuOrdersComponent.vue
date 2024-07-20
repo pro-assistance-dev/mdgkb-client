@@ -1,35 +1,61 @@
 <template>
   <CollapseContainer>
     <template #default="scope">
-      <CollapseItem v-for="dailyMenuOrder in user.dailyMenuOrders" :key="dailyMenuOrder.id" :tab-id="dailyMenuOrder.id"
-        :active-id="scope.activeId" :show-tools-on-hover="false">
+      <CollapseItem
+        v-for="dailyMenuOrder in user.dailyMenuOrders"
+        :key="dailyMenuOrder.id"
+        :tab-id="dailyMenuOrder.id"
+        :active-id="scope.activeId"
+        :show-tools-on-hover="false"
+      >
         <template #inside-title>
           <StringItem :string="dailyMenuOrder.getFormattedNumber()" font-weight="normal" min-width="90px" />
           <div class="flex-line">
             <StringItem
               :string="$dateTimeFormatter.format(dailyMenuOrder.formValue.createdAt, { month: 'long', year: 'numeric' })"
-              font-weight="normal" font-size="14px" color="$base-light-font-color" />
-            <StringItem v-if="dailyMenuOrder.formValue.formStatus.label"
-              :string="dailyMenuOrder.formValue.formStatus.label" :color="dailyMenuOrder.formValue.formStatus.color"
-              font-size="14px" />
+              font-weight="normal"
+              font-size="14px"
+              color="$base-light-font-color"
+            />
+            <StringItem
+              v-if="dailyMenuOrder.formValue.formStatus.label"
+              :string="dailyMenuOrder.formValue.formStatus.label"
+              :color="dailyMenuOrder.formValue.formStatus.color"
+              font-size="14px"
+            />
           </div>
         </template>
         <template #inside-content>
           <div class="margin-container">
-            <CartContainer :width="'auto'" :background="'#F9FAFB'" :border="'1px solid #e9e9e9'" :icon-close="false"
-              :left-background="'#ffffff'" :border-inside="true">
+            <CartContainer
+              :width="'auto'"
+              :background="'#F9FAFB'"
+              :border="'1px solid #e9e9e9'"
+              :icon-close="false"
+              :left-background="'#ffffff'"
+              :border-inside="true"
+            >
               <template #title>
                 <div class="position">
                   <div class="flex">
-                    <PButton skin="profile" v-for="item in dailyMenuOrder.formValue.getUserActions()" :key="item.id"
-                      :text="item.childFormStatus.userActionName" margin="0 10px 0 0" width="120px"
-                      @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)" />
-                    <PButton skin="profile" text="Чат(в разработке)" width="120px" margin="0"
-                      @click="dailyMenuOrder.chatIsOpen = true" />
+                    <PButton
+                      v-for="item in dailyMenuOrder.formValue.getUserActions()"
+                      :key="item.id"
+                      skin="profile"
+                      :text="item.childFormStatus.userActionName"
+                      margin="0 10px 0 0"
+                      width="120px"
+                      @click="updateFormStatus(dailyMenuOrder.formValue, item.childFormStatus)"
+                    />
+                    <PButton skin="profile" text="Чат(в разработке)" width="120px" margin="0" @click="dailyMenuOrder.chatIsOpen = true" />
                     <div v-if="dailyMenuOrder.chatIsOpen" class="menu-shadow">
-                      <Chat v-if="dailyMenuOrder.chatIsOpen" :chat-id="dailyMenuOrder.formValue.chatId"
-                        :user-name="user.human.getFullName()" :user-id="user.id"
-                        @close="dailyMenuOrder.chatIsOpen = false" />
+                      <Chat
+                        v-if="dailyMenuOrder.chatIsOpen"
+                        :chat-id="dailyMenuOrder.formValue.chatId"
+                        :user-name="user.human.getFullName()"
+                        :user-id="user.id"
+                        @close="dailyMenuOrder.chatIsOpen = false"
+                      />
                     </div>
                   </div>
                 </div>
@@ -90,8 +116,6 @@ import Chat from '@/components/Chat.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
-import StringItem from '@/services/components/StringItem.vue';
 
 export default defineComponent({
   name: 'ProfileDailyMenuOrders',
@@ -108,8 +132,8 @@ export default defineComponent({
     },
   },
   setup() {
-    let costOfDelivery = Number(0);
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+    const costOfDelivery = Number(0);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const cancelDialogVisible: Ref<boolean> = ref(false);
     const selectedFormValue: Ref<Form | undefined> = ref(undefined);
     const selectedStatus: Ref<FormStatus | undefined> = ref(undefined);
@@ -119,9 +143,9 @@ export default defineComponent({
         confirmButtonText: 'Да',
         cancelButtonText: 'Отмена',
         type: 'warning',
-      }).then(() => {
-        formValue.setStatus(status, formStatuses.value);
-        Provider.store.dispatch('formValues/update', formValue);
+      }).then(async () => {
+        formValue.setStatus(status, formStatuses);
+        await FormValuesStore.Update(formValue);
       });
     };
 
@@ -130,11 +154,11 @@ export default defineComponent({
         await cancelApplication(formValue, status);
         return;
       }
-      await Provider.store.dispatch('formValues/update', formValue);
+      await FormValuesStore.Update(formValue);
     };
 
     onBeforeMount(async () => {
-      await Provider.store.dispatch('formStatuses/getAll');
+      await FormStatusesStore.GetAll();
     });
 
     return {

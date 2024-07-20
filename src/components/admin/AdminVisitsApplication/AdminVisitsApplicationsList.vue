@@ -89,7 +89,7 @@ import { Orders } from '@/services/interfaces/Orders';
 import SortListConst from '@/services/SortList';
 
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+const formStatuses: FormStatus[] = FormStatusesStore.Items();
 const visitsApplications: VisitsApplication[] = VisitsApplicationsStore.Items();
 
 const create = () => Router.To(`${Router.Route().path}/new`);
@@ -114,7 +114,7 @@ Hooks.onBeforeMount(load);
 
 const filtersToOptions = (): IOption[] => {
   const options: IOption[] = [];
-  formStatuses.value.forEach((i: FormStatus) => {
+  formStatuses.forEach((i: FormStatus) => {
     if (i.id) {
       options.push({ value: i.id, label: i.label });
     }
@@ -125,6 +125,6 @@ const filtersToOptions = (): IOption[] => {
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
-  await Store.Dispatch('formStatuses/getAll', filterQuery);
+  await FormStatusesStore.GetAll(filterQuery);
 };
 </script>

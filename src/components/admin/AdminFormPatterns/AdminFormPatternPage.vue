@@ -85,9 +85,7 @@ export default defineComponent({
       next ? next() : Provider.router.push('/admin/form-patterns');
     };
 
-    const changeStatusGroup = () => {
-      Provider.store.commit('formPatterns/resetDefaultFormStatus');
-    };
+    const changeStatusGroup = () => {};
 
     const load = async () => {
       const id = Provider.route().params['id'];
@@ -97,7 +95,7 @@ export default defineComponent({
       } else {
         PHelp.AdminUI.Head.Set('Добавиь шаблон', [Button.Success('Сохранить', submit)]);
       }
-      await Store.GetAll('formStatusGroups');
+      await FormStatusGroupsStore.GetAll();
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(formPattern, formUpdated, { deep: true });
     };

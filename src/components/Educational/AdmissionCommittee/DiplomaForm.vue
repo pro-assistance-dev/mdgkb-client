@@ -43,14 +43,11 @@
 </template>
 
 <script lang="ts" setup>
-import { CopyDocument } from '@element-plus/icons-vue';
 import DiplomaExample from '@/assets/img/diplomaexample.png';
-import Diploma from '@/classes/Diploma';
-import Provider from '@/services/Provider/Provider';
 
-const diploma: ComputedRef<Diploma> = computed<Diploma>(() => Provider.store.getters['residencyApplications/item'].diploma);
+const diploma: Diploma = ResidencyApplicationsStore.Item().diploma;
 
 const clickCopyHandler = async () => {
-  await navigator.clipboard.writeText(diploma.value.getSeriesAndNumber());
+  await navigator.clipboard.writeText(diploma.getSeriesAndNumber());
 };
 </script>

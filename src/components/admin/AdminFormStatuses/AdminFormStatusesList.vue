@@ -54,9 +54,9 @@ import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-const formStatuses: ComputedRef<FormStatus[]> = Store.Items('formStatuses');
+const formStatuses: ComputedRef<FormStatus[]> = FormStatusesStore.Items();
 const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
-const formStatusToFormStatuses: ComputedRef<FormStatusToFormStatus[]> = Store.Getters('formStatuses/formStatusToFormStatuses');
+const formStatusToFormStatuses: FormStatusToFormStatus[] = FormStatusesStore.FormStatusToFormStatuses();
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 
@@ -65,7 +65,7 @@ const create = (): void => {
 };
 
 const remove = async (id: string): Promise<void> => {
-  await Provider.store.dispatch('formStatuses/remove', id);
+  await FormStatusesStore.Remove(id);
 };
 
 const edit = (id: string): void => {
@@ -73,7 +73,7 @@ const edit = (id: string): void => {
 };
 
 const updateAll = async (): Promise<void> => {
-  await Store.UpdateAll('formStatuses');
+  await FormStatusesStore.UpdateAll();
   isEditMode.value = false;
   isNotEditMode.value = true;
 };
@@ -83,14 +83,10 @@ const openEditMode = () => {
 };
 
 const load = async () => {
-  // if (Provider.route().params['groupId']) {
-  //   await Provider.store.dispatch('formStatuses/getAllByGroupId', Provider.route().params['groupId']);
-  // } else {
-  await Store.FTSP('formStatuses');
-  // }
+  await FormStatusesStore.FTSP();
   await FormStatusGroupsStore.Get(Provider.route().params['groupId']);
-  Store.Commit('formStatuses/seedFormStatusToFormStatuses');
-  PHelp.AdminUI.Head.Set(Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.value.name}` : 'Статусы форм', [
+  FormStatusesStore.SeedFormStatusToFormStatuses();
+  PHelp.AdminUI.Head.Set(Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.name}` : 'Статусы форм', [
     Button.Success('Редактировать', openEditMode, isNotEditMode),
     Button.Success('Сохранить', updateAll, isEditMode),
     Button.Success('Добавить', create),
@@ -98,7 +94,7 @@ const load = async () => {
 };
 
 const formStatusesByGroupId = (groupId: string): FormStatusToFormStatus[] => {
-  return formStatusToFormStatuses.value.filter((fs: FormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
+  return formStatusToFormStatuses.filter((fs: FormStatusToFormStatus) => fs.childFormStatus.formStatusGroupId === groupId);
 };
 
 Hooks.onBeforeMount(load);

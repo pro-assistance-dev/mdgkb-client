@@ -53,6 +53,8 @@ declare global {
   const FilterModel: typeof import('@/services/Main')['FilterModel']
   const FormPatternsStore: typeof import('@/store/StoreModules')['FormPatternsStore']
   const FormStatusGroupsStore: typeof import('@/store/StoreModules')['FormStatusGroupsStore']
+  const FormStatusesStore: typeof import('@/store/StoreModules')['FormStatusesStore']
+  const FormValuesStore: typeof import('@/store/StoreModules')['FormValuesStore']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
   const HeadsStore: typeof import('@/store/StoreModules')['HeadsStore']
   const Hooks: typeof import('@/services/Main')['Hooks']
@@ -81,6 +83,8 @@ declare global {
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
   const Provider: typeof import('@/services/Main')['Provider']
   const QuestionsStore: typeof import('@/store/StoreModules')['QuestionsStore']
+  const ResidencyApplicationsStore: typeof import('@/store/StoreModules')['ResidencyApplicationsStore']
+  const ResidencyCoursesStore: typeof import('@/store/StoreModules')['ResidencyCoursesStore']
   const RolesStore: typeof import('@/store/StoreModules')['RolesStore']
   const Router: typeof import('@/services/Main')['Router']
   const Scheduler: typeof import('@/services/Main')['Scheduler']
@@ -218,6 +222,8 @@ declare module 'vue' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -226,6 +232,8 @@ declare module 'vue' {
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly FormPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormPatternsStore']>
     readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
+    readonly FormStatusesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusesStore']>
+    readonly FormValuesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormValuesStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
@@ -254,6 +262,8 @@ declare module 'vue' {
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
+    readonly ResidencyApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyApplicationsStore']>
+    readonly ResidencyCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyCoursesStore']>
     readonly RolesStore: UnwrapRef<typeof import('@/store/StoreModules')['RolesStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>
@@ -384,6 +394,8 @@ declare module '@vue/runtime-core' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
+    readonly ElMessage: UnwrapRef<typeof import('element-plus/es')['ElMessage']>
+    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
@@ -392,6 +404,8 @@ declare module '@vue/runtime-core' {
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
     readonly FormPatternsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormPatternsStore']>
     readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
+    readonly FormStatusesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusesStore']>
+    readonly FormValuesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormValuesStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
@@ -420,6 +434,8 @@ declare module '@vue/runtime-core' {
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
     readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
+    readonly ResidencyApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyApplicationsStore']>
+    readonly ResidencyCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyCoursesStore']>
     readonly RolesStore: UnwrapRef<typeof import('@/store/StoreModules')['RolesStore']>
     readonly Router: UnwrapRef<typeof import('@/services/Main')['Router']>
     readonly Scheduler: UnwrapRef<typeof import('@/services/Main')['Scheduler']>

@@ -66,15 +66,15 @@ import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Provider from '@/services/Provider/Provider';
 
 const user: User = UsersStore.Item();
-const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => Provider.store.getters['formStatuses/items']);
+const formStatuses: FormStatus[] = FormStatusesStore.Items();
 const cancelApplication = async (formValue: Form, status: FormStatus) => {
   ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
     confirmButtonText: 'Да',
     cancelButtonText: 'Отмена',
     type: 'warning',
-  }).then(() => {
+  }).then(async () => {
     formValue.setStatus(status, formStatuses.value);
-    Provider.store.dispatch('formValues/update', formValue);
+    await FormValuesStore.Update(formValue);
   });
 };
 
@@ -88,18 +88,18 @@ const updateFormStatus = async (application: ResidencyApplication, status: FormS
     return;
   }
   if (status.isEditable) {
-    application.formValue.setStatus(status, formStatuses.value);
+    application.formValue.setStatus(status, formStatuses);
   }
-  await Provider.store.dispatch('formValues/update', application.formValue);
+  await FormValuesStore.Update(application.formValue);
 };
 
 onBeforeMount(async () => {
-  await Provider.store.dispatch('formStatuses/getAll');
+  await FormStatusesStore.GetAll();
 });
 
 onBeforeUnmount(async () => {
   user.setResidencyApplicationsViewed();
-  await Provider.store.dispatch('formValues/updateMany', user.value.getResidencyApplicationsFormValues());
+  await FormValuesStore.UpdateMany(user.getResidencyApplicationsFormValues());
 });
 </script>
 

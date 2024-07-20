@@ -31,7 +31,7 @@ export default defineComponent({
     const store = useStore();
     const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
-    const formStatuses: ComputedRef<FormStatus[]> = computed<FormStatus[]>(() => store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     onBeforeMount(async () => {
       await UsersStore.Get(userId.value);

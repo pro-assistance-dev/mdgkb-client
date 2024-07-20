@@ -53,9 +53,13 @@ const StoreModulesNames = [
   'DailyMenuOrdersStore',
   'DailyMenusItemsStore',
   'DailyMenusStore',
+  'FormValuesStore',
   'SearchStore',
   'FormPatternsStore',
   'PointsAchievementsStore',
+  'FormStatusesStore',
+  'ResidencyCoursesStore',
+  'ResidencyApplicationsStore',
 ];
 
 export default StoreModulesNames;

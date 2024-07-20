@@ -48,21 +48,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
-
 import DpoApplication from '@/classes/DpoApplication';
 import FormStatus from '@/classes/FormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
-// import FiltersList from '@/components/Filters/FiltersList.vue';
-import { Orders } from '@/services/interfaces/Orders';
 import DpoApplicationsFiltersLib from '@/libs/filters/DpoApplicationsFiltersLib';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
-import DpoApplicationsSortsLib from '@/libs/sorts/DpoApplicationsSortsLib';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
+import Hooks from '@/services/Hooks/Hooks';
 import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -72,7 +66,7 @@ export default defineComponent({
 
   setup() {
     const dpoApplications: DpoApplication[] = DpoApplicationsStore.Items();
-    const formStatuses: ComputedRef<FormStatus[]> = computed(() => Provider.store.getters['formStatuses/items']);
+    const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](tableName));
 
     const filterModel = ref();
@@ -106,7 +100,7 @@ export default defineComponent({
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
       filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-      await Provider.store.dispatch('formStatuses/getAll', filterQuery);
+      await FormStatusesStore.GetAll();
     };
 
     const load = async () => {
@@ -134,7 +128,7 @@ export default defineComponent({
 
     const createFilterModels = (): FilterModel[] => {
       const filters: FilterModel[] = [];
-      formStatuses.value.forEach((fs: FormStatus) => {
+      formStatuses.forEach((fs: FormStatus) => {
         if (fs.id) {
           filters.push(DpoApplicationsFiltersLib.byStatus(fs.id, fs.label));
         }

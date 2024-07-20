@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import User from '@/classes/User';
 import Provider from '@/services/Provider/Provider';
 
@@ -23,7 +23,7 @@ onBeforeMount(async () => {
 const submit = async () => {
   user.rejectEmail = true;
   await UsersStore.Update();
-  await Provider.router.push('/main');
+  await Router.To('/main');
 };
 </script>
 

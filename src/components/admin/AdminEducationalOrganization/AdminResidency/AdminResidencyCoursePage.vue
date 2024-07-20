@@ -137,7 +137,7 @@ export default defineComponent({
     AdminResidencyCoursePracticePlaces,
   },
   setup() {
-    const residencyCourse: ComputedRef<ResidencyCourse> = computed<ResidencyCourse>(() => Provider.store.getters['residencyCourses/item']);
+    const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
     const specializations: Specialization[] = SpecializationsStore.Items();
     const formPatterns: ComputedRef<Form[]> = FormPatternsStore.Item();
 
@@ -149,7 +149,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? residencyCourse.value.getMainSpecialization().name : 'Добавить программу')),
+        title: computed(() => (Router.Id() ? residencyCourse.getMainSpecialization().name : 'Добавить программу')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },
@@ -157,13 +157,13 @@ export default defineComponent({
     Hooks.onBeforeRouteLeave(Hooks.submit);
 
     const changeFormPatternHandler = () => {
-      residencyCourse.value.formPatternId = residencyCourse.value.formPattern.id;
+      residencyCourse.formPatternId = residencyCourse.formPattern.id;
     };
 
     const employee: Employee = EmployeesStore.Item();
     const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
       await EmployeesStore.Get(searchObject.value);
-      residencyCourse.value.setMainTeacher(employee);
+      residencyCourse.setMainTeacher(employee);
     };
 
     return {
