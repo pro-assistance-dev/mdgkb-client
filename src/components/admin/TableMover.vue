@@ -6,9 +6,6 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref } from 'vue';
-import { useStore } from 'vuex';
-
 import IOrdered from '@/services/interfaces/IOrdered';
 import { moveDown, moveUp } from '@/services/moves';
 export default defineComponent({
@@ -36,19 +33,19 @@ export default defineComponent({
       default: 'items',
     },
   },
-  setup(props) {
-    const store = useStore();
-    const items: Ref<IOrdered[]> = computed(() =>
-      props.storeMode ? store.getters[`${props.storeModule}/${props.storeGetter}`] : props.orderedItems
-    );
+  setup() {
+    // const store = useStore();
+    // const items: Ref<IOrdered[]> = computed(() =>
+    //   props.storeMode ? store.getters[`${props.storeModule}/${props.storeGetter}`] : props.orderedItems
+    // );
 
-    const move = (up: boolean) => {
-      up ? moveUp(items.value, props.index) : moveDown(items.value, props.index);
-      items.value.forEach((i: IOrdered, index: number) => (i.order = index));
+    const move = () => {
+      // up ? moveUp(items.value, props.index) : moveDown(items.value, props.index);
+      // items.value.forEach((i: IOrdered, index: number) => (i.order = index));
     };
 
     return {
-      items,
+      // items,
       move,
     };
   },

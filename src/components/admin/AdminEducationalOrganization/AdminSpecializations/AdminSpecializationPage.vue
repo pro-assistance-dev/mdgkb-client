@@ -17,7 +17,6 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Specialization from '@/classes/Specialization';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -27,7 +26,6 @@ export default defineComponent({
   name: 'AdminSpecializationPage',
 
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
@@ -59,12 +57,6 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      if (route.params['id']) {
-        await SpecializationsStore.Get(Router.Id());
-        store.commit('admin/setHeaderParams', { title: 'Обновить шаблон', showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить шаблон', showBackButton: true, buttons: [{ action: submit }] });
-      }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(specialization, formUpdated, { deep: true });

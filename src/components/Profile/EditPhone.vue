@@ -37,14 +37,11 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onMounted } from 'vue';
 
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
-import router from '@/router';
 import PhoneService from '@/services/PhoneService';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'EditPhone',
@@ -53,26 +50,19 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(_, { emit }) {
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const user: User = UserStore.Item();
+    const user: User = UsersStore.Item();
     const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     const rules = {
       phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
     };
 
-    const loadUser = async () => {
-      await UsersStore.Get(userId.value);
-    };
-
     const close = () => {
       emit('close');
     };
 
-    onMounted(loadUser);
-
     const submit = async () => {
-      router.push('/profile');
+      Router.To('/profile');
       emit('close');
       await UsersStore.Update();
       emit('close');

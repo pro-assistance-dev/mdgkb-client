@@ -143,8 +143,6 @@ const props = defineProps({
 });
 const emits = defineEmits(['findEmail']);
 
-const auth: ComputedRef<boolean> = Store.Getters('auth/auth');
-const authModal: ComputedRef<boolean> = Store.Getters('auth/modal');
 const formValue = ref(new Form());
 
 const emailRule = async (_: unknown, value: string, callback: MyCallbackWithOptParam) => {
@@ -184,8 +182,7 @@ const rules = {
   childDateBirth: [{ required: true, message: 'Пожалуйста, укажите дату рождения пациента', trigger: 'change' }],
 };
 const openLoginModal = () => {
-  authModal.value.open();
-  // Store.Commit('auth/openModal', 'login');
+  PHelp.AuthModal.Open();
 };
 
 const findEmail = () => {
@@ -195,17 +192,10 @@ const findEmail = () => {
 };
 
 onBeforeMount(() => {
-  // Store.Commit('auth/showWarning', true);
-  // Store.Commit('auth/authOnly', true);
   formValue.value = props.form;
-  if (!auth.value.isAuth) {
+  if (!PHelp.Auth.IsAuth) {
     openLoginModal();
   }
-});
-
-onBeforeUnmount(() => {
-  // Store.Commit('auth/showWarning', false);
-  // Store.Commit('auth/authOnly', false);
 });
 </script>
 

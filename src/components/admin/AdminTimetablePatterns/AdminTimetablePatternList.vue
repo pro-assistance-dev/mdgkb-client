@@ -25,7 +25,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Timetable from '@/classes/Timetable';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -36,7 +35,6 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const store = useStore();
     const timetablePatterns: Timetable[] = TimetablesPatternsStore.Items();
 
     const create = (): void => {

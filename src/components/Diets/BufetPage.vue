@@ -127,8 +127,6 @@ const formPattern: Form = FormPatterns.Item();
 const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 const cartIsOpen: Ref<boolean> = ref(false);
 const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
-const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
 let intervalID: number;
 
 // watch(isAuth, () => {
@@ -142,7 +140,7 @@ let intervalID: number;
 const initForm = () => {
   dailyMenuOrder.formValue.reproduceFromPattern(formPattern);
   dailyMenuOrder.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
-  dailyMenuOrder.formValue.user = new User(user.value);
+  // dailyMenuOrder.formValue.user = new User(user.value);
 };
 
 const load = async () => {

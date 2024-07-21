@@ -41,9 +41,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import CandidateApplication from '@/classes/CandidateApplication';
 import CandidateExam from '@/classes/CandidateExam';
@@ -57,7 +55,6 @@ export default defineComponent({
   components: { AdminFormValue },
 
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted = ref(false);
@@ -102,21 +99,15 @@ export default defineComponent({
     let initialStatus: FormStatus;
 
     const loadItem = async () => {
-      let pageTitle = '';
       if (route.params['id']) {
         await CandidateApplicationsStore.Get(Router.Id());
-        initialStatus = application.value.formValue.formStatus;
-        pageTitle = `Заявление от ${application.formValue.user.email}`;
+        initialStatus = application.formValue.formStatus;
+        // pageTitle = `Заявление от ${application.formValue.user.email}`;
       } else {
-        pageTitle = 'Подача заявления на сдачу кандидатского';
+        // pageTitle = 'Подача заявления на сдачу кандидатского';
         CandidateApplicationsStore.ResetItem();
         isEditMode.value = true;
       }
-      store.commit('admin/setHeaderParams', {
-        title: pageTitle,
-        showBackButton: true,
-        buttons: [{ text: editButtonTitle, type: 'primary', action: changeEditMode }, { action: submit }],
-      });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(application, formUpdated, { deep: true });

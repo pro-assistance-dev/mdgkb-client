@@ -12,9 +12,6 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import User from '@/classes/User';
 import ProfileCommentCard from '@/components/Profile/ProfileCommentCard.vue';
 
@@ -22,13 +19,11 @@ export default defineComponent({
   name: 'UserCommentsPage',
   components: { ProfileCommentCard },
   setup() {
-    const store = useStore();
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
 
     onBeforeMount(async () => {
-      await UsersStore.Get(userId.value);
+      // await UsersStore.Get(userId.value);
       mounted.value = true;
     });
 

@@ -146,7 +146,6 @@ import User from '@/classes/User';
 import FileInfo from '@/services/classes/FileInfo';
 
 const mounted = ref(false);
-const auth: ComputedRef<Auth> = Store.Getters('auth/auth');
 const user: User = UsersStore.Item();
 
 const saveAvatar = async () => {
@@ -159,7 +158,7 @@ const dropAvatar = async () => {
   await UsersStore.Update(user);
 };
 onBeforeMount(async () => {
-  await UsersStore.Get(auth.value.user.get().id);
+  await UsersStore.Get(PHelp.Auth.GetUser().id as string);
   mounted.value = true;
 });
 

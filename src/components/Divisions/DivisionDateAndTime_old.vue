@@ -35,12 +35,10 @@
             </a>
           </div>
         </div>
-        <div class="block-footer">
-          <button v-if="isAuth" class="make" @click="$router.push('/appointments/oms')">Запись на прием</button>
-          <button v-if="!isAuth" class="make-grey">Запись на прием</button>
-          <div v-if="!isAuth" class="make-button">
-            Для онлайн записи на прием необходимо войти в <a @click="openLoginModal">Личный кабинет</a>
-          </div>
+        <div class="block-footer" v-if="PHelp.Auth.IsAuth()">
+          <button class="make" @click="$router.push('/appointments/oms')">Запись на прием</button>
+          <button class="make-grey">Запись на прием</button>
+          <div class="make-button">Для онлайн записи на прием необходимо войти в <a @click="openLoginModal">Личный кабинет</a></div>
         </div>
       </div>
     </div>
@@ -49,12 +47,10 @@
 
 <script lang="ts">
 import { Calendar } from 'v-calendar';
-import { computed, defineComponent, PropType, ref } from 'vue';
 
 import Division from '@/classes/Division';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DivisionDateAndTime',
@@ -67,12 +63,9 @@ export default defineComponent({
   emits: ['chooseDay'],
   setup(props, { emit }) {
     const mount = ref(false);
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 
     const openLoginModal = () => {
-      if (!isAuth.value) {
-        Provider.store.commit('auth/openModal', true);
-      }
+      PHelp.Notification.Dev();
     };
 
     const attr = [
@@ -92,7 +85,6 @@ export default defineComponent({
       Operators,
       DataTypes,
       mount,
-      isAuth,
       openLoginModal,
     };
   },

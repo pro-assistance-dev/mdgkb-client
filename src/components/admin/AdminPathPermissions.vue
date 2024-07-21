@@ -109,16 +109,15 @@ export default defineComponent({
 
     const checkPermissionForRole = computed((roleId: string, obj: IPathPermission) => obj.checkPermissionForRole(roleId));
 
-    const clientPermissions: Ref<IPathPermission[]> = computed(() => Provider.store.getters['auth/pathPermissions']);
-    const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
-      if (!searchFilterPathPermissions.value.length) {
-        return clientPermissions.value;
-      }
-      return clientPermissions.value.filter((pathPermission: IPathPermission) => {
-        if (!pathPermission.id) return;
-        return searchFilterPathPermissions.value.includes(pathPermission.id);
-      });
-    });
+    // const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
+    //   if (!searchFilterPathPermissions.value.length) {
+    //     // return clientPermissions.value;
+    //   }
+    //   return clientPermissions.value.filter((pathPermission: IPathPermission) => {
+    //     if (!pathPermission.id) return;
+    //     return searchFilterPathPermissions.value.includes(pathPermission.id);
+    //   });
+    // });
     const searchFilterPathPermissions: Ref<string[]> = ref([]);
     const roles: Role[] = RolesStore.Items();
     const selectRolesList: ComputedRef<Role[]> = computed(() => roles.value.filter((role: Role) => !filteredRoles.value.includes(role)));
@@ -126,9 +125,7 @@ export default defineComponent({
     const chosenRole: Ref<Role> = ref(new Role());
     const permissions: Ref<IPathPermission[]> = ref([]);
 
-    const loadPaths = async () => {
-      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
-    };
+    const loadPaths = async () => {};
 
     const load = async () => {
       PHelp.AdminUI.Head.Set('Клиентские доступы', [Button.Success('Сохранить', submit)]);
@@ -140,20 +137,17 @@ export default defineComponent({
       // filterQuery.value.pagination.limit = 1000;
       // ===========================================
 
-      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
-      // await Provider.store.dispatch('auth/getAllPathPermissions');
       await RolesStore.GetAll();
       filteredRoles.value = roles.filter((role: Role) => role.name === RoleName.User);
-      permissions.value = paths.map((path: RouteRecordNormalized) => {
-        let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
-        if (permission) {
-          return permission;
-        }
-        permission = new PathPermission();
-        permission.resource = path.path;
-        return permission;
-      });
-      // await Provider.store.dispatch('auth/getAllPathPermissionsAdmin', filterQuery.value);
+      // permissions.value = paths.map((path: RouteRecordNormalized) => {
+      // let permission = clientPermissions.value.find((p: IPathPermission) => p.resource === path.path);
+      // if (permission) {
+      //   return permission;
+      // }
+      //   permission = new PathPermission();
+      //   permission.resource = path.path;
+      //   return permission;
+      // });
     };
 
     Hooks.onBeforeMount(load);
@@ -171,17 +165,17 @@ export default defineComponent({
       );
       if (hasRole) {
         permissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
-        filteredPathPermissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
+        // filteredPathPermissions.value.forEach((p: IPathPermission) => p.removeRole(roleId));
         return;
       }
       permissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
-      filteredPathPermissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
+      // filteredPathPermissions.value.forEach((p: IPathPermission) => p.addRole(roleId));
     };
 
     const setAllGuests = () => {
       const hasGuestAllow = permissions.value.some((p: IPathPermission) => p.guestAllow);
       permissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
-      filteredPathPermissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
+      // filteredPathPermissions.value.forEach((p: IPathPermission) => (p.guestAllow = !hasGuestAllow));
     };
 
     const addRole = () => {
@@ -194,11 +188,11 @@ export default defineComponent({
     };
     const filterList = (search: string) => {
       searchFilterPathPermissions.value = [];
-      clientPermissions.value.forEach((el) => {
-        if (el.resource.includes(search) && el.id) {
-          searchFilterPathPermissions.value.push(el.id);
-        }
-      });
+      // clientPermissions.value.forEach((el) => {
+      //   if (el.resource.includes(search) && el.id) {
+      //     searchFilterPathPermissions.value.push(el.id);
+      //   }
+      // });
     };
     const createSortModels = (): SortModel[] => {
       return [PathPermissionsSortsLib.byResource(Orders.Asc), PathPermissionsSortsLib.byResource(Orders.Desc)];

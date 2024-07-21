@@ -24,9 +24,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import MedicalProfile from '@/classes/MedicalProfile';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';

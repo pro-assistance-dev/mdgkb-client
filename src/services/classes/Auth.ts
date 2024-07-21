@@ -11,6 +11,12 @@ class Auth<UserT extends IWithId> {
   private tokens = new AuthTokens();
   private preventLogout = false;
 
+  DeprecateLogout() {
+    this.preventLogout = true;
+  }
+  AllowLogout() {
+    this.preventLogout = false;
+  }
   IsAuth(): boolean {
     return this.isAuth;
   }

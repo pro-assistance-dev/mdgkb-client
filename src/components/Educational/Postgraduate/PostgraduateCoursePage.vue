@@ -156,7 +156,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import SharesBlock from '@/components/SharesBlock.vue';
@@ -166,7 +165,6 @@ export default defineComponent({
   name: 'PostgraduateCoursePage',
   components: { SharesBlock },
   setup() {
-    const store = useStore();
     const route = useRoute();
     const postgraduateCourse: PostgraduateCourse = PostgraduateCoursesStore.Item();
     const mounted: Ref<boolean> = ref(false);

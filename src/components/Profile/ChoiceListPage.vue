@@ -17,38 +17,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
-
-import { authGuard } from '@/router';
-import Provider from '@/services/Provider/Provider';
 import UserService from '@/services/User';
 
 export default defineComponent({
   name: 'ChoiceListPage',
   async setup() {
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-    const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
-
-    const loadUser = async () => {
-      await UsersStore.Get(userId.value);
-    };
-
     const logout = async () => {
-      await Provider.store.dispatch('auth/logout');
-      const curRoute = Provider.route().name;
-      const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
-      if (rr && rr.meta && rr.meta.protected) {
-        authGuard();
-      }
-      if (authOnly.value) {
-        Provider.store.commit('auth/showWarning', true);
-        Provider.store.commit('auth/openModal', 'login');
-      }
+      PHelp.Auth.Logout();
+      Router.To('/');
     };
-
-    onBeforeMount(async () => {
-      await loadUser();
-    });
 
     return {
       UserService,

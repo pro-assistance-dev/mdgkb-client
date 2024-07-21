@@ -4,7 +4,12 @@
       <FiltersWrapper>
         <template #header-right>
           <div :style="{ display: 'flex', flexDirection: 'column' }">
-            <PButton skin="profile" type="c_blue" text="Оставить отзыв" @click="auth.isAuth ? (showDialog = true) : openLoginModal()" />
+            <PButton
+              skin="profile"
+              type="c_blue"
+              text="Оставить отзыв"
+              @click="PHelp.Auth.IsAuth() ? (showDialog = true) : openLoginModal()"
+            />
             <!-- <button class="leave-review-button" @click="auth.isAuth ? (showDialog = true) : openLoginModal()">Оставить
               отзыв</button> -->
             <router-link to="/service-quality-assessment" style="text-align: center"
@@ -44,14 +49,10 @@ import Hooks from '@/services/Hooks/Hooks';
 
 const comments: Comment[] = CommentsStore.Items();
 const showDialog: Ref<boolean> = ref(false);
-const auth = Store.Getters('auth/auth');
-const authModal = Store.Getters('auth/modal');
 const mounted = ref(false);
 
 const openLoginModal = () => {
-  if (!auth.value.isAuth) {
-    authModal.value.open();
-  }
+  PHelp.AuthModal.Open();
 };
 
 const load = async () => {

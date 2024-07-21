@@ -30,9 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 
@@ -40,7 +38,6 @@ export default defineComponent({
   name: 'AdminSideOrganizationsList',
   components: { TableButtonGroup },
   setup() {
-    const store = useStore();
     const router = useRouter();
     const buildings = BuildingsStore.Items();
 
@@ -49,7 +46,6 @@ export default defineComponent({
     });
     const loadBuildings = async (): Promise<void> => {
       BuildingsStore.GetAll();
-      store.commit('admin/setHeaderParams', { title: 'Здания' });
     };
 
     const edit = (id: string): void => {

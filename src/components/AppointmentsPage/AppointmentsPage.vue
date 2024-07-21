@@ -120,8 +120,6 @@ export default defineComponent({
     };
 
     // const createChild = async (child: Child) => {
-    //   Provider.store.commit('auth/addChild', child);
-    //   await Provider.store.dispatch('children/create', child);
     //   // if (appointment.value.user) {
     //   //   appointment.value.user.children.push(child);
     //   // }

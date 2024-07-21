@@ -37,15 +37,11 @@ const initLoad = async () => {
 
 Hooks.onBeforeMount(initLoad);
 
-const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
-const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
-const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
-
 const toForm = () => {
   // PHelp.Notification.Error('По техническим причинам подача документов закрыта до 10.07.24. Подача документов возобновится 10.07.24 в 9.00');
-  if (!isAuth.value) {
+  if (!PHelp.Auth.IsAuth()) {
     PHelp.Notification.Warning('Для подачи документов необходмо зарегистрироваться и войти в систему');
-    authModal.value.open();
+    PHelp.AuthModal.Open();
     return;
   }
   Router.To('/admission-form');

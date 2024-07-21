@@ -37,7 +37,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import NewsSlide from '@/classes/NewsSlide';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -49,7 +48,6 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const store = useStore();
     const isEdit: Ref<boolean> = ref(false);
     const isNotEdit: Ref<boolean> = ref(true);
     const slides: NewsSlide[] = NewsSlidesStore.Items();
@@ -77,18 +75,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await NewsSlidesStore.GetAll();
-      store.commit('admin/setHeaderParams', {
-        title: 'Новости (слайдер)',
-        buttons: [
-          { text: 'Редактировать порядок', type: 'success', action: editOrder, condition: isNotEdit },
-          { text: 'Сохранить порядок', type: 'success', action: saveOrder, condition: isEdit },
-          { text: 'Добавить', type: 'primary', action: create },
-        ],
-      });
-    });
-
-    onBeforeUnmount(() => {
-      store.commit('admin/resetState');
     });
 
     return {

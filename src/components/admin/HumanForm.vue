@@ -18,14 +18,8 @@
 <script lang="ts">
 import { watch } from 'vue';
 import { computed, defineComponent, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Human from '@/services/classes/Human';
-import GridContainer from '@/services/components/GridContainer.vue';
-import PInput from '@/services/components/PInput.vue';
-import PInputData from '@/services/components/PInputData.vue';
-import PSelect from '@/services/components/PSelect.vue';
-
 export default defineComponent({
   name: 'HumanForm',
   props: {
@@ -39,10 +33,9 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const store = useStore();
     const form = ref();
 
-    const human: Ref<Human> = computed(() => store.getters[`${props.storeModule}/item`].getHuman());
+    const human: Ref<Human> = computed(() => Store.Getters[`${props.storeModule}/item`].getHuman());
 
     const checkCompleteName = (n: string): void => {
       if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {

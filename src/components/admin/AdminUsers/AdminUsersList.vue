@@ -72,7 +72,7 @@ Hooks.onBeforeMount(load, {
 });
 
 const loginAs = async (email: string) => {
-  await Store.Dispatch('auth/loginAs', email);
+  await AuthStore.LoginAs(email);
   await Router.To('/');
 };
 </script>

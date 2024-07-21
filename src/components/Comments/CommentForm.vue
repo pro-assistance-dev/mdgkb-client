@@ -11,7 +11,7 @@
     @focus="isAuth ? null : openLoginModal()"
   />
   <div class="button-block">
-    <button type="button" :class="{ 'blue-btn': !isReviews }" @click="auth.isAuth ? sendComment() : openLoginModal()">
+    <button type="button" :class="{ 'blue-btn': !isReviews }" @click="PHelp.Auth.IsAuth() ? sendComment() : openLoginModal()">
       ОТПРАВИТЬ {{ !isReviews ? 'КОММЕНТАРИЙ' : 'ОТЗЫВ' }}
     </button>
   </div>
@@ -46,15 +46,11 @@ const emit = defineEmits(['closeDialog', 'scroll']);
 
 const commentForm = ref();
 const comment = CommentsStore.Item();
-const auth = Store.Getters('auth/auth');
-const authModal = Store.Getters('auth/modal');
-const userId = computed(() => auth.value.user.get().id);
-const userEmail = computed(() => auth.value.user.get().email);
 
 const openLoginModal = () => {
-  if (!auth.value.isAuth) {
-    authModal.value.open();
-    commentInput.value.blur();
+  if (!PHelp.Auth.IsAuth()) {
+    PHelp.AuthModal.Open();
+    // commentInput.value.blur();
   }
 };
 
@@ -62,8 +58,8 @@ const sendComment = async () => {
   // if (!validate(commentForm)) {
   //   return;
   // }
-  comment.user.email = userEmail.value;
-  comment.userId = userId.value;
+  // comment.user.email = userEmail.value;
+  comment.userId = PHelp.Auth.GetUser().id;
   comment.domen = props.domen;
   comment.itemId = props.itemId;
   console.log(comment);

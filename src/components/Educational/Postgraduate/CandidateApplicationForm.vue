@@ -40,18 +40,13 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 
 import CandidateApplication from '@/classes/CandidateApplication';
 import Specialization from '@/classes/Specialization';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import ICandidateExam from '@/interfaces/ICandidateExam';
-import SpecializationsFiltersLib from '@/libs/filters/SpecializationsFiltersLib';
-import Provider from '@/services/Provider/Provider';
-import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -63,26 +58,10 @@ export default defineComponent({
     const mounted = ref(false);
     const candidateApplication: CandidateApplication = CandidateApplicationsStore.Item();
     const candidateExam: ICandidateExam = CandidateExamsStore.Item();
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
-    const isAuth: Ref<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
     const form = ref();
     const specializations: Specialization[] = SpecializationsStore.Items();
-    const emailExists: ComputedRef<boolean> = computed(() => Provider.store.getters['candidateApplications/emailExists']);
-
-    watch(isAuth, async () => {
-      // Provider.store.commit('candidateApplications/setUser', user.value);
-    });
 
     const submit = async () => {
-      if (emailExists.value) {
-        ElMessage({
-          type: 'error',
-          dangerouslyUseHTMLString: true,
-          message: document.querySelector('#error-block-message')?.innerHTML || '',
-        });
-        scroll('#error-block-message');
-        return;
-      }
       candidateApplication.formValue.validate();
       if (!validate(form, true) || !candidateApplication.formValue.validated) {
         return;
@@ -110,10 +89,7 @@ export default defineComponent({
       candidateExam,
       mounted,
       submit,
-      user,
-      isAuth,
       form,
-      emailExists,
       UserFormFields,
     };
   },

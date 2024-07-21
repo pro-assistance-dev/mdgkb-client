@@ -37,7 +37,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import DpoApplication from '@/classes/DpoApplication';
 import Form from '@/classes/Form';
@@ -57,7 +56,6 @@ export default defineComponent({
   components: { AdminFormValue },
 
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted = ref(false);
@@ -112,24 +110,12 @@ export default defineComponent({
 
     let initialStatus: FormStatus;
     const loadItem = async () => {
-      let pageTitle = '';
       if (route.params['id']) {
         await DpoApplicationsStore.Get(Router.Id());
         initialStatus = dpoApplication.formValue.formStatus;
-        pageTitle = `Заявление от ${dpoApplication.formValue.user.email}`;
       } else {
-        store.commit('dpoApplications/resetItem');
-        pageTitle = 'Подача заявления ДПО';
-        if (route.meta.isNmo) {
-          pageTitle = 'Подача заявления НМО';
-        }
         isEditMode.value = true;
       }
-      store.commit('admin/setHeaderParams', {
-        title: pageTitle,
-        showBackButton: true,
-        buttons: [{ text: editButtonTitle, type: 'primary', action: changeEditMode }, { action: submit }],
-      });
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(dpoApplication, formUpdated, { deep: true });
@@ -138,7 +124,7 @@ export default defineComponent({
     const findEmail = async () => {};
 
     const submit = async (next?: NavigationGuardNext) => {
-      dpoApplication.value.formValue.validate();
+      dpoApplication.formValue.validate();
       saveButtonClick.value = true;
       if (!validate(form, true) || !dpoApplication.formValue.validated) {
         saveButtonClick.value = false;
@@ -148,7 +134,7 @@ export default defineComponent({
         dpoApplication.formValue.updateViewedByUser(initialStatus);
         await DpoApplicationsStore.Update();
       } else {
-        dpoApplication.value.formValue.clearIds();
+        dpoApplication.formValue.clearIds();
         await DpoApplicationsStore.Create();
       }
       const typeCourse = dpoApplication.value.nmoCourse.isNmo ? 'nmo' : 'dpo';

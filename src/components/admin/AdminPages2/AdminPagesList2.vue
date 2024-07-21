@@ -32,7 +32,6 @@ import Hooks from '@/services/Hooks/Hooks';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 const pages: Page[] = PagesStore.Items();
-// const user: ComputedRef<User> = Store.Item('auth', 'user');
 const mounted = ref(false);
 const load = async (): Promise<void> => {
   // if (user.value.role.name !== 'ADMIN' && user.value.roleId) {

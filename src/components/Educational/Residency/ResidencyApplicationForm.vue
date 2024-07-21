@@ -5,7 +5,6 @@
         :form="residencyApplication.formValue"
         :email-exists="emailExists"
         :active-fields="UserFormFields.CreateWithFullName({ userSnils: true })"
-        @findEmail="findEmail"
       />
       <FieldValuesForm :form="residencyApplication.formValue" />
     </el-form>
@@ -18,8 +17,6 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { useStore } from 'vuex';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
@@ -35,20 +32,20 @@ export default defineComponent({
   components: { FieldValuesForm, UserForm },
   emits: ['close'],
   setup(_, { emit }) {
-    const store = useStore();
     const mounted = ref(false);
     const residencyApplication: ResidencyApplication = ResidencyApplicationsStore.Item();
 
     const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
 
-    const user: Ref<User> = computed(() => store.getters['auth/user']);
-    const isAuth: Ref<boolean> = computed(() => store.getters['auth/isAuth']);
     const form = ref();
 
-    watch(isAuth, async () => {
-      ResidencyApplicationsStore.SetUser(user.value);
-      await findEmail();
-    });
+    watch(
+      () => PHelp.Auth.IsAuth(),
+      async () => {
+        ResidencyApplicationsStore.SetUser(PHelp.Auth.GetUser());
+        await findEmail();
+      }
+    );
 
     const findEmail = async () => {};
 
@@ -85,7 +82,7 @@ export default defineComponent({
 
       residencyApplication.formValue.initFieldsValues();
       ResidencyApplicationsStore.SetCourse(residencyCourse);
-      ResidencyApplicationsStore.SetUser(user.value);
+      ResidencyApplicationsStore.SetUser(PHelp.Auth.GetUser());
       await findEmail();
       mounted.value = true;
     });
@@ -95,11 +92,8 @@ export default defineComponent({
       residencyCourse,
       mounted,
       submit,
-      user,
-      isAuth,
       form,
       findEmail,
-      emailExists,
       UserFormFields,
     };
   },

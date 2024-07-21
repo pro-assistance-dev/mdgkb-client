@@ -16,9 +16,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Project from '@/classes/Project';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -28,27 +26,19 @@ export default defineComponent({
   components: { TableButtonGroup },
 
   setup() {
-    const store = useStore();
     const router = useRouter();
-    const projects: ComputedRef<Project[]> = computed(() => store.getters['projects/items']);
+    const projects: Project[] = ProjectsStore.Items();
     const mounted: Ref<boolean> = ref(false);
 
     const edit = (id: string): void => {
       router.push(`/admin/projects/${id}`);
     };
-    const create = () => {
-      router.push('/admin/projects/new');
-    };
-    const remove = (id: string) => {
-      store.dispatch('projects/remove', id);
+    const remove = async (id: string) => {
+      await ProjectsStore.Remove(id);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('projects/getAll');
-      store.commit('admin/setHeaderParams', {
-        title: 'Наши проекты',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
+      await ProjectsStore.GetAll();
       mounted.value = true;
     });
 

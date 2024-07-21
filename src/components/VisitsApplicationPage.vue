@@ -83,8 +83,6 @@ const visitsApplication: VisitsApplication = VisitsApplicationsStore.Item();
 const gate: Gate = GatesStore.Item();
 const divisions: Division[] = DivisionsStore.Items();
 // const division: Division = DivisionsStore.Item();
-// const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-// const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
 const form = ref();
 const rules = ref({
   division: [{ required: true, message: 'Необходимо выбрать отделение', trigger: 'change' }],

@@ -20,7 +20,6 @@ const props = defineProps({
   },
 });
 const isFavourite = ref(FavouriteService.isFavourite(props.domainName, props.domainId));
-const auth = Store.Getters('auth/auth');
 
 const modules = import.meta.glob('@/assets/doctors/svg/*.svg');
 const getIcon = (icon: string) => {
@@ -58,10 +57,11 @@ const checkAuth = (): boolean => {
   }
   return true;
 };
+
 watch(
-  () => auth.value.isAuth,
+  () => PHelp.Auth.IsAuth(),
   () => {
-    if (!auth.value.isAuth) {
+    if (!PHelp.Auth.IsAuth()) {
       clearFav();
     } else {
       isFavourite.value = FavouriteService.isFavourite(props.domainName, props.domainId);

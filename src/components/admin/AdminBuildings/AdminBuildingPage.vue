@@ -71,7 +71,6 @@
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import BuildingRules from '@/classes/BuildingRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -83,7 +82,6 @@ export default defineComponent({
   components: { TableButtonGroup },
 
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const building = BuildingsStore.Item();
@@ -121,7 +119,7 @@ export default defineComponent({
         saveButtonClick.value = true;
         return;
       }
-      await store.dispatch('buildings/update', building.value);
+      await BuildingsStore.Update();
       next ? next() : router.push('/admin/buildings');
     };
 

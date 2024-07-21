@@ -15,7 +15,6 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Timetable from '@/classes/Timetable';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
@@ -26,7 +25,6 @@ export default defineComponent({
   components: { TimetableConstructor },
 
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);

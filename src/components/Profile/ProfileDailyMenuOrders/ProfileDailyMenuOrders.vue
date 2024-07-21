@@ -28,25 +28,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onUnmounted, ref } from 'vue';
-
 import User from '@/classes/User';
 import ProfileDailyMenuOrdersComponent from '@/components/Profile/ProfileDailyMenuOrders/ProfileDailyMenuOrdersComponent.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileDailyMenuOrders',
   components: { ProfileDailyMenuOrdersComponent },
   setup() {
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
-
-    const loadUser = async () => {
-      await UsersStore.Get(userId.value);
-      mounted.value = true;
-    };
-
     onBeforeMount(async () => {
       // await loadUser();
     });

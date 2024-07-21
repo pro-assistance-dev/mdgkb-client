@@ -36,7 +36,6 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, defineComponent, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import Teacher from '@/classes/Teacher';
@@ -48,12 +47,8 @@ export default defineComponent({
   components: { TableButtonGroup },
   setup() {
     const mounted = ref(false);
-    const store = useStore();
     const form = ref();
-    const doctors = computed(() => store.getters['doctors/items']);
-    const educationalOrganization: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
-    );
+    const doctors = DoctorsStore.Items();
     const newId = ref();
     const newPosition = ref('');
 
@@ -63,11 +58,11 @@ export default defineComponent({
     };
 
     const add = () => {
-      if (educationalOrganization.value.doctorExistsInTeachers(newId.value)) {
-        ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
-        return;
-      }
-      const doctor = doctors.value?.find((i: Doctor) => i.id === newId.value);
+      // if (educationalOrganization.value.doctorExistsInTeachers(newId.value)) {
+      //   ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
+      //   return;
+      // }
+      const doctor = doctors.find((i: Doctor) => i.id === newId.value);
       const teacher = new Teacher();
       teacher.doctorId = newId.value;
       teacher.doctor = doctor;

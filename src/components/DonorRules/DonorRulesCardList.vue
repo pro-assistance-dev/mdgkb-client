@@ -20,8 +20,6 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import DonorRule from '@/classes/DonorRule';
 import DonorRuleCard from '@/components/DonorRules/DonorRuleCard.vue';
@@ -38,12 +36,10 @@ export default defineComponent({
   },
 
   setup() {
-    const store = useStore();
-    // const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const currentRule: Ref<DonorRule> = ref(new DonorRule());
     const visible: Ref<boolean> = ref(false);
 
-    const addToUser = async (rule: DonorRule) => {
+    const addToUser = async () => {
       const token = TokenService.getAccessToken();
       if (!token) {
         ElMessage({
@@ -53,7 +49,7 @@ export default defineComponent({
         return;
       }
       // rule.addFavourite(userId.value);
-      await DonorRulesStore.AddToUser(rule.donorRulesUsers[0]);
+      // await DonorRulesStore.AddToUser(rule.donorRulesUsers[0]);
     };
 
     const removeFromUser = async (rule: DonorRule) => {
@@ -66,7 +62,7 @@ export default defineComponent({
         return;
       }
       rule.removeFavourite();
-      await DonorRulesStore.DeleteFromUser(rule.id);
+      // await DonorRulesStore.DeleteFromUser(rule.id);
     };
 
     const showRule = (rule: DonorRule) => {

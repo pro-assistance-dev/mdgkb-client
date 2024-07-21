@@ -69,14 +69,12 @@
 
 <script lang="ts" setup>
 import Question from '@/classes/Question';
-import User from '@/classes/User';
 import FileUploader from '@/components/FileUploader.vue';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import validate from '@/services/validate';
 
 const form = ref();
 const question: Question = QuestionsStore.Item();
-const auth = Store.Getters('auth/auth');
 const props = defineProps({
   opened: {
     type: Boolean,
@@ -85,7 +83,6 @@ const props = defineProps({
 });
 const open = ref(false);
 const emits = defineEmits(['close']);
-const user: Ref<User> = computed(() => auth.value.user.get());
 watch(
   () => props.opened,
   () => {
@@ -118,20 +115,15 @@ const rules = {
   publishAgreement: [{ validator: publishRule, trigger: 'change' }],
 };
 
-onMounted(() => {
-  Store.Commit('questions/setUser', user.value);
-});
-
 const sendQuestion = async () => {
   if (!validate(form)) {
     return;
   }
   try {
     await QuestionsStore.Create();
-    // store.commit('auth/setUser', question.value.user);
     QuestionsStore.ResetItem();
     emits('close');
-    PHelp.Notification.Succsess('Спасибо за вопрос.\nМы ответим Вам в ближайшее время');
+    PHelp.Notification.Success('Спасибо за вопрос.\nМы ответим Вам в ближайшее время');
   } catch (e) {
     console.log(e);
   }

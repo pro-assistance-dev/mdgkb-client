@@ -58,7 +58,7 @@ export default defineComponent({
 
   setup() {
     const mounted = ref(true);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
+    // const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
 
     const form = ref();
@@ -83,7 +83,7 @@ export default defineComponent({
     };
 
     const load = async () => {
-      await UsersStore.Get(userId.value);
+      await UsersStore.Get(PHelp.Auth.GetUser().id);
       await FormValuesStore.Get(Router.Id());
       mounted.value = true;
     };

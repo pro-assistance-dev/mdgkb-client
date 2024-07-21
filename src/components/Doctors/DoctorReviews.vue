@@ -265,13 +265,9 @@ export default defineComponent({
     },
   },
   async setup(prop) {
-    const comment = Store.Getters(`${prop.storeModule}/comment`);
+    const comment = CommentsStore.Item();
     const commentInput = ref();
-    const comments: ComputedRef<Comment[]> = Store.Getters(`${prop.storeModule}/comments`);
-
-    // const userId = computed(() => store.getters['auth/user']?.id);
-    // const userEmail = computed(() => store.getters['auth/user']?.email);
-    // const isAuth = computed(() => store.getters['auth/isAuth']);
+    const comments: Comment[] = CommentsStore.Items();
 
     const commentForm = ref();
     const editCommentForm = ref();
@@ -309,7 +305,7 @@ export default defineComponent({
 
     const openLoginModal = () => {
       // if (!isAuth.value) {
-      Store.Commit('auth/openModal', true);
+      PHelp.AuthModal.Open(true);
       commentInput.value.blur();
       // }
     };

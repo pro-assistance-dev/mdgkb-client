@@ -124,14 +124,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
 
 import SideOrganization from '@/classes/SideOrganization';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
 import Email from '@/services/classes/Email';
-import PostAddress from '@/services/classes/PostAddress';
 import Phone from '@/services/classes/Phone';
+import PostAddress from '@/services/classes/PostAddress';
 
 export default defineComponent({
   name: 'SideOrganizationsPage',
@@ -142,7 +141,6 @@ export default defineComponent({
     // ymapMarker,
   },
   setup() {
-    const store = useStore();
     const filter = ref('');
     const sideOrganizations = SideOrganizationsStore.Items();
     const activeName = ref(1);
@@ -166,11 +164,11 @@ export default defineComponent({
 
     const list = computed((): SideOrganization[] => {
       if (filter.value) {
-        return sideOrganizations.value.filter((o: SideOrganization) => {
+        return sideOrganizations.filter((o: SideOrganization) => {
           if (o.name) return o.name.toLowerCase().includes(filter.value.toLowerCase());
         });
       } else {
-        return sideOrganizations.value;
+        return sideOrganizations;
       }
     });
 

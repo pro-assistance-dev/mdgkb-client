@@ -59,7 +59,6 @@
 import { Grid } from '@element-plus/icons-vue';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
-import { useStore } from 'vuex';
 
 import Menu from '@/services/classes/Menu';
 import sort from '@/services/sort';
@@ -67,45 +66,40 @@ export default defineComponent({
   name: 'AdminMenus',
   components: { draggable, Grid },
   setup() {
-    const store = useStore();
-    const menus: ComputedRef<Menu[]> = computed(() => store.getters['menus/items']);
+    const menus: Menu[] = MenusStore.Items();
     const mounted: Ref<boolean> = ref(false);
     const selectedMenu: Ref<Menu | undefined> = ref(undefined);
 
     const save = async () => {
-      await store.dispatch('menus/updateMany');
+      await MenusStore.UpdateMany();
     };
     const remove = (id: string) => {
-      store.dispatch('menus/remove', id);
+      await MenusStore.Remove(id);
     };
 
     onBeforeMount(async () => {
-      await store.dispatch('menus/getAll');
+      await MenusStore.GetAll();
       PHelp.AdminUI.Head.Set('Меню', [Button.Success('Сохранить', save)]);
     });
 
     const addMenu = () => {
-      menus.value.push(new Menu());
+      menus.push(new Menu());
     };
 
     const removeMenu = (i: number) => {
-      const idForDelete = menus.value[i].id;
-      if (idForDelete) {
-        store.commit('menus/addToDeleting', idForDelete);
-      }
-      menus.value.splice(i, 1);
-      if (selectedMenu.value && selectedMenu.value.id === idForDelete) {
-        selectedMenu.value = undefined;
-      }
+      // menus.splice(i, 1);
+      // if (selectedMenu.value && selectedMenu.value.id === idForDelete) {
+      //   selectedMenu.value = undefined;
+      // }
     };
 
     const selectMenu = (i: number) => {
-      const prevSelected = menus.value.find((menu: Menu) => menu.selected);
+      const prevSelected = menus.find((menu: Menu) => menu.selected);
       if (prevSelected) {
         prevSelected.selected = false;
       }
-      menus.value[i].selected = true;
-      selectedMenu.value = menus.value[i];
+      menus[i].selected = true;
+      selectedMenu.value = menus[i];
     };
 
     return {

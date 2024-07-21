@@ -181,7 +181,6 @@ export default defineComponent({
     const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     const mounted: Ref<boolean> = ref(false);
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 
     const changeFormStatusHandler = (status: FormStatus) => {
       if (!formValue.value) return;
@@ -220,7 +219,6 @@ export default defineComponent({
     };
 
     return {
-      user,
       downloadZip,
       formValue,
       findEmail,

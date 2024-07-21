@@ -26,10 +26,8 @@ export default defineComponent({
     },
   },
   async setup(props) {
-    const user = computed(() => Provider.store.getters['auth/user']);
-
     const like: ComputedRef<NewsLike | undefined> = computed(() =>
-      props.news.newsLikes.find((like: NewsLike) => like.userId === user.value.id)
+      props.news.newsLikes.find((like: NewsLike) => like.userId === PHelp.Auth.GetUser().id)
     );
 
     const toggleLike = async () => {
@@ -42,7 +40,7 @@ export default defineComponent({
         ClassHelper.RemoveFromClassById(like.value.id, props.news.newsLikes, []);
         return;
       }
-      const l = props.news.createLike(user.value.id);
+      const l = props.news.createLike(PHelp.Auth.GetUser().id);
       await NewsStore.CreateLike(l);
     };
 

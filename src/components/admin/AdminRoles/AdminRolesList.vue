@@ -25,7 +25,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Role from '@/services/classes/Role';
@@ -36,7 +35,6 @@ export default defineComponent({
 
   setup() {
     const router = useRouter();
-    const store = useStore();
     const roles: Role[] = RolesStore.Items();
 
     const isEditMode: Ref<boolean> = ref(false);
@@ -63,7 +61,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       await RolesStore.GetAll();
-      store.commit('roles/seedFormStatusToFormStatuses');
       PHelp.AdminUI.Head.Set('Роли юзеров', [
         Button.Success('Редактировать', openEditMode, isNotEditMode),
         Button.Success('Сохранить', updateAll, isNotEditMode),

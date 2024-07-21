@@ -19,11 +19,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-
 import User from '@/classes/User';
 import ProfileResidencyApplicationsCards from '@/components/Profile/ProfileResidencyApplications/ProfileResidencyApplicationsCards.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileResidencyApplications',
@@ -33,11 +30,9 @@ export default defineComponent({
 
   setup() {
     const mounted = ref(true);
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
 
     onBeforeMount(async () => {
-      await UsersStore.Get(userId.value);
       mounted.value = true;
     });
 

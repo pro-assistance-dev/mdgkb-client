@@ -48,9 +48,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import CandidateApplication from '@/classes/CandidateApplication';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -61,7 +59,6 @@ export default defineComponent({
 
   setup() {
     const mounted: Ref<boolean> = ref(false);
-    const store = useStore();
     const router = useRouter();
     const route = useRoute();
 
@@ -69,11 +66,6 @@ export default defineComponent({
 
     onBeforeMount(async () => {
       CandidateApplicationsStore.GetAll();
-      store.commit('admin/setHeaderParams', {
-        title: 'Заявки на обучение в аспирантуре',
-        buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
-      });
-      store.commit('pagination/setCurPage', 1);
       mounted.value = true;
     });
 

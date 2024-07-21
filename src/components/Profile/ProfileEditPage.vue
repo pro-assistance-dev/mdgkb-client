@@ -102,25 +102,21 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
-
 import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import UserRules from '@/rules/UserRules';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ProfileEditPage',
   components: { HumanForm },
   setup() {
-    const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
     const rules = ref(UserRules);
     const form = ref();
 
     const loadUser = async () => {
-      await UsersStore.Get(userId.value);
+      await UsersStore.Get(PHelp.Auth.GetUser().id as string);
     };
     onMounted(loadUser);
 
@@ -129,7 +125,7 @@ export default defineComponent({
         return;
       }
       await UsersStore.Update();
-      await Provider.router.push('/profile');
+      await Router.To('/profile');
     }
 
     return {

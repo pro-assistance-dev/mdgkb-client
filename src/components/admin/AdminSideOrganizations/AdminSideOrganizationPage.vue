@@ -41,9 +41,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch, WritableComputedRef } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import SideOrganization from '@/classes/SideOrganization';
 import SideOrganizationRules from '@/classes/SideOrganizationRules';
@@ -53,7 +51,6 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const isEdit = ref(false);

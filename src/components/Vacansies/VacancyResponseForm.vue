@@ -32,8 +32,6 @@ const mounted = ref(false);
 const form = ref();
 const vacancyResponse: VacancyResponse = VacancyResponsesStore.Item();
 const vacancy: Vacancy = VacanciesStore.Item();
-const auth: ComputedRef<User> = Store.Getters('auth/auth');
-const user = computed(() => auth.value.user.get());
 
 const submit = async () => {
   vacancyResponse.formValue.validate();
@@ -52,10 +50,10 @@ const submit = async () => {
 
 onBeforeMount(async () => {
   VacancyResponsesStore.ResetItem();
-  VacancyResponsesStore.SetFormValue(vacancy.value.formPattern);
+  VacancyResponsesStore.SetFormValue(vacancy.formPattern);
   vacancyResponse.formValue.initFieldsValues();
-  VacancyResponsesStore.SetVacancy(vacancy.value);
-  VacancyResponsesStore.SetUser(user.value);
+  VacancyResponsesStore.SetVacancy(vacancy);
+  VacancyResponsesStore.SetUser(PHelp.Auth.GetUser());
 
   mounted.value = true;
 });

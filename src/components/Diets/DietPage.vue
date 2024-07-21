@@ -72,10 +72,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, ref } from 'vue';
-
 import Timetable from '@/classes/Timetable';
-import Provider from '@/services/Provider/Provider';
 import Time from '@/services/Time';
 
 export default defineComponent({
@@ -88,8 +85,6 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
-
     const selectDay = (e: any) => {
       selectedNumberDay.value = e;
     };
@@ -107,7 +102,6 @@ export default defineComponent({
     return {
       // selectedDiet,
       // diets,
-      isAuth,
       setDays: Time.SetDays,
       setDaysMobile: Time.SetDaysMobile,
       selectedNumberDay,

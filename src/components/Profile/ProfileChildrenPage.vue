@@ -32,23 +32,12 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref } from 'vue';
-import { useStore } from 'vuex';
-
 import User from '@/classes/User';
 
 export default defineComponent({
   name: 'ProfileChildrenPage',
   setup() {
-    const store = useStore();
-
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
-
-    const loadUser = async () => {
-      await UsersStore.Get(userId.value);
-    };
-    onMounted(loadUser);
 
     const save = async () => {
       await UsersStore.Update();

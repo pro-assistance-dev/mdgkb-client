@@ -21,7 +21,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Specialization from '@/classes/Specialization';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -32,18 +31,12 @@ export default defineComponent({
 
   setup() {
     const mounted: Ref<boolean> = ref(false);
-    const store = useStore();
     const router = useRouter();
     const route = useRoute();
     const specializations: Specialization[] = SpecializationsStore.Items();
 
     onBeforeMount(async () => {
       await SpecializationsStore.GetAll();
-      store.commit('admin/setHeaderParams', {
-        title: 'Специальности',
-        buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-      });
-      store.commit('pagination/setCurPage', 1);
       mounted.value = true;
     });
 

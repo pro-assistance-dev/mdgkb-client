@@ -29,7 +29,6 @@ import validate from '@/services/validate';
 const event: Ref<Event> = Store.Getters('news');
 const form = ref();
 const eventFormVisible = ref(false);
-// const user: Ref<User> = computed(() => store.getters['auth/user']);
 // watch(user, () => {
 //   eventApplication.value.user = new User(user.value);
 //   eventApplication.value.userId = user.value.id;

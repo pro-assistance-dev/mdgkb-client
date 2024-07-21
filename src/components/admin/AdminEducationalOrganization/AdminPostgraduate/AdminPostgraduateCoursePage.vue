@@ -184,7 +184,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Form from '@/classes/Form';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
@@ -207,7 +206,6 @@ export default defineComponent({
     FileUploader,
   },
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     let mounted = ref(false);
@@ -228,17 +226,6 @@ export default defineComponent({
     });
 
     const loadItem = async () => {
-      if (route.params['id']) {
-        // await store.dispatch('postgraduateCourses/get', filterQuery.value);
-        store.commit('admin/setHeaderParams', {
-          title: `Программа аспирантуры по специальности "${postgraduateCourse.value.getMainSpecialization().name}"`,
-          showBackButton: true,
-          buttons: [{ action: submit }],
-        });
-      } else {
-        store.commit('postgraduateCourses/resetItem');
-        store.commit('admin/setHeaderParams', { title: 'Добавить программу', showBackButton: true, buttons: [{ action: submit }] });
-      }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(postgraduateCourse, formUpdated, { deep: true });

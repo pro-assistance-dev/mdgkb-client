@@ -22,9 +22,6 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onMounted, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import DonorRule from '@/classes/DonorRule';
 import User from '@/classes/User';
 import DonorRuleCard from '@/components/DonorRules/DonorRuleCard.vue';
@@ -34,10 +31,9 @@ export default defineComponent({
   components: { DonorRuleCard },
 
   setup() {
-    const store = useStore();
     const mounted = ref(false);
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
+
     const donorRules: ComputedRef<DonorRule[]> = computed(() => {
       return user.getDonorRules();
     });
@@ -45,7 +41,7 @@ export default defineComponent({
     const visible: Ref<boolean> = ref(false);
 
     const loadUser = async () => {
-      await UsersStore.Get(userId.value);
+      // await UsersStore.Get(userId.value);
       mounted.value = true;
     };
 

@@ -17,30 +17,24 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileSettingsPage',
   setup() {
     const mounted = ref(false);
-    const store = useStore();
-    const userId: ComputedRef<string> = computed(() => store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
     const formStatuses: FormStatus[] = FormStatusesStore.Items();
 
     onBeforeMount(async () => {
-      await UsersStore.Get(userId.value);
+      // await UsersStore.Get(userId.value);
       mounted.value = true;
     });
 
     const saveUser = async () => {
       await UsersStore.Update();
-      await Provider.router.push('/profile');
+      await Router.To('/profile');
     };
 
     return {

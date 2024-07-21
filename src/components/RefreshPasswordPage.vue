@@ -16,16 +16,6 @@ onBeforeMount(async () => {
     await Router.To('/');
   }
 });
-
-// const sendPassword = async () => {
-//   const userId = Provider.route().params['userId'];
-//   if (userId && typeof userId === 'string') {
-//     user.value.id = userId;
-//   }
-//   user.value.password = newPassword.value;
-//   await Provider.store.dispatch('auth/refreshPassword', user.value);
-//   await Provider.router.push('/main');
-// };
 </script>
 
 <style lang="scss" scoped>

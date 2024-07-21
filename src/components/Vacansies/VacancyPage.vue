@@ -54,7 +54,6 @@
 </template>
 
 <script lang="ts" setup>
-import User from '@/classes/User';
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
 import VacancyResponseForm from '@/components/Vacansies/VacancyResponseForm.vue';
@@ -63,26 +62,10 @@ import scroll from '@/services/Scroll';
 const showForm: Ref<boolean> = ref(false);
 const vacancy: Vacancy = VacanciesStore.Item();
 const mounted: Ref<boolean> = ref(false);
-const auth = Store.Getters('auth/auth');
-const modal = Store.Getters('auth/modal');
-const user: ComputedRef<User> = computed(() => auth.value.user.get());
-
-const isAuth: ComputedRef<boolean> = computed(() => auth.value.isAuth);
-
-watch(isAuth, async () => await findEmail());
-
-const findEmail = async () => {
-  VacancyResponsesStore.SetUser(user.value);
-};
 
 const showFormFunc = async () => (showForm.value = true);
 
 const openRespondForm = async () => {
-  await findEmail();
-  // if (emailExists.value) {
-  //   PHelp.Notification.Error('Вы уже откликались на эту вакансию');
-  //   return;
-  // }
   await showFormFunc();
   scroll('#vacancy-form');
 };
@@ -94,14 +77,11 @@ const closeRespondForm = () => {
 
 onBeforeMount(async () => {
   await VacanciesStore.Get(Router.Id());
-  await findEmail();
   mounted.value = true;
   if (Router.Route().query.respondForm) {
     await openRespondForm();
   }
 });
-
-const register = () => modal.value.open();
 </script>
 
 <style lang="scss" scoped>

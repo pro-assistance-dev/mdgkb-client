@@ -34,26 +34,17 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
-import { useStore } from 'vuex';
-
 import Doctor from '@/classes/Doctor';
 import EducationalManager from '@/classes/EducationalManager';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationManagers',
   components: { TableButtonGroup },
   setup() {
     const mounted = ref(false);
-    const store = useStore();
     const form = ref();
     const doctors = DoctorsStore.Items();
-    const educationalOrganization: Ref<IEducationalOrganization> = computed(
-      () => store.getters['educationalOrganization/educationalOrganization']
-    );
     const newId = ref();
     const newRole = ref();
 
@@ -63,26 +54,26 @@ export default defineComponent({
     };
 
     const add = () => {
-      if (educationalOrganization.value.doctorExistsInManagers(newId.value)) {
-        ElMessage({ message: 'Выбранный руководитель уже добавлен', type: 'error' });
-        return;
-      }
-      const doctor = doctors.value?.find((i: Doctor) => i.id === newId.value);
+      // if (educationalOrganization.value.doctorExistsInManagers(newId.value)) {
+      //   ElMessage({ message: 'Выбранный руководитель уже добавлен', type: 'error' });
+      //   return;
+      // }
+      const doctor = doctors.find((i: Doctor) => i.id === newId.value);
       const manager = new EducationalManager();
       manager.doctorId = newId.value;
       manager.doctor = doctor;
       manager.role = newRole.value;
-      educationalOrganization.value.addManager(manager);
+      // educationalOrganization.value.addManager(manager);
       clearSelect();
     };
 
     const remove = (index: number) => {
-      store.commit('educationalOrganization/removeManager', index);
+      // store.commit('educationalOrganization/removeManager', index);
     };
 
     return {
       newRole,
-      educationalOrganization,
+      // educationalOrganization,
       newId,
       doctors,
       add,

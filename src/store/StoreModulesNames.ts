@@ -30,6 +30,7 @@ const StoreModulesNames = [
   'BannersStore',
   'PaidProgramsStore',
   'PaidProgramsGroupsStore',
+  'BuildingsStore',
   'PaidServicesStore',
   'SideOrganizationsStore',
   'DonorRulesStore',

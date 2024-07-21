@@ -23,7 +23,6 @@
 <script lang="ts">
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Partner from '@/classes/Partner';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -33,7 +32,6 @@ export default defineComponent({
   components: { TableButtonGroup },
 
   setup() {
-    const store = useStore();
     const router = useRouter();
     const partners: Partner[] = PartnersStore.Items();
     const mounted: Ref<boolean> = ref(false);

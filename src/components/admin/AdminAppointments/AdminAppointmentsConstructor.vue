@@ -8,13 +8,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
 
 export default defineComponent({
   name: 'AdminAppointmentsConstructor',
   components: {},
   setup() {
-    const store = useStore();
     // const router = useRouter();
     // const doctors = computed(() => store.getters['doctors/items']);
     //
@@ -23,10 +21,6 @@ export default defineComponent({
     //   store.commit('admin/setHeaderParams', { title: 'Врачи', buttons: [{ text: 'Добавить врача', type: 'primary', action: create }] });
     //   store.commit('pagination/setCurPage', 1);
     // });
-
-    const init = async () => await store.dispatch(`appointments/init`);
-
-    return { init };
   },
 });
 </script>

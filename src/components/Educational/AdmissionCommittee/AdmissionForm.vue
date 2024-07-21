@@ -161,7 +161,6 @@ const mounted = ref(false);
 const activeStep: Ref<number> = ref(0);
 const residencyApplication: ResidencyApplication = ResidencyApplicationsStore.Item();
 
-const authModal: ComputedRef<Auth> = Store.Getters('auth/modal');
 const textFields = ['DiplomaNumber', 'DiplomaSeries', 'DiplomaDate', 'UniversityEndYear', 'UniversityName', 'DiplomaSpeciality'];
 
 const agreedWithRulesRule = async (_: unknown, value: boolean, callback: MyCallbackWithOptParam) => {
@@ -187,11 +186,7 @@ const buttonOff: Ref<boolean> = ref(false);
 const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
 const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 
-const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
-auth.value.preventLogout = true;
-
-const user: ComputedRef<User> = computed(() => auth.value.user.get());
-const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
+PHelp.Auth.DeprecateLogout();
 
 const userForm = ref();
 const diplomaForm = ref();
@@ -199,14 +194,14 @@ const stepOneForm = ref();
 const questionsForm = ref();
 const achievementsForm = ref();
 
-watch(isAuth, async () => {
-  if (!isAuth.value) {
-    residencyApplication.formValue.user = new User(user.value);
-    authModal.value.open(false);
-  }
-  // await findEmail();
-});
-
+// watch(isAuth, async () => {
+//   if (!isAuth.value) {
+//     residencyApplication.formValue.user = new User(user.value);
+//     authModal.value.open(false);
+//   }
+//   // await findEmail();
+// });
+//
 // watch(
 //   () => authModal.value.visible,
 //   () => {
@@ -238,10 +233,10 @@ const submit = async () => {
 };
 
 onBeforeMount(async () => {
-  if (!isAuth.value) {
-    residencyApplication.formValue.user = new User(user.value);
-    authModal.value.open(false);
-  }
+  // if (!isAuth.value) {
+  //   residencyApplication.formValue.user = new User(user.value);
+  //   authModal.value.open(false);
+  // }
 
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
@@ -268,7 +263,7 @@ const courseChangeHandler = async () => {
 
   ResidencyApplicationsStore.SetAdmissionCommittee(true);
   ResidencyApplicationsStore.SetCourse(residencyApplication.residencyCourse);
-  ResidencyApplicationsStore.SetUser(user.value);
+  ResidencyApplicationsStore.SetUser(PHelp.Auth.GetUser());
 };
 
 const filledApplicationDownload = () => {
@@ -298,7 +293,7 @@ const submitStep = async () => {
   if (activeStep.value === 3 && !validate(diplomaForm)) {
     return;
   }
-  if (activeStep.value === 4 && !residencyApplication.value.validateAchievementsPoints()) {
+  if (activeStep.value === 4 && !residencyApplication.validateAchievementsPoints()) {
     PHelp.Notification.Error('Необходимо добавить все файлы');
     return;
   }
@@ -333,7 +328,7 @@ const toStep = async (stepNum: number) => {
 };
 
 onBeforeUnmount(() => {
-  auth.value.preventLogout = false;
+  PHelp.Auth.AllowLogout();
 });
 
 const getButtonName = (): string => {

@@ -33,7 +33,6 @@ export default defineComponent({
   name: 'AdminUserPage',
   components: { HumanForm },
   setup() {
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);

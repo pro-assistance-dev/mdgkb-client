@@ -30,7 +30,6 @@
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import Project from '@/classes/Project';
 import ProjectItem from '@/classes/ProjectItem';
@@ -63,13 +62,12 @@ export default defineComponent({
         ],
       },
     };
-    const store = useStore();
     const route = useRoute();
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
-    const project: ComputedRef<Project> = computed(() => store.getters['projects/item']);
-    const projectItems: ComputedRef<ProjectItem[]> = computed(() => store.getters['projects/projectItems']);
+    const project: Project = ProjectsStore.Item();
+    // const projectItems: ComputedRef<ProjectItem[]> = computed(() => store.getters['projects/projectItems']);
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const editableTabsIndex: Ref<string> = ref('0');
     const rules = {
@@ -79,12 +77,12 @@ export default defineComponent({
     };
 
     const addTab = () => {
-      store.commit('projects/addProjectItem');
-      editableTabsIndex.value = String(projectItems.value.length - 1);
+      // store.commit('projects/addProjectItem');
+      // editableTabsIndex.value = String(projectItems.value.length - 1);
     };
     const removeTab = (tabName: string) => {
-      store.commit('projects/removeProjectItem', Number(tabName));
-      editableTabsIndex.value = String(projectItems.value.length ? projectItems.value.length - 1 : projectItems.value.length);
+      // store.commit('projects/removeProjectItem', Number(tabName));
+      // editableTabsIndex.value = String(projectItems.value.length ? projectItems.value.length - 1 : projectItems.value.length);
     };
 
     const submit = async (next?: NavigationGuardNext) => {
@@ -95,9 +93,9 @@ export default defineComponent({
       }
       try {
         if (route.params['id']) {
-          await store.dispatch('projects/update', project.value);
+          await ProjectsStore.Update();
         } else {
-          await store.dispatch('projects/create', project.value);
+          await ProjectsStore.Update();
         }
       } catch (error) {
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
@@ -107,13 +105,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      store.commit('projects/resetItem');
-      if (route.params['id']) {
-        await store.dispatch('projects/get', route.params['id']);
-        store.commit('admin/setHeaderParams', { title: 'Обновить проект', showBackButton: true, buttons: [{ action: submit }] });
-      } else {
-        store.commit('admin/setHeaderParams', { title: 'Добавить проект', showBackButton: true, buttons: [{ action: submit }] });
-      }
+      ProjectsStore.ResetItem();
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(project, formUpdated, { deep: true });
@@ -129,7 +121,6 @@ export default defineComponent({
       project,
       editorOption,
       editableTabsIndex,
-      projectItems,
       removeTab,
       addTab,
       rules,
