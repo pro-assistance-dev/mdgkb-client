@@ -35,7 +35,6 @@
 <script lang="ts">
 import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import PaidProgramsGroup from '@/classes/PaidProgramsGroup';
 import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
@@ -43,18 +42,17 @@ import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
 export default defineComponent({
   name: 'AdminPaidProgramsGroupsList',
   setup() {
-    const store = useStore();
     const router = useRouter();
     const editMode = ref(false);
     const paidProgramsGroups: IPaidProgramsGroup[] = PaidProgramsGroupStore.Items();
 
     onBeforeMount(async () => {
-      await store.dispatch('paidProgramsGroups/getAll', false);
+      await PaidProgramsGroupStore.GetAll();
       PHelp.AdminUI.Head.Set('Платные программы', []);
     });
 
     const addGroup = () => {
-      paidProgramsGroups.value.push(new PaidProgramsGroup());
+      paidProgramsGroups.push(new PaidProgramsGroup());
     };
 
     const editProgram = async (id: string) => {

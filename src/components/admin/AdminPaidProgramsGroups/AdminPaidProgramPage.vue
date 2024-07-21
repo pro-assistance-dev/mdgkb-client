@@ -8,9 +8,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 import AdminPaidProgramOptions from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramOptions.vue';
 import AdminPaidProgramPackages from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramPackages.vue';
@@ -22,8 +20,6 @@ export default defineComponent({
   name: 'AdminQuestionPage',
   components: { AdminPaidProgramOptions, AdminPaidProgramPackages },
   setup() {
-    const store = useStore();
-    const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const form = ref();

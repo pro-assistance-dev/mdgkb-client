@@ -51,7 +51,6 @@
 import { Grid } from '@element-plus/icons-vue';
 import { computed, defineComponent, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
-import { useStore } from 'vuex';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
 import IPaidProgramPackage from '@/interfaces/IPaidProgramPackage';
@@ -61,7 +60,6 @@ export default defineComponent({
   name: 'AdminPaidProgramPackages',
   components: { draggable, Grid },
   setup() {
-    const store = useStore();
     const mounted: Ref<boolean> = ref(false);
     const form = ref();
     const paidPackage: IPaidProgramPackage = PaidProgramsStore.Item().getSelectedPackage();
