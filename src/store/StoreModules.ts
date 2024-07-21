@@ -1,3 +1,5 @@
+import * as ServicesStores from '@/services/store/ServicesStores';
+
 import AcademicsStore from './AcademicsStore';
 import AppointmentsStore from './AppointmentsStore';
 import AppointmentsTypesStore from './AppointmentsTypesStore';
@@ -27,6 +29,7 @@ import FormPatternsStore from './FormPatternsStore';
 import FormStatusesStore from './FormStatusesStore';
 import FormStatusGroupsStore from './FormStatusGroupsStore';
 import FormValuesStore from './FormValuesStore';
+import GatesStore from './GatesStore';
 import HeadsStore from './HeadsStore';
 import HospitalizationsStore from './HospitalizationsStore';
 import HospitalizationsTypesStore from './HospitalizationsTypesStore';
@@ -63,6 +66,7 @@ import VacanciesStore from './VacanciesStore';
 import VacancyResponsesStore from './VacancyResponsesStore';
 import VisitingRulesStore from './VisitingRulesStore';
 import VisitsApplicationsStore from './VisitsApplicationsStore';
+
 export {
   AcademicsStore,
   AppointmentsStore,
@@ -93,6 +97,7 @@ export {
   FormStatusesStore,
   FormStatusGroupsStore,
   FormValuesStore,
+  GatesStore,
   HeadsStore,
   HospitalizationsStore,
   HospitalizationsTypesStore,
@@ -117,6 +122,7 @@ export {
   ResidencyCoursesStore,
   RolesStore,
   SearchStore,
+  ServicesStores,
   SideOrganizationsStore,
   SpecializationsStore,
   SupportMessagesStore,

@@ -24,10 +24,10 @@
         <el-button @click="createChildModeOn">Добавить ребёнка</el-button>
       </el-form-item>
     </template>
-    <el-form-item v-if="!isAuth">
+    <el-form-item v-if="!PHelp.Auth.IsAuth()">
       <el-input v-model="appointment.user.email" placeholder="Email"></el-input>
     </el-form-item>
-    <el-form-item v-if="!isAuth">
+    <el-form-item v-if="!PHelp.Auth.IsAuth()">
       <el-input v-model="appointment.user.phone" placeholder="Телефон"></el-input>
     </el-form-item>
   </el-form>
@@ -45,8 +45,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const chosenDay: Ref<string | undefined> = ref();
     const mount = ref(false);
-    const appointment: ComputedRef<Appointment> = AppointmentsStore.Item();
-    const isAuth = Store.Getters('auth/isAuth');
+    const appointment: Appointment = AppointmentsStore.Item();
     const createChildMode: Ref<boolean> = ref(false);
 
     onBeforeMount(async () => {
@@ -71,7 +70,6 @@ export default defineComponent({
 
     return {
       createChildMode,
-      isAuth,
       chosenDay,
       appointment,
       mount,

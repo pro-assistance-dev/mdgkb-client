@@ -41,22 +41,17 @@ import PaidServicesRoutes from '@/router/PaidServicesRoutes';
 import ProfileRoutes from '@/router/ProfileRoutes';
 import ProjectsRoutes from '@/router/ProjectsRoutes';
 import VacanciesRoutes from '@/router/VacanciesRoutes';
-import Store from '@/store/Store';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
-  const auth = Store.Getters('auth/auth');
-  auth.value.actualize();
+  PHelp.Auth.Actualize();
   next();
 };
 
 export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
-  const auth = Store.Getters('auth/auth');
-  auth.value.actualize();
-  console.log(auth.value);
-  if (!auth.value.isAuth) {
-    const modal = Store.Getters('auth/modal');
-    modal.value.open();
-    router.push('/');
+  PHelp.Auth.Actualize();
+  if (!PHelp.Auth.IsAuth()) {
+    PHelp.AuthModal.Open();
+    Router.To('/');
   }
   if (next) {
     next();
@@ -71,12 +66,6 @@ export const devGuard = (): void => {
 
 export const adminGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
   if (to.path != '/main') {
-    // try {
-    //   await store.dispatch('auth/checkPathPermissions', to.matched[0].path);
-    // } catch (e) {
-    //   await router.push('/');
-    // }
-  }
   next();
 };
 

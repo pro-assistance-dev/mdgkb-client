@@ -73,29 +73,23 @@
 <script lang="ts" setup>
 import Division from '@/classes/Division';
 import Gate from '@/classes/Gate';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import VisitsApplication from '@/classes/VisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 const visitsApplication: VisitsApplication = VisitsApplicationsStore.Item();
 const gate: Gate = GatesStore.Item();
 const divisions: Division[] = DivisionsStore.Items();
-const division: Division = DivisionsStore.Item();
-const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
+// const division: Division = DivisionsStore.Item();
+// const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
+// const user: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
 const form = ref();
 const rules = ref({
   division: [{ required: true, message: 'Необходимо выбрать отделение', trigger: 'change' }],
   userCarNumber: [{ required: true, message: 'Пожалуйста, укажите номер автомобиля', trigger: 'blur' }],
   userCarModel: [{ required: true, message: 'Пожалуйста, укажите марку автомобиля', trigger: 'blur' }],
-});
-
-watch(isAuth, async () => {
-  VisitsApplicationsStore.SetUser(user.value);
 });
 
 const submit = async () => {
@@ -116,17 +110,17 @@ const load = async () => {
   VisitsApplicationsStore.SetFormValue(gate.formPattern);
   visitsApplication.formValue.initFieldsValues();
   VisitsApplicationsStore.SetGate(gate);
-  VisitsApplicationsStore.SetUser(user.value);
+  // VisitsApplicationsStore.SetUser(A);
   VisitsApplicationsStore.SetInitVisit();
 };
 
 Hooks.onBeforeMount(load);
 
-const selectDivision = async (event: ISearchObject) => {
-  visitsApplication.divisionId = event.id;
-  DivisionsStore.Get(event.id);
-  visitsApplication.division = new Division(division);
-};
+// const selectDivision = async (event: ISearchObject) => {
+//   visitsApplication.divisionId = event.id;
+//   DivisionsStore.Get(event.id);
+//   visitsApplication.division = new Division(division);
+// };
 </script>
 
 <style lang="scss" scoped>

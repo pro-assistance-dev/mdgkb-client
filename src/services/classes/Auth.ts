@@ -5,22 +5,35 @@ import { AuthInfo } from '@/services/types/AuthInfo';
 
 import { Constructable } from '../ClassHelper';
 
-export default class Auth<UserT extends IWithId> {
-  isAuth = false;
-  user = new AuthUser();
-  tokens = new AuthTokens();
-  preventLogout = false;
+class Auth<UserT extends IWithId> {
+  private isAuth = false;
+  private user = new AuthUser();
+  private tokens = new AuthTokens();
+  private preventLogout = false;
 
-  constructor(userConstructor: Constructable<UserT>) {
-    this.user.setUserConstructor(userConstructor);
+  IsAuth(): boolean {
+    return this.isAuth;
   }
-  setState(authInfo: AuthInfo<UserT>) {
+
+  User(): AuthUser<IWithId> {
+    return this.user;
+  }
+
+  GetUser(): UserT {
+    return this.user.get() as UserT;
+  }
+
+  SetUserConstructor(c: Constructable<UserT>) {
+    this.user.setUserConstructor(c);
+  }
+
+  SetState(authInfo: AuthInfo<UserT>) {
     this.user.set(authInfo.user);
     this.tokens.set(authInfo.tokens);
     this.isAuth = true;
   }
 
-  logout() {
+  Logout() {
     if (this.preventLogout) {
       PHelp.Notification.Warning('В текущий момент Вы не можете выйти из системы');
       return;
@@ -30,13 +43,15 @@ export default class Auth<UserT extends IWithId> {
     this.isAuth = false;
   }
 
-  actualize() {
+  Actualize() {
     this.user.actualize();
     this.tokens.actualize();
     if (this.user.get() && this.tokens.getAccessToken() && this.tokens.getRefreshToken()) {
       this.isAuth = true;
       return;
     }
-    this.logout();
+    this.Logout();
   }
 }
+
+export default new Auth();

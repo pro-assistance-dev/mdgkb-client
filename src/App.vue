@@ -24,7 +24,6 @@ export default defineComponent({
     AdminLayout,
   },
   setup() {
-    const auth: ComputedRef<Auth<User>> = Store.Getters('auth/auth');
     const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
     watch(route, () => {
@@ -37,7 +36,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async (): Promise<void> => {
-      auth.value.actualize();
+      PHelp.Auth.Actualize();
       changeDocumentTitle();
       mounted.value = true;
     });

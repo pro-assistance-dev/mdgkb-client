@@ -177,6 +177,8 @@
     "FormStatusesStore": true,
     "ResidencyApplicationsStore": true,
     "ResidencyCoursesStore": true,
-    "FormValuesStore": true
+    "FormValuesStore": true,
+    "AppointmentsTypesStore": true,
+    "GatesStore": true
   }
 }

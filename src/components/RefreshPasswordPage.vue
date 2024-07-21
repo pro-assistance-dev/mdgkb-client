@@ -3,30 +3,17 @@
 </template>
 
 <script lang="ts" setup>
-import User from '@/classes/User';
-
 import AuthStatuses from '@/services/interfaces/AuthStatuses';
-const user: Ref<User> = computed(() => new User());
-const newPassword: Ref<string> = ref('');
-
-const authForm: ComputedRef<Auth> = Store.Getters('auth/form');
-const authModal: ComputedRef<AuthModal> = Store.Getters('auth/modal');
-
 const passwordChange = () => {
-  authForm.value.setStatus(AuthStatuses.Refresh);
-  authModal.value.open();
+  PHelp.AuthForm.SetStatus(AuthStatuses.Refresh);
+  PHelp.AuthModal.Open();
 };
 
 onBeforeMount(async () => {
   try {
-    // await Store.Dispatch('auth/checkUuid', {
-    //   userId: Provider.route().params['userId'],
-    //   uniqueId: Provider.route().params['uniqueId'],
-    // });
     passwordChange();
   } catch (e) {
     await Router.To('/');
-    // ElMessage({ message: 'Ссылка устарела', type: 'warning' });
   }
 });
 

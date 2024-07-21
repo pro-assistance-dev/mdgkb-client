@@ -1,6 +1,6 @@
 <template>
-  <template v-if="!auth.isAuth">
-    <el-button @click="login" v-if="showButtonName" icon="el-icon-user" round>Войти</el-button>
+  <template v-if="!PHelp.Auth.IsAuth()">
+    <el-button icon="el-icon-user" round @click="login">Войти</el-button>
   </template>
   <el-dropdown v-else>
     <el-button v-if="showButtonName" icon="el-icon-user" round>
@@ -16,9 +16,9 @@
           <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
         </el-dropdown-item>
         <el-dropdown-item
-          v-if="auth.user.get().role.name === 'ADMIN'"
+          v-if="PHelp.Auth.GetUser().role.name === 'ADMIN'"
           icon="el-icon-setting"
-          @click="Router.To(`/admin/${auth.user.get().role.startPage}`)"
+          @click="Router.To(`/admin/${PHelp.Auth.GetUser().role.startPage}`)"
           >Кабинет администратора</el-dropdown-item
         >
         <el-dropdown-item @click="logout"> <LogoutOutlined />Выйти </el-dropdown-item>
@@ -28,44 +28,30 @@
 </template>
 
 <script lang="ts" setup>
-import { LoginOutlined, LogoutOutlined, UserAddOutlined } from '@ant-design/icons-vue';
+import { LogoutOutlined } from '@ant-design/icons-vue';
 
-import User from '@/classes/User';
 import { authGuard } from '@/router';
 import Provider from '@/services/Provider/Provider';
 
 defineProps({ showButtonName: { type: Boolean, default: false } });
-const authModal = Store.Getters('auth/modal');
-const auth = Store.Getters('auth/auth');
 
 const login = () => {
-  authModal.value.open(true);
+  PHelp.AuthModal.Open(true);
 };
 
-const register = () => Provider.store.commit('auth/openModal', 'register');
-const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
-const user: User = UsersStore.Item();
-const curUser: ComputedRef<User> = computed(() => Provider.store.getters['auth/user']);
-const authOnly: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/authOnly']);
-
 const loadUser = async () => {
-  await UsersStore.Get(userId.value);
+  await UsersStore.Get(PHelp.Auth.GetUser().id as string);
 };
 
 const logout = async () => {
-  auth.value.logout();
+  PHelp.Auth.Logout();
   const curRoute = Provider.route().name;
   const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
   if (rr && rr.meta && rr.meta.protected) {
     authGuard();
   }
-  if (authOnly.value) {
-    Provider.store.commit('auth/showWarning', true);
-    Provider.store.commit('auth/openModal', 'login');
-  }
 };
 
-const isAuth = computed(() => Provider.store.getters['auth/isAuth']);
 const isLaptopWindowWidth: Ref<boolean> = ref(window.matchMedia('(max-width: 560px)').matches);
 
 onBeforeMount(async () => {
@@ -77,12 +63,6 @@ onMounted(() => {
     isLaptopWindowWidth.value = window.matchMedia('(max-width: 560px)').matches;
   });
 });
-
-const toProfile = async (): Promise<void> => {
-  if (isLaptopWindowWidth.value) {
-    await Router.To('/profile');
-  }
-};
 </script>
 
 <style lang="scss" scoped>

@@ -7,6 +7,7 @@ export {}
 declare global {
   const AcademicsStore: typeof import('@/store/StoreModules')['AcademicsStore']
   const AppointmentsStore: typeof import('@/store/StoreModules')['AppointmentsStore']
+  const AppointmentsTypesStore: typeof import('@/store/StoreModules')['AppointmentsTypesStore']
   const Arrays: typeof import('@/services/Main')['Arrays']
   const Auth: typeof import('@/services/Main')['Auth']
   const Axios: typeof import('@/services/Main')['Axios']
@@ -55,6 +56,7 @@ declare global {
   const FormStatusGroupsStore: typeof import('@/store/StoreModules')['FormStatusGroupsStore']
   const FormStatusesStore: typeof import('@/store/StoreModules')['FormStatusesStore']
   const FormValuesStore: typeof import('@/store/StoreModules')['FormValuesStore']
+  const GatesStore: typeof import('@/store/StoreModules')['GatesStore']
   const GetExtension: typeof import('@/services/Main')['GetExtension']
   const HeadsStore: typeof import('@/store/StoreModules')['HeadsStore']
   const Hooks: typeof import('@/services/Main')['Hooks']
@@ -186,6 +188,7 @@ declare module 'vue' {
   interface ComponentCustomProperties {
     readonly AcademicsStore: UnwrapRef<typeof import('@/store/StoreModules')['AcademicsStore']>
     readonly AppointmentsStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsStore']>
+    readonly AppointmentsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsTypesStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
@@ -232,6 +235,7 @@ declare module 'vue' {
     readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
     readonly FormStatusesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusesStore']>
     readonly FormValuesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormValuesStore']>
+    readonly GatesStore: UnwrapRef<typeof import('@/store/StoreModules')['GatesStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>
@@ -356,6 +360,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     readonly AcademicsStore: UnwrapRef<typeof import('@/store/StoreModules')['AcademicsStore']>
     readonly AppointmentsStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsStore']>
+    readonly AppointmentsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsTypesStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
@@ -402,6 +407,7 @@ declare module '@vue/runtime-core' {
     readonly FormStatusGroupsStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusGroupsStore']>
     readonly FormStatusesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormStatusesStore']>
     readonly FormValuesStore: UnwrapRef<typeof import('@/store/StoreModules')['FormValuesStore']>
+    readonly GatesStore: UnwrapRef<typeof import('@/store/StoreModules')['GatesStore']>
     readonly GetExtension: UnwrapRef<typeof import('@/services/Main')['GetExtension']>
     readonly HeadsStore: UnwrapRef<typeof import('@/store/StoreModules')['HeadsStore']>
     readonly Hooks: UnwrapRef<typeof import('@/services/Main')['Hooks']>

@@ -29,8 +29,6 @@
 </template>
 
 <script lang="ts" setup>
-import User from '@/classes/User';
-import Auth from '@/services/classes/Auth';
 import Menu from '@/services/classes/Menu';
 import Provider from '@/services/Provider/Provider';
 
@@ -42,9 +40,6 @@ defineProps({
 });
 const mounted = ref(false);
 const menus: WritableComputedRef<Menu[]> = Store.Items('menus');
-
-const auth: Ref<Auth<User>> = Store.Getters('auth/auth');
-const isAuth: Ref<boolean> = computed(() => auth.value.isAuth);
 
 const clickOutsideMenu = (e: MouseEvent) => {
   const t = document.querySelectorAll('.link-menu');
@@ -84,11 +79,6 @@ const setColors = (): void => {
 };
 
 watch(() => Router.Route().path, setActiveMenu);
-
-watch(isAuth, () => {
-  Store.Commit(`menus/setMenus`);
-  setColors();
-});
 
 const getColor = (color: string) => {
   return color;

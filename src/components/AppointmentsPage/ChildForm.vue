@@ -34,7 +34,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const mounted: Ref<boolean> = ref(false);
     const child: WritableComputedRef<Child> = Store.Item('children');
-    // const user: Ref<User> = computed(() => store.getters['auth/user']);
     onBeforeMount(() => {
       mounted.value = true;
     });

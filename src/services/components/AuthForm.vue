@@ -1,18 +1,18 @@
 <template>
   <div class="auth-card">
     <div class="auth-card-header">
-      {{ form.getTitle() }}
+      {{ form.GetTitle() }}
     </div>
     <div>
       <el-form ref="form" :model="form" :label-position="'top'">
-        <el-form-item v-if="form.email.show(form.status)" prop="email" label="Введите email">
-          <el-input ref="emailRef" v-model="form.email.email" placeholder="Email" :autofocus="true" />
+        <el-form-item v-if="form.Email().show(form.Status())" prop="email" label="Введите email">
+          <el-input ref="emailRef" v-model="form.Email().email" placeholder="Email" :autofocus="true" />
         </el-form-item>
-        <el-form-item v-if="form.password.show(form.status)" prop="password" label="Введите пароль">
-          <el-input ref="passwordRef" v-model="form.password.password" placeholder="Пароль" type="password" />
+        <el-form-item v-if="form.Password().show(form.Status())" prop="password" label="Введите пароль">
+          <el-input ref="passwordRef" v-model="form.Password().password" placeholder="Пароль" type="password" />
         </el-form-item>
-        <el-form-item v-if="form.passwordRepeat.show(form.status)" prop="passwordRepeat" label="Повторите пароль">
-          <el-input ref="passwordRepeatRef" v-model="form.passwordRepeat.text" placeholder="Пароль" type="password" />
+        <el-form-item v-if="form.PasswordRepeat().show(form.Status())" prop="passwordRepeat" label="Повторите пароль">
+          <el-input ref="passwordRepeatRef" v-model="form.PasswordRepeat().text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
           <PButton
@@ -34,38 +34,36 @@
 
 <script lang="ts" setup>
 import AuthButton from '@/services/classes/AuthButton';
-import AuthForm from '@/services/classes/AuthForm';
 import PButton from '@/services/components/PButton.vue';
 
 import AuthStatuses from '../interfaces/AuthStatuses';
 
-const form: ComputedRef<AuthForm> = Store.Item('auth', 'form');
-const auth = Store.Item('auth', 'auth');
+const form = PHelp.AuthForm;
 const blockBtn = ref(false);
 const emailRef = ref();
 const passwordRef = ref();
 
 const emits = defineEmits(['action']);
-const buttons = computed(() => form.value.getAuthButtons());
+const buttons = computed(() => form.GetAuthButtons());
 
 const registration = () => {
-  form.value.reset();
-  form.value.setStatus(AuthStatuses.Login);
+  form.Reset();
+  form.SetStatus(AuthStatuses.Login);
 };
 
 const login = () => {
-  form.value.reset();
+  form.Reset();
 };
 
 const restore = async () => {
-  form.value.reset();
+  form.Reset();
   await Router.To('/');
 };
 
 const refresh = async () => {
-  form.value.reset();
+  form.Reset();
   await Router.To('/');
-  auth.value.logout();
+  PHelp.Auth.Logout();
 };
 
 const authButtonClick = async (authButton: AuthButton): Promise<void> => {
@@ -74,10 +72,10 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
   if (!authButton.isSubmit) {
     // authButton.on();
     blockBtn.value = false;
-    return form.value.setStatus(authButton.getStatus());
+    return form.SetStatus(authButton.getStatus());
   }
 
-  const errors = form.value.getErrors();
+  const errors = form.getErrors();
   if (errors.length > 0) {
     PHelp.Notification.Error(errors.join(', '));
     blockBtn.value = false;
@@ -86,17 +84,17 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   try {
     PHelp.Loading.Show();
-    await Store.Dispatch(`auth/${form.value.getAction()}`);
+    await Store.Dispatch(`auth/${form.GetAction()}`);
     PHelp.Loading.Hide();
 
-    PHelp.Notification.Success(form.value.getSuccessMessage());
+    PHelp.Notification.Success(form.GetSuccessMessage());
   } catch (error) {
     PHelp.Loading.Hide();
     blockBtn.value = false;
     return;
   }
 
-  switch (form.value.status) {
+  switch (form.Status()) {
     case AuthStatuses.Login:
       login();
       break;
@@ -121,17 +119,17 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 };
 
 onBeforeUnmount(() => {
-  form.value.reset;
+  form.Reset();
 });
 const focus = () => {
-  if (form.value.isRefresh()) {
+  if (form.IsRefresh()) {
     passwordRef.value.focus();
     return;
   }
   emailRef.value.focus();
 };
 watch(
-  () => form.value.status,
+  () => form.Status(),
   () => {
     focus();
   }
@@ -146,10 +144,6 @@ onMounted(() => {
   height: 20px;
   width: 20px;
   background: red;
-}
-
-.auth-card {
-  // width: 320px;
 }
 
 .btn-group {

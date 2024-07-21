@@ -29,10 +29,9 @@
 import { LogoutOutlined } from '@ant-design/icons-vue';
 
 import AdminSearchMenu from '@/components/admin/AdminSearchMenu.vue';
-const auth = Store.Getters('auth/auth');
 
 const logout = async () => {
-  auth.value.logout();
+  PHelp.Auth.Logout();
   await Router.To('/');
 };
 </script>

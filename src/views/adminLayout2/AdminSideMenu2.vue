@@ -48,7 +48,6 @@ defineProps({
 
 // const activePath: Ref<string> = ref('');
 const mounted = ref(false);
-const auth = Store.Getters('auth/auth');
 
 watch(
   () => Router.GetPath(),
@@ -64,7 +63,7 @@ onBeforeMount(async () => {
 });
 
 const logout = async () => {
-  auth.value.logout();
+  PHelp.Auth.Logout();
   await Router.To('/');
 };
 </script>

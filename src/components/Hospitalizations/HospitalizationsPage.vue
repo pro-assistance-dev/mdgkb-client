@@ -40,20 +40,15 @@
 
 <script lang="ts" setup>
 import { ElLoading, ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, Ref, ref, watch } from 'vue';
 
-import Division from '@/classes/Division';
 import Hospitalization from '@/classes/Hospitalization';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 const steps = ['Выберите тип госпитализации', 'Выберите отделение', 'Выберите дату', 'Укажите свои данные'];
 
 const userForm = ref();
-const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
 const activeStep: Ref<number> = ref(0);
 const buttonOff: Ref<boolean> = ref(false);
 const hospitalization: Hospitalization = HospitalizationsStore.Item();
@@ -63,12 +58,6 @@ const load = async () => {
 };
 
 Hooks.onBeforeMount(load);
-
-const isAuth: ComputedRef<boolean> = computed(() => Provider.store.getters['auth/isAuth']);
-
-watch(isAuth, async () => {
-  hospitalization.value.formValue.user = new User(user.value);
-});
 
 const submit = (): void => {
   hospitalization.formValue.clearIds();
@@ -86,10 +75,10 @@ const toStep = async (stepNum: number) => {
 const submitStep = async () => {
   if (activeStep.value === 0) {
     activeStep.value++;
-    hospitalization.value.formValue.user = new User(user.value);
+    // hospitalization.value.formValue.user = new User(user.value);
     return;
   }
-  hospitalization.value.formValue.validate();
+  hospitalization.formValue.validate();
   if (activeStep.value === 2 && !hospitalization.formValue.validated) {
     ElNotification.error({
       dangerouslyUseHTMLString: true,
@@ -121,16 +110,16 @@ const clearAllValidate = (): void => {
 const getButtonName = (): string => {
   return activeStep.value < 2 ? 'Перейти к следующему шагу' : 'Отправить';
 };
-const selectedDivision: Division = DivisionsStore.Item();
+// const selectedDivision: Division = DivisionsStore.Item();
 
-const selectDivision = async (divisionId?: string) => {
-  if (divisionId) {
-    await DivisionsStore.Get(divisionId);
-    hospitalization.divisionId = divisionId;
-    hospitalization.division = selectedDivision;
-  }
-  activeStep.value++;
-};
+// const selectDivision = async (divisionId?: string) => {
+//   if (divisionId) {
+//     await DivisionsStore.Get(divisionId);
+//     hospitalization.divisionId = divisionId;
+//     hospitalization.division = selectedDivision;
+//   }
+//   activeStep.value++;
+// };
 </script>
 
 <style lang="scss" scoped>

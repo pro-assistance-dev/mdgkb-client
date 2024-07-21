@@ -88,7 +88,6 @@ export default defineComponent({
 
   setup() {
     const chosenDay: Ref<string> = ref(new Date().toString());
-    const user: Ref<User> = computed(() => Provider.store.getters['auth/user']);
     const appointment: Appointment = AppointmentsStore.Item();
     const appointmentsTypes: AppointmentType[] = AppointmentsTypesStore.Items();
     const appointmentsType: AppointmentType = AppointmentsTypesStore.Item();
@@ -96,8 +95,8 @@ export default defineComponent({
     const form = ref();
 
     const load = async () => {
-      await AppointmentsTypesStore.GetAll();
-      appointment.formValue.user = new User(user.value);
+      // await AppointmentsTypesStore.GetAll();
+      appointment.formValue.user = PHelp.Auth.GetUser();
     };
 
     Hooks.onBeforeMount(load);
@@ -145,7 +144,7 @@ export default defineComponent({
       AppointmentsTypesStore.Set(appointmentType);
       appointment.appointmentType = new AppointmentType(appointmentType);
       appointment.appointmentTypeId = appointmentType.id;
-      appointment.formValue.reproduceFromPattern(appointmentsType.value.formPattern);
+      appointment.formValue.reproduceFromPattern(appointmentsType.formPattern);
       // appointment.value.formValue = new Form(appointmentType.formPattern);
       // appointment.value.formValue.user = new User(user.value);
       // appointment.value.formValue.initFieldsValues();

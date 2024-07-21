@@ -1,18 +1,32 @@
 import AuthStatuses from '@/services/interfaces/AuthStatuses';
 
-export default class AuthModal {
-  visible = false;
-  closable = false;
-  status: AuthStatuses = AuthStatuses.Login;
+class AuthModal {
+  private visible = false;
+  private closable = false;
+  private status: AuthStatuses = AuthStatuses.Login;
 
-  close(): void {
+  Status(): AuthStatuses {
+    return this.status;
+  }
+
+  IsClosable(): boolean {
+    return this.closable;
+  }
+
+  IsVisible(): boolean {
+    return this.visible;
+  }
+
+  Close(): void {
     this.visible = false;
   }
 
-  open(closable?: boolean): void {
+  Open(closable?: boolean): void {
     if (closable) {
       this.closable = true;
     }
     this.visible = true;
   }
 }
+
+export default new AuthModal();

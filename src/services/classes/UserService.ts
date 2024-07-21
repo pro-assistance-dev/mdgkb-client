@@ -1,21 +1,20 @@
 import IWithId from '@/services/interfaces/IWithId';
-import TokenService from '@/services/Token';
 
 export default class AuthUser<TUser extends IWithId> {
   private user: TUser | undefined;
 
-  get(): TUser | undefined {
+  Get(): TUser | undefined {
     return this.user;
   }
 
-  getId(): string | undefined {
-    return this.getUser()?.id;
+  GetId(): string | undefined {
+    return this.Get()?.id;
   }
 
-  set(user: TUser): void {
+  Set(user: TUser): void {
     this.user = user;
   }
-  reset(): void {
+  Reset(): void {
     this.user = undefined;
   }
 }

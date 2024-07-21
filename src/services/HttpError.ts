@@ -1,7 +1,6 @@
 import { AxiosInstance } from 'axios';
 
 import TokenService from '@/services/Token';
-import store from '@/store';
 
 import ClassHelper from './ClassHelper';
 import PHelp from './PHelp';
@@ -30,9 +29,9 @@ export default class HttpError {
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        await store.dispatch('auth/refreshToken');
+        await AuthStore.RefreshToken();
       } catch (e) {
-        await store.dispatch('auth/logout');
+        await AuthStore.Logout();
         return;
       }
       axiosInstance.defaults.headers.common['token'] = TokenService.getAccessToken();

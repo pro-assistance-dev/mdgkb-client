@@ -2,7 +2,7 @@
   <div id="initial-bvi-container">
     <button id="bvi" class="bvi-open">Версия сайта для слабовидящих</button>
   </div>
-  <AuthModal v-if="modal.visible" @action="authAct" />
+  <AuthModal v-if="PHelp.AuthModal.IsVisible()" @action="authAct" />
   <!-- <AuthPage /> -->
   <SearchDrawer />
   <div style="position: relative">
@@ -67,16 +67,14 @@ const FooterTop = defineAsyncComponent({
 });
 const FooterBottom = defineAsyncComponent(() => import('@/views/mainLayout/FooterBottom.vue' /* webpackChunkName: "footerBottom" */));
 
-const auth: ComputedRef<Auth> = Store.Getters('auth/auth');
 onBeforeMount(async () => {
-  if (auth.value.isAuth) {
-    await UsersStore.Get(auth.value.user.get().id);
+  if (PHelp.Auth.IsAuth()) {
+    await UsersStore.Get(PHelp.Auth.GetUser().id as string);
   }
 });
+
 const cache = new Cache();
 cache.name = 'startModal';
-const modal = Store.Getters('auth/modal');
-const form = Store.Getters('auth/form');
 // const isClose = ref(cache.getFromCache(3) || false);
 const isClose = ref(true);
 
@@ -85,8 +83,8 @@ const clickHandler = () => {
   cache.cache(isClose.value);
 };
 const authAct = async () => {
-  if (form.value.isLogin()) {
-    modal.value.close();
+  if (PHelp.AuthForm.IsLogin()) {
+    PHelp.AuthModal.Close();
   }
 };
 </script>

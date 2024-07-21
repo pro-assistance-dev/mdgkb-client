@@ -1,8 +1,5 @@
 import Vuex, { StoreOptions } from 'vuex';
 
-import User from '@/classes/User';
-import * as lib from '@/services/store/index';
-import { authStateConstructor } from '@/services/store/modules/auth';
 import { pagination } from '@/store/modules/pagination';
 
 import RootState from './types';
@@ -13,9 +10,7 @@ const s: StoreOptions<RootState> = {
   },
   modules: {
     // auth,
-    auth: authStateConstructor(User),
     pagination,
-    ...lib,
   },
 };
 
