@@ -103,7 +103,7 @@ export default class ResidencyApplication {
     const orExists = achievements.filter((a: ResidencyApplicationPointsAchievement) => {
       return a.pointsAchievement.code === 'З*' || a.pointsAchievement.code === 'И*';
     });
-    if (orExists) {
+    if (orExists.length > 1) {
       achievements = achievements.filter((a: ResidencyApplicationPointsAchievement) => a.pointsAchievement.code !== 'З*');
     }
     // let a = achievements.filter(
