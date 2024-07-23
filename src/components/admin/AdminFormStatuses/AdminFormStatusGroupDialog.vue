@@ -16,10 +16,9 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref, WritableComputedRef } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import FormStatusGroup from '@/classes/FormStatusGroup';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

@@ -11,34 +11,32 @@
 import Division from '@/classes/Division';
 import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
-import FilterModel from '@/services/classes/filters/FilterModel';
+// import FilterModel from '@/services/classes/filters/FilterModel';
 import LabelValue from '@/services/classes/LabelValue';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
-import SortListConst from '@/services/SortList';
 import { Orders } from '@/services/interfaces/Orders';
+import SortListConst from '@/services/SortList';
 const modes: Ref<LabelValue[]> = ref([LabelValue.Create('Отделения', 'divisions'), LabelValue.Create('Центры', 'centers')]);
 const mode: Ref<LabelValue> = ref(modes.value[0]);
 
 const divisions: Division[] = DivisionsStore.Items();
 
-const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
-const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
+// const onlyDivisionsFilterModel: Ref<FilterModel> = ref(new FilterModel());
+// const onlyCentersFilterModel: Ref<FilterModel> = ref(new FilterModel());
 
 const count: Ref<number> = ref(1);
 const mounted = ref(false);
 
 const sortByName = DivisionsSortsLib.byName();
 
-const getInitMode = () => {
-  const routeMode = Router.GetStringQueryParam('mode');
-  const findedMode = modes.value.find((opt: LabelValue) => opt.value === routeMode);
-  if (findedMode) {
-    mode.value = findedMode;
-  }
-};
-
+// const getInitMode = () => {
+//   const routeMode = Router.GetStringQueryParam('mode');
+//   const findedMode = modes.value.find((opt: LabelValue) => opt.value === routeMode);
+//   if (findedMode) {
+//     mode.value = findedMode;
+//   }
+// };
+//
 const load = async () => {
   FTSP.Get().setS(sortByName);
 
@@ -49,7 +47,7 @@ const load = async () => {
     DivisionsSortsLib.byCommentsCount(Orders.Desc),
   ]);
 
-  if (!Provider.route().query.mode || Provider.route().query.mode === 'divisions') {
+  if (!Router.Route().query.mode || Router.Route().query.mode === 'divisions') {
     FTSP.Get().setF(DivisionsFiltersLib.onlyDivisions());
   } else {
     FTSP.Get().setF(DivisionsFiltersLib.onlyCenters());
@@ -80,13 +78,13 @@ const loadMore = async () => {
   await DivisionsStore.FTSP();
 };
 
-const selectMode = async (selectedMode: string) => {
-  mode.value = selectedMode;
-  if (mode.value === 'divisions') {
-    FTSP.Get().replaceF(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value);
-  } else if (mode.value === 'centers') {
-    FTSP.Get().replaceF(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value);
-  }
+const selectMode = async () => {
+  // mode.value = selectedMode;
+  // if (mode.value === 'divisions') {
+  //   FTSP.Get().replaceF(onlyDivisionsFilterModel.value, onlyCentersFilterModel.value);
+  // } else if (mode.value === 'centers') {
+  //   FTSP.Get().replaceF(onlyCentersFilterModel.value, onlyDivisionsFilterModel.value);
+  // }
   count.value--;
   await loadDivisions();
 };

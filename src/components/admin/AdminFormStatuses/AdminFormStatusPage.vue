@@ -77,7 +77,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      if (route.params['id']) {
+      if (Router.Id()) {
         await FormStatusesStore.Get(Router.Id());
         PHelp.AdminUI.Head.Set('Обновить статус', [Button.Success('Создать', submit)]);
       } else {

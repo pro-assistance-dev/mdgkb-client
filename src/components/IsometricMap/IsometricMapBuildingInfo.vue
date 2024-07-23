@@ -2,12 +2,12 @@
   <div class="building-modal-container">
     <div class="header">
       <div class="left">
-        <StringItem :string="'ЗДАНИЕ ' + building.name" width="auto" justifyContent="left" />
+        <StringItem :string="'ЗДАНИЕ ' + building.name" width="auto" justify-content="left" />
         <StringItem
           v-if="building.floors.length > 0"
           :string="'ЭТАЖЕЙ ' + building.floors.length"
           width="auto"
-          justifyContent="left"
+          justify-content="left"
           margin="20px 0 0 0"
         />
       </div>
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import Building from '@/classes/Building';
-const emit = defineEmits(['close']);
+defineEmits(['close']);
 const filterString: Ref<string> = ref('');
 
 const building: ComputedRef<Building> = Store.Item('buildings');

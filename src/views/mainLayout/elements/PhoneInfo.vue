@@ -58,7 +58,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 import LoginDropdownMenu from '@/views/mainLayout/elements/LoginDropdownMenu.vue';

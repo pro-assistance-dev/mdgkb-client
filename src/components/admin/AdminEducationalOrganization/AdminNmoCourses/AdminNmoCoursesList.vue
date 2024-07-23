@@ -60,7 +60,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -95,7 +94,6 @@ export default defineComponent({
             text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
             action: computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value))),
           },
-          { text: 'Добавить программу', type: 'primary', action: Provider.createAdmin },
         ],
       },
       sortsLib: NmoCoursesSortsLib,

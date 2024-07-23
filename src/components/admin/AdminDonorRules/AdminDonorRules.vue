@@ -30,8 +30,8 @@
 import { Grid } from '@element-plus/icons-vue';
 import draggable from 'vuedraggable';
 
+import DonorRule from '@/classes/DonorRule';
 import Menu from '@/services/classes/Menu';
-import UploaderSingleScan from '@/services/components/UploaderSingleScan.vue';
 import sort from '@/services/sort';
 
 export default defineComponent({

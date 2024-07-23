@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="flex-column" style="height: 100%">
+  <div class="flex-column" style="height: 100%">
     <div class="card-item filters">
       <div class="filters-block">
         <span>Найти:</span>
@@ -79,19 +79,15 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { computed, ComputedRef, defineComponent, PropType, Ref, ref } from 'vue';
-import { RouteRecordNormalized } from 'vue-router';
 
-import PathPermission from '@/classes/PathPermission';
 import IPathPermission from '@/interfaces/IPathPermission';
 import IPathPermissionRole from '@/interfaces/IPathPermissionRole';
 import { RoleName } from '@/interfaces/RoleName';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
+import PathPermissionsSortsLib from '@/libs/sorts/PathPermissionsSortsLib';
 import Role from '@/services/classes/Role';
 import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import PathPermissionsSortsLib from '@/libs/sorts/PathPermissionsSortsLib';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminGallery',
@@ -103,11 +99,10 @@ export default defineComponent({
   },
 
   setup() {
-    const paths = Provider.router.getRoutes();
     const searchString: Ref<string> = ref('');
     const sortString: Ref<string> = ref('');
 
-    const checkPermissionForRole = computed((roleId: string, obj: IPathPermission) => obj.checkPermissionForRole(roleId));
+    // const checkPermissionForRole = computed((roleId: string, obj: IPathPermission) => obj.checkPermissionForRole(roleId));
 
     // const filteredPathPermissions: Ref<IPathPermission[]> = computed(() => {
     //   if (!searchFilterPathPermissions.value.length) {
@@ -128,8 +123,7 @@ export default defineComponent({
     const loadPaths = async () => {};
 
     const load = async () => {
-      PHelp.AdminUI.Head.Set('Клиентские доступы', [Button.Success('Сохранить', submit)]);
-      // Provider.setSortModels(PathPermissionsSortsLib.byResource(Orders.Asc));
+      // PHelp.AdminUI.Head.Set('Клиентские доступы', [Button.Success('Сохранить', submit)]);
 
       // TODO: проверить лимит по-умолчанию при отсутствии пагинации
       // ===========================================
@@ -186,7 +180,7 @@ export default defineComponent({
       filteredRoles.value = roles;
       chosenRole.value = new Role();
     };
-    const filterList = (search: string) => {
+    const filterList = () => {
       searchFilterPathPermissions.value = [];
       // clientPermissions.value.forEach((el) => {
       //   if (el.resource.includes(search) && el.id) {
@@ -199,14 +193,13 @@ export default defineComponent({
     };
 
     return {
-      checkPermissionForRole,
+      // checkPermissionForRole,
       setAllGuests,
       setAll,
       roles,
-      mounted: Provider.mounted,
       permissions,
       savePaths,
-      paths,
+      // paths,
       filteredRoles,
       chosenRole,
       selectRolesList,
@@ -214,7 +207,7 @@ export default defineComponent({
       addAllRoles,
       filterList,
       searchString,
-      filteredPathPermissions,
+      // filteredPathPermissions,
       createSortModels,
       loadPaths,
       sortString,

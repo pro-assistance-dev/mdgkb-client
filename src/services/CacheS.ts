@@ -7,7 +7,7 @@ export default class Cache {
     ClassHelper.BuildClass(this, i);
   }
 
-  public static Set<DataType>(name: string, data: DataType): void {
+  public static Set(): void {
     // const res = { data, time: new Date() };
     // sessionStorage.setItem(this.name, JSON.stringify(res));
   }
@@ -36,7 +36,7 @@ export default class Cache {
     if (!res) {
       res = await get();
       if (res) {
-        Cache.Set<DataType>(name, res);
+        // Cache.Set<DataType>(name, res);
       }
     }
     return res;

@@ -31,7 +31,7 @@ class S {
   }
 
   ToggleDrawer(isOpen: boolean) {
-    this.isSearchDrawerOpen = isOpen;
+    this.isSearchDrawerOpen.value = isOpen;
     this.searchModel = new SearchModel();
   }
   SetSearchModel(searchModel: void | SearchModel): void {
@@ -40,7 +40,8 @@ class S {
     }
     this.searchModel = new SearchModel(searchModel);
   }
-  SetSearchGroups(searchGroups: SearchGroup[]): void {
+
+  SetSearchGroups(): void {
     // this.searchModel.searchGroups = searchGroups.map((item: SearchGroup) => new SearchGroup(item));
   }
 

@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper>
     <template #sort>
-      <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadResponses" />
+      <SortList :max-width="400" :store-mode="true" @load="loadResponses" />
     </template>
     <AdminVacancyResponsesTable :vacancy-responses="vacancyResponses" vacancy-column @remove="remove" />
     <template #footer>
@@ -17,21 +17,19 @@ import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 
 const vacancyResponses: VacancyResponse[] = VacancyResponsesStore.Items();
-// const applicationsCount: ComputedRef<number> =  computed(() => Provider.store.getters['admin/applicationsCount']('vacancy_responses'));
 
 const loadResponses = async () => {
   VacancyResponsesStore.ResetItem();
-  await Store.FTSP('vacancyResponses');
+  await VacancyResponsesStore.FTSP();
 };
 
 const load = async () => {
   FTSP.Get().setS(VacancyResponsesSortsLib.byDate(Orders.Desc));
-  // Provider.setSortList(...createSortModels(VacancyResponsesSortsLib));
   await VacancyResponsesStore.FTSP();
   PHelp.AdminUI.Head.Set('Отклики на вакансии', []);
 };
 
-// const create = () => Provider.router.push(`/admin/vacancy-responses/new`);
+// const create = () => Router.To(`/admin/vacancy-responses/new`);
 const remove = async (index: string) => await VacancyResponsesStore.Remove(index);
 
 Hooks.onBeforeMount(load);

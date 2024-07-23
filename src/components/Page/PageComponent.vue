@@ -40,14 +40,11 @@ import { onBeforeRouteLeave } from 'vue-router';
 
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 import CustomSection from '@/classes/CustomSection';
-import ContactsBlock from '@/components/ContactsBlock.vue';
 import CustomPage from '@/components/CustomPage.vue';
-import PageSections from '@/components/Page/PageSections.vue';
-import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
+
 const props = defineProps({
   customSections: {
     type: Array<CustomSection>,
@@ -63,18 +60,18 @@ const props = defineProps({
   },
 });
 const emits = defineEmits(['selectMenu']);
-const path = computed(() => Provider.route().path);
+const path = computed(() => Router.Route().path);
 const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const mounted = ref(false);
 
-const page: ComputedRef<Page> = PagesStore.Item();
+const page: Page = PagesStore.Item();
 const load = async () => {
   console.log(PagesStore === PagesStore);
   // PagesStore.ResetItem();
   mounted.value = false;
   // console.log(page.value);
   if (props.getPage) {
-    await PagesStore.GetBySlug(Provider.getPath());
+    await PagesStore.GetBySlug(Router.Route().path);
   }
   // console.log(page.value);
   page.addCustomSectionsToSideMenu(props.customSections);

@@ -9,23 +9,14 @@
     <ScansSlider :gallery-elements="doctor.employee.certificates" />
     <DoctorDateAndTime :doctor="doctor" />
     <NewsSlider :news="doctor.newsDoctors" />
-    <Comments :comments="doctor.comments" domen="doctors" :item-id="doctor.id" :is-reviews="true" />
+    <CommentsComponent :comments="doctor.comments" domen="doctors" :item-id="doctor.id" :is-reviews="true" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
-import Comments from '@/components/Comments/Comments.vue';
-import DoctorAchievements from '@/components/Doctors/DoctorAchievements.vue';
-import DoctorDateAndTime from '@/components/Doctors/DoctorDateAndTime.vue';
-import DoctorEducation from '@/components/Doctors/DoctorEducation.vue';
-import DoctorInfo from '@/components/Doctors/DoctorInfo.vue';
-import DoctorWorkExperience from '@/components/Doctors/DoctorWorkExperience.vue';
-import NewsSlider from '@/components/NewsSlider.vue';
-import PaidServices from '@/components/PaidServices/PaidServices.vue';
-import ScansSlider from '@/components/ScansSlider.vue';
 
-const doctor: Ref<Doctor> = DoctorsStore.Item();
+const doctor: Doctor = DoctorsStore.Item();
 const mounted = ref(false);
 
 onBeforeMount(async () => {

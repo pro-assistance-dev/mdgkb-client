@@ -1,6 +1,6 @@
 <template>
   <div class="load-more">
-    <PButton skin="profile" type="c_blue" margin="0 auto" @click="$emit('loadMore')" width="130px">
+    <PButton skin="profile" type="c_blue" margin="0 auto" width="130px" @click="$emit('loadMore')">
       <div v-if="!loading">{{ text }}</div>
       <div v-if="loading" class="loader" style="--b: 5px; width: 26px; --n: 16"></div>
     </PButton>

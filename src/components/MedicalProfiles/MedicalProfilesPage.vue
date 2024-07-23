@@ -73,8 +73,6 @@
 
 <script lang="ts">
 import { EyeOutlined } from '@ant-design/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
-import { useRoute } from 'vue-router';
 
 import MedicalProfile from '@/classes/MedicalProfile';
 import BaseIcon from '@/components/Base/MedicalIcons/BaseIconMedicalProfiles.vue';
@@ -85,18 +83,17 @@ export default defineComponent({
   name: 'MedicalProfileList',
   components: { SharesBlock, BaseIcon, HelpProfileIcon, EyeOutlined },
   setup() {
-    const route = useRoute();
     const mounted: Ref<boolean> = ref(false);
-    const medicalProfile: ComputedRef<MedicalProfile> = Store.Item('medicalProfiles');
+    const medicalProfile: MedicalProfile = MedicalProfilesStore.Item();
 
     onBeforeMount(async () => {
-      await store.dispatch('medicalProfiles/get', route.params['id']);
+      MedicalProfilesStore.Get(Router.Id());
       mounted.value = true;
     });
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/medical-profiles/${route.params['id']}`;
+      return `${host}/medical-profiles/${Router.Id()}`;
     };
 
     return { mounted, medicalProfile, getUrl };

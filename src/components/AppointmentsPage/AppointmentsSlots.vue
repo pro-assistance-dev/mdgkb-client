@@ -23,8 +23,8 @@ export default defineComponent({
       function z(n: number) {
         return (n < 10 ? '0' : '') + n;
       }
-      let bits = time.split(':');
-      let mins = Number(bits[0]) * 60 + +bits[1] + +minsToAdd;
+      const bits = time.split(':');
+      const mins = Number(bits[0]) * 60 + +bits[1] + +minsToAdd;
       return z(((mins % (24 * 60)) / 60) | 0) + ':' + z(mins % 60);
     };
 

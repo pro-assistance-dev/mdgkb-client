@@ -117,27 +117,23 @@
 <script lang="ts" setup>
 import { NavigationGuardNext } from 'vue-router';
 
-import FormStatus from '@/classes/FormStatus';
+// import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
+import ResidencyApplicationsFiltersLib from '@/libs/filters/ResidencyApplicationsFiltersLib';
+import ResidencyApplicationsSortsLib from '@/libs/sorts/ResidencyApplicationsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
-import ResidencyApplicationsFiltersLib from '@/libs/filters/ResidencyApplicationsFiltersLib';
-import ResidencyApplicationsSortsLib from '@/libs/sorts/ResidencyApplicationsSortsLib';
-import Provider from '@/services/Provider/Provider';
 import SortList from '@/services/SortList';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const residencyApplications: ResidencyApplication[] = ResidencyApplicationsStore.Items();
 
-const formStatuses: FormStatus[] = FormStatuses.Items();
+// const formStatuses: FormStatus[] = FormStatusesStore.Items();
 const onlyAdmissionFilter: Ref<FilterModel> = ref(new FilterModel());
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-// const applicationsCount: ComputedRef<number> = computed(() =>
-//   Provider.store.getters['admin/applicationsCount']('residency_applications')
-// );
 
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
@@ -188,8 +184,8 @@ watch(isEditMode, () => {
 
 Hooks.onBeforeMount(load);
 
-const create = () => Router.To(`${Provider.route().path}/new`);
-const edit = (id: string) => Router.To(`${Provider.route().path}/${id}`);
+const create = () => Router.To(`${Router.Route().path}/new`);
+const edit = (id: string) => Router.To(`${Router.Route().path}/${id}`);
 
 // const filtersToOptions = (): IOption[] => {
 //   const options: IOption[] = [];

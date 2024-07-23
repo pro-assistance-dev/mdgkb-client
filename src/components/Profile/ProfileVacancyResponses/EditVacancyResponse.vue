@@ -35,15 +35,13 @@
 </template>
 
 <script lang="ts">
-import { ElLoading } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import FormStatus from '@/classes/FormStatus';
 import VacancyResponse from '@/classes/VacancyResponse';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

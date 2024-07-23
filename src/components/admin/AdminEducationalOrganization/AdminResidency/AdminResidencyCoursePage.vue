@@ -111,73 +111,42 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref } from 'vue';
-
-import EducationYear from '@/classes/EducationYear';
+<script lang="ts" setup>
 import Employee from '@/classes/Employee';
 import Form from '@/classes/Form';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import Specialization from '@/classes/Specialization';
-import AdminResidencyCoursePracticePlaces from '@/components/admin/AdminEducationalOrganization/AdminResidency/AdminResidencyCoursePracticePlaces.vue';
-import SetEntity from '@/components/admin/SetEntity.vue';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import FileUploader from '@/components/FileUploader.vue';
-import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 
-export default defineComponent({
-  name: 'AdminResidencyCoursePage',
-  components: {
-    SetEntity,
-    FileUploader,
-    WysiwygEditor,
-    AdminResidencyCoursePracticePlaces,
-  },
-  setup() {
-    const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
-    const specializations: Specialization[] = SpecializationsStore.Items();
-    const formPatterns: ComputedRef<Form[]> = FormPatternsStore.Item();
+const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
+const specializations: Specialization[] = SpecializationsStore.Items();
+const formPatterns: Form[] = FormPatternsStore.Items();
 
-    const load = async () => {
-      await SpecializationsStore.GetAll();
-      await FormPatternsStore.GetAll();
-      await Provider.loadItem(ClassHelper.GetPropertyName(ResidencyCourse).id);
-    };
+const load = async () => {
+  await SpecializationsStore.GetAll();
+  await FormPatternsStore.GetAll();
+  await ResidencyCoursesStore.Get(Router.Id());
+};
 
-    Hooks.onBeforeMount(load, {
-      adminHeader: {
-        title: computed(() => (Router.Id() ? residencyCourse.getMainSpecialization().name : 'Добавить программу')),
-        showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
-      },
-    });
-    Hooks.onBeforeRouteLeave(Hooks.submit);
-
-    const changeFormPatternHandler = () => {
-      residencyCourse.formPatternId = residencyCourse.formPattern.id;
-    };
-
-    const employee: Employee = EmployeesStore.Item();
-    const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
-      await EmployeesStore.Get(searchObject.value);
-      residencyCourse.setMainTeacher(employee);
-    };
-
-    return {
-      specializations,
-      selectMainTeacherSearch,
-      Employee,
-      mounted: Provider.mounted,
-      residencyCourse,
-      form: Provider.form,
-      formPatterns,
-      changeFormPatternHandler,
-    };
+Hooks.onBeforeMount(load, {
+  adminHeader: {
+    title: computed(() => (Router.Id() ? residencyCourse.getMainSpecialization().name : 'Добавить программу')),
+    showBackButton: true,
+    buttons: [{ action: Hooks.submit() }],
   },
 });
+Hooks.onBeforeRouteLeave(Hooks.submit);
+
+const changeFormPatternHandler = () => {
+  residencyCourse.formPatternId = residencyCourse.formPattern.id;
+};
+
+const employee: Employee = EmployeesStore.Item();
+const selectMainTeacherSearch = async (searchObject: ISearchObject) => {
+  await EmployeesStore.Get(searchObject.value);
+  residencyCourse.setMainTeacher(employee);
+};
 </script>
 
 <style lang="scss" scoped>

@@ -239,17 +239,14 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import Comment from '@/classes/Comment';
 import CommentRules from '@/classes/CommentRules';
-import DivisionComment from '@/classes/DivisionComment';
-import DoctorComment from '@/classes/DoctorComment';
-import NewsComment from '@/classes/NewsComment';
 import validate from '@/services/validate';
 
 export default defineComponent({
-  name: 'Comments',
+  name: 'DoctorReviews',
   props: {
     storeModule: {
       type: String,
@@ -273,7 +270,7 @@ export default defineComponent({
     const editCommentForm = ref();
     const rules = ref(CommentRules);
 
-    const sendComment = async (item: NewsComment | DivisionComment | DoctorComment) => {
+    const sendComment = async (item: Comment) => {
       if (!validate(commentForm)) return;
       Store.Commit(`${prop.storeModule}/setParentIdToComment`, prop.parentId);
       // if (userEmail.value) item.comment.user.email = userEmail.value;
@@ -293,7 +290,7 @@ export default defineComponent({
     const editComment = (commentId: string) => {
       Store.Commit(`${prop.storeModule}/editComment`, commentId);
     };
-    const saveCommentChanges = async (item: NewsComment | DivisionComment | DoctorComment) => {
+    const saveCommentChanges = async (item: Comment) => {
       if (!validate(editCommentForm)) return;
       try {
         await Store.Dispatch(`${prop.storeModule}/updateComment`, item);

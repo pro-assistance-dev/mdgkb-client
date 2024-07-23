@@ -21,9 +21,6 @@
     <div>
       <slot name="footer" />
     </div>
-    <div v-if="pagination && !store">
-      <PPagination />
-    </div>
     <div v-if="store">
       <PPaginationV2 :store="store" />
     </div>

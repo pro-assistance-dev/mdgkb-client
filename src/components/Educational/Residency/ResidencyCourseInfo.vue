@@ -1,8 +1,7 @@
 <template>
   <HeaderInfo :left-width="'330px'" :background="'#ffffff'" :is-single="false">
     <template #foto>
-      <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса"
-        :show-favourite="false" />
+      <ChiefCard v-if="course.mainTeacherId" :employee="course.mainTeacher" chief-role="Руководитель курса" :show-favourite="false" />
     </template>
 
     <template #small-title> </template>
@@ -22,7 +21,8 @@
         <ul>
           <li v-for="file in course.getInfoFiles()" :key="file.id">
             <a :href="file.getFileUrl()" :download="file.originalName" target="_blank" style="margin-right: 10px">
-              {{ file.originalName }}</a>
+              {{ file.originalName }}</a
+            >
           </li>
         </ul>
       </div>
@@ -46,7 +46,6 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ResidencyCourseInfo',
@@ -69,7 +68,7 @@ export default defineComponent({
           type: 'warning',
         }
       ).then(() => {
-        Provider.router.push('/admission-committee?mode=ae387478-064d-43b7-83d2-0407aabc400d');
+        Router.To('/admission-committee?mode=ae387478-064d-43b7-83d2-0407aabc400d');
       });
     };
     return { openApplicationDialog };

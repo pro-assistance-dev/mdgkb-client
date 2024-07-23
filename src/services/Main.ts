@@ -33,7 +33,6 @@ import { moveDown, moveUp } from './moves';
 import Period from './Period';
 import PHelp from './PHelp';
 import PhoneService from './PhoneService';
-import Provider from './Provider/Provider';
 import Router from './Router';
 import Scheduler from './Scheduler';
 import Scroll from './Scroll';
@@ -84,7 +83,6 @@ export {
   // PHelp
   PHelp,
   PhoneService,
-  Provider,
   Router,
   Scheduler,
   Scroll,

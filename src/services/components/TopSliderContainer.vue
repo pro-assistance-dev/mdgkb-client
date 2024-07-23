@@ -2,11 +2,11 @@
   <div v-if="!isToggle" class="blur" @click.prevent="isToggle = true" @click.stop="() => undefined"></div>
   <div
     class="top-slider"
-    @click.stop="() => undefined"
     :style="{
       marginTop: isToggle ? `calc(${sliderOffHeight} - ${sliderOnHeight})` : `0`,
       height: sliderOnHeight,
     }"
+    @click.stop="() => undefined"
   >
     <div class="top-slider-content">
       <div class="center">
@@ -56,12 +56,10 @@ watch(
   }
 );
 
-const mobileWindow = ref(window.matchMedia('(max-width: 768px)').matches);
 const toggleSlider = (toggle: boolean) => {
   isToggle.value = !isToggle.value;
   emit('toggle', toggle);
 };
-const hovering = ref(false);
 </script>
 
 <style lang="scss" scoped>

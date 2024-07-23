@@ -1,5 +1,5 @@
 <template>
-  <component :is="'AdminListWrapper'" v-if="mounted" show-header>
+  <component :is="'AdminListWrapper'" show-header>
     <template #header>
       <SortList class="filters-block" :models="createResidencySortModels()" @load="loadCourses" />
     </template>
@@ -72,17 +72,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { defineComponent, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import PostgraduateCoursesSortsLib from '@/libs/sorts/PostgraduateCoursesSortsLib';
 import buildNameNumbers from '@/services/buildNameNumbers';
 import SortModel from '@/services/classes/SortModel';
 import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
-import PostgraduateCoursesSortsLib from '@/libs/sorts/PostgraduateCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
@@ -94,9 +93,9 @@ export default defineComponent({
     const isEditMode: Ref<boolean> = ref(false);
     const isNotEditMode: Ref<boolean> = ref(true);
 
-    const create = () => Provider.router.push(`${Provider.route().path}/new`);
-    const open = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
-    const remove = async (id: string) => await PostgraduateCoursesStore.Remoce(id);
+    const create = () => Router.To(`${Router.Route().path}/new`);
+    const open = (id: string) => Router.To(`${Router.Route().path}/${id}`);
+    const remove = async (id: string) => await PostgraduateCoursesStore.Remove(id);
     const edit = () => {
       if (isEditMode.value) {
         return;
@@ -124,14 +123,6 @@ export default defineComponent({
     };
 
     const load = async () => {
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Программы аспирантуры',
-        buttons: [
-          { text: 'Редактировать', type: 'success', action: edit, condition: isNotEditMode },
-          { text: 'Сохранить', type: 'success', action: save, condition: isEditMode },
-          { text: 'Добавить программу', type: 'primary', action: create },
-        ],
-      });
       await loadCourses();
       window.addEventListener('beforeunload', beforeWindowUnload);
     };
@@ -162,7 +153,6 @@ export default defineComponent({
       edit,
       save,
       buildNameNumbers,
-      mounted: Provider.mounted,
     };
   },
 });

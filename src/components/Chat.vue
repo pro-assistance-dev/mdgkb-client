@@ -94,7 +94,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Attach from '@/assets/svg/Chat/Attach.svg';
 import ReadMsg from '@/assets/svg/Chat/ReadMsg.svg';
@@ -105,11 +105,10 @@ import Close from '@/assets/svg/Main/Close.svg';
 import BaseModal from '@/components/Base/BaseModal.vue';
 import Chat from '@/services/classes/Chat';
 import ChatMessage from '@/services/classes/ChatMessage';
-import Provider from '@/services/Provider/Provider';
 import WebSocketClient from '@/services/WebSocketClient';
 
 export default defineComponent({
-  name: 'Chat',
+  name: 'ChatComponent',
   components: {
     BaseModal,
     Close,
@@ -145,9 +144,10 @@ export default defineComponent({
       default: true,
     },
   },
+  emits: ['close'],
   setup(props) {
     const client: WebSocketClient = ChatsStore.Client();
-    const chat: Ref<Chat> = ChatsStore.Item();
+    const chat: Chat = ChatsStore.Item();
     const newMessage: Ref<string> = ref('');
     const chatBody = ref();
 
@@ -156,19 +156,19 @@ export default defineComponent({
         return;
       }
       const message = ChatMessage.Create(props.chatId, props.userId, newMessage.value, props.userName);
-      client.value.send(JSON.stringify(message));
-      chat.value.chatMessages.push(message);
+      client.send(JSON.stringify(message));
+      chat.chatMessages.push(message);
       newMessage.value = '';
-      let index = chat.value.chatMessages.length - 2;
+      const index = chat.chatMessages.length - 2;
       if (index) {
-        document.getElementById(`${chat.value.chatMessages[index].id}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        document.getElementById(`${chat.chatMessages[index].id}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' });
       }
     };
 
     onBeforeMount(async () => {
       ChatsStore.Get(props.chatId);
-      ChatsStore.Connect({ chatId: props.chatId, userId: props.userId });
-      document.getElementById(`${chat.value.chatMessages[chat.value.chatMessages.length - 2].id}`)?.scrollIntoView();
+      // ChatsStore.Connect({ chatId: props.chatId, userId: props.userId });
+      document.getElementById(`${chat.chatMessages[chat.chatMessages.length - 2].id}`)?.scrollIntoView();
     });
 
     // const sendWriteStatus = async () => {};

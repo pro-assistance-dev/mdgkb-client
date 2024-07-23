@@ -1,5 +1,5 @@
-import FileInfo from '@/services/classes/FileInfo';
 import MaskToken from '@/classes/MaskToken';
+import FileInfo from '@/services/classes/FileInfo';
 import ValueType from '@/services/classes/ValueType';
 import ClassHelper from '@/services/ClassHelper';
 

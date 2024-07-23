@@ -103,7 +103,6 @@ import VacanciesFiltersLib from '@/libs/filters/VacanciesFiltersLib';
 import VacanciesSortsLib from '@/libs/sorts/VacanciesSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
 
 const vacancies: Vacancy[] = VacanciesStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
@@ -127,8 +126,6 @@ const filterByDivision: Ref<FilterModel> = ref(new FilterModel());
 
 const load = async () => {
   FTSP.Get().setS(VacanciesSortsLib.byTitle());
-  // Provider.setSortList(...createSortModels(VacanciesSortsLib));
-  // Provider.setSortModels(VacanciesSortsLib.byTitle());
   await loadVacancies();
   filterByDivision.value = VacanciesFiltersLib.byDivisions([]);
   PHelp.AdminUI.Head.Set('Вакансии', [
@@ -146,16 +143,8 @@ const remove = async (id: string) => {
 
 const create = () => Router.To(`/admin/vacancies/new`);
 
-const newResponsesExists = (): boolean => {
-  return vacancies.some((vacancy: Vacancy) => vacancy.withNewResponses());
-};
-
 const setActive = async (vacancy: Vacancy) => {
   await VacanciesStore.Update(vacancy);
-};
-
-const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Router.To(`/admin/vacancies/${event.id}`);
 };
 </script>
 

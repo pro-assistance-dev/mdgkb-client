@@ -32,14 +32,13 @@
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref } from 'vue';
+import { watch } from 'vue';
+import { defineComponent } from 'vue';
 
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import TableCard from '@/components/Diets/TableCard.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetCart',
@@ -50,11 +49,11 @@ export default defineComponent({
     const checkDailyMenuOrderItemsLength = () => {
       console.log('check', dailyMenuOrder.dailyMenuOrderItems);
       if (dailyMenuOrder.dailyMenuOrderItems.length === 0) {
-        Provider.router.push('/bufet');
+        Router.To('/bufet');
       }
     };
 
-    watch(dailyMenuOrder.value, checkDailyMenuOrderItemsLength);
+    watch(dailyMenuOrder, checkDailyMenuOrderItemsLength);
 
     const load = () => {
       checkDailyMenuOrderItemsLength();
@@ -70,20 +69,19 @@ export default defineComponent({
         });
         return;
       }
-      if (dailyMenuOrder.value.getPriceSum() < 150) {
+      if (dailyMenuOrder.getPriceSum() < 150) {
         ElMessage({
           message: 'Минимальная сумма заказа - 150 рублей',
           type: 'warning',
         });
         return;
       }
-      Provider.router.push('/bufet/order');
+      Router.To('/bufet/order');
     };
 
     return {
       createOrder,
       dailyMenuOrder,
-      mounted: Provider.mounted,
     };
   },
 });

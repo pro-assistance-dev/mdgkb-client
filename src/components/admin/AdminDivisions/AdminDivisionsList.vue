@@ -23,10 +23,8 @@
 <script lang="ts" setup>
 import Division from '@/classes/Division';
 import DivisionsSortsLib from '@/libs/sorts/DivisionsSortsLib';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import SortModel from '@/services/classes/SortModel';
 import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
 
 const divisions = DivisionsStore.Items();
 const addDivision = () => Router.To(`/admin/divisions/new`);
@@ -46,7 +44,7 @@ const loadDivisions = async (): Promise<void> => {
 
 const load = async (): Promise<void> => {
   sortList.value = [DivisionsSortsLib.byName(), DivisionsSortsLib.byCommentsCount()];
-  FTSP.Get().setF(DivisionsSortsLib.byName());
+  FTSP.Get().setS(DivisionsSortsLib.byName());
   await loadDivisions();
   PHelp.AdminUI.Head.Set('Отделения', [Button.Success('Добавить отделение', addDivision)]);
 };
@@ -55,14 +53,14 @@ Hooks.onBeforeMount(load, {
   sortsLib: DivisionsSortsLib,
 });
 
-const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Router.To(`/admin/divisions/${event.id}`);
-};
-
-const createFilterModels = (): FilterModel[] => {
-  return [];
-};
-
+// const selectSearch = async (event: ISearchObject): Promise<void> => {
+//   await Router.To(`/admin/divisions/${event.id}`);
+// };
+//
+// const createFilterModels = (): FilterModel[] => {
+//   return [];
+// };
+//
 const update = async (division: Division) => await DivisionsStore.Update(division);
 </script>
 

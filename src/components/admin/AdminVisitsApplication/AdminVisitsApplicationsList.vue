@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import FormStatus from '@/classes/FormStatus';
+// import FormStatus from '@/classes/FormStatus';
 import VisitsApplication from '@/classes/VisitsApplication';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import VisitsApplicationsFiltersLib from '@/libs/filters/VisitsApplicationsFiltersLib';
@@ -85,11 +85,10 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-
 import SortListConst from '@/services/SortList';
 
 const filterByStatus: Ref<FilterModel> = ref(new FilterModel());
-const formStatuses: FormStatus[] = FormStatusesStore.Items();
+// const formStatuses: FormStatus[] = FormStatusesStore.Items();
 const visitsApplications: VisitsApplication[] = VisitsApplicationsStore.Items();
 
 const create = () => Router.To(`${Router.Route().path}/new`);
@@ -100,7 +99,6 @@ const loadApplications = async () => {
 };
 
 const load = async () => {
-  // Provider.setSortList(...createSortModels(VisitsApplicationsSortsLib));
   SortListConst.Set(VisitsApplicationsSortsLib);
   FTSP.Get().setS(VisitsApplicationsSortsLib.byCreatedAt(Orders.Desc));
   await loadApplications();
@@ -112,19 +110,9 @@ const load = async () => {
 
 Hooks.onBeforeMount(load);
 
-const filtersToOptions = (): IOption[] => {
-  const options: IOption[] = [];
-  formStatuses.forEach((i: FormStatus) => {
-    if (i.id) {
-      options.push({ value: i.id, label: i.label });
-    }
-  });
-  return options;
-};
-
 const loadFilters = async () => {
   const filterQuery = new FilterQuery();
   filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('visits'));
-  await FormStatusesStore.GetAll(filterQuery);
+  await FormStatusesStore.GetAll();
 };
 </script>

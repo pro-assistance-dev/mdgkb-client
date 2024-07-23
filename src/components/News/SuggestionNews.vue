@@ -13,19 +13,15 @@
 
 <script lang="ts" setup>
 import News from '@/classes/News';
-import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
+defineProps({
   newsNumber: {
     type: Number,
     default: 3,
   },
 });
-// const generalNewsId = Provider.route().params['slug'];
+// const generalNewsId = Router.Route().params['slug'];
 const suggestionNews: News[] = NewsStore.Items();
-// computed(() => {
-//   return Provider.store.getters['news/items'].filter((item: News) => item.id !== generalNewsId).slice(0, props.newsNumber);
-// });
 
 const loadRelatedNews = async () => {
   await NewsStore.GetSuggestionNews(Router.Id());

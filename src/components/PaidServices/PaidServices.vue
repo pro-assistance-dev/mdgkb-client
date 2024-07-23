@@ -24,8 +24,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
 
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import IWithPaidService from '@/interfaces/IWithPaidService';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({
   name: 'PaidServices',

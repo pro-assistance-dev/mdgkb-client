@@ -8,7 +8,7 @@
         <div v-if="images.length > 0" class="gallery-container">
           <el-carousel
             ref="carouselRef"
-            v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
             arrow="always"
             :interval="4000"
           >
@@ -29,8 +29,8 @@
 import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import NewsImage from '@/classes/NewsImage';
+import FileInfo from '@/services/classes/FileInfo';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 
 export default defineComponent({

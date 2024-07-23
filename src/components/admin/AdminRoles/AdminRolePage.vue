@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Role from '@/services/classes/Role';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -28,7 +28,6 @@ export default defineComponent({
   components: {},
 
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const role: Role = RolesStore.Item();

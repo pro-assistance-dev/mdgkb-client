@@ -1,6 +1,6 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import User from '@/classes/User';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Question {

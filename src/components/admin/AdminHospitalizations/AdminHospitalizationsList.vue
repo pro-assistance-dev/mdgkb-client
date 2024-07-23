@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper v-if="mounted" pagination show-header>
+  <AdminListWrapper pagination show-header>
     <template #sort>
       <SortList :max-width="400" :models="sortList" :store-mode="true" @load="loadHospitalizations" />
     </template>
@@ -51,22 +51,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableFormStatus from '@/components/FormConstructor/TableFormStatus.vue';
 import { StayTypes } from '@/interfaces/StayTypes';
 import { TreatmentTypes } from '@/interfaces/TreatmentTypes';
 import HospitalizationsFiltersLib from '@/libs/filters/HospitalizationsFiltersLib';
-import HospitalizationsSortsLib from '@/libs/sorts/HospitalizationsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
-import createSortModels from '@/services/CreateSortModels';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
@@ -85,8 +81,6 @@ export default defineComponent({
     };
 
     const load = async () => {
-      // Provider.setSortList(...createSortModels(HospitalizationsSortsLib));
-      // Provider.setSortModels(HospitalizationsSortsLib.byCreatedAt(Orders.Asc));
       filterByDivision.value = HospitalizationsFiltersLib.byDivisions([]);
       await loadHospitalizations();
       PHelp.AdminUI.Head.Set('Госпитализация', [Button.Success('Добавить госпитализацию', create)]);
@@ -99,7 +93,7 @@ export default defineComponent({
     const remove = async (id: string) => await HospitalizationsStore.Remove(id);
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push({ name: `AdminEditDoctorPage`, params: { id: event.value } });
+      await Router.To({ name: `AdminEditDoctorPage`, params: { id: event.value } });
     };
 
     const createFilterConservativeModels = (): FilterModel[] => {
@@ -121,7 +115,6 @@ export default defineComponent({
       remove,
       edit,
       create,
-      mounted: Provider.mounted,
       selectSearch,
       // genderFilter,
       loadHospitalizations,

@@ -1,16 +1,16 @@
 <template>
   <div v-if="full" class="contact-container">
     <el-form-item label="Описание">
-      <el-input :model-value="contact.description" @input="(e) => contact.updateDescription(e)" />
+      <el-input :model-value="contact.description" @input="(e: string) => contact.updateDescription(e)" />
     </el-form-item>
     <el-form-item label="Время работы">
-      <el-input :model-value="contact.time" @input="(e) => contact.updateTime(e)" />
+      <el-input :model-value="contact.time" @input="(e: string) => contact.updateTime(e)" />
     </el-form-item>
     <el-form-item label="Широта (для карты)">
-      <el-input :model-value="contact.latitude" @input="(e) => contact.updateLatitude(e)" />
+      <el-input :model-value="contact.latitude" @input="(e: string) => contact.updateLatitude(e)" />
     </el-form-item>
     <el-form-item label="Долгота (для карты)">
-      <el-input :model-value="contact.longitude" @input="(e) => contact.updateLongitutde(e)" />
+      <el-input :model-value="contact.longitude" @input="(e: string) => contact.updateLongitutde(e)" />
     </el-form-item>
   </div>
 
@@ -20,12 +20,12 @@
       <button class="admin-add" @click.prevent="addPhone()">+ Добавить</button>
     </div>
 
-    <div v-for="(phone, i) in contact.phones" :key="phone" class="contact-container-item">
+    <div v-for="(phone, i) in contact.phones" :key="phone.id" class="contact-container-item">
       <button class="admin-del" @click.prevent="removePhone(phone.id)">Удалить</button>
       <div class="list-number">
         {{ i + 1 }}
       </div>
-      <PhoneForm :phone="phone" />
+      <PhoneForm v-model="contact.phones[i]" />
     </div>
   </div>
 
@@ -35,29 +35,27 @@
       <button class="admin-add" @click.prevent="addEmail()">+ Добавить</button>
     </div>
 
-    <div v-for="(email, i) in contact.emails" :key="email" class="contact-container-item">
+    <div v-for="(email, i) in contact.emails" :key="email.id" class="contact-container-item">
       <button class="admin-del" @click.prevent="removeEmail(email.id)">Удалить</button>
       <div class="list-number">
         {{ i + 1 }}
       </div>
-      <EmailForm :email="email" />
+      <EmailForm v-model="contact.emails[i]" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-
 import Contact from '@/services/classes/Contact';
 import EmailForm from '@/services/components/EmailForm.vue';
 import PhoneForm from '@/services/components/PhoneForm.vue';
-import Provider from '@/services/Provider/Provider';
+const contact: Ref<Contact> = defineModel<Contact>() as Ref<Contact>;
 
-const props = defineProps({
-  contact: {
-    type: Object as PropType<Contact>,
-    required: true,
-  },
+defineProps({
+  // contact: {
+  //   type: Object as PropType<Contact>,
+  //   required: true,
+  // },
   full: {
     type: Boolean,
     default: false,
@@ -65,23 +63,23 @@ const props = defineProps({
 });
 
 const addEmail = async () => {
-  const item = props.contact.addEmail();
-  await Provider.store.dispatch('emails/create', item);
+  const item = contact.value.addEmail();
+  await EmailsStore.Create(item);
 };
 
-const removeEmail = async (id: string) => {
-  props.contact.removeEmail(id);
-  await Provider.store.dispatch('emails/remove', id);
+const removeEmail = async (id: string | undefined) => {
+  contact.value.removeEmail(id as string);
+  await EmailsStore.Remove(id);
 };
 
 const addPhone = async () => {
-  const item = props.contact.addPhone();
-  await Provider.store.dispatch('phones/create', item);
+  const item = contact.value.addPhone();
+  await PhonesStore.Create(item);
 };
 
-const removePhone = async (id: string) => {
-  props.contact.removePhone(id);
-  await Provider.store.dispatch('phones/remove', id);
+const removePhone = async (id: string | undefined) => {
+  contact.value.removePhone(id as string);
+  await PhonesStore.Remove(id);
 };
 </script>
 

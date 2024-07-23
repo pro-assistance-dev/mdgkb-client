@@ -48,14 +48,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ElLoading, ElMessageBox } from 'element-plus';
+import { ElLoading } from 'element-plus';
 
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 const mounted = ref(false);
@@ -91,7 +90,7 @@ const submit = async () => {
   await ResidencyApplicationsStore.Update(application);
   buttonOff.value = false;
   loading.close();
-  Provider.router.push('/profile/residency-applications');
+  Router.To('/profile/residency-applications');
 };
 
 const load = async () => {

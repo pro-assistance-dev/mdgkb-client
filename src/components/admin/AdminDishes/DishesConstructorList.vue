@@ -47,7 +47,6 @@ import draggable from 'vuedraggable';
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import DishSample from '@/classes/DishSample';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -66,16 +65,16 @@ export default defineComponent({
   emits: ['openDishSampleConstructor'],
   setup(props, { emit }) {
     const removeDishSample = async (dishSampleId: string) => {
-      await Provider.store.dispatch('dishesSamples/remove', dishSampleId);
+      await DishesSamplesStore.Remove(dishSampleId);
       ClassHelper.RemoveFromClassById(dishSampleId, props.dishesSamples, []);
     };
 
     const saveDishesOrder = async () => {
       sort(props.dishesSamples);
-      await Provider.store.dispatch('dishesSamples/updateAll', props.dishesSamples);
+      await DishesSamplesStore.UpdateManu();
     };
 
-    const selectDish = (dish: DishSample, e: Event) => {
+    const selectDish = (dish: DishSample) => {
       emit('openDishSampleConstructor', dish);
     };
 

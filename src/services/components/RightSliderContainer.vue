@@ -72,7 +72,6 @@ const toggleSlider = (toggle: boolean) => {
   isToggle.value = !isToggle.value;
   emit('toggle', toggle);
 };
-const hovering = ref(false);
 </script>
 
 <style lang="scss" scoped>

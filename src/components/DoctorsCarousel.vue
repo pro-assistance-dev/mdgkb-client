@@ -13,13 +13,13 @@
       >
         <el-carousel
           ref="carouselRef"
-          v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+          v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
           :interval="5000"
           indicator-position="outside"
           height="350px"
         >
-          <el-carousel-item v-for="(doctors, i) in carousel" :key="i" data-test="doctors-carousel">
-            <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
+          <el-carousel-item v-for="(doctorsGroup, i) in carousel" :key="i" data-test="doctors-carousel">
+            <DoctorInfoCard v-for="item in doctorsGroup" :key="item.id" :doctor="item" />
           </el-carousel-item>
         </el-carousel>
       </component>
@@ -32,8 +32,8 @@ import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Doctor from '@/classes/Doctor';
 import DoctorInfoCard from '@/components/Doctors/DoctorInfoCard.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import MainContainer from '@/components/Main/MainContainer.vue';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({

@@ -29,7 +29,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import { Bar, Doughnut, Line, Pie, Radar } from 'vue-chartjs';
+import { Bar, Doughnut, Line as LineComponent, Pie, Radar } from 'vue-chartjs';
 
 ChartJS.register(
   ArcElement,
@@ -50,11 +50,10 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import ExportOptions from '@/classes/ExportOptions';
 import NewsExportOptionLib from '@/classes/NewsExportOptionLib';
-import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'ChartsModal',
   components: {
-    Line,
+    LineComponent,
     Bar,
     Doughnut,
     Pie,
@@ -85,7 +84,7 @@ export default defineComponent({
       },
       {
         label: 'Линейная диаграмма',
-        type: 'Line',
+        type: 'LineComponent',
       },
       {
         label: 'Круговая диаграмма',

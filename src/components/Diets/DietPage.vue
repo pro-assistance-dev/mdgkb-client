@@ -1,13 +1,13 @@
 <template>
   <!-- <div v-if="timetable.timetableDays.length > 1" class="title">Меню питания на неделю</div> -->
   <div v-if="timetable.timetableDays.length > 1" class="week">
-    <div v-for="(day, i) in setDays" :key="i" class="form_radio_btn">
+    <div v-for="(day, i) in SetDays" :key="i" class="form_radio_btn">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
       </button>
     </div>
 
-    <div v-for="(day, i) in setDaysMobile" :key="i" class="form_radio_btn_mobile">
+    <div v-for="(day, i) in SetDaysMobile" :key="i" class="form_radio_btn_mobile">
       <button id="radio-0" type="radio" name="radio" :class="{ 'checked-day': selectedNumberDay === i }" @click="selectDay(i)">
         {{ day }}
       </button>
@@ -68,46 +68,30 @@
       </table>
     </div>
   </div>
-  <Time />
+  <TimeIcon />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Timetable from '@/classes/Timetable';
-import Time from '@/services/Time';
-
-export default defineComponent({
-  name: 'DietPage',
-  components: { Time },
-  props: {
-    timetable: {
-      type: Object as PropType<Timetable>,
-      required: true,
-    },
+import { SetDays, SetDaysMobile } from '@/services/DateFormat';
+const props = defineProps({
+  timetable: {
+    type: Object as PropType<Timetable>,
+    required: true,
   },
-  setup(props) {
-    const selectDay = (e: any) => {
-      selectedNumberDay.value = e;
-    };
+});
+const selectDay = (e: any) => {
+  selectedNumberDay.value = e;
+};
 
-    const selectedNumberDay = ref(0);
+const selectedNumberDay = ref(0);
 
-    onBeforeMount(() => {
-      const today = new Date().getDay();
-      selectedNumberDay.value = today === 0 ? 6 : today - 1;
-      if (props.timetable.timetableDays.length === 1) {
-        selectedNumberDay.value = 0;
-      }
-    });
-
-    return {
-      // selectedDiet,
-      // diets,
-      setDays: Time.SetDays,
-      setDaysMobile: Time.SetDaysMobile,
-      selectedNumberDay,
-      selectDay,
-    };
-  },
+onBeforeMount(() => {
+  const today = new Date().getDay();
+  selectedNumberDay.value = today === 0 ? 6 : today - 1;
+  if (props.timetable.timetableDays.length === 1) {
+    selectedNumberDay.value = 0;
+  }
 });
 </script>
 

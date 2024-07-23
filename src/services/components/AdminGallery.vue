@@ -28,13 +28,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, PropType } from 'vue';
+import { PropType } from 'vue';
 import draggable from 'vuedraggable';
 
-import Move from '@/services/assets/svg/Move.svg';
-import IFiler from '@/services/interfaces/IFiler';
 import Arrays from '@/services/Arrays';
+import Move from '@/services/assets/svg/Move.svg';
 import ClassHelper from '@/services/ClassHelper';
+import IFiler from '@/services/interfaces/IFiler';
 const props = defineProps({
   fileList: {
     type: Array as PropType<IFiler[]>,

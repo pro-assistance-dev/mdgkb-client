@@ -35,7 +35,7 @@
             </a>
           </div>
         </div>
-        <div class="block-footer" v-if="PHelp.Auth.IsAuth()">
+        <div v-if="PHelp.Auth.IsAuth()" class="block-footer">
           <button class="make" @click="$router.push('/appointments/oms')">Запись на прием</button>
           <button class="make-grey">Запись на прием</button>
           <div class="make-button">Для онлайн записи на прием необходимо войти в <a @click="openLoginModal">Личный кабинет</a></div>

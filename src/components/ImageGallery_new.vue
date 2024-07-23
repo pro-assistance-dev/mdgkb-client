@@ -8,14 +8,14 @@
         <div v-if="images.length > 0" class="gallery-container">
           <el-carousel
             ref="carouselRef"
-            v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+            v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
             indicator-position="outside"
             :interval="5000"
             height="300px"
             arrow="always"
           >
-            <el-carousel-item v-for="(images, i) in carousel" :key="i">
-              <div v-for="item in images" :key="item.id" class="foto-field">
+            <el-carousel-item v-for="(imagesGroup, i) in carousel" :key="i">
+              <div v-for="item in imagesGroup" :key="item.id" class="foto-field">
                 <div class="division-img">
                   <img :src="item.fileInfo.getImageUrl()" :alt="item.fileInfo.originalName" @click="imgClickHandler(item.fileInfo)" />
                 </div>
@@ -38,7 +38,7 @@
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import DivisionImage from '@/classes/DivisionImage';
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/services/classes/FileInfo';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import makeCarousel from '@/services/MakeCarousel';
 

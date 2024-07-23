@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <PInput v-model="query" @input="input" placeholder="Найти">
+    <PInput v-model="query" placeholder="Найти" @input="input">
       <template #right>
         <IconSearch />
       </template>

@@ -44,10 +44,10 @@
 
 <script lang="ts" setup>
 import DiplomaExample from '@/assets/img/diplomaexample.png';
-
+import Diploma from '@/classes/Diploma';
 const diploma: Diploma = ResidencyApplicationsStore.Item().diploma;
 
-const clickCopyHandler = async () => {
-  await navigator.clipboard.writeText(diploma.getSeriesAndNumber());
-};
+// const clickCopyHandler = async () => {
+//   await navigator.clipboard.writeText(diploma.getSeriesAndNumber());
+// };
 </script>

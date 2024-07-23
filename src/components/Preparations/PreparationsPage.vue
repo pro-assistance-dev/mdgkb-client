@@ -63,11 +63,10 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import Preparation from '@/classes/Preparation';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PreparationsPage',

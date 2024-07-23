@@ -2,18 +2,17 @@
   <div v-for="item in questionsList" :key="item.id" class="card-item">
     <CommentCard :is-question="true" :question="item" />
   </div>
-  <LoadMoreButton @loadMore="loadMore" />
+  <LoadMoreButton @load-more="loadMore" />
 </template>
 
 <script lang="ts" setup>
 import Question from '@/classes/Question';
 import CommentCard from '@/components/Comments/CommentCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-import Hooks from '@/services/Hooks/Hooks';
-import { Orders } from '@/services/interfaces/Orders';
 import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
-import Provider from '@/services/Provider/Provider';
+import Hooks from '@/services/Hooks/Hooks';
+import { Orders } from '@/services/interfaces/Orders';
 
 const filter = ref('');
 const questions: Ref<Question[]> = QuestionsStore.Items();

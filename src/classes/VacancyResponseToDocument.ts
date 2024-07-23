@@ -7,6 +7,6 @@ export default class VacancyResponseToDocument {
   document: PageSectionDocument = new PageSectionDocument();
   documentId?: string;
   constructor(i?: VacancyResponseToDocument) {
-    ClassHelper.BuildClass(VacancyResponseToDocument);
+    ClassHelper.BuildClass(this, i);
   }
 }

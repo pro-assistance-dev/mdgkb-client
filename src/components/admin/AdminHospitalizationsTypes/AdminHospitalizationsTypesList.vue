@@ -29,19 +29,18 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent } from 'vue';
 
-import SupportMessage from '@/classes/SupportMessage';
+import HospitalizationType from '@/classes/HospitalizationType';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
   name: 'AdminHospitalizationsTypesList',
   components: { TableButtonGroup, AdminListWrapper },
   setup() {
-    const hospitalizationsTypes: SupportMessage[] = HospitalizationsTypesStore.Items();
+    const hospitalizationsTypes: HospitalizationType[] = HospitalizationsTypesStore.Items();
 
     const loadHospitalizationsTypes = async () => {
       await HospitalizationsTypesStore.GetAll();
@@ -56,7 +55,6 @@ export default defineComponent({
 
     return {
       hospitalizationsTypes,
-      mounted: Provider.mounted,
     };
   },
 });

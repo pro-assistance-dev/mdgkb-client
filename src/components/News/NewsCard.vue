@@ -8,7 +8,7 @@
     <Close v-if="showClose" class="close-icon" @click.stop="$emit('close')" />
     <div class="flex-between-columm front">
       <div class="image">
-        <img :src="news.getImageUrl()" alt="news-image" />
+        <img :src="news.getImageUrl() as string" alt="news-image" />
       </div>
       <div class="card-content">
         <div class="title">{{ news.title }}</div>
@@ -24,7 +24,7 @@
           effect="plain"
           class="news-tag-link"
           :size="article || main ? 'mini' : 'small'"
-          @click.stop="filterNews(newsToTag.tag)"
+          @click.stop="filterNews()"
         >
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
@@ -56,7 +56,7 @@
           effect="plain"
           class="news-tag-link"
           :size="article || main ? 'mini' : 'small'"
-          @click.stop="filterNews(newsToTag.tag)"
+          @click.stop="filterNews()"
         >
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
@@ -68,10 +68,10 @@
 <script lang="ts" setup>
 import Close from '@/assets/svg/Icons/Close.svg';
 import News from '@/classes/News';
-import Tag from '@/classes/Tag';
+// import Tag from '@/classes/Tag';
 import NewsMeta from '@/components/News/NewsMeta.vue';
 
-const props = defineProps({
+defineProps({
   news: {
     type: Object as PropType<News>,
     required: true,
@@ -89,9 +89,9 @@ const props = defineProps({
     default: false,
   },
 });
-const emits = defineEmits(['close']);
+defineEmits(['close']);
 
-const filterNews = async (tag: Tag): Promise<void> => {
+const filterNews = async (): Promise<void> => {
   // tag.selected = !tag.selected;
   // filteredTagList.value.forEach((filterTag: Tag) => {
   //   if (filterTag.id === tag.id) {

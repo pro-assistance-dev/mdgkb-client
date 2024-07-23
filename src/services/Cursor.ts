@@ -1,4 +1,4 @@
-import Time, { TimelineMinutes, TimelineSteps } from '@/services/Time';
+import { TimelineMinutes, TimelineSteps } from '@/services/Time';
 
 import Arrays from './Arrays';
 

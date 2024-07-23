@@ -105,7 +105,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
 import buildNameNumbers from '@/services/buildNameNumbers';

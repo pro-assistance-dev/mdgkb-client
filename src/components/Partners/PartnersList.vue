@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <div v-if="partnerType.showImage" class="partners-images">
-      <a v-for="item in partners" :key="item.id" :href="item.link ? item.link : null" target="_blank">
+      <a v-for="item in partners" :key="item.id" :href="item.link ? item.link : ''" target="_blank">
         <img :src="item.image.getImageUrl()" :alt="item.name" />
       </a>
     </div>
@@ -11,12 +11,12 @@
   </el-card>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Partner from '@/classes/Partner';
 import PartnerType from '@/classes/PartnerType';
 
 const partners: Partner[] = PartnersStore.Items();
-const partnerType: PartnerType[] = ParnersTypesStore.Items();
+const partnerType: PartnerType = PartnersTypesStore.Item();
 </script>
 
 <style lang="scss" scoped>

@@ -14,7 +14,6 @@
 
 <script lang="ts" setup>
 import SortModel from '@/services/classes/SortModel';
-// import Provider from '@/services/Provider/Provider';
 import SortList from '@/services/SortList';
 
 defineProps({
@@ -46,7 +45,7 @@ const changeModel = async (s: SortModel | undefined): Promise<void> => {
 };
 
 const setSort = async (s?: SortModel) => {
-  Provider.dropPagination();
+  FTSP.Get().p.drop();
   await changeModel(s);
 };
 </script>

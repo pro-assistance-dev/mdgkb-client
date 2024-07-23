@@ -1,6 +1,6 @@
-import FileInfo from '@/services/classes/FileInfo';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import { FormStatusNames } from '@/interfaces/FormStatusNames';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class FormStatus {

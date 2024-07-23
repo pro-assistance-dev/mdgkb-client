@@ -7,7 +7,7 @@
           :store-mode="false"
           first-mode="Преподаватели"
           second-mode="Руководство"
-          @changeMode="changeMode"
+          @change-mode="changeMode"
         />
         <TeachersFilters v-if="teachersMode" />
       </el-col>

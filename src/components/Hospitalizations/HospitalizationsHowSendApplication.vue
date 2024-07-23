@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-const hospitalization: HospitalizationType = HospitalizationsStore.Item();
+// const hospitalization: HospitalizationType = HospitalizationsStore.Item();
 </script>
 
 <style lang="scss" scoped>

@@ -92,8 +92,8 @@
       </div>
 
       <div v-if="mobileWindow" class="icons">
-        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()"><Filter color="#006BB4" /></PButton>
-        <PButton skin="icon" margin="13px 0 0 10px" @click="handClick2()"><Download color="#006BB4" /></PButton>
+        <PButton skin="icon" margin="0 0 0 10px" @click="handClick1()"><IconFilter color="#006BB4" /></PButton>
+        <PButton skin="icon" margin="13px 0 0 10px" @click="handClick2()"><IconDownload color="#006BB4" /></PButton>
       </div>
     </div>
   </div>
@@ -107,11 +107,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
-
-import PButton from '@/services/components/PButton.vue';
-import Filter from '@/services/components/Icons/Filter/Filter.vue';
-import Download from '@/services/components/Icons/Filter/Download.vue';
+import { onBeforeMount, PropType, Ref, ref } from 'vue';
 
 const props = defineProps({
   menuWidth: {

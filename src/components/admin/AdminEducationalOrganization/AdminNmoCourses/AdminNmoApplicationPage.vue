@@ -27,7 +27,7 @@
         </el-descriptions>
       </el-card>
       <div v-if="dpoApplication.nmoCourse.id">
-        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+        <AdminFormValue :form="dpoApplication.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @find-email="findEmail" />
       </div>
       <el-card v-else style="color: red">Перед подачей заявления необходимо выбрать программу</el-card>
     </el-form>
@@ -35,19 +35,12 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
 
 import DpoApplication from '@/classes/DpoApplication';
-import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
-import NmoCourse from '@/classes/NmoCourse';
+// import NmoCourse from '@/classes/NmoCourse';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import SortModel from '@/services/classes/SortModel';
-import { DataTypes } from '@/services/interfaces/DataTypes';
-import { Orders } from '@/services/interfaces/Orders';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -63,10 +56,10 @@ export default defineComponent({
     const filterModel = ref();
 
     const dpoApplication: DpoApplication = DpoApplicationsStore.Item();
-    const dpoCourses: ComputedRef<NmoCourse[]> = computed(() => store.getters['dpoCourses/items']);
+    // const dpoCourses: NmoCourse[] =DpoCoursesStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактирования');
+    // const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     watch(route, async () => {
       setProgramsType();
@@ -88,17 +81,17 @@ export default defineComponent({
       // await store.dispatch('dpoCourses/getAll', filterQuery.value);
     };
 
-    const changeEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-      if (isEditMode.value) {
-        editButtonTitle.value = 'Режим просмотра';
-      } else {
-        editButtonTitle.value = 'Режим редактирования';
-      }
-    };
+    // const changeEditMode = () => {
+    //   isEditMode.value = !isEditMode.value;
+    //   if (isEditMode.value) {
+    //     editButtonTitle.value = 'Режим просмотра';
+    //   } else {
+    //     editButtonTitle.value = 'Режим редактирования';
+    //   }
+    // };
 
     const updateNew = async () => {
-      if (!route.params['id']) {
+      if (!Router.Id()) {
         return;
       }
       if (!dpoApplication.formValue.isNew) {
@@ -110,7 +103,7 @@ export default defineComponent({
 
     let initialStatus: FormStatus;
     const loadItem = async () => {
-      if (route.params['id']) {
+      if (Router.Id()) {
         await DpoApplicationsStore.Get(Router.Id());
         initialStatus = dpoApplication.formValue.formStatus;
       } else {
@@ -130,19 +123,19 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (route.params['id']) {
+      if (Router.Id()) {
         dpoApplication.formValue.updateViewedByUser(initialStatus);
         await DpoApplicationsStore.Update();
       } else {
         dpoApplication.formValue.clearIds();
         await DpoApplicationsStore.Create();
       }
-      const typeCourse = dpoApplication.value.nmoCourse.isNmo ? 'nmo' : 'dpo';
+      const typeCourse = dpoApplication.nmoCourse.isNmo ? 'nmo' : 'dpo';
       next ? next() : await router.push(`/admin/${typeCourse}/applications`);
     };
 
     const courseChangeHandler = async () => {
-      if (!route.params['id']) {
+      if (!Router.Id()) {
         dpoApplication.formValue.initFieldsValues();
       }
       await findEmail();
@@ -162,7 +155,7 @@ export default defineComponent({
       mounted,
       form,
       dpoApplication,
-      dpoCourses,
+      // dpoCourses,
       isEditMode,
       courseChangeHandler,
       findEmail,

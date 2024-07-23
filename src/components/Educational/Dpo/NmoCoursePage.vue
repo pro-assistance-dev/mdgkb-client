@@ -5,13 +5,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent } from 'vue';
 
 import NmoCourse from '@/classes/NmoCourse';
 import NmoCourseInfo from '@/components/Educational/Dpo/NmoCourseInfo.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NmoCoursePage',

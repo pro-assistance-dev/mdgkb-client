@@ -47,7 +47,7 @@ import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const form = ref();
 const supportMessage: SupportMessage = SupportMessagesStore.Item();
-const { confirmLeave, saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const { saveButtonClick, beforeWindowUnload, formUpdated } = useConfirmLeavePage();
 
 const rules = {
   answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],

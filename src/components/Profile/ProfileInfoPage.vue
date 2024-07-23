@@ -3,12 +3,12 @@
     <div class="title">
       <h2><b>Мой профиль</b></h2>
       <div class="button">
-        <PButton skin="profile" text="Редактировать" @click="$router.push('/profile/edit')" width="180px">
+        <PButton skin="profile" text="Редактировать" width="180px" @click="$router.push('/profile/edit')">
           <IconEdit size="26px" />
         </PButton>
       </div>
       <div class="button-less-800">
-        <PButton skin="profile" @click="$router.push('/profile/edit')" width="32px" padding="0">
+        <PButton skin="profile" width="32px" padding="0" @click="$router.push('/profile/edit')">
           <IconEdit margin="0" />
         </PButton>
       </div>
@@ -53,8 +53,8 @@
               </div>
               <div class="contact-phone-el">
                 <PButton
-                  type="neutral"
                   v-if="user.phone"
+                  type="neutral"
                   skin="profile"
                   text="Изменить"
                   height="28px"

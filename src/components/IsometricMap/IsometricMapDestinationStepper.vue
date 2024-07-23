@@ -16,11 +16,12 @@
 const emit = defineEmits(['selectNode']);
 
 const showDestinationStepper = ref(false);
-const closeStepper = () => {
-  showDestinationStepper.value = !showDestinationStepper.value;
-};
+// const closeStepper = () => {
+//   showDestinationStepper.value = !showDestinationStepper.value;
+// };
 const root = ref(true);
-const steps = {
+type Step = Record<string, unknown>;
+const steps: Step = {
   Пациенты: {
     Экстренно: { nodeName: '29' },
     Планово: { nodeName: '29' },
@@ -43,7 +44,7 @@ const back = (): void => {
   root.value = true;
 };
 
-const selectStep = (step: unknown) => {
+const selectStep = (step: Step) => {
   if (!step) {
     showDestinationStepper.value = !showDestinationStepper.value;
     return;

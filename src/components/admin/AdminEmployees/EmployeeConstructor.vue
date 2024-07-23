@@ -5,7 +5,7 @@
         <CollapseItem title="Личная информация" :active-id="scope.activeId" :tab-id="1011" @change-active-id="scope.changeActiveId">
           <template #inside-content>
             <div class="background-container">
-              <HumanForm :with-styles="false" store-module="employees" @input-name-complete="completeInput" />
+              <HumanForm v-model="scope.human" :with-styles="false" @input-name-complete="completeInput" />
             </div>
           </template>
         </CollapseItem>
@@ -147,7 +147,6 @@ import FilterModel from '@/services/classes/filters/FilterModel';
 import Human from '@/services/classes/Human';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'EmployeeConstructor',
@@ -164,8 +163,6 @@ export default defineComponent({
 
     const completeInput = async (human: Human) => {
       filterModel.value1 = human.getFullName();
-      Provider.setFilterModel(filterModel);
-      await Provider.loadItems();
       if (employees.length === 0) {
         return;
       }
@@ -183,7 +180,6 @@ export default defineComponent({
         cancelButtonText: 'Остаться в создании нового',
       }).then(async () => {
         await Router.To(`/admin/employees/${existing.human.slug}`);
-        await Provider.loadItem();
       });
     };
 

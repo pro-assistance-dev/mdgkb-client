@@ -3,7 +3,7 @@
     <template #header><h3 style="text-align: center; margin: 0">Донорство крови</h3></template>
     <div class="wrapper">
       <template v-for="rule in donorRules" :key="rule.id">
-        <DonorRuleCard :donor-rule="rule" @removeFromUser="removeRule(rule.id)" @showRule="showRule(rule)" />
+        <DonorRuleCard :donor-rule="rule" @remove-from-user="removeRule(rule.id)" @show-rule="showRule(rule)" />
       </template>
     </div>
 

@@ -4,7 +4,7 @@ import ClassHelper from '@/services/ClassHelper';
 export default class FTSPPreset {
   id?: string;
   ftsp?: string;
-
+  name = '';
   constructor(i?: FTSPPreset) {
     ClassHelper.BuildClass(this, i);
   }

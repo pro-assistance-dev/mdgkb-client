@@ -9,7 +9,7 @@
           domain-name="doctor"
           :img-link="{ name: `DoctorPage`, params: { id: doctor.id, slug: doctor.employee.human.slug } }"
         />
-        <Rating :comments="doctor.comments" />
+        <RatingComponent :comments="doctor.comments" />
         <a v-if="doctor.mosDoctorLink" :href="doctor.getMosDoctorLink()" target="_blank">
           <div class="mos-doctor-img">
             <img :src="MosDoctorImg" alt="mos-doctor" />
@@ -40,9 +40,9 @@
           </template>
         </div>
         <div v-for="doctorDivision in doctor.doctorsDivisions" :key="doctorDivision.id" class="address">
-          <span v-if="doctorDivision.division.address.length">
+          <span v-if="doctorDivision.division?.address?.length">
             Адрес приема:
-            <a v-if="doctorDivision.division.address.length" @click="$router.push(`/map/${doctorDivision.division.id}`)">
+            <a v-if="doctorDivision.division?.address.length" @click="$router.push(`/map/${doctorDivision.division.id}`)">
               {{ doctorDivision.division.address }}
             </a>
           </span>
@@ -59,7 +59,7 @@
 import MosDoctorImg from '@/assets/img/mos-doctor.webp';
 import Doctor from '@/classes/Doctor';
 
-const props = defineProps({
+defineProps({
   doctor: { type: Object as PropType<Doctor>, required: true },
 });
 </script>

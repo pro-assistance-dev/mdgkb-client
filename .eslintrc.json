@@ -9,13 +9,15 @@
     "ecmaVersion": 2022,
     "parser": "@typescript-eslint/parser"
   },
-  "plugins": ["@typescript-eslint", "simple-import-sort"],
+  "plugins": ["@typescript-eslint", "simple-import-sort", "unused-imports"],
   "rules": {
     "indent": 0,
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": "error",
+    "unused-imports/no-unused-imports": "error",
     "vue/no-v-html": 0,
+    "vue/comment-directive": 0,
     "vue/html-closing-bracket-newline": 0,
     "vue/first-attribute-linebreak": 0,
     "vue/multiline-html-element-content-newline": 0,
@@ -33,4 +35,3 @@
     }
   ]
 }
-

@@ -1,7 +1,6 @@
-import Timer from './Timer';
-import Time from './Time';
 import Message, { MessageOpts } from './Message';
-
+import Time from './Time';
+import Timer from './Timer';
 import Statuses from './types/Statuses';
 
 type NotificationOpts = MessageOpts & {

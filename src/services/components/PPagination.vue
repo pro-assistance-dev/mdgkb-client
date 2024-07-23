@@ -1,5 +1,5 @@
 <template>
-  <div :key="count" style="display: flex; justify-content: center; width: 100%">
+  <div style="display: flex; justify-content: center; width: 100%">
     <div
       class="pag-container"
       :style="{
@@ -7,33 +7,46 @@
       }"
     >
       <div class="pag-number">
-        <PButton skin="pag" :type="notActiveOrNeutral(curPage === 1)" @click="currentChange(curPage - 1)">
+        <PButton skin="pag" :type="notActiveOrNeutral(paginator.curPage === 1)" @click="currentChange(paginator.curPage - 1)">
           <ArrowLeft />
         </PButton>
         <ul class="pag-ul">
           <li>
-            <PButton skin="pag" :type="activeOrNeutral(curPage === 1)" text="1" @click="currentChange(1)" />
+            <PButton skin="pag" :type="activeOrNeutral(paginator.curPage === 1)" text="1" @click="currentChange(1)" />
           </li>
-          <li v-if="pagesCount > 8 && curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
-            <PButton skin="pag" type="neutral" @click="currentChange(curPage - 5)">
+          <li v-if="paginator.pagesCount() > 8 && paginator.curPage > 4" @mouseenter="hoveringL = true" @mouseleave="hoveringL = false">
+            <PButton skin="pag" type="neutral" @click="currentChange(paginator.curPage - 5)">
               <DoubleArrowLeft v-if="hoveringL" />
-              <Ellipsis v-else />
+              <EllipsisSvg v-else />
             </PButton>
           </li>
           <li v-for="num in pagesNums" :key="num">
-            <PButton skin="pag" :type="activeOrNeutral(num === curPage)" :text="num" @click="currentChange(num)" />
+            <PButton skin="pag" :type="activeOrNeutral(num === paginator.curPage)" :text="num" @click="currentChange(num)" />
           </li>
-          <li v-if="pagesCount > 8 && curPage < pagesCount - 3" @mouseenter="hoveringR = true" @mouseleave="hoveringR = false">
-            <PButton skin="pag" type="neutral" @click="currentChange(curPage + 5)">
+          <li
+            v-if="paginator.pagesCount() > 8 && paginator.curPage < paginator.pagesCount() - 3"
+            @mouseenter="hoveringR = true"
+            @mouseleave="hoveringR = false"
+          >
+            <PButton skin="pag" type="neutral" @click="currentChange(paginator.curPage + 5)">
               <DoubleArrowRight v-if="hoveringR" />
-              <Ellipsis v-else />
+              <EllipsisSvg v-else />
             </PButton>
           </li>
-          <li v-if="pagesCount > 1">
-            <PButton skin="pag" :type="activeOrNeutral(pagesCount === curPage)" :text="pagesCount" @click="currentChange(pagesCount)" />
+          <li v-if="paginator.pagesCount() > 1">
+            <PButton
+              skin="pag"
+              :type="activeOrNeutral(paginator.pagesCount() === paginator.curPage)"
+              :text="paginator.pagesCount()"
+              @click="currentChange(paginator.pagesCount())"
+            />
           </li>
         </ul>
-        <PButton skin="pag" :type="notActiveOrNeutral(curPage === pagesCount)" @click="currentChange(curPage + 1)">
+        <PButton
+          skin="pag"
+          :type="notActiveOrNeutral(paginator.curPage === paginator.pagesCount())"
+          @click="currentChange(paginator.curPage + 1)"
+        >
           <ArrowRight />
         </PButton>
       </div>
@@ -42,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import Provider from '@/services/Provider/Provider';
+import IStorePaginator from '@/services/interfaces/IStorePaginator';
 
 const props = defineProps({
   showConfirm: {
@@ -53,32 +66,36 @@ const props = defineProps({
     type: String,
     default: 'center',
   },
+  store: {
+    type: Object as PropType<IStorePaginator>,
+    required: true,
+  },
 });
+
 const activeOrNeutral = (isActive: boolean) => (isActive ? 'active' : 'neutral');
 const notActiveOrNeutral = (notActive: boolean) => (notActive ? 'not-active' : 'neutral');
-const pagination = FTSP.Get().p;
+const paginator = PHelp.Paginator;
+
 const hoveringL = ref(false);
 const hoveringR = ref(false);
-const emit = defineEmits(['cancel', 'save']);
-const storeModule: ComputedRef<string> = computed(() => PHelp.Paginator.storeModule);
 
-const count: ComputedRef<number> = Store.Getters(`${storeModule.value}/count`);
-const pagesCount: ComputedRef<number> = computed(() => Math.ceil(count.value / pagination.limit) ?? 1);
-const curPage: ComputedRef<number> = Store.Getters('pagination/curPage');
+const emit = defineEmits(['cancel', 'save']);
+paginator.count = props.store.Count();
 
 const currentChange = async (toPage: number) => {
-  if (toPage === curPage.value) {
+  if (toPage === paginator.curPage) {
     return;
   }
   if (toPage < 1) {
     toPage = 1;
   }
-  if (toPage > pagesCount.value) {
-    toPage = pagesCount.value;
+  if (toPage > paginator.pagesCount()) {
+    toPage = paginator.pagesCount();
   }
   if (!props.showConfirm) {
     return await setPage(toPage, true);
   }
+
   PHelp.Dialog.Save()
     .then(async () => {
       emit('save');
@@ -92,21 +109,20 @@ const currentChange = async (toPage: number) => {
 };
 
 const setPage = async (pageNum: number, load: boolean): Promise<void> => {
-  Provider.loadingDecor(async () => {
-    Store.Commit('pagination/setCurPage', pageNum);
-    FTSP.Get().p.offset = (pageNum - 1) * FTSP.Get().p.limit;
-    if (load) {
-      await Store.FTSP(storeModule.value);
-    }
-    scrollToBack();
-  });
+  paginator.setCurPage(pageNum);
+  FTSP.Get().p.offset = (pageNum - 1) * paginator.limit;
+  if (load) {
+    await props.store.FTSP();
+  }
+  scrollToBack();
 };
 
 const pagesNums = computed(() => {
-  if (pagesCount.value < 8) {
-    return Arrays.GenerateNumsRange(2, pagesCount.value - 2).filter((p: number) => p < pagesCount.value && p > 1);
+  const pc = paginator.pagesCount();
+  if (pc < 8) {
+    return Arrays.GenerateNumsRange(2, pc - 2).filter((p: number) => p < pc && p > 1);
   }
-  return Arrays.GenerateNumsRange(curPage.value - 2, curPage.value + 3).filter((p: number) => p < pagesCount.value && p > 1);
+  return Arrays.GenerateNumsRange(paginator.curPage - 2, paginator.curPage + 3).filter((p: number) => p < pc && p > 1);
 });
 
 const scrollToBack = () => {
@@ -120,11 +136,7 @@ const scrollToBack = () => {
 };
 
 onBeforeUnmount(() => {
-  Provider.dropPagination();
-});
-
-onBeforeMount(async () => {
-  await setPage(FTSP.Get().p.getPageNum(), false);
+  FTSP.Get().p.drop();
 });
 </script>
 

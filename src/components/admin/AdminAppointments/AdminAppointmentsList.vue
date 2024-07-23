@@ -39,11 +39,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminAppointmentsList',
@@ -51,17 +50,12 @@ export default defineComponent({
   setup() {
     const appointments = AppointmentsStore.Items();
 
-    const load = async () => {
-      Provider.store.commit('admin/setHeaderParams', {
-        title: 'Записи к врачу',
-        buttons: [{ text: 'Добавить запись', type: 'primary', action: create }],
-      });
-    };
+    const load = async () => {};
 
     Hooks.onBeforeMount(load);
 
-    const create = () => Provider.router.push(`/admin/appointments/new`);
-    const edit = (id: string) => Provider.router.push(`/admin/appointments/${id}`);
+    const create = () => Router.To(`/admin/appointments/new`);
+    const edit = (id: string) => Router.To(`/admin/appointments/${id}`);
     const remove = async (id: string) => await AppointmentsStore.Remove(id);
 
     return { appointments, remove, edit, create };

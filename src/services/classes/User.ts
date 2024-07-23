@@ -1,5 +1,4 @@
 import IWithId from '@/services/interfaces/IWithId';
-import TokenService from '@/services/Token';
 
 export default class User<TUser extends IWithId> {
   private user: TUser | undefined;

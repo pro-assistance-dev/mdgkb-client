@@ -7,10 +7,7 @@
           <draggable :list="page.pageSideMenus" item-key="id" @end="sort(page.pageSideMenus)">
             <template #item="{ element, index }">
               <div style="display: flex; align-items: center" class="side-menu-row">
-                <div
-                  :class="{ 'side-menu': true, 'side-menu-active': element.id === page.activeMenuId }"
-                  @click="selectSideMenu(element.id)"
-                >
+                <div :class="{ 'side-menu': true, 'side-menu-active': element.id === page.activeMenuId }" @click="selectSideMenu()">
                   <div>{{ element?.name }}</div>
                   <el-popconfirm
                     confirm-button-text="Да"
@@ -111,7 +108,7 @@
                     title="Вы уверен, что хотите удалить это?"
                     class="close"
                     @confirm="
-                      $classHelper.RemoveFromClassByIndex(
+                      ClassHelper.RemoveFromClassByIndex(
                         index,
                         page.getActiveMenu().pageSections,
                         page.getActiveMenu().pageSectionsForDelete
@@ -150,7 +147,6 @@ import Page from '@/services/classes/page/Page';
 import Role from '@/services/classes/Role';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -166,8 +162,8 @@ const roles: Role[] = RolesStore.Items();
 // const activeMenu: Ref<number> = ref(999);
 const mounted = ref(false);
 const openPage = () => {
-  const route = Router.Resolve(page.getLink());
-  window.open(route.href, '_blank');
+  // const route = Router.Resolve(page.getLink());
+  // window.open(route.href, '_blank');
 };
 
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
@@ -199,7 +195,7 @@ const submit = async () => {
     saveButtonClick.value = false;
     return;
   }
-  if (!Provider.route().params['slug']) {
+  if (!Router.Route().params['slug']) {
     await PagesStore.Create();
     await Router.ToAdmin('pages');
     return;
@@ -219,17 +215,17 @@ const addSideMenu = () => {
   page.setActiveMenuId(id);
 };
 
-const selectSideMenu = (id: number) => {
+const selectSideMenu = () => {
   showMainSettings.value = false;
   // PagesStore.SetActiveMenuId(id);
-  page.setActiveMenuId(id);
+  // page.setActiveMenuId(id);
 };
 
 const showMainSettings: Ref<boolean> = ref(true);
 
 const selectMainSettings = () => {
   showMainSettings.value = true;
-  PagesStore.SetActiveMenuId(id);
+  // PagesStore.SetActiveMenuId(id);
 };
 
 const addPageSection = async () => {

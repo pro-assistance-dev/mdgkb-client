@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-const emits = defineEmits(['click']);
+defineEmits(['click']);
 
 const props = defineProps({
   string: { type: String as PropType<string>, required: false, default: '' },
@@ -20,7 +20,7 @@ const props = defineProps({
   margin: { type: String as PropType<string>, required: false, default: '' },
   customClass: { type: String as PropType<string>, required: false, default: '' },
   justifyContent: { type: String as PropType<string>, required: false, default: 'center' },
-  isHtml: { type: Boolean as PropType<string>, required: false, default: false },
+  isHtml: { type: Boolean as PropType<boolean>, required: false, default: false },
 });
 
 const styleObject = {

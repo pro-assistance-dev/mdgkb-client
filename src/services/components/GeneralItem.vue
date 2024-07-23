@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
   background: {
     type: String as PropType<string>,
     required: false,

@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 
 import IPaidProgramsGroup from '@/interfaces/IPaidProgramsGroupsForServer';
 

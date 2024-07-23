@@ -1,6 +1,6 @@
 <template>
   <Component :is="getIcon('heartfill')" v-if="isFavourite" id="heartfill-svg" class="heart" @click.stop="removeFromUser" />
-  <Component v-else :is="getIcon('heartstroke')" id="heartstroke-svg" class="heart" @click.stop="add" />
+  <Component :is="getIcon('heartstroke')" v-else id="heartstroke-svg" class="heart" @click.stop="add" />
 </template>
 
 <script lang="ts" setup>

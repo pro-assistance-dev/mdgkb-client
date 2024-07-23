@@ -12,14 +12,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, PropType, Ref } from 'vue';
 import draggable from 'vuedraggable';
 
-import EducationalAcademic from '@/classes/EducationalAcademic';
-import Head from '@/classes/Head';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import SortModel from '@/services/classes/SortModel';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
 export default defineComponent({
@@ -36,16 +31,11 @@ export default defineComponent({
       default: new SortModel(),
     },
   },
-  setup(props, { emit }) {
-    const items: Ref<(Head | EducationalAcademic)[]> = computed(() => Provider.store.getters[`${props.storeModule}/items`]);
-    onBeforeMount(async () => {
-      const filterQuery = new FilterQuery();
-      filterQuery.setSortModel(props.sortModel);
-      await Provider.store.dispatch(`${props.storeModule}/getAll`, filterQuery);
-    });
+  emits: ['close'],
+  setup(_, { emit }) {
+    onBeforeMount(async () => {});
 
     const save = async () => {
-      await Provider.store.dispatch(`${props.storeModule}/updateMany`);
       emit('close');
     };
 
@@ -56,7 +46,6 @@ export default defineComponent({
       sort,
       cancel,
       save,
-      items,
     };
   },
 });

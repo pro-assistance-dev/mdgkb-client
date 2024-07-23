@@ -16,47 +16,43 @@
 <script setup lang="ts">
 import CustomSection from '@/services/classes/page/CustomSection';
 import MenuContainer from '@/services/components/MenuContainer.vue';
-import Provider from '@/services/Provider/Provider';
 
 const componentKey = ref(0);
 const mounted = ref(false);
-const customSections: ComputedRef<CustomSection[]> = computed(() => Provider.store.getters['customSections/items']);
 const sections: Ref<CustomSection[]> = ref([]);
 const activeMenu: Ref<CustomSection> = ref(sections.value[0]);
-const props = defineProps({
+defineProps({
   components: {
     type: Object as PropType<Object>,
     required: true,
   },
 });
 
-const component = shallowRef(props.components[props.components[0]]);
+// const component = shallowRef(props.components[props.components[0]]);
 
 const setMenuFromRoute = () => {
-  let menu = Provider.route().query.menu as string;
-  if (!menu) {
-    menu = customSections.value.find((c) => props.components[c.component])?.id;
-  }
-  changeMenu(menu);
+  // let menu = Router.Route().query.menu as string;
+  // if (!menu) {
+  //   // menu = customSections.value.find((c) => props.components[c.component])?.id;
+  // }
+  // changeMenu(menu);
 };
 
 const changeMenu = (customSectionId: string) => {
   console.log(customSectionId);
-  const section = customSections.value.find((m: CustomSection) => {
-    return m.id === customSectionId;
-  });
-  if (!section) {
-    return;
-  }
-  activeMenu.value = section;
-  component.value = props.components[activeMenu.value.component];
-  Provider.router.replace({ query: { menu: section.id as string } });
+  // const section = customSections.value.find((m: CustomSection) => {
+  //   return m.id === customSectionId;
+  // });
+  // if (!section) {
+  //   return;
+  // }
+  // activeMenu.value = section;
+  // component.value = props.components[activeMenu.value.component];
   componentKey.value += 1;
 };
 
 const load = async () => {
-  await Provider.store.dispatch('customSections/getAll', { withCache: true });
-  sections.value = customSections.value.filter((item) => props.components[item.component]);
+  // sections.value = customSections.value.filter((item) => props.components[item.component]);
   setMenuFromRoute();
   mounted.value = true;
 };

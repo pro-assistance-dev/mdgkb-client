@@ -84,8 +84,8 @@
 </template>
 
 <script lang="ts" setup>
-import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 import MdgkbLogoVert from "@/assets/img/mdgkb-logo-vert.webp";
+import SocialIcons from '@/assets/svg/Main/SocialIcons.svg';
 
   // const b = new isvek.Bvi();
   //

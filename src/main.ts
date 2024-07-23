@@ -39,7 +39,6 @@ import Maska from 'maska';
 
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormatter from '@/services/DateFormat';
-import Provider from '@/services/Provider/Provider';
 library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
@@ -51,8 +50,6 @@ app.use(router);
 // app.use(setupElementPlusPlugins);
 app.use(Maska);
 // locale.use(lang);
-Provider.router = router;
-Provider.store = store;
 
 // PHelp.Auth.SetUserConstru
 router.isReady().then(() => {

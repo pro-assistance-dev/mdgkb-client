@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <template v-for="rule in donorRules" :key="rule.id">
-      <DonorRuleCard :donor-rule="rule" @addToUser="addToUser(rule)" @showRule="showRule(rule)" @removeFromUser="removeFromUser(rule)" />
+      <DonorRuleCard :donor-rule="rule" @add-to-user="addToUser(rule)" @show-rule="showRule(rule)" @remove-from-user="removeFromUser(rule)" />
     </template>
   </div>
 

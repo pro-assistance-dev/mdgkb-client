@@ -31,10 +31,9 @@
 <script lang="ts" setup>
 import FormStatusGroup from '@/classes/FormStatusGroup';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 const formStatusGroups: FormStatusGroup[] = FormStatusGroupsStore.Items();
-const formStatusGroup: ComputedRef<FormStatusGroup> = FormStatusGroupsStore.Item();
+// const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
 const mounted: Ref<boolean> = ref(false);
 
 const load = async () => {
@@ -50,7 +49,7 @@ const remove = async (id: string) => {
 };
 
 const edit = async (id: string) => {
-  Provider.router.push({ name: 'AdminFormStatusesList', params: { groupId: id } });
+  Router.To('/admin/form-statuses?groupId=' + id);
 };
 
 const create = () => {};

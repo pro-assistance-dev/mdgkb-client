@@ -62,8 +62,8 @@
 <script lang="ts">
 import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
 import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
-import IWithImage from '@/services/interfaces/IWithImage';
 import { Animations } from '@/interfaces/Animations';
+import IWithImage from '@/services/interfaces/IWithImage';
 import makeCarousel from '@/services/MakeCarousel';
 export default defineComponent({
   name: 'CarouselImages',
@@ -119,7 +119,7 @@ export default defineComponent({
 
     const animation: Ref<Animations> = ref(Animations.None);
 
-    let carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
+    const carousel: Ref<IWithImage[][]> = ref(makeCarousel<IWithImage>(props.images, props.quantity));
 
     const activeCarouselGroup: ComputedRef<IWithImage[]> = computed(() => {
       return carousel.value[activeGroupIndex.value];

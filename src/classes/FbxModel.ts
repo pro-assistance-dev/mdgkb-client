@@ -15,7 +15,7 @@ export default class FbxModel {
     object.scale.set(0.01, 0.01, 0.01);
   }
 
-  static HandleXHR(xhr: ProgressEvent) {
+  static HandleXHR() {
     // console.log((xhr.loaded / xhr.total) * 100 + '% loaded');
   }
   static HandleError(error: unknown) {

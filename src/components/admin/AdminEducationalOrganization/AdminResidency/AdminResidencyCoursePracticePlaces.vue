@@ -100,7 +100,6 @@ import draggable from 'vuedraggable';
 import Division from '@/classes/Division';
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 
 const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();

@@ -29,17 +29,17 @@
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
-const gates: Gate[] = GatesStore.Item();
+const gates: Gate[] = GatesStore.Items();
 const formPatterns: Form[] = FormPatternsStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
-const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
+// const isNotEditMode: ComputedRef<boolean> = computed(() => !isEditMode.value);
 
 const edit = async () => {
   await FormPatternsStore.GetAll();
   isEditMode.value = true;
 };
+
 const save = async () => {
   await GatesStore.UpdateMany();
   isEditMode.value = false;
@@ -47,7 +47,7 @@ const save = async () => {
 
 const load = async () => {
   await GatesStore.GetAll();
-  PHelp.AdminUI.Head.Set('Входы', [Button.Success('Сохранить', save), Button.Success('Редактировать', edti)]);
+  PHelp.AdminUI.Head.Set('Входы', [Button.Success('Сохранить', save), Button.Success('Редактировать', edit)]);
 };
 
 Hooks.onBeforeMount(load);

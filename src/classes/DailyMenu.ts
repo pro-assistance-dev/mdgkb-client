@@ -138,7 +138,7 @@ export default class DailyMenu {
     this.initGroups();
   }
 
-  getNotEmptyGroups(onlyWithAvailableDishes: boolean): DishesGroup[] {
+  getNotEmptyGroups(onlyWithAvailableDishes?: boolean): DishesGroup[] {
     if (onlyWithAvailableDishes) {
       return this.dishesGroups.filter((d: DishesGroup) => d.getAvailableDishes().length);
     }

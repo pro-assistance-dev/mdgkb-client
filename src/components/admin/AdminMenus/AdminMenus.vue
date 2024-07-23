@@ -34,7 +34,7 @@
           <div v-if="element.editMode" class="menu-card">
             <el-icon class="handle"><Grid /></el-icon>
             <el-input v-model="element.name"></el-input>
-            <UploaderImage :file-info="element.icon" :crop-ratio="false" @ratio="(e) => (element.ratio = e)" />
+            <UploaderImage :file-info="element.icon" :crop-ratio="false" />
             <el-button type="danger" size="medium" icon="el-icon-delete" @click="removeMenu(index)" />
             <el-button type="success" size="medium" icon="el-icon-edit" @click="element.editMode = false" />
           </div>
@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { Grid } from '@element-plus/icons-vue';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import Menu from '@/services/classes/Menu';
@@ -73,7 +73,7 @@ export default defineComponent({
     const save = async () => {
       await MenusStore.UpdateMany();
     };
-    const remove = (id: string) => {
+    const remove = async (id: string) => {
       await MenusStore.Remove(id);
     };
 
@@ -86,7 +86,7 @@ export default defineComponent({
       menus.push(new Menu());
     };
 
-    const removeMenu = (i: number) => {
+    const removeMenu = () => {
       // menus.splice(i, 1);
       // if (selectedMenu.value && selectedMenu.value.id === idForDelete) {
       //   selectedMenu.value = undefined;

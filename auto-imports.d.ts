@@ -10,18 +10,23 @@ declare global {
   const AppointmentsTypesStore: typeof import('@/store/StoreModules')['AppointmentsTypesStore']
   const Arrays: typeof import('@/services/Main')['Arrays']
   const Auth: typeof import('@/services/Main')['Auth']
+  const AuthStore: typeof import('@/store/StoreModules')['AuthStore']
   const Axios: typeof import('@/services/Main')['Axios']
   const BannersStore: typeof import('@/store/StoreModules')['BannersStore']
+  const BuildingsStore: typeof import('@/store/StoreModules')['BuildingsStore']
   const Button: typeof import('@/services/Main')['Button']
   const Cache: typeof import('@/services/Main')['Cache']
+  const CallbacksRequestsStore: typeof import('@/store/StoreModules')['CallbacksRequestsStore']
   const CandidateApplicationsStore: typeof import('@/store/StoreModules')['CandidateApplicationsStore']
   const CandidateExamsStore: typeof import('@/store/StoreModules')['CandidateExamsStore']
   const CarouselSwipe: typeof import('@/services/Main')['CarouselSwipe']
+  const ChatsStore: typeof import('@/store/StoreModules')['ChatsStore']
   const ClassHelper: typeof import('@/services/Main')['ClassHelper']
   const Color: typeof import('@/services/Main')['Color']
   const CommentsStore: typeof import('@/store/StoreModules')['CommentsStore']
   const Confirm: typeof import('@/services/Main')['Confirm']
   const Contact: typeof import('@/services/Main')['Contact']
+  const ContactsStore: typeof import('@/store/StoreModules')['ContactsStore']
   const CreateSortModels: typeof import('@/services/Main')['CreateSortModels']
   const CropperStore: typeof import('@/store/StoreModules')['CropperStore']
   const Cursor: typeof import('@/services/Main')['Cursor']
@@ -47,8 +52,12 @@ declare global {
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const ElMessageBox: typeof import('element-plus/es')['ElMessageBox']
   const Email: typeof import('@/services/Main')['Email']
+  const EmailsStore: typeof import('@/store/StoreModules')['EmailsStore']
   const EmployeesStore: typeof import('@/store/StoreModules')['EmployeesStore']
+  const EventsStore: typeof import('@/store/StoreModules')['EventsStore']
+  const ExportsStore: typeof import('@/store/StoreModules')['ExportsStore']
   const FTSP: typeof import('@/services/Main')['FTSP']
+  const FTSPPresetsStore: typeof import('@/store/StoreModules')['FTSPPresetsStore']
   const FaqsStore: typeof import('@/store/StoreModules')['FaqsStore']
   const Favourite: typeof import('@/services/Main')['Favourite']
   const FilterModel: typeof import('@/services/Main')['FilterModel']
@@ -67,6 +76,7 @@ declare global {
   const MapNodesStore: typeof import('@/store/StoreModules')['MapNodesStore']
   const MapRoutesStore: typeof import('@/store/StoreModules')['MapRoutesStore']
   const MedicalProfilesStore: typeof import('@/store/StoreModules')['MedicalProfilesStore']
+  const MenusStore: typeof import('@/store/StoreModules')['MenusStore']
   const NewsSlidesStore: typeof import('@/store/StoreModules')['NewsSlidesStore']
   const NewsStore: typeof import('@/store/StoreModules')['NewsStore']
   const NmoCoursesStore: typeof import('@/store/StoreModules')['NmoCoursesStore']
@@ -79,6 +89,7 @@ declare global {
   const PartnersTypesStore: typeof import('@/store/StoreModules')['PartnersTypesStore']
   const Period: typeof import('@/services/Main')['Period']
   const PhoneService: typeof import('@/services/Main')['PhoneService']
+  const PhonesStore: typeof import('@/store/StoreModules')['PhonesStore']
   const PointsAchievementsStore: typeof import('@/store/StoreModules')['PointsAchievementsStore']
   const PostgraduateCoursesStore: typeof import('@/store/StoreModules')['PostgraduateCoursesStore']
   const PreparationsStore: typeof import('@/store/StoreModules')['PreparationsStore']
@@ -107,10 +118,12 @@ declare global {
   const TimetablesStore: typeof import('@/store/StoreModules')['TimetablesStore']
   const Token: typeof import('@/services/Main')['Token']
   const User: typeof import('@/services/Main')['User']
+  const UserAccountsStore: typeof import('@/store/StoreModules')['UserAccountsStore']
   const UsersStore: typeof import('@/store/StoreModules')['UsersStore']
   const VacanciesStore: typeof import('@/store/StoreModules')['VacanciesStore']
   const VacancyResponsesStore: typeof import('@/store/StoreModules')['VacancyResponsesStore']
   const ValueType: typeof import('@/services/Main')['ValueType']
+  const ValueTypesStore: typeof import('@/store/StoreModules')['ValueTypesStore']
   const VisitingRulesStore: typeof import('@/store/StoreModules')['VisitingRulesStore']
   const VisitsApplicationsStore: typeof import('@/store/StoreModules')['VisitsApplicationsStore']
   const WaitElement: typeof import('@/services/Main')['WaitElement']
@@ -191,18 +204,23 @@ declare module 'vue' {
     readonly AppointmentsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsTypesStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
+    readonly AuthStore: UnwrapRef<typeof import('@/store/StoreModules')['AuthStore']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
+    readonly BuildingsStore: UnwrapRef<typeof import('@/store/StoreModules')['BuildingsStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
+    readonly CallbacksRequestsStore: UnwrapRef<typeof import('@/store/StoreModules')['CallbacksRequestsStore']>
     readonly CandidateApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateApplicationsStore']>
     readonly CandidateExamsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateExamsStore']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
+    readonly ChatsStore: UnwrapRef<typeof import('@/store/StoreModules')['ChatsStore']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
     readonly CommentsStore: UnwrapRef<typeof import('@/store/StoreModules')['CommentsStore']>
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
+    readonly ContactsStore: UnwrapRef<typeof import('@/store/StoreModules')['ContactsStore']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
     readonly CropperStore: UnwrapRef<typeof import('@/store/StoreModules')['CropperStore']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
@@ -226,8 +244,12 @@ declare module 'vue' {
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
+    readonly EmailsStore: UnwrapRef<typeof import('@/store/StoreModules')['EmailsStore']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
+    readonly EventsStore: UnwrapRef<typeof import('@/store/StoreModules')['EventsStore']>
+    readonly ExportsStore: UnwrapRef<typeof import('@/store/StoreModules')['ExportsStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
+    readonly FTSPPresetsStore: UnwrapRef<typeof import('@/store/StoreModules')['FTSPPresetsStore']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
@@ -246,6 +268,7 @@ declare module 'vue' {
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly MedicalProfilesStore: UnwrapRef<typeof import('@/store/StoreModules')['MedicalProfilesStore']>
+    readonly MenusStore: UnwrapRef<typeof import('@/store/StoreModules')['MenusStore']>
     readonly NewsSlidesStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsSlidesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly NmoCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['NmoCoursesStore']>
@@ -258,11 +281,11 @@ declare module 'vue' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PhonesStore: UnwrapRef<typeof import('@/store/StoreModules')['PhonesStore']>
     readonly PointsAchievementsStore: UnwrapRef<typeof import('@/store/StoreModules')['PointsAchievementsStore']>
     readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
-    readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
     readonly ResidencyApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyApplicationsStore']>
     readonly ResidencyCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyCoursesStore']>
@@ -277,7 +300,6 @@ declare module 'vue' {
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>
-    readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
     readonly TagsStore: UnwrapRef<typeof import('@/store/StoreModules')['TagsStore']>
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
@@ -286,10 +308,12 @@ declare module 'vue' {
     readonly TimetablesStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesStore']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
+    readonly UserAccountsStore: UnwrapRef<typeof import('@/store/StoreModules')['UserAccountsStore']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly VacanciesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacanciesStore']>
     readonly VacancyResponsesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacancyResponsesStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly ValueTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['ValueTypesStore']>
     readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>
@@ -363,18 +387,23 @@ declare module '@vue/runtime-core' {
     readonly AppointmentsTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['AppointmentsTypesStore']>
     readonly Arrays: UnwrapRef<typeof import('@/services/Main')['Arrays']>
     readonly Auth: UnwrapRef<typeof import('@/services/Main')['Auth']>
+    readonly AuthStore: UnwrapRef<typeof import('@/store/StoreModules')['AuthStore']>
     readonly Axios: UnwrapRef<typeof import('@/services/Main')['Axios']>
     readonly BannersStore: UnwrapRef<typeof import('@/store/StoreModules')['BannersStore']>
+    readonly BuildingsStore: UnwrapRef<typeof import('@/store/StoreModules')['BuildingsStore']>
     readonly Button: UnwrapRef<typeof import('@/services/Main')['Button']>
     readonly Cache: UnwrapRef<typeof import('@/services/Main')['Cache']>
+    readonly CallbacksRequestsStore: UnwrapRef<typeof import('@/store/StoreModules')['CallbacksRequestsStore']>
     readonly CandidateApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateApplicationsStore']>
     readonly CandidateExamsStore: UnwrapRef<typeof import('@/store/StoreModules')['CandidateExamsStore']>
     readonly CarouselSwipe: UnwrapRef<typeof import('@/services/Main')['CarouselSwipe']>
+    readonly ChatsStore: UnwrapRef<typeof import('@/store/StoreModules')['ChatsStore']>
     readonly ClassHelper: UnwrapRef<typeof import('@/services/Main')['ClassHelper']>
     readonly Color: UnwrapRef<typeof import('@/services/Main')['Color']>
     readonly CommentsStore: UnwrapRef<typeof import('@/store/StoreModules')['CommentsStore']>
     readonly Confirm: UnwrapRef<typeof import('@/services/Main')['Confirm']>
     readonly Contact: UnwrapRef<typeof import('@/services/Main')['Contact']>
+    readonly ContactsStore: UnwrapRef<typeof import('@/store/StoreModules')['ContactsStore']>
     readonly CreateSortModels: UnwrapRef<typeof import('@/services/Main')['CreateSortModels']>
     readonly CropperStore: UnwrapRef<typeof import('@/store/StoreModules')['CropperStore']>
     readonly Cursor: UnwrapRef<typeof import('@/services/Main')['Cursor']>
@@ -398,8 +427,12 @@ declare module '@vue/runtime-core' {
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
+    readonly EmailsStore: UnwrapRef<typeof import('@/store/StoreModules')['EmailsStore']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
+    readonly EventsStore: UnwrapRef<typeof import('@/store/StoreModules')['EventsStore']>
+    readonly ExportsStore: UnwrapRef<typeof import('@/store/StoreModules')['ExportsStore']>
     readonly FTSP: UnwrapRef<typeof import('@/services/Main')['FTSP']>
+    readonly FTSPPresetsStore: UnwrapRef<typeof import('@/store/StoreModules')['FTSPPresetsStore']>
     readonly FaqsStore: UnwrapRef<typeof import('@/store/StoreModules')['FaqsStore']>
     readonly Favourite: UnwrapRef<typeof import('@/services/Main')['Favourite']>
     readonly FilterModel: UnwrapRef<typeof import('@/services/Main')['FilterModel']>
@@ -418,6 +451,7 @@ declare module '@vue/runtime-core' {
     readonly MapNodesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapNodesStore']>
     readonly MapRoutesStore: UnwrapRef<typeof import('@/store/StoreModules')['MapRoutesStore']>
     readonly MedicalProfilesStore: UnwrapRef<typeof import('@/store/StoreModules')['MedicalProfilesStore']>
+    readonly MenusStore: UnwrapRef<typeof import('@/store/StoreModules')['MenusStore']>
     readonly NewsSlidesStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsSlidesStore']>
     readonly NewsStore: UnwrapRef<typeof import('@/store/StoreModules')['NewsStore']>
     readonly NmoCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['NmoCoursesStore']>
@@ -430,11 +464,11 @@ declare module '@vue/runtime-core' {
     readonly PartnersTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['PartnersTypesStore']>
     readonly Period: UnwrapRef<typeof import('@/services/Main')['Period']>
     readonly PhoneService: UnwrapRef<typeof import('@/services/Main')['PhoneService']>
+    readonly PhonesStore: UnwrapRef<typeof import('@/store/StoreModules')['PhonesStore']>
     readonly PointsAchievementsStore: UnwrapRef<typeof import('@/store/StoreModules')['PointsAchievementsStore']>
     readonly PostgraduateCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['PostgraduateCoursesStore']>
     readonly PreparationsStore: UnwrapRef<typeof import('@/store/StoreModules')['PreparationsStore']>
     readonly ProjectsStore: UnwrapRef<typeof import('@/store/StoreModules')['ProjectsStore']>
-    readonly Provider: UnwrapRef<typeof import('@/services/Main')['Provider']>
     readonly QuestionsStore: UnwrapRef<typeof import('@/store/StoreModules')['QuestionsStore']>
     readonly ResidencyApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyApplicationsStore']>
     readonly ResidencyCoursesStore: UnwrapRef<typeof import('@/store/StoreModules')['ResidencyCoursesStore']>
@@ -449,7 +483,6 @@ declare module '@vue/runtime-core' {
     readonly Store: UnwrapRef<typeof import('@/classes/Main')['Store']>
     readonly Strings: UnwrapRef<typeof import('@/services/Main')['Strings']>
     readonly SupportMessagesStore: UnwrapRef<typeof import('@/store/StoreModules')['SupportMessagesStore']>
-    readonly Swapper: UnwrapRef<typeof import('@/services/Main')['Swapper']>
     readonly TagsStore: UnwrapRef<typeof import('@/store/StoreModules')['TagsStore']>
     readonly TeachersStore: UnwrapRef<typeof import('@/store/StoreModules')['TeachersStore']>
     readonly Time: UnwrapRef<typeof import('@/services/Main')['Time']>
@@ -458,10 +491,12 @@ declare module '@vue/runtime-core' {
     readonly TimetablesStore: UnwrapRef<typeof import('@/store/StoreModules')['TimetablesStore']>
     readonly Token: UnwrapRef<typeof import('@/services/Main')['Token']>
     readonly User: UnwrapRef<typeof import('@/services/Main')['User']>
+    readonly UserAccountsStore: UnwrapRef<typeof import('@/store/StoreModules')['UserAccountsStore']>
     readonly UsersStore: UnwrapRef<typeof import('@/store/StoreModules')['UsersStore']>
     readonly VacanciesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacanciesStore']>
     readonly VacancyResponsesStore: UnwrapRef<typeof import('@/store/StoreModules')['VacancyResponsesStore']>
     readonly ValueType: UnwrapRef<typeof import('@/services/Main')['ValueType']>
+    readonly ValueTypesStore: UnwrapRef<typeof import('@/store/StoreModules')['ValueTypesStore']>
     readonly VisitingRulesStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitingRulesStore']>
     readonly VisitsApplicationsStore: UnwrapRef<typeof import('@/store/StoreModules')['VisitsApplicationsStore']>
     readonly WaitElement: UnwrapRef<typeof import('@/services/Main')['WaitElement']>

@@ -18,7 +18,7 @@
       </template>
     </CollapseItem>
     <ImageGalleryDivision :images="division.divisionImages" />
-    <Comments :comments="division.comments" domen="divisions" :item-id="division.id" :is-reviews="true" />
+    <CommentsComponent :comments="division.comments" domen="divisions" :item-id="division.id" :is-reviews="true" />
   </div>
 </template>
 
@@ -26,7 +26,7 @@
 import Division from '@/classes/Division';
 import Hooks from '@/services/Hooks/Hooks';
 
-const division: ComputedRef<Division> = DivisionsStore.Item();
+const division: Division = DivisionsStore.Item();
 const mounted = ref(false);
 const load = async () => {
   await DivisionsStore.Get(Router.Id());

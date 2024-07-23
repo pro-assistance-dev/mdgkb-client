@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent, Ref } from 'vue';
 
 import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
@@ -80,9 +80,7 @@ import Position from '@/classes/Position';
 import SetEntity from '@/components/admin/SetEntity.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import ClassHelper from '@/services/ClassHelper';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 
 export default defineComponent({

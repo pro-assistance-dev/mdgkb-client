@@ -13,8 +13,8 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Timetable from '@/classes/Timetable';
 import TimetableConstructor from '@/components/admin/TimetableConstructor.vue';
@@ -25,7 +25,6 @@ export default defineComponent({
   components: { TimetableConstructor },
 
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const timetablePattern: Timetable = TimetablesPatternsStore.Item();
@@ -35,7 +34,7 @@ export default defineComponent({
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
       try {
-        if (route.params['id']) {
+        if (Router.Id()) {
           await TimetablesPatternsStore.Update();
         } else {
           await TimetablesPatternsStore.Create();
@@ -48,11 +47,11 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await TimetableStore.GetAllWeekdays();
+      // await TimetablesStore.GetAllWeekdays();
       if (Router.Id()) {
         TimetablesPatternsStore.Get(Router.Id());
       } else {
-        TimetablesPatternsStore.Set(Timetable.CreateStandartTimetable(weekdays.value));
+        TimetablesPatternsStore.Set(Timetable.CreateStandartTimetable(weekdays));
       }
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);

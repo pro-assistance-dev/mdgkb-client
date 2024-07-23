@@ -32,9 +32,9 @@
             <div class="position">
               <div class="flex">
                 <PButton
-                  skin="profile"
                   v-for="item in vacancyResponse.formValue.getUserActions()"
                   :key="item.id"
+                  skin="profile"
                   :text="item.childFormStatus.userActionName"
                   margin="0 10px 0 0"
                   width="120px"
@@ -50,14 +50,13 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
+import { defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
 
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
 import VacancyResponse from '@/classes/VacancyResponse';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ProfileVacancyResponsesCards',
@@ -71,17 +70,17 @@ export default defineComponent({
 
     const updateFormStatus = async (application: VacancyResponse, status: FormStatus) => {
       if (status.isCancelled()) {
-        await Provider.router.push(`/profile/vacancy-responses/cancel/${application.id}`);
+        await Router.To(`/profile/vacancy-responses/cancel/${application.id}`);
         return;
       }
       if (status.isClarified()) {
-        await Provider.router.push(`/profile/vacancy-responses/${application.id}`);
+        await Router.To(`/profile/vacancy-responses/${application.id}`);
         return;
       }
       if (status.isEditable) {
         application.formValue.setStatus(status, formStatuses);
       }
-      await FormValues.Update(application.formValue);
+      await FormValuesStore.Update(application.formValue);
     };
 
     onBeforeMount(async () => {
@@ -90,7 +89,6 @@ export default defineComponent({
 
     onBeforeUnmount(async () => {
       user.setVacancyResponsesViewed();
-      await Provider.store.dispatch('formValues/updateMany', user.getVacancyResponsesFormValues());
     });
 
     return {

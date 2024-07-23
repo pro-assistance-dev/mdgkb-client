@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import AdminPaidProgramOptions from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramOptions.vue';
 import AdminPaidProgramPackages from '@/components/admin/AdminPaidProgramsGroups/AdminPaidProgramPackages.vue';

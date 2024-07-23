@@ -33,14 +33,13 @@ import CalendarEvent from '@/classes/CalendarEvent';
 import DailyMenu from '@/classes/DailyMenu';
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
+import DailyMenusFiltersLib from '@/libs/filters/DailyMenusFiltersLib';
+import DailyMenusSortsLib from '@/libs/sorts/DailyMenus';
 import Calendar from '@/services/classes/calendar/Calendar';
 import Day from '@/services/classes/calendar/Day';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import DailyMenusFiltersLib from '@/libs/filters/DailyMenusFiltersLib';
-import DailyMenusSortsLib from '@/libs/sorts/DailyMenus';
-import Provider from '@/services/Provider/Provider';
 
 const dishesConstructorVisible: Ref<boolean> = ref(false);
 const dailyMenus: DailyMenu[] = DailyMenusStore.Items();

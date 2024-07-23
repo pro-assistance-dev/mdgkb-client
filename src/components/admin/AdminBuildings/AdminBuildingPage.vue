@@ -69,8 +69,8 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import BuildingRules from '@/classes/BuildingRules';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
@@ -82,7 +82,6 @@ export default defineComponent({
   components: { TableButtonGroup },
 
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const building = BuildingsStore.Item();
     const rules = ref(BuildingRules);
@@ -96,7 +95,7 @@ export default defineComponent({
     });
     const loadBuilding = async (): Promise<void> => {
       await BuildingsStore.Get(Router.Id());
-      PHelp.AdminUI.Head.Set(building.value.name, [Button.Success('Сохранить', submit)]);
+      PHelp.AdminUI.Head.Set(building.name, [Button.Success('Сохранить', submit)]);
       mounted.value = true;
       window.addEventListener('beforeunload', beforeWindowUnload);
       watch(building, formUpdated, { deep: true });

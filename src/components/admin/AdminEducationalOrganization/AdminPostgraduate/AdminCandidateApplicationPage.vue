@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts">
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import CandidateApplication from '@/classes/CandidateApplication';
 import CandidateExam from '@/classes/CandidateExam';
@@ -55,7 +55,6 @@ export default defineComponent({
   components: { AdminFormValue },
 
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const mounted = ref(false);
     const form = ref();
@@ -64,7 +63,7 @@ export default defineComponent({
     const candidateExams: CandidateExam[] = CandidateExamsStore.Items();
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
     const isEditMode: Ref<boolean> = ref(false);
-    const editButtonTitle: Ref<string> = ref('Режим редактирования');
+    // const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
     onBeforeMount(async () => {
       await loadExam();
@@ -76,17 +75,17 @@ export default defineComponent({
       await CandidateExamsStore.GetAll();
     };
 
-    const changeEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-      if (isEditMode.value) {
-        editButtonTitle.value = 'Режим просмотра';
-      } else {
-        editButtonTitle.value = 'Режим редактирования';
-      }
-    };
+    // const changeEditMode = () => {
+    //   isEditMode.value = !isEditMode.value;
+    //   if (isEditMode.value) {
+    //     editButtonTitle.value = 'Режим просмотра';
+    //   } else {
+    //     editButtonTitle.value = 'Режим редактирования';
+    //   }
+    // };
 
     const updateNew = async () => {
-      if (!route.params['id']) {
+      if (!Router.Id()) {
         return;
       }
       if (!application.formValue.isNew) {
@@ -99,7 +98,7 @@ export default defineComponent({
     let initialStatus: FormStatus;
 
     const loadItem = async () => {
-      if (route.params['id']) {
+      if (Router.Id()) {
         await CandidateApplicationsStore.Get(Router.Id());
         initialStatus = application.formValue.formStatus;
         // pageTitle = `Заявление от ${application.formValue.user.email}`;
@@ -120,7 +119,7 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (route.params['id']) {
+      if (Router.Id()) {
         application.formValue.updateViewedByUser(initialStatus);
         await CandidateApplicationsStore.Update();
       } else {
@@ -132,7 +131,7 @@ export default defineComponent({
     };
 
     const courseChangeHandler = () => {
-      if (!route.params['id']) {
+      if (!Router.Id()) {
         application.formValue.initFieldsValues();
       }
       // application.value.candidateExamId = application.value.candidateExam.id;

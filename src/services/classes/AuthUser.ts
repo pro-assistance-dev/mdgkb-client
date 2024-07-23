@@ -4,10 +4,17 @@ import IWithId from '@/services/interfaces/IWithId';
 import LocalStoreKeys from '../interfaces/LocalStoreKeys';
 import LocalStore from './LocalStore';
 
+interface IWithUser<UserT> {
+  user?: UserT;
+}
+
 export default class AuthUser<UserT extends IWithId> {
   private user: UserT | undefined;
   userConstructor?: Constructable<UserT>;
 
+  AssignTo(item: IWithUser<UserT>) {
+    item.user = this.get();
+  }
   setUserConstructor(userConstructor: Constructable<UserT>) {
     this.userConstructor = userConstructor;
   }

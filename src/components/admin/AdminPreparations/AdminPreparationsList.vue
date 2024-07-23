@@ -23,14 +23,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent } from 'vue';
 
 import Preparation from '@/classes/Preparation';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
+import PreparationsSortsLib from '@/libs/sorts/PreparationsSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import PreparationsSortsLib from '@/libs/sorts/PreparationsSortsLib';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
@@ -40,17 +39,13 @@ export default defineComponent({
     const preparations: Preparation[] = PreparationsStore.Items();
 
     Hooks.onBeforeMount(async () => await PreparationsStore.GetAll(), {
-      adminHeader: {
-        title: 'Подготовка к исследованиям',
-        buttons: [{ text: 'Добавить исследование', type: 'primary', action: Provider.createAdmin }],
-      },
       pagination: { storeModule: 'preparations', action: 'getAll' },
       getAction: 'getAll',
       sortsLib: PreparationsSortsLib,
     });
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.toAdmin(`preparations/${event.id}`);
+      await Router.ToAdmin(`preparations/${event.id}`);
     };
 
     return { preparations, selectSearch };

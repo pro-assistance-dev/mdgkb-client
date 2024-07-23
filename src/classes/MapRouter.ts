@@ -1,9 +1,9 @@
-import IStartEndNode from '@/interfaces/IStartEndNode';
-import { defineEmits } from 'vue';
-import SearchElement from './SearchElement';
+import * as Three from 'three';
 
 import Engine3D from '@/classes/Engine3D';
-import * as Three from 'three';
+import IStartEndNode from '@/interfaces/IStartEndNode';
+
+import SearchElement from './SearchElement';
 
 export default class MapRouter {
   engine?: Engine3D;
@@ -71,7 +71,7 @@ export default class MapRouter {
     }
 
     this.curStep.add(this.step);
-    this.glow.position.set(this.curStep.x, this.curStep.y, this.curStep.z);
+    this.glow?.position.set(this.curStep.x, this.curStep.y, this.curStep.z);
     const curS = new Three.Vector3(this.curStep.x, this.curStep.y, this.curStep.z);
     curS.set(this.to.x - curS.x, this.to.y - curS.y, this.to.z - curS.z);
 
@@ -118,7 +118,6 @@ export default class MapRouter {
 
       const sp = this.points[0];
       const secp = this.points[1];
-      const ep = this.points[points.length - 1];
 
       // this.engine.core.controls.target.set((sp.x + ep.x) / 2, (sp.y + ep.y) / 2, (sp.z + ep.z) / 2);  // направление камеры на середину пути
       this.engine.core.controls.target.set(secp.x, 0.2, secp.z); // направление камеры на точку 1

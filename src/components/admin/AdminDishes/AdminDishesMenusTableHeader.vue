@@ -68,7 +68,7 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref } from 'vue';
+import { defineComponent, Ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import Add from '@/assets/svg/Buffet/Add.svg';
@@ -82,7 +82,6 @@ import DishesGroup from '@/classes/DishesGroup';
 import CopyWindow from '@/components/admin/AdminDishes/CopyWindow.vue';
 import PasteWindow from '@/components/admin/AdminDishes/PasteWindow.vue';
 import Calendar from '@/services/classes/calendar/Calendar';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import Strings from '@/services/Strings';
 
@@ -101,7 +100,7 @@ export default defineComponent({
     PasteWindow,
   },
   setup() {
-    const dailyMenus: DailyMenu[] = DailyMenusStore.Items();
+    let dailyMenus: DailyMenu[] = DailyMenusStore.Items();
     const selectedMenu: DailyMenu = DailyMenusStore.Item();
     const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 
@@ -125,7 +124,7 @@ export default defineComponent({
       selectMenu(menu);
       await DailyMenusStore.Create(menu);
       if (menu.id) {
-        const input = document.getElementById(Strings.toCamelCase(menu.id));
+        const input = document.getElementById(Strings.ToCamelCase(menu.id));
         if (input) {
           input.focus();
         }
@@ -133,13 +132,13 @@ export default defineComponent({
     };
 
     const removeMenu = async (menu: DailyMenu) => {
-      if (dailyMenus.value.length === 1) {
+      if (dailyMenus.length === 1) {
         return ElMessage.error('Нельзя удалить едиственное меню');
       }
       const removeF = async () => {
         dailyMenus = dailyMenus.filter((dm: DailyMenu) => dm.id === menu.id);
-        await DailyMenusStore.Remove(menu.id);
-        selectMenu(dailyMenus[dailyMenus.value.length - 1]);
+        await DailyMenusStore.Remove(menu.id as string);
+        selectMenu(dailyMenus[dailyMenus.length - 1]);
       };
       if (menu.dailyMenuItems.length === 0) {
         return await removeF();
@@ -154,7 +153,7 @@ export default defineComponent({
     };
 
     const pdf = async () => {
-      await DailyMenusStore.Pdf(selectedMenu);
+      await DailyMenusStore.PDF(selectedMenu);
     };
 
     const saveMenu = async (menu: DailyMenu) => {

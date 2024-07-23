@@ -1,7 +1,7 @@
 import CandidateApplicationSpecialization from '@/classes/CandidateApplicationSpecialization';
 import CandidateExam from '@/classes/CandidateExam';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Specialization from '@/classes/Specialization';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 import Form from './Form';

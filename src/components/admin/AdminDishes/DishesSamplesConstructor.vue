@@ -22,9 +22,15 @@
                   <svg class="icon-edit" @click.stop="editDishesGroup(element)">
                     <use xlink:href="#profile-edit" />
                   </svg>
-                  <el-popconfirm confirm-button-text="Да" cancel-button-text="Отмена" icon="el-icon-info"
-                    icon-color="danger" title="Вы уверены, что хотите удалить категорию?"
-                    @confirm="removeDishesGroup(element.id)" @cancel="() => { }">
+                  <el-popconfirm
+                    confirm-button-text="Да"
+                    cancel-button-text="Отмена"
+                    icon="el-icon-info"
+                    icon-color="danger"
+                    title="Вы уверены, что хотите удалить категорию?"
+                    @confirm="removeDishesGroup(element.id)"
+                    @cancel="() => {}"
+                  >
                     <template #reference>
                       <button class="tools-button">
                         <svg class="icon-delete">
@@ -36,15 +42,13 @@
                 </template>
                 <template #inside-title>
                   <div class="title-in">
-                    <el-badge :value="element.dishSamples.length"
-                      :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
+                    <el-badge :value="element.dishSamples.length" :type="element.dishSamples.length > 0 ? 'primary' : ''" class="badge">
                       {{ element.name }}
                     </el-badge>
                   </div>
                 </template>
                 <template #inside-content>
-                  <DishesConstructorList :dishes-samples="element.dishSamples"
-                    @openDishSampleConstructor="openDishSampleConstructor" />
+                  <DishesConstructorList :dishes-samples="element.dishSamples" @open-dish-sample-constructor="openDishSampleConstructor" />
                 </template>
               </CollapseItem>
             </div>
@@ -52,14 +56,12 @@
         </draggable>
       </div>
       <div v-else class="column">
-        <DishesConstructorList :dishes-samples="dishSamplesFlat"
-          @openDishSampleConstructor="openDishSampleConstructor" />
+        <DishesConstructorList :dishes-samples="dishSamplesFlat" @open-dish-sample-constructor="openDishSampleConstructor" />
       </div>
     </div>
     <div class="menusGroup">
-      <DishConstructorInfo v-if="!dishSampleConstructorVisible" @selectLastDish="openDishSampleConstructor" />
-      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id"
-        :close-function="closeDishSampleConstructorVisible" />
+      <DishConstructorInfo v-if="!dishSampleConstructorVisible" @select-last-dish="openDishSampleConstructor" />
+      <AddForm v-if="dishSampleConstructorVisible" :key="dishSample.id" :close-function="closeDishSampleConstructorVisible" />
     </div>
   </div>
   <AddToMenu />
@@ -83,7 +85,6 @@ import DishConstructorInfo from '@/components/admin/AdminDishes/DishConstructorI
 import DishesConstructorList from '@/components/admin/AdminDishes/DishesConstructorList.vue';
 import DishSearchBar from '@/components/admin/AdminDishes/DishSearchBar.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 // import sort from '@/services/sort';
 import Strings from '@/services/Strings';
 
@@ -114,12 +115,13 @@ export default defineComponent({
   },
   emits: ['close'],
   setup(props) {
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
+    const dishesGroup: DishesGroup = DishesGroupsStore.Item();
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
+    const dishSample: DishSample = DishesSamplesStore.Item();
+    const dishedSamples: DishSample[] = DishesSamplesStore.Items();
+
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
     const dishSampleConstructorCreateMode: Ref<boolean> = ref(true);
-    const dishedSamples: Ref<DishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
-    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
     const isCallBackModalOpen: Ref<boolean> = ref(false);
 
@@ -128,18 +130,18 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await Promise.all([Provider.store.dispatch('dishesGroups/getAll'), Provider.store.dispatch('dishesSamples/getAll')]);
+      await Promise.all([DishesGroupsStore.GetAll(), DishesSamplesStore.GetAll()]);
       if (props.selectedSample?.id) {
         openDishSampleConstructor(props.selectedSample);
       }
     });
 
     const removeDishesGroup = async (id: string) => {
-      await Provider.store.dispatch('dishesGroups/remove', id);
+      await DishesGroupsStore.Remove(id);
     };
 
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
+      await DishesGroupsStore.Create();
       dishSampleConstructorVisible.value = false;
     };
 
@@ -150,38 +152,38 @@ export default defineComponent({
     const openDishSampleConstructor = (item?: DishSample) => {
       dishSampleConstructorVisible.value = false;
       if (item) {
-        dishSample.value = item;
-        dishesGroups.value.forEach((g: DishesGroup) => {
+        DishesSamplesStore.Set(item);
+        dishesGroups.forEach((g: DishesGroup) => {
           g.dishSamples.forEach((e) => {
             e.selected = false;
           });
         });
         item.selected = true;
       }
-      Provider.store.commit('dishesSamples/set', item);
+      DishesSamplesStore.Set(item);
       dishSampleConstructorCreateMode.value = !item;
       dishSampleConstructorVisible.value = true;
     };
 
     const closeDishesGroupForm = () => {
       dishesGroupConstructorVisible.value = false;
-      Provider.store.commit('dishesGroups/resetItem');
+      DishesGroupsStore.ResetItem();
     };
 
     const editDishesGroup = (group: DishesGroup) => {
-      Provider.store.commit('dishesGroups/set', group);
+      DishesGroupsStore.Set(group);
       dishesGroupConstructorVisible.value = true;
     };
 
     const closeDishSampleConstructorVisible = async () => {
-      await Provider.store.dispatch('dishesGroups/getAll');
+      DishesGroupsStore.GetAll();
       dishSampleConstructorVisible.value = false;
     };
 
     const saveGroupsOrder = () => {
       // sort(dishesGroups.value);
-      dishesGroups.value.forEach(async (d: DishesGroup) => {
-        await Provider.store.dispatch('dishesGroups/update', d);
+      dishesGroups.forEach(async (d: DishesGroup) => {
+        await DishesGroupsStore.Update(d);
       });
     };
 
@@ -194,7 +196,7 @@ export default defineComponent({
       }
       console.log(searchSource);
       dishSamplesFlat.value = [];
-      dishesGroups.value.forEach((ds: DishesGroup) => {
+      dishesGroups.forEach((ds: DishesGroup) => {
         dishSamplesFlat.value.push(
           ...ds.dishSamples.filter((ds: DishSample) => {
             const n = ds.name.toLowerCase();
@@ -224,7 +226,6 @@ export default defineComponent({
       dishesGroup,
       addDishesGroup,
       dishesGroups,
-      mounted: Provider.mounted,
 
       isCallBackModalOpen,
     };
@@ -453,12 +454,12 @@ $margin: 20px 0;
   background: #d6ecf4;
 }
 
-.dish-item:active>.item-button {
+.dish-item:active > .item-button {
   display: flex;
   background: #d6ecf4;
 }
 
-.dish-item:hover>.item-button {
+.dish-item:hover > .item-button {
   display: flex;
 }
 

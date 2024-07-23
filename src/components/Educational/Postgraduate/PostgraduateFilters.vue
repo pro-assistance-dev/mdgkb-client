@@ -1,8 +1,8 @@
 <template>
-  <FiltersWrapper v-if="mounted" :header-right-max-width="350">
+  <FiltersWrapper :header-right-max-width="350">
     <template v-if="condition" #header-left-top> </template>
     <template #header-right>
-      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
+      <ModeChoice :max-width="350" path="postgraduate" :modes="modes" @select-mode="(value) => $emit('selectMode', value)" />
     </template>
     <template v-if="condition" #footer>
       <SortList :models="sortList" :store-mode="true" @load="$emit('load')" />
@@ -11,16 +11,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
+import IOption from '@/services/interfaces/IOption';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
-
 export default defineComponent({
   name: 'PostgraduateFilters',
   components: {
@@ -48,7 +47,7 @@ export default defineComponent({
 
   setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/postgraduate-courses/${event.value}`);
+      await Router.To(`/postgraduate-courses/${event.value}`);
     };
 
     const resetFilter = () => {};
@@ -59,8 +58,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      sortList: Provider.sortList,
-      mounted: Provider.mounted,
     };
   },
 });

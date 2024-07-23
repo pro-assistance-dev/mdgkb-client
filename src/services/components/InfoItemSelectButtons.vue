@@ -2,7 +2,7 @@
   <InfoItem :close="closeFlag" :title="title" close-window-overflow="hidden" :with-hover="true" :with-open-window="true">
     <StringItem :string="selected" font-size="14px" width="100%" />
     <template #open-inside-content>
-      <PButton type="admin" color="blue" v-for="item in list" :key="item" :text="item" @click="select(item)" />
+      <PButton v-for="item in list" :key="item" type="admin" color="blue" :text="item" @click="select(item)" />
       <PButton type="admin" color="blue" text="Сбросить" @click="select(undefined)" />
     </template>
   </InfoItem>
@@ -11,11 +11,11 @@
 <script setup lang="ts">
 import { PropType, ref } from 'vue';
 
-import PButton from '@/services/components/PButton.vue';
 import InfoItem from '@/services/components/InfoItem.vue';
+import PButton from '@/services/components/PButton.vue';
 import StringItem from '@/services/components/StringItem.vue';
 
-const props = defineProps({
+defineProps({
   selected: {
     type: String as PropType<string>,
     required: true,

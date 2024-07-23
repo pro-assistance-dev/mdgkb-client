@@ -34,17 +34,14 @@
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
-import { ElLoading, ElNotification } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { watch } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'BufetOrder',
@@ -54,7 +51,7 @@ export default defineComponent({
     const userForm = ref();
     const checkDailyMenuOrderItemsLength = () => {
       if (dailyMenuOrder.dailyMenuOrderItems.length === 0) {
-        Provider.router.push('/bufet');
+        Router.To('/bufet');
       }
     };
 
@@ -86,7 +83,7 @@ export default defineComponent({
       //   duration: 0,
       // });
       // dailyMenuOrder.value.removeFromLocalStore();
-      // await Provider.router.push('/bufet');
+      // await Router.To('/bufet');
       // loading.close();
     };
 
@@ -95,7 +92,6 @@ export default defineComponent({
       UserFormFields,
       createOrder,
       dailyMenuOrder,
-      mounted: Provider.mounted,
     };
   },
 });

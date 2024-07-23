@@ -1,5 +1,5 @@
 <template>
-  <PSelect :clearable="dateObj" placeholder="Выберите период" @change="prepareFilter" v-model="dateObj">
+  <PSelect v-model="dateObj" :clearable="dateObj" placeholder="Выберите период" @change="prepareFilter">
     <option v-for="date in dates" :key="date.label" :value="date" :label="date.label" />
   </PSelect>
 </template>

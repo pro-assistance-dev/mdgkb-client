@@ -6,7 +6,6 @@
 
 <script lang="ts" setup>
 import SortModel from '@/services/classes/SortModel';
-// import Provider from '@/services/Provider/Provider';
 import SortList from '@/services/SortList';
 
 defineProps({

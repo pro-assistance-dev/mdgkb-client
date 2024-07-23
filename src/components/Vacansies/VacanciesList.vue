@@ -29,7 +29,6 @@ const loadVacancies = async () => {
 
 const load = async () => {
   ftsp.setS(VacanciesSortsLib.byTitle());
-  // Provider.setSortList(...createSortModels(VacanciesSortsLib));
   ftsp.setF(VacanciesFiltersLib.onlyActive());
   await loadVacancies();
   mounted.value = true;

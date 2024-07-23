@@ -38,22 +38,21 @@
 <script lang="ts">
 import { ElMessage } from 'element-plus';
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref } from 'vue';
 
 import Tag from '@/classes/Tag';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsPageTags',
   setup() {
-    let tagsVisible = ref(false);
+    const tagsVisible = ref(false);
     const loadTags = async () => {
       await TagsStore.GetAll();
     };
 
     onMounted(loadTags);
 
-    let news = NewsStore.Item();
+    const news = NewsStore.Item();
 
     const tags = TagsStore.Items();
     const tag = TagsStore.Item();

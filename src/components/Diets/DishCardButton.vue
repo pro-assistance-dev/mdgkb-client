@@ -71,12 +71,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import Icons from '@/assets/svg/Button/Icons.svg';
 import DailyMenuItem from '@/classes/DailyMenuItem';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishCardButton',
@@ -134,7 +133,7 @@ export default defineComponent({
 
         const coordCart = cart.getBoundingClientRect();
         const time = 500;
-        let cloneProduct = product.cloneNode(true) as HTMLElement;
+        const cloneProduct = product.cloneNode(true) as HTMLElement;
 
         const styleObject = {
           position: 'fixed',
@@ -156,8 +155,8 @@ export default defineComponent({
           if (!start) {
             start = timestamp;
           }
-          let progress = timestamp - start;
-          let value = progress / time;
+          const progress = timestamp - start;
+          const value = progress / time;
           const sizeY = topSize * value * -1;
           const sizeX = leftSize * value;
 

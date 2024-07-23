@@ -7,10 +7,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { ElConfigProvider } from 'element-plus';
-
 import ru from 'element-plus/es/locale/lang/ru';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 export default defineComponent({
   name: 'DatePicker',
   components: { ElConfigProvider },

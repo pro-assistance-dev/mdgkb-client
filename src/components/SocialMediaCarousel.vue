@@ -1,13 +1,13 @@
 <template>
   <el-carousel
     ref="carouselRef"
-    v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+    v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
     :interval="5000"
     indicator-position="outside"
     height="350px"
   >
-    <el-carousel-item v-for="(socialMedias, i) in carousel" :key="i">
-      <div v-for="item in socialMedias" :key="item.description" class="size"><SocialMediaCard :item="item" /></div>
+    <el-carousel-item v-for="(socialMediasGroup, i) in carousel" :key="i">
+      <div v-for="item in socialMediasGroup" :key="item.description" class="size"><SocialMediaCard :item="item" /></div>
     </el-carousel-item>
   </el-carousel>
 </template>

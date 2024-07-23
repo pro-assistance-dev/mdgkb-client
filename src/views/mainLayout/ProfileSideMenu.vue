@@ -21,9 +21,8 @@
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
-import Provider from '@/services/Provider/Provider';
-import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 import ProfileMenuIcons from '@/components/Icons/ProfileMenuIcons.vue';
+import UserInfoMini from '@/views/mainLayout/elements/UserInfoMini.vue';
 
 const activeRoute: Ref<string> = ref('');
 watch(
@@ -33,27 +32,19 @@ watch(
     setActiveMenu();
   }
 );
-console.log('git_test');
+
 const setActiveMenu = () => {
-  if (!Provider.route().meta.profile) {
+  if (!Router.Route().meta.profile) {
     return;
   }
-  activeRoute.value = Provider.route().meta.profile as string;
+  activeRoute.value = Router.Route().meta.profile as string;
 };
-const modules = import.meta.glob('@/assets/profile/icons/*.svg');
-const getIcon = (icon: string) => {
-  const path = '/src/assets/profile/icons/' + icon + '.svg';
-  const comp = defineAsyncComponent(() => modules[path]());
-  return comp;
-};
-console.log('committest');
+
 onBeforeMount(() => {
   setActiveMenu();
 });
 
-const user: Ref<User> = UsersStore.Item();
-const hasNewAnswers: Ref<boolean> = computed(() => user.value.hasNewAnswers());
-const countNewAnswers: Ref<number> = computed(() => user.value.countNewAnswers());
+const user: User = UsersStore.Item();
 
 const menuList = [
   {
@@ -70,43 +61,41 @@ const menuList = [
     icon: 'Education',
     to: '/profile/daily-menu-orders',
     route: 'daily-menu-orders',
-    liCondition: () => user.value.dailyMenuOrders.length,
-    notificationCondition: () => user.value.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
-    notificationCount: () => user.value.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
+    liCondition: () => user.dailyMenuOrders.length,
+    notificationCondition: () => user.dailyMenuOrders.some((d: DailyMenuOrder) => d.formValue.viewedByUser),
+    notificationCount: () => user.dailyMenuOrders.filter((d: DailyMenuOrder) => d.formValue.fieldValues).length,
   },
   {
     name: 'Заявки ординатура',
     icon: 'Education',
     to: '/profile/residency-applications',
     route: 'education',
-    liCondition: () => user.value.residencyApplications.length,
-    notificationCondition: () => user.value.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
-    notificationCount: () => user.value.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
+    liCondition: () => user.residencyApplications.length,
+    notificationCondition: () => user.residencyApplications.some((d: ResidencyApplication) => d.formValue.viewedByUser),
+    notificationCount: () => user.residencyApplications.filter((d: ResidencyApplication) => d.formValue.fieldValues).length,
   },
   {
     name: 'Отклики на вакансии',
     icon: 'Education',
     to: '/profile/vacancy-responses',
     route: 'vacancy',
-    liCondition: () => user.value.vacancyResponses.length,
-    notificationCondition: () => user.value.vacancyResponses.some((d: VacancyResponse) => d.formValue.viewedByUser),
-    notificationCount: () => user.value.vacancyResponses.filter((d: VacancyResponse) => d.formValue.fieldValues).length,
+    liCondition: () => user.vacancyResponses.length,
   },
   // {
   //   name: 'Вопросы-ответы',
   //   icon: 'Question',
   //   to: '/profile/question-answer',
   //   route: 'question-answer',
-  //   liCondition: () => user.value.questions.length > 0,
-  //   notificationCondition: () => user.value.hasNewAnswers(),
-  //   notificationCount: () => user.value.countNewAnswers(),
+  //   liCondition: () => user.questions.length > 0,
+  //   notificationCondition: () => user.hasNewAnswers(),
+  //   notificationCount: () => user.countNewAnswers(),
   // },
   // {
   //   name: 'Мои комментарии',
   //   icon: 'Question',
   //   to: '/profile/user-comments',
   //   route: 'user-comments',
-  //   liCondition: () => user.value.hasComments(),
+  //   liCondition: () => user.hasComments(),
   //   notificationCondition: () => false,
   //   notificationCount: () => 0,
   // },

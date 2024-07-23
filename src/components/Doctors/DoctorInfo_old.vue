@@ -14,7 +14,7 @@
           <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
         </div>
       </div>
-      <Rating :comments="doctor.comments" />
+      <RatingComponent :comments="doctor.comments" />
     </div>
 
     <div class="card-item-middle">
@@ -104,11 +104,7 @@
 
 <script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
-import WorkAndTeaching from '@/components/Doctors/WorkAndTeaching.vue';
-import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import Rating from '@/components/Rating.vue';
-import TimetableComponent from '@/components/TimetableComponent.vue';
-import DoctorDefault from '@/src/assets/img/doctor-default.webp';
+
 defineProps({
   doctor: { type: Object as PropType<Doctor>, required: true },
 });

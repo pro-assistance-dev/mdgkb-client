@@ -1,7 +1,7 @@
 <template>
   <FiltersWrapper v-if="mounted">
     <template #header-right>
-      <ModeChoice path="residency" :modes="modes" @selectMode="(value) => $emit('selectMode', value)" />
+      <ModeChoice path="residency" :modes="modes" @select-mode="(value: string) => $emit('selectMode', value)" />
     </template>
     <template v-if="condition" #footer>
       <SortList :models="sortList" :max-width="400" show-label :store-mode="true" @load="$emit('load')" />
@@ -12,20 +12,18 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType } from 'vue';
 
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
 import ModeChoice from '@/components/ModeChoice.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
+import IOption from '@/services/interfaces/IOption';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 
 export default defineComponent({
   name: 'ResidencyFilters',
   components: {
     ModeChoice,
-    FilterSelect,
     FiltersWrapper,
   },
   props: {
@@ -48,7 +46,7 @@ export default defineComponent({
 
   setup() {
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/residency-courses/${event.value}`);
+      await Router.To(`/residency-courses/${event.value}`);
     };
 
     onBeforeMount(async () => {});
@@ -58,8 +56,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      sortList: Provider.sortList,
-      mounted: Provider.mounted,
     };
   },
 });

@@ -57,7 +57,6 @@ import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
 export default defineComponent({
@@ -67,29 +66,23 @@ export default defineComponent({
   setup() {
     const dpoApplications: DpoApplication[] = DpoApplicationsStore.Items();
     const formStatuses: FormStatus[] = FormStatusesStore.Items();
-    const applicationsCount: ComputedRef<number> = computed(() => Provider.store.getters['admin/applicationsCount'](tableName));
 
     const filterModel = ref();
     const title = ref('');
-    let tableName = '';
 
-    watch(Provider.route(), async () => {
+    watch(Router.Route(), async () => {
       setType();
-      await unsubscribe();
-      await subscribe();
       await DpoApplicationsStore.GetAll();
     });
 
     const setType = () => {
       filterModel.value = DpoApplicationsFiltersLib.byCourseType(false);
-      if (Provider.route().path === '/admin/nmo/applications') {
+      if (Router.Route().path === '/admin/nmo/applications') {
         filterModel.value.boolean = true;
         title.value = 'Заявки НМО';
-        tableName = 'nmo_applications';
       } else {
         filterModel.value.boolean = false;
         title.value = 'Заявки ДПО';
-        tableName = 'dpo_applications';
       }
     };
 
@@ -107,24 +100,12 @@ export default defineComponent({
       // await setFilter();
       await loadFilters();
       setType();
-      // Provider.setSortList(...createSortModels(DpoApplicationsSortsLib));
-      // Provider.setSortModels(DpoApplicationsSortsLib.byCreatedAt(Orders.Desc));
       await loadApplications();
-      Provider.store.commit('admin/setHeaderParams', {
-        title: title,
-        buttons: [{ text: 'Подать заявление', type: 'primary', action: create }],
-        applicationsCount,
-      });
-      Provider.store.commit('pagination/setCurPage', 1);
-      await subscribe();
-      window.addEventListener('beforeunload', unsubscribe);
     };
 
     Hooks.onBeforeMount(load);
 
-    const create = () => Provider.router.push(`${Provider.route().path}/new`);
-    // const remove = async (id: string) => await Provider.store.dispatch('dpoCourses/remove', id);
-    const edit = (id: string) => Provider.router.push(`${Provider.route().path}/${id}`);
+    const edit = (id: string) => Router.To(`${Router.Route().path}/${id}`);
 
     const createFilterModels = (): FilterModel[] => {
       const filters: FilterModel[] = [];
@@ -138,7 +119,6 @@ export default defineComponent({
 
     return {
       createFilterModels,
-      mounted: Provider.mounted,
       dpoApplications,
       loadApplications,
       edit,

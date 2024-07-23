@@ -3,7 +3,7 @@
   <el-button @click="save">Сохранить</el-button>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 const save = async () => {
   await UsersStore.Update();
 };

@@ -143,14 +143,11 @@
 <script lang="ts" setup>
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import residencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
-import Auth from '@/services/classes/Auth';
 import { Orders } from '@/services/interfaces/Orders';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
@@ -251,7 +248,6 @@ onBeforeMount(async () => {
 
   ResidencyApplicationsStore.ResetItem();
   ResidencyApplicationsStore.SetAdmissionCommittee(true);
-  // Provider.store.commit('residencyApplications/setUser', user.value);
 
   // await findEmail();
   mounted.value = true;

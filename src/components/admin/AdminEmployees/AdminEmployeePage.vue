@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="employee" label-position="top" :rules="rules">
+  <el-form ref="form" :model="employee" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="16">
         <el-container direction="vertical" class="vertical-block">
@@ -43,12 +43,7 @@
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="8">
         <el-container direction="vertical">
           <el-card header="Фото">
-            <UploderImage
-              :file-info="employee.human.photo"
-              :height="300"
-              @remove-file="employee.human.removePhoto()"
-              @ratio="(e) => (element.ratio = e)"
-            />
+            <UploderImage :file-info="employee.human.photo" :height="300" @remove-file="employee.human.removePhoto()" />
           </el-card>
           <el-card header="Фото-миниатюра">
             <UploaderImage
@@ -65,14 +60,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
 import Employee from '@/classes/Employee';
 import DoctorConstructor from '@/components/admin/AdminEmployees/DoctorConstructor.vue';
 import EmployeeConstructor from '@/components/admin/AdminEmployees/EmployeeConstructor.vue';
 import HeadConstructor from '@/components/admin/AdminEmployees/HeadConstructor.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminEmployeePage',
@@ -83,7 +75,6 @@ export default defineComponent({
   },
   setup() {
     const form = ref();
-    Provider.form = form;
     const employee: Employee = EmployeesStore.Item();
     const collapsed: Ref<boolean> = ref(true);
 
@@ -91,19 +82,18 @@ export default defineComponent({
       collapsed.value = !collapsed.value;
     };
 
-    Hooks.onBeforeMount(Provider.loadItem, {
-      adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? employee.human?.getFullName() : 'Добавить сотрудника')),
-        showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
-      },
-    });
+    // Hooks.onBeforeMount(Provider.loadItem, {
+    //   adminHeader: {
+    //     title: computed(() => (Router.Route().params['id'] ? employee.human?.getFullName() : 'Добавить сотрудника')),
+    //     showBackButton: true,
+    //     buttons: [{ action: Hooks.submit() }],
+    //   },
+    // });
     Hooks.onBeforeRouteLeave();
 
     return {
       employee,
       form,
-      mounted: Provider.mounted,
       handClick,
       collapsed,
     };

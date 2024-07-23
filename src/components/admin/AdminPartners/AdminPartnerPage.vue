@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Partner from '@/classes/Partner';
 import PartnerType from '@/classes/PartnerType';

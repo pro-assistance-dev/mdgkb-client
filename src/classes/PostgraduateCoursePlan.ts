@@ -1,5 +1,5 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class PostgraduateCoursePlan {

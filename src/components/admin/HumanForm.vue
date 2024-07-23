@@ -15,44 +15,27 @@
   </GridContainer>
 </template>
 
-<script lang="ts">
-import { watch } from 'vue';
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
-
+<script lang="ts" setup>
 import Human from '@/services/classes/Human';
-export default defineComponent({
-  name: 'HumanForm',
-  props: {
-    storeModule: {
-      type: String as PropType<string>,
-      default: '',
-    },
-    withStyles: {
-      type: Boolean as PropType<boolean>,
-      default: true,
-    },
-  },
-  setup(props, { emit }) {
-    const form = ref();
-
-    const human: Ref<Human> = computed(() => Store.Getters[`${props.storeModule}/item`].getHuman());
-
-    const checkCompleteName = (n: string): void => {
-      if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {
-        emit('inputNameComplete', human.value);
-      }
-    };
-    const sanitizeName = () => human.value.sanitizeName();
-
-    watch(human, sanitizeName, { deep: true });
-
-    return {
-      checkCompleteName,
-      human,
-      form,
-    };
+const human = defineModel<Human>() as Ref<Human>;
+defineProps({
+  withStyles: {
+    type: Boolean as PropType<boolean>,
+    default: true,
   },
 });
+// const form = ref();
+
+// const human: Ref<Human> = computed(() => Store.Getters[`${props.storeModule}/item`].getHuman());
+
+// const checkCompleteName = (n: string): void => {
+//   if (!!human.value.name && !!human.value.surname && !!human.value.patronymic) {
+//     // emit('inputNameComplete', human.value);
+//   }
+// };
+const sanitizeName = () => human.value.sanitizeName();
+
+watch(human, sanitizeName, { deep: true });
 </script>
 
 <style lang="scss" scoped>

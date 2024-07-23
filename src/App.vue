@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from '@vue/runtime-core';
+import { defineComponent, watch } from 'vue';
 import { onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 

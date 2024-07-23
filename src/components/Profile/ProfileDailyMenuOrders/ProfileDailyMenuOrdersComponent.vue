@@ -49,7 +49,7 @@
                     />
                     <PButton skin="profile" text="Чат(в разработке)" width="120px" margin="0" @click="dailyMenuOrder.chatIsOpen = true" />
                     <div v-if="dailyMenuOrder.chatIsOpen" class="menu-shadow">
-                      <Chat
+                      <ChatComponent
                         v-if="dailyMenuOrder.chatIsOpen"
                         :chat-id="dailyMenuOrder.formValue.chatId"
                         :user-name="user.human.getFullName()"
@@ -107,12 +107,12 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
-import Chat from '@/components/Chat.vue';
+import ChatComponent from '@/components/ChatComponent.vue';
 import CartContainer from '@/components/Diets/CartContainer.vue';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
@@ -123,7 +123,7 @@ export default defineComponent({
     CollapseContainer,
     CollapseItem,
     CartContainer,
-    Chat,
+    ChatComponent,
   },
   props: {
     user: {
@@ -136,7 +136,6 @@ export default defineComponent({
     const formStatuses: FormStatus[] = FormStatusesStore.Items();
     const cancelDialogVisible: Ref<boolean> = ref(false);
     const selectedFormValue: Ref<Form | undefined> = ref(undefined);
-    const selectedStatus: Ref<FormStatus | undefined> = ref(undefined);
 
     const cancelApplication = async (formValue: Form, status: FormStatus) => {
       ElMessageBox.confirm('Вы уверены, что хотите отменить заказ?', {

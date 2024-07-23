@@ -26,12 +26,14 @@
 </template>
 
 <script setup lang="ts">
-const medicalProfiles: ComputedRef<MedicalProfile[]> = Store.Items('medicalProfiles');
+import MedicalProfile from '@/classes/MedicalProfile';
+
+const medicalProfiles: MedicalProfile[] = MedicalProfilesStore.Items();
 const mounted: Ref<boolean> = ref(false);
 const filter = ref('');
 
 onBeforeMount(async () => {
-  await Provider.store.dispatch('medicalProfiles/getAll');
+  await MedicalProfilesStore.GetAll();
   setColors();
   mounted.value = true;
 });
@@ -39,7 +41,7 @@ onBeforeMount(async () => {
 const setColors = (): void => {
   const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
   let i = 0;
-  medicalProfiles.value.forEach((item) => {
+  medicalProfiles.forEach((item) => {
     item.background = colors[i];
     i === colors.length - 1 ? (i = 0) : i++;
   });
@@ -47,11 +49,11 @@ const setColors = (): void => {
 
 const list = computed((): MedicalProfile[] => {
   if (filter.value) {
-    return medicalProfiles.value.filter((i: MedicalProfile) => {
+    return medicalProfiles.filter((i: MedicalProfile) => {
       if (i.name) return i.name.toLowerCase().includes(filter.value.toLowerCase());
     });
   } else {
-    return medicalProfiles.value;
+    return medicalProfiles;
   }
 });
 </script>

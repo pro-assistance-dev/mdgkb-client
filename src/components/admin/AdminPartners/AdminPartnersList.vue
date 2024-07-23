@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import Partner from '@/classes/Partner';
@@ -47,7 +47,7 @@ export default defineComponent({
     };
 
     onBeforeMount(async () => {
-      await PartnersStore.GetAll(id);
+      await PartnersStore.GetAll();
       PHelp.AdminUI.Head.Set('Наши партнеры', [Button.Success('Добавить', create)]);
     });
 

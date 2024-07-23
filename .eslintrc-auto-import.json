@@ -179,6 +179,19 @@
     "ResidencyCoursesStore": true,
     "FormValuesStore": true,
     "AppointmentsTypesStore": true,
-    "GatesStore": true
+    "GatesStore": true,
+    "BuildingsStore": true,
+    "MenusStore": true,
+    "AuthStore": true,
+    "ContactsStore": true,
+    "EmailsStore": true,
+    "FTSPPresetsStore": true,
+    "PhonesStore": true,
+    "UserAccountsStore": true,
+    "ValueTypesStore": true,
+    "EventsStore": true,
+    "CallbacksRequestsStore": true,
+    "ExportsStore": true,
+    "ChatsStore": true
   }
 }

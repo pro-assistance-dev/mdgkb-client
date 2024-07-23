@@ -3,8 +3,8 @@
     <div v-if="PHelp.Dialog.IsVisible()" :class="typeClass">
       <MessageBody :title="PHelp.Dialog.GetTitle()" :text="PHelp.Dialog.GetText()" />
       <div class="footer">
-        <PButton type="primary" @click="PHelp.Dialog.Submit()" :text="PHelp.Dialog.GetConfirmButtonText()" margin="10px 0 0 0" />
-        <PButton type="warning" @click="PHelp.Dialog.Cancel()" :text="PHelp.Dialog.GetCancelButtonText()" margin="10px 0 0 0" />
+        <PButton type="primary" :text="PHelp.Dialog.GetConfirmButtonText()" margin="10px 0 0 0" @click="PHelp.Dialog.Submit()" />
+        <PButton type="warning" :text="PHelp.Dialog.GetCancelButtonText()" margin="10px 0 0 0" @click="PHelp.Dialog.Cancel()" />
       </div>
     </div>
   </transition>

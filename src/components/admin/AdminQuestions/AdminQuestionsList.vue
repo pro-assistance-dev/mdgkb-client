@@ -54,23 +54,19 @@
 </template>
 
 <script lang="ts" setup>
-import { NavigationGuardNext } from 'vue-router';
-
 import Question from '@/classes/Question';
 import QuestionsFiltersLib from '@/libs/filters/QuestionsFiltersLib';
 import QuestionsSortsLib from '@/libs/sorts/QuestionsSortsLib';
 import FilterModel from '@/services/classes/filters/FilterModel';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 const questions: Question[] = QuestionsStore.Items();
 const onlyNewFilter: Ref<FilterModel> = ref(new FilterModel());
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
-const { saveButtonClick } = useConfirmLeavePage();
 
-const sourceSSE: EventSource | undefined = undefined;
+// const sourceSSE: EventSource | undefined = undefined;
 
 const mounted = ref(false);
 
@@ -82,16 +78,16 @@ const edit = () => {
   isNotEditMode.value = false;
 };
 
-const save = async (next?: NavigationGuardNext) => {
-  if (!isEditMode.value) {
-    return;
-  }
-  saveButtonClick.value = true;
-  await QuestionsStore.UpdateMany();
-  isEditMode.value = false;
-  isNotEditMode.value = true;
-  if (next) next();
-};
+// const save = async (next?: NavigationGuardNext) => {
+//   if (!isEditMode.value) {
+//     return;
+//   }
+//   saveButtonClick.value = true;
+//   await QuestionsStore.UpdateMany();
+//   isEditMode.value = false;
+//   isNotEditMode.value = true;
+//   if (next) next();
+// };
 
 const loadQuestions = async () => {
   await QuestionsStore.FTSP();
@@ -114,13 +110,13 @@ Hooks.onBeforeMount(load, {
   sortsLib: QuestionsSortsLib,
 });
 
-const publish = async (question: Question) => {
-  question.publish();
-  await QuestionsStore.Publish(question.id);
-};
+// const publish = async (question: Question) => {
+//   question.publish();
+//   await QuestionsStore.Publish(question.id);
+// };
 
 onBeforeUnmount(async () => {
-  sourceSSE?.close();
+  // sourceSSE?.close();
 });
 
 const changeNewStatus = async (question: Question) => {

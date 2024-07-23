@@ -48,9 +48,7 @@
               <el-color-picker v-model="scope.row.color"></el-color-picker>
             </template>
           </el-table-column>
-          <el-table-column width="50" fixed="right" align="center">
-            <template #default="scope"> </template>
-          </el-table-column>
+          <el-table-column width="50" fixed="right" align="center"> </el-table-column>
         </el-table>
       </el-card>
       <el-card header="Фон под разные разрешения">
@@ -79,14 +77,13 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, Ref, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import NewsSlide from '@/classes/NewsSlide';
 import AdminNewsSlidePreview from '@/components/admin/AdminNewsSlides/AdminNewsSlidePreview.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -128,7 +125,7 @@ export default defineComponent({
 
     const submit = async (next?: NavigationGuardNext) => {
       try {
-        if (Provider.route().params['id']) {
+        if (Router.Route().params['id']) {
           await NewsSlidesStore.Update();
         } else {
           await NewsSlidesStore.Create();
@@ -137,27 +134,15 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : Provider.router.push('/admin/news-slides');
+      next ? next() : Router.To('/admin/news-slides');
     };
 
     const load = async () => {
-      if (!slides.value.length) {
+      if (!slides.length) {
         await NewsSlidesStore.GetAll();
       }
-      if (Provider.route().params['id']) {
+      if (Router.Route().params['id']) {
         await NewsSlidesStore.Get(Router.Id());
-        await Provider.store.dispatch('newsSlides/get', Provider.route().params['id']);
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Обновить новость (слайдер)',
-          showBackButton: true,
-          buttons: [{ action: openPreview }],
-        });
-      } else {
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить новость (слайдер)',
-          showBackButton: true,
-          buttons: [{ action: openPreview }],
-        });
       }
       previewFullScreen.value = window.innerWidth < 1200;
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -176,7 +161,6 @@ export default defineComponent({
 
     return {
       slide,
-      mounted: Provider.mounted,
       showPreview,
       openPreview,
       previewFullScreen,

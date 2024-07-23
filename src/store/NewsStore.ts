@@ -2,8 +2,8 @@ import EventApplication from '@/classes/EventApplication';
 import News from '@/classes/News';
 import NewsLike from '@/classes/NewsLike';
 import NewsToTag from '@/classes/NewsToTag';
+import Tag from '@/classes/Tag';
 import INewsWithCount from '@/interfaces/INewsWithCount';
-import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import BaseStore from '@/services/BaseStore';
 import HttpClient from '@/services/HttpClientS';
 
@@ -12,7 +12,7 @@ class S extends BaseStore<News> {
   private readonly subMain1 = reactive(new News());
   private readonly subMain2 = reactive(new News());
   // private filteredNews = [];
-  private filterTags = [];
+  private filterTags: Tag[] = [];
   // private allNewsLoaded = false;
   // private calendarNews = [new News()];
   // private calendarMeta = undefined;
@@ -198,7 +198,7 @@ class S extends BaseStore<News> {
     // this.params =
   }
 
-  UpdateCalendarMeta(meta: ICalendarMeta) {
+  UpdateCalendarMeta() {
     // this.calendarMeta = meta;
   }
 

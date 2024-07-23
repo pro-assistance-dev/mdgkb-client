@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 
 import Timetable from '@/classes/Timetable';

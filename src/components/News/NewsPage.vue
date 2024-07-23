@@ -27,13 +27,13 @@
 
         <div class="article-body" v-html="newsContent.replaceAll('<video', '<iframe').replaceAll('/video>', '/iframe>')"></div>
         <template v-if="news.newsImages.length > 0">
-          <CarouselImagesNews :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @openModalWindow="openModalWindow" />
+          <CarouselImagesNews :key="news.id" :images="news.newsImages" :height="`${mobileWindow}px`" @open-modal-window="openModalWindow" />
           <!-- <ImageGallery_new :key="news.id" :images="news.newsImages" :quantity="2" /> -->
         </template>
         <el-divider />
         <NewsPageFooter v-if="news" :news="news" />
         <el-divider />
-        <Comments :comments="news.comments" v-if="news.id" domen="news" :item-id="news.id" :is-reviews="false" />
+        <CommentsComponent v-if="news.id" :comments="news.comments" domen="news" :item-id="news.id" :is-reviews="false" />
       </div>
     </div>
   </div>
@@ -43,9 +43,6 @@
 <script setup lang="ts">
 import Close from '@/assets/svg/Filter/Close.svg';
 import News from '@/classes/News';
-import Comments from '@/components/Comments/Comments.vue';
-import EventRegistration from '@/components/News/EventRegistration.vue';
-import NewsPageFooter from '@/components/News/NewsPageFooter.vue';
 import Hooks from '@/services/Hooks/Hooks';
 
 const SuggestionNews = defineAsyncComponent({

@@ -1,7 +1,7 @@
 <template>
   <div class="drop-item">
     <div class="drop-item-name" @click="stateСhange;">
-      <StringItem font-weight="bold" :string="name" justifyContent="left" width="auto" margin="0 5px 0 0" padding="6px 0" />
+      <StringItem font-weight="bold" :string="name" justify-content="left" width="auto" margin="0 5px 0 0" padding="6px 0" />
       <div :style="{ transform: change ? '' : 'rotate(-90deg)' }"><IconArrowDrop size="12px" /></div>
     </div>
     <div v-if="change" class="drop-item-list">
@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import StringItem from '@/services/components/StringItem.vue';
 import IconArrowDrop from '@/components/Icons/IconArrowDrop.vue';
+import StringItem from '@/services/components/StringItem.vue';
 
 const props = defineProps({
   name: { type: String as PropType<String>, default: 'Name' },

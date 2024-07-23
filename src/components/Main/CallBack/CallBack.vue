@@ -26,7 +26,7 @@
                 type="tel"
                 class="phone-name"
                 placeholder="+7(___) ___ __ __"
-                @input="($event) => (callback.phone = PhoneService.Format($event))"
+                @input="(e: string) => (callback.phone = PhoneService.Format(e))"
               />
             </el-form-item>
           </div>
@@ -60,7 +60,7 @@ import validate from '@/services/validate';
 const emits = defineEmits(['close']);
 
 const callbackForm = ref();
-const callback: ComputedRef<CallbackRequest> = Store.Item('callback');
+const callback: CallbackRequest = CallbacksRequestsStore.Item();
 const rules = {
   name: [{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }],
   phone: [{ validator: PhoneService.validatePhone, trigger: 'blur' }],
@@ -74,7 +74,7 @@ const submit = () => {
   if (!validate(callbackForm)) {
     return;
   }
-  CallbackRequestsStore.Create();
+  CallbacksRequestsStore.Create();
   emits('close');
   PHelp.Notification.Success('Спасибо за заявку.\nМы Вам перезвоним в ближайшее время');
 };

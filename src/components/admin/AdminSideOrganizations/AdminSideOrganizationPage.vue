@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import SideOrganization from '@/classes/SideOrganization';
 import SideOrganizationRules from '@/classes/SideOrganizationRules';
@@ -51,7 +51,6 @@ import validate from '@/services/validate';
 export default defineComponent({
   name: 'AdminSideOrganizationPage',
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const isEdit = ref(false);
     const form = ref();
@@ -61,7 +60,7 @@ export default defineComponent({
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     onBeforeMount(async () => {
-      isEdit.value = route.params['id'] ? true : false;
+      isEdit.value = Router.Id() ? true : false;
       await loadSideOrganization();
     });
 

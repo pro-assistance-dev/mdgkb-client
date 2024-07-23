@@ -40,7 +40,7 @@
 
           <template #big-title>
             <template v-if="dailyMenuOrder.formValue.valueExists('boxNumber')">
-              Заказать еду в бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber').valueNumber }}
+              Заказать еду в бокс № {{ dailyMenuOrder.formValue.getFieldValueByCode('boxNumber')?.valueNumber }}
             </template>
             <template v-else> Заказать еду в бокс </template>
           </template>
@@ -71,8 +71,8 @@
         <!--        <Announcement :text="'До конца сервировки завтрака осталось 2 часа 15 минут'" :margin-top="'30px'" />-->
         <Filters :margin-top="'8px'">
           <!--          <Filter :text="'Доступные'" @change="(e) => dailyMenu.onlyAvailables(e)"/>-->
-          <BufetFilter :text="'Диетические'" @change="(e) => dailyMenu.setOnlyDietary(e)" />
-          <bufetFilter :text="'Постные'" @change="(e) => dailyMenu.setOnlyLean(e)" />
+          <BufetFilter :text="'Диетические'" @change="(e: boolean) => dailyMenu.setOnlyDietary(e)" />
+          <bufetFilter :text="'Постные'" @change="(e: boolean) => dailyMenu.setOnlyLean(e)" />
         </Filters>
         <div class="main">
           <div v-if="dailyMenu.getNotEmptyGroups(true).length === 0" class="info-window">На данный момент нет блюд для выбора</div>
@@ -106,13 +106,11 @@ import DailyMenu from '@/classes/DailyMenu';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DishesGroup from '@/classes/DishesGroup';
 import Form from '@/classes/Form';
-import User from '@/classes/User';
 import DishesGroupsSortsLib from '@/libs/sorts/DishesGroupsSortsLib';
 import Contact from '@/services/classes/Contact';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
 import PostAddress from '@/services/classes/PostAddress';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 const createBufetContacts = () => {
   const contact = new Contact();
@@ -123,14 +121,14 @@ const createBufetContacts = () => {
 };
 const dailyMenu: DailyMenu = DailyMenusStore.Item();
 const todayMenu: DailyMenu = DailyMenusStore.TodayMenu();
-const formPattern: Form = FormPatterns.Item();
+const formPattern: Form = FormPatternsStore.Item();
 const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
 const cartIsOpen: Ref<boolean> = ref(false);
 const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
 let intervalID: number;
 
 // watch(isAuth, () => {
-//   Provider.router.push('/bufet');
+//   Router.To('/bufet');
 //   if (isAuth.value === true) {
 //     console.log(isAuth);
 //     initForm();
@@ -139,7 +137,7 @@ let intervalID: number;
 
 const initForm = () => {
   dailyMenuOrder.formValue.reproduceFromPattern(formPattern);
-  dailyMenuOrder.formValue.setValue('boxNumber', Provider.getNumberQueryParam('place'));
+  dailyMenuOrder.formValue.setValue('boxNumber', Router.GetNumberQueryParam('place'));
   // dailyMenuOrder.formValue.user = new User(user.value);
 };
 

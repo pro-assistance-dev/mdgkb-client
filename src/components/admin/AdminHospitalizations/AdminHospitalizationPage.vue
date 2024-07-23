@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Hospitalization from '@/classes/Hospitalization';
@@ -28,7 +28,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -54,7 +53,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await Provider.router.push('/admin/hospitalizations');
+      next ? next() : await Router.To('/admin/hospitalizations');
     };
 
     const updateNew = async () => {
@@ -86,7 +85,7 @@ export default defineComponent({
           Button.Success('Сохранить', submit),
         ]);
       } else {
-        await HospitalizationsStore.ResetState();
+        HospitalizationsStore.ResetState();
       }
     };
 
@@ -101,7 +100,6 @@ export default defineComponent({
       rules,
       submit,
       form,
-      mounted: Provider.mounted,
     };
   },
 });

@@ -1,8 +1,8 @@
 import Department from '@/classes/Department';
 import Employee from '@/classes/Employee';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Timetable from '@/classes/Timetable';
 import Contact from '@/services/classes/Contact';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 

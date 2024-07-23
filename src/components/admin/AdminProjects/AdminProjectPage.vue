@@ -28,11 +28,10 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Project from '@/classes/Project';
-import ProjectItem from '@/classes/ProjectItem';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -62,7 +61,6 @@ export default defineComponent({
         ],
       },
     };
-    const route = useRoute();
     const router = useRouter();
     const form = ref();
     const mounted: Ref<boolean> = ref(false);
@@ -80,10 +78,10 @@ export default defineComponent({
       // store.commit('projects/addProjectItem');
       // editableTabsIndex.value = String(projectItems.value.length - 1);
     };
-    const removeTab = (tabName: string) => {
-      // store.commit('projects/removeProjectItem', Number(tabName));
-      // editableTabsIndex.value = String(projectItems.value.length ? projectItems.value.length - 1 : projectItems.value.length);
-    };
+    // const removeTab = (tabName: string) => {
+    //   // store.commit('projects/removeProjectItem', Number(tabName));
+    //   // editableTabsIndex.value = String(projectItems.value.length ? projectItems.value.length - 1 : projectItems.value.length);
+    // };
 
     const submit = async (next?: NavigationGuardNext) => {
       saveButtonClick.value = true;
@@ -92,7 +90,7 @@ export default defineComponent({
         return;
       }
       try {
-        if (route.params['id']) {
+        if (Router.Id()) {
           await ProjectsStore.Update();
         } else {
           await ProjectsStore.Update();
@@ -121,7 +119,6 @@ export default defineComponent({
       project,
       editorOption,
       editableTabsIndex,
-      removeTab,
       addTab,
       rules,
     };

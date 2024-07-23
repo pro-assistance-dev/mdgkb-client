@@ -16,7 +16,7 @@ class S extends BaseStore<DailyMenu> {
     this.SetPeriodItems(items);
   }
 
-  async pdf(item: DailyMenu): Promise<void> {
+  async PDF(item: DailyMenu): Promise<void> {
     await HttpClient.Post<DailyMenu, DailyMenu>({
       query: `pdf`,
       payload: item,

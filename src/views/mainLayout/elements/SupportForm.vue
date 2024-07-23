@@ -99,9 +99,9 @@
 <script lang="ts" setup>
 import ElenaImg from '@/assets/img/avatar-helper-elena.jpg';
 import SupportMessage from '@/classes/SupportMessage';
-import Provider from '@/services/Provider/Provider';
 
 defineEmits(['changeDrawerStatus']);
+
 const activePath: Ref<string> = ref('');
 const supportMessage: SupportMessage = SupportMessagesStore.Item();
 
@@ -116,13 +116,13 @@ const drawerLeaveHandler = (e: any) => {
 };
 
 onBeforeMount(async () => {
-  supportMessage.user = PHelp.Auth.GetUser();
-  activePath.value = Provider.route().path;
+  PHelp.Auth.User().AssignTo(supportMessage);
+  activePath.value = Router.Route().path;
 });
 watch(
-  () => Provider.route().path,
+  () => Router.Route().path,
   () => {
-    activePath.value = Provider.route().path;
+    activePath.value = Router.Route().path;
   }
 );
 
@@ -130,7 +130,7 @@ const submit = async () => {
   supportMessage.date = new Date();
   await SupportMessagesStore.Create();
   SupportMessagesStore.ResetItem();
-  supportMessage.user = PHelp.Auth.GetUser();
+  PHelp.Auth.User().AssignTo(supportMessage);
 };
 </script>
 

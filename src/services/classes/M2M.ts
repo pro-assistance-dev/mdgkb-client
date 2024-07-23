@@ -1,4 +1,3 @@
-import { RoleName } from '@/interfaces/RoleName';
 import ClassHelper from '@/services/ClassHelper';
 
 class KeyValue {

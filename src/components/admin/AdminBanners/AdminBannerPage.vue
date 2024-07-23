@@ -1,5 +1,5 @@
 <template>
-  <el-form v-if="mounted" ref="form" :model="banner" label-position="top" :rules="rules">
+  <el-form ref="form" :model="banner" label-position="top" :rules="rules">
     <el-row :gutter="40">
       <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
         <el-container direction="vertical">
@@ -15,7 +15,7 @@
       </el-col>
       <el-col :xs="24" :sm="24" :md="10" :lg="8" :xl="5">
         <el-container direction="vertical">
-          <UploderImage crop-ratio="1" :file-info="banner.fileInfo" :height="150" @ratio="(e) => (element.ratio = e)" />
+          <UploderImage crop-ratio="1" :file-info="banner.fileInfo" :height="150" />
         </el-container>
       </el-col>
     </el-row>
@@ -23,29 +23,24 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref } from 'vue';
 
 import Banner from '@/classes/Banner';
 import BannerRules from '@/classes/BannerRules';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
   name: 'AdminBannerPage',
 
   setup() {
     const form = ref();
-    Provider.form = form;
     const rules = ref(BannerRules);
 
     const banner: Banner = BannersStore.Item();
 
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    Hooks.onBeforeMount(Provider.loadItem, {
+    Hooks.onBeforeMount(async () => await BannersStore.Get(Router.Id()), {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? banner.name : 'Добавить баннер')),
+        title: computed(() => (Router.Id() ? banner.name : 'Добавить баннер')),
         showBackButton: true,
         buttons: [{ action: Hooks.submit() }],
       },
@@ -56,7 +51,6 @@ export default defineComponent({
       rules,
       banner,
       form,
-      mounted: Provider.mounted,
     };
   },
 });

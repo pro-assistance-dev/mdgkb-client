@@ -13,7 +13,6 @@ import CustomSection from '@/classes/CustomSection';
 import StructurePage from '@/components/Educational/Education/StructurePage.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'EducationPage',
@@ -30,7 +29,6 @@ export default defineComponent({
 
     return {
       customSections,
-      mounted: Provider.mounted,
     };
   },
 });

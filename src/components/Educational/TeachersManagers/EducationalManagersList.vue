@@ -6,7 +6,7 @@
   </div>
   <h1 v-else class="text-center">Нет данных</h1>
   <div v-if="educationalManagers.length" class="loadmore-button">
-    <LoadMoreButton @loadMore="loadMore" />
+    <LoadMoreButton @load-more="loadMore" />
   </div>
 </template>
 

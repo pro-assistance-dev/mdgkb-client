@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
   background: {
     type: String as PropType<string>,
     required: false,
@@ -37,7 +37,6 @@ const props = defineProps({
     default: '0px 10px',
   },
 });
-const autoHeight: number = window.innerHeight;
 </script>
 
 <style lang="scss" scoped>

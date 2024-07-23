@@ -12,12 +12,11 @@
 
 <script lang="ts" setup>
 import User from '@/classes/User';
-import Provider from '@/services/Provider/Provider';
 
 const user: User = UsersStore.Item();
 
 onBeforeMount(async () => {
-  await UsersStore.Get(Provider.route().params['userId']);
+  await UsersStore.Get(Router.GetStringQueryParam('userId'));
 });
 
 const submit = async () => {

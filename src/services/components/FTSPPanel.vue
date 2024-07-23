@@ -1,9 +1,9 @@
 <template>
-  <el-select v-model="curFTSP" label="Фильтры" clearable @change="set" @clear="clear" placeholder="Выберите шаблон фильтра">
+  <el-select v-model="curFTSP" label="Фильтры" clearable placeholder="Выберите шаблон фильтра" @change="set" @clear="clear">
     <el-option v-for="preset in ftspPresets" :key="preset" :label="preset.name" :value="preset.id" />
   </el-select>
-  <PButton type="text" color="add" text="Добавить текущий фильтр в список фильтров" @click="openModal" v-if="ftsp.f.length > 0" />
-  <PButton type="text" color="del" text="Удалить выбранный фильтр из списка фильтров" @click="remove" v-if="curFTSP" />
+  <PButton v-if="ftsp.f.length > 0" type="text" color="add" text="Добавить текущий фильтр в список фильтров" @click="openModal" />
+  <PButton v-if="curFTSP" type="text" color="del" text="Удалить выбранный фильтр из списка фильтров" @click="remove" />
   <ModalWindow v-if="modalOpened" :show="modalOpened">
     <el-input v-model="ftspName" placeholder="Введите название" />
     <PButton type="admin" color="blue" text="Сохранить" @click="save" />
@@ -18,7 +18,7 @@ const ftsp = Store.Item('filter', 'ftsp');
 
 const ftspPresets: Ref<FTSPPreset[]> = Store.Items('ftspPresets');
 const modalOpened = ref(false);
-const curFTSP = ref(undefined);
+const curFTSP: Ref<FTSP | undefined> = ref(undefined);
 
 const openModal = () => {
   modalOpened.value = true;
@@ -43,16 +43,16 @@ const set = async (ftspPresetId?: string) => {
     return;
   }
   const preset = ftspPresets.value.find((f: FTSPPreset) => f.id === ftspPresetId);
-  curFTSP.value = preset.id;
-  ftsp.value.createFrom(preset.ftsp);
+  curFTSP.value = preset?.id;
+  ftsp.value.createFrom(preset?.ftsp);
   emit('change');
 };
 
 const save = async () => {
-  const preset = FTSPPreset.Create(Provider.ftsp.value);
+  const preset = FTSPPreset.Create(FTSP.Get());
   preset.name = ftspName.value;
   ftspName.value = '';
-  await Store.Create('ftspPresets', preset);
+  await FTSPPresetsStore.Create(preset);
   Store.AppendToAll('ftspPresets', [preset]);
   curFTSP.value = preset.id;
   modalOpened.value = false;

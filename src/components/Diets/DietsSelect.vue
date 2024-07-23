@@ -106,7 +106,7 @@ const selectAge = (age: DietAge): void => {
       }
     });
   }
-  DietRouter.push({ id: uuidv4(), name: age.name, goBack: 'noLink' });
+  DietRouter.push({ id: ClassHelper.CreateUUID(), name: age.name, goBack: 'noLink' });
   DietRouter[0].goBack = 'toAge';
   if (DietRouter[2].goBack) {
     DietRouter[1].goBack = 'toAge';
@@ -117,7 +117,7 @@ const selectAge = (age: DietAge): void => {
 const selectDiet = (diet: Diet): void => {
   selectedDiet.value = diet;
   DietRouter[0].goBack = 'toDiet';
-  DietRouter.push({ id: uuidv4(), name: diet.siteName, goBack: 'noLink' });
+  DietRouter.push({ id: ClassHelper.CreateUUID(), name: diet.siteName, goBack: 'noLink' });
 
   if (selectedDiet.value?.dietAges.length === 1) {
     selectAge(selectedDiet.value?.dietAges[0]);
@@ -128,7 +128,7 @@ const selectDiet = (diet: Diet): void => {
 
 const selectGroup = (group: DietGroup): void => {
   selectedGroup.value = group;
-  DietRouter.push({ id: uuidv4(), name: group.name, goBack: 'noLink' });
+  DietRouter.push({ id: ClassHelper.CreateUUID(), name: group.name, goBack: 'noLink' });
   if (selectedGroup.value?.diets.length === 1) {
     selectDiet(selectedGroup.value?.diets[0]);
     DietRouter.pop();

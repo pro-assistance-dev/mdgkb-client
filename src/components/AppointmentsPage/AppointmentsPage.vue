@@ -1,13 +1,13 @@
 <template>
   <h2 style="text-align: center">Запись на прием</h2>
-  <div v-if="mounted" class="card-item">
+  <div class="card-item">
     <div class="flex-row">
       <div class="calendar-zone">
-        <AppointmentsCalendar @chooseDay="chooseDay" />
+        <AppointmentsCalendar @choose-day="chooseDay" />
         <hr class="gray-border" />
         <div v-if="chosenDay">
           <div class="middle-header">Время записи</div>
-          <AppointmentsSlots @chooseSlot="chooseSlot" />
+          <AppointmentsSlots @choose-slot="chooseSlot" />
         </div>
         <hr class="gray-border" />
         <div class="contancts">
@@ -58,11 +58,10 @@
 
 <script lang="ts">
 import { ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import Appointment from '@/classes/Appointment';
 import AppointmentType from '@/classes/AppointmentType';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import AppointmentsCalendar from '@/components/AppointmentsPage/AppointmentsCalendar.vue';
 import AppointmentsSlots from '@/components/AppointmentsPage/AppointmentsSlots.vue';
@@ -71,7 +70,6 @@ import UserForm from '@/components/FormConstructor/UserForm.vue';
 import Hooks from '@/services/Hooks/Hooks';
 import { DataTypes } from '@/services/interfaces/DataTypes';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -163,7 +161,6 @@ export default defineComponent({
       DataTypes,
       submit,
       appointmentsTypes,
-      mounted: Provider.mounted,
       appointmentsType,
       UserFormFields,
       form,

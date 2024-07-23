@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import PaidProgramsGroup from '@/classes/PaidProgramsGroup';
@@ -44,10 +44,10 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const editMode = ref(false);
-    const paidProgramsGroups: IPaidProgramsGroup[] = PaidProgramsGroupStore.Items();
+    const paidProgramsGroups: IPaidProgramsGroup[] = PaidProgramsGroupsStore.Items();
 
     onBeforeMount(async () => {
-      await PaidProgramsGroupStore.GetAll();
+      await PaidProgramsGroupsStore.GetAll();
       PHelp.AdminUI.Head.Set('Платные программы', []);
     });
 

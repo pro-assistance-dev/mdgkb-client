@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
@@ -191,7 +191,7 @@ export default defineComponent({
 
     const getUrl = (): string => {
       const host = process.env.VUE_APP_API_HOST;
-      return `${host}/postgraduate-courses/${route.params['id']}`;
+      return `${host}/postgraduate-courses/${Router.Id()}`;
     };
     // TODO убрать
     const svgDummy =

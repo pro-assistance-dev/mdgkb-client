@@ -1,5 +1,5 @@
 <template>
-  <div v-if="Provider.mounted" class="wrapper">
+  <div class="wrapper">
     <el-form ref="form" :key="news" :model="news" label-position="top" :rules="rules">
       <el-row :gutter="40">
         <el-col :xs="24" :sm="24" :md="14" :lg="16" :xl="19">
@@ -21,12 +21,7 @@
             <el-card>
               <template #header> Основное изображение </template>
               <el-form-item prop="mainImage.fileSystemPath" :rules="rules.mainImage">
-                <UploaderImage
-                  :file-info="news.mainImage"
-                  :height="300"
-                  @remove-file="news.removeMainImage()"
-                  @ratio="(e) => (element.ratio = e)"
-                />
+                <UploaderImage :file-info="news.mainImage" :height="300" @remove-file="news.removeMainImage()" />
               </el-form-item>
               <el-form-item prop="mainImageDescription" label="Описание:">
                 <el-input v-model="news.mainImageDescription" placeholder="Описание" />
@@ -70,7 +65,6 @@
                   :height="300"
                   :default-ratio="1 / 1"
                   @remove-file="news.removePreviewImage()"
-                  @ratio="(e) => (element.ratio = e)"
                 />
               </el-form-item>
             </el-card>
@@ -90,7 +84,6 @@ import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from
 import News from '@/classes/News';
 import NewsRules from '@/classes/NewsRules';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -134,7 +127,7 @@ onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, 
   showConfirmModal(submit, next);
 });
 
-interface ChartsModalType extends InstanceType<typeof ChartsModal> {
+interface ChartsModalType {
   open(): void;
 }
 

@@ -15,7 +15,7 @@
   </svg>
 
   <svg width="0" height="0" class="hidden">
-    <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="icon-menu-lines">
+    <symbol id="icon-menu-lines" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
       <path
         d="M4.39158 7.29195C3.75169 7.93591 3.91166 8.79835 4.75724 9.15482C5.32857 9.39631 26.6736 9.39631 27.245 9.15482C28.1362 8.78685 28.2619 7.72892 27.4963 7.10796C27.2678 6.92397 26.4908 6.90097 16.0125 6.90097H4.78009L4.39158 7.29195Z"
       ></path>
@@ -31,7 +31,7 @@
 
 <script lang="ts" setup>
 const hovering = ref(false);
-const props = defineProps({
+defineProps({
   color: { type: String as PropType<string>, default: '' },
   hoverColor: { type: String as PropType<string>, default: '' },
   size: { type: String as PropType<string>, default: '' },

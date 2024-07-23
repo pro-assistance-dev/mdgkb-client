@@ -69,7 +69,7 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const create = () => router.push(`${route.path}/new`);
+    // const create = () => router.push(`${route.path}/new`);
     // const remove = async (id: string) => await store.dispatch('dpoCourses/remove', id);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
 

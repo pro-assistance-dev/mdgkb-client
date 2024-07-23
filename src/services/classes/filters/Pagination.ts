@@ -1,5 +1,3 @@
-import { LocationQuery } from 'vue-router';
-
 import Cursor from '@/services/classes/filters/Cursor';
 import ClassHelper from '@/services/ClassHelper';
 import { Operators } from '@/services/interfaces/Operators';
@@ -52,7 +50,7 @@ export default class Pagination {
     return [offset, limit, cursorMode, append, allLoaded, cursor].toString();
   }
 
-  fromUrlQuery(obj: LocationQuery): void {
+  fromUrlQuery(): void {
     const str = window.location.search;
     const sormModelString = str.substring(str.indexOf('p=') + 2, str.lastIndexOf('|'));
     const params = new URLSearchParams(decodeURIComponent(sormModelString));

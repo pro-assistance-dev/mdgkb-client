@@ -1,27 +1,15 @@
 <template>
-  <el-form-item label="Телефон:">
-    <el-input v-model="phone.number" @blur="update" />
-  </el-form-item>
-  <el-form-item label="Описание:">
-    <el-input v-model="phone.description" @blur="update" />
-  </el-form-item>
+  <PInput v-model="model.number" @blur="update" />
+  <PInput v-model="model.description" @blur="update" />
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-
 import Phone from '@/services/classes/Phone';
-import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
-  phone: {
-    type: Object as PropType<Phone>,
-    required: true,
-  },
-});
+const model: Ref<Phone> = defineModel<Phone>() as Ref<Phone>;
 
 const update = async () => {
-  await Provider.store.dispatch('phones/update', props.phone);
+  await PhonesStore.Update(model.value);
 };
 </script>
 

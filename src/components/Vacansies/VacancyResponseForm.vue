@@ -5,7 +5,7 @@
         :form="vacancyResponse.formValue"
         :email-exists="emailExists"
         :active-fields="UserFormFields.CreateWithAllUserFields()"
-        @findEmail="findEmail"
+        @find-email="findEmail"
       />
       <FieldValuesForm :form="vacancyResponse.formValue" />
       <el-divider />
@@ -19,11 +19,9 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus';
 
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import Vacancy from '@/classes/Vacancy';
 import VacancyResponse from '@/classes/VacancyResponse';
-import VacancyResponseRules from '@/rules/VacancyResponseRules';
 import validate from '@/services/validate';
 
 const emits = defineEmits(['close']);

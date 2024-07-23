@@ -20,8 +20,6 @@
 <script lang="ts" setup>
 import DivisionsFiltersLib from '@/libs/filters/DivisionsFiltersLib';
 import LabelValue from '@/services/classes/LabelValue';
-import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 
 defineProps({
   mode: {
@@ -36,14 +34,7 @@ defineProps({
   },
 });
 
-const emits = defineEmits(['selectMode', 'load']);
-const selectSearch = async (event: ISearchObject): Promise<void> => {
-  await Provider.router.push(`/divisions/${event.value}`);
-};
-
-const selectMode = async (value: string) => {
-  emits('selectMode', value);
-};
+defineEmits(['selectMode', 'load']);
 
 const hospitalizationFilter = DivisionsFiltersLib.withHospitalization().toRef();
 const withCommentsFilter = DivisionsFiltersLib.withComments().toRef();

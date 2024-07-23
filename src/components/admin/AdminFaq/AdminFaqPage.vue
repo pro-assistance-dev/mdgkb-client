@@ -21,14 +21,14 @@ import validate from '@/services/validate';
 const form = ref();
 const mounted: Ref<boolean> = ref(false);
 const faq: Faq = FaqsStore.Item();
-const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
+const { saveButtonClick, beforeWindowUnload, formUpdated } = useConfirmLeavePage();
 
 const rules = {
   question: [{ required: true, message: 'Необходимо указать вопрос', trigger: 'blur' }],
   answer: [{ required: true, message: 'Необходимо указать ответ', trigger: 'blur' }],
 };
 
-const submit = async (next?: NavigationGuardNext) => {
+const submit = async () => {
   saveButtonClick.value = true;
   if (!validate(form)) {
     saveButtonClick.value = false;
@@ -44,7 +44,7 @@ const submit = async (next?: NavigationGuardNext) => {
     PHelp.Notification.Error('Что-то пошло не так');
     return;
   }
-  next ? next() : Router.To('/admin/faqs');
+  Router.To('/admin/faqs');
 };
 
 onBeforeMount(async () => {

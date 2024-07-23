@@ -31,10 +31,10 @@ export default defineComponent({
     },
   },
   setup() {
-    let mounted = ref(false);
+    const mounted = ref(false);
     const form = ref();
     const show = ref(false);
-    let showedItem: Ref<EventApplication | undefined> = ref(undefined);
+    const showedItem: Ref<EventApplication | undefined> = ref(undefined);
 
     const eventApplicationsPdf = async (id: string) => {
       await EventsStore.EventApplicationsPdf(id);

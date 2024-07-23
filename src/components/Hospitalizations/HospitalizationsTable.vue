@@ -70,7 +70,7 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import Hospitalization from '@/classes/Hospitalization';
 import HospitalizationType from '@/classes/HospitalizationType';

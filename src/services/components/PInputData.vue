@@ -8,9 +8,9 @@
         <slot />
       </div>
       <input
+        :id="label"
         max="2100"
         min="1900"
-        :id="label"
         :value="format(model)"
         class="text-field__input"
         type="date"

@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import NewsSlide from '@/classes/NewsSlide';
 import NewsCarouselSlide from '@/components/News/NewsCarouselSlide.vue';

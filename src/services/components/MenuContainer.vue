@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps({
+defineProps({
   height: {
     type: String as PropType<string>,
     required: false,

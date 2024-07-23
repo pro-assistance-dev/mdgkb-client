@@ -15,11 +15,6 @@ interface GetAllOptions {
   withCache?: boolean;
 }
 
-interface GetOptions {
-  id?: FTSP;
-  method?: string;
-}
-
 import { computed, ComputedRef } from 'vue';
 
 class StoreC {

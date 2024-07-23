@@ -32,32 +32,29 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
-  name: 'Form',
+  name: 'FormDish',
   emits: ['close'],
 
   setup(_, { emit }) {
     const dishSampleConstructorVisible: Ref<boolean> = ref(false);
-    const dishesGroup: Ref<DishesGroup> = computed(() => Provider.store.getters['dishesGroups/item']);
-    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
+    const dishesGroup: DishesGroup = DishesGroupsStore.Item();
+    const dishSample: DishSample = DishesSamplesStore.Item();
     const dishesGroupConstructorVisible: Ref<boolean> = ref(false);
     const close = () => {
       emit('close');
     };
 
     const saveDishSample = async () => {
-      await Provider.store.dispatch('dishesSamples/create', dishSample.value);
+      await DishesSamplesStore.Create();
       dishSampleConstructorVisible.value = false;
     };
 
     const saveDishesGroup = async () => {
-      await Provider.store.dispatch('dishesGroups/create', dishesGroup.value);
+      await DishesSamplesStore.Update();
       dishesGroupConstructorVisible.value = false;
     };
 
@@ -165,7 +162,9 @@ export default defineComponent({
   margin: -1px;
 }
 :deep(.el-notification) {
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
 .new-group {

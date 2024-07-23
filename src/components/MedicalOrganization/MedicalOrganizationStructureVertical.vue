@@ -140,8 +140,8 @@
 </template>
 
 <script lang="ts" setup>
-import Head from '@/classes/Head';
 import GorevPic from '@/assets/doctors/Gorev_V_3.webp';
+import Head from '@/classes/Head';
 const heads: Head[] = HeadsStore.Items();
 const mainDoctor: Head = HeadsStore.MainDoctor();
 </script>

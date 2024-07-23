@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 import Menu from '@/services/classes/Menu';
@@ -69,12 +69,12 @@ export default defineComponent({
   name: 'BurgerMobile',
 
   emits: ['changeDrawerStatus'],
-  setup(prop, { emit }) {
-    let expand = ref(false);
+  setup() {
+    const expand = ref(false);
     const activePath: Ref<string> = ref('');
 
     const isDrawerOpen: Ref<boolean> = ref(false);
-    const menus = Store.Items('menus');
+    const menus = MenusStore.Items();
     const route = useRoute();
 
     const toggleDrawer = (open?: boolean) => {
@@ -91,7 +91,7 @@ export default defineComponent({
     onBeforeMount(async () => {
       activePath.value = route.path;
     });
-    const test = (e: any, menu: Menu) => {
+    const test = (_: any, menu: Menu) => {
       menus.value.forEach((menuEl: Menu) => {
         if (menu.id !== menuEl.id) {
           menuEl.show = false;

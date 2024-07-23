@@ -45,14 +45,11 @@ import residencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
 import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 import scroll from '@/services/Scroll';
-import UserService from '@/services/User';
 
 const mounted: Ref<boolean> = ref(false);
 const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 const activeName = ref('Конкурс');
 const loadPrograms = async () => {
-  // Provider.resetFilterQuery();
-  // Provider.setFilterModels(ResidencyCoursesFiltersLib.onlyThisYear());
   // filterQuery.value.setSortModel(ResidencyCoursesSortsLib.byName(Orders.Asc));
   const ftsp = new FTSP();
   ftsp.setF(residencyCoursesFiltersLib.onlyThisYear());
@@ -68,7 +65,7 @@ const collapseChange = () => {
   }
 };
 
-const isFound: Ref<boolean> = ref(true);
+// const isFound: Ref<boolean> = ref(true);
 
 // const found = async () => {
 //   try {

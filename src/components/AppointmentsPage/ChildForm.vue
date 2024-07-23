@@ -23,10 +23,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
 
 import Child from '@/classes/Child';
-import User from '@/classes/User';
 
 export default defineComponent({
   name: 'ChildForm',

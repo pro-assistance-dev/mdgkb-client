@@ -21,8 +21,11 @@
 
 <script lang="ts" setup>
 import { QuestionCircleOutlined } from '@ant-design/icons-vue';
+
 // import StoreModules from '@/store/StoreModules';
-const faqList: ComputedRef<Faq[]> = FaqsStore.Items();
+import Faq from '@/classes/Faq';
+
+const faqList: Faq[] = FaqsStore.Items();
 // const faqList1: ComputedRef<Faq[]> = StoreModules.Faqs1.Items();
 const mounted = ref(false);
 

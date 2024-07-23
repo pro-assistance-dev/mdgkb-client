@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Commit } from 'vuex';
 
 import ChatMessage from '@/services/classes/ChatMessage';

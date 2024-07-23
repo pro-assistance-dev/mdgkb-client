@@ -1,25 +1,24 @@
 <template>
   <div class="search-container">
-    <form class="search-form" @submit.prevent="submitSearch">
-      <el-autocomplete
-        ref="searchInput"
-        v-model="searchModel.query"
-        placeholder="Введите свой запрос"
-        style="width: 100%; margin-right: 10px"
-        popper-class="wide-dropdown"
-        :fetch-suggestions="suggestSearch"
-        @select="submitSearch"
-      />
-      <button type="submit" @click="search"><i class="el-icon-search"></i></button>
-    </form>
+    <el-autocomplete
+      ref="searchInput"
+      v-model="searchModel.query"
+      placeholder="Введите свой запрос"
+      style="width: 100%; margin-right: 10px"
+      popper-class="wide-dropdown"
+      :fetch-suggestions="suggestSearch"
+      @select="submitSearch"
+    />
+    <button type="submit" @click="search"><i class="el-icon-search"></i></button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import IOption from '@/interfaces/IOption';
+import SearchGroup from '@/services/classes/SearchGroup';
 import SearchModel from '@/services/classes/SearchModel';
+import IOption from '@/services/interfaces/IOption';
 
-const props = defineProps({
+defineProps({
   isSearchPage: {
     type: Boolean as PropType<boolean>,
     default: false,
@@ -27,7 +26,6 @@ const props = defineProps({
 });
 const emit = defineEmits(['search']);
 
-const searchInputText = ref<string>('');
 const searchInput = ref<HTMLInputElement | null>(null);
 const searchModel: SearchModel = SearchStore.SearchModel();
 
@@ -38,10 +36,6 @@ onBeforeMount((): void => {
   }
   searchModel.query = Router.Route().query.q as string;
 });
-
-const showDrawer = () => {
-  Store.Commit('search/toggleDrawer', true);
-};
 
 const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
   console.log(queryString);
@@ -55,7 +49,7 @@ const suggestSearch = async (queryString: string, cb: (arg: any) => void) => {
   searchModel.searchGroup.options = [];
   await SearchStore.Full(searchModel);
 
-  const options = [];
+  const options: IOption[] = [];
   searchModel.searchGroups.forEach((g: SearchGroup) => {
     g.options.forEach((opt: IOption) => {
       options.push({ label: opt.value, value: opt.label });

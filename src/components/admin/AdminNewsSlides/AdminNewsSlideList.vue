@@ -35,7 +35,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import NewsSlide from '@/classes/NewsSlide';
@@ -56,7 +56,7 @@ export default defineComponent({
       router.push('/admin/news-slides/new');
     };
     const remove = async (id: string): Promise<void> => {
-      await NewsSlidesStore.Remove();
+      await NewsSlidesStore.Remove(id);
     };
     const edit = (id: string): void => {
       router.push(`/admin/news-slides/${id}`);
@@ -68,7 +68,7 @@ export default defineComponent({
     };
 
     const saveOrder = async () => {
-      await NewsSlidesStore.UpdateAll();
+      await NewsSlidesStore.UpdateMany();
       isEdit.value = false;
       isNotEdit.value = true;
     };

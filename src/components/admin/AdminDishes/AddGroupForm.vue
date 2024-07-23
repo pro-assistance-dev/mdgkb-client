@@ -15,10 +15,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 import DishesGroup from '@/classes/DishesGroup';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({

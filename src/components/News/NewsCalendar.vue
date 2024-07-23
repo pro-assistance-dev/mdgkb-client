@@ -19,7 +19,6 @@ import News from '@/classes/News';
 import ICalendarMeta from '@/interfaces/news/ICalendarMeta';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NewsCalendar',
@@ -62,8 +61,8 @@ export default defineComponent({
       fq.filterModels.push(NewsFiltersLib.byPeriod(dateFrom, dateTo), NewsFiltersLib.onlyPublished());
       await NewsStore.GetByMonth();
 
-      const params: ICalendarMeta = { month: page.month, year: page.year };
-      NewsStore.UpdateCalendarMeta(params);
+      // const params: ICalendarMeta = { month: page.month, year: page.year };
+      NewsStore.UpdateCalendarMeta();
     };
     const loadCalendarMeta = async () => {
       if (calendarMeta.value) {

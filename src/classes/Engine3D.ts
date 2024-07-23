@@ -52,7 +52,7 @@ export default class Engine3D {
     this.hoveredObject = obj;
   }
 
-  onPointerClick(e: MouseEvent) {
+  onPointerClick() {
     if (!this.active) {
       return;
     }

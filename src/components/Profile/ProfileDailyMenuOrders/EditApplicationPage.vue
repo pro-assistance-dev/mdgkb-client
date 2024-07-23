@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
+import { defineComponent, onBeforeMount, onBeforeUnmount, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
@@ -49,7 +49,6 @@ import ResidencyApplicationAchievements from '@/components/Educational/Residency
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
 import FilterQuery from '@/services/classes/filters/FilterQuery';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -58,7 +57,6 @@ export default defineComponent({
 
   setup() {
     const mounted = ref(true);
-    // const userId: ComputedRef<string> = computed(() => Provider.store.getters['auth/user']?.id);
     const user: User = UsersStore.Item();
 
     const form = ref();
@@ -75,15 +73,15 @@ export default defineComponent({
       }
       application.formValue.isNew = true;
       application.formValue.setCpecifyStatus(formStatuses);
-      if (application.formValue.residencyApplication?.id) {
-        application.formValue.residencyApplication.changeUserEdit(false);
-      }
+      // if (application.formValue.residencyApplication?.id) {
+      //   application.formValue.residencyApplication.changeUserEdit(false);
+      // }
       await ResidencyApplicationsStore.UpdateForm(application.formValue);
-      Provider.router.push('/profile/education');
+      Router.To('/profile/education');
     };
 
     const load = async () => {
-      await UsersStore.Get(PHelp.Auth.GetUser().id);
+      await UsersStore.Get(PHelp.Auth.GetUser().id as string);
       await FormValuesStore.Get(Router.Id());
       mounted.value = true;
     };
@@ -91,26 +89,25 @@ export default defineComponent({
     const loadFilters = async () => {
       const filterQuery = new FilterQuery();
       filterQuery.filterModels.push(FormStatusesFiltersLib.byCode('education'));
-      await FormStatusesStore.GetAll(filterQuery);
+      // await FormStatusesStore.GetAll(filterQuery);
     };
 
     onBeforeMount(() => load);
 
     onBeforeUnmount(async () => {
       user.setResidencyApplicationsViewed();
-      await FormValuesStore.UpdateMany(user.formValues);
+      // await FormValuesStore.UpdateMany(user.formValues);
     });
 
     const filledApplicationDownload = () => {
-      const application = user.residencyApplications[0];
-
+      // const application = user.residencyApplications[0];
       ElMessageBox.alert(
         'Заполните данные и распечатайте заявление,  проверьте заполненные данные, при наличии ошибок исправьте на сайте и заново распечатайте форму, заполните недостающую информацию (печатными буквами, синей ручкой), поставьте подписи в заявлении, внесите данные документа удостоверяющего личность (в соответствующую графу), поставьте финальную подпись. Отсканируйте заявление и загрузите его',
         'После закрытия этого окна скачается предзаполненное заявление',
         {
           confirmButtonText: 'OK',
           callback: () => {
-            ResidencyApplicationsStore.FilledApplicationDownload(applcation.formValue.residencyApplication);
+            // ResidencyApplicationsStore.FilledApplicationDownload(application.formValue.residencyApplication);
             return;
           },
         }

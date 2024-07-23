@@ -39,12 +39,11 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, defineComponent, PropType, Ref } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import DailyMenuOrderItem from '@/classes/DailyMenuOrderItem';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'BufetCard',

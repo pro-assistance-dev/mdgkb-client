@@ -35,22 +35,22 @@
               </div>
             </template>
 
-            <draggable
-              class="groups"
-              :list="element.paidProgramOptions"
-              item-key="id"
-              handle=".handle"
-              @end="sort(element.paidProgramOptions)"
-            >
-              <template #item="{ element }">
-                <div>
-                  <el-icon class="handle"><Grid /></el-icon>
-                  <el-button :type="element.selected ? 'primary' : ''" @click="paidProgram.selectOption(element)">
-                    {{ element.name }}
-                  </el-button>
-                </div>
-              </template>
-            </draggable>
+            <!-- <draggable -->
+            <!--   class="groups" -->
+            <!--   :list="element.paidProgramOptions" -->
+            <!--   item-key="id" -->
+            <!--   handle=".handle" -->
+            <!--   @end="sort(element.paidProgramOptions)" -->
+            <!-- > -->
+            <!-- <template #item="{ element }"> -->
+            <!--   <div> -->
+            <!--     <el-icon class="handle"><Grid /></el-icon> -->
+            <!--     <el-button :type="element.selected ? 'primary' : ''" @click="paidProgram.selectOption(element)"> -->
+            <!--       {{ element.name }} -->
+            <!--     </el-button> -->
+            <!--   </div> -->
+            <!-- </template> -->
+            <!-- </draggable> -->
           </el-card>
         </template>
       </draggable>
@@ -70,7 +70,7 @@ export default defineComponent({
   setup() {
     const mounted: Ref<boolean> = ref(false);
     const editMode: Ref<boolean> = ref(false);
-    const paidProgram: Ref<IPaidProgram> = PaidProgramsStore.Item();
+    const paidProgram: IPaidProgram = PaidProgramsStore.Item();
     return {
       sort,
       editMode,

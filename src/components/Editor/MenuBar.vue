@@ -34,13 +34,11 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
-import FileInfo from '@/services/classes/FileInfo.ts';
-import News from '@/classes/News';
 import FileUploader from '@/components/FileUploader.vue';
 import IEditorMenuItem from '@/interfaces/IEditorMenuItem';
-import Provider from '@/services/Provider/Provider';
+import FileInfo from '@/services/classes/FileInfo';
 
 import MenuItem from './MenuItem.vue';
 
@@ -300,7 +298,6 @@ export default defineComponent({
           ElMessage({ message: 'Не загружена картинка', type: 'error' });
           return;
         }
-        // const result = await Provider.store.dispatch('fileInfos/create', image.value);
         // console.log(new FileInfo(result).getImageUrl());
         // if (dialogType.value === 'image') {
         //   saveImage(new FileInfo(result).getImageUrl());
@@ -372,8 +369,6 @@ export default defineComponent({
       // });
       // }
     };
-
-    const news: Ref<News> = NewsStore.Item();
 
     const sendToTg = async () => {
       PHelp.Notification.Dev();

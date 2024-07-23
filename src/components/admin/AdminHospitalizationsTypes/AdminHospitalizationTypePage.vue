@@ -38,13 +38,12 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import HospitalizationType from '@/classes/HospitalizationType';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
 export default defineComponent({
@@ -80,7 +79,6 @@ export default defineComponent({
     });
 
     return {
-      mounted: Provider.mounted,
       hospitalizationType,
       form,
       rules,

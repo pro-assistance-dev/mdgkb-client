@@ -15,7 +15,7 @@
         >
           <div class="image">
             <div class="image-box">
-              <h2 class="event-name" @click="$router.push(`/events/${carouselGroupElement.slug}`)">{{ carouselGroupElement.name }}</h2>
+              <!-- <h2 class="event-name" @click="$router.push(`/events/${carouselGroupElement.slug}`)">{{ carouselGroupElement.name }}</h2> -->
               <!-- {{ carouselGroupElement }} -->
               <!-- <img -->
               <!--   :id="carouselGroupElement.fileInfo.getImageUrl()" -->
@@ -54,15 +54,13 @@
 </template>
 
 <script lang="ts" setup>
-import ArrowNext from '@/assets/svg/CarouselImages/ArrowNext.svg';
-import ArrowPrev from '@/assets/svg/CarouselImages/ArrowPrev.svg';
+import NewsImage from '@/classes/NewsImage';
+import GridContainer from '@/services/components/GridContainer.vue';
 import { Animations } from '@/services/interfaces/Animations';
 import makeCarousel from '@/services/MakeCarousel';
-import Event from '@/classes/Event';
-import GridContainer from '@/services/components/GridContainer.vue';
 const props = defineProps({
   events: {
-    type: Array as PropType<Array<Event>>,
+    type: Array as PropType<Array<NewsImage>>,
     required: true,
   },
   quantity: {
@@ -88,34 +86,34 @@ const props = defineProps({
     default: 0,
   },
 });
-const emits = defineEmits(['openModalWindow']);
+defineEmits(['openModalWindow']);
 const cssAnimationTime = `${props.animationTime}ms`;
-const fullScreenMode: Ref<boolean> = ref(false);
+// const fullScreenMode: Ref<boolean> = ref(false);
 const activeGroupIndex = ref(props.startActiveGroupIndex);
 
-const mobileWindow = computed(() => {
-  const width = window.innerWidth;
-  let divisor = 3.5;
-  if (width < 1600) {
-    divisor = 2.5;
-  }
-  if (width < 600) {
-    divisor = 1.6;
-  }
-  return width / divisor;
-});
-
+// const mobileWindow = computed(() => {
+//   const width = window.innerWidth;
+//   let divisor = 3.5;
+//   if (width < 1600) {
+//     divisor = 2.5;
+//   }
+//   if (width < 600) {
+//     divisor = 1.6;
+//   }
+//   return width / divisor;
+// });
+//
 const animation: Ref<Animations> = ref(Animations.None);
 
-let carousel: Ref<Event[][]> = ref(makeCarousel<Event>(props.events, props.quantity));
+const carousel: Ref<NewsImage[][]> = ref(makeCarousel<NewsImage>(props.events, props.quantity));
 
-const activeCarouselGroup: ComputedRef<Event[]> = computed(() => {
+const activeCarouselGroup: ComputedRef<NewsImage[]> = computed(() => {
   return carousel.value[activeGroupIndex.value];
 });
 
-const showImageInFullScreen = () => {
-  fullScreenMode.value = true;
-};
+// const showImageInFullScreen = () => {
+//   fullScreenMode.value = true;
+// };
 
 onMounted(() => {
   // document.addEventListener('keyup', function (evt) {

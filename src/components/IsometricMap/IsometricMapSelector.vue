@@ -10,9 +10,10 @@
 <script lang="ts" setup>
 import StringItem from '@/services/components/StringItem.vue';
 
-const emit = defineEmits(['openMapRouter', 'selectObject']);
+const emit = defineEmits(['openMapRouter', 'selectObject', 'selectNode']);
 
-const steps = {
+type Step = Record<string, unknown>;
+const steps: Step = {
   Пациенты: {
     Экстренно: { nodeName: '24' },
     Планово: { nodeName: '24' },
@@ -28,7 +29,7 @@ const steps = {
 
 const selectedSpep: Ref<unknown> = ref(steps);
 
-const selectStep = (step: unknown) => {
+const selectStep = (step: Step) => {
   if (step.nodeName) {
     emit('selectNode', step.nodeName);
     return;

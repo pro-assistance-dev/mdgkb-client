@@ -3,8 +3,6 @@
     class="button"
     :style="{
       marginTop: marginTop,
-      background: background,
-      color: color,
       height: height,
       borderRadius: height,
       width: width,
@@ -44,7 +42,7 @@ import { defineComponent, PropType, Ref, ref } from 'vue';
 import Close from '@/assets/svg/Filter/Close.svg';
 
 export default defineComponent({
-  name: 'Filter',
+  name: 'BufetFilter',
   components: { Close },
   props: {
     marginTop: {

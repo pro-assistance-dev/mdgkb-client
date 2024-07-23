@@ -1,6 +1,5 @@
 <template>
-  asdfasdf
-  <div v-if="mounted" class="wrapper">
+  <div class="wrapper">
     <el-form ref="form" :key="page" :rules="rules" :model="page" label-position="top">
       <el-container direction="vertical">
         <el-card>
@@ -59,7 +58,6 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 import draggable from 'vuedraggable';
 
@@ -67,11 +65,10 @@ import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSide
 import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Page from '@/services/classes/page/Page';
 import Role from '@/services/classes/Role';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import sort from '@/services/sort';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -85,34 +82,23 @@ export default defineComponent({
       title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
     };
     const page: Page = PagesStore.Item();
-    const roles: ComputedRef<Role[]> = RolesStore.Items();
+    const roles: Role[] = RolesStore.Items();
 
     const openPage = () => {
-      const route = Provider.router.resolve(page.value.getLink());
-      window.open(route.href, '_blank');
+      PHelp.Notification.Dev();
+      // window.open(route.href, '_blank');
     };
 
     const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 
     const loadNewsItem = async () => {
-      const buttons = [
-        { action: submit, text: 'Сохранить' },
-        { action: submitAndExit, text: 'Сохранить и выйти' },
-      ];
+      const buttons = [Button.Success('Сохранить', submit), Button.Success('Сохранить и выйти', submitAndExit)];
       if (Router.Slug()) {
         await PagesStore.GetBySlug(Router.Slug());
-        Provider.store.commit('admin/setHeaderParams', {
-          title: page.value.title,
-          showBackButton: true,
-          buttons: [...buttons, { action: openPage, text: 'Посмотреть страницу', type: 'warning' }],
-        });
+        PHelp.AdminUI.Head.Set(page.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
       } else {
         PagesStore.ResetState();
-        Provider.store.commit('admin/setHeaderParams', {
-          title: 'Добавить страницу',
-          showBackButton: true,
-          buttons: buttons,
-        });
+        PHelp.AdminUI.Head.Set('Добавить страницу', [...buttons]);
       }
       await RolesStore.GetAll();
       window.addEventListener('beforeunload', beforeWindowUnload);
@@ -136,7 +122,7 @@ export default defineComponent({
         await Router.To('/admin/pages');
         return;
       }
-      await PagesStore.UpdateAndSet(page.value);
+      await PagesStore.UpdateAndSet(page);
       ElMessage({ message: 'Успешно сохранено', type: 'success' });
     };
 
@@ -147,8 +133,8 @@ export default defineComponent({
 
     const openDialog = async (index?: number) => {
       if (index === undefined) {
-        await page.addSideMenu();
-        PagesStore.SetIndex(page.value.pageSideMenus.length - 1);
+        page.addSideMenu();
+        PagesStore.SetIndex(page.pageSideMenus.length - 1);
       } else {
         PagesStore.SetIndex(index);
       }
@@ -157,7 +143,6 @@ export default defineComponent({
 
     return {
       sort,
-      mounted: Provider.mounted,
       submit,
       page,
       form,

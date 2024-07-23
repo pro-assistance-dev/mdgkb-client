@@ -1,13 +1,12 @@
 import Doctor from '@/classes/Doctor';
 import Event from '@/classes/Event';
-import FileInfo from '@/services/classes/FileInfo.ts';
-import NewsDivision from '@/classes/NewsDivision';
 import NewsDoctor from '@/classes/NewsDoctor';
 import NewsImage from '@/classes/NewsImage';
 import NewsLike from '@/classes/NewsLike';
 import NewsToCategory from '@/classes/NewsToCategory';
 import NewsToTag from '@/classes/NewsToTag';
 import Tag from '@/classes/Tag';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 import DateTimeFormat from '@/services/DateFormat';
 

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory, NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 const Contacts = () => import('@/components/Contacts/Contacts.vue');
 const DevPage = () => import('@/components/DevPage.vue');
@@ -66,10 +66,11 @@ export const devGuard = (): void => {
 
 export const adminGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
   if (to.path != '/main') {
-  next();
+    next();
+  }
 };
 
-const routes: Array<RouteRecordRaw> = [
+const routes = [
   {
     path: '/',
     redirect: '/main',
@@ -275,4 +276,5 @@ router.afterEach(() => {
 });
 
 router.beforeEach(adminGuard);
+
 export default router;

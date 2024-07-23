@@ -67,7 +67,7 @@ export default defineComponent({
       clearSelect();
     };
 
-    const remove = (index: number) => {
+    const remove = () => {
       // store.commit('educationalOrganization/removeManager', index);
     };
 

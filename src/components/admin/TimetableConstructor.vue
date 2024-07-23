@@ -1,4 +1,5 @@
 <template>
+  <div></div>
   <!-- <div v-if="!pattern" class="line"> -->
   <!--   <el-select v-model="chosenPattern" class="line-item" value-key="id" placeholder="Выберите шаблон"> -->
   <!--     <el-option v-for="item in timetablePatterns" :key="item.id" :label="item.title" :value="item"> </el-option> -->
@@ -113,12 +114,9 @@
 </template>
 
 <script lang="ts">
-import Timetable from '@/classes/Timetable';
 import TimetableDay from '@/classes/TimetableDay';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 export default defineComponent({
   name: 'TimetableConstructorV2New',
-  components: { TableButtonGroup },
   props: {
     storeModule: {
       type: String,
@@ -131,7 +129,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const weekdays = TimetableStore.Weekdays();
+    const weekdays = TimetablesStore.Weekdays();
     const expandRowKeys: Ref<string[]> = ref(['']);
     // const timetable: Ref<Timetable> = (
     //   () => Store.Getters( `${props.storeModule}/${props.pattern ? 'item' : 'timetable'}` )
@@ -190,7 +188,7 @@ export default defineComponent({
       if (!props.pattern) {
         TimetablesPatternsStore.GetAll();
       } else {
-        await TimetablesStore.GetAllWeekdays();
+        // await TimetablesStore.GetAllWeekdays();
       }
     });
 

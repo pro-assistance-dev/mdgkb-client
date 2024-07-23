@@ -73,4 +73,7 @@ export default abstract class Router {
   static Resolve(link: string): RouteLocation {
     return router.resolve(link);
   }
+  static GetRouter() {
+    return router;
+  }
 }

@@ -27,7 +27,6 @@ import { defineComponent, PropType } from 'vue';
 
 import Employee from '@/classes/Employee';
 import FavouriteIcon from '@/components/FavouriteIcon.vue';
-import DoctorDefault from '@/assets/img/doctor-default.webp';
 
 export default defineComponent({
   name: 'ChiefCard',
@@ -38,8 +37,8 @@ export default defineComponent({
     employee: { type: Object as PropType<Employee>, required: true },
     chiefRole: { type: String as PropType<string>, required: true },
     showFavourite: { type: Boolean as PropType<boolean>, required: true, default: false },
-    favouriteId: { type: String as PropType<string>, required: false },
-    favouriteDomain: { type: String as PropType<string>, required: false },
+    favouriteId: { type: String as PropType<string>, required: false, default: '' },
+    favouriteDomain: { type: String as PropType<string>, required: false, default: '' },
   },
 });
 </script>

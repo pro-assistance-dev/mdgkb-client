@@ -3,13 +3,13 @@
     <el-carousel
       v-if="mounted"
       ref="carouselRef"
-      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
       :interval="5000"
       indicator-position="outside"
       height="350px"
     >
-      <el-carousel-item v-for="(doctors, i) in carousel" :key="i">
-        <DoctorInfoCard v-for="item in doctors" :key="item.id" :doctor="item" />
+      <el-carousel-item v-for="(doctorsGroup, i) in carousel" :key="i">
+        <DoctorInfoCard v-for="item in doctorsGroup" :key="item.id" :doctor="item" />
       </el-carousel-item>
     </el-carousel>
   </MainContainer>

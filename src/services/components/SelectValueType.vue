@@ -6,10 +6,10 @@
 </template>
 
 <script setup lang="ts">
-import ValueTypes from '@/services/types/ValueTypes';
 import StringItem from '@/services/components/StringItem.vue';
+import ValueTypes from '@/services/types/ValueTypes';
 
-const props = defineProps({
+defineProps({
   selectedType: {
     type: Object as PropType<ValueTypes>,
     required: true,

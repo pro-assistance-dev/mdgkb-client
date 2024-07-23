@@ -8,16 +8,16 @@
             :store-module="'comments'"
             :first-mode="'FAQ'"
             :second-mode="'Вопрос-ответ'"
-            @changeMode="setFaqMode"
+            @change-mode="setFaqMode"
           />
         </template>
       </FiltersWrapper>
     </template>
     <div style="width: 100%">
-      <FAQ v-if="faqMode" />
-      <Questions v-else />
+      <FAQComponent v-if="faqMode" />
+      <QuestionsComponent v-else />
     </div>
-    <RightSliderContainer titleOpen="Скрыть форму" titleClose="Задать вопрос" sliderOnWidth="320px">
+    <RightSliderContainer title-open="Скрыть форму" title-close="Задать вопрос" slider-on-width="320px">
       <template #header>
         <StringItem string="Задать вопрос" font-size="16px" padding="0" color="#343E5C" />
       </template>
@@ -28,21 +28,14 @@
 </template>
 
 <script lang="ts" setup>
-import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import ModeButtons from '@/components/ModeButtons.vue';
-import PageWrapper from '@/components/PageWrapper.vue';
-import FAQ from '@/components/Questions/FAQ.vue';
-import QuestionForm from '@/components/Questions/QuestionForm.vue';
-import Questions from '@/components/Questions/Questions.vue';
-
 const faqMode: Ref<boolean> = ref(true);
-const opened: Ref<boolean> = ref(false);
+// const opened: Ref<boolean> = ref(false);
 const title: ComputedRef<string> = computed(() => (faqMode.value ? 'Часто задаваемые вопросы' : 'Вопросы и ответы'));
 
 const setFaqMode = (faqModeCondition: boolean) => {
   faqMode.value = faqModeCondition;
 };
-const openQuestion = () => (opened.value = !opened.value);
+// const openQuestion = () => (opened.value = !opened.value);
 </script>
 
 <style lang="scss" scoped>

@@ -28,7 +28,7 @@
         <div class="field">
           <el-form>
             <el-form-item style="width: 100%" prop="surname">
-              <el-input style="width: 100%" :autosize="true" type="textarea" v-model="name" />
+              <el-input v-model="name" style="width: 100%" :autosize="true" type="textarea" />
             </el-form-item>
           </el-form>
         </div>
@@ -40,14 +40,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineComponent, PropType, Ref, ref } from 'vue';
-
-import PButton from '@/services/components/PButton.vue';
-import GridContainer from '@/services/components/GridContainer.vue';
-import InfoItem from '@/services/components/InfoItem.vue';
-import StringItem from '@/services/components/StringItem.vue';
+import { PropType, Ref, ref } from 'vue';
 
 import IWithName from '@/interfaces/IWithName';
+import InfoItem from '@/services/components/InfoItem.vue';
+import PButton from '@/services/components/PButton.vue';
+import StringItem from '@/services/components/StringItem.vue';
 
 const props = defineProps({
   withName: {

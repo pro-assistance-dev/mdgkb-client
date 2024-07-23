@@ -16,8 +16,8 @@
 
 <script lang="ts">
 import Tag from '@/classes/Tag';
-import FilterModel from '@/services/classes/filters/FilterModel';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
+import FilterModel from '@/services/classes/filters/FilterModel';
 
 export default defineComponent({
   name: 'NewsFilters',

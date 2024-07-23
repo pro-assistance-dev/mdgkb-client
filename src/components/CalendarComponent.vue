@@ -50,13 +50,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import ArrowLeft from '@/assets/svg/Buffet/ArrowLeft.svg';
 import ArrowRight from '@/assets/svg/Buffet/ArrowRight.svg';
 import Calendar from '@/services/classes/calendar/Calendar';
 import Day from '@/services/classes/calendar/Day';
-import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'CalendarComponent',
   components: {
@@ -74,13 +73,13 @@ export default defineComponent({
     });
 
     const selectDay = async (day: Day): Promise<void> => {
-      let DayYear = day.date.getFullYear();
-      let DayMonth = day.date.getMonth();
-      let DayDay = day.date.getDate();
-      let Today = new Date();
-      let TodayYear = Today.getFullYear();
-      let TodayMonth = Today.getMonth();
-      let TodayDay = Today.getDate();
+      const DayYear = day.date.getFullYear();
+      const DayMonth = day.date.getMonth();
+      const DayDay = day.date.getDate();
+      const Today = new Date();
+      const TodayYear = Today.getFullYear();
+      const TodayMonth = Today.getMonth();
+      const TodayDay = Today.getDate();
 
       calendar.value.selectDay(day);
       isToDay.value = DayMonth === TodayMonth && DayDay === TodayDay && DayYear === TodayYear;
@@ -116,7 +115,6 @@ export default defineComponent({
       move,
       calendar,
       selectDay,
-      mounted: Provider.mounted,
       backToToday,
       isToDay,
     };

@@ -1,2 +1,2 @@
-export default declare  type CallbackFunction = (...args: unknown[]) => (void | Promise<void>);
-
+type CallbackFunction = (...args: unknown[]) => void | Promise<void>;
+export default CallbackFunction;

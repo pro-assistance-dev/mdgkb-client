@@ -73,7 +73,6 @@
           <TableButtonGroup
             :show-edit-button="true"
             :show-remove-button="true"
-            @remove="remove(scope.row.id)"
             @edit="Router.ToAdmin('residency-courses/' + scope.row.id)"
           />
         </template>
@@ -84,22 +83,17 @@
 
 <script lang="ts" setup>
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import FilterModel from '@/services/classes/filters/FilterModel';
-import SortModel from '@/services/classes/SortModel';
-import createSortModels from '@/services/CreateSortModels';
-import Hooks from '@/services/Hooks/Hooks';
 import ResidencyCoursesFiltersLib from '@/libs/filters/ResidencyCoursesFiltersLib';
 import ResidencyCoursesSortsLib from '@/libs/sorts/ResidencyCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
+import FilterModel from '@/services/classes/filters/FilterModel';
+import Hooks from '@/services/Hooks/Hooks';
 
 const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 const isEditMode: Ref<boolean> = ref(false);
 
-const save = async (next?: NavigationGuardNext) => {
-  saveButtonClick.value = true;
-  await Provider.store.dispatch('residencyCourses/updateMany');
+const save = async () => {
+  // saveButtonClick.value = true;
   isEditMode.value = false;
-  if (next) next();
 };
 
 const loadCourses = async () => {
@@ -112,7 +106,6 @@ const load = async () => {
       computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
       computed(() => (isEditMode.value ? save : () => (isEditMode.value = !isEditMode.value)))
     ),
-    Button.Success('Добавить программу', Provider.createAdmin),
   ]);
   await loadCourses();
 };
@@ -121,13 +114,9 @@ Hooks.onBeforeMount(load, {
   sortsLib: ResidencyCoursesSortsLib,
 });
 
-const createResidencySortModels = (): SortModel[] => {
-  return createSortModels(ResidencyCoursesSortsLib);
-};
-
-watch(isEditMode, () => {
-  confirmLeave.value = isEditMode.value;
-});
+// const createResidencySortModels = (): SortModel[] => {
+//   return createSortModels(ResidencyCoursesSortsLib);
+// };
 
 // onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
 //   showConfirmModal(save, next);

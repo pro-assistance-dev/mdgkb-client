@@ -23,7 +23,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const formatDate = (date: Date): string => {
       const options: Intl.DateTimeFormatOptions = { month: 'long', day: 'numeric' };
       return Intl.DateTimeFormat('ru-RU', options).format(new Date(date));

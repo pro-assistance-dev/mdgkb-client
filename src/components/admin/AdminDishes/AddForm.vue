@@ -75,11 +75,9 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import Provider from '@/services/Provider/Provider';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -91,9 +89,9 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishSample: Ref<DishSample> = computed(() => Provider.store.getters['dishesSamples/item']);
-    const dishSamplePrototype: DishSample = new DishSample(dishSample.value);
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
+    const dishSample: DishSample = DishesSamplesStore.Item();
+    const dishSamplePrototype: DishSample = new DishSample(dishSample);
     const confirmLeave: Ref<boolean> = ref(false);
     const form = ref();
     const rules = ref({
@@ -122,40 +120,38 @@ export default defineComponent({
                 type: 'warning',
                 message: 'Изменения не были сохранены',
               });
-              Provider.store.commit('dishesSamples/resetItem');
+              DishesSamplesStore.ResetItem();
               props.closeFunction();
             }
           });
       } else {
-        Provider.store.commit('dishesSamples/resetItem');
+        DishesSamplesStore.ResetItem();
         props.closeFunction();
       }
     };
 
     const saveDishSample = async () => {
-      console.log(dishSamplePrototype, dishSample.value);
+      console.log(dishSamplePrototype, dishSample);
       if (!validate(form)) {
         return;
       }
-      if (dishSample.value.id) {
-        // dishSample.value.updateAt = new Date();
-        await Provider.store.dispatch('dishesSamples/update');
-        console.log('UPDATE!!!!!!!!!!!!!!!!!!!');
-        console.log(dishSample.value);
+      if (dishSample.id) {
+        // dishSample.updateAt = new Date();
+        await DishesSamplesStore.Update();
       } else {
-        await Provider.store.dispatch('dishesSamples/create');
+        await DishesSamplesStore.Create();
       }
-      if (dishSamplePrototype.dishesGroupId !== dishSample.value.dishesGroupId) {
-        const dishesGroup = dishesGroups.value.find((d: DishesGroup) => d.id === dishSamplePrototype.dishesGroupId);
+      if (dishSamplePrototype.dishesGroupId !== dishSample.dishesGroupId) {
+        const dishesGroup = dishesGroups.find((d: DishesGroup) => d.id === dishSamplePrototype.dishesGroupId);
         if (dishesGroup) {
           dishesGroup.removeDishSample(dishSamplePrototype.id);
         }
       }
-      const dishesGroup = dishesGroups.value.find((d: DishesGroup) => d.id === dishSample.value.dishesGroupId);
+      const dishesGroup = dishesGroups.find((d: DishesGroup) => d.id === dishSample.dishesGroupId);
       if (dishesGroup) {
-        dishesGroup.upsertSample(dishSample.value);
+        dishesGroup.upsertSample(dishSample);
       }
-      Provider.store.commit('dishesSamples/resetItem');
+      DishesSamplesStore.ResetItem();
       props.closeFunction();
     };
 

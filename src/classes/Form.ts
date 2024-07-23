@@ -1,11 +1,10 @@
 import DailyMenuOrder from '@/classes/DailyMenuOrder';
 import Field from '@/classes/Field';
 import FieldValueFile from '@/classes/FieldValueFile';
-import FileInfo from '@/services/classes/FileInfo';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import FormValueFile from '@/classes/FormValueFile';
 import PostgraduateApplication from '@/classes/PostgraduateApplication';
-import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 import Child from './Child';
@@ -13,7 +12,6 @@ import DpoApplication from './DpoApplication';
 import FieldValue from './FieldValue';
 import FormStatus from './FormStatus';
 import FormStatusGroup from './FormStatusGroup';
-import ResidencyApplication from './ResidencyApplication';
 import User from './User';
 import VacancyResponse from './VacancyResponse';
 import VisitsApplication from './VisitsApplication';

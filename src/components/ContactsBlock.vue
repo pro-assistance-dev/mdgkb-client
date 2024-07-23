@@ -8,9 +8,12 @@
         <div v-if="contact.time.length" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-time" :style="{
-                fill: iconColor,
-              }">
+              <svg
+                class="icon-time"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#time"></use>
               </svg>
             </div>
@@ -20,24 +23,29 @@
         <div v-if="contact.postAddresses.length && contact.postAddresses[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-map-marker" :style="{
-                fill: iconColor,
-              }">
+              <svg
+                class="icon-map-marker"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#map-marker"></use>
               </svg>
             </div>
             <div class="item-elements">
-              <div v-for="postAddress in contact.postAddresses" :key="postAddress.id" class="item">{{
-                postAddress.address }}</div>
+              <div v-for="postAddress in contact.postAddresses" :key="postAddress.id" class="item">{{ postAddress.address }}</div>
             </div>
           </div>
         </div>
         <div v-if="contact.phones.length && contact.phones[0].number" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-phone" :style="{
-                fill: iconColor,
-              }">
+              <svg
+                class="icon-phone"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#phone"></use>
               </svg>
             </div>
@@ -54,9 +62,12 @@
         <div v-if="contact.emails.length && contact.emails[0].address" class="contact-data-list-item">
           <div class="contact-h3">
             <div class="item">
-              <svg class="icon-email" :style="{
-                fill: iconColor,
-              }">
+              <svg
+                class="icon-email"
+                :style="{
+                  fill: iconColor,
+                }"
+              >
                 <use xlink:href="#email"></use>
               </svg>
             </div>
@@ -81,28 +92,28 @@
       </div>
     </div>
   </div>
-  <Phone />
-  <Email />
-  <Time />
+  <PhoneIcon />
+  <EmailIcon />
+  <TimeIcon />
   <MapMarker />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import Email from '@/assets/svg/DivisionCard/Email.svg';
+import EmailIcon from '@/assets/svg/DivisionCard/Email.svg';
 import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
-import Phone from '@/assets/svg/DivisionCard/Phone.svg';
-import Time from '@/assets/svg/StructurePage/Time.svg';
+import PhoneIcon from '@/assets/svg/DivisionCard/Phone.svg';
+import TimeIcon from '@/assets/svg/StructurePage/Time.svg';
 import YandexMapComponent from '@/components/YandexMapComponent.vue';
 import Contact from '@/services/classes/Contact';
 
 export default defineComponent({
   name: 'ContactsBlock',
   components: {
-    Phone,
-    Email,
-    Time,
+    PhoneIcon,
+    EmailIcon,
+    TimeIcon,
     MapMarker,
     YandexMapComponent,
   },

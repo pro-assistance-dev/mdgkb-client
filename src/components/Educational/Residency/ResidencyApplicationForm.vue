@@ -20,11 +20,9 @@ import { ElMessage } from 'element-plus';
 
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import ResidencyCourse from '@/classes/ResidencyCourse';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import scroll from '@/services/Scroll';
 import validate from '@/services/validate';
 
 export default defineComponent({
@@ -36,13 +34,12 @@ export default defineComponent({
     const residencyApplication: ResidencyApplication = ResidencyApplicationsStore.Item();
 
     const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
-
     const form = ref();
 
     watch(
       () => PHelp.Auth.IsAuth(),
       async () => {
-        ResidencyApplicationsStore.SetUser(PHelp.Auth.GetUser());
+        PHelp.Auth.User().AssignTo(residencyApplication.formValue);
         await findEmail();
       }
     );
@@ -50,15 +47,15 @@ export default defineComponent({
     const findEmail = async () => {};
 
     const submit = async () => {
-      if (emailExists.value) {
-        ElMessage({
-          type: 'error',
-          dangerouslyUseHTMLString: true,
-          message: document.querySelector('#error-block-message')?.innerHTML || '',
-        });
-        scroll('#error-block-message');
-        return;
-      }
+      // if (emailExists.value) {
+      //   ElMessage({
+      //     type: 'error',
+      //     dangerouslyUseHTMLString: true,
+      //     message: document.querySelector('#error-block-message')?.innerHTML || '',
+      //   });
+      //   scroll('#error-block-message');
+      //   return;
+      // }
       residencyApplication.formValue.validate();
       if (!validate(form, true) || !residencyApplication.formValue.validated) {
         ElMessage({
@@ -82,7 +79,7 @@ export default defineComponent({
 
       residencyApplication.formValue.initFieldsValues();
       ResidencyApplicationsStore.SetCourse(residencyCourse);
-      ResidencyApplicationsStore.SetUser(PHelp.Auth.GetUser());
+      PHelp.Auth.User().AssignTo(residencyApplication.formValue);
       await findEmail();
       mounted.value = true;
     });

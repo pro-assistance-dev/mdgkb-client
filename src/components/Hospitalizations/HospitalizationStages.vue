@@ -17,10 +17,10 @@ import HospitalizationStageCard from '@/components/Hospitalizations/Hospitalizat
 
 export default defineComponent({
   name: 'HospitalizationStages',
+  components: { HospitalizationStageCard },
   props: {
     hospitalizationTypeStages: { type: Array as PropType<HospitalizationTypeStage[]>, required: true },
   },
-  components: { HospitalizationStageCard },
   setup() {
     return {};
   },

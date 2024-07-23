@@ -1,8 +1,11 @@
 <template>
   <div v-if="mounted" class="menu">
     <div v-for="menu in page.menus" :key="menu.slug ? menu.slug : menu.id" class="menu-item">
-      <div class="item-style" :class="isActive(menu.slug ? menu.slug : String(menu.id))"
-        @click="changeMenu(menu.slug ? menu.slug : String(menu.id), menu.slug ? false : true)">
+      <div
+        class="item-style"
+        :class="isActive(menu.slug ? menu.slug : String(menu.id))"
+        @click="changeMenu(menu.slug ? menu.slug : String(menu.id), menu.slug ? false : true)"
+      >
         {{ menu.name }}
       </div>
     </div>
@@ -11,22 +14,21 @@
 
 <script lang="ts" setup>
 import Page from '@/services/classes/page/Page';
-import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   page: {
     type: Object as PropType<Page>,
     required: true,
   },
-})
-const emits = defineEmits(['selectMenu'])
+});
+const emits = defineEmits(['selectMenu']);
 const mounted = ref(false);
 const activeMenu: Ref<string | undefined> = ref('');
 
 const setMenuFromRoute = () => {
-  // let slug = Provider.route().query.menus as string;
-  let id = Provider.route().query.menud as string;
-  let slug = Router.Route().query.menus as string;
+  // let slug = Router.Route().query.menus as string;
+  const id = Router.Route().query.menud as string;
+  const slug = Router.Route().query.menus as string;
   if (id) {
     changeMenu(id, true);
   } else {
@@ -43,11 +45,11 @@ const changeMenu = (value: string, isId: boolean) => {
   const selectedMenu = props.page.getSelectedSideMenu();
   activeMenu.value = selectedMenu.slug ? selectedMenu.slug : selectedMenu.id;
   emits('selectMenu', selectedMenu);
-  if (isId) {
-    Provider.router.replace({ query: { menud: activeMenu.value as string } });
-  } else {
-    Provider.router.replace({ query: { menus: activeMenu.value as string } });
-  }
+  // if (isId) {
+  //   Router.Replace({ query: { menud: activeMenu.value as string } });
+  // } else {
+  //   Router.Replace({ query: { menus: activeMenu.value as string } });
+  // }
 };
 
 onBeforeMount(() => {

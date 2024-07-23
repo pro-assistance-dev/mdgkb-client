@@ -1,8 +1,8 @@
 import Division from '@/classes/Division';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import Gate from '@/classes/Gate';
 import Visit from '@/classes/Visit';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class VisitsApplication {

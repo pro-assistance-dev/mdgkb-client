@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import IOrdered from '@/services/interfaces/IOrdered';
-import { moveDown, moveUp } from '@/services/moves';
 export default defineComponent({
   name: 'TableMover',
   props: {

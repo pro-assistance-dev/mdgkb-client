@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper v-if="mounted" show-header :store="UsersStore">
     <template #header>
-      <SortSelect class="filters-block" :store-mode="true" :models="sortList" @load="loadUsers" />
+      <SortSelect class="filters-block" :store-mode="true" @load="loadUsers" />
     </template>
     <el-table v-if="users" :data="users">
       <el-table-column prop="email" label="email" sortable>
@@ -46,9 +46,9 @@ import UsersSortsLib from '@/libs/sorts/UsersSortsLib';
 const users: User[] = UsersStore.Items();
 const mounted: Ref<boolean> = ref(false);
 
-const create = (): void => {
-  Router.To('/admin/users/new');
-};
+// const create = (): void => {
+//   Router.To('/admin/users/new');
+// };
 
 const remove = async (id: string): Promise<void> => {
   await UsersStore.Remove(id);

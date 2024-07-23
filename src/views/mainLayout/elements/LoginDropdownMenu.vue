@@ -31,7 +31,6 @@
 import { LogoutOutlined } from '@ant-design/icons-vue';
 
 import { authGuard } from '@/router';
-import Provider from '@/services/Provider/Provider';
 
 defineProps({ showButtonName: { type: Boolean, default: false } });
 
@@ -45,8 +44,8 @@ const loadUser = async () => {
 
 const logout = async () => {
   PHelp.Auth.Logout();
-  const curRoute = Provider.route().name;
-  const rr = Provider.router.options.routes.find((r) => r.name === curRoute);
+  const curRoute = Router.Route().name;
+  const rr = Router.GetRouter().options.routes.find((r) => r.name === curRoute);
   if (rr && rr.meta && rr.meta.protected) {
     authGuard();
   }

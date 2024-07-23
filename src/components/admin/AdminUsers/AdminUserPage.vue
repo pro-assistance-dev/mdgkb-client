@@ -1,6 +1,6 @@
 <template>
   <div class="flex-column">
-    <el-form v-if="mounted" ref="form" :model="user" label-position="top">
+    <el-form ref="form" :model="user" label-position="top">
       <el-card>
         <el-form-item label="Роль">
           <el-select v-model="user.role" value-key="id" label="Роль">
@@ -17,75 +17,51 @@
         </el-form-item>
       </el-card>
       <el-card>
-        <HumanForm :store-module="'users'" :with-styles="false" />
+        <HumanForm v-model="user.human" :with-styles="false" />
       </el-card>
     </el-form>
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import User from '@/classes/User';
 import HumanForm from '@/components/admin/HumanForm.vue';
 import Role from '@/services/classes/Role';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 
-export default defineComponent({
-  name: 'AdminUserPage',
-  components: { HumanForm },
-  setup() {
-    const route = useRoute();
-    const router = useRouter();
-    const mounted: Ref<boolean> = ref(false);
-    const isNew: ComputedRef<boolean> = computed(() => !route.params['id']);
-    const user: User = UsersStore.Item();
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-    const form = ref();
-    const roles: Role[] = RolesStore.Items();
+const mounted: Ref<boolean> = ref(false);
+const isNew: ComputedRef<boolean> = computed(() => !Router.Id());
+const user: User = UsersStore.Item();
+const form = ref();
+const roles: Role[] = RolesStore.Items();
 
-    const submit = async (next?: NavigationGuardNext) => {
-      saveButtonClick.value = true;
-      try {
-        if (route.params['id']) {
-          await UsersStore.Update();
-        } else {
-          await UsersStore.Create();
-        }
-      } catch (error) {
-        ElMessage({ message: 'Что-то пошло не так', type: 'error' });
-        return;
-      }
-      next ? next() : router.push('/admin/users');
-    };
-    const findEmail = async (email: string) => {
-      if (email.length < 3) {
-        return;
-      }
-    };
+// const submit = async () => {
+//   saveButtonClick.value = true;
+//   try {
+//     if (Router.Id()) {
+//       await UsersStore.Update();
+//     } else {
+//       await UsersStore.Create();
+//     }
+//   } catch (error) {
+//     ElMessage({ message: 'Что-то пошло не так', type: 'error' });
+//     return;
+//   }
+//   Router.To('/admin/users');
+// };
+// const findEmail = async (email: string) => {
+//   if (email.length < 3) {
+//     return;
+//   }
+// };
 
-    onBeforeMount(async () => {
-      await RolesStore.GetAll();
-      mounted.value = true;
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(user, formUpdated, { deep: true });
-    });
+onBeforeMount(async () => {
+  await RolesStore.GetAll();
+  mounted.value = true;
+  // watch(user, formUpdated, { deep: true });
+});
 
-    onBeforeUnmount(() => {
-      UserStore.ResetItem();
-    });
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    return {
-      user,
-      form,
-      mounted,
-      findEmail,
-      isNew,
-      roles,
-    };
-  },
+onBeforeUnmount(() => {
+  UsersStore.ResetItem();
 });
 </script>
 

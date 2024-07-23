@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, PropType, ref } from '@vue/runtime-core';
+import { computed, defineComponent, onMounted, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'CubeLine',
@@ -55,11 +55,11 @@ export default defineComponent({
 
       let processedWidth = 0;
       let i = 0;
-      let colors = ['#e62c21', '#006bb4', '#0aa249', '#f3911c'];
+      const colors = ['#e62c21', '#006bb4', '#0aa249', '#f3911c'];
       let lastColor = '';
-      let cubesResult = [];
+      const cubesResult = [];
 
-      let colorChooser = function () {
+      const colorChooser = function () {
         let selected = null;
         while (selected === null || selected === lastColor) {
           selected = colors[Math.floor(Math.random() * colors.length)];
@@ -69,7 +69,7 @@ export default defineComponent({
       };
 
       while (processedWidth < width.value) {
-        let color = colorChooser();
+        const color = colorChooser();
         if (i === 3) {
           cubesResult.push({ width: long.value + 'px', height: side.value + 'px', color: color });
           processedWidth += long.value + gap.value * 2;
@@ -84,8 +84,8 @@ export default defineComponent({
     };
 
     const colorsStep = () => {
-      let setColors: Record<string, string> = {};
-      for (let index in cubes.value) {
+      const setColors: Record<string, string> = {};
+      for (const index in cubes.value) {
         let color = null;
         if (Number(index) === 0) {
           color = cubes.value[cubes.value.length - 1].color;
@@ -97,7 +97,7 @@ export default defineComponent({
       }
 
       let i = 0;
-      for (let index in setColors) {
+      for (const index in setColors) {
         cubes.value[i].color = setColors[index];
         i += 1;
         // cubes.value.map((cube: ICubes) => (cube.color = setColors[index]));

@@ -1,6 +1,6 @@
-import FileInfo from '@/services/classes/FileInfo';
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplication from '@/classes/ResidencyApplication';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class ResidencyApplicationPointsAchievement {

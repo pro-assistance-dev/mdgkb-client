@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import Specialization from '@/classes/Specialization';
@@ -40,7 +40,7 @@ export default defineComponent({
       mounted.value = true;
     });
 
-    const create = () => router.push(`${route.path}/new`);
+    // const create = () => router.push(`${route.path}/new`);
     const remove = async (id: string) => await SpecializationsStore.Remove(id);
     const edit = (id: string) => router.push(`${route.path}/${id}`);
 

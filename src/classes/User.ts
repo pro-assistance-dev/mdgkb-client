@@ -14,6 +14,7 @@ import Human from '@/services/classes/Human';
 import Role from '@/services/classes/Role';
 import UserAccount from '@/services/classes/UserAccount';
 import ClassHelper from '@/services/ClassHelper';
+import IOption from '@/services/interfaces/IOption';
 
 export default class User {
   id?: string;

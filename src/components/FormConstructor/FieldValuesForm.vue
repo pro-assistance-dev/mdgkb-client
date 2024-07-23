@@ -68,15 +68,15 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, onMounted, PropType, Ref, ref } from 'vue';
 
 import Field from '@/classes/Field';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import EditorContentRenderer from '@/components/EditorContentRenderer.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FieldValuesFormItem from '@/components/FormConstructor/FieldValuesFormItem.vue';
+import FileInfo from '@/services/classes/FileInfo.ts';
 
 export default defineComponent({
   name: 'FieldValuesForm',

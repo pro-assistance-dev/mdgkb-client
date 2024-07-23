@@ -1,27 +1,15 @@
 <template>
-  <el-form-item label="Email:">
-    <el-input v-model="email.address" @blur="update" />
-  </el-form-item>
-  <el-form-item label="Описание:">
-    <el-input v-model="email.description" @blur="update" />
-  </el-form-item>
+  <PInput v-model="model.address" @blur="update" />
+  <PInput v-model="model.description" @blur="update" />
 </template>
 
 <script setup lang="ts">
-import { PropType } from 'vue';
-
 import Email from '@/services/classes/Email';
-import Provider from '@/services/Provider/Provider';
 
-const props = defineProps({
-  email: {
-    type: Object as PropType<Email>,
-    required: true,
-  },
-});
+const model: Ref<Email> = defineModel<Email>() as Ref<Email>;
 
 const update = async () => {
-  await Provider.store.dispatch('emails/update', props.email);
+  EmailsStore.Update(model.value);
 };
 </script>
 

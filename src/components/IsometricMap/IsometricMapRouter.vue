@@ -32,7 +32,7 @@ import MapRouter from '@/classes/MapRouter';
 import BaseModalButtonClose from '@/components/Base/BaseModalButtonClose.vue';
 // const emit = defineEmits(['close', 'selectOnMapMode', 'selectStartNode', 'selectEndNode']);
 
-const props = defineProps({
+defineProps({
   mapRouter: { type: MapRouter, required: true },
 });
 

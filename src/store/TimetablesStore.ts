@@ -8,7 +8,7 @@ class S extends BaseStore<Timetable> {
   constructor() {
     super(Timetable, 'timetables');
   }
-  Weekdays(): Weekday[] | undefined {
+  Weekdays(): Weekday[] {
     return this.weekdays;
   }
   SetAllWeekdays(items: Weekday[]) {

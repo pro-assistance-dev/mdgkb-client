@@ -1,26 +1,19 @@
 <template>
-  <FiltersWrapper v-if="mounted"> </FiltersWrapper>
+  <FiltersWrapper> </FiltersWrapper>
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 
-import FilterCheckbox from '@/services/components/FilterCheckbox.vue';
-import FilterSelect from '@/components/Filters/FilterSelect.vue';
 import FiltersWrapper from '@/components/Filters/FiltersWrapper.vue';
-import ModeChoice from '@/components/ModeChoice.vue';
 import { DataTypes } from '@/services/interfaces/DataTypes';
+import IOption from '@/services/interfaces/IOption';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
-
 export default defineComponent({
   name: 'DpoFilters',
   components: {
-    FilterSelect,
-    ModeChoice,
-    FilterCheckbox,
     FiltersWrapper,
   },
   props: {
@@ -47,7 +40,7 @@ export default defineComponent({
     ];
 
     const selectSearch = async (event: ISearchObject): Promise<void> => {
-      await Provider.router.push(`/courses/${event.value}`);
+      await Router.To(`/courses/${event.value}`);
     };
 
     const resetFilter = () => {};
@@ -59,8 +52,6 @@ export default defineComponent({
       TokenService,
       Operators,
       DataTypes,
-      sortList: Provider.sortList,
-      mounted: Provider.mounted,
     };
   },
 });

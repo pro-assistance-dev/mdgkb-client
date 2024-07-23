@@ -1,6 +1,6 @@
 <template>
-  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Партнёры" @select-menu="setPartner">
-    <template v-for="section in customSections" :key="section" #[section.id]>
+  <PageComponent v-if="mounted" :custom-sections="customSections" :get-page="false" title="Партнёры">
+    <template v-for="section in customSections" :key="section.id" #[section.id]>
       <component :is="section.component"></component>
     </template>
   </PageComponent>
@@ -8,21 +8,21 @@
 
 <script lang="ts" setup>
 import CustomSection from '@/classes/CustomSection';
-import Partner from '@/classes/Partner';
-import PartnerType from '@/classes/PartnerType';
-const partners: Partner[] = PartnersStore.Items();
-const partnerTypes: PartnerType[] = PartnersTypesStore.Items();
+// import Partner from '@/classes/Partner';
+// import PartnerType from '@/classes/PartnerType';
+// const partners: Partner[] = PartnersStore.Items();
+// const partnerTypes: PartnerType[] = PartnersTypesStore.Items();
 
 const customSections: Ref<CustomSection[]> = ref([]);
 const mounted = ref(false);
 
-const load = async () => {
-  await PartnersTypesStore.GetAll();
-  await PartnersStore.GetAll();
-  const sections = partnerTypes.map((p: PartnerType) => CustomSection.Create(p.id as string, p.name, 'PartnersList'));
-  customSections.value.push(...sections);
-  mounted.value = true;
-};
+// const load = async () => {
+//   await PartnersTypesStore.GetAll();
+//   await PartnersStore.GetAll();
+//   const sections = partnerTypes.map((p: PartnerType) => CustomSection.Create(p.id as string, p.name, 'PartnersList'));
+//   customSections.value.push(...sections);
+//   mounted.value = true;
+// };
 </script>
 
 <style lang="scss" scoped>

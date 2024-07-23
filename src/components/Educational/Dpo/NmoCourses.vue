@@ -9,11 +9,7 @@ import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import NmoCoursesList from '@/components/Educational/Dpo/NmoCoursesList.vue';
 import PageWrapper from '@/components/PageWrapper.vue';
-import createSortModels from '@/services/CreateSortModels';
 import ISortModel from '@/services/interfaces/ISortModel';
-import { Orders } from '@/services/interfaces/Orders';
-import NmoCoursesSortsLib from '@/libs/sorts/NmoCoursesSortsLib';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'NmoCourses',
@@ -27,8 +23,6 @@ export default defineComponent({
     const loadCourses = async () => {};
 
     const load = async () => {
-      // Provider.setSortModels(NmoCoursesSortsLib.byName(Orders.Asc));
-      // Provider.setSortList(...createSortModels(NmoCoursesSortsLib));
       await loadCourses();
     };
 

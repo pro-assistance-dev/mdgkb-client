@@ -39,7 +39,6 @@ import { PropType, Ref, ref } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
 import StringItem from '@/services/components/StringItem.vue';
-import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   firstModel: {
@@ -74,9 +73,8 @@ const selectModel = async (model?: FilterModel): void => {
   if (filterModel.value?.valueEq(model)) {
     return;
   }
-  Provider.ftsp.value.replaceF(model, filterModel.value);
+  FTSP.Get().replaceF(model, filterModel.value);
   filterModel.value = model;
-  await Provider.router.replace({ query: {} });
   emits('load');
 };
 </script>

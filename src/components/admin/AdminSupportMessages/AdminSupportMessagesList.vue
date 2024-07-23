@@ -71,7 +71,7 @@ const edit = () => {
   isNotEditMode.value = false;
 };
 
-const save = async (next?: NavigationGuardNext) => {
+const save = async () => {
   if (!isEditMode.value) {
     return;
   }
@@ -79,7 +79,6 @@ const save = async (next?: NavigationGuardNext) => {
   await SupportMessagesStore.UpdateMany();
   isEditMode.value = false;
   isNotEditMode.value = true;
-  if (next) next();
 };
 
 const loadSupportMessages = async () => {

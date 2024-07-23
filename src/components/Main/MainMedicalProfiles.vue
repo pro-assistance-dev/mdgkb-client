@@ -97,13 +97,15 @@
 </template>
 
 <script lang="ts" setup>
-const medicalProfiles: ComputedRef<MedicalProfile[]> = Store.Items('medicalProfiles');
+import MedicalProfile from '@/classes/MedicalProfile';
+
+const medicalProfiles: MedicalProfile[] = MedicalProfilesStore.Items();
 const mounted: Ref<boolean> = ref(false);
 
 onBeforeMount(async () => {
   const ftsp = new FTSP();
-  ftsp.p = 6;
-  await Store.FTSP('medicalProfiles', { ftsp: ftsp, withCache: true });
+  // ftsp.p = 6;
+  await MedicalProfilesStore.FTSP({ ftsp: ftsp, withCache: true });
   setColors();
   mounted.value = true;
 });
@@ -111,7 +113,7 @@ onBeforeMount(async () => {
 const setColors = (): void => {
   const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
   let i = 0;
-  medicalProfiles.value.forEach((item) => {
+  medicalProfiles.forEach((item) => {
     item.background = colors[i];
     i === colors.length - 1 ? (i = 0) : i++;
   });

@@ -83,12 +83,11 @@
 
 <script lang="ts">
 import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import User from '@/classes/User';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ApplicationTable',
@@ -124,7 +123,7 @@ export default defineComponent({
         return;
       }
       if (status.isClarified()) {
-        await Provider.router.push(`/profile/education/applications/${formValue.id}`);
+        await Router.To(`/profile/education/applications/${formValue.id}`);
         return;
       }
       if (status.isEditable) {

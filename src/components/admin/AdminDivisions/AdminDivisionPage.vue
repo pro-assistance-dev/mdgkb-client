@@ -122,22 +122,21 @@
                       :show-more-button="true"
                       :show-remove-button="true"
                       @remove="
-                        $classHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
+                        ClassHelper.RemoveFromClassByIndex(scope.$index, division.doctorsDivisions, division.doctorsDivisionsForDelete)
                       "
-                      @showMore="Provider.routerPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)"
+                      @show-more="Router.RouterPushBlank(`/admin/doctors/${scope.row.doctor.employee.human.id}`)"
                     />
                   </template>
                 </el-table-column>
               </el-table>
-              {{ division.divisionDoctors }}
             </el-card>
           </el-container>
           <el-container>
             <el-card>
               <PButton skin="text" type="success" text="+ Добавить видео" margin="0" @click="division.addDivisionVideo()" />
-              <div v-for="(video, i) in division.divisionVideos" :key="video">
+              <div v-for="(video, i) in division.divisionVideos" :key="video.id">
                 <el-input v-model="video.youTubeVideoId" /><el-button
-                  @click="$classHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)"
+                  @click="ClassHelper.RemoveFromClassByIndex(i, division.divisionVideos, division.divisionVideosForDelete)"
                 >
                   Удалить
                 </el-button>
@@ -158,27 +157,21 @@ import Doctor from '@/classes/Doctor';
 import ClassHelper from '@/services/ClassHelper';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 
 const form = ref();
-Provider.form = form;
 const rules = ref(DivisioinRules);
 const mounted = ref(false);
 const division: Division = DivisionsStore.Item();
-const doctors: ComputedRef<Doctor[]> = computed(() => Provider.store.getters['doctors/items']);
-const doctor: ComputedRef<Doctor> = computed(() => Provider.store.getters['doctors/item']);
-const filteredDoctors = computed(() => Provider.store.getters['doctors/filteredDoctors']);
-const divisionDoctors = computed(() => Provider.store.getters['doctors/divisionDoctors']);
-const newDoctorId = ref();
+const doctor: Doctor = DoctorsStore.Item();
 const buildingOption = BuildingsStore.Item();
 const buildingsOptions = BuildingsStore.Items();
 
 const load = async (): Promise<void> => {
   await DivisionsStore.Get(Router.Id());
   await BuildingsStore.GetAll();
-  await Provider.loadItem(ClassHelper.GetPropertyName(Division).id);
+  await DivisionsStore.Get(Router.Id());
   if (division.floorId) {
-    division.buildingId = buildingOption.value.id;
+    division.buildingId = buildingOption.id;
   }
   PHelp.AdminUI.Head.Set(division.name, [Button.Success('Сохранить', Hooks.submit)]);
   mounted.value = true;
@@ -188,15 +181,15 @@ Hooks.onBeforeMount(load, {});
 Hooks.onBeforeRouteLeave(Hooks.submit);
 
 const changeBuildingHandler = (id: string) => {
-  const building = buildingsOptions.value.find((item: Building) => item.id == id);
+  const building = buildingsOptions.find((item: Building) => item.id == id);
   BuildingsStore.Set(building);
-  if (buildingOption.value.floors.length === 1) {
-    division.floorId = buildingOption.value.floors[0].id;
+  if (buildingOption.floors.length === 1) {
+    division.floorId = buildingOption.floors[0].id;
   } else {
     division.floorId = '';
   }
-  if (buildingOption.value.entrances.length === 1) {
-    division.entranceId = buildingOption.value.entrances[0].id;
+  if (buildingOption.entrances.length === 1) {
+    division.entranceId = buildingOption.entrances[0].id;
   } else {
     division.entranceId = '';
   }
@@ -204,17 +197,12 @@ const changeBuildingHandler = (id: string) => {
 };
 
 const selectDoctorSearch = async (item: ISearchObject) => {
-  await Provider.store.dispatch('doctors/get', item.value);
-  division.setChief(doctor.value);
+  await DoctorsStore.Get(item.value);
+  division.setChief(doctor);
 };
 
 const changeDivisionAddress = () => {
-  division.setAddressFromBuilding(buildingOption.value);
-};
-
-const addDoctor = async (search: ISearchObject) => {
-  await Provider.store.dispatch('doctors/get', search.value);
-  division.addDoctorDivision(doctor.value);
+  division.setAddressFromBuilding(buildingOption);
 };
 </script>
 

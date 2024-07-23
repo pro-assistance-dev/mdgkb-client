@@ -8,7 +8,7 @@
     minlength="10"
     show-word-limit
     :autosize="{ minRows: 4, maxRows: 6 }"
-    @focus="isAuth ? null : openLoginModal()"
+    @focus="PHelp.Auth.IsAuth() ? null : openLoginModal()"
   />
   <div class="button-block">
     <button type="button" :class="{ 'blue-btn': !isReviews }" @click="PHelp.Auth.IsAuth() ? sendComment() : openLoginModal()">
@@ -18,8 +18,6 @@
 </template>
 
 <script lang="ts" setup>
-import CommentRules from '@/classes/CommentRules';
-
 const props = defineProps({
   domen: {
     type: String,
@@ -44,7 +42,6 @@ const props = defineProps({
 });
 const emit = defineEmits(['closeDialog', 'scroll']);
 
-const commentForm = ref();
 const comment = CommentsStore.Item();
 
 const openLoginModal = () => {
@@ -58,8 +55,7 @@ const sendComment = async () => {
   // if (!validate(commentForm)) {
   //   return;
   // }
-  // comment.user.email = userEmail.value;
-  comment.userId = PHelp.Auth.GetUser().id;
+  PHelp.Auth.User().AssignTo(comment);
   comment.domen = props.domen;
   comment.itemId = props.itemId;
   console.log(comment);
@@ -78,21 +74,21 @@ const sendComment = async () => {
   emit('scroll');
 };
 
-const removeComment = async (id: string) => {
-  await CommentsStore.Remove(id);
-};
-const editComment = async (id: string) => {
-  // await CommentsStore.E('comments', id);
-};
-const saveCommentChanges = async (item: Comment) => {
-  // if (!validate(editCommentForm)) return;
-  try {
-    await CommentsStore.Update(item);
-  } catch (e) {
-    PHelp.Notification.Error('Что-то пошло не так');
-    return;
-  }
-};
+// const removeComment = async (id: string) => {
+//   await CommentsStore.Remove(id);
+// };
+// const editComment = async (id: string) => {
+//   // await CommentsStore.E('comments', id);
+// };
+// const saveCommentChanges = async (item: Comment) => {
+//   // if (!validate(editCommentForm)) return;
+//   try {
+//     await CommentsStore.Update(item);
+//   } catch (e) {
+//     PHelp.Notification.Error('Что-то пошло не так');
+//     return;
+//   }
+// };
 </script>
 
 <style lang="scss" scoped>

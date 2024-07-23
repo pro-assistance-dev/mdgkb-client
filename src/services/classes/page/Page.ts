@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 import Contact from '@/services/classes/Contact';
 import FileInfo from '@/services/classes/FileInfo';
 import CustomSection from '@/services/classes/page/CustomSection';
-import PageComment from '@/services/classes/page/PageComment';
 import PageDocument from '@/services/classes/page/PageDocument';
 import PageImage from '@/services/classes/page/PageImage';
 import PageSection from '@/services/classes/page/PageSection';

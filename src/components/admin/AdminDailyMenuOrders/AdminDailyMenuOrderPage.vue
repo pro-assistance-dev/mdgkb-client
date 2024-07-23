@@ -92,7 +92,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -122,7 +121,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await Provider.router.push('/admin/daily-menu-orders');
+      next ? next() : await Router.To('/admin/daily-menu-orders');
     };
 
     const updateNew = async () => {
@@ -145,7 +144,7 @@ export default defineComponent({
       await DishesGroupsStore.GetAll();
       dailyMenu.dishesGroups = dishesGroups;
       dailyMenu.initGroups();
-      await Provider.loadItem();
+      await DailyMenuOrdersStore.Get(Router.Id());
       await updateNew();
 
       // setInterval(async () => {
@@ -161,7 +160,7 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load, {
       adminHeader: {
-        title: computed(() => (Provider.route().params['id'] ? dailyMenuOrder.value.getFormattedNumber() : 'Создать заказ')),
+        title: computed(() => (Router.Route().params['id'] ? dailyMenuOrder.getFormattedNumber() : 'Создать заказ')),
         showBackButton: true,
         buttons: [
           {
@@ -182,7 +181,6 @@ export default defineComponent({
       dailyMenuOrder,
       submit,
       form,
-      mounted: Provider.mounted,
     };
   },
 });

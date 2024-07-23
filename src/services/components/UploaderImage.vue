@@ -7,7 +7,7 @@
       <div class="tools-button">
         <div class="ins">
           <PButton skin="text" text="Изменить" font-size="20px" width="300px" margin="100px 0 0 0" @click="openCropper(uploadedImg)" />
-          <PButton skin="text" text="Удалить" @click.="handleRemove()" font-size="20px" width="300px" margin="50px 0 0 0" />
+          <PButton skin="text" text="Удалить" font-size="20px" width="300px" margin="50px 0 0 0" @click="handleRemove()" />
         </div>
       </div>
     </div>
@@ -108,7 +108,7 @@ onBeforeMount(() => {
   console.log(props.fileInfo);
   if (props.fileInfo.fileSystemPath) {
     uploadedImg.value = props.fileInfo;
-    uploadedImg.value.url = props.fileInfo.getImageUrl();
+    uploadedImg.value.url = props.fileInfo.getImageUrl() as string;
     // fileList.value.push({ name: props.fileInfo.fileSystemPath, url: props.fileInfo.getImageUrl() });
   }
 });

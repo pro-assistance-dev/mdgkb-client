@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import DonorRuleUser from '@/classes/DonorRuleUser';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import IElementPlusFile from '@/interfaces/files/IElementPlusFile';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class DonorRule {

@@ -31,13 +31,11 @@ const loadDoctors = async () => {
 };
 
 const loadHeads = async () => {
-  // Provider.setSortModel(HeadsSortsLib.byOrder());
   await HeadsStore.FTSP();
 };
 
 const load = async () => {
   if (doctorsMode.value) {
-    // Provider.setSortModels(DoctorsSortsLib.byFullName(Orders.Asc));
     await loadDoctors();
     return;
   }

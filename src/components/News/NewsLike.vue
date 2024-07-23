@@ -14,7 +14,6 @@ import { computed, ComputedRef, defineComponent, PropType } from 'vue';
 import News from '@/classes/News';
 import NewsLike from '@/classes/NewsLike';
 import ClassHelper from '@/services/ClassHelper';
-import Provider from '@/services/Provider/Provider';
 import TokenService from '@/services/Token';
 export default defineComponent({
   name: 'NewsLike',

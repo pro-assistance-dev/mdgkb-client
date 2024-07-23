@@ -2,7 +2,6 @@ import Pagination from '@/services/classes/filters/Pagination';
 import SearchElement from '@/services/classes/SearchElement';
 import SearchGroup from '@/services/classes/SearchGroup';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 
 export default class SearchModel {
   query = '';
@@ -43,20 +42,18 @@ export default class SearchModel {
     const g = this.searchGroups.find((group: SearchGroup) => group.id === groupId);
     if (g) {
       this.searchGroup = g;
-      await Provider.router.replace({ query: { query: this.query, groupId: groupId } });
     } else {
       this.searchGroup = new SearchGroup();
-      await Provider.router.replace({ query: { query: this.query } });
     }
   }
 
   async reproduceFromRoute(): Promise<void> {
     this.setQuery();
-    await this.setSearchGroup(Provider.route().query.groupId as string);
+    await this.setSearchGroup(Router.Route().query.groupId as string);
   }
 
   setQuery(): void {
-    const query = Provider.route().query.query;
+    const query = Router.Route().query.query;
     if (query) {
       this.query = query as string;
     }

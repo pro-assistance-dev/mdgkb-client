@@ -9,7 +9,7 @@
     <el-carousel
       v-if="mounted"
       ref="carouselRef"
-      v-touch:swipe="(direction) => $carouselSwipe(direction, carouselRef)"
+      v-touch:swipe="(direction: string) => $carouselSwipe(direction, carouselRef)"
       :interval="5000"
       indicator-position="outside"
       height="200px"

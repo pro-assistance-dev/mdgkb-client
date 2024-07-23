@@ -5,7 +5,7 @@
         <el-step v-for="(step, i) in steps" :key="step" :class="{ 'success-step': activeStep > i }" :title="step" @click="toStep(i)" />
       </el-steps>
 
-      <HospitalizationsTable v-if="activeStep === 0" @selectHospitalization="submitStep" />
+      <HospitalizationsTable v-if="activeStep === 0" @select-hospitalization="submitStep" />
       <div v-if="activeStep === 1" class="card-item centered" style="display: flex; flex-direction: column; align-items: center">
         <div>
           <a @click="activeStep++"> Я не знаю, какое отделение мне нужно </a>

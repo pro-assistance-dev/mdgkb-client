@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ElenaImg from '@/assets/img/avatar-helper-elena.jpg'
+
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
 export default defineComponent({

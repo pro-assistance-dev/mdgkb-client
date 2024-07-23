@@ -28,7 +28,6 @@
 
 <script lang="ts" setup>
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 const mounted = ref(false);
 const banners = BannersStore.Items();
@@ -48,7 +47,6 @@ Hooks.onBeforeMount(load, {
         text: computed(() => (isEditMode.value ? 'Сохранить' : 'Редактировать')),
         action: computed(() => (isEditMode.value ? saveOrder : () => (isEditMode.value = !isEditMode.value))),
       },
-      { text: 'Добавить баннер', type: 'primary', action: Provider.createAdmin },
     ],
   },
 });

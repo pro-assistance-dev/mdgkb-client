@@ -30,8 +30,6 @@
 
 <script lang="ts" setup>
 import Doctor from '@/classes/Doctor';
-import { Operators } from '@/services/interfaces/Operators';
-import Provider from '@/services/Provider/Provider';
 
 const doctors: Doctor[] = DoctorsStore.Items();
 const mount = ref(false);

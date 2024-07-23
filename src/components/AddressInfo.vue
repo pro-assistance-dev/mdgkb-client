@@ -32,8 +32,6 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-
 import MapMarker from '@/assets/svg/DivisionCard/MapMarker.svg';
 import Point from '@/assets/svg/DivisionCard/Point.svg';
 
@@ -44,8 +42,8 @@ export default defineComponent({
     Point,
   },
   props: {
-    address: { type: String as PropType<string>, required: true },
-    mapId: { type: String as PropType<string>, required: false },
+    address: { type: String, required: true },
+    mapId: { type: String, required: false, default: '' },
   },
 });
 </script>

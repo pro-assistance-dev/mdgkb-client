@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import MedicalProfile from '@/classes/MedicalProfile';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
@@ -55,7 +55,7 @@ export default defineComponent({
       },
     };
     const router = useRouter();
-    let mounted = ref(false);
+    const mounted = ref(false);
     const form = ref();
 
     const medicalProfile: MedicalProfile = MedicalProfilesStore.Item();

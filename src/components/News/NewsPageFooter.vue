@@ -26,7 +26,7 @@
           effect="dark"
           class="news-tag-link"
           size="small"
-          @click.stop="filterNews(newsToTag.tag)"
+          @click.stop="filterNews()"
         >
           <span>{{ newsToTag.tag.label }}</span>
         </el-tag>
@@ -54,7 +54,7 @@
 import { EyeOutlined } from '@ant-design/icons-vue';
 
 import News from '@/classes/News';
-import Tag from '@/classes/Tag';
+// import Tag from '@/classes/Tag';
 
 const props = defineProps({
   news: {
@@ -76,8 +76,8 @@ const getIcon = (icon: string) => {
   return new URL(path, import.meta.url);
 };
 
-const filterNews = async (tag: Tag): Promise<void> => {
-  // await Provider.router.push('/news');
+const filterNews = async (): Promise<void> => {
+  // await Router.To('/news');
 };
 
 const getUrl = (): string => {

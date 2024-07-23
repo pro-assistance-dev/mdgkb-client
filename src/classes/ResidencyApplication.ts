@@ -1,9 +1,9 @@
 import Diploma from '@/classes/Diploma';
-import FileInfo from '@/services/classes/FileInfo';
 import Form from '@/classes/Form';
 import PointsAchievement from '@/classes/PointsAchievement';
 import ResidencyApplicationPointsAchievement from '@/classes/ResidencyApplicationPointsAchievement';
 import ResidencyCourse from '@/classes/ResidencyCourse';
+import FileInfo from '@/services/classes/FileInfo';
 import ClassHelper from '@/services/ClassHelper';
 // import ResidencyCourse from './ResidencyCourse';
 
@@ -75,9 +75,9 @@ export default class ResidencyApplication {
 
   private filterAchievements(onlyApproved: boolean): ResidencyApplicationPointsAchievement[] {
     let achievements: ResidencyApplicationPointsAchievement[] = [];
-    const simpleAchievementsCodes: string[] = ['А', 'Б', 'В', 'Д', 'Е', 'Ж'];
+    // const simpleAchievementsCodes: string[] = ['А', 'Б', 'В', 'Д', 'Е', 'Ж'];
     // const additionalAchievementsCodes: string[] = ['К.1', 'К.2', 'К.3', 'К.4', 'К.5'];
-    const orCodes: string[] = ['З', 'И', 'Г.1', 'Г.2', 'Г.3'];
+    // const orCodes: string[] = ['З', 'И', 'Г.1', 'Г.2', 'Г.3'];
 
     // const maxAdditionalPoints = 20;
     // let additionalPointsSum = 0;

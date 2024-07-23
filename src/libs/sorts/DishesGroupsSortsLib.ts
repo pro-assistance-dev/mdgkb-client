@@ -1,8 +1,7 @@
+import DishesGroup from '@/classes/DishesGroup';
 import SortModel from '@/services/classes/SortModel';
 import ClassHelper from '@/services/ClassHelper';
 import { Orders } from '@/services/interfaces/Orders';
-
-import DishesGroup from '@/classes/DishesGroup';
 
 const DishesGroupsSortsLib = (() => {
   function byOrder(order?: Orders): SortModel {

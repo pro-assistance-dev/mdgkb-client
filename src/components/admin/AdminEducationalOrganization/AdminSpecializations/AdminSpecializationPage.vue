@@ -15,8 +15,8 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, onBeforeUnmount, Ref, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Specialization from '@/classes/Specialization';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
@@ -26,7 +26,6 @@ export default defineComponent({
   name: 'AdminSpecializationPage',
 
   setup() {
-    const route = useRoute();
     const router = useRouter();
     const mounted: Ref<boolean> = ref(false);
     const specialization: Specialization = SpecializationsStore.Item();
@@ -44,7 +43,7 @@ export default defineComponent({
         return;
       }
       try {
-        if (route.params['id']) {
+        if (Router.Id()) {
           await SpecializationsStore.Update();
         } else {
           await SpecializationsStore.Create();

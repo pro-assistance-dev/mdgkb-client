@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { v4 as uuidv4 } from 'uuid';
-import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, withDirectives } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
   name: 'ModalWindow',
@@ -41,7 +40,6 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const form = ref();
-    // const representative: Ref<Representative> = computed(() => Provider.store.getters['representatives/item']);
 
     const submitForm = async (): Promise<void> => {
       // saveButtonClick.value = true;

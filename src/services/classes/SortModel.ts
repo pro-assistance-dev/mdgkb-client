@@ -1,5 +1,3 @@
-import { LocationQuery } from 'vue-router';
-
 import { Orders } from '@/services/interfaces/Orders';
 
 import ClassHelper from '../ClassHelper';
@@ -46,7 +44,7 @@ export default class SortModel {
 
     return [model, col, order].toString();
   }
-  async fromUrlQuery(obj: LocationQuery): Promise<void> {
+  async fromUrlQuery(): Promise<void> {
     const str = window.location.search;
     const sormModelString = str.substring(str.indexOf('s=') + 2, str.indexOf('|'));
     const params = new URLSearchParams(decodeURIComponent(sormModelString));

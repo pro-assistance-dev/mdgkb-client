@@ -51,8 +51,6 @@ const clearSelect = () => {
   newId.value = '';
 };
 const load = async () => {
-  // Provider.setSortModel(EducationOrganizationAcademicsSortsLib.byOrder());
-  // Provider.setLimit(9999);
   FTSP.Get().setS(AcademicsSortsLib.byOrder());
   FTSP.Get().p.limit = 999999;
   await AcademicsStore.FTSP();

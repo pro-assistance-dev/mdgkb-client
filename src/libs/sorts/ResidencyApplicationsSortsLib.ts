@@ -41,15 +41,6 @@ const ResidencyApplicationsSortsLib = (() => {
     );
   }
 
-  function byCourseName(order?: Orders): SortModel {
-    return SortModel.Create(
-      ResidencyApplication,
-      ClassHelper.GetPropertyName(ResidencyApplication).courseName,
-      order ? order : Orders.Asc,
-      `По названию курса ${order === Orders.Asc ? '(по возрастанию)' : '(по убыванию)'}`
-    );
-  }
-
   function byPointsAchievements(order?: Orders): SortModel {
     return SortModel.Create(
       ResidencyApplication,
@@ -82,7 +73,6 @@ const ResidencyApplicationsSortsLib = (() => {
     byCreatedAt,
     byUserFullName,
     byUserEmail,
-    // byCourseName,
     byPointsAchievements,
     byPointsEntrance,
     byPointsSum,

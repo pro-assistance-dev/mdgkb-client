@@ -7,7 +7,7 @@ export default class Month {
   lastWeekActive = false;
   active = false;
   number = 0;
-  constructor(d?: Date) {
+  constructor() {
     // const now = d ? new Date(d) : new Date();
     // if (!d) {
     //   this.active = true;

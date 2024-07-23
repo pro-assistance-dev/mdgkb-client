@@ -51,24 +51,21 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
-
 import DishesGroup from '@/classes/DishesGroup';
 import DishSample from '@/classes/DishSample';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'DishConstructorInfo',
   emits: ['selectLastDish'],
 
   setup() {
-    const dishesGroups: Ref<DishesGroup[]> = computed(() => Provider.store.getters['dishesGroups/items']);
-    const dishedSamples: Ref<DishSample[]> = computed(() => Provider.store.getters['dishesSamples/items']);
+    const dishesGroups: DishesGroup[] = DishesGroupsStore.Items();
+    const dishedSamples: DishSample[] = DishesSamplesStore.Items();
 
     const getLastDish = () => {
       let lastDishSample: DishSample = new DishSample();
       lastDishSample.updatedAt = new Date(-8640000000000000);
-      dishesGroups.value.forEach((g: DishesGroup) => {
+      dishesGroups.forEach((g: DishesGroup) => {
         g.dishSamples.forEach((e: DishSample) => {
           if (e.updatedAt && lastDishSample.updatedAt && e.updatedAt.getTime() > lastDishSample.updatedAt.getTime()) {
             lastDishSample = e;

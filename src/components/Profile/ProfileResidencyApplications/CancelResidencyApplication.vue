@@ -16,14 +16,13 @@
 
 <script lang="ts">
 import { ElLoading, ElMessage, ElNotification } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
 import FormStatusesFiltersLib from '@/libs/filters/FormStatusesFiltersLib';
-import Provider from '@/services/Provider/Provider';
+import FilterQuery from '@/services/classes/filters/FilterQuery';
 
 export default defineComponent({
   name: 'EditResidencyApplication',
@@ -66,7 +65,7 @@ export default defineComponent({
         type: 'success',
         message: 'Заявление успешно отозвано',
       });
-      Provider.router.push('/profile/residency-applications');
+      Router.To('/profile/residency-applications');
     };
 
     const loadStatuses = async () => {

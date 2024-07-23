@@ -13,7 +13,6 @@
 import { computed, defineComponent, onBeforeMount, PropType, Ref, ref, WritableComputedRef } from 'vue';
 
 import FilterModel from '@/services/classes/filters/FilterModel';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'FiltersList',
@@ -32,13 +31,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const emptyFilterModel: WritableComputedRef<FilterModel> = computed(() => new FilterModel());
     const selectedFilterModel: Ref<FilterModel | undefined> = ref(undefined);
-    const selectedId: Ref<string | undefined> = ref(undefined);
     const setDefaultFilterModel = (): void => {
       selectedFilterModel.value = emptyFilterModel.value;
     };
     onBeforeMount((): void => {
-      // const findedModel = Provider.findFilterModel(props.models);
-      // if (findedModel) {
       //   selectedFilterModel.value = findedModel;
       //   return;
       // }
@@ -46,13 +42,6 @@ export default defineComponent({
     });
 
     const setFilter = async () => {
-      if (selectedFilterModel.value && selectedFilterModel.value.model) {
-        await Provider.replaceFilterModel(selectedFilterModel.value, selectedId.value);
-        selectedId.value = selectedFilterModel.value.id;
-      } else {
-        await Provider.spliceFilterModel(selectedId.value);
-      }
-      Provider.dropPagination();
       emit('load');
     };
 

@@ -102,7 +102,7 @@ defineProps({
     required: true,
   },
 });
-const emits = defineEmits(['editDishSample']);
+defineEmits(['editDishSample']);
 const dishesGroupsSource: DishesGroup[] = DishesGroupsStore.Items();
 const dishesGroups: Ref<DishesGroup[]> = ref(dishesGroupsSource.filter((d: DishesGroup) => d.dishSamples.length > 0));
 const dishSamplesFlat: Ref<DishSample[]> = ref([]);

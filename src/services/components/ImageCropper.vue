@@ -42,12 +42,10 @@
 <script lang="ts" setup>
 import 'vue-advanced-cropper/dist/style.css';
 
-import { computed, Ref, ref } from 'vue';
 import { Cropper } from 'vue-advanced-cropper';
 
 import ICanvasResult from '@/services/interfaces/canvas/ICanvasResult';
 import ICoordinates from '@/services/interfaces/canvas/ICoordinates';
-import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   open: {
@@ -62,16 +60,16 @@ const props = defineProps({
 });
 const emits = defineEmits(['crop', 'close']);
 
-const cropper = computed(() => Provider.store.getters[`cropper/cropper`]);
+const cropper = CropperStore.Cropper();
 const resolution: Ref<number> = ref(props.defaultRatio);
 
-cropper.value.ratio = resolution.value;
+cropper.ratio = resolution.value;
 
 const selectResolution = async () => {
   if (resolution.value === 0) {
-    cropper.value.ratio = 0;
+    cropper.ratio = 0;
   } else {
-    cropper.value.ratio = resolution.value;
+    cropper.ratio = resolution.value;
   }
 };
 
@@ -89,7 +87,7 @@ const cropperRef = ref();
 const save = async () => {
   loading.value = true;
   const canvas = cropperRef.value.getResult();
-  if (cropper.value.ratio === 0) {
+  if (cropper.ratio === 0) {
     resolution.value = coordinates.value.width / coordinates.value.height;
   }
   if (canvas) {
@@ -101,10 +99,10 @@ const save = async () => {
   loading.value = false;
 };
 
-const cancel = () => {
-  resultImage.value = '';
-  emits('close');
-};
+// const cancel = () => {
+//   resultImage.value = '';
+//   emits('close');
+// };
 
 const onChange = (res: ICanvasResult) => {
   coordinates.value = res.coordinates;

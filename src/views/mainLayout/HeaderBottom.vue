@@ -1,7 +1,7 @@
 <template>
   <div class="navbar">
     <!-- <div v-if="devTitle === 'dev'" class="app-title">Разработка</div> -->
-    <div class="support-field"><Support /></div>
+    <div class="support-field"><SupportForm /></div>
     <div class="container">
       <div class="menu">
         <div class="menu-left"><BurgerMobile /></div>

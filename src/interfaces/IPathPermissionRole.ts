@@ -4,6 +4,6 @@ export default interface IPathPermissionRole {
   id?: string;
   pathPermission: IPathPermission;
   pathPermissionId?: string;
-  role: Role;
+  // role: Role;
   roleId?: string;
 }

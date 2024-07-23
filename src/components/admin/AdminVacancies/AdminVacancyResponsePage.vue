@@ -1,7 +1,7 @@
 <template>
   <div v-if="mounted" class="wrapper">
     <el-form ref="form" :key="vacancyResponse" :model="vacancyResponse" label-position="top">
-      <AdminFormValue :form="vacancyResponse.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @findEmail="findEmail" />
+      <AdminFormValue :form="vacancyResponse.formValue" :is-edit-mode="isEditMode" :email-exists="emailExists" @find-email="findEmail" />
     </el-form>
   </div>
 </template>
@@ -9,7 +9,6 @@
 <script lang="ts" setup>
 import FormStatus from '@/classes/FormStatus';
 import VacancyResponse from '@/classes/VacancyResponse';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 const mounted = ref(false);
@@ -17,7 +16,7 @@ const form = ref();
 const isEditMode: Ref<boolean> = ref(false);
 const editButtonTitle: Ref<string> = ref('Режим редактирования');
 
-const vacancyResponse: VacancyResponse = VacancyResponsesStore.Items();
+const vacancyResponse: VacancyResponse = VacancyResponsesStore.Item();
 const emailExists: Ref<boolean> = VacancyResponsesStore.emailExists;
 
 const changeEditMode = () => {
@@ -29,11 +28,9 @@ const changeEditMode = () => {
   }
 };
 
-const submit = async (next?: NavigationGuardNext) => {
+const submit = async () => {
   vacancyResponse.formValue.validate();
-  saveButtonClick.value = true;
   if (!validate(form, true) || !vacancyResponse.formValue.validated) {
-    saveButtonClick.value = false;
     return;
   }
   if (Router.Id()) {
@@ -43,7 +40,7 @@ const submit = async (next?: NavigationGuardNext) => {
     vacancyResponse.formValue.clearIds();
     await VacancyResponsesStore.Create();
   }
-  next ? next() : await Router.Back();
+  await Router.Back();
 };
 
 let initialStatus: FormStatus;
@@ -79,13 +76,6 @@ onBeforeMount(async () => {
   await loadItem();
   await updateNew();
   // await findEmail();
-  window.addEventListener('beforeunload', beforeWindowUnload);
-  watch(vacancyResponse, formUpdated, { deep: true });
-});
-
-const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  showConfirmModal(submit, next);
 });
 </script>
 

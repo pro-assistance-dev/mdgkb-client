@@ -64,7 +64,6 @@ import { useRouter } from 'vue-router';
 
 import SearchElement from '@/classes/SearchElement';
 import SearchModel from '@/services/classes/SearchModel';
-import Provider from '@/services/Provider/Provider';
 import StringsService from '@/services/Strings';
 import SeacrhBar from '@/views/mainLayout/elements/SearchBar.vue';
 
@@ -90,10 +89,9 @@ export default defineComponent({
       searchInput.value.inputRef.focus();
     };
 
-    const closeDrawer = () => Provider.store.commit('search/toggleDrawer', false);
+    const closeDrawer = SearchStore.ToggleDrawer(true);
 
     onBeforeMount(async () => {
-      // await Provider.store.dispatch('search/searchGroups');
       await searchModel.reproduceFromRoute();
       await search();
       // await selectSearchGroup(undefined);
@@ -103,7 +101,6 @@ export default defineComponent({
       searchModel.query = '';
     });
     const handleSelect = async (link: string) => {
-      Provider.store.commit('search/toggleDrawer', false);
       await router.push(link);
     };
     const changeFilter = (searchGroupIds: string[]) => {
@@ -118,7 +115,7 @@ export default defineComponent({
     };
 
     const search = async () => {
-      if (StringsService.canBeTranslited(searchModel.query)) {
+      if (StringsService.CanBeTranslited(searchModel.query)) {
         ElMessage({
           type: 'success',
           message: 'Запрос переведен',
@@ -126,7 +123,7 @@ export default defineComponent({
       }
       searchModel.options = [];
       searchModel.searchGroup.options = [];
-      searchModel.query = StringsService.translit(searchModel.query);
+      searchModel.query = StringsService.Translit(searchModel.query);
       await SearchStore.Full(searchModel);
       // results. = searchModel.searchGroup.options;
       // results.value = searchModel.options;

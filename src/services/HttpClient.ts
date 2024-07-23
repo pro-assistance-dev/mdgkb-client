@@ -1,10 +1,10 @@
-import FileInfo from '@/services/classes/FileInfo';
 import HttpEngine from '@/services/Axios';
+import FileInfo from '@/services/classes/FileInfo';
 import { IBodilessParams, IBodyfulParams } from '@/services/interfaces/IHTTPTypes';
 
 import LocalStore from './classes/LocalStore';
 import LocalStoreKeys from './interfaces/LocalStoreKeys';
-import HttpHeaders, { HttpHeadersValues, HttpHeadersKeys } from './types/HttpHeaders';
+import HttpHeaders, { HttpHeadersKeys,HttpHeadersValues } from './types/HttpHeaders';
 
 const baseUrl = import.meta.env.VITE_APP_BASE_URL ?? '';
 const apiVersion = import.meta.env.VITE_APP_API_V1 ?? '';

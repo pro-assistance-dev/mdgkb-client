@@ -129,7 +129,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const form = ref();
 
     return {

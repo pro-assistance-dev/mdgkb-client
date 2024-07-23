@@ -56,7 +56,6 @@ import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import TableMover from '@/components/admin/TableMover.vue';
 import DocumentUploader from '@/components/DocumentUploader.vue';
 import PageSection from '@/services/classes/page/PageSection';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminDocumentsForm',
@@ -71,12 +70,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup() {
-    return {
-      mounted: Provider.mounted,
-      form: Provider.form,
-    };
-  },
+  setup() {},
 });
 </script>
 

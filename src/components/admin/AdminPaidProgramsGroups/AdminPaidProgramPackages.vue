@@ -25,16 +25,16 @@
               <el-button icon="el-icon--home-filled" @click="addToAllPackages(element, index)">Добавить во все пакеты</el-button>
             </div>
 
-            <draggable handle=".handle" :list="element.paidProgramServices" item-key="id" @end="sortServices(element)">
-              <template #item="{ element }">
-                <div class="card-header">
-                  <el-icon class="handle"><Grid /></el-icon>
-                  <el-input v-model="element.name" />
-                  <el-input v-model="element.quantity" />
-                  <el-button type="danger" icon="el-icon-delete" @click.stop="element.removePaidProgramService(j)"></el-button>
-                </div>
-              </template>
-            </draggable>
+            <!-- <draggable handle=".handle" :list="element.paidProgramServices" item-key="id" @end="sortServices(element)"> -->
+            <!--   <template #item="{ element }"> -->
+            <!--     <div class="card-header"> -->
+            <!--       <el-icon class="handle"><Grid /></el-icon> -->
+            <!--       <el-input v-model="element.name" /> -->
+            <!--       <el-input v-model="element.quantity" /> -->
+            <!--       <el-button type="danger" icon="el-icon-delete" @click.stop="element.removePaidProgramService(j)"></el-button> -->
+            <!--     </div> -->
+            <!--   </template> -->
+            <!-- </draggable> -->
             <el-button type="success" size="mini" icon="el-icon-plus" @click="element.addPaidProgramService()"></el-button>
           </div>
         </template>
@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { Grid } from '@element-plus/icons-vue';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import draggable from 'vuedraggable';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
@@ -72,9 +72,9 @@ export default defineComponent({
 
     const removePackage = async (id: string) => {
       const program = PaidProgramsStore.Item();
-      const index = program.paidProgramPackages.findIndex((group: IPaidProgramServicesGroup) => group.id === id);
+      const index = program.paidProgramPackages.findIndex((group) => group.id === id);
       if (index > -1) {
-        program.paidProgramPackagesForDelete.push(program.paidProgramPackages[index].id);
+        program.paidProgramPackagesForDelete.push(program.paidProgramPackages[index].id as string);
       }
       program.paidProgramPackages.splice(index, 1);
     };

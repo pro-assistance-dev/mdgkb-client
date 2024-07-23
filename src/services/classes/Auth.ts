@@ -5,7 +5,7 @@ import { AuthInfo } from '@/services/types/AuthInfo';
 
 import { Constructable } from '../ClassHelper';
 
-class Auth<UserT extends IWithId> {
+class Auth {
   private isAuth = false;
   private user = new AuthUser();
   private tokens = new AuthTokens();
@@ -25,15 +25,15 @@ class Auth<UserT extends IWithId> {
     return this.user;
   }
 
-  GetUser(): UserT {
+  GetUser<UserT extends Constructable<IWithId>>(): UserT {
     return this.user.get() as UserT;
   }
 
-  SetUserConstructor(c: Constructable<UserT>) {
+  SetUserConstructor(c: Constructable<IWithId>) {
     this.user.setUserConstructor(c);
   }
 
-  SetState(authInfo: AuthInfo<UserT>) {
+  SetState<UserT extends IWithId>(authInfo: AuthInfo<UserT>) {
     this.user.set(authInfo.user);
     this.tokens.set(authInfo.tokens);
     this.isAuth = true;

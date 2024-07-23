@@ -5,7 +5,7 @@ import IForm from '@/services/interfaces/IForm';
 
 import PHelp from './PHelp';
 
-export default function validate(form: Ref<IForm>, hideErrorList?: boolean, fieldsList?: string[]): boolean {
+export default function validate(form: Ref<IForm>, hideErrorList?: boolean): boolean {
   let validationResult = true;
   form.value.validate((valid: boolean, errorFields: Record<string, unknown>) => {
     if (!valid) {

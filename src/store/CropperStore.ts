@@ -2,7 +2,6 @@ import Cropper from '@/services/classes/Cropper';
 
 class S {
   private cropper = new Cropper();
-  private curGalleryCropIndex = 0;
 
   Open(cropper: Cropper) {
     this.cropper = cropper;

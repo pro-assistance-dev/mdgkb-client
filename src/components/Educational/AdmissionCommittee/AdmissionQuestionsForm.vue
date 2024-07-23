@@ -123,7 +123,7 @@
       ><span>
         <FileUploader
           :file-info="
-            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('Guarantee').id).file
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('Guarantee')!.id!)!.file
           "
         />
       </span>
@@ -133,12 +133,12 @@
       ><span>
         <FileUploader
           :file-info="
-            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('ContractDzm').id).file
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('ContractDzm')!.id!)!.file
           "
         />
         <FileUploader
           :file-info="
-            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('MedWork').id).file
+            residencyApplicationValue.formValue.findFieldValue(residencyApplicationValue.formValue.getFieldByCode('MedWork')!.id!)!.file
           "
         />
       </span>
@@ -148,7 +148,7 @@
     <span class="dialog-footer">
       <div class="text-align-right margin-top-1">
         <el-button @click="showFreeDialog = false">Отмена</el-button>
-        <el-button v-if="showUploadButton" type="primary" @click="submitFreeFile"> Подтвердить загрузку </el-button>
+        <el-button type="primary" @click="submitFreeFile"> Подтвердить загрузку </el-button>
       </div>
     </span>
   </el-dialog>
@@ -165,14 +165,14 @@ const props = defineProps({
 });
 const years = [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
 
-const emits = defineEmits(['allQuestionsAnswered']);
+defineEmits(['allQuestionsAnswered']);
 const residencyApplicationValue = ref(new ResidencyApplication());
 
-const showUploadButton = (): boolean => {
-  //если загрузил
-  // residencyApplicationValue.formValue.findFieldValue(field.id).file.fileSystemPath
-  return true;
-};
+// const showUploadButton = (): boolean => {
+//   //если загрузил
+//   // residencyApplicationValue.formValue.findFieldValue(field.id).file.fileSystemPath
+//   return true;
+// };
 
 onBeforeMount(() => {
   residencyApplicationValue.value = props.residencyApplication;
@@ -239,9 +239,9 @@ const selectPaid = async (paid: boolean) => {
 
 const submitFreeFile = () => {
   const a = residencyApplicationValue.value.formValue;
-  const guarantee = a.findFieldValue(a.getFieldByCode('Guarantee').id).file.id;
-  const dzm = a.findFieldValue(a.getFieldByCode('ContractDzm').id).file.id;
-  const medWork = a.findFieldValue(a.getFieldByCode('MedWork').id).file.id;
+  const guarantee = a.findFieldValue(a.getFieldByCode('Guarantee')!.id!)!.file!.id!;
+  const dzm = a.findFieldValue(a.getFieldByCode('ContractDzm')!.id!)!.file!.id!;
+  const medWork = a.findFieldValue(a.getFieldByCode('MedWork')!.id!)!.file!.id!;
   console.log(guarantee, dzm, medWork);
   if (!guarantee || !(dzm || medWork)) {
     PHelp.Notification.Error('Загрузите необходимые документы');

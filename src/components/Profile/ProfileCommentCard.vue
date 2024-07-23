@@ -2,7 +2,7 @@
   <div class="reviews-block">
     <span v-if="question.hasNewAnswer()" class="sup-cymbol-counter"></span>
     <div class="user-avatar">
-      <Rating v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />
+      <RatingComponent v-if="isReview" :with-numbers="false" :comments="[{ comment: comment }]" />
     </div>
     <div class="reviews-info">
       <div v-if="comment.publishedOn || question.date">
@@ -44,11 +44,9 @@ import { defineComponent, PropType } from 'vue';
 
 import Comment from '@/classes/Comment';
 import Question from '@/classes/Question';
-import Rating from '@/components/Rating.vue';
 
 export default defineComponent({
   name: 'ProfileCommentCard',
-  components: { Rating },
   props: {
     comment: {
       type: Object as PropType<Comment>,

@@ -15,7 +15,7 @@
     </template>
 
     <template #tags>
-      <Rating :comments="division.comments" />
+      <RatingComponent :comments="division.comments" />
     </template>
 
     <template #contact>
@@ -62,7 +62,6 @@ import AddressInfo from '@/components/AddressInfo.vue';
 import HeaderInfo from '@/components/Base/HeaderInfo.vue';
 import ChiefCard from '@/components/ChiefCard.vue';
 import ContactsBlock from '@/components/ContactsBlock.vue';
-import Rating from '@/components/Rating.vue';
 import TimetableComponent from '@/components/TimetableComponent.vue';
 
 export default defineComponent({
@@ -71,7 +70,6 @@ export default defineComponent({
     AddressInfo,
     ChiefCard,
     TimetableComponent,
-    Rating,
     Attention,
     Ruble,
     CreditCard,

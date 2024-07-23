@@ -16,13 +16,12 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
 import Doctor from '@/classes/Doctor';
 import News from '@/classes/News';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import ISearchObject from '@/services/interfaces/ISearchObject';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsDoctors',

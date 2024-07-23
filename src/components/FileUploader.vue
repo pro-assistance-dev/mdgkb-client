@@ -19,8 +19,8 @@
 import { ElNotification } from 'element-plus';
 import { defineComponent, PropType, ref } from 'vue';
 
-import FileInfo from '@/services/classes/FileInfo.ts';
 import IFile from '@/interfaces/files/IFile';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import getExtension from '@/services/GetExtension';
 
 export default defineComponent({
@@ -52,7 +52,7 @@ export default defineComponent({
     const accept = ref(props.formats.map((el) => '.' + el).toString());
 
     function isAcceptedFormat(filename: string): boolean {
-      let ext = getExtension(filename);
+      const ext = getExtension(filename);
       if (props.formats.includes(ext.toLowerCase())) {
         return true;
       }

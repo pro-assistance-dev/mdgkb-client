@@ -41,12 +41,12 @@ import { useRoute } from 'vue-router';
 
 import IPaidProgram from '@/interfaces/IPaidProgram';
 
-const route = useRoute();
+useRoute();
 const mounted: Ref<boolean> = ref(false);
 const paidProgram: IPaidProgram = PaidProgramsStore.Item();
 
 onBeforeMount(async () => {
-  await PaidProgramsStore.Get(route.params['id']);
+  await PaidProgramsStore.Get(Router.Id());
   mounted.value = true;
 });
 </script>

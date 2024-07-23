@@ -32,12 +32,6 @@ export default class FileInfo implements IFileInfo {
 
   getFileUrl(): string {
     const url = this.url ? this.url : `${import.meta.env.VITE_APP_STATIC_URL}/${this.fileSystemPath}`;
-    if (!this.fileSystemPath) {
-      try {
-      } catch (error) {
-        throw 'Not';
-      }
-    }
     return url;
   }
 

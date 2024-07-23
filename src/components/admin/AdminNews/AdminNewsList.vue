@@ -1,7 +1,7 @@
 <template>
   <AdminListWrapper v-if="mounted" show-header :store="NewsStore">
     <template #header>
-      <RemoteSearchNew :key-value="'news'" @select="selectSearch" />
+      <RemoteSearch :key-value="'news'" @select="selectSearch" />
       <!-- <RemoteSearchNew :key-value="'news'" @select="selectSearch" /> -->
       <!-- <RemoteSearchNew :key /> -->
       <FiltersList class="filters-block" :models="createFilterModels()" @load="loadNews" />
@@ -118,10 +118,10 @@
 import News from '@/classes/News';
 import NewsFiltersLib from '@/libs/filters/NewsFiltersLib';
 import NewsSortsLib from '@/libs/sorts/NewsSortsLib';
+import FilterModel from '@/services/classes/filters/FilterModel`';
 import Hooks from '@/services/Hooks/Hooks';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import SortListConst from '@/services/SortList';
-
 const news = NewsStore.Items();
 
 const newsMain = NewsStore.Main();
@@ -168,11 +168,11 @@ const openModal = () => {
   isModalOpened.value = true;
 };
 
-const clearMain = async () => {
-  newsMain.main = false;
-  await NewsStore.Update(newsMain.value);
-  // Store.Update('news/setMain', { news: [new News()] });
-};
+// const clearMain = async () => {
+//   newsMain.main = false;
+//   await NewsStore.Update(newsMain.value);
+//   // Store.Update('news/setMain', { news: [new News()] });
+// };
 
 const clearHandler = async (previousItem: News, storeName: string, isMain: boolean) => {
   if (isMain) {
@@ -184,23 +184,23 @@ const clearHandler = async (previousItem: News, storeName: string, isMain: boole
   // Store.Commit(`news/${storeName}`, { news: [new News()] });
 };
 
-const selectMainNewsHandler = async (newItem: News, previousItem: News, storeName: string, isMain: boolean) => {
-  if (isMain) {
-    previousItem.main = false;
-  } else {
-    previousItem.subMain = false;
-  }
-  await NewsStore.Update(previousItem);
-  if (newItem) {
-    if (isMain) {
-      newItem.main = true;
-    } else {
-      newItem.subMain = true;
-    }
-    // Store.Commit(`news/${storeName}`, { news: [newItem] });
-    await NewsStore.Update(newItem);
-  }
-};
+// const selectMainNewsHandler = async (newItem: News, previousItem: News, storeName: string, isMain: boolean) => {
+//   if (isMain) {
+//     previousItem.main = false;
+//   } else {
+//     previousItem.subMain = false;
+//   }
+//   await NewsStore.Update(previousItem);
+//   if (newItem) {
+//     if (isMain) {
+//       newItem.main = true;
+//     } else {
+//       newItem.subMain = true;
+//     }
+//     // Store.Commit(`news/${storeName}`, { news: [newItem] });
+//     await NewsStore.Update(newItem);
+//   }
+// };
 
 Hooks.onBeforeMount(load, {
   sortsLib: NewsSortsLib,
@@ -219,15 +219,15 @@ const selectSearchMainNews = async (event: ISearchObject) => {
   await Store.Get('news', event.value);
 };
 
-interface RemoteSearchType extends InstanceType<typeof RemoteSearch> {
+interface RemoteSearchType {
   clear(): void;
 }
 
 const searchMainNewsRef: Ref<RemoteSearchType | null> = ref(null);
 
-const clickHadler = () => {
-  searchMainNewsRef.value?.clear();
-};
+// const clickHadler = () => {
+//   searchMainNewsRef.value?.clear();
+// };
 
 const makeNewsMain = async (previousItem: News, storeName: string, isMain: boolean) => {
   if (isMain) {
@@ -238,20 +238,20 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
 
   await Store.Update('news', previousItem);
 
-  if (searchResult.value) {
-    if (isMain) {
-      searchResult.value.main = true;
-    } else {
-      searchResult.value.subMain = true;
-    }
-    Store.Commit(`news/${storeName}`, { items: [searchResult.value] });
-    await Store.Update('news', searchResult.value);
-  }
+  // if (searchResult.value) {
+  //   if (isMain) {
+  //     searchResult.value.main = true;
+  //   } else {
+  //     searchResult.value.subMain = true;
+  //   }
+  //   Store.Commit(`news/${storeName}`, { items: [searchResult.value] });
+  //   await Store.Update('news', searchResult.value);
+  // }
 
   searchMainNewsRef.value?.clear();
 };
 
-interface ChartsModalType extends InstanceType<typeof ChartsModal> {
+interface ChartsModalType {
   open(): void;
 }
 

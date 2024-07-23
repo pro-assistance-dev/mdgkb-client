@@ -1,6 +1,6 @@
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import NmoCourse from '@/classes/NmoCourse';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class DpoApplication {

@@ -1,15 +1,13 @@
 <template>
   <div class="date-range">
     <DateInput v-model:model-value="startDate" @change="setStart" />
-    &nbsp-&nbsp
+    -
     <DateInput v-model:model-value="endDate" @change="setEnd" />
   </div>
 </template>
 
 <script setup lang="ts">
 import DateInput from '@/services/components/DateInput.vue';
-
-import Message from '@/services/Message';
 
 const props = defineProps({
   start: {
@@ -40,8 +38,8 @@ const endDate = ref(props.end);
 
 const setStart = (date: Date) => {
   startDate.value = date;
-  if (date > props.end) {
-    Message.Error('Дата начала больше даты окончания');
+  if (!props.end || date > props.end) {
+    PHelp.Notification.Error('Дата начала больше даты окончания');
     return;
   }
   emits('update:start', date);
@@ -50,8 +48,8 @@ const setStart = (date: Date) => {
 
 const setEnd = (date: Date) => {
   endDate.value = date;
-  if (date < props.start) {
-    Message.Error('Дата начала больше даты окончания');
+  if (!props.start || date < props.start) {
+    PHelp.Notification.Error('Дата начала больше даты окончания');
     return;
   }
   emits('update:end', date);

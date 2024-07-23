@@ -76,7 +76,6 @@ import Gate from '@/classes/Gate';
 import UserFormFields from '@/classes/UserFormFields';
 import VisitsApplication from '@/classes/VisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
-import ISearchObject from '@/services/interfaces/ISearchObject';
 import validate from '@/services/validate';
 
 const visitsApplication: VisitsApplication = VisitsApplicationsStore.Item();

@@ -3,12 +3,14 @@ const StoreModulesNames = [
   'FaqsStore',
   'PagesStore',
   'DivisionsStore',
+  'ExportsStore',
   'CommentsStore',
   'EmployeesStore',
   'UsersStore',
   'NewsStore',
   'AcademicsStore',
   'HeadsStore',
+  'ChatsStore',
   'TeachersStore',
   'VisitsApplicationsStore',
   'SupportMessagesStore',
@@ -63,6 +65,17 @@ const StoreModulesNames = [
   'FormStatusesStore',
   'ResidencyCoursesStore',
   'ResidencyApplicationsStore',
+  'EventsStore',
+  'CallbacksRequestsStore',
+  //
+  'AuthStore',
+  'ContactsStore',
+  'EmailsStore',
+  'FTSPPresetsStore',
+  'MenusStore',
+  'PhonesStore',
+  'UserAccountsStore',
+  'ValueTypesStore',
 ];
 
 export default StoreModulesNames;

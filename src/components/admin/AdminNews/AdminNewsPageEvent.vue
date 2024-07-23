@@ -12,26 +12,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref } from 'vue';
-
 import Event from '@/classes/Event';
 import News from '@/classes/News';
 import AdminNewsPageEventApplications from '@/components/admin/AdminNews/AdminNewsPageEventApplications.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminNewsPageEvent',
   components: { FormConstructor, AdminNewsPageEventApplications },
   setup() {
-    const news: Ref<News> = computed(() => Provider.store.getters['news/item']);
+    const news: News = NewsStore.Item();
 
     const createEvent = (newsIsEvent: boolean) => {
       if (!newsIsEvent) {
-        news.value.event = undefined;
+        news.event = undefined;
         return;
       }
-      news.value.event = new Event();
+      news.event = new Event();
     };
 
     return {

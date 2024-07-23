@@ -36,7 +36,6 @@ import FormStatus from '@/classes/FormStatus';
 import UserFormFields from '@/classes/UserFormFields';
 import VisitsApplication from '@/classes/VisitsApplication';
 import Hooks from '@/services/Hooks/Hooks';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
 const form = ref();
@@ -55,11 +54,11 @@ const changeEditMode = () => {
   isEditMode.value = !isEditMode.value;
 };
 
-const submit = async (next?: NavigationGuardNext) => {
+const submit = async () => {
   visitsApplication.formValue.validate();
-  saveButtonClick.value = true;
+  // saveButtonClick.value = true;
   if (!validate(form, true) || !visitsApplication.formValue.validated) {
-    saveButtonClick.value = false;
+    // saveButtonClick.value = false;
     return;
   }
   if (Router.Id()) {
@@ -69,7 +68,7 @@ const submit = async (next?: NavigationGuardNext) => {
     visitsApplication.formValue.clearIds();
     await VisitsApplicationsStore.Create();
   }
-  next ? next() : await Router.Back();
+  await Router.Back();
 };
 
 let initialStatus: FormStatus;
@@ -88,16 +87,16 @@ const loadItem = async () => {
   mounted.value = true;
 };
 
-const updateNew = async () => {
-  if (!Router.Id()) {
-    return;
-  }
-  if (!visitsApplication.formValue.isNew) {
-    return;
-  }
-  visitsApplication.formValue.isNew = false;
-  await VisitsApplicationsStore.Update();
-};
+// const updateNew = async () => {
+//   if (!Router.Id()) {
+//     return;
+//   }
+//   if (!visitsApplication.formValue.isNew) {
+//     return;
+//   }
+//   visitsApplication.formValue.isNew = false;
+//   await VisitsApplicationsStore.Update();
+// };
 
 const load = async () => {
   await loadItem();

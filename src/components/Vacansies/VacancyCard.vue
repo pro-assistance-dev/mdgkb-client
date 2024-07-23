@@ -58,7 +58,6 @@ import { defineComponent, PropType } from 'vue';
 
 import Vacancy from '@/classes/Vacancy';
 import ContactBlock from '@/components/ContactBlock.vue';
-import PButton from '@/services/components/PButton.vue';
 
 export default defineComponent({
   name: 'VacancyCard',

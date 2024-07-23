@@ -7,8 +7,8 @@ export default class Cache {
     ClassHelper.BuildClass(this, i);
   }
 
-  public cache<DataType>(data: DataType): void {
-    const res = { data, time: new Date() };
+  public cache(): void {
+    // const res = { data, time: new Date() };
     // sessionStorage.setItem(this.name, JSON.stringify(res));
   }
 
@@ -36,7 +36,7 @@ export default class Cache {
     if (!res) {
       res = await get();
       if (res) {
-        this.cache<DataType>(res);
+        this.cache();
       }
     }
     return res;

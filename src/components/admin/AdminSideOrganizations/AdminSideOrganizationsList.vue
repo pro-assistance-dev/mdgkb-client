@@ -29,7 +29,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';

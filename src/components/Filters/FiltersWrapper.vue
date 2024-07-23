@@ -32,9 +32,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent } from 'vue';
+import { defineComponent } from 'vue';
 
-import Provider from '@/services/Provider/Provider';
 export default defineComponent({
   name: 'FiltersWrapper',
   props: {
@@ -45,9 +44,7 @@ export default defineComponent({
   },
   emit: ['load'],
   setup() {
-    const clearFilterModel = () => {
-      Provider.resetFilterQuery();
-    };
+    const clearFilterModel = () => {};
 
     return { clearFilterModel };
   },

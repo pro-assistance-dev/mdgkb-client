@@ -1,7 +1,6 @@
 import IOrdered from '@/services/interfaces/IOrdered';
 
 import IWithId from './interfaces/IWithId';
-import IWithName from './interfaces/IWithName';
 
 export type Constructable<T> = { new (...args: any[]): T };
 
@@ -49,5 +48,14 @@ export default abstract class Arrays {
       return;
     }
     [arr[el1Index], arr[el2Index]] = [arr[el2Index], arr[el1Index]];
+  }
+
+  static Swap(arr: IWithId[], a: number, b: number) {
+    if (a < 0 || a >= arr.length || b < 0 || b >= arr.length) {
+      return;
+    }
+    const temp = arr[a];
+    arr[a] = arr[b];
+    arr[b] = temp;
   }
 }

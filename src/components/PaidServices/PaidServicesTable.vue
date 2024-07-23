@@ -48,9 +48,9 @@ export default defineComponent({
   },
   emits: ['selectService'],
   async setup(props) {
-    let sum = ref(0);
-    let codeFilter = ref('');
-    let nameFilter = ref('');
+    const sum = ref(0);
+    const codeFilter = ref('');
+    const nameFilter = ref('');
     const table = ref();
 
     const servicesFilter = (): IPaidService[] => {

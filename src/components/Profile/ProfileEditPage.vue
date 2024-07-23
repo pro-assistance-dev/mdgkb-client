@@ -40,7 +40,7 @@
     </div>
     <div class="right-block">
       <el-form ref="form" label-position="top" :model="user" :rules="rules">
-        <HumanForm :store-module="'users'" />
+        <HumanForm v-model="user.human" />
       </el-form>
       <!--    <div class="line-item">-->
       <!--      <div class="item-data">-->
@@ -87,7 +87,6 @@
     <!-- <el-card v-if="user">
     <template #header><h3 style="text-align: center; margin: 0">Профиль</h3></template>
     <el-form label-width="120px" label-position="left" :model="user">
-      <HumanForm :store-module="'users'" />
 
       <el-form-item prop="email" label="Email">
         <el-input v-model="user.email" placeholder="Email" type="email" />

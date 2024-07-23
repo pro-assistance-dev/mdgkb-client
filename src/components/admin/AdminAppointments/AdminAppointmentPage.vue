@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Appointment from '@/classes/Appointment';
@@ -21,7 +21,6 @@ import UserFormFields from '@/classes/UserFormFields';
 import AdminFormValue from '@/components/FormConstructor/AdminFormValue.vue';
 import DoctorRules from '@/rules/DoctorRules';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -47,7 +46,7 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : await Provider.router.push('/admin/appointments');
+      next ? next() : await Router.To('/admin/appointments');
     };
 
     const updateNew = async () => {
@@ -67,21 +66,11 @@ export default defineComponent({
 
     Hooks.onBeforeMount(load);
 
-    const toggleEditMode = () => {
-      isEditMode.value = !isEditMode.value;
-    };
-
     const loadAppointment = async (): Promise<void> => {
-      if (Provider.route().params['id']) {
+      if (Router.Route().params['id']) {
         AppointmentsStore.Get(Router.Id());
-        Provider.store.commit('admin/setHeaderParams', {
-          title: appointment.value.formValue.user.human.getFullName(),
-          showBackButton: true,
-          buttons: [{ action: toggleEditMode, text: 'Редактировать заявление', type: 'primary' }, { action: submit }],
-        });
       } else {
         AppointmentsStore.ResetState();
-        Provider.store.commit('admin/setHeaderParams', { title: 'Добавить врача', showBackButton: true, buttons: [{ action: submit }] });
       }
     };
 
@@ -96,7 +85,6 @@ export default defineComponent({
       rules,
       submit,
       form,
-      mounted: Provider.mounted,
     };
   },
 });

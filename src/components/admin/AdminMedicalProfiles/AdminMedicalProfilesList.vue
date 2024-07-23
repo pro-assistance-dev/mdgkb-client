@@ -15,7 +15,7 @@
               :show-remove-button="true"
               @edit="edit(scope.row.id)"
               @remove="remove(scope.row.id)"
-              @showMore="$router.push(scope.row.getLink())"
+              @show-more="$router.push(scope.row.getLink())"
             />
           </template>
         </el-table-column>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onBeforeMount } from 'vue';
+import { defineComponent, onBeforeMount } from 'vue';
 import { useRouter } from 'vue-router';
 
 import News from '@/classes/News';

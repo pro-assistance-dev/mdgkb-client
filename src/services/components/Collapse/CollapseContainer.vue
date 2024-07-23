@@ -1,11 +1,11 @@
 <template>
   <div>
-    <slot :activeIdx="activeIdx" :changeActiveId="changeActiveId" />
+    <slot :active-idx="activeIdx" :change-active-id="changeActiveId" />
   </div>
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
+import { watch } from 'vue';
 import { defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({

@@ -1,9 +1,9 @@
 <template>
   <div v-if="editor" class="editor">
-    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+    <menu-bar :hide-tg-button="hideTgButton" class="editor__header" :full-screen="showDialog" :editor="editor" @full-screen="toggleDialog" />
     <editor-content v-if="!showDialog" :editor="editor" class="scroll" :style="{ height: height, 'max-height': maxHeight }" />
     <el-dialog v-model="showDialog" fullscreen :show-close="false">
-      <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @fullScreen="toggleDialog" />
+      <menu-bar class="editor__header" :full-screen="showDialog" :editor="editor" @full-screen="toggleDialog" />
       <editor-content v-if="showDialog" :editor="editor" class="scroll" :style="{ height: 'auto', 'max-height': '80vh' }" />
     </el-dialog>
     <!-- <div class="counter">{{ counter }}&nbsp;{{ limit }}</div> -->
@@ -44,7 +44,7 @@ import { mergeAttributes, Node } from '@tiptap/core';
 import Youtube from '@tiptap/extension-youtube';
 import StarterKit from '@tiptap/starter-kit';
 import { Editor, EditorContent } from '@tiptap/vue-3';
-import { defineComponent, Ref, ref, watch } from 'vue';
+import { Ref, ref, watch } from 'vue';
 
 import MenuBar from './MenuBar.vue';
 

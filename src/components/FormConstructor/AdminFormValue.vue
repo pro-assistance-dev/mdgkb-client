@@ -43,7 +43,7 @@
           :email-exists="emailExists"
           :validate-email="validateEmail"
           :active-fields="activeFields"
-          @findEmail="findEmail"
+          @find-email="findEmail"
         />
       </div>
       <AdminUserInfo v-else :form="formValue" :active-fields="activeFields" />
@@ -106,19 +106,16 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
+import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
 import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import AdminUserInfo from '@/components/FormConstructor/AdminUserInfo.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import FieldValuesFormResult from '@/components/FormConstructor/FieldValuesFormResult.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
 export default defineComponent({

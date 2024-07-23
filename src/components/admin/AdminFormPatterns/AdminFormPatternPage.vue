@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="flex-column">
+  <div class="flex-column">
     <el-form ref="form" label-position="top" :model="formPattern" :rules="rules">
       <el-card>
         <el-form-item label="Название" prop="title">
@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { ElMessage } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeUnmount, ref, watch } from 'vue';
+import { defineComponent, onBeforeUnmount, ref, watch } from 'vue';
 import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
 
 import Form from '@/classes/Form';
@@ -46,7 +46,6 @@ import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
 import FormConstructor from '@/components/FormConstructor/FormConstructor.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
 
@@ -73,7 +72,7 @@ export default defineComponent({
         return;
       }
       try {
-        if (Provider.route().params['id']) {
+        if (Router.Route().params['id']) {
           await FormPatternsStore.Update();
         } else {
           await FormPatternsStore.Create();
@@ -82,13 +81,13 @@ export default defineComponent({
         ElMessage({ message: 'Что-то пошло не так', type: 'error' });
         return;
       }
-      next ? next() : Provider.router.push('/admin/form-patterns');
+      next ? next() : Router.To('/admin/form-patterns');
     };
 
     const changeStatusGroup = () => {};
 
     const load = async () => {
-      const id = Provider.route().params['id'];
+      const id = Router.Route().params['id'];
       if (id && typeof id === 'string') {
         await FormPatternsStore.Get(id);
         PHelp.AdminUI.Head.Set('Обновить шаблон', [Button.Success('Сохранить', submit)]);
@@ -113,7 +112,6 @@ export default defineComponent({
       formPattern,
       formStatusGroups,
       changeStatusGroup,
-      mounted: Provider.mounted,
       rules,
       form,
     };

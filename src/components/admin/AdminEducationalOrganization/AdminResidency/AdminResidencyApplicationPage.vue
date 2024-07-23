@@ -189,7 +189,7 @@
           "
           :is-edit-mode="isEditMode"
           :email-exists="emailExists"
-          @findEmail="findEmail"
+          @find-email="findEmail"
         />
         <AdminResidencyApplicationAchievementsPoints
           v-if="application.admissionCommittee"

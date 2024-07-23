@@ -26,7 +26,7 @@
 
 <script lang="ts" setup>
 const hovering = ref(false);
-const props = defineProps({
+defineProps({
   color: { type: String as PropType<string>, default: '' },
   hoverColor: { type: String as PropType<string>, default: '' },
   size: { type: String as PropType<string>, default: '' },

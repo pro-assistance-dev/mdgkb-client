@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted">
+  <div>
     <template v-if="!preparation.preparationRulesGroups.length">
       <h2>Выберите тип исследования</h2>
       <el-button @click="createPreparation(false)">Инструментальное</el-button>
@@ -38,29 +38,19 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
-
 import Preparation from '@/classes/Preparation';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'AdminPreparationPage',
   components: { CollapseContainer, CollapseItem },
   setup() {
     const form = ref();
-    Provider.form = form;
     const preparation: Preparation = PreparationsStore.Item();
 
-    Hooks.onBeforeMount(Provider.loadItem, {
-      adminHeader: {
-        title: computed(() => (Provider.id() ? '' : 'Создании подготовки к исследованию')),
-        showBackButton: true,
-        buttons: [{ action: Hooks.submit() }],
-      },
-    });
+    Hooks.onBeforeMount(async () => await PreparationsStore.Get(Router.Id()));
     Hooks.onBeforeRouteLeave();
 
     const createPreparation = (laboratory: boolean) => {
@@ -75,7 +65,6 @@ export default defineComponent({
       createPreparation,
       preparation,
       form,
-      mounted: Provider.mounted,
     };
   },
 });

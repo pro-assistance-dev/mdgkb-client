@@ -71,11 +71,11 @@
 </template>
 
 <script setup lang="ts">
-import MainInfoImg from '@/assets/img/main-page/templates/main-info.webp'
 import MedSpec from '@/assets/img/main-page/icons/1.svg';
+import Division from '@/assets/img/main-page/icons/2.svg';
 import Doc from '@/assets/img/main-page/icons/3.svg';
 import Prof from '@/assets/img/main-page/icons/4.svg';
-import Division from '@/assets/img/main-page/icons/2.svg';
+import MainInfoImg from '@/assets/img/main-page/templates/main-info.webp'
 const carouselRef = ref();
 </script>
 

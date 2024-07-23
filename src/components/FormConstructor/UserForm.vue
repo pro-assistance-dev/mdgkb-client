@@ -110,7 +110,6 @@
 
 <script lang="ts" setup>
 import Form from '@/classes/Form';
-import User from '@/classes/User';
 import UserFormFields from '@/classes/UserFormFields';
 import { MyCallbackWithOptParam } from '@/interfaces/elements/Callback';
 import PhoneService from '@/services/PhoneService';

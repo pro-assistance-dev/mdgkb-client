@@ -34,13 +34,9 @@
 </template>
 
 <script lang="ts">
-import { ElMessage } from 'element-plus';
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 
-import Doctor from '@/classes/Doctor';
-import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import IEducationalOrganization from '@/interfaces/IEducationalOrganization';
 
 export default defineComponent({
   name: 'AdminEducationalOrganizationTeachers',
@@ -62,18 +58,18 @@ export default defineComponent({
       //   ElMessage({ message: 'Выбранный преподаватель уже добавлен', type: 'error' });
       //   return;
       // }
-      const doctor = doctors.find((i: Doctor) => i.id === newId.value);
-      const teacher = new Teacher();
-      teacher.doctorId = newId.value;
-      teacher.doctor = doctor;
-      teacher.position = newPosition.value;
-      educationalOrganization.value.addTeacher(teacher);
+      // const doctor = doctors.find((i: Doctor) => i.id === newId.value);
+      // const teacher = new Teacher();
+      // teacher.doctorId = newId.value;
+      // teacher.doctor = doctor;
+      // teacher.position = newPosition.value;
+      // educationalOrganization.value.addTeacher(teacher);
       clearSelect();
     };
 
     return {
       newPosition,
-      educationalOrganization,
+      // educationalOrganization,
       newId,
       doctors,
       add,

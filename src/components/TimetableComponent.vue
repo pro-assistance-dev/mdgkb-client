@@ -53,20 +53,20 @@
       </div>
     </div>
   </div>
-  <Time />
+  <TimeIcon />
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import Time from '@/assets/svg/DivisionCard/Time.svg';
+import TimeIcon from '@/assets/svg/DivisionCard/Time.svg';
 import Timetable from '@/classes/Timetable';
 import TimetableDay from '@/classes/TimetableDay';
 
 export default defineComponent({
   name: 'TimetableComponent',
   components: {
-    Time,
+    TimeIcon,
   },
   props: {
     timetable: {

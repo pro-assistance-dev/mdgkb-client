@@ -9,7 +9,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'DateInputRange_v2',
+  name: 'DateInputRangeV2',
 });
 </script>
 

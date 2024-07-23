@@ -5,8 +5,8 @@
     <PButton skin="profile" text="Заказ еды" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile/daily-menu-orders')" />
     <PButton skin="profile" text="Настройки" width="260px" margin="10px 0 0 0" @click.stop="$router.push('/profile/settings')" />
     <PButton
-      skin="profile"
       v-if="UserService.isAdmin()"
+      skin="profile"
       text="Кабинет администратора"
       width="260px"
       margin="10px 0 0 0"

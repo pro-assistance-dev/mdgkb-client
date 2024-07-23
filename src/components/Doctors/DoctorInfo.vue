@@ -8,14 +8,13 @@
             data-test="doctor-photo"
             :src="doctor.employee.human.photo.getImageUrl()"
             alt="doctor-photo"
-            @error="user.human.photo.errorImg($event)"
           />
           <img v-else data-test="doctor-alt-photo" :src="DoctorDefault" alt="doctor-photo" />
           <div class="favor">
             <FavouriteIcon :domain-id="doctor.id" :domain-name="'doctor'" />
           </div>
         </div>
-        <Rating :comments="doctor.comments" />
+        <RatingComponent :comments="doctor.comments" />
       </div>
     </template>
 
@@ -73,12 +72,12 @@
         </template>
       </div>
       <TimetableComponent :timetable="doctor.timetable" />
-      <div v-if="doctor.division?.address" class="address">
-        Адрес приема:
-        <a data-test="map-link" @click="$router.push(`/isometric-map/${doctor.division.id}`)">
-          {{ doctor.division.address }}
-        </a>
-      </div>
+      <!-- <div v-if="doctor.division?.address" class="address"> -->
+      <!--   Адрес приема: -->
+      <!--   <a data-test="map-link" @click="$router.push(`/isometric-map/${doctor.division.id}`)"> -->
+      <!--     {{ doctor.division.address }} -->
+      <!--   </a> -->
+      <!-- </div> -->
       <router-link v-if="doctor.mosDoctorLink" data-test="mos-doctor-link" class="mos-doctor-img" :to="doctor.getMosDoctorLink()">
         <div class="mos-doctor-img-container">
           <img :src="MosDoctor" alt="mos-doctor" />

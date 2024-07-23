@@ -2,7 +2,7 @@
   <AdminListWrapper show-header pagination>
     <template #header>
       <!-- <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" /> -->
-      <RemoteSearchNew :key-value="'page'" @select="(e) => Router.ToAdmin(`pages-2/${e.id}`)" />
+      <RemoteSearch :key-value="'page'" @select="(e) => Router.ToAdmin(`pages-2/${e.id}`)" />
       <FilterSelect :models="pagesGroupFilters" @load="load" />
     </template>
     <el-table v-if="mounted" :data="pages">
@@ -34,17 +34,7 @@ import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 const pages: Page[] = PagesStore.Items();
 const mounted = ref(false);
 const load = async (): Promise<void> => {
-  // if (user.value.role.name !== 'ADMIN' && user.value.roleId) {
-  // Provider.setFilterModels(PagesFiltersLib.byRole(user.value.roleId));
-  // }
-  // Provider.setSortModels(PagesSortsLib.byTitle());
   await PagesStore.FTSP();
-  // if (user.value.role.name === 'ADMIN') {
-  //   Provider.store.commit('admin/setHeaderParams', {
-  //     title: 'Страницы',
-  //     buttons: [{ text: 'Добавить', type: 'primary', action: create }],
-  //   });
-  // } else {
   PHelp.AdminUI.Head.Set('Страницы', []);
 };
 

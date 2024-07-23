@@ -1,34 +1,27 @@
 <template>
   <div v-if="!entityName || entityName.length === 0" class="search-line">
     <div class="search-label">{{ label }}</div>
-    <RemoteSearch :key-value="searchKey" :max-width="2000" @select="(e) => $emit('selectSearch', e)" />
+    <RemoteSearch :key-value="searchKey" :max-width="2000" @select="(e: string) => $emit('selectSearch', e)" />
   </div>
   <div v-else class="container">
     <button class="admin-del" @click.prevent="$emit('reset')">Удалить</button>
-    <div class="name" @click="Provider.routerPushBlank(link)">
-      {{ entityName }}
-    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
-import Provider from '@/services/Provider/Provider';
-
 export default defineComponent({
   name: 'SetEntity',
-  emits: ['selectSearch', 'reset'],
   props: {
     link: { type: String as PropType<string>, required: true },
     searchKey: { type: String as PropType<string>, required: true },
-    label: { type: String as PropType<string>, dafault: 'Выберите сотрудника для добавления:' },
+    // label: { type: String as PropType<string>, dafault: 'Выберите сотрудника для добавления:' },
     entityName: { type: String as PropType<string>, required: true },
   },
+  emits: ['selectSearch', 'reset'],
   setup() {
-    return {
-      Provider,
-    };
+    return {};
   },
 });
 </script>

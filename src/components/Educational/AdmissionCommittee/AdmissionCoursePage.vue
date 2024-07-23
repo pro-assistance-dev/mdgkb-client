@@ -87,29 +87,27 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 
 import ResidencyCourse from '@/classes/ResidencyCourse';
 import AdmissionForm from '@/components/Educational/AdmissionCommittee/AdmissionForm.vue';
 import SharesBlock from '@/components/SharesBlock.vue';
 import chooseRandomBrandColor from '@/services/brandColors';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import scroll from '@/services/Scroll';
 
-import ClassHelper from '../../../services/ClassHelper';
 export default defineComponent({
   name: 'AdmissionCoursePage',
   components: { AdmissionForm, SharesBlock },
   setup() {
-    const residencyCourse: ResidencyCourse = ResidencyCoursesStorem.Item();
+    const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
     const showForm: Ref<boolean> = ref(false);
     const showFormFunc = () => {
       showForm.value = true;
     };
 
     const openRespondForm = async () => {
-      await showFormFunc();
+      showFormFunc();
       scroll('#responce-form');
     };
     const closeRespondForm = () => {
@@ -119,8 +117,7 @@ export default defineComponent({
 
     const load = async () => {
       await ResidencyCoursesStore.Get(Router.Id());
-      Provider.mounted.value = true;
-      if (Provider.route().query.respondForm) {
+      if (Router.Route().query.respondForm) {
         await openRespondForm();
       }
     };
@@ -140,7 +137,6 @@ export default defineComponent({
       residencyCourse,
       getUrl,
       svgDummy,
-      mounted: Provider.mounted,
       showForm,
       openRespondForm,
       closeRespondForm,

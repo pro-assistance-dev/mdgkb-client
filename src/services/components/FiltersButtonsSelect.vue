@@ -36,7 +36,6 @@ import GridContainer from '@/services/components/GridContainer.vue';
 import InfoItem from '@/services/components/InfoItem.vue';
 import PButton from '@/services/components/PButton.vue';
 import StringItem from '@/services/components/StringItem.vue';
-import Provider from '@/services/Provider/Provider';
 
 const props = defineProps({
   models: {

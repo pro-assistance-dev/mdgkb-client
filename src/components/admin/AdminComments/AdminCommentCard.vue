@@ -20,7 +20,7 @@
               minute: 'numeric',
             })
           }}</span>
-          <Rating :with-numbers="false" :comments="[{ comment: comment }]" />
+          <RatingComponent :with-numbers="false" :comments="[{ comment: comment }]" />
         </div>
       </div>
     </template>
@@ -40,7 +40,7 @@
           margin="0 10px 0 0"
           @click="markPositive"
         />
-        <PButton v-if="!comment.modChecked || comment.positive" skin="profile" color="danger" text="Не отображать" @click="markNegative" />
+        <PButton v-if="!comment.modChecked || comment.positive" skin="profile" color="danger" text="Не отображать" @click="markNegative" />
       </div>
     </div>
   </el-card>

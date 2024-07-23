@@ -1,8 +1,8 @@
 import Division from '@/classes/Division';
-import FileInfo from '@/services/classes/FileInfo.ts';
 import Form from '@/classes/Form';
 import HospitalizationType from '@/classes/HospitalizationType';
 import { ReferralTypes } from '@/interfaces/ReferralTypes';
+import FileInfo from '@/services/classes/FileInfo.ts';
 import ClassHelper from '@/services/ClassHelper';
 
 export default class Hospitalization {

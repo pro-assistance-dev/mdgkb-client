@@ -51,29 +51,28 @@ import FormStatusGroup from '@/classes/FormStatusGroup';
 import FormStatusToFormStatus from '@/classes/FormStatusToFormStatus';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 import AdminListWrapper from '@/views/adminLayout/AdminListWrapper.vue';
 
-const formStatuses: ComputedRef<FormStatus[]> = FormStatusesStore.Items();
+const formStatuses: FormStatus[] = FormStatusesStore.Items();
 const formStatusGroup: FormStatusGroup = FormStatusGroupsStore.Item();
 const formStatusToFormStatuses: FormStatusToFormStatus[] = FormStatusesStore.FormStatusToFormStatuses();
 const isEditMode: Ref<boolean> = ref(false);
 const isNotEditMode: Ref<boolean> = ref(true);
 
 const create = (): void => {
-  Provider.router.push({ name: 'AdminFormStatusPageCreate', params: { groupId: Provider.route().params['groupId'] } });
+  // Router.To({ name: 'AdminFormStatusPageCreate', params: { groupId: Router.Route().params['groupId'] } });
 };
 
 const remove = async (id: string): Promise<void> => {
   await FormStatusesStore.Remove(id);
 };
 
-const edit = (id: string): void => {
-  Provider.router.push({ name: 'AdminFormStatusPageUpdate', params: { groupId: Provider.route().params['groupId'], id } });
+const edit = (): void => {
+  // Router.To({ name: 'AdminFormStatusPageUpdate', params: { groupId: Router.Route().params['groupId'], id } });
 };
 
 const updateAll = async (): Promise<void> => {
-  await FormStatusesStore.UpdateAll();
+  await FormStatusesStore.UpdateMany();
   isEditMode.value = false;
   isNotEditMode.value = true;
 };
@@ -84,9 +83,9 @@ const openEditMode = () => {
 
 const load = async () => {
   await FormStatusesStore.FTSP();
-  await FormStatusGroupsStore.Get(Provider.route().params['groupId']);
-  FormStatusesStore.SeedFormStatusToFormStatuses();
-  PHelp.AdminUI.Head.Set(Provider.route().params['groupId'] ? `Статусы формы ${formStatusGroup.name}` : 'Статусы форм', [
+  // await FormStatusGroupsStore.Get(Router.Route().params['groupId']);
+  // FormStatusesStore.SeedFormStatusToFormStatuses();
+  PHelp.AdminUI.Head.Set(Router.Route().params['groupId'] ? `Статусы формы ${formStatusGroup.name}` : 'Статусы форм', [
     Button.Success('Редактировать', openEditMode, isNotEditMode),
     Button.Success('Сохранить', updateAll, isEditMode),
     Button.Success('Добавить', create),

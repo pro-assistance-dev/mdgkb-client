@@ -11,7 +11,6 @@ import CustomSection from '@/classes/CustomSection';
 import ResidencyCourses from '@/components/Educational/Residency/ResidencyCourses.vue';
 import PageComponent from '@/components/Page/PageComponent.vue';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'ResidencyPage',
@@ -31,7 +30,6 @@ export default defineComponent({
 
     return {
       customSections,
-      mounted: Provider.mounted,
     };
   },
 });

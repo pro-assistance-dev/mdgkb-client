@@ -12,25 +12,24 @@
       </el-card>
     </div>
 
-    <div v-if="mounted">
+    <div>
       <PaidServicesTable ref="ginService" :services="paidServices" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, onUnmounted, Ref, ref } from 'vue';
+import { defineComponent, onMounted, onUnmounted, ref } from 'vue';
 
 import PaidServicesTable from '@/components/PaidServices/PaidServicesTable.vue';
 import IPaidService from '@/interfaces/IPaidService';
 import Hooks from '@/services/Hooks/Hooks';
-import Provider from '@/services/Provider/Provider';
 
 export default defineComponent({
   name: 'PaidServices',
   components: { PaidServicesTable },
   setup() {
-    let sum = ref(0);
+    const sum = ref(0);
     const scrollOffset = ref(0);
     const previousOffset = ref(0);
     const rememberedOffset = ref(0);
@@ -54,7 +53,6 @@ export default defineComponent({
     onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
     return {
-      mounted: Provider.mounted,
       paidServices,
       // clearSelectedService,
       sum,

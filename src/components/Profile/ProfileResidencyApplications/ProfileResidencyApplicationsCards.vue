@@ -32,9 +32,9 @@
             <div class="position">
               <div class="flex">
                 <PButton
-                  skin="profile"
                   v-for="item in residencyApplication.formValue.getUserActions()"
                   :key="item.id"
+                  skin="profile"
                   :text="item.childFormStatus.userActionName"
                   margin="0 10px 0 0"
                   width="120px"
@@ -54,37 +54,34 @@
 </template>
 
 <script lang="ts" setup>
-import { ElMessageBox } from 'element-plus';
-import { computed, ComputedRef, defineComponent, onBeforeMount, onBeforeUnmount } from 'vue';
+import { onBeforeMount, onBeforeUnmount } from 'vue';
 
-import Form from '@/classes/Form';
 import FormStatus from '@/classes/FormStatus';
 import ResidencyApplication from '@/classes/ResidencyApplication';
 import User from '@/classes/User';
 import CollapseContainer from '@/services/components/Collapse/CollapseContainer.vue';
 import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Provider from '@/services/Provider/Provider';
 
 const user: User = UsersStore.Item();
 const formStatuses: FormStatus[] = FormStatusesStore.Items();
-const cancelApplication = async (formValue: Form, status: FormStatus) => {
-  ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
-    confirmButtonText: 'Да',
-    cancelButtonText: 'Отмена',
-    type: 'warning',
-  }).then(async () => {
-    formValue.setStatus(status, formStatuses.value);
-    await FormValuesStore.Update(formValue);
-  });
-};
+// const cancelApplication = async (formValue: Form, status: FormStatus) => {
+//   ElMessageBox.confirm('Вы уверены, что хотите отозвать заявление?', {
+//     confirmButtonText: 'Да',
+//     cancelButtonText: 'Отмена',
+//     type: 'warning',
+//   }).then(async () => {
+//     formValue.setStatus(status, formStatuses.value);
+//     await FormValuesStore.Update(formValue);
+//   });
+// };
 
 const updateFormStatus = async (application: ResidencyApplication, status: FormStatus) => {
   if (status.isCancelled()) {
-    await Provider.router.push(`/profile/residency-applications/cancel/${application.id}`);
+    await Router.To(`/profile/residency-applications/cancel/${application.id}`);
     return;
   }
   if (status.isClarified()) {
-    await Provider.router.push(`/profile/residency-applications/${application.id}`);
+    await Router.To(`/profile/residency-applications/${application.id}`);
     return;
   }
   if (status.isEditable) {
@@ -99,7 +96,7 @@ onBeforeMount(async () => {
 
 onBeforeUnmount(async () => {
   user.setResidencyApplicationsViewed();
-  await FormValuesStore.UpdateMany(user.getResidencyApplicationsFormValues());
+  // await FormValuesStore.UpdateMany(user.getResidencyApplicationsFormValues());
 });
 </script>
 

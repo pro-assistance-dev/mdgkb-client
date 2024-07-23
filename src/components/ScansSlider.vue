@@ -43,8 +43,8 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, PropType, Ref, ref } from 'vue';
 
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import IScanWithDescription from '@/interfaces/IScanWithDescription';
+import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
 import makeCarousel from '@/services/MakeCarousel';
 
 export default defineComponent({

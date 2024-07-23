@@ -30,7 +30,6 @@
 
 <script lang="ts" setup>
 import Menu from '@/services/classes/Menu';
-import Provider from '@/services/Provider/Provider';
 
 defineProps({
   vertical: {
@@ -63,7 +62,7 @@ onBeforeMount(async () => {
 
 const setActiveMenu = () => {
   menus.value.forEach((m: Menu) => (m.active = false));
-  const activeMenu = menus.value.find((m: Menu) => m.containPath(Provider.route().path));
+  const activeMenu = menus.value.find((m: Menu) => m.containPath(Router.Route().path));
   if (activeMenu) {
     activeMenu.active = true;
   }

@@ -61,9 +61,9 @@
 </template>
 
 <script lang="ts">
-import { watch } from '@vue/runtime-core';
 import { ElLoading, ElMessage, ElMessageBox } from 'element-plus';
-import { computed, defineComponent, PropType, Ref, ref } from 'vue';
+import { watch } from 'vue';
+import { defineComponent, PropType, Ref, ref } from 'vue';
 
 import Delete from '@/assets/svg/Buffet/Delete.svg';
 import Close from '@/assets/svg/Filter/Close.svg';
@@ -74,8 +74,6 @@ import TableCard from '@/components/Diets/TableCard.vue';
 import FieldValuesForm from '@/components/FormConstructor/FieldValuesForm.vue';
 import UserForm from '@/components/FormConstructor/UserForm.vue';
 import PhoneService from '@/services/PhoneService';
-import Provider from '@/services/Provider/Provider';
-import validate from '@/services/validate';
 
 export default defineComponent({
   name: 'ModalBufetCart',
@@ -90,7 +88,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const dailyMenuOrder: DailyMenuOrder = DailyMenuOrdersStore.Item();
     const userForm = ref();
-    let costOfDelivery = Number(0);
+    const costOfDelivery = Number(0);
     const totalPrice: Ref<number> = ref(dailyMenuOrder.value.getPriceSum() + costOfDelivery);
 
     const checkDailyMenuOrderIsEmpty = () => {
@@ -131,7 +129,7 @@ export default defineComponent({
         cancelButtonText: 'Закрыть',
         center: true,
       }).then(() => {
-        Provider.router.push('/profile/daily-menu-orders');
+        Router.To('/profile/daily-menu-orders');
       });
 
       // TODO получение координат
@@ -165,7 +163,6 @@ export default defineComponent({
       clearOrder,
       createOrder,
       dailyMenuOrder,
-      mounted: Provider.mounted,
 
       costOfDelivery,
       totalPrice,

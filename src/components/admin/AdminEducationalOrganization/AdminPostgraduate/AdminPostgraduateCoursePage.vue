@@ -182,8 +182,8 @@
 </template>
 
 <script lang="ts">
-import { computed, ComputedRef, defineComponent, onBeforeMount, ref, watch } from 'vue';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRoute, useRouter } from 'vue-router';
+import { defineComponent, onBeforeMount, ref, watch } from 'vue';
+import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized, useRouter } from 'vue-router';
 
 import Form from '@/classes/Form';
 import PostgraduateCourse from '@/classes/PostgraduateCourse';
@@ -192,8 +192,6 @@ import Teacher from '@/classes/Teacher';
 import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
 import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
 import FileUploader from '@/components/FileUploader.vue';
-import FilterQuery from '@/services/classes/filters/FilterQuery';
-import PageSection from '@/services/classes/page/PageSection';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 import useConfirmLeavePage from '@/services/useConfirmLeavePage';
 import validate from '@/services/validate';
@@ -206,9 +204,8 @@ export default defineComponent({
     FileUploader,
   },
   setup() {
-    const route = useRoute();
     const router = useRouter();
-    let mounted = ref(false);
+    const mounted = ref(false);
     const form = ref();
 
     const postgraduateCourse: PostgraduateCourse = PostgraduateCoursesStore.Item();
@@ -241,7 +238,7 @@ export default defineComponent({
         saveButtonClick.value = false;
         return;
       }
-      if (!route.params['id']) {
+      if (!Router.Id()) {
         await PostgraduateCoursesStore.Create();
         await router.push(`/admin/postgraduate-courses`);
         return;

@@ -10,9 +10,9 @@
           <div v-if="sameNamesExists" class="attention">Вкладки с такими названиями уже есть в меню!</div>
           <PButton skin="profile" type="primary" text="Вставить" margin="5px 0 0 0" width="80px" @click="paste(false)" />
           <PButton
+            v-if="sameNamesExists"
             skin="profile"
             type="success"
-            v-if="sameNamesExists"
             text="Заменить"
             margin="5px 0 0 0"
             width="80px"

@@ -37,7 +37,7 @@ export default class PaidProgramServicesGroup implements IPaidProgramServicesGro
     this.paidProgramServices.splice(index, 1);
   }
 
-  sortServices(evt: any): void {
+  sortServices(): void {
     this.paidProgramServices.forEach((service: IPaidProgramService, i: number) => (service.order = i));
   }
 }
