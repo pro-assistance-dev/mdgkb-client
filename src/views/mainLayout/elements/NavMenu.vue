@@ -38,7 +38,7 @@ defineProps({
   },
 });
 const mounted = ref(false);
-const menus: WritableComputedRef<Menu[]> = Store.Items('menus');
+const menus: Menu[] = MenusStore.Items();
 
 const clickOutsideMenu = (e: MouseEvent) => {
   const t = document.querySelectorAll('.link-menu');
@@ -47,13 +47,13 @@ const clickOutsideMenu = (e: MouseEvent) => {
     return;
   }
   setActiveMenu();
-  menus.value.forEach((m: Menu) => {
+  menus.forEach((m: Menu) => {
     m.selected = false;
   });
 };
 
 onBeforeMount(async () => {
-  await Store.FTSP('menus', { ftsp: new FTSP() });
+  await MenusStore.FTSP({ ftsp: new FTSP() });
   setColors();
   window.addEventListener('click', clickOutsideMenu);
   setActiveMenu();
@@ -61,8 +61,8 @@ onBeforeMount(async () => {
 });
 
 const setActiveMenu = () => {
-  menus.value.forEach((m: Menu) => (m.active = false));
-  const activeMenu = menus.value.find((m: Menu) => m.containPath(Router.Route().path));
+  menus.forEach((m: Menu) => (m.active = false));
+  const activeMenu = menus.find((m: Menu) => m.containPath(Router.Route().path));
   if (activeMenu) {
     activeMenu.active = true;
   }
@@ -70,9 +70,9 @@ const setActiveMenu = () => {
 
 const setColors = (): void => {
   const colors: string[] = ['#31af5e', '#ff4d3b', '#006BB5', '#f3911c'];
-  for (let menuIndex = 0; menuIndex < menus.value.length; menuIndex++) {
-    for (let subMenuIndex = 0; subMenuIndex < menus.value[menuIndex].subMenus.length; subMenuIndex++) {
-      menus.value[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
+  for (let menuIndex = 0; menuIndex < menus.length; menuIndex++) {
+    for (let subMenuIndex = 0; subMenuIndex < menus[menuIndex].subMenus.length; subMenuIndex++) {
+      menus[menuIndex].subMenus[subMenuIndex].background = colors[subMenuIndex % 4];
     }
   }
 };
@@ -85,7 +85,7 @@ const getColor = (color: string) => {
 
 const menuClick = (menu: Menu) => {
   menu.selected = true;
-  menus.value.forEach((m: Menu) => {
+  menus.forEach((m: Menu) => {
     if (m.id === menu.id) {
       return;
     }

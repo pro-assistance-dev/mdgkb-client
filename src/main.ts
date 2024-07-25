@@ -51,7 +51,8 @@ app.use(router);
 app.use(Maska);
 // locale.use(lang);
 
-// PHelp.Auth.SetUserConstru
+import User from '@/classes/User';
+PHelp.Auth.SetUserConstructor(User);
 router.isReady().then(() => {
   app.mount('#app');
 });

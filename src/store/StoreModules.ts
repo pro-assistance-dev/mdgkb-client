@@ -1,10 +1,20 @@
-import * as ServicesStores from '@/services/store/ServicesStores';
+import {
+  AuthStore,
+  ContactsStore,
+  EmailsStore,
+  FTSPPresetsStore,
+  MenusStore,
+  PhonesStore,
+  UserAccountsStore,
+  ValueTypesStore,
+} from '@/services/store/ServicesStores';
 
 import AcademicsStore from './AcademicsStore';
 import AppointmentsStore from './AppointmentsStore';
 import AppointmentsTypesStore from './AppointmentsTypesStore';
 import BannersStore from './BannersStore';
 import BuildingsStore from './BuildingsStore';
+import CallbacksRequestsStore from './CallbacksRequestsStore';
 import CandidateApplicationsStore from './CandidateApplicationsStore';
 import CandidateExamsStore from './CandidateExamsStore';
 import ChatsStore from './ChatsStore';
@@ -71,12 +81,15 @@ export {
   AcademicsStore,
   AppointmentsStore,
   AppointmentsTypesStore,
+  AuthStore,
   BannersStore,
   BuildingsStore,
+  CallbacksRequestsStore,
   CandidateApplicationsStore,
   CandidateExamsStore,
   ChatsStore,
   CommentsStore,
+  ContactsStore,
   CropperStore,
   DailyMenuOrdersStore,
   DailyMenusItemsStore,
@@ -90,6 +103,7 @@ export {
   DonorRulesStore,
   DpoApplicationsStore,
   EducationalManagersStore,
+  EmailsStore,
   EmployeesStore,
   ExportsStore,
   FaqsStore,
@@ -97,6 +111,7 @@ export {
   FormStatusesStore,
   FormStatusGroupsStore,
   FormValuesStore,
+  FTSPPresetsStore,
   GatesStore,
   HeadsStore,
   HospitalizationsStore,
@@ -104,6 +119,7 @@ export {
   MapNodesStore,
   MapRoutesStore,
   MedicalProfilesStore,
+  MenusStore,
   NewsSlidesStore,
   NewsStore,
   NmoCoursesStore,
@@ -113,6 +129,7 @@ export {
   PaidServicesStore,
   PartnersStore,
   PartnersTypesStore,
+  PhonesStore,
   PointsAchievementsStore,
   PostgraduateCoursesStore,
   PreparationsStore,
@@ -122,7 +139,6 @@ export {
   ResidencyCoursesStore,
   RolesStore,
   SearchStore,
-  ServicesStores,
   SideOrganizationsStore,
   SpecializationsStore,
   SupportMessagesStore,
@@ -130,9 +146,11 @@ export {
   TeachersStore,
   TimetablesPatternsStore,
   TimetablesStore,
+  UserAccountsStore,
   UsersStore,
   VacanciesStore,
   VacancyResponsesStore,
+  ValueTypesStore,
   VisitingRulesStore,
   VisitsApplicationsStore,
 };

@@ -78,7 +78,7 @@ export default defineComponent({
     };
 
     const handleSelect = async (link: string) => {
-      Store.Commit('search/toggleDrawer', false);
+      SearchStore.ToggleDrawer(false);
       await router.push(link);
     };
     const changeFilter = (searchGroupIds: string[]) => {

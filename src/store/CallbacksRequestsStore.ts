@@ -1,5 +1,5 @@
-import CallbackRequest from '@/classes/CallbackRequest';
 import BaseStore from '@/services/BaseStore';
+import CallbackRequest from '@/services/classes/CallbackRequest';
 
 class S extends BaseStore<CallbackRequest> {
   constructor() {

@@ -16,7 +16,7 @@
           <!-- <el-badge v-if="user.formValues.length && user.formValues.some((el) => !el.viewedByUser)" is-dot type="danger"> </el-badge> -->
         </el-dropdown-item>
         <el-dropdown-item
-          v-if="PHelp.Auth.GetUser().role.name === 'ADMIN'"
+          v-if="PHelp.Auth.GetUser()?.role.name === 'ADMIN'"
           icon="el-icon-setting"
           @click="Router.To(`/admin/${PHelp.Auth.GetUser().role.startPage}`)"
           >Кабинет администратора</el-dropdown-item
@@ -39,7 +39,10 @@ const login = () => {
 };
 
 const loadUser = async () => {
-  await UsersStore.Get(PHelp.Auth.GetUser().id as string);
+  const user = PHelp.Auth.GetUser();
+  if (user) {
+    await UsersStore.Get(user.id);
+  }
 };
 
 const logout = async () => {

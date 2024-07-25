@@ -25,7 +25,7 @@ class Auth {
     return this.user;
   }
 
-  GetUser<UserT extends Constructable<IWithId>>(): UserT {
+  GetUser<UserT extends Constructable<IWithId>>(): UserT | undefined {
     return this.user.get() as UserT;
   }
 

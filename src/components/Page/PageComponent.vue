@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted">
+  <div>
     <AdaptiveContainer :menu-width="'300px'" :mobile-width="'768px'">
       <template v-if="!page.id && !page.pageSideMenus.length" #main>
         <CustomPage />
@@ -41,6 +41,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 import RightMenu from '@/assets/svg/Main/RightMenu.svg';
 import CustomSection from '@/classes/CustomSection';
 import CustomPage from '@/components/CustomPage.vue';
+import PageSideMenuComponent from '@/components/Page/PageSideMenu.vue';
 import Page from '@/services/classes/page/Page';
 import PageSideMenu from '@/services/classes/page/PageSideMenu';
 import Hooks from '@/services/Hooks/Hooks';
@@ -65,18 +66,14 @@ const selectedMenu: Ref<PageSideMenu> = ref(new PageSideMenu());
 const mounted = ref(false);
 
 const page: Page = PagesStore.Item();
+
 const load = async () => {
-  console.log(PagesStore === PagesStore);
-  // PagesStore.ResetItem();
   mounted.value = false;
-  // console.log(page.value);
   if (props.getPage) {
     await PagesStore.GetBySlug(Router.Route().path);
   }
-  // console.log(page.value);
   page.addCustomSectionsToSideMenu(props.customSections);
   mounted.value = true;
-  console.log(page);
 };
 Hooks.onBeforeMount(load);
 

@@ -1,8 +1,8 @@
-import Comment from '@/classes/Comment';
 import Division from '@/classes/Division';
 import DoctorDivision from '@/classes/DoctorDivision';
 import DoctorPaidService from '@/classes/DoctorPaidService';
 import Employee from '@/classes/Employee';
+import { Comment } from '@/classes/ImportResolver';
 import MedicalProfile from '@/classes/MedicalProfile';
 import NewsDoctor from '@/classes/NewsDoctor';
 import Position from '@/classes/Position';

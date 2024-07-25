@@ -14,6 +14,8 @@ class S extends BaseStore<Page> {
   }
 
   async GetBySlug(slug: string): Promise<void> {
+    console.log(slug);
+
     const res = await HttpClient.Get<Page>({ query: this.getUrl(`slug/${slug}`) });
     this.Set(res);
   }

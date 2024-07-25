@@ -1,18 +1,18 @@
 <template>
   <div class="auth-card">
     <div class="auth-card-header">
-      {{ form.GetTitle() }}
+      {{ PHelp.AuthForm.GetTitle() }}
     </div>
     <div>
       <el-form ref="form" :model="form" :label-position="'top'">
-        <el-form-item v-if="form.Email().show(form.Status())" prop="email" label="Введите email">
-          <el-input ref="emailRef" v-model="form.Email().email" placeholder="Email" :autofocus="true" />
+        <el-form-item v-if="PHelp.AuthForm.Email().show(PHelp.AuthForm.Status())" prop="email" label="Введите email">
+          <el-input ref="emailRef" v-model="PHelp.AuthForm.Email().email" placeholder="Email" :autofocus="true" />
         </el-form-item>
-        <el-form-item v-if="form.Password().show(form.Status())" prop="password" label="Введите пароль">
-          <el-input ref="passwordRef" v-model="form.Password().password" placeholder="Пароль" type="password" />
+        <el-form-item v-if="PHelp.AuthForm.Password().show(PHelp.AuthForm.Status())" prop="password" label="Введите пароль">
+          <el-input ref="passwordRef" v-model="PHelp.AuthForm.Password().password" placeholder="Пароль" type="password" />
         </el-form-item>
-        <el-form-item v-if="form.PasswordRepeat().show(form.Status())" prop="passwordRepeat" label="Повторите пароль">
-          <el-input ref="passwordRepeatRef" v-model="form.PasswordRepeat().text" placeholder="Пароль" type="password" />
+        <el-form-item v-if="PHelp.AuthForm.PasswordRepeat().show(PHelp.AuthForm.Status())" prop="passwordRepeat" label="Повторите пароль">
+          <el-input ref="passwordRepeatRef" v-model="PHelp.AuthForm.PasswordRepeat().text" placeholder="Пароль" type="password" />
         </el-form-item>
         <div class="btn-group">
           <PButton
@@ -46,12 +46,14 @@ const passwordRef = ref();
 const emits = defineEmits(['action']);
 const buttons = computed(() => form.GetAuthButtons());
 
-const registration = () => {
+const registration = async () => {
   form.Reset();
+  await AuthStore.Register();
   form.SetStatus(AuthStatuses.Login);
 };
 
-const login = () => {
+const login = async () => {
+  await AuthStore.Login();
   form.Reset();
 };
 
@@ -75,7 +77,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
     return form.SetStatus(authButton.getStatus());
   }
 
-  const errors = form.getErrors();
+  const errors = form.GetErrors();
   if (errors.length > 0) {
     PHelp.Notification.Error(errors.join(', '));
     blockBtn.value = false;
@@ -84,7 +86,7 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   try {
     PHelp.Loading.Show();
-    await Store.Dispatch(`auth/${form.GetAction()}`);
+    // await Store.Dispatch(`auth/${form.GetAction()}`);
     PHelp.Loading.Hide();
 
     PHelp.Notification.Success(form.GetSuccessMessage());
@@ -96,11 +98,11 @@ const authButtonClick = async (authButton: AuthButton): Promise<void> => {
 
   switch (form.Status()) {
     case AuthStatuses.Login:
-      login();
+      await login();
       break;
 
     case AuthStatuses.Register:
-      registration();
+      await registration();
       break;
 
     case AuthStatuses.Restore:

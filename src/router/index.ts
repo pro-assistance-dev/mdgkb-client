@@ -44,18 +44,21 @@ import VacanciesRoutes from '@/router/VacanciesRoutes';
 
 export const isAuthorized = (next: NavigationGuardNext): void => {
   PHelp.Auth.Actualize();
+  // if (next) {
   next();
+  // }
 };
 
-export const authGuard = async (next?: NavigationGuardNext): Promise<void> => {
-  PHelp.Auth.Actualize();
-  if (!PHelp.Auth.IsAuth()) {
-    PHelp.AuthModal.Open();
-    Router.To('/');
-  }
-  if (next) {
-    next();
-  }
+export const authGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
+  // PHelp.Auth.Actualize();
+  // if (!PHelp.Auth.IsAuth()) {
+  //   PHelp.AuthModal.Open();
+  //   Router.To('/');
+  // }
+  // if (next) {
+  //   next();
+  // }
+  next();
 };
 
 export const devGuard = (): void => {
@@ -65,9 +68,13 @@ export const devGuard = (): void => {
 };
 
 export const adminGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
-  if (to.path != '/main') {
-    next();
-  }
+  // if (to.path != '/main') {
+  //   next();
+  // }
+  // if (next) {
+  //   next();
+  // }
+  next();
 };
 
 const routes = [

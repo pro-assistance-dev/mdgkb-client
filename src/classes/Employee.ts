@@ -5,12 +5,12 @@ import Certificate from '@/classes/Certificate';
 import Certification from '@/classes/Certification';
 import Doctor from '@/classes/Doctor';
 import Education from '@/classes/Education';
-import EducationalAcademic from '@/classes/EducationalAcademic';
 import Experience from '@/classes/Experience';
 import Head from '@/classes/Head';
+import { EducationalAcademic } from '@/classes/ImportResolver';
 import Regalia from '@/classes/Regalia';
 import TeachingActivity from '@/classes/TeachingActivity';
-import FileInfo from '@/services/classes/FileInfo.ts';
+import FileInfo from '@/services/classes/FileInfo';
 import Human from '@/services/classes/Human';
 import ClassHelper from '@/services/ClassHelper';
 

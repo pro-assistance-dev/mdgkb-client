@@ -54,5 +54,5 @@ class S<UserT extends IWithId> {
   }
 }
 
-// const store: S = new S();
-export default S;
+const store: S = new S();
+export default store;

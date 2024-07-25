@@ -32,7 +32,7 @@
             :rules="[{ required: true, message: 'Необходимо указать имя', trigger: 'blur' }]"
             label="Ваше имя"
           >
-            <el-input v-model="supportMessage.user.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input>
+            <!-- <el-input v-model="supportMessage.user?.human.name" placeholder="Имя" minlength="1" maxlength="100" show-word-limit></el-input> -->
           </el-form-item>
           <el-form-item
             v-if="!supportMessage.user?.human?.surname"
@@ -40,13 +40,13 @@
             :rules="[{ required: true, message: 'Необходимо указать фамилию', trigger: 'blur' }]"
             label="Ваша фамилия"
           >
-            <el-input
-              v-model="supportMessage.user.human.surname"
-              placeholder="Имя"
-              minlength="1"
-              maxlength="100"
-              show-word-limit
-            ></el-input>
+            <!-- <el-input -->
+            <!--   v-model="supportMessage.user.human.surname" -->
+            <!--   placeholder="Имя" -->
+            <!--   minlength="1" -->
+            <!--   maxlength="100" -->
+            <!--   show-word-limit -->
+            <!-- ></el-input> -->
           </el-form-item>
           <el-form-item
             v-if="!supportMessage.user?.human?.patronymic"
@@ -116,7 +116,7 @@ const drawerLeaveHandler = (e: any) => {
 };
 
 onBeforeMount(async () => {
-  PHelp.Auth.User().AssignTo(supportMessage);
+  // PHelp.Auth.User().AssignTo(supportMessage);
   activePath.value = Router.Route().path;
 });
 watch(
