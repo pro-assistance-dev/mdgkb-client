@@ -1,7 +1,7 @@
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 const AdminAcademicsList = () => import('@/components/admin/AdminEducationalOrganization/AdminAcademicsList.vue');
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -10,7 +10,7 @@ export default [
     component: AdminAcademicsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

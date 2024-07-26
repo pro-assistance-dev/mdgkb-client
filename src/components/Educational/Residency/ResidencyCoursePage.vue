@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mounted" class="size">
+  <div class="size">
     <ResidencyCourseInfo :course="residencyCourse" />
     <CollapseItem v-if="residencyCourse.description">
       <template #inside-title>
@@ -53,7 +53,6 @@ import scroll from '@/services/Scroll';
 
 const residencyCourse: ResidencyCourse = ResidencyCoursesStore.Item();
 // const showForm: Ref<boolean> = ref(false);
-const mounted: Ref<boolean> = ref(false);
 // const showFormFunc = () => {
 //   showForm.value = true;
 // };
@@ -72,7 +71,6 @@ const load = async () => {
   if (Router.Route().query.respondForm) {
     await openRespondForm();
   }
-  mounted.value = true;
 };
 
 Hooks.onBeforeMount(load);

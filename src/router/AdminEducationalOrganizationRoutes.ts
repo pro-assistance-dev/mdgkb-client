@@ -24,7 +24,7 @@ const AdminSpecializationPage = () =>
 const AdminSpecializationsList = () =>
   import('@/components/admin/AdminEducationalOrganization/AdminSpecializations/AdminSpecializationsList.vue');
 
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 // import AdminNmoCoursePage from '@/components/admin/AdminEducationalOrganization/AdminDpoCourses/AdminPostgraduateCoursePage.vue';
@@ -36,7 +36,7 @@ export default [
     component: AdminNmoCoursesListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -49,7 +49,7 @@ export default [
     component: AdminNmoCoursesListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -62,7 +62,7 @@ export default [
     component: AdminDpoApplicationsListContainer,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -75,7 +75,7 @@ export default [
     component: AdminNmoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -88,7 +88,7 @@ export default [
     component: AdminNmoApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -101,7 +101,7 @@ export default [
     component: AdminPostgraduateCoursesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -114,7 +114,7 @@ export default [
     component: AdminPostgraduateCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -126,7 +126,7 @@ export default [
     component: AdminPostgraduateCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -138,7 +138,7 @@ export default [
     component: AdminCandidateApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -150,7 +150,7 @@ export default [
     component: AdminCandidateApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -162,7 +162,7 @@ export default [
     component: AdminResidencyCoursesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -175,7 +175,7 @@ export default [
     component: AdminResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -187,7 +187,7 @@ export default [
     component: AdminResidencyCoursePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -199,7 +199,7 @@ export default [
     component: AdminResidencyApplicationsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -212,7 +212,7 @@ export default [
     component: AdminResidencyApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -224,7 +224,7 @@ export default [
     component: AdminResidencyApplicationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -236,7 +236,7 @@ export default [
     component: AdminSpecializationsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -248,7 +248,7 @@ export default [
     component: AdminSpecializationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -260,7 +260,7 @@ export default [
     component: AdminSpecializationPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

@@ -14,14 +14,14 @@ const EditVacancyResponse = () => import('@/components/Profile/ProfileVacancyRes
 const ProfileVacancyResponses = () => import('@/components/Profile/ProfileVacancyResponses/ProfileVacancyResponses.vue');
 const QuestionAnswerPage = () => import('@/components/Profile/QuestionAnswerPage.vue');
 const UserCommentsPage = () => import('@/components/Profile/UserCommentsPage.vue');
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 const ProfileRoutes: Array<RouteRecordRaw> = [
   {
     path: '/profile',
     name: 'ProfileInfoPage',
     component: ProfileInfoPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       if (next) isAuthorized(next);
     },
     meta: { protected: true, profile: 'my' },
@@ -31,7 +31,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileEditPage',
     component: ProfileEditPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       if (next) isAuthorized(next);
     },
     meta: { protected: true, profile: 'my' },
@@ -41,7 +41,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileQuestions',
     component: ProfileQuestionPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       if (next) isAuthorized(next);
     },
     meta: { protected: true, profile: true },
@@ -51,7 +51,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileDonor',
     component: ProfileDonor,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       if (next) isAuthorized(next);
     },
     meta: { protected: true, profile: true },
@@ -61,7 +61,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileChildren',
     component: ProfileChildrenPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: true },
@@ -71,7 +71,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileDailyMenuOrders',
     component: ProfileDailyMenuOrders,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
+      authGuard(next)(next);
       // isAuthorized(next);
     },
     meta: { protected: true, profile: 'daily-menu-orders' },
@@ -81,7 +81,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'QuestionAnswerPage',
     component: QuestionAnswerPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'question-answer' },
@@ -91,7 +91,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'UserCommentsPage',
     component: UserCommentsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'user-comments' },
@@ -101,7 +101,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileSettingsPage',
     component: ProfileSettingsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'settings' },
@@ -111,7 +111,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileResidencyApplications',
     component: ProfileResidencyApplications,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'education' },
@@ -121,7 +121,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'ProfileVacancyResponse',
     component: ProfileVacancyResponses,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'vacancy' },
@@ -131,7 +131,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'EditVacancyResponse',
     component: EditVacancyResponse,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'vacancy' },
@@ -141,7 +141,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'EditResidencyApplication',
     component: EditResidencyApplication,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'education' },
@@ -151,7 +151,7 @@ const ProfileRoutes: Array<RouteRecordRaw> = [
     name: 'CancelResidencyApplication',
     component: CancelResidencyApplication,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard();
+      authGuard(next);
       isAuthorized(next);
     },
     meta: { protected: true, profile: 'education' },

@@ -25,7 +25,7 @@
       <PPagination />
     </div>
     <div v-if="store">
-      <PPaginationV2 :store="store" />
+      <PPagination :store="store" />
     </div>
   </div>
 </template>

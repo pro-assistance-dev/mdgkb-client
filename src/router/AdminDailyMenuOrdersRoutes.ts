@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 const AdminAppointmentsConstructor = () => import('@/components/admin/AdminAppointments/AdminAppointmentsConstructor.vue');
 const AdminDailyMenuOrderPage = () => import('@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrderPage.vue');
 const AdminDailyMenuOrdersList = () => import('@/components/admin/AdminDailyMenuOrders/AdminDailyMenuOrdersList.vue');
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
     component: AdminAppointmentsConstructor,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -24,7 +24,7 @@ export default [
     component: AdminDailyMenuOrdersList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -36,7 +36,7 @@ export default [
     component: AdminDailyMenuOrderPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

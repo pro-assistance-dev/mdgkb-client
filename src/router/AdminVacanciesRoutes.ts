@@ -5,7 +5,7 @@ const AdminVacanciesPage = () => import('@/components/admin/AdminVacancies/Admin
 const AdminVacanciesResponsesList = () => import('@/components/admin/AdminVacancies/AdminVacanciesResponsesList.vue');
 const AdminVacancyResponsePage = () => import('@/components/admin/AdminVacancies/AdminVacancyResponsePage.vue');
 
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 export default [
@@ -15,7 +15,7 @@ export default [
     component: AdminVacanciesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -28,7 +28,7 @@ export default [
     component: AdminVacanciesPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -40,7 +40,7 @@ export default [
     component: AdminVacanciesPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -52,7 +52,7 @@ export default [
     component: AdminVacanciesResponsesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -65,7 +65,7 @@ export default [
     component: AdminVacancyResponsePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -77,7 +77,7 @@ export default [
     component: AdminVacancyResponsePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper show-header pagination>
+  <AdminListWrapper show-header :store="VacanciesStore">
     <template #header> </template>
     <el-table v-if="vacancies" :data="vacancies">
       <el-table-column prop="title" label="Название" class-name="sticky-left" min-width="200">

@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 const AdminNewsList = () => import('@/components/admin/AdminNews/AdminNewsList.vue');
 const AdminNewsPage = () => import('@/components/admin/AdminNews/AdminNewsPage.vue');
 
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 export default [
@@ -13,7 +13,7 @@ export default [
     component: AdminNewsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -26,7 +26,7 @@ export default [
     component: AdminNewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout2',
@@ -38,7 +38,7 @@ export default [
     component: AdminNewsPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 const AdminFormStatusesList = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusesList.vue');
 const AdminFormStatusGroupsList = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusGroupsList.vue');
 const AdminFormStatusPage = () => import('@/components/admin/AdminFormStatuses/AdminFormStatusPage.vue');
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 import { AdminLayout } from '@/services/interfaces/AdminLayout';
 
 export default [
@@ -13,7 +13,7 @@ export default [
     component: AdminFormStatusGroupsList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -26,7 +26,7 @@ export default [
     component: AdminFormStatusesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -38,7 +38,7 @@ export default [
     component: AdminFormStatusPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -50,7 +50,7 @@ export default [
     component: AdminFormStatusPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

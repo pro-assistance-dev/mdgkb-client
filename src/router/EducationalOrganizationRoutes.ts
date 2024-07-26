@@ -66,7 +66,7 @@ export default [
     name: 'AdmissionForm',
     path: '/admission-form',
     // beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-    //   authGuard(next);
+    //   authGuard(next)(next);
     // },
   },
   {

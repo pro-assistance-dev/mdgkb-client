@@ -1,191 +1,82 @@
 <template>
-  <div class="wrapper">
-    <el-form ref="form" :key="page" :rules="rules" :model="page" label-position="top">
-      <el-container direction="vertical">
-        <el-card>
-          <template #header> Заголовок </template>
-          <el-form-item prop="title" label="Заголовок">
-            <el-input v-model="page.title" placeholder="Заголовок" />
-          </el-form-item>
-          <el-form-item prop="title" label="Группа страниц">
-            <el-select v-model="page.pagesGroup" placeholder="Группа страниц">
-              <el-option label="Без группы" value="Без группы" />
-              <el-option label="Образование" value="Образование" />
-              <el-option label="Сведения об организации" value="Сведения об организации" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Доступно для роли">
-            <el-select v-model="page.role" value-key="id" label="Роль">
-              <el-option v-for="item in roles" :key="item.id" :label="item.name" :value="item"> </el-option>
-            </el-select>
-          </el-form-item>
-          <el-checkbox v-model="page.withComments"> Включить комментарии </el-checkbox>
-          <el-checkbox v-model="page.showContacts"> Показать контакты </el-checkbox>
-          <el-checkbox v-model="page.collaps"> Сделать разделы свернутыми </el-checkbox>
-          <WysiwygEditor v-model="page.content" />
-        </el-card>
-      </el-container>
-      <div v-if="page.showContacts" style="margin-bottom: 20px">
-        <CollapseItem title="Контакты">
-          <template #inside-content>
-            <ContactsForm :contact="page.contactInfo" full />
-          </template>
-        </CollapseItem>
+  <MenuContainer min-menu-item-width="160px" background="#DFF2F8">
+    <template #menu>
+      <div v-for="menu in customSections" :key="menu.id">
+        <div>
+          {{ menu.name }}
+        </div>
       </div>
-      <el-button @click="() => openDialog()"> Добавить меню </el-button>
-      <div v-if="page.pageSideMenus.length" class="card-item" style="margin-top: 10px">
-        <draggable class="groups" :list="page.pageSideMenus" item-key="id" handle=".el-icon-s-grid" @end="sort(page.pageSideMenus)">
-          <template #item="{ element, index }">
-            <div class="side-menu-row">
-              <i style="margin-right: 5px; cursor: pointer" class="el-icon-s-grid drug-icon" />
-              <div style="width: 100%">
-                <a @click="openDialog(index)"> {{ element.name }} </a>
-              </div>
-              <TableButtonGroup
-                :show-remove-button="true"
-                :show-edit-button="true"
-                @remove="$classHelper.RemoveFromClassByIndex(index, page.pageSideMenus, page.pageSideMenusForDelete)"
-                @edit="openDialog(index)"
-              />
-            </div>
-          </template>
-        </draggable>
-      </div>
-      <AdminPageSideMenuDialog />
-    </el-form>
-  </div>
+    </template>
+    <template #body>
+      <!-- <component v-bind="menusProperties" :is="activeMenu.component" :key="componentKey" /> -->
+    </template>
+  </MenuContainer>
 </template>
 
-<script lang="ts">
-import { ElMessage } from 'element-plus';
-import { NavigationGuardNext, onBeforeRouteLeave, RouteLocationNormalized } from 'vue-router';
-import draggable from 'vuedraggable';
+<script lang="ts" setup>
+import CustomSection from '@/services/classes/page/CustomSection';
 
-import AdminPageSideMenuDialog from '@/components/admin/AdminPages/AdminPageSideMenuDialog.vue';
-import ContactsForm from '@/components/admin/Contacts/ContactsForm.vue';
-import TableButtonGroup from '@/components/admin/TableButtonGroup.vue';
-import WysiwygEditor from '@/components/Editor/WysiwygEditor.vue';
-import Page from '@/services/classes/page/Page';
-import Role from '@/services/classes/Role';
-import CollapseItem from '@/services/components/Collapse/CollapseItem.vue';
-import Hooks from '@/services/Hooks/Hooks';
-import sort from '@/services/sort';
-import useConfirmLeavePage from '@/services/useConfirmLeavePage';
-import validate from '@/services/validate';
-
-export default defineComponent({
-  name: 'AdminPagesPage',
-  components: { CollapseItem, WysiwygEditor, TableButtonGroup, draggable, AdminPageSideMenuDialog, ContactsForm },
-  setup() {
-    const form = ref();
-    const rules = {
-      title: [{ required: true, message: 'Необходимо указать наименование страницы', trigger: 'blur' }],
-    };
-    const page: Page = PagesStore.Item();
-    const roles: Role[] = RolesStore.Items();
-
-    const openPage = () => {
-      PHelp.Notification.Dev();
-      // window.open(route.href, '_blank');
-    };
-
-    const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
-
-    const loadNewsItem = async () => {
-      const buttons = [Button.Success('Сохранить', submit), Button.Success('Сохранить и выйти', submitAndExit)];
-      if (Router.Slug()) {
-        await PagesStore.GetBySlug(Router.Slug());
-        PHelp.AdminUI.Head.Set(page.title, [...buttons, Button.Success('Посмотреть страницу', openPage)]);
-      } else {
-        PagesStore.ResetState();
-        PHelp.AdminUI.Head.Set('Добавить страницу', [...buttons]);
-      }
-      await RolesStore.GetAll();
-      window.addEventListener('beforeunload', beforeWindowUnload);
-      watch(page, formUpdated, { deep: true });
-    };
-
-    Hooks.onBeforeMount(loadNewsItem);
-
-    onBeforeRouteLeave((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-      showConfirmModal(submit, next);
-    });
-
-    const submit = async () => {
-      saveButtonClick.value = true;
-      if (!validate(form)) {
-        saveButtonClick.value = false;
-        return;
-      }
-      if (Router.Slug()) {
-        await PagesStore.Create();
-        await Router.To('/admin/pages');
-        return;
-      }
-      await PagesStore.UpdateAndSet(page);
-      ElMessage({ message: 'Успешно сохранено', type: 'success' });
-    };
-
-    const submitAndExit = async (next?: NavigationGuardNext) => {
-      await submit();
-      next ? next() : await Router.To('/admin/pages');
-    };
-
-    const openDialog = async (index?: number) => {
-      if (index === undefined) {
-        page.addSideMenu();
-        PagesStore.SetIndex(page.pageSideMenus.length - 1);
-      } else {
-        PagesStore.SetIndex(index);
-      }
-      PagesStore.SetSideMenuDialogActive(true);
-    };
-
-    return {
-      sort,
-      submit,
-      page,
-      form,
-      openDialog,
-      roles,
-      rules,
-    };
-  },
-});
+const customSections = [new CustomSection(), new CustomSection(), new CustomSection()];
+customSections[0].name = '1';
+customSections[1].name = '2';
+customSections[2].name = '3';
 </script>
 
 <style lang="scss" scoped>
 @import '@/assets/styles/base-style.scss';
-@import '@/assets/styles/elements/collapse.scss';
 
-.wrapper {
-  height: 90vh;
-  overflow: hidden;
-  overflow-y: scroll;
+.field {
+  width: 100%;
+  height: 100%;
+  background: red;
+  padding: 10px;
 }
 
-.el-container {
-  .el-card {
-    margin-bottom: 20px;
-  }
-}
-
-.content-card {
-  min-height: 450px;
-  max-height: 900px;
-}
-
-:deep(.el-dialog) {
-  overflow: hidden;
-}
-
-.side-menu-row {
-  padding: 5px;
+.tab {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #b0a4c0;
+  border: 1px solid #999999;
+  height: 40px;
   display: flex;
+  justify-content: center;
   align-items: center;
+  cursor: pointer;
+  text-align: center;
 
-  &:hover {
-    background-color: lightblue;
-  }
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+
+  background: #f5f5f5;
+  margin: -0.5px;
+}
+
+.selected-tab {
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: $site_dark_gray;
+  position: relative;
+  border: 1px solid #343d5c;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+
+  margin: -0.5px;
+  z-index: 1;
 }
 </style>

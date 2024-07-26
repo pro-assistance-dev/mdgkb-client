@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper show-header pagination :store="QuestionsStore">
+  <AdminListWrapper show-header :store="QuestionsStore">
     <template #header>
       <SortSelect @load="loadQuestions" />
       <FiltersButtonsSelect :models="[onlyNewFilter]" @load="loadQuestions" />

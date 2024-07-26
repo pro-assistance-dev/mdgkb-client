@@ -2,7 +2,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
 const AdminHospitalizationsTypesList = () => import('@/components/admin/AdminHospitalizationsTypes/AdminHospitalizationsTypesList.vue');
 const AdminHospitalizationTypePage = () => import('@/components/admin/AdminHospitalizationsTypes/AdminHospitalizationTypePage.vue');
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -11,7 +11,7 @@ export default [
     component: AdminHospitalizationsTypesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -23,7 +23,7 @@ export default [
     component: AdminHospitalizationTypePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -35,7 +35,7 @@ export default [
     component: AdminHospitalizationTypePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

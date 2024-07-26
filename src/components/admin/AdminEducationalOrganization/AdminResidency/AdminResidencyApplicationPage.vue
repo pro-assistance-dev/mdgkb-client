@@ -218,8 +218,8 @@ import validate from '@/services/validate';
 const mounted = ref(false);
 const form = ref();
 
-const application: ComputedRef<ResidencyApplication> = ResidencyApplicationsStore.Item();
-const residencyCourses: ComputedRef<ResidencyCourse[]> = ResidencyCoursesStore.Items();
+const application: ResidencyApplication = ResidencyApplicationsStore.Item();
+const residencyCourses: ResidencyCourse[] = ResidencyCoursesStore.Items();
 const { saveButtonClick, beforeWindowUnload, formUpdated, showConfirmModal } = useConfirmLeavePage();
 const isEditMode: Ref<boolean> = ref(false);
 const editButtonTitle: Ref<string> = ref('Режим редактирования');
@@ -249,12 +249,12 @@ const changeEditMode = () => {
 const findEmail = async () => {};
 
 const updateNew = async () => {
-  if (!Router.Id() || !application.value.formValue.isNew) {
+  if (!Router.Id() || !application.formValue.isNew) {
     return;
   }
-  application.value.formValue.isNew = false;
+  application.formValue.isNew = false;
 
-  await ResidencyApplicationsStore.Update(application.value);
+  await ResidencyApplicationsStore.Update(application);
 };
 
 let initialStatus: FormStatus;
@@ -262,8 +262,8 @@ const loadItem = async () => {
   let pageTitle = '';
   if (Router.Id()) {
     await ResidencyApplicationsStore.Get(Router.Id());
-    initialStatus = application.value.formValue.formStatus;
-    pageTitle = `Заявление от ${application.value.formValue.user.email}`;
+    initialStatus = application.formValue.formStatus;
+    pageTitle = `Заявление от ${application.formValue.user.email}`;
   } else {
     pageTitle = 'Подача заявления на обучение в ординатуре';
     ResidencyApplicationsStore.ResetItem();
@@ -276,20 +276,20 @@ const loadItem = async () => {
 };
 
 const submit = async (next?: NavigationGuardNext) => {
-  application.value.formValue.validate();
+  application.formValue.validate();
   saveButtonClick.value = true;
-  if (!validate(form, true) || !application.value.formValue.validated) {
-    PHelp.Notification.Error(application.value.formValue.getErrorMessage());
+  if (!validate(form, true) || !application.formValue.validated) {
+    PHelp.Notification.Error(application.formValue.getErrorMessage());
     saveButtonClick.value = false;
     return;
   }
   PHelp.Loading.Show();
   if (Router.Id()) {
-    application.value.formValue.updateViewedByUser(initialStatus);
+    application.formValue.updateViewedByUser(initialStatus);
 
     await ResidencyApplicationsStore.Update();
   } else {
-    application.value.formValue.clearIds();
+    application.formValue.clearIds();
     await ResidencyApplicationsStore.Create();
   }
   PHelp.Loading.Hide();
@@ -298,15 +298,15 @@ const submit = async (next?: NavigationGuardNext) => {
 
 const courseChangeHandler = async () => {
   if (!Router.Id()) {
-    ResidencyApplicationsStore.SetCourse(application.value.residencyCourse);
-    ResidencyApplicationsStore.SetFormValue(application.value.residencyCourse?.formPattern);
-    application.value.formValue.initFieldsValues();
+    ResidencyApplicationsStore.SetCourse(application.residencyCourse);
+    ResidencyApplicationsStore.SetFormValue(application.residencyCourse?.formPattern);
+    application.formValue.initFieldsValues();
   }
   await findEmail();
-  // application.value.residencyCourseId = application.value.residencyCourse.id;
-  // application.value.removeAllFieldValues();
-  // application.value.residencyCourse.formPattern.removeAllFieldValues();
-  // application.value.residencyCourse.formPattern.initFieldsValues();
+  // application.residencyCourseId = application.residencyCourse.id;
+  // application.removeAllFieldValues();
+  // application.residencyCourse.formPattern.removeAllFieldValues();
+  // application.residencyCourse.formPattern.initFieldsValues();
 };
 
 const clickCopyHandler = async (copyValue: string, fieldName: string) => {

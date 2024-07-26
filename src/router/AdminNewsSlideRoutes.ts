@@ -3,7 +3,7 @@ import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 const AdminNewsSlideList = () => import('@/components/admin/AdminNewsSlides/AdminNewsSlideList.vue');
 const AdminNewsSlidePage = () => import('@/components/admin/AdminNewsSlides/AdminNewsSlidePage.vue');
 
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
     component: AdminNewsSlideList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -24,7 +24,7 @@ export default [
     component: AdminNewsSlidePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -36,7 +36,7 @@ export default [
     component: AdminNewsSlidePage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

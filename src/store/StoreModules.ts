@@ -33,6 +33,7 @@ import DonorRulesStore from './DonorRulesStore';
 import DpoApplicationsStore from './DpoApplicationsStore';
 import EducationalManagersStore from './EducationalManagersStore';
 import EmployeesStore from './EmployeesStore';
+import EventsStore from './EventsStore';
 import ExportsStore from './ExportsStore';
 import FaqsStore from './FaqsStore';
 import FormPatternsStore from './FormPatternsStore';
@@ -105,6 +106,7 @@ export {
   EducationalManagersStore,
   EmailsStore,
   EmployeesStore,
+  EventsStore,
   ExportsStore,
   FaqsStore,
   FormPatternsStore,

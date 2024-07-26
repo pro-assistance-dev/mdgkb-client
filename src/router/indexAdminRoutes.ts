@@ -34,7 +34,7 @@ import AdminTimetablePatternRoutes from '@/router/AdminTimetablePatternRoutes';
 import AdminUsersRoutes from '@/router/AdminUsersRoutes';
 import AdminVacanciesRoutes from '@/router/AdminVacanciesRoutes';
 import AdminVisitsApplicationsRoutes from '@/router/AdminVisitsApplicationsRoutes';
-import { authGuard, isAuthorized } from '@/router/index';
+import { authGuard,isAuthorized } from '@/router/index';
 
 export default [
   {
@@ -43,7 +43,7 @@ export default [
     component: AdminCommonVisitingRulesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -55,7 +55,7 @@ export default [
     component: AdminDonorRules,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -67,7 +67,7 @@ export default [
     component: AdminGatesList,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',
@@ -79,7 +79,7 @@ export default [
     component: AdminDishes,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
       isAuthorized(next);
-      authGuard();
+      authGuard(next);
     },
     meta: {
       layout: 'AdminLayout',

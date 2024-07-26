@@ -50,7 +50,7 @@ const logout = async () => {
   const curRoute = Router.Route().name;
   const rr = Router.GetRouter().options.routes.find((r) => r.name === curRoute);
   if (rr && rr.meta && rr.meta.protected) {
-    authGuard();
+    authGuard(next);
   }
 };
 

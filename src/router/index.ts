@@ -49,16 +49,16 @@ export const isAuthorized = (next: NavigationGuardNext): void => {
   // }
 };
 
-export const authGuard = async (to: RouteLocationNormalized, _: RouteLocationNormalized, next: NavigationGuardNext): Promise<void> => {
+export const authGuard = async (next: NavigationGuardNext): Promise<void> => {
   // PHelp.Auth.Actualize();
   // if (!PHelp.Auth.IsAuth()) {
   //   PHelp.AuthModal.Open();
   //   Router.To('/');
   // }
-  // if (next) {
-  //   next();
-  // }
-  next();
+  if (next) {
+    next();
+  }
+  // next();
 };
 
 export const devGuard = (): void => {
@@ -229,7 +229,7 @@ const routes = [
     name: 'BufetPage',
     component: BufetPage,
     beforeEnter(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext): void {
-      authGuard(next);
+      authGuard(next)(next);
     },
   },
   {

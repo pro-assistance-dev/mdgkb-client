@@ -1,5 +1,5 @@
 <template>
-  <AdminListWrapper pagination show-header>
+  <AdminListWrapper :store="ResidencyCoursesStore" show-header>
     <template #header>
       <SortSelect class="filters-block" @load="loadCourses" />
       <FiltersList :models="createFilterModels()" @load="loadCourses" />

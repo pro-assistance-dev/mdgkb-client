@@ -1,8 +1,8 @@
 <template>
-  <AdminListWrapper show-header pagination>
+  <AdminListWrapper show-header :store="PagesStore">
     <template #header>
       <!-- <FilterSelect :models="filterMainModels" placeholder="Специальность" @load="loadApplications" /> -->
-      <RemoteSearch :key-value="'page'" @select="(e: unknown) => Router.ToAdmin(`pages/${e.id}`)" />
+      <RemoteSearch :key-value="'page'" @select="(e) => Router.ToAdmin(`pages-2/${e.id}`)" />
       <FilterSelect :models="pagesGroupFilters" @load="load" />
     </template>
     <el-table v-if="mounted" :data="pages">
@@ -41,7 +41,7 @@ const load = async (): Promise<void> => {
 const edit = async (id: string): Promise<void> => {
   const item = pages.find((i: Page) => i.id === id);
   if (item) {
-    await Router.ToAdmin(`/pages/${item.slug}`);
+    await Router.ToAdmin(`/pages-2/${item.slug}`);
   }
 };
 
@@ -53,9 +53,8 @@ Hooks.onBeforeMount(async () => {
   load().then(() => (mounted.value = true));
 });
 
-const openPage = () => {
-  PHelp.Notification.Dev();
-  // window.open(Router.Resolve(link).href, '_blank');
+const openPage = (link: string) => {
+  window.open(Router.Resolve(link).href, '_blank');
 };
 
 const pagesGroupFilters = [
