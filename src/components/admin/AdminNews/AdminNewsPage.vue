@@ -101,7 +101,7 @@ const submit = async (next?: NavigationGuardNext) => {
     return;
   }
   if (!Router.Id()) {
-    await Store.Create('news');
+    await NewsStore.Create();
     await Router.ToAdmin('/news');
     return;
   }

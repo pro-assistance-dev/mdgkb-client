@@ -127,10 +127,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const valueTypes: Ref<ValueType[]> = Store.Items('valueTypes');
+    const valueTypes: ValueType[] = ValueTypesStore.Items();
     const addField = () => {
       if (props.filesOnly) {
-        const fileValueType = valueTypes.value.find((el) => el.isFile());
+        const fileValueType = valueTypes.find((el) => el.isFile());
         const field = new Field();
         field.valueType = new ValueType(fileValueType);
         field.valueTypeId = fileValueType?.id ?? '';

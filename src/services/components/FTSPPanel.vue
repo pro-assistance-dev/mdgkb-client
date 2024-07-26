@@ -14,9 +14,8 @@
 import FTSPPreset from '@/services/classes/FTSPPreset';
 
 const emit = defineEmits(['change']);
-const ftsp = Store.Item('filter', 'ftsp');
 
-const ftspPresets: Ref<FTSPPreset[]> = Store.Items('ftspPresets');
+const ftspPresets: FTSPPreset[] = FTSPPresetsStore.Items();
 const modalOpened = ref(false);
 const curFTSP: Ref<FTSP | undefined> = ref(undefined);
 
@@ -27,13 +26,13 @@ const ftspName = ref('');
 
 const clear = async () => {
   curFTSP.value = undefined;
-  ftsp.value.resetF();
+  FTSP.Get().resetF();
   emit('change');
 };
 
 const remove = async () => {
-  await Store.Remove('ftspPresets', curFTSP.value);
-  ftsp.value.resetF();
+  await FTSPPresetsStore.Remove(curFTSP.value);
+  FTSP.Get().resetF();
   curFTSP.value = undefined;
   emit('change');
 };
@@ -42,9 +41,9 @@ const set = async (ftspPresetId?: string) => {
   if (!ftspPresetId) {
     return;
   }
-  const preset = ftspPresets.value.find((f: FTSPPreset) => f.id === ftspPresetId);
+  const preset = ftspPresets.find((f: FTSPPreset) => f.id === ftspPresetId);
   curFTSP.value = preset?.id;
-  ftsp.value.createFrom(preset?.ftsp);
+  // FTSP.Get().createFrom(preset?.ftsp);
   emit('change');
 };
 
@@ -53,13 +52,13 @@ const save = async () => {
   preset.name = ftspName.value;
   ftspName.value = '';
   await FTSPPresetsStore.Create(preset);
-  Store.AppendToAll('ftspPresets', [preset]);
+  FTSPPresetsStore.AppendToAll([preset]);
   curFTSP.value = preset.id;
   modalOpened.value = false;
 };
 
 onBeforeMount(async () => {
-  await Store.GetAll('ftspPresets');
+  await FTSPPresetsStore.GetAll();
 });
 </script>
 <style lang="scss" scoped>

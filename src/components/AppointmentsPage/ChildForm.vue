@@ -23,23 +23,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onBeforeMount, Ref, ref, WritableComputedRef } from 'vue';
+import { defineComponent, onBeforeMount, Ref, ref } from 'vue';
 
 import Child from '@/classes/Child';
 
 export default defineComponent({
   name: 'ChildForm',
   emits: ['createChild'],
-  setup(props, { emit }) {
+  setup() {
     const mounted: Ref<boolean> = ref(false);
-    const child: WritableComputedRef<Child> = Store.Item('children');
+    const child = new Child();
     onBeforeMount(() => {
       mounted.value = true;
     });
 
     const addChild = async (): Promise<void> => {
       // child.value.userId = user.value.id;
-      emit('createChild', child.value);
+      // emit('createChild', child.value);
     };
 
     return {

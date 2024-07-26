@@ -37,7 +37,7 @@ const submit = async () => {
     return;
   }
   vacancyResponse.formValue.clearIds();
-  await Store.Create('vacancyResponses', vacancyResponse);
+  await VacancyResponsesStore.Create(vacancyResponse);
   ElMessage({
     type: 'success',
     message: 'Форма успешно отправлена',

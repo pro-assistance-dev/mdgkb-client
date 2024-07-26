@@ -33,7 +33,6 @@ const Hooks = (() => {
       FTSP.Get().setSortModel(SortListConst.GetDefault());
 
       PHelp.Paginator.storeModule = options?.pagination?.storeModule;
-      Store.Commit('pagination/setCurPage', 1);
 
       await f();
     });

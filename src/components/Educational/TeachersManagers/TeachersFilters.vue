@@ -11,7 +11,7 @@
 import { useRouter } from 'vue-router';
 
 // import FilterReset from '@/components/Filters/FilterResetButton.vue';
-import SortModel from '@/services/classes/SortModel';
+// import SortModel from '@/services/classes/SortModel';
 import ISearchObject from '@/services/interfaces/ISearchObject';
 
 const router = useRouter();
@@ -25,10 +25,10 @@ onBeforeMount(async () => {
 const load = async () => {
   // filterQuery.value.pagination.cursorMode = false;
   // filterQuery.value.pagination.limit = 6;
-  await Store.FTSP('teachers');
+  await TeachersStore.FTSP();
 };
 
-const createSortModels = (): SortModel[] => {};
+// const createSortModels = (): SortModel[] => {};
 
 const selectSearch = async (event: ISearchObject): Promise<void> => {
   await router.push(`/divisions/${event.value}`);

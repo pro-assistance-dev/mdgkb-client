@@ -23,10 +23,9 @@
 </template>
 
 <script lang="ts" setup>
-import Event from '@/classes/Event';
 import validate from '@/services/validate';
 
-const event: Ref<Event> = Store.Getters('news');
+// const event: Ref<Event> = NewsStore.Items();
 const form = ref();
 const eventFormVisible = ref(false);
 // watch(user, () => {

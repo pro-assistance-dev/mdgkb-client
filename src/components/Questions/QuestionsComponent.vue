@@ -15,15 +15,15 @@ import Hooks from '@/services/Hooks/Hooks';
 import { Orders } from '@/services/interfaces/Orders';
 
 const filter = ref('');
-const questions: Ref<Question[]> = QuestionsStore.Items();
+const questions: Question[] = QuestionsStore.Items();
 
 const questionsList = computed((): Question[] => {
   if (filter.value) {
-    return questions.value.filter((o: Question) => {
+    return questions.filter((o: Question) => {
       return o.question.toLowerCase().includes(filter.value.toLowerCase()) || o.answer.toLowerCase().includes(filter.value.toLowerCase());
     });
   } else {
-    return questions.value;
+    return questions;
   }
 });
 
@@ -31,13 +31,13 @@ const load = async () => {
   FTSP.Get().setS(QuestionsSortsLib.byDate(Orders.Desc));
   FTSP.Get().setF(QuestionsFiltersLib.onlyPublished());
   FTSP.Get().p.append = false;
-  await Store.FTSP('questions');
+  await QuestionsStore.FTSP();
 };
 
 Hooks.onBeforeMount(load);
 
 const loadMore = async () => {
-  FTSP.Get().p.offset = questions.value.length;
+  FTSP.Get().p.offset = questions.length;
   await QuestionsStore.FTSP();
 };
 </script>

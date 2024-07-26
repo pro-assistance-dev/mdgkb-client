@@ -40,7 +40,7 @@ import Building from '@/classes/Building';
 defineEmits(['close']);
 const filterString: Ref<string> = ref('');
 
-const building: ComputedRef<Building> = Store.Item('buildings');
+const building: Building = BuildingsStore.Item();
 </script>
 
 <style lang="scss" scoped>

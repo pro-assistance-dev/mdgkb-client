@@ -20,19 +20,18 @@ defineProps({
 });
 const emits = defineEmits(['load']);
 const ftsp = FTSP.Get();
-const restore = Store.Item('filter', 'restore');
 
-watch(
-  () => restore.value,
-  () => {
-    // const finded = props.models.find((m: FilterModel) => {
-    //   return ftsp.value.f.some((f: FilterModel) => {
-    //     return m.valueEq(f);
-    //   });
-    // });
-    // setFilter(finded);
-  }
-);
+// watch(
+//   () => restore.value,
+//   () => {
+//     // const finded = props.models.find((m: FilterModel) => {
+//     //   return ftsp.value.f.some((f: FilterModel) => {
+//     //     return m.valueEq(f);
+//     //   });
+//     // });
+//     // setFilter(finded);
+//   }
+// );
 const filterModel: Ref<FilterModel | undefined> = ref(undefined);
 
 const setFilter = async (model?: FilterModel) => {

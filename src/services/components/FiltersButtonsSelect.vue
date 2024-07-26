@@ -49,19 +49,18 @@ const props = defineProps({
   inverse: { type: Boolean as PropType<boolean>, required: false, default: false },
 });
 const emits = defineEmits(['load']);
-const restore = Store.Item('filter', 'restore');
 
-watch(
-  () => restore.value,
-  () => {
-    const finded = props.models.find((m: FilterModel) => {
-      return FTSP.Get().f.some((f: FilterModel) => {
-        return m.valueEq(f);
-      });
-    });
-    setFilter(finded);
-  }
-);
+// watch(
+//   () => restore.value,
+//   () => {
+//     const finded = props.models.find((m: FilterModel) => {
+//       return FTSP.Get().f.some((f: FilterModel) => {
+//         return m.valueEq(f);
+//       });
+//     });
+//     setFilter(finded);
+//   }
+// );
 const filterModel: Ref<FilterModel | undefined> = ref(undefined);
 
 const setFilter = async (model?: FilterModel) => {

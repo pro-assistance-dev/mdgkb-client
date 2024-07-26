@@ -33,7 +33,6 @@ export default defineComponent({
     },
   },
   setup() {
-    // const store = useStore();
     // const items: Ref<IOrdered[]> = computed(() =>
     //   props.storeMode ? store.getters[`${props.storeModule}/${props.storeGetter}`] : props.orderedItems
     // );

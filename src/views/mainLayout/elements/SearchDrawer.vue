@@ -63,7 +63,7 @@ export default defineComponent({
       searchInput.value.inputRef.focus();
     };
 
-    const closeDrawer = () => Store.Commit('search/toggleDrawer', false);
+    const closeDrawer = () => SearchStore.ToggleDrawer(false);
 
     onBeforeMount(async () => {
       // await store.dispatch('search/searchGroups');

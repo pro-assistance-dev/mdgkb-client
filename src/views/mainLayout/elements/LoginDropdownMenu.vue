@@ -30,7 +30,7 @@
 <script lang="ts" setup>
 import { LogoutOutlined } from '@ant-design/icons-vue';
 
-import { authGuard } from '@/router';
+import { authGuard, NavigationGuardNext } from '@/router';
 
 defineProps({ showButtonName: { type: Boolean, default: false } });
 
@@ -50,7 +50,7 @@ const logout = async () => {
   const curRoute = Router.Route().name;
   const rr = Router.GetRouter().options.routes.find((r) => r.name === curRoute);
   if (rr && rr.meta && rr.meta.protected) {
-    authGuard(next);
+    authGuard();
   }
 };
 

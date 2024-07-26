@@ -15,7 +15,6 @@ import scroll from '@/services/Scroll';
 
 import App from './App.vue';
 import router from './router';
-import store from './store';
 
 const app = createApp(App);
 // import YmapPlugin from 'vue-yandex-maps';
@@ -43,7 +42,6 @@ library.add(faVk);
 
 app.component('FontAwesomeIcon', FontAwesomeIcon);
 
-app.use(store);
 app.use(router);
 // app.use(YmapPlugin);
 // app.use(setupElementPlusComponents, { locale: ru });
@@ -56,6 +54,3 @@ PHelp.Auth.SetUserConstructor(User);
 router.isReady().then(() => {
   app.mount('#app');
 });
-export function getStore() {
-  return store;
-}

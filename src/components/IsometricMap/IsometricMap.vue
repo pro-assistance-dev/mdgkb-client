@@ -33,7 +33,7 @@ let mapModel: MapModel = new MapModel();
 const route: MapRoute = MapRoutesStore.Item();
 
 const buildingClick = async (event: { id: string }) => {
-  await Store.Get('buildings', event.id);
+  await BuildingsStore.Get(event.id);
 
   buildingModalOpened.value = true;
   engine.active = false;

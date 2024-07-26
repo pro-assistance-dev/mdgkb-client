@@ -1,6 +1,6 @@
 import { flushPromises, mount, RouterLinkStub, VueWrapper } from '@vue/test-utils';
 import { ElCarousel, ElDialog, ElRate } from 'element-plus';
-import { createStore } from 'vuex';
+// import { createStore } from 'vuex';
 
 import Doctor from '@/classes/Doctor';
 import DoctorPage from '@/components/Doctors/DoctorPage.vue';

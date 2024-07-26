@@ -62,7 +62,6 @@ export default class BaseStore<T extends IWithId & IFileInfosGetter> {
   async Get(id: string) {
     if (!id) {
       console.warn('noFilterSetInQuery');
-      BaseSto;
     }
     this.Set(await HttpClient.Get<T>({ query: this.getUrl(id) }));
   }

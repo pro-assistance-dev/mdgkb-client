@@ -125,7 +125,6 @@ import SortListConst from '@/services/SortList';
 const news = NewsStore.Items();
 
 const newsMain = NewsStore.Main();
-// const searchResult = Store.Item('news');
 const newsSubMain1 = NewsStore.SubMain1();
 const newsSubMain2 = NewsStore.SubMain2();
 
@@ -171,7 +170,6 @@ const openModal = () => {
 // const clearMain = async () => {
 //   newsMain.main = false;
 //   await NewsStore.Update(newsMain.value);
-//   // Store.Update('news/setMain', { news: [new News()] });
 // };
 
 const clearHandler = async (previousItem: News, storeName: string, isMain: boolean) => {
@@ -180,7 +178,7 @@ const clearHandler = async (previousItem: News, storeName: string, isMain: boole
   } else {
     previousItem.subMain = false;
   }
-  await Store.Update('news', previousItem);
+  await NewsStore.Update(previousItem);
   // Store.Commit(`news/${storeName}`, { news: [new News()] });
 };
 
@@ -216,7 +214,7 @@ const createFilterModels = (): FilterModel[] => {
 };
 
 const selectSearchMainNews = async (event: ISearchObject) => {
-  await Store.Get('news', event.value);
+  await NewsStore.Get(event.value);
 };
 
 interface RemoteSearchType {
@@ -236,17 +234,7 @@ const makeNewsMain = async (previousItem: News, storeName: string, isMain: boole
     previousItem.subMain = false;
   }
 
-  await Store.Update('news', previousItem);
-
-  // if (searchResult.value) {
-  //   if (isMain) {
-  //     searchResult.value.main = true;
-  //   } else {
-  //     searchResult.value.subMain = true;
-  //   }
-  //   Store.Commit(`news/${storeName}`, { items: [searchResult.value] });
-  //   await Store.Update('news', searchResult.value);
-  // }
+  await NewsStore.Update(previousItem);
 
   searchMainNewsRef.value?.clear();
 };

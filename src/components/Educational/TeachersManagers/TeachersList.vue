@@ -14,10 +14,10 @@
 import Teacher from '@/classes/Teacher';
 import TeacherCard from '@/components/Educational/TeachersManagers/TeacherCard.vue';
 import LoadMoreButton from '@/components/LoadMoreButton.vue';
-const teachers: Ref<Teacher[]> = Store.Items('teachers');
+const teachers: Teacher[] = TeachersStore.Items();
 
 const loadMore = async () => {
-  await Store.FTSP('teachers');
+  await TeachersStore.FTSP();
 };
 </script>
 
