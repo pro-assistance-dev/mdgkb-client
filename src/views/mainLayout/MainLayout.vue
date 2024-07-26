@@ -1,6 +1,7 @@
 <template>
   <div id="initial-bvi-container">
-    <button id="bvi" class="bvi-open">Версия сайта для слабовидящих</button>
+    <!-- <button id="bvi" class="bvi-open">Версия сайта для слабовидящих</button> -->
+    <PButton text="Сменить тему" @click="toggleTheme" />
   </div>
   <AuthModal v-if="PHelp.AuthModal.IsVisible()" @action="authAct" />
   <!-- <AuthPage /> -->
@@ -73,6 +74,12 @@ onBeforeMount(async () => {
   }
 });
 
+const theme = ref('light');
+const toggleTheme = () => {
+  const selectedTheme = theme.value === 'light' ? 'dark' : 'light';
+  document.getElementsByTagName('html')[0].dataset.theme = selectedTheme;
+  theme.value = selectedTheme;
+};
 const cache = new Cache();
 cache.name = 'startModal';
 // const isClose = ref(cache.getFromCache(3) || false);

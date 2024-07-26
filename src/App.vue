@@ -34,7 +34,6 @@ export default defineComponent({
       const defaultTitle = 'Морозовская детская городская клиническая больница';
       document.title = route.meta.title ? `${route.meta.title} | МДГКБ` : defaultTitle;
     };
-
     onBeforeMount(async (): Promise<void> => {
       PHelp.Auth.Actualize();
       changeDocumentTitle();
