@@ -94,6 +94,7 @@ declare global {
   const PostgraduateCoursesStore: typeof import('@/store/StoreModules')['PostgraduateCoursesStore']
   const PreparationsStore: typeof import('@/store/StoreModules')['PreparationsStore']
   const ProjectsStore: typeof import('@/store/StoreModules')['ProjectsStore']
+  const Provider: typeof import('@/services/Main')['Provider']
   const QuestionsStore: typeof import('@/store/StoreModules')['QuestionsStore']
   const ResidencyApplicationsStore: typeof import('@/store/StoreModules')['ResidencyApplicationsStore']
   const ResidencyCoursesStore: typeof import('@/store/StoreModules')['ResidencyCoursesStore']
@@ -108,6 +109,7 @@ declare global {
   const Store: typeof import('@/classes/Main')['Store']
   const Strings: typeof import('@/services/Main')['Strings']
   const SupportMessagesStore: typeof import('@/store/StoreModules')['SupportMessagesStore']
+  const Swapper: typeof import('@/services/Main')['Swapper']
   const TagsStore: typeof import('@/store/StoreModules')['TagsStore']
   const TeachersStore: typeof import('@/store/StoreModules')['TeachersStore']
   const Time: typeof import('@/services/Main')['Time']
@@ -241,7 +243,6 @@ declare module 'vue' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmailsStore: UnwrapRef<typeof import('@/store/StoreModules')['EmailsStore']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>
@@ -425,7 +426,6 @@ declare module '@vue/runtime-core' {
     readonly Dragger: UnwrapRef<typeof import('@/services/Main')['Dragger']>
     readonly EducationalManagersStore: UnwrapRef<typeof import('@/store/StoreModules')['EducationalManagersStore']>
     readonly EffectScope: UnwrapRef<typeof import('vue')['EffectScope']>
-    readonly ElMessageBox: UnwrapRef<typeof import('element-plus/es')['ElMessageBox']>
     readonly Email: UnwrapRef<typeof import('@/services/Main')['Email']>
     readonly EmailsStore: UnwrapRef<typeof import('@/store/StoreModules')['EmailsStore']>
     readonly EmployeesStore: UnwrapRef<typeof import('@/store/StoreModules')['EmployeesStore']>

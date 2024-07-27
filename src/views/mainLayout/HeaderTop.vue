@@ -1,95 +1,34 @@
 <template>
-  <div id="header-top" class="header-top">
-    <div class="container">
-      <img :src="MdgkbLogo" class="header-logo-img" alt="mdgkb-logo" @click="Router.To('/')" />
-      <div class="search">
-        <div class="search-block">
-          <SearchBar v-show="currentRoute !== 'SearchPage'" />
-        </div>
-      </div>
-      <div class="login-menu">
-        <LoginDropdownMenu :show-button-name="true" />
-      </div>
-    </div>
-  </div>
+  <div class="theme-test">Theme-test</div>
 </template>
 
-<script lang="ts" setup>
-import MdgkbLogo from '@/assets/img/mdgkb-logo.webp';
+<script lang="ts" setup></script>
 
-const currentRoute = computed(() => {
-  return Router.Route().name;
-});
-</script>
-
-<style lang="scss" scoped>
-@import '@/assets/styles/base-style.scss';
-
-.login-menu {
-  margin-right: 40px;
-}
-
-.container {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.header-logo-img {
-  margin-left: 0px;
-}
-
-.flex {
-  display: flex;
-  justify-content: center;
-}
-
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-
-.demonstration {
-  display: block;
-  color: #8492a6;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
-
-.search {
-  width: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.search-block {
-  width: 400px;
-}
-
-.header-top {
-  padding: 10px 0 10px 10px;
-  // padding-right: 10px;
-}
-
-@media screen and (max-width: 860px) {
-  .container {
-    justify-content: space-between;
-  }
-
-  .search {
-    max-width: 300px;
+<style lang="css">
+/* :root[data-theme='dark'] {
+  .theme-test {
+    width: 200px;
+    height: 100px;
+    background: #000;
+    color: #fff;
   }
 }
 
-@media screen and (max-width: 760px) {
-  .search {
-    display: none;
+:root[data-theme='light'] {
+  .theme-test {
+    width: 200px;
+    height: 100px;
+    background: #fff;
+    color: #000;
   }
-}
+} */
 
-@media screen and (max-width: 480px) {
-  .header-top {
-    display: none;
-  }
+@import '@/views/mainLayout/theme.css';
+
+.theme-test {
+  width: 200px;
+  height: 100px;
+  background: var(--background);
+  color: var(--color);
 }
 </style>
