@@ -1,0 +1,11 @@
+@import '@/views/mainLayout/theme-dark/variables.css';
+@import '@/views/mainLayout/defaults.css';
+
+:global(:root[data-theme='dark']) {
+  :global(.theme-test) {
+    width: var(--width);
+    height: var(--height);
+    background: var(--background);
+    color: var(--color);
+  }
+}

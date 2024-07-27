@@ -1,0 +1,5 @@
+:global(:root) {
+  .theme-test {
+    width: 600px;
+  }
+}
