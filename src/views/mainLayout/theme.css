@@ -1,9 +1,9 @@
-:root[data-theme='dark'] {
+:global(:root[data-theme='dark']) {
   --background: #000;
   --color: #fff;
 }
 
-:root[data-theme='light'] {
+:global(:root[data-theme='light']) {
   --background: #fff;
   --color: #000;
 }
