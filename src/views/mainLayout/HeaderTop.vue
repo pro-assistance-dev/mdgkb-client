@@ -1,34 +1,24 @@
 <template>
   <div class="theme-test">Theme-test</div>
+  <!-- <PButton @click="changeColor" text="Сменить цвет" /> -->
+  <!-- <PButton @click="growWidth" text="Увеличить размер кнопки" /> -->
+  <!-- <PButton @click="reset" text="Сбросить динамические стили" /> -->
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// const color = ref();
+// const dynWidth = ref(null);
+// const changeColor = () => {};
+// const curWidth = ref(300);
+// const growWidth = () => {
+//   curWidth.value += 100;
+//   dynWidth.value = `${curWidth.value}px`;
+// };
+// const reset = () => {
+//   dynWidth.value = null;
+// };
+</script>
 
 <style lang="css" scoped>
-/* :root[data-theme='dark'] { */
-/*   .theme-test { */
-/*     width: 200px; */
-/*     height: 100px; */
-/*     background: #000; */
-/*     color: #fff; */
-/*   } */
-/* } */
-/**/
-/* :root[data-theme='light'] { */
-/*   .theme-test { */
-/*     width: 200px; */
-/*     height: 100px; */
-/*     background: #fff; */
-/*     color: #000; */
-/*   } */
-/* } */
-/**/
-@import '@/views/mainLayout/theme.css';
-
-.theme-test {
-  width: 200px;
-  height: 100px;
-  background: var(--background);
-  color: var(--color);
-}
+@import '@/views/mainLayout/themes.css';
 </style>
